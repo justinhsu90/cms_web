@@ -38,8 +38,8 @@
     </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="採購帳號">
-          <el-input v-model="v.purchasedAccount"></el-input>
+        <el-form-item label="採購總金額">
+          <el-input v-model="v.purchasedAmount"></el-input>
         </el-form-item>
           <el-form-item label="採購數量">
             <el-input v-model="v.purchasedQuantity"></el-input>
@@ -243,7 +243,7 @@ export default {
          this.purchaseId = this.formData.purchaseId;
        if(this.formData.purchasedAmount||this.formData.purchasedQuantity||this.formData.currencythis||this.formData.purchasedTime||this.formData.purchaseOrderId||this.formData.purchasedPlatform||this.formData.purchasedAccount||this.formData.shippingCost){
          this.purchaseSwitch = true;
-         this.purchaseData.firstPartData[0].purchasedAmount = this.formData.purchasedAccount;
+         this.purchaseData.firstPartData[0].purchasedAmount = this.formData.purchasedAmount;
          this.purchaseData.firstPartData[0].purchasedQuantity = this.formData.purchasedQuantity;
          this.purchaseData.firstPartData[0].currency = this.formData.currency;
          this.purchaseData.purchasedTime =  new Date(this.formData.purchasedTime).getTime();
@@ -381,7 +381,7 @@ export default {
               method: "post",
               data
               }).then(res => {
-                this.$emit('refresh');
+                this.Bus.$emit('refresh');
                   if(this.$route.params.id=="edit"){
                     this.$message.success('编辑成功');  
                   }else{
