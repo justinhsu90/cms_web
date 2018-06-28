@@ -30,7 +30,10 @@ let router = new VueRouter({
             },
             {
                 path:'/purchase',
-                component:purchase
+                component:purchase,
+                meta:{
+                    keepAlive:true
+                }
             },
             {   name:'purchaseEdit',
                 path:'/purchase/:id',

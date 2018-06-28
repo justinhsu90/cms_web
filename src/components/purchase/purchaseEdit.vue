@@ -381,6 +381,7 @@ export default {
               method: "post",
               data
               }).then(res => {
+                this.$emit('refresh');
                   if(this.$route.params.id=="edit"){
                     this.$message.success('编辑成功');  
                   }else{

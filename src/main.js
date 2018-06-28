@@ -6,11 +6,14 @@ import loadsh from 'lodash';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import moment from 'moment'
+const Bus = new Vue();
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 Vue.prototype.axios = axios;
 Vue.prototype.loadsh = loadsh;
 Vue.prototype.moment = moment;
+Vue.prototype.moment = moment;
+Vue.prototype.Bus = Bus;
 axios.interceptors.request.use((request) => {
   if(request.headers['X-ML-Type']=='application/json'){
     return request;

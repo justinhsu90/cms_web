@@ -1,8 +1,9 @@
 <template>
     <div id="app">
-        <keep-alive include="purchase">
-        <router-view></router-view>
-        </keep-alive>
+    <keep-alive :exclude="$route.meta.exclude">
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     </div>
 </template>
 <style >
