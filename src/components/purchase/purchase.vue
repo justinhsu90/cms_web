@@ -19,7 +19,7 @@
             <el-button style="float:right" @click="handleAdd"  type="primary" >建立採購單</el-button>
             <el-checkbox-group v-model="record" @change="handleSize" size="small" fill="#67c23a" style="display:inline-block;padding:5px;float:right">
          <el-checkbox-button   label="explore" :key="1">採購</el-checkbox-button>
-         <el-checkbox-button   label="people" :key="2">产品图片</el-checkbox-button>
+         <el-checkbox-button   label="people" :key="2">產品圖片</el-checkbox-button>
          <el-checkbox-button   label="treasure" :key="3">財務</el-checkbox-button>
          <el-checkbox-button   label="logistics" :key="4">物流</el-checkbox-button>
          <el-checkbox-button   label="remark" :key="5">備註</el-checkbox-button>
@@ -56,7 +56,7 @@
 
               <template v-if="logisticsShow">
                 <el-table-column     width="150"  label="物流單號" prop="trackingNumber" ></el-table-column>
-                 <el-table-column     width="100"  label="物流" prop="logistic" ></el-table-column>
+                 <el-table-column     width="150"  label="物流" prop="logistic" ></el-table-column>
               </template>
               <template v-if="peopleShow">
                 <el-table-column label="產品圖片" width="100" fixed="right">
@@ -73,7 +73,7 @@
               </template>
                <el-table-column width="100" label="動作"   fixed="right">
                    <template slot-scope="scope">
-                    <el-button type="text" title="编辑" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                    <el-button type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
                    </template>
                </el-table-column>
         </el-table>
@@ -203,7 +203,3 @@ export default {
   text-align: center;
 }
 </style>
-
-
-
-                

@@ -1,6 +1,6 @@
 <template>
     <div class="login-wrap">
-        <div class="ms-title">后台管理系统</div>
+        <div class="ms-title">後台管理系统</div>
         <div class="ms-login">
             <el-form  :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item prop="username">
@@ -28,10 +28,10 @@
                 loading:false,
                 rules: {
                     username: [
-                        { required: true, message: '请输入用户名', trigger: 'blur' }
+                        { required: true, message: '請輸入帳號', trigger: 'blur' }
                     ],
                     password: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
+                        { required: true, message: '請輸入密碼', trigger: 'blur' }
                     ]
                 }
             }
@@ -48,13 +48,15 @@
                         }).then((res)=>{     
                             this.loading = false;
                             if(!res.success){    
-                                this.$message.error('密码错误');
+                                this.$message.error('密碼錯誤');
                             }else{
                                 let date = new Date();
                                 let getTime = date.getTime()+3*(864e+5);
                                 date.setTime(getTime);
                                 document.cookie=`token=${res.token};path=/;expires=${date.toUTCString()}`;
                                 document.cookie=`username=${this.ruleForm.username};path=/;expires=${date.toUTCString()}`;
++                                let setTime = date.setTime(getTime);
+
                                 this.$router.push('/sku');
                             }   
                         }).catch((res)=>{
