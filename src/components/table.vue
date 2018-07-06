@@ -15,10 +15,10 @@
 </el-popover>
         </el-col>
         <el-col :span="12">
-            <el-button style="float:right" @click="handleAdd"  type="primary" >Add SKU</el-button>
+            <el-button style="float:right" @click="handleAdd"  type="primary" >新增SKU</el-button>
             <el-checkbox-group v-model="record" @change="handleSize" size="small" fill="#67c23a" style="display:inline-block;padding:5px;float:right">
-         <el-checkbox-button   label="ama" :key="1">Amazon出货尺寸</el-checkbox-button>
-         <el-checkbox-button   label="parcel" :key="2">小包出货尺寸</el-checkbox-button>
+         <el-checkbox-button   label="ama" :key="1">Amazon出貨尺寸</el-checkbox-button>
+         <el-checkbox-button   label="parcel" :key="2">小包出貨尺寸</el-checkbox-button>
          <el-checkbox-button   label="deprecatedSku" :key="3">已停用SKU</el-checkbox-button>
          <el-checkbox-button   label="price" :key="4">採購成本</el-checkbox-button>
     </el-checkbox-group>
@@ -33,22 +33,22 @@
                 <el-table-column  sortable="custom"   width="150"  label="New SKU" prop="newSKU"></el-table-column>
                   <!-- ama   -->
                 <template v-if="amaShow">
-                    <el-table-column  width="130" key="4"  label="AMZ Length" prop="amazonLengthCM" fixed="right">
+                    <el-table-column  width="130" key="4"  label="Amazon 長(cm)" prop="amazonLengthCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonLengthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="130"  key="1"  label="AMZ Width" prop="amazonWidthCM" fixed="right">
+                <el-table-column  width="130"  key="1"  label="Amazon 寬(cm)" prop="amazonWidthCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonWidthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="130" key="2"  label="AMZ Height" prop="amazonHeightCM" fixed="right">
+                <el-table-column  width="130" key="2"  label="Amazon 高(cm)" prop="amazonHeightCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonHeightCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="130"  key="3" label="AMZ Weight" prop="amazonWeightKG" fixed="right">
+                <el-table-column  width="130"  key="3" label="Amazon 重(kg)" prop="amazonWeightKG" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonWeightKG}}kg</span>
                     </template>
@@ -56,22 +56,22 @@
                 </template>  
                 <!-- parcel -->
               <template v-if="parcelShow">
-                  <el-table-column  width="100"  key="7" label="Length" prop="parcelLengthCM" >
+                  <el-table-column  width="100"  key="7" label="小包 長(cm)" prop="parcelLengthCM" >
                     <template slot-scope="scope">
                         <span>{{scope.row.parcelLengthCM}}kg</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="100" key="5" label="Width" prop="parcelWidthCM" >
+                <el-table-column  width="100" key="5" label="小包 寬(cm)" prop="parcelWidthCM" >
                         <template slot-scope="scope">
                         <span>{{scope.row.parcelWidthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="100"  key="6" label="Height" prop="parcelHeightCM" >
+                <el-table-column  width="100"  key="6" label="小包 高(cm)" prop="parcelHeightCM" >
                         <template slot-scope="scope">
                         <span>{{scope.row.parcelHeightCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="100" key="8"  label="Weight" prop="parcelWeightKG" >
+                <el-table-column  width="100" key="8"  label="小包 重(kg)" prop="parcelWeightKG" >
                     <template slot-scope="scope">
                         <span>{{scope.row.parcelWeightKG}}cm</span>
                     </template>
@@ -79,10 +79,10 @@
                 
               </template>  
             <template v-if="deprecatedSkuShow">
-                <el-table-column  width="100"  label="Deprecated SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
+                <el-table-column  width="100"  label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
               </template>
               <template v-if="priceShow">
-                <el-table-column  width="100"  label="RMB" prop="priceRMB" key="10">
+                <el-table-column  width="100"  label="採購成本 (RMB)" prop="priceRMB" key="10">
                         <template slot-scope="scope">
                         <span>{{scope.row.priceRMB}}</span>
                     </template>
@@ -253,4 +253,3 @@ export default {
   text-align: center;
 }
 </style>
-

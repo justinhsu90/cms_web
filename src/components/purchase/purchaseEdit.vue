@@ -5,7 +5,7 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h3>{{formData?'编辑採購單':'建立採購單'}}</h3>
+    <h3>{{formData?'編輯採購單':'建立採購單'}}</h3>
     <br>
     <div style="padding-left:20px" v-loading="loading">
       <el-form ref="form" :model="purchaseData" label-position="top" :rules="rules">
@@ -54,7 +54,7 @@
         </el-form-item>
   <el-row :gutter="12">
           <el-col :span="8">
-        <el-form-item label="採購單开关">
+        <el-form-item label="採購單開關">
           <el-switch v-model="purchaseSwitch"></el-switch>
         </el-form-item>
         </el-col>
@@ -164,7 +164,7 @@
         </el-form-item>
       </el-form>
       <div>
-      <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;">{{formData?'编辑':'新增'}}</el-button>
+      <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;">{{formData?'編輯':'新增'}}</el-button>
       </div>
       </div>
 </div>
@@ -383,7 +383,7 @@ export default {
               }).then(res => {
                 this.Bus.$emit('refresh');
                   if(this.$route.params.id=="edit"){
-                    this.$message.success('编辑成功');  
+                    this.$message.success('編輯成功');  
                   }else{
                     this.$message.success('添加成功');
                   }
@@ -392,13 +392,13 @@ export default {
            }).catch((res)=>{
              this.submitLoading = false;
             if(this.$route.params.id=="edit"){
-                  this.$message.error('编辑失败');  
+                  this.$message.error('編輯失敗');  
                 }else{
-                  this.$message.success('添加失败');
+                  this.$message.success('添加失敗');
             } 
            });
           }else{
-            this.$message.error('请填写必填项')
+            this.$message.error('請填寫必填項目')
           }
       })
     

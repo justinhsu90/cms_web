@@ -15,7 +15,7 @@ export default {
               order:'created'
           },
          isTableLoading:true,
-         pageSizes:[10,20,30,40],
+         pageSizes:[10,20,50,100,200],
          layout:'total, sizes, prev, pager, next, jumper'
       }
   }, 

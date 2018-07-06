@@ -6,12 +6,12 @@
   @close="handleClose">
   <h3 slot="title">{{title}}</h3>
  <el-form   ref="form1" label-position="top" :model="form">
-     <el-form-item   v-if="title!='编辑'" ref="formItem" label="自动生成sku" :rules="autoSkuValidate"  prop="autoSku" >
+     <el-form-item   v-if="title!='編輯'" ref="formItem" label="自動生成SKU" :rules="autoSkuValidate"  prop="autoSku" >
          <template slot="label">
-             <span>自动生成SKU流水号</span>
-             <span class="tip">手动填写sku,自动生成sku将无效</span>
+             <span>自動生成SKU流水號</span>
+             <span class="tip">手動填寫SKU, 自動生成SKU將無效</span>
          </template>
-  <el-select v-model.trim="searchValue" placeholder="请选择" style="width:25%">
+  <el-select v-model.trim="searchValue" placeholder="請選擇" style="width:25%">
     <el-option
       v-for="item in searchOptions"
       :key="item.header"
@@ -22,44 +22,44 @@
     </el-option>
   </el-select>
          <el-input  v-model="form.autoSku" style="width:40%"></el-input> 
-         <el-button @click="handleAuto" type="primary" >生成流水号</el-button>
+         <el-button @click="handleAuto" type="primary" >生成流水號</el-button>
      </el-form-item>
     
  </el-form>
       <el-form ref="form2" :model="form" label-position="left" label-width="100px">
       <div style="position:relative">
       <el-form-item ref="formItemTwo" label="SKU" :rules="skuValidate" prop="sku">
-           <el-input :disabled="title=='编辑'" v-model.trim="form.sku" style="width:50%;"  @blur="handleInspect"></el-input> 
+           <el-input :disabled="title=='編輯'" v-model.trim="form.sku" style="width:50%;"  @blur="handleInspect"></el-input> 
      </el-form-item>
       <img :src="detectorURL" v-if="showDetector" style="width:100px;height:100px;position:absolute;top:0px;right:25%"   alt="">
      </div>  
      <el-form-item label="New SKU"  prop="newSku">
-       <el-checkbox  v-if="title=='编辑'" v-model="trueNewSku"></el-checkbox>
+       <el-checkbox  v-if="title=='編輯'" v-model="trueNewSku"></el-checkbox>
         <el-input v-model="form.newSku" style="width:50%" ></el-input> 
      </el-form-item>
-     <el-form-item label="商品名称"  prop="productName" :rules="{required:true}">
-       <el-checkbox  v-if="title=='编辑'" v-model="trueProductName"></el-checkbox>
+     <el-form-item label="商品名稱"  prop="productName" :rules="{required:true}">
+       <el-checkbox  v-if="title=='編輯'" v-model="trueProductName"></el-checkbox>
         <el-input v-model="form.productName" style="width:50%"></el-input> 
      </el-form-item>
      <el-form-item label="图片"  prop="image" :show-message="showMessage">
-           <el-checkbox  v-if="title=='编辑'" v-model="imageStatus"></el-checkbox>
+           <el-checkbox  v-if="title=='編輯'" v-model="imageStatus"></el-checkbox>
                    <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
                     <img v-if="form.image" :src="form.image" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
      </el-form-item>
  <el-form-item  label="状态："  prop="status" class="inline">
-            <el-checkbox v-if="title=='编辑'" v-model="trueStatus"></el-checkbox>
+            <el-checkbox v-if="title=='編輯'" v-model="trueStatus"></el-checkbox>
             <el-input  v-model="form.status" style="width:50%"></el-input> 
      </el-form-item>         
-        <el-form-item  v-if="title=='编辑'" label="Price(RMB)："  prop="priceRMB">
+        <el-form-item  v-if="title=='編輯'" label="採購成本 (RMB)："  prop="priceRMB">
              <el-checkbox v-model="priceShow"></el-checkbox>
             <el-input   style="width:20%" v-model="form.priceRMB" ></el-input> 
      </el-form-item> 
      </el-form>
      
-    <el-form ref="form3" :model="form" label-position="top"   v-if="title=='编辑'">
-      <el-form-item label="Amazon尺寸" style="margin-bottom:0px">
+    <el-form ref="form3" :model="form" label-position="top"   v-if="title=='編輯'">
+      <el-form-item label="Amazon 出貨尺寸" style="margin-bottom:0px">
         <template slot="label">
             <span>Amazon尺寸</span> &nbsp;&nbsp;&nbsp;
             <el-switch v-model="amaShow"></el-switch>
@@ -67,27 +67,27 @@
      </el-form-item>
          <el-row :gutter="20">
         <el-col :span="4" v-if="amaShow">
-     <el-form-item  label="Length(CM)"  prop="amazonLengthCM">
+     <el-form-item  label="Amazon 長(CM)"  prop="amazonLengthCM">
             <el-input  v-model="form.amazonLengthCM" ></el-input> 
      </el-form-item>
      </el-col>   
        <el-col :span="4" v-if="amaShow">
-     <el-form-item  label="Width(CM)"  prop="amazonWidthCM">
+     <el-form-item  label="Amazon 寬(CM)"  prop="amazonWidthCM">
             <el-input  v-model="form.amazonWidthCM" ></el-input> 
      </el-form-item>
      </el-col>
      <el-col :span="4"  v-if="amaShow">
-     <el-form-item  label="Height(CM)"  prop="amazonHeightCM">
+     <el-form-item  label="Amazon 高(CM))"  prop="amazonHeightCM">
             <el-input  v-model="form.amazonHeightCM" ></el-input> 
      </el-form-item>
      </el-col>
      <el-col :span="4" v-if="amaShow">
-     <el-form-item  label="Weight(KG)"  prop="amazonWeightKG">
+     <el-form-item  label="Amazon 重(kg)"  prop="amazonWeightKG">
             <el-input  v-model="form.amazonWeightKG" ></el-input> 
      </el-form-item>
      </el-col>
      </el-row>
-       <el-form-item label="小包尺寸" style="margin-bottom:0px">
+       <el-form-item label="小包出貨尺寸" style="margin-bottom:0px">
             <template slot="label">
               <span>小包尺寸</span>&nbsp;&nbsp;&nbsp;
             <el-switch v-model="pricalShow"></el-switch>
@@ -95,27 +95,27 @@
      </el-form-item>
     <el-row :gutter="20"> 
       <el-col :span="4" v-if="pricalShow">
-     <el-form-item  label="Length(CM)"  prop="parcelLengthCM">
+     <el-form-item  label="小包 長(CM)"  prop="parcelLengthCM">
             <el-input  v-model="form.parcelLengthCM" ></el-input> 
      </el-form-item>
      </el-col>
       <el-col :span="4" v-if="pricalShow">
-     <el-form-item  label="Width(CM)"  prop="parcelWidthCM">
+     <el-form-item  label="小包 寬(CM)"  prop="parcelWidthCM">
             <el-input  v-model="form.parcelWidthCM" ></el-input> 
      </el-form-item>
      </el-col>
      <el-col :span="4" v-if="pricalShow">
-     <el-form-item  label="Height(CM)"  prop="parcelHeightCM">
+     <el-form-item  label="小包 高(CM)"  prop="parcelHeightCM">
             <el-input  v-model="form.parcelHeightCM" ></el-input> 
      </el-form-item>
      </el-col>
      <el-col :span="4" v-if="pricalShow">
-     <el-form-item  label="Weight(KG)"  prop="parcelWeightKG">
+     <el-form-item  label="小包 重(kg)"  prop="parcelWeightKG">
             <el-input  v-model="form.parcelWeightKG" ></el-input> 
      </el-form-item>
      </el-col>
      </el-row>
-    <el-form-item v-if="title=='编辑'" label="Deprecated SKU："  prop="deprecatedSKU" :show-message="deprecatedSkuShow">
+    <el-form-item v-if="title=='編輯'" label="已停用 SKU："  prop="deprecatedSKU" :show-message="deprecatedSkuShow">
            <template slot="label">
              <span>Deprecated SKU：</span>
               <el-switch v-model="deprecatedSkuShow"></el-switch>
@@ -129,9 +129,9 @@
      <p>是否要提交？</p>
      <div style="text-align: right; margin: 0">
     <el-button size="mini" type="text" @click="popoverCancel">取消</el-button>
-    <el-button type="primary" size="mini" @click="popoverConfirm">确定</el-button>
+    <el-button type="primary" size="mini" @click="popoverConfirm">確定</el-button>
   </div>
-  <el-button type="primary" slot="reference" :loading="isLoading" @click="handleConfirm">确 定</el-button>
+  <el-button type="primary" slot="reference" :loading="isLoading" @click="handleConfirm">確 定</el-button>
 </el-popover>
   </span>
   </el-dialog>
@@ -184,7 +184,7 @@ export default {
             callback();
           }
           if(!rules.test(value)){
-            callback(new Error('sku不规范'))
+            callback(new Error('SKU結構有誤'))
           }else{
               that.axios({
               url: "http://61.216.178.44:8000/data-server/sku/similarimg",
@@ -227,7 +227,7 @@ export default {
           }).then(res => {
              this.searchOptions = this.loadsh.cloneDeep(res);
         }); 
-    if (this.title == "编辑") {
+    if (this.title == "編輯") {
       this.form.image = this.row.imageURL;
       this.form.productName = this.row.productName;
       this.form.newSku = this.row.newSku;
@@ -259,7 +259,7 @@ export default {
       } else {
         this.skuValidate.required = true;
       }
-      if(this.title!="编辑"){
+      if(this.title!="編輯"){
         this.$nextTick(() => {
         this.$refs["formItemTwo"].clearValidate();
       });
@@ -272,7 +272,7 @@ export default {
       } else {
         this.autoSkuValidate.required = true;
       }
-      if(this.title!="编辑"){
+      if(this.title!="編輯"){
         this.$nextTick(() => {
         this.$refs["formItem"].clearValidate();
       });
@@ -284,7 +284,7 @@ export default {
         let isJPG = file.type === 'image/jpeg';
         let isPNG = file.type === 'image/png';
       if (!isJPG&&!isPNG) {
-          this.$message.error('上传头像图片只能是 JPG PNG 格式!');
+          this.$message.error('上傳頭像圖片只能是 JPG PNG 格式!');
       }else{
         return isJPG;
       }
@@ -348,7 +348,7 @@ export default {
         if (!action) return;
         this.$refs["form2"].validate((action, dom) => {
         if (!action) return;
-        if(this.title == "编辑"){
+        if(this.title == "編輯"){
           this.$refs["form3"].validate((action, dom) => {
           if (action) {            
               let obj = {
@@ -405,12 +405,12 @@ export default {
               if(request.readyState==4&&request.status==200){
               this.isLoading = false;
               this.$emit("showDailog", false);
-              this.$message.success('编辑成功');
+              this.$message.success('編輯成功');
               }
               if(request.status!=200){
               this.isLoading = false;
               this.$emit("showDailog", false);
-              this.$message.warning('编辑失败')
+              this.$message.warning('編輯失敗')
               }
             }
 
@@ -459,7 +459,7 @@ export default {
               if(request.status!=200){
                     this.isLoading = false;
               this.$emit("showDailog", false);
-              this.$message.warning('添加失败')
+              this.$message.warning('添加失敗')
               }
             }
             // this.axios({
@@ -476,7 +476,7 @@ export default {
             // }).catch((res)=>{
             //   this.isLoading = false;
             //   this.$emit("showDailog", false);
-            //   this.$message.warning('添加失败')
+            //   this.$message.warning('添加失敗')
             // });
           }
         });
