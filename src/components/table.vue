@@ -28,7 +28,7 @@
         <br>
         <el-col>
                <el-table :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column sortable="custom"   label="Product Name" prop="productName" :min-width="150"></el-table-column>  
+                 <el-table-column sortable="custom"   label="Product Name" prop="productName"  :min-width="150"></el-table-column>  
                  <el-table-column sortable="custom"   width="150" label="SKU" prop="sku"></el-table-column>
                 <el-table-column  sortable="custom"   width="150"  label="New SKU" prop="newSKU"></el-table-column>
                   <!-- ama   -->
@@ -103,6 +103,19 @@
                </el-table-column>
         </el-table>
         </el-col>
+        <el-col>
+       <div style="float:right">
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :total='total'
+      :current-page="currentPage"
+      :page-sizes="pageSizes"
+      :layout="layout"
+      >
+    </el-pagination>
+    </div> 
+        </el-col>
         </el-row>
         <br>
         <br>
@@ -111,7 +124,9 @@
 </template>
 <script>
 import directiveDialog from "./dialog";
+import wonTableContainer from "../common/wonTableContainer";
 export default {
+  extends:wonTableContainer,
   data() {
     return {
       record: [],
@@ -126,54 +141,43 @@ export default {
       showDialog: false,
       title: "添加",
       row: [],
-      dialogTableVisible:false
+      dialogTableVisible: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 10,
+        order:"productName"
+      },
+      fetchOption: {
+        url: "http://61.216.178.44:8000/data-server/sku/search",
+        where: "",
+        method: "post"
+      }
     };
   },
   created() {
     this.maxHeight = document.scrollingElement.clientHeight / 1.5;
+    this.handleSearch();
   },
   methods: {
     handleSearch() {
       this.isTableLoading = true;
       this.axios({
-        url: "http://61.216.178.44:8000/data-server/sku/search",
-        method: "post",
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
         data: {
-          value: this.value,
+          where: this.fetchOption.where,
           token: this.token,
-          sortBy:'productName',
-          isDesc:true,
+          skip: this.fetchCondition.skip,
+          limit: this.fetchCondition.limit,
+          order: this.fetchCondition.order
         }
-      }).then(res => {
-        this.isTableLoading = false;
-        this.loadsh.each(res,(v)=>{
+      }).then(({data,count}) => {
+       this.isTableLoading = false;
+        this.loadsh.each(data, v => {
           v.dialogTableVisible = false;
-        })
-        this.tableData = this.loadsh.cloneDeep(res);
-      });
-    },
-    handleSortChange(row){
-      if(row.order=="ascending"){
-        var isDesc = false;
-      }else{
-        var isDesc = true;
-      }
-      this.isTableLoading = true; 
-      this.axios({
-        url: "http://61.216.178.44:8000/data-server/sku/search",
-        method: "post",
-        data: {
-          sortBy: row.prop,
-          isDesc,
-          value: this.value,
-          token: this.token
-        }
-      }).then(res => {
-          this.loadsh.each(res,(v)=>{
-            v.dialogTableVisible = false;
-          })
-          this.tableData = this.loadsh.cloneDeep(res);
-          this.isTableLoading = false;
+        });
+        this.tableData = this.loadsh.cloneDeep(data);
+        this.total = count;
       });
     },
     handleAdd() {

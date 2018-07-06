@@ -81,8 +81,8 @@ export default {
             let d = new Date();
             d.setTime(d.getTime() + -1 * 24 * 60 * 60 * 1000);
             let expires = "expires=" + d.toUTCString();
-            document.cookie = `token="";expires=${expires}`;
-            document.cookie = `username="";expires=${expires}`;
+            document.cookie = `token="";path="/";expires=${expires}`;
+            document.cookie = `username="";path="/";expires=${expires}`;
             that.$router.push("/login");
             done();
           } else {

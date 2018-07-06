@@ -3,7 +3,7 @@
     <div id="table">
         <el-row>
             <el-col :span="12">
-        <el-input     v-model="value" @keyup.enter.native="handleSearch" style="width:50%;float:left">
+        <el-input     v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
             <el-button  style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
         </el-input>
         <el-popover
@@ -32,7 +32,7 @@
                <el-table :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                 <el-table-column    label="狀態" prop="status" width="150"></el-table-column>  
                 <el-table-column    min-width="150" label="建單時間" prop="addedTime"></el-table-column>
-                <el-table-column     min-width="100"  label="採購單號" prop="purchaseId"></el-table-column>
+                <el-table-column     min-width="100"  label="採購單號" prop="purchaseId" sortable="custom"></el-table-column>
                 <el-table-column     width="150"  label="產品SKU" prop="productSKU"></el-table-column>
                 <el-table-column     width="150"  label="產品名稱" prop="productName"></el-table-column>
                 <el-table-column     width="100"  label="需採購數量" prop="quantity"></el-table-column>
@@ -80,85 +80,95 @@
         </el-col>
         </el-row>
         <br>
+        <el-row>
+          <el-col>
+     <div style="float:right">
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :total='total'
+      :current-page="currentPage4"
+      :page-sizes="pageSizes"
+      :layout="layout"
+      >
+    </el-pagination>
+    </div>       
+          </el-col>
+        </el-row>
+        <br>
         <br>
     </div>
     
 </template>
 <script>
+import wonTableContainer from "../../common/wonTableContainer";
 export default {
-  name:'purchase',
+  name: "purchase",
+  extends:wonTableContainer,
   data() {
     return {
       record: [],
+      currentPage4: 4,
       exploreShow: false,
-      peopleShow:false,
+      peopleShow: false,
       treasureShow: false,
       logisticsShow: false,
       remarkShow: false,
-      value: "",
       tableData: [],
       isTableLoading: false,
       maxHeight: "",
       showDialog: false,
       title: "添加",
       row: [],
-      dialogTableVisible:false
+      dialogTableVisible: false,
+      fetchOption: {
+        url: "http://61.216.178.44:8000/data-server/purchase/list",
+        where: "",
+        method: "post"
+      },
+      fetchCondition: {
+        skip: 0,
+        limit: 10,
+        order: "purchaseId"
+      }
     };
   },
   created() {
     this.maxHeight = document.scrollingElement.clientHeight / 1.5;
     this.handleSearch();
-    this.Bus.$on('refresh',this.handleSearch);
+    this.Bus.$on("refresh", this.handleSearch);
   },
   methods: {
     handleSearch() {
       this.isTableLoading = true;
       this.axios({
-        url: "http://61.216.178.44:8000/data-server/purchase/list",
-        method: "post",
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
         data: {
-          value: this.value,
+          where: this.fetchOption.where,
           token: this.token,
-          sortBy:'productName',
-          isDesc:true,
+          skip: this.fetchCondition.skip,
+          limit: this.fetchCondition.limit,
+          order: this.fetchCondition.order
         }
-      }).then(res => {
+      }).then(({data,count}) => {
         this.isTableLoading = false;
-        this.loadsh.each(res,(v)=>{
+        this.loadsh.each(data, v => {
           v.dialogTableVisible = false;
-        })
-        this.tableData = this.loadsh.cloneDeep(res);
-      });
-    },
-    handleSortChange(row){
-      if(row.order=="ascending"){
-        var isDesc = false;
-      }else{
-        var isDesc = true;
-      }
-      this.isTableLoading = true; 
-      this.axios({
-        url: "http://61.216.178.44:8000/data-server/sku/search",
-        method: "post",
-        data: {
-          sortBy: row.prop,
-          isDesc,
-          value: this.value,
-          token: this.token
-        }
-      }).then(res => {
-          this.loadsh.each(res,(v)=>{
-            v.dialogTableVisible = false;
-          })
-          this.tableData = this.loadsh.cloneDeep(res);
-          this.isTableLoading = false;
+        });
+        this.tableData = this.loadsh.cloneDeep(data);
+        this.total = count;
       });
     },
     handleAdd() {
-      this.$router.push('/purchase/add')
+      this.$router.push("/purchase/add");
     },
     handleEdit(row) {
-        this.$router.push({name:'purchaseEdit',query:{data:JSON.stringify(row)},params:{id:'edit'}});
+      this.$router.push({
+        name: "purchaseEdit",
+        query: { data: JSON.stringify(row) },
+        params: { id: "edit" }
+      });
     },
     handleSize(val) {
       if (val.includes("explore")) {
@@ -190,7 +200,6 @@ export default {
       } else {
         this.remarkShow = false;
       }
-     
     }
   }
 };
