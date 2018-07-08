@@ -148,7 +148,7 @@ export default {
         order:"productName"
       },
       fetchOption: {
-        url: "http://61.216.178.44:8000/data-server/sku/search",
+        url: "http://api.myfbmanage.com:8000/data-server/sku/search",
         where: "",
         method: "post"
       }
