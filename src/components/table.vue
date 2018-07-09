@@ -2,7 +2,7 @@
     <div id="table">
         <el-row>
             <el-col :span="12">
-        <el-input     v-model="value" @keyup.enter.native="handleSearch" style="width:50%;float:left">
+        <el-input     v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
             <el-button  style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
         </el-input>
         <el-popover
@@ -148,7 +148,7 @@ export default {
         order:"productName"
       },
       fetchOption: {
-        url: "http://61.216.178.44:8000/data-server/sku/search",
+        url: "http://api.myfbmanage.com:8000/data-server/sku/search",
         where: "",
         method: "post"
       }

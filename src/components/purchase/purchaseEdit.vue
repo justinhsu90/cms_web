@@ -269,7 +269,7 @@ export default {
 
     this.loading = true;
     let promiseOne = this.axios({
-      url: "http://61.216.178.44:8000/data-server/purchase/data/account",
+      url: "http://api.myfbmanage.com:8000/data-server/purchase/data/account",
       method: "post",
       data: {
         token: this.token,
@@ -277,7 +277,7 @@ export default {
     });
 
    let promiseTwo =  this.axios({
-      url: `http://61.216.178.44:8000/data-server/purchase/data/platform`,
+      url: `http://api.myfbmanage.com:8000/data-server/purchase/data/platform`,
       method: "POST",
       data:{
         token: this.token,
@@ -285,7 +285,7 @@ export default {
     });   
 
     let promiseThree = this.axios({
-      url: "http://61.216.178.44:8000/data-server/purchase/currencies",
+      url: "http://api.myfbmanage.com:8000/data-server/purchase/currencies",
       method: "post",
       data: {
         token: this.token,
@@ -306,7 +306,7 @@ export default {
   methods: {
     autoProductName(obj){
      this.axios({
-      url: "http://61.216.178.44:8000/data-server/sku/info",
+      url: "http://api.myfbmanage.com:8000/data-server/sku/info",
       method: "post",
       data: {
         value:obj.productSKU,
@@ -364,13 +364,13 @@ export default {
     submit(){      
       this.$refs['form'].validate((action)=>{
           if(action){
-            let url = 'http://61.216.178.44:8000/data-server/purchase/add';
+            let url = 'http://api.myfbmanage.com:8000/data-server/purchase/add';
             let data = {
                 value:JSON.stringify(this.getValue()),
                 token:this.token
               };
             if(this.$route.params.id=="edit"){
-               url = 'http://61.216.178.44:8000/data-server/purchase/update';
+               url = 'http://api.myfbmanage.com:8000/data-server/purchase/update';
                data.type = "purchase"; 
                
             }

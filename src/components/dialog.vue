@@ -219,7 +219,7 @@ export default {
   },
   mounted() {
          this.axios({
-              url:"http://61.216.178.44:8000/data-server/sku/cat",
+              url:"http://api.myfbmanage.com:8000/data-server/sku/cat",
                method: "post",
               data:{
                 token:this.token
@@ -246,9 +246,9 @@ export default {
       this.form.deprecatedSKU = this.row.deprecatedSKU;
 
       this.form.priceRMB = this.row.priceRMB;      
-      this.url = "http://61.216.178.44:8000/data-server/sku/update";       
+      this.url = "http://api.myfbmanage.com:8000/data-server/sku/update";       
     } else {
-      this.url = "http://61.216.178.44:8000/data-server/sku/add";
+      this.url = "http://api.myfbmanage.com:8000/data-server/sku/add";
     }
   },
   watch: {

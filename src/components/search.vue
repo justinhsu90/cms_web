@@ -79,7 +79,7 @@ export default {
         order: "city"
       },
       fetchOption: {
-        url: "http://61.216.178.44:8000/data-server/wowcher/order/search",
+        url: "http://api.myfbmanage.com:8000/data-server/wowcher/order/search",
         where: "",
         method: "post"
       }
