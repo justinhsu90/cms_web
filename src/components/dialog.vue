@@ -187,7 +187,7 @@ export default {
             callback(new Error('SKU結構有誤'))
           }else{
               that.axios({
-              url: "http://61.216.178.44:8000/data-server/sku/similarimg",
+              url: "http://api.myfbmanage.com:8000/data-server/sku/similarimg",
               method: "post",
               data:{
                 sku:value,
@@ -317,7 +317,7 @@ export default {
     },
     handleAuto() {
       this.axios({
-        url: "http://61.216.178.44:8000/data-server/sku/newindex",
+        url: "http://api.myfbmanage.com:8000/data-server/sku/newindex",
         method: "post",
         data: {
           category: this.searchValue,
