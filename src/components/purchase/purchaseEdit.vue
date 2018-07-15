@@ -268,7 +268,7 @@ export default {
     }
 
     this.loading = true;
-    let promiseOne = this.axios({
+    let promiseOne = axios({
       url: "http://api.myfbmanage.com:8000/data-server/purchase/data/account",
       method: "post",
       data: {
@@ -276,7 +276,7 @@ export default {
       }
     });
 
-   let promiseTwo =  this.axios({
+   let promiseTwo =  axios({
       url: `http://api.myfbmanage.com:8000/data-server/purchase/data/platform`,
       method: "POST",
       data:{
@@ -284,7 +284,7 @@ export default {
       }
     });   
 
-    let promiseThree = this.axios({
+    let promiseThree = axios({
       url: "http://api.myfbmanage.com:8000/data-server/purchase/currencies",
       method: "post",
       data: {
@@ -305,7 +305,7 @@ export default {
   },
   methods: {
     autoProductName(obj){
-     this.axios({
+     axios({
       url: "http://api.myfbmanage.com:8000/data-server/sku/info",
       method: "post",
       data: {
@@ -321,7 +321,7 @@ export default {
       let data = [];
       
         let obj = {};
-        this.loadsh.each(this.purchaseData.firstPartData,(v,i)=>{
+        _.each(this.purchaseData.firstPartData,(v,i)=>{
           if(this.purchaseSwitch){
           obj = {
             productSKU:v.productSKU,
@@ -376,7 +376,7 @@ export default {
             }
 
             this.submitLoading = true;
-            this.axios({
+            axios({
               url,
               method: "post",
               data

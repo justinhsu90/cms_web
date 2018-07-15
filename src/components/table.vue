@@ -3,16 +3,20 @@
         <el-row>
             <el-col :span="12">
         <el-input     v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
-            <el-button  style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
+            <el-button style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
         </el-input>
+
         <el-popover
+  ref="popover"      
   placement="top-start"
   title="搜索"
   width="200"
   trigger="hover"
-  content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段">
-  <el-button slot="reference" >提示</el-button>
+  content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段"> 
 </el-popover>
+<div style="height:40px;line-height:40px">
+<el-button v-popover:popover style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666" >?</el-button>
+</div>
         </el-col>
         <el-col :span="12">
             <el-button style="float:right" @click="handleAdd"  type="primary" >新增SKU</el-button>
@@ -27,28 +31,28 @@
         <br>
         <br>
         <el-col>
-               <el-table :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
+               <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column sortable="custom"   label="Product Name" prop="productName"  :min-width="150"></el-table-column>  
-                 <el-table-column sortable="custom"   width="150" label="SKU" prop="sku"></el-table-column>
-                <el-table-column  sortable="custom"   width="150"  label="New SKU" prop="newSKU"></el-table-column>
+                 <el-table-column sortable="custom"   min-width="150" label="SKU" prop="sku"></el-table-column>
+                <el-table-column  sortable="custom"   min-width="150"  label="New SKU" prop="newSKU"></el-table-column>
                   <!-- ama   -->
                 <template v-if="amaShow">
-                    <el-table-column  width="130" key="4"  label="Amazon 長(cm)" prop="amazonLengthCM" fixed="right">
+                    <el-table-column  min-width="130" key="4"  label="Amazon 長(cm)" prop="amazonLengthCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonLengthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="130"  key="1"  label="Amazon 寬(cm)" prop="amazonWidthCM" fixed="right">
+                <el-table-column  min-width="130"  key="1"  label="Amazon 寬(cm)" prop="amazonWidthCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonWidthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="130" key="2"  label="Amazon 高(cm)" prop="amazonHeightCM" fixed="right">
+                <el-table-column  min-width="130" key="2"  label="Amazon 高(cm)" prop="amazonHeightCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonHeightCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="130"  key="3" label="Amazon 重(kg)" prop="amazonWeightKG" fixed="right">
+                <el-table-column  min-width="130"  key="3" label="Amazon 重(kg)" prop="amazonWeightKG" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonWeightKG}}kg</span>
                     </template>
@@ -56,22 +60,22 @@
                 </template>  
                 <!-- parcel -->
               <template v-if="parcelShow">
-                  <el-table-column  width="100"  key="7" label="小包 長(cm)" prop="parcelLengthCM" >
+                  <el-table-column  min-width="100"  key="7" label="小包 長(cm)" prop="parcelLengthCM" >
                     <template slot-scope="scope">
                         <span>{{scope.row.parcelLengthCM}}kg</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="100" key="5" label="小包 寬(cm)" prop="parcelWidthCM" >
+                <el-table-column  min-width="100" key="5" label="小包 寬(cm)" prop="parcelWidthCM" >
                         <template slot-scope="scope">
                         <span>{{scope.row.parcelWidthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="100"  key="6" label="小包 高(cm)" prop="parcelHeightCM" >
+                <el-table-column  min-width="100"  key="6" label="小包 高(cm)" prop="parcelHeightCM" >
                         <template slot-scope="scope">
                         <span>{{scope.row.parcelHeightCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  width="100" key="8"  label="小包 重(kg)" prop="parcelWeightKG" >
+                <el-table-column  min-width="100" key="8"  label="小包 重(kg)" prop="parcelWeightKG" >
                     <template slot-scope="scope">
                         <span>{{scope.row.parcelWeightKG}}cm</span>
                     </template>
@@ -79,16 +83,16 @@
                 
               </template>  
             <template v-if="deprecatedSkuShow">
-                <el-table-column  width="100"  label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
+                <el-table-column  min-width="100"  label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
               </template>
               <template v-if="priceShow">
-                <el-table-column  width="100"  label="採購成本 (RMB)" prop="priceRMB" key="10">
+                <el-table-column  min-width="100"  label="採購成本 (RMB)" prop="priceRMB" key="10">
                         <template slot-scope="scope">
                         <span>{{scope.row.priceRMB}}</span>
                     </template>
                 </el-table-column>
               </template>
-                <el-table-column label="Image" width="100">
+                <el-table-column label="Image" min-width="100">
                     <template slot-scope="scope" >
                         <img  width="100%" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">                        
                         <el-dialog title="图片"  :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
@@ -96,7 +100,7 @@
                         </el-dialog>
                     </template>
                 </el-table-column>
-               <el-table-column width="100" label="Action"   fixed="right">
+               <el-table-column min-width="100" label="Action"   fixed="right">
                    <template slot-scope="scope">
                     <el-button type="text" title="编辑" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
                    </template>
@@ -155,13 +159,12 @@ export default {
     };
   },
   created() {
-    this.maxHeight = document.scrollingElement.clientHeight / 1.5;
     this.handleSearch();
   },
   methods: {
     handleSearch() {
       this.isTableLoading = true;
-      this.axios({
+      axios({
         url: this.fetchOption.url,
         method: this.fetchOption.method,
         data: {
@@ -173,10 +176,10 @@ export default {
         }
       }).then(({data,count}) => {
        this.isTableLoading = false;
-        this.loadsh.each(data, v => {
+        _.each(data, v => {
           v.dialogTableVisible = false;
         });
-        this.tableData = this.loadsh.cloneDeep(data);
+        this.tableData = _.cloneDeep(data);
         this.total = count;
       });
     },
@@ -216,28 +219,6 @@ export default {
       } else {
         this.priceShow = false;
       }
-      //   switch (val) {
-      //     case "ama":
-      //       this.amaShow = true;
-      //       this.parcelShow = false;
-      //       this.deprecatedSkuShow = false;
-      //       this.priceShow = false;
-      //       break;
-      //     case "parcel":
-      //       this.amaShow = false;
-      //       this.parcelShow = true;
-      //       this.deprecatedSkuShow = false;
-      //       this.priceShow = false;
-      //       break;
-      //     case "deprecatedSku":
-      //       this.deprecatedSkuShow = true;
-      //       this.priceShow = false;
-      //       break;
-      //     case "price":
-      //       this.deprecatedSkuShow = false;
-      //       this.priceShow = true;
-      //       break;
-      //   }
     }
   },
   components: {

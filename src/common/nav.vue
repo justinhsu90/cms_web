@@ -40,6 +40,18 @@
         <i class="el-icon-menu"></i>
         <span slot="title">採購單</span>
       </el-menu-item>
+      <el-menu-item index="dataAnalysis">
+        <i class="el-icon-menu"></i>
+        <span slot="title">儀表板</span>
+      </el-menu-item>
+      <el-menu-item index="edit">
+        <i class="el-icon-menu"></i>
+        <span slot="title">edit</span>
+      </el-menu-item>
+      <el-menu-item index="documentManage">
+        <i class="el-icon-menu"></i>
+        <span slot="title">文案管理</span>
+      </el-menu-item>
     </el-menu>
   </el-col>
 </el-row>
@@ -123,9 +135,13 @@ h1 {
   text-align: center;
   height: 100%;
 }
+.el-menu{
+  border: none;
+}
 .el-menu-item {
   color: white;
   text-align: left;
+  border:none;
 }
 .el-main {
   height: 100%;

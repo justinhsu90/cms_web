@@ -41,10 +41,10 @@
                 this.$refs['ruleForm'].validate((valid) => {
                     if (valid) {    
                         this.loading = true;
-                        this.axios({
+                        axios({
                             url:'http://api.myfbmanage.com:8000/data-server/auth/login',
                             method:'post',
-                            data:this.loadsh.cloneDeep(this.ruleForm)
+                            data:_.cloneDeep(this.ruleForm)
                         }).then((res)=>{     
                             this.loading = false;
                             if(!res.success){    

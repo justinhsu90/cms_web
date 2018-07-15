@@ -2,6 +2,7 @@
 export default {
   data(){
       return {
+          maxHeight:450,
           currentPage: 4,
           total:10,
           fetchOption:{
@@ -19,6 +20,12 @@ export default {
          layout:'total, sizes, prev, pager, next, jumper'
       }
   }, 
+  created(){
+    this.maxHeight = document.scrollingElement.clientHeight / 1.5;
+    window.addEventListener('resize',()=>{
+      this.maxHeight = document.scrollingElement.clientHeight / 1.5;
+    })
+  },
   methods: {
     handleSizeChange(size){
         this.fetchCondition.limit = size;
@@ -39,7 +46,7 @@ export default {
     },
     fetchTableData() {
       this.isTableLoading = true;
-      this.axios({
+      axios({
         url: this.fetchOption.url,
         method:this.fetchOption.method,
         data: {

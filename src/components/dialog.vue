@@ -195,7 +195,7 @@ export default {
               }
             }).then(res => {
               that.showDetector = true;
-              if(!that.loadsh.isEmpty(res)){
+              if(!_.isEmpty(res)){
                 that.detectorURL = res[0];
               }
               callback();
@@ -218,14 +218,14 @@ export default {
     };
   },
   mounted() {
-         this.axios({
+         axios({
               url:"http://api.myfbmanage.com:8000/data-server/sku/cat",
                method: "post",
               data:{
                 token:this.token
               }
           }).then(res => {
-             this.searchOptions = this.loadsh.cloneDeep(res);
+             this.searchOptions = _.cloneDeep(res);
         }); 
     if (this.title == "編輯") {
       this.form.image = this.row.imageURL;
@@ -316,7 +316,7 @@ export default {
       this.$emit("showDailog", false);
     },
     handleAuto() {
-      this.axios({
+      axios({
         url: "http://api.myfbmanage.com:8000/data-server/sku/newindex",
         method: "post",
         data: {
@@ -413,17 +413,6 @@ export default {
               this.$message.warning('編輯失敗')
               }
             }
-
-            // this.axios({
-            //   url: this.url,
-            //   method: "post",
-            //   data: obj
-            // }).then(res => {
-            //  
-            // }).catch((res)=>{
-            //  
-            // });
-            
           }
           });
         }else{
@@ -462,22 +451,6 @@ export default {
               this.$message.warning('添加失敗')
               }
             }
-            // this.axios({
-            //   url: this.url,
-            //   method: "post",
-            //   headers:{
-            //     'content-type':'multipart/form-data'
-            //   },
-            //   data:formData
-            // }).then(res => {
-            //   this.isLoading = false;
-            //   this.$emit("showDailog", false);
-            //   this.$message.success('添加成功')
-            // }).catch((res)=>{
-            //   this.isLoading = false;
-            //   this.$emit("showDailog", false);
-            //   this.$message.warning('添加失敗')
-            // });
           }
         });
       });
