@@ -28,29 +28,9 @@
       active-text-color="#409eff"
       @select="handleSelect"
       >
-      <el-menu-item index="sku">
+      <el-menu-item :index="v.index" v-for="(v,i) in navData" :key="i">
         <i class="el-icon-menu"></i>
-        <span slot="title">SKU管理</span>
-      </el-menu-item>
-      <el-menu-item index="search">
-        <i class="el-icon-menu"></i>
-        <span slot="title">Wowcher 訂單管理</span>
-      </el-menu-item>
-      <el-menu-item index="purchase">
-        <i class="el-icon-menu"></i>
-        <span slot="title">採購單</span>
-      </el-menu-item>
-      <el-menu-item index="dataAnalysis">
-        <i class="el-icon-menu"></i>
-        <span slot="title">儀表板</span>
-      </el-menu-item>
-      <el-menu-item index="edit">
-        <i class="el-icon-menu"></i>
-        <span slot="title">edit</span>
-      </el-menu-item>
-      <el-menu-item index="documentManage">
-        <i class="el-icon-menu"></i>
-        <span slot="title">文案管理</span>
+        <span slot="title">{{v.label}}</span>
       </el-menu-item>
     </el-menu>
   </el-col>
@@ -68,7 +48,30 @@ export default {
   data() {
     return {
       defaultNav: "",
-      username:''
+      username:'',
+      navData:[{
+        index:'sku',
+        label:'SKU管理'
+      },{
+        index:'search',
+        label:'Wowcher 訂單管理'
+      },
+      {
+        index:'purchase',
+        label:'採購單'
+      },
+      {
+        index:'dataAnalysis',
+        label:'儀表板'
+      },
+      {
+        index:'edit',
+        label:'edit'
+      },
+      {
+        index:'documentManage',
+        label:'文案管理'
+      }]
     }; 
   },
   created(){
