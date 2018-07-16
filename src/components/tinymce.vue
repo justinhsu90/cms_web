@@ -1,5 +1,5 @@
 <template>
-<div>12
+<div>
     <tinymce></tinymce>
 </div>
 </template>

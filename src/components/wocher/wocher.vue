@@ -65,7 +65,7 @@
     </div>
 </template>
 <script>  
-import wonTableContainer from "../common/wonTableContainer";
+import wonTableContainer from "../../common/wonTableContainer";
 export default {
   extends:wonTableContainer,
   data() {

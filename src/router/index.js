@@ -1,9 +1,9 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 import nav from '@/common/nav'
-import login from '@/components/login'
-import table from '@/components/table'
-import search from '@/components/search'
+import login from '@/common/login'
+import sku from '@/components/sku/sku'
+import wocher from '@/components/wocher/wocher'
 import edit from '@/components/tinymce/tinymce'
 import purchase from '@/components/purchase/purchase'
 import purchaseEdit from '@/components/purchase/purchaseEdit'
@@ -25,11 +25,11 @@ let router = new VueRouter({
         children:[
             {
                 path:'/sku',
-                component:table
+                component:sku
             },
             {
-                path:'/search',
-                component:search
+                path:'/wocher',
+                component:wocher
             },
             {
                 path:'/purchase',

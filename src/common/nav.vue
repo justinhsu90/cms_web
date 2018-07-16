@@ -53,7 +53,7 @@ export default {
         index:'sku',
         label:'SKU管理'
       },{
-        index:'search',
+        index:'wocher',
         label:'Wowcher 訂單管理'
       },
       {
