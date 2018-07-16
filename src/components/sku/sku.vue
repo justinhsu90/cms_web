@@ -162,7 +162,7 @@ export default {
     this.handleSearch();
   },
   methods: {
-    handleSearch() {
+    handleSearch: _.debounce(function(){
       this.isTableLoading = true;
       axios({
         url: this.fetchOption.url,
@@ -182,7 +182,7 @@ export default {
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    },
+    },500),
     handleAdd() {
       this.showDialog = true;
       this.title = "添加";

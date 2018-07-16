@@ -17,10 +17,6 @@ Vue.prototype.qs = qs;
 //axios的配置
 axios.defaults.baseURL = 'http://api.myfbmanage.com:8000/data-server/';
 axios.interceptors.request.use((request) => {
-  if(request.headers['X-ML-Type']=='application/json'){
-    return request;
-  }
-  
   request.data = qs.stringify(request.data);
   return request;
 });

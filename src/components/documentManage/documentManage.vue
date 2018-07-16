@@ -89,8 +89,8 @@ export default {
     this.handleSearch();
   },
   methods: {
-      handleSearch() {
-      this.isTableLoading = true;
+      handleSearch:_.debounce(function(){
+         this.isTableLoading = true;
       axios({
         url: this.fetchOption.url,
         method: this.fetchOption.method,
@@ -106,8 +106,8 @@ export default {
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    }
-    }
+    },500)
+  }
 };
 </script>
 

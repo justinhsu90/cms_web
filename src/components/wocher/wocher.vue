@@ -89,24 +89,25 @@ export default {
     this.handleSearch();
   },
   methods: {
-      handleSearch() {
-      this.isTableLoading = true;
-      axios({
-        url: this.fetchOption.url,
-        method: this.fetchOption.method,
-        data: {
+      handleSearch:_.debounce(function(){
+         this.isTableLoading = true;
+       axios({
+         url: this.fetchOption.url,
+         method: this.fetchOption.method,
+         data: {
           where: this.fetchOption.where,
           token: this.token,
           skip: this.fetchCondition.skip,
           limit: this.fetchCondition.limit,
           order: this.fetchCondition.order
         }
-      }).then(({data,count}) => {
+        }).then(({data,count}) => {
         this.isTableLoading = false;
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    }
+      },500)
+     
     }
 };
 </script>

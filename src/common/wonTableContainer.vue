@@ -26,6 +26,11 @@ export default {
       this.maxHeight = document.scrollingElement.clientHeight / 1.5;
     })
   },
+  watch:{
+    'fetchOption.where'(){
+      this.handleSearch();
+    }
+  },
   methods: {
     handleSizeChange(size){
         this.fetchCondition.limit = size;
