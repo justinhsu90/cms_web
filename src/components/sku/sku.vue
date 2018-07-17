@@ -94,7 +94,7 @@
               </template>
                 <el-table-column label="Image" min-width="100">
                     <template slot-scope="scope" >
-                        <img  width="100%" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">                        
+                        <img  width="100" height="80" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">                        
                         <el-dialog title="图片"  :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
                             <img  width="100%"  :src="scope.row.imageURL" >                        
                         </el-dialog>
@@ -130,7 +130,7 @@
 import directiveDialog from "./dialog";
 import wonTableContainer from "../../common/wonTableContainer";
 export default {
-  extends:wonTableContainer,
+  extends: wonTableContainer,
   data() {
     return {
       record: [],
@@ -149,7 +149,7 @@ export default {
       fetchCondition: {
         skip: 0,
         limit: 10,
-        order:"productName"
+        order: "productName"
       },
       fetchOption: {
         url: "http://api.myfbmanage.com:8000/data-server/sku/search",
@@ -162,7 +162,7 @@ export default {
     this.handleSearch();
   },
   methods: {
-    handleSearch: _.debounce(function(){
+    handleSearch: _.debounce(function() {
       this.isTableLoading = true;
       axios({
         url: this.fetchOption.url,
@@ -174,15 +174,15 @@ export default {
           limit: this.fetchCondition.limit,
           order: this.fetchCondition.order
         }
-      }).then(({data,count}) => {
-       this.isTableLoading = false;
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
         _.each(data, v => {
           v.dialogTableVisible = false;
         });
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    },500),
+    }, 500),
     handleAdd() {
       this.showDialog = true;
       this.title = "添加";

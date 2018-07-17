@@ -2,6 +2,7 @@
     <div v-loading="loading">
         <el-row :gutter="40" style="padding:20px">
             <el-col :span="5"  class="p10">
+                <el-card  style="height:190px"> 
                 <h3>&nbsp;&nbsp;今日須出貨包裹數量</h3>
                 <br>
                 <div class="w50 fl">
@@ -20,8 +21,10 @@
                          <span class="fr f13 label-tips">多件裝</span>
                     </div>
                 </div>
+                </el-card>
             </el-col>
             <el-col :span="5" class="p10">
+                <el-card style="height:190px">
                   <h3>&nbsp;&nbsp;目前準備出貨包裹數量</h3>
                 <br>
                 <div class="w50 fl">
@@ -42,8 +45,10 @@
                          <span class="fr f13" style="color:rgb(170,52,48)">{{parcelCount.completeRateOfMulti*100}}%&nbsp;</span>   
                     </div>
                 </div>
+                </el-card>
             </el-col>
               <el-col :span="7" class="p10">
+                  <el-card style="height:190px">
                   <h3>&nbsp;&nbsp;本月日均毛利</h3>
                 <br>
                 <div class="w50 fl">
@@ -63,8 +68,10 @@
                          <span class="fr f13" style="color:rgb(170,52,48)">{{MarginTarget.dailyMarginPerformancePercent*100}}%&nbsp;</span>   
                     </div>
                 </div>
+                </el-card>
             </el-col>
               <el-col :span="7" class="p10">
+                  <el-card style="height:190px">
                   <h3>&nbsp;&nbsp;本月日均毛利</h3>
                 <br>
                 <div class="w50 fl">
@@ -86,10 +93,12 @@
                           <span class="fr  f13 label-tips">尚須{{MarginTarget.daysToReachTarget}}天&nbsp;</span>
                     </div>
                 </div>
+                </el-card>
             </el-col>
         </el-row>
         <el-row :gutter="20" style="padding:20px">
-            <el-col :span="6" class="p10" v-for="(v,i) in performance" :key="i">
+            <el-col :span="8"  v-for="(v,i) in performance" :key="i">
+                <el-card style="height:320px">
                 <h3>{{v.title}}</h3>
                 <div style="border-bottom:1px solid #E4E9EE;padding-bottom:10px">
                 <h3>Revenue</h3>
@@ -124,12 +133,14 @@
                         </div>
                     </div>    
                 </div>
+                </el-card>
             </el-col>
         </el-row>
         <br>
         <el-row style="padding:20px">
-            <h3>Sales Reports</h3>
             <el-col :span="16">
+                <el-card >
+                <h3>Sales Reports</h3>
                 <el-table :data="productPerformance">
                     <el-table-column  width="150" label="productName" prop="productName"></el-table-column>
                     <el-table-column  width="80" label="rank" prop="ranking"></el-table-column>
@@ -137,8 +148,10 @@
                     <el-table-column  width="220" label="percetageofTotalRevenue" prop="percentageOfTotalRevenue"></el-table-column>
                     <el-table-column  width="200" label="percentageOfMargin" prop="percentageOfMargin"></el-table-column>
                 </el-table>
+                </el-card>
             </el-col>
             <el-col :span="24">
+                <el-card>
                 <el-table :data="monthlyPerformance">
                     <el-table-column width="100" label="title" prop="title"></el-table-column>
                     <el-table-column  min-width="80" label="revenue" prop="revenue"></el-table-column>
@@ -153,6 +166,7 @@
                     <el-table-column  min-width="80" label="refundAmount" prop="refundAmount"></el-table-column>
                     <el-table-column  min-width="80" label="refundPercent" prop="refundPercent" :formatter="formatToPercent"></el-table-column>
                 </el-table>
+                </el-card>
             </el-col>
         </el-row>
     </div>
