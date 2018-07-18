@@ -191,7 +191,7 @@ export default {
       this.showDialog = false;
     },
     handleEdit(row) {
-      this.title = "编辑";
+      this.title = "編輯";
       this.showDialog = true;
       this.row = _.cloneDeep(row);
     },
