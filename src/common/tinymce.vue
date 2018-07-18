@@ -173,13 +173,13 @@
           // 图片上传
           images_upload_handler: function (blobInfo, success, failure) {
             if (blobInfo.blob().size > self.maxSize) {
-              failure('文件体积过大')
+              failure('文件檔案太大')
             }
             
             if (self.accept.indexOf(blobInfo.blob().type) > 0) {
               uploadPic()
             } else {
-              failure('图片格式错误')
+              failure('圖片格式錯誤')
             }
             function uploadPic () {
               const xhr = new XMLHttpRequest()
@@ -191,7 +191,7 @@
                 if (xhr.status !== 200) {
                   // 抛出 'on-upload-fail' 钩子
                   self.$emit('on-upload-fail')
-                  failure('上传失败: ' + xhr.status)
+                  failure('上傳失敗: ' + xhr.status)
                   return
                 }
 

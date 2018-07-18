@@ -3,12 +3,12 @@
   <el-header>
       <h1>
           <i class="el-icon-menu"></i>&nbsp;&nbsp;
-          <span>后台管理系统</span> 
+          <span>後台管理系統</span> 
       </h1>
       <h1 style="float:right">
         <el-popover placement="bottom" width="200" trigger="click">
             <div >
-               <span>账户信息：</span>
+               <span>帳號資訊：</span>
                <span>{{username}}</span>
             </div>
             <i type="text"  slot="reference" class="el-icon-won-50"></i>
@@ -66,7 +66,7 @@ export default {
       },
       {
         index:'edit',
-        label:'edit'
+        label:'可視化編輯器'
       },
       {
         index:'documentManage',
