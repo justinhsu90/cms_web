@@ -1,50 +1,44 @@
 <template>
     <div>
         <el-row>
-            <el-col :span="12">
+            <el-col :span="10">
         <el-input v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
             <el-button  style="width:100%;margin:0 " @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
         </el-input>
+        </el-col>
+        <el-col :span="14">
+            <el-button style="float:right" @click="handleAdd"  type="primary" >新增文案</el-button>
+          <el-checkbox-group v-model="condition" @change="handleCondition" size="small" style="display:inline-block;padding:5px;float:right">
+            <el-checkbox-button  label="1" >account</el-checkbox-button>
+            <el-checkbox-button   label="2" >language</el-checkbox-button>
+            <el-checkbox-button   label="3" >platform</el-checkbox-button>
+             <el-checkbox-button   label="4">country</el-checkbox-button>
+          </el-checkbox-group>
         </el-col>
         <br>
         <br>
         <br>
         <el-col>
                <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column min-width="80" label="addressLine1" prop="addressLine1"></el-table-column>
-                 <el-table-column min-width="80" label="addressLine2" prop="addressLine2"></el-table-column>
-                 <el-table-column min-width="80" label="agent" prop="agent" sortable="custom"></el-table-column>
-                 <el-table-column min-width="80" label="birthday" prop="birthday"></el-table-column>
-                 <el-table-column min-width="80" label="city" prop="city"></el-table-column>
-                 <el-table-column min-width="80" label="colour" prop="colour"></el-table-column>
-                  <el-table-column min-width="80" label="country" prop="country"></el-table-column>
-                  <el-table-column min-width="80" label="county" prop="county"></el-table-column>
-                  <el-table-column min-width="80" label="currency" prop="currency"></el-table-column>
-                  <el-table-column min-width="80" label="customField" prop="customField"></el-table-column>
-                  <el-table-column min-width="80" label="customerName" prop="customerName" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="dealId" prop="dealId"></el-table-column>
-                  <el-table-column min-width="80" label="dealTitle" prop="dealTitle"></el-table-column>
-                  <el-table-column min-width="80" label="email" prop="email"></el-table-column>
-                  <el-table-column min-width="80" label="houseNumber" prop="houseNumber"></el-table-column>
-                  <el-table-column min-width="80" label="logistic" prop="logistic"></el-table-column>
-                  <el-table-column min-width="80" label="marketingPermission" prop="marketingPermission"></el-table-column>
-                  <el-table-column min-width="80" label="orderId" prop="orderId"></el-table-column>
-                  <el-table-column min-width="80" label="orderStatus" prop="orderStatus" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="orderType" prop="orderType" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="phone" prop="phone" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="platformOrderId" prop="platformOrderId"></el-table-column>
-                  <el-table-column min-width="80" label="postcode" prop="postcode" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="price" prop="price"></el-table-column>
-                  <el-table-column min-width="80" label="productName" prop="productName"></el-table-column>
-                  <el-table-column min-width="80" label="productOptoins" prop="productOptoins"></el-table-column>
-                  <el-table-column min-width="80" label="quantity" prop="quantity"></el-table-column>
-                  <el-table-column min-width="80" label="redeemedAt" prop="redeemedAt" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="shipoutTime" prop="shipoutTime"></el-table-column>
-                  <el-table-column min-width="80" label="shippingMethod" prop="shippingMethod" sortable="custom"></el-table-column>
+                 <el-table-column min-width="140" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="70" label="contentId" prop="contentId"></el-table-column>
+                 <el-table-column min-width="70" label="platform" prop="platform" ></el-table-column>
+                 <el-table-column min-width="70" label="language" prop="language"></el-table-column>
+                 <el-table-column min-width="70" label="country" prop="country"></el-table-column>
+                 <el-table-column min-width="80" label="account" prop="account"></el-table-column>
                   <el-table-column min-width="80" label="sku" prop="sku"></el-table-column>
-                  <el-table-column min-width="80" label="spec" prop="spec"></el-table-column>
-                  <el-table-column min-width="80" label="trackingNo" prop="trackingNo" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="wowcherCode" prop="wowcherCode" sortable="custom"></el-table-column>
+                  <el-table-column min-width="180" label="title" prop="title"></el-table-column>
+                  <el-table-column min-width="80" label="Enable" prop="enable">
+                      <template slot-scope="scope">
+                            <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
+                            <el-tag  v-else type="info">false</el-tag>
+                      </template>
+                  </el-table-column>
+                  <el-table-column min-width="80" label="Action" align="center">
+                    <template slot-scope="scope">
+                       <el-button type="text" title="编辑" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                    </template>
+                  </el-table-column>
         </el-table> 
         </el-col>
            <div style="float:right">
@@ -64,49 +58,72 @@
     
     </div>
 </template>
-<script>  
+<script>
 import wonTableContainer from "../../common/wonTableContainer";
 export default {
-  extends:wonTableContainer,
+  extends: wonTableContainer,
   data() {
-    return {   
-      tableData: [], 
+    return {
+      tableData: [],
+      condition:[],
       isTableLoading: false,
       maxHeight: "",
       fetchCondition: {
         skip: 0,
         limit: 10,
-        order: "city"
+        order: "lastUpdatedTime"
       },
       fetchOption: {
-        url: "/wowcher/order/search",
-        where: "",
-        method: "post"
-      }
+        url: "/content/search",
+        method: "post",
+        where:""
+      },
     };
   },
   created() {
     this.handleSearch();
   },
   methods: {
-      handleSearch:_.debounce(function(){
-         this.isTableLoading = true;
-      axios({
-        url: this.fetchOption.url,
-        method: this.fetchOption.method,
-        data: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
           where: this.fetchOption.where,
           token: this.token,
           skip: this.fetchCondition.skip,
           limit: this.fetchCondition.limit,
           order: this.fetchCondition.order
         }
-      }).then(({data,count}) => {
+      if(this.condition.includes('1')){
+        data.account = this.fetchOption.where;
+      }
+      if(this.condition.includes('2')){
+        data.language = this.fetchOption.where;
+      }
+      if(this.condition.includes('3')){
+        data.platform = this.fetchOption.where;
+      }
+      if(this.condition.includes('4')){
+        data.country = this.fetchOption.where;
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
         this.isTableLoading = false;
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    },500)
+    }, 500),
+    handleEdit(val) {
+
+    },
+    handleAdd(){
+
+    },
+    handleCondition(){
+      this.handleSearch();
+    }
   }
 };
 </script>
