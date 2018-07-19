@@ -14,11 +14,11 @@
         <span style="color:#606266;position:absolute;left:30px;top:24px;font-size:20px" >{{i+1}}.</span>  
         <i  v-if="!formData" class="el-icon-close" style="position:absolute;right:25px;top:24px;font-size:16px" @click="handleClose(i)"></i>
         <el-col :span="12">
-        <el-form-item label="產品SKU">
+        <el-form-item label="產品SKU" >
           <el-input  style="width:75%" v-model="v.productSKU"></el-input>
           <el-button  type="primary" size="small" @click="autoProductName(v)">取得產品名稱</el-button>
         </el-form-item>
-        <el-form-item label="產品名稱"   :prop="'firstPartData.' + i + '.productName'" :rules="validateProductName">
+        <el-form-item label="產品名稱"  :word-limit="2"  :prop="'firstPartData.' + i + '.productName'" :rules="validateProductName">
           <el-input v-model="v.productName" ></el-input>
         </el-form-item>
         <el-form-item label="需採購數量" :prop="'firstPartData.' + i + '.quantity'"  :rules="validateQuantity">

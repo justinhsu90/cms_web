@@ -1,7 +1,7 @@
 <template>
     <div id="table">
         <el-row>
-            <el-col :span="12">
+            <el-col :span="10">
         <el-input     v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
             <el-button style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
         </el-input>
@@ -13,14 +13,13 @@
   width="200"
   trigger="hover"
   content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段"> 
+<el-button slot="reference"  style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666" >?</el-button>
 </el-popover>
-<div style="height:40px;line-height:40px">
-<el-button v-popover:popover style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666" >?</el-button>
-</div>
+
         </el-col>
-        <el-col :span="12">
+        <el-col :span="14">
             <el-button style="float:right" @click="handleAdd"  type="primary" >新增SKU</el-button>
-            <el-checkbox-group v-model="record" @change="handleSize" size="small" fill="#67c23a" style="display:inline-block;padding:5px;float:right">
+            <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
          <el-checkbox-button   label="ama" :key="1">Amazon出貨尺寸</el-checkbox-button>
          <el-checkbox-button   label="parcel" :key="2">小包出貨尺寸</el-checkbox-button>
          <el-checkbox-button   label="deprecatedSku" :key="3">已停用SKU</el-checkbox-button>

@@ -2,7 +2,7 @@
 
     <div id="table">
         <el-row>
-            <el-col :span="12">
+            <el-col :span="10">
         <el-input     v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
             <el-button  style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
         </el-input>
@@ -13,12 +13,13 @@
   width="200"
   trigger="hover"
   content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段">
+  <el-button slot="reference"  style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666" >?</el-button>
 </el-popover>
-<el-button  v-popover:popover  style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666" >?</el-button>
+
         </el-col>
-        <el-col :span="12">
-            <el-button style="float:right" @click="handleAdd"  type="primary" >建立採購單</el-button>
-            <el-checkbox-group v-model="record" @change="handleSize" size="small" fill="#67c23a" style="display:inline-block;padding:5px;float:right">
+        <el-col :span="14">
+            <el-button style="float:right"   @click="handleAdd"  type="primary" >建立採購單</el-button>
+        <el-checkbox-group v-model="record" @change="handleSize" size="small"  style="display:inline-block;padding:5px;float:right">
          <el-checkbox-button   label="explore" :key="1">採購</el-checkbox-button>
          <el-checkbox-button   label="people" :key="2">產品圖片</el-checkbox-button>
          <el-checkbox-button   label="treasure" :key="3">財務</el-checkbox-button>

@@ -1,9 +1,9 @@
 <template>
-    <div v-loading="loading">
-        <el-row :gutter="20" style="padding:0px">
-            <el-col :span="5"  class="p10">
+    <div v-loading="loading" class="dataAnaly">
+        <el-row :gutter="10" style="padding:0px">
+            <el-col :span="5"  >
                 <el-card  style="height:160px"> 
-                <h3>今日須出貨包裹數量</h3>
+                <h5>今日須出貨包裹數量</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font ta">
@@ -23,9 +23,9 @@
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5" class="p10">
+            <el-col :span="5" >
                 <el-card style="height:160px">
-                  <h3>目前準備出貨包裹數量</h3>
+                  <h5>目前準備出貨包裹數量</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font ta">
@@ -47,9 +47,9 @@
                 </div>
                 </el-card>
             </el-col>
-              <el-col :span="7" class="p10">
+              <el-col :span="7" >
                   <el-card style="height:160px">
-                  <h3>&nbsp;&nbsp;本月日均毛利</h3>
+                  <h5>&nbsp;&nbsp;本月日均毛利</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font ta ">
@@ -70,9 +70,9 @@
                 </div>
                 </el-card>
             </el-col>
-              <el-col :span="7" class="p10">
+              <el-col :span="7" >
                   <el-card style="height:160px">
-                  <h3>&nbsp;&nbsp;本月日均毛利</h3>
+                  <h5>&nbsp;&nbsp;本月日均毛利</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font2 ta ">
@@ -96,34 +96,35 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-row :gutter="20" style="padding:0px">
+        <br>  
+        <el-row :gutter="10" style="padding:0px">
             <el-col :span="8"  v-for="(v,i) in performance" :key="i">
                 <el-card style="height:250px">
-                <h3>{{v.title}}</h3>
+                <h5>{{v.title}}</h5>
                 <div style="border-bottom:1px solid #E4E9EE;padding-bottom:10px">
-                <h3>利潤<span class="font" style="padding-right:15px">&nbsp;&nbsp;£{{v.revenue}}</span>售出數量 : {{v.revenue}}</h3>
+                <h5>利潤<span class="font" style="padding-right:15px">&nbsp;&nbsp;£{{v.revenue}}</span>售出數量 : {{v.revenue}}</h5>
                 </div>
                 <div class="mt10">
                   <div class="fl" style="width:33.3%">
-                        <div><h4 style="height:30px" class="ta">毛利</h4></div>
-                        <div class="mt10"><h4 class="ta">£{{v.margin}}</h4></div>  
-                        <div class="mt10"><h4 class="ta">{{v.marginPercent*100}}%</h4></div>  
+                        <div><h5 style="height:30px" class="ta">毛利</h5></div>
+                        <div class="mt10"><h5 class="ta">£{{v.margin}}</h5></div>  
+                        <div class="mt10"><h5 class="ta">{{v.marginPercent*100}}%</h5></div>  
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.marginPercent}px;height:20px;border-radius:10px;background:rgb(241,76,108)`"></div></div>
                         </div>
                   </div>
                   <div class="fl"  style="width:33.3%">
-                        <div><h4 style="height:30px" class="ta">產品成本</h4></div>
-                        <div class="mt10"><h4 class="ta">£{{v.productCost}}</h4></div>  
-                        <div class="mt10"><h4 class="ta">{{v.productCostPercent*100}}%</h4></div>  
+                        <div><h5 style="height:30px" class="ta">產品成本</h5></div>
+                        <div class="mt10"><h5 class="ta">£{{v.productCost}}</h5></div>  
+                        <div class="mt10"><h5 class="ta">{{v.productCostPercent*100}}%</h5></div>  
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.productCostPercent}px;height:20px;border-radius:10px;background:rgb(9,194,214)`"></div></div>
                         </div>
                     </div>  
                     <div class="fl" style="width:33.3%">
-                        <div><h4 style="height:30px" class="ta">運輸成本</h4></div>
-                        <div class="mt10"><h4 class="ta">£{{v.shippingCost}}</h4></div>  
-                        <div class="mt10"><h4 class="ta">{{(v.shippingCostPercent*100).toFixed(2)}}%</h4></div>  
+                        <div><h5 style="height:30px" class="ta">運輸成本</h5></div>
+                        <div class="mt10"><h5 class="ta">£{{v.shippingCost}}</h5></div>  
+                        <div class="mt10"><h5 class="ta">{{(v.shippingCostPercent*100).toFixed(2)}}%</h5></div>  
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.shippingCostPercent}px;height:20px;border-radius:10px;background:rgb(251,184,53)`"></div></div>
                         </div>
@@ -134,16 +135,16 @@
         </el-row>
         <br>
         <el-row style="padding:0px">
-            <el-col :span="13">
+            <el-col :span="15">
                 <el-card >
-                <h3>產品銷售排行</h3>
+                <h5>產品銷售排行</h5>
                 <el-table :data="productPerformance">
-                    <el-table-column  width="180" label="產品名稱" prop="productName"></el-table-column>
-                    <el-table-column  width="110" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column  width="80" label="排行" prop="ranking"></el-table-column>
-                    <el-table-column  width="80" label="毛利" prop="maring"></el-table-column>
-                    <el-table-column  width="80" label="毛利占比" prop="percentageOfTotalRevenue"></el-table-column>
-                    <el-table-column  width="80" label="毛利率" prop="percentageOfMargin"></el-table-column>
+                    <el-table-column  min-width="180" label="產品名稱" prop="productName"></el-table-column>
+                    <el-table-column  min-width="110" label="SKU" prop="sku"></el-table-column>
+                    <el-table-column  min-width="80" label="排行" prop="ranking"></el-table-column>
+                    <el-table-column  min-width="80" label="毛利" prop="maring"></el-table-column>
+                    <el-table-column  min-width="80" label="毛利占比" prop="percentageOfTotalRevenue"></el-table-column>
+                    <el-table-column  min-width="80" label="毛利率" prop="percentageOfMargin"></el-table-column>
                 </el-table>
                 </el-card>
             </el-col>
@@ -204,50 +205,55 @@ export default {
   }
 };
 </script>
-<style scoped>
-.fl {
-  float: left;
-}
-.fr {
-  float: right;
-}
-.font {
-  font-size: 30px;
-  color: rgb(122, 113, 202);
-}
-.font2 {
-  font-size: 25px;
-  color: rgb(0, 0, 0);
-}
-.f20 {
-  font-size: 20px;
-  color: rgb(122, 113, 202);
-}
-.f13 {
-  font-size: 13px;
-}
-.w100 {
-  width: 100%;
-}
-.p10 {
-  padding: 10px;
-}
-.clear::after {
-  content: "";
-  display: block;
-  clear: both;
-}
-.w50 {
-  width: 50%;
-}
-.mt10 {
-  margin-top: 10px;
-}
-.ta {
-  text-align: center;
-}
-.label-tips {
-  color: #bbbbbb;
+<style lang="scss">
+.dataAnaly {
+  .fl {
+    float: left;
+  }
+  .fr {
+    float: right;
+  }
+  .font {
+    font-size: 20px;
+    color: rgb(122, 113, 202);
+  }
+  .font2 {
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+  }
+  .f20 {
+    font-size: 20px;
+    color: rgb(122, 113, 202);
+  }
+  .f13 {
+    font-size: 13px;
+  }
+  .w100 {
+    width: 100%;
+  }
+  .p10 {
+    padding: 10px;
+  }
+  .clear::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  .w50 {
+    width: 50%;
+  }
+  .mt10 {
+    margin-top: 10px;
+  }
+  .ta {
+    text-align: center;
+  }
+  .label-tips {
+    color: #bbbbbb;
+  }
+  .dataAnaly .el-card__body {
+    padding: 10px !important;
+  }
 }
 </style>
 
