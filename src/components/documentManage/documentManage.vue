@@ -20,15 +20,15 @@
         <br>
         <el-col>
                <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column min-width="140" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="70" label="contentId" prop="contentId"></el-table-column>
-                 <el-table-column min-width="70" label="platform" prop="platform" ></el-table-column>
-                 <el-table-column min-width="70" label="language" prop="language"></el-table-column>
-                 <el-table-column min-width="70" label="country" prop="country"></el-table-column>
-                 <el-table-column min-width="80" label="account" prop="account"></el-table-column>
-                  <el-table-column min-width="80" label="sku" prop="sku"></el-table-column>
+                 <el-table-column min-width="120" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="60" label="contentId" prop="contentId"></el-table-column>
+                 <el-table-column min-width="60" label="platform" prop="platform" ></el-table-column>
+                 <el-table-column min-width="60" label="language" prop="language"></el-table-column>
+                 <el-table-column min-width="60" label="country" prop="country"></el-table-column>
+                 <el-table-column min-width="70" label="account" prop="account"></el-table-column>
+                  <el-table-column min-width="110" label="sku" prop="sku"></el-table-column>
                   <el-table-column min-width="180" label="title" prop="title"></el-table-column>
-                  <el-table-column min-width="80" label="Enable" prop="enable">
+                  <el-table-column min-width="50" label="Enable" prop="enable">
                       <template slot-scope="scope">
                             <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
                             <el-tag  v-else type="info">false</el-tag>
