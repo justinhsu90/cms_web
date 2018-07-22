@@ -23,7 +23,7 @@
          <el-checkbox-button   label="ama" :key="1">Amazon出貨尺寸</el-checkbox-button>
          <el-checkbox-button   label="parcel" :key="2">小包出貨尺寸</el-checkbox-button>
          <el-checkbox-button   label="deprecatedSku" :key="3">已停用SKU</el-checkbox-button>
-         <el-checkbox-button   label="price" :key="4">採購成本</el-checkbox-button>
+         <el-checkbox-button   label="price" :key="4">成本</el-checkbox-button>
     </el-checkbox-group>
         </el-col>
         <br>
@@ -31,27 +31,27 @@
         <br>
         <el-col>
                <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column sortable="custom"   label="Product Name" prop="productName"  :min-width="150"></el-table-column>  
-                 <el-table-column sortable="custom"   min-width="150" label="SKU" prop="sku"></el-table-column>
-                <el-table-column  sortable="custom"   min-width="150"  label="New SKU" prop="newSKU"></el-table-column>
+                 <el-table-column sortable="custom"   label="Product Name" prop="productName"  min-width="180"></el-table-column>  
+                 <el-table-column sortable="custom"   min-width="80" label="SKU" prop="sku"></el-table-column>
+                <el-table-column  sortable="custom"   min-width="80"  label="New SKU" prop="newSKU"></el-table-column>
                   <!-- ama   -->
                 <template v-if="amaShow">
-                    <el-table-column  min-width="130" key="4"  label="Amazon 長(cm)" prop="amazonLengthCM" fixed="right">
+                    <el-table-column  min-width="100" key="4"  label="Amazon(長)" prop="amazonLengthCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonLengthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  min-width="130"  key="1"  label="Amazon 寬(cm)" prop="amazonWidthCM" fixed="right">
+                <el-table-column  min-width="100"  key="1"  label="Amazon(寬)" prop="amazonWidthCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonWidthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  min-width="130" key="2"  label="Amazon 高(cm)" prop="amazonHeightCM" fixed="right">
+                <el-table-column  min-width="100" key="2"  label="Amazon(高)" prop="amazonHeightCM" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonHeightCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  min-width="130"  key="3" label="Amazon 重(kg)" prop="amazonWeightKG" fixed="right">
+                <el-table-column  min-width="100"  key="3" label="Amazon(重)" prop="amazonWeightKG" fixed="right">
                     <template slot-scope="scope">
                         <span>{{scope.row.amazonWeightKG}}kg</span>
                     </template>
@@ -59,22 +59,22 @@
                 </template>  
                 <!-- parcel -->
               <template v-if="parcelShow">
-                  <el-table-column  min-width="100"  key="7" label="小包 長(cm)" prop="parcelLengthCM" >
+                  <el-table-column  min-width="80"  key="7" label="小包(長)" prop="parcelLengthCM" >
                     <template slot-scope="scope">
                         <span>{{scope.row.parcelLengthCM}}kg</span>
                     </template>
                 </el-table-column>
-                <el-table-column  min-width="100" key="5" label="小包 寬(cm)" prop="parcelWidthCM" >
+                <el-table-column  min-width="80" key="5" label="小包(寬)" prop="parcelWidthCM" >
                         <template slot-scope="scope">
                         <span>{{scope.row.parcelWidthCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  min-width="100"  key="6" label="小包 高(cm)" prop="parcelHeightCM" >
+                <el-table-column  min-width="80"  key="6" label="小包(高)" prop="parcelHeightCM" >
                         <template slot-scope="scope">
                         <span>{{scope.row.parcelHeightCM}}cm</span>
                     </template>
                 </el-table-column>
-                <el-table-column  min-width="100" key="8"  label="小包 重(kg)" prop="parcelWeightKG" >
+                <el-table-column  min-width="80" key="8"  label="小包(重)" prop="parcelWeightKG" >
                     <template slot-scope="scope">
                         <span>{{scope.row.parcelWeightKG}}cm</span>
                     </template>
@@ -85,7 +85,7 @@
                 <el-table-column  min-width="100"  label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
               </template>
               <template v-if="priceShow">
-                <el-table-column  min-width="100"  label="採購成本 (RMB)" prop="priceRMB" key="10">
+                <el-table-column  min-width="70"  label="成本 (RMB)" prop="priceRMB" key="10">
                         <template slot-scope="scope">
                         <span>{{scope.row.priceRMB}}</span>
                     </template>
@@ -93,15 +93,15 @@
               </template>
                 <el-table-column label="Image" min-width="100">
                     <template slot-scope="scope" >
-                        <img  width="100" height="80" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">                        
-                        <el-dialog title="图片"  :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
+                        <img  width="80" height="80" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">                        
+                        <el-dialog title="圖片"  :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
                             <img  width="100%"  :src="scope.row.imageURL" >                        
                         </el-dialog>
                     </template>
                 </el-table-column>
-               <el-table-column min-width="100" label="Action"   fixed="right">
+               <el-table-column min-width="50" label="Action"   fixed="right">
                    <template slot-scope="scope">
-                    <el-button type="text" title="编辑" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                    <el-button type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
                    </template>
                </el-table-column>
         </el-table>
