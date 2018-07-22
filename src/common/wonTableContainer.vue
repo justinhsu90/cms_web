@@ -21,9 +21,9 @@ export default {
       }
   }, 
   created(){
-    this.maxHeight = document.scrollingElement.clientHeight / 1.5;
+    this.maxHeight = document.scrollingElement.clientHeight / 1.7;
     window.addEventListener('resize',()=>{
-      this.maxHeight = document.scrollingElement.clientHeight / 1.5;
+      this.maxHeight = document.scrollingElement.clientHeight / 1.7;
     })
   },
   watch:{

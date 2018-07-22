@@ -9,6 +9,8 @@ import purchase from '@/components/purchase/purchase'
 import purchaseEdit from '@/components/purchase/purchaseEdit'
 import dataAnalysis from '@/components/dataAnalysis/dataAnalysis'
 import documentManage from '@/components/documentManage/documentManage'
+import documentEdit from '@/components/documentManage/documentEdit'
+import documentAdd from '@/components/documentManage/documentAdd'
 Vue.use(VueRouter);
 let router = new VueRouter({
   routes: [{
@@ -53,7 +55,15 @@ let router = new VueRouter({
             {   name:'documentManage',
                 path:'/documentManage',
                 component:documentManage
-            }        
+            },        
+            {   name:'documentEdit',
+                path:'/documentEdit',
+                component:documentEdit
+            },
+            {   name:'documentAdd',
+                path:'/documentAdd',
+                component:documentAdd
+            },        
         ]
     },
     {

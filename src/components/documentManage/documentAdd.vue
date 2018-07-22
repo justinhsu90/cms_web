@@ -1,0 +1,415 @@
+<template>
+<div>
+    <div id="edit" style="padding:20px"> 
+    <div class="heade">
+      <i class="el-icon-arrow-left"></i>
+      <a href="javascript:void(0)" @click="goBack">返回</a>
+    </div>
+    <br>
+    <h3>添加文案</h3>
+    <br>
+    <el-form ref="form" :model="data" label-position="top">
+       <el-form-item label="SKU">
+          <el-input class="w50" v-model="data.SKU"></el-input>
+       </el-form-item>
+       <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="Account">
+               <el-select  clearable  filterable allow-create v-model="data.Account">
+                <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Platform">
+               <el-select clearable  filterable allow-create v-model="data.Platform">
+                <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Country">
+               <el-select clearable  filterable allow-create v-model="data.Country">
+               <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
+                   <span style="float: left">{{ v.countryCode }}</span>
+                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                </el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+       </el-row>
+       <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="Language">
+               <el-select clearable  filterable allow-create v-model="data.Language">
+                <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
+                  <span style="float: left">{{ v.languageCode }}</span>
+                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.languageName }}</span>
+                </el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Brand">
+               <el-select  clearable  filterable allow-create v-model="data.Brand">
+               <el-option v-for="(v,i) in searchBrandOption" :key="'brand'+i" :label="v.brand" :value="v.brand"></el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Manufacturer">
+               <el-select clearable  filterable allow-create v-model="data.Manufacturer">
+                <el-option v-for="(v,i) in searchManufacturerOption" :key="'mau'+i" :label="v.manufacturer" :value="v.manufacturer"></el-option>
+            </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordValue1">
+               <el-input v-model="data.ReplaceWordValue1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordValue2">
+               <el-input v-model="data.ReplaceWordValue2"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordValue3">
+               <el-input v-model="data.ReplaceWordValue3"></el-input>
+            </el-form-item>
+          </el-col>
+       </el-row>
+       <hr>
+       <br>
+       <h3>Title</h3>
+       <br>
+       <el-row :gutter="20">
+          <el-col :span="8">
+              <el-form-item label="Title">
+                  <el-input v-model="data.Title"></el-input>
+              </el-form-item>
+          </el-col>
+          <el-col :span="8">
+              <el-form-item label="cartLongTitle">
+                  <el-input v-model="data.cartLongTitle"></el-input>
+              </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="cartShortTitle">
+                  <el-input v-model="data.cartShortTitle"></el-input>
+              </el-form-item>
+          </el-col>
+       </el-row>
+       <hr>
+       <br>
+       <h3>Bullet Point</h3>
+       <br>
+       <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item label="BulletPoint1">
+                  <el-input type=“textarea” v-model="data.BulletPoint1"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="BulletPoint2">
+                  <el-input v-model="data.BulletPoint2"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="BulletPoint3">
+                  <el-input v-model="data.BulletPoint3"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="BulletPoint4">
+                  <el-input v-model="data.BulletPoint4"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="BulletPoint5">
+                  <el-input v-model="data.BulletPoint5"></el-input>
+              </el-form-item>   
+          </el-col>
+       </el-row>
+       <hr>
+       <br>
+       <h3>Description</h3>
+       <br>
+         <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="short Description">
+                  <el-input  rows="4" type="textarea" v-model="data.shortDescription"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Description1">
+                  <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Description2">
+                  <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Description3">
+                  <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Description4">
+                  <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="Description5">
+                  <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input>
+              </el-form-item>   
+          </el-col>
+       </el-row>
+       <hr>
+       <br>
+       <h3>Search Term</h3>
+       <br>
+       <el-row :gutter="20">
+          <el-col :span="8" >
+            <el-form-item label="Search Term1">
+              <el-input v-model="data.Keyword1"> </el-input>
+              </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="Search Term2">
+              <el-input v-model="data.Keyword2"> </el-input>
+              </el-form-item>
+          </el-col>
+          <el-col :span="8" >
+            <el-form-item label="Search Term3">
+              <el-input v-model="data.Keyword3"> </el-input>
+              </el-form-item>
+          </el-col>
+       </el-row>
+       <hr>
+       <br>
+       <h3>Image</h3>
+       <br>
+       <el-row>
+          <el-col class="w20 p10">
+              <wonImage name="image1" :value="data.imageName1" @select="data.imageName1 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image2" :value="data.imageName2" @select="data.imageName2 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image3" :value="data.imageName3" @select="data.imageName3 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image4" :value="data.imageName4" @select="data.imageName4 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image5" :value="data.imageName5" @select="data.imageName5 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image6" :value="data.imageName6" @select="data.imageName6 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image7" :value="data.imageName7" @select="data.imageName7 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image8" :value="data.imageName8" @select="data.imageName8 = arguments[0]"></wonImage>
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image9" :value="data.imageName9" @select="data.imageName9 = arguments[0]"></wonImage> 
+          </el-col>
+          <el-col class="w20 p10">
+              <wonImage name="image10" :value="data.imageName10" @select="data.imageName10 = arguments[0]"></wonImage>
+          </el-col>
+       </el-row>
+       <br>
+       <hr>
+       <br>
+       <el-row :gutter="20">
+         <el-col>
+          <el-form-item label="備註">
+            <el-input type="textarea" :rows="4" v-model="data.note"></el-input>
+        </el-form-item>
+        </el-col>
+       </el-row>
+    </el-form> 
+    <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
+    </div>         
+ </div>     
+</template>
+<script>
+import wonImage from "./wonImage/wonImage";
+export default {
+  components: {
+    wonImage
+  },
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      searchAccountOption: [],
+      searchPlatformOption: [],
+      searchCountryOption: [],
+      searchLanguageOption: [],
+      searchBrandOption: [],
+      searchManufacturerOption: [],
+      data: {
+        ContentId:'NA_test2_test2',
+        SKU: "",
+        Enable: true,
+        Language: "",
+        Country: "",
+        Title: "",
+        Platform: "",
+        Account: "",
+        cartLongTitle: "",
+        cartShortTitle: "",
+        imageName1: "test111",
+        imageName2: "test111",
+        imageName3: "test111",
+        imageName4: "test111",
+        imageName5: "test111",        
+        imageName6: "test111",        
+        imageName7: "test111",
+        imageName8: "test111",
+        imageName9: "test111",
+        imageName10: "test111",
+        BulletPoint1: "",
+        BulletPoint2: "",
+        BulletPoint3: "",
+        BulletPoint4: "",
+        BulletPoint5: "",
+        shortDescription: "",
+        Description1: "",
+        Description2: "",
+        Description3: "",
+        Description4: "",
+        Description5: "",
+        Description6: "",
+        Description7: "",
+        Keyword1: "",
+        Keyword2: "",
+        Keyword3: "",
+        Manufacturer: "",
+        Brand: "",
+        ReplaceWordKey1: "",
+        ReplaceWordKey2: "",
+        ReplaceWordKey3: "",
+        ReplaceWordValue1: "",
+        ReplaceWordValue2: "",
+        ReplaceWordValue3: "",
+        version:"test111",
+      }
+    };
+  },
+  created() {
+    let account = axios({
+      url: "/content/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let platform = axios({
+      url: "/content/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let country = axios({
+      url: "/content/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let language = axios({
+      url: "/content/value/language",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let brand = axios({
+      url: "/content/value/brand",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let manufacturer = axios({
+      url: "/content/value/manufacturer",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([
+      account,
+      platform,
+      country,
+      language,
+      brand,
+      manufacturer
+    ]).then(([account, platform, country, language, brand, manufacturer]) => {
+      this.searchAccountOption = _.cloneDeep(account.data);
+      this.searchPlatformOption = _.cloneDeep(platform.data);
+      this.searchCountryOption = _.cloneDeep(country.data);
+      this.searchLanguageOption = _.cloneDeep(language.data);
+      this.searchBrandOption = _.cloneDeep(brand.data);
+      this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
+    });
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/documentManage");
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          let info = [];
+          info.push(_.cloneDeep(this.data));
+          let obj = {
+              data:info
+          }  
+          axios({
+            url: "/content/add",
+            method: "post",
+            data: {
+              value: JSON.stringify(obj),
+              token: this.token
+            }
+          }).then(res => {});
+        }
+      });
+    }
+  }
+};
+</script>
+<style scoped>
+#edit .heade {
+  font-size: 16px;
+  color: #45a2ff;
+}
+#edit .heade a {
+  color: #45a2ff;
+}
+.w50 {
+  width: 50%;
+}
+.w20 {
+  width: 20%;
+}
+.p10 {
+  padding: 10px !important;
+}
+hr {
+  border: none;
+  border-top: 1px solid #dfe4ec;
+}
+</style>
+
+
