@@ -8,14 +8,14 @@
     <br>
     <h3>添加文案</h3>
     <br>
-    <el-form ref="form" :model="data" label-position="top">
+    <el-form ref="form" :model="data" label-position="top" v-loading="!loading">
        <el-form-item label="SKU">
           <el-input class="w50" v-model="data.SKU"></el-input>
        </el-form-item>
        <el-row :gutter="20">
           <el-col :span="8">
             <el-form-item label="帳號">
-               <el-select  clearable  filterable allow-create v-model="data.Account">
+               <el-select  clearable  filterable allow-create v-model="data.Account" >
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
             </el-form-item>
@@ -150,42 +150,39 @@
        <br> 
        <h3>Description</h3>
        <br> 
-         <el-row :gutter="20">
+         <el-row :gutter="20"> 
           <el-col :span="24">
             <el-form-item label="short Description">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.shortDescription"></el-input> -->
+                <tinymce v-if="loading" v-model="data.shortDescription"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="1">
             <el-form-item label="Description 1">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description1"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="2">
             <el-form-item label="Description 2">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description2"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="3">
             <el-form-item label="Description 3">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description3"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="4">
             <el-form-item label="Description 4">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description4"></tinymce>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="24" key="5">
+            <el-form-item label="Description 5">
+                <tinymce v-if="loading" v-model="data.Description5"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description 5">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input> -->
-              </el-form-item>   
+                
           </el-col>
        </el-row>
        <hr>
@@ -214,49 +211,17 @@
        <h3>Image</h3>
        <br>
        <el-row>
-        <el-upload
-  class="upload-demo"
-  action="https://jsonplaceholder.typicode.com/posts/"
-  :on-preview="handlePreview"
-  :on-remove="handleRemove"
-  :before-remove="beforeRemove"
-  multiple
-  :limit="10"
-  :on-exceed="handleExceed"
-  :file-list="fileList">
-  <el-button size="small" type="primary">点击上传</el-button>
-  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-</el-upload>
-          <!-- <el-col class="w20 p10">
-              <wonImage name="image1" :value="data.imageName1" @select="data.imageName1 = arguments[0]"></wonImage>
+        <el-button size="small" type="primary" @click="handleUpload">点击上传</el-button>
+       </el-row>
+       <br>
+       <el-row :gutter="20">
+          <el-col :span="6" v-for="(item,i) in fileList" :key="'img'+i">
+            <div class="imgcontainer"> 
+              <img  width="100%" height="150px"  :src="item.base64" alt="">
+              <i class="icon el-icon-close" @click="handleClose(i)"></i>
+              <span class="name">&nbsp;{{item.name}}</span>
+            </div>
           </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image2" :value="data.imageName2" @select="data.imageName2 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image3" :value="data.imageName3" @select="data.imageName3 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image4" :value="data.imageName4" @select="data.imageName4 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image5" :value="data.imageName5" @select="data.imageName5 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image6" :value="data.imageName6" @select="data.imageName6 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image7" :value="data.imageName7" @select="data.imageName7 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image8" :value="data.imageName8" @select="data.imageName8 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image9" :value="data.imageName9" @select="data.imageName9 = arguments[0]"></wonImage> 
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image10" :value="data.imageName10" @select="data.imageName10 = arguments[0]"></wonImage>
-          </el-col> -->
        </el-row>
        <br>
        <hr>
@@ -268,17 +233,15 @@
         </el-form-item>
         </el-col>
        </el-row>
+       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
     </el-form> 
-    <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
     </div>         
  </div>     
 </template>
 <script>
-import wonImage from "./wonImage/wonImage";
 import tinymce from '@/common/tinymce'
 export default {
   components: {
-    wonImage,
     tinymce
   },
   watch: {},
@@ -292,6 +255,7 @@ export default {
       searchBrandOption: [],
       searchManufacturerOption: [],
       fileList: [],
+      loading:false,
       data: {
         ContentId: "NA_test2_test2",
         SKU: "",
@@ -398,32 +362,42 @@ export default {
       this.searchLanguageOption = _.cloneDeep(language.data);
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
+      this.loading = true;
     });
   },
   methods: {
     goBack() {
       this.$router.push("/documentManage");
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    handleClose(index){
+      this.fileList.splice(index,1);
     },
-    handlePreview(file) {
-      console.log(file);
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 10 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-      );
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
+    handleUpload(){
+      if(this.fileList.length>=10){
+        this.$message.warning('最多上传10张')
+        return
+      }
+      let input = document.createElement('input');
+      input.type = "file";
+      input.click()
+      input.addEventListener('change',()=>{
+        let URL = window.URL || window.webkitURL;
+        var base64 = URL.createObjectURL(input.files[0]);
+        let obj = {
+          name:input.files[0].name+'',
+          base64
+        }
+        this.fileList.push(obj);
+      })
     },
     submit() {
       this.$refs["form"].validate(action => {
         if (action) {
+          this.submitLoading = true;
           let info = [];
+          _.each(this.fileList,(v,i)=>{
+            this.data['imageName'+(i+1)] = v.name;
+          })
           info.push(_.cloneDeep(this.data));
           let obj = {
             data: info
@@ -435,7 +409,10 @@ export default {
               value: JSON.stringify(obj),
               token: this.token
             }
-          }).then(res => {});
+          }).then(res => {
+            this.submitLoading = true;
+            this.$router.push('/documentManage');
+          });
         }
       });
     }
@@ -462,6 +439,24 @@ export default {
 hr {
   border: none;
   border-top: 1px solid #dfe4ec;
+}
+.imgcontainer{
+  padding: 30px 5px 5px 5px;
+  border:1px dashed #dfe4ec;
+  position: relative;
+}
+.icon{
+  position: absolute;
+  right: 0px;
+  top: 9px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.name{
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  font-size: 14px;
 }
 </style>
 

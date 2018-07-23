@@ -160,7 +160,7 @@
     mounted () {
         window.tinymce.baseURL = '/static/lib/tinymce'
         window.tinymce.suffix = '.min'
-      this.init()
+        this.init()
     },
     methods: {
        init () {
@@ -217,6 +217,9 @@
               'init', () => {
                 self.loading = false
                 self.$emit('on-ready')
+                if(!self.value){
+                   return; 
+                }
                 editor.setContent(self.value)
               }
             )
@@ -232,3 +235,4 @@
     }
   }
 </script>
+

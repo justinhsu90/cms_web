@@ -6,42 +6,28 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h1>編輯文案</h1>
+    <h3>编辑文案</h3>
     <br>
-    <el-form ref="form" :model="data" label-position="top" v-loading="loading">
-      <el-row :gutter="10">
-        <el-col :span="4">
-       <el-form-item label="Content ID">
-          <el-input  v-model="data.contentId" disabled></el-input>
-       </el-form-item>
-       </el-col>
-        <el-col :span="6">
+    <el-form ref="form" :model="data" label-position="top" v-loading="!loading">
        <el-form-item label="SKU">
-          <el-input  v-model="data.SKU"></el-input>
+          <el-input class="w50" v-model="data.SKU"></el-input>
        </el-form-item>
-       </el-col>
-        <el-col :span="6">
-       <el-form-item label="最後更新時間">
-          <el-input  v-model="data.lastUpdatedTime"></el-input>
-       </el-form-item>
-       </el-col>
-       </el-row>
-       <el-row :gutter="4">
-          <el-col :span="4">
+       <el-row :gutter="20">
+          <el-col :span="8">
             <el-form-item label="帳號">
-               <el-select  clearable  filterable allow-create v-model="data.Account">
+               <el-select  clearable  filterable allow-create v-model="data.Account" >
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="8">
             <el-form-item label="平台">
                <el-select clearable  filterable allow-create v-model="data.Platform">
                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="8">
             <el-form-item label="國家">
                <el-select clearable  filterable allow-create v-model="data.Country">
                <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
@@ -51,7 +37,9 @@
             </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="4">
+       </el-row>
+       <el-row :gutter="20">
+          <el-col :span="8">
             <el-form-item label="語言">
                <el-select clearable  filterable allow-create v-model="data.Language">
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
@@ -61,22 +49,20 @@
             </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="4">
+          <el-col :span="8">
             <el-form-item label="品牌">
                <el-select  clearable  filterable allow-create v-model="data.Brand">
                <el-option v-for="(v,i) in searchBrandOption" :key="'brand'+i" :label="v.brand" :value="v.brand"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="8">
             <el-form-item label="製造商">
                <el-select clearable  filterable allow-create v-model="data.Manufacturer">
                 <el-option v-for="(v,i) in searchManufacturerOption" :key="'mau'+i" :label="v.manufacturer" :value="v.manufacturer"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-       </el-row>
-       <el-row :gutter="10">
           <el-col :span="8">
             <el-form-item label="替換字1">
                <el-input v-model="data.ReplaceWordValue1"></el-input>
@@ -92,7 +78,7 @@
                <el-input v-model="data.ReplaceWordValue3"></el-input>
             </el-form-item>
           </el-col>
-               <el-col :span="8">
+          <el-col :span="8">
             <el-form-item label="ReplaceWordKey1">
                <el-input v-model="data.ReplaceWordKey1"></el-input>
             </el-form-item>
@@ -110,141 +96,128 @@
        </el-row>
        <hr>
        <br>
-       <h2>產品標題</h2>
+       <h3>Title</h3>
        <br>
-       <el-row :gutter="24">
-          <el-col :span="24">
+       <el-row :gutter="20">
+          <el-col :span="8">
               <el-form-item label="產品標題">
                   <el-input v-model="data.Title"></el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="10">
-              <el-form-item label="購物車短標題">
-                  <el-input v-model="data.cartShortTitle"></el-input>
+          <el-col :span="8">
+              <el-form-item label="購物車長標題">
+                  <el-input v-model="data.cartLongTitle"></el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="購物車長標題">
-                  <el-input v-model="data.cartLongTitle"></el-input>
+          <el-col :span="8">
+            <el-form-item label="購物車短標題">
+                  <el-input v-model="data.cartShortTitle"></el-input>
               </el-form-item>
           </el-col>
        </el-row>
        <hr>
        <br>
-       <h2>Bullet Point</h2>
+       <h3>Bullet Point</h3>
        <br>
-       <el-row :gutter="10">
-          <el-col :span="24">
+       <el-row :gutter="20">
+          <el-col :span="8">
             <el-form-item label="Bullet Point 1">
-                  <el-input v-model="data.BulletPoint1"></el-input>
+                  <el-input type=“textarea” v-model="data.BulletPoint1"></el-input>
               </el-form-item>   
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="Bullet Point 2">
                   <el-input v-model="data.BulletPoint2"></el-input>
               </el-form-item>   
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="Bullet Point 3">
                   <el-input v-model="data.BulletPoint3"></el-input>
               </el-form-item>   
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="Bullet Point 4">
                   <el-input v-model="data.BulletPoint4"></el-input>
               </el-form-item>   
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="Bullet Point 5">
                   <el-input v-model="data.BulletPoint5"></el-input>
               </el-form-item>   
           </el-col>
        </el-row>
        <hr>
-       <br>
-       <h2>Description</h2>
-       <br>
-        <el-row :gutter="20">
+       <br> 
+       <h3>Description</h3>
+       <br> 
+         <el-row :gutter="20"> 
           <el-col :span="24">
             <el-form-item label="short Description">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.shortDescription"></el-input> -->
+                <tinymce v-if="loading" v-model="data.shortDescription"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="1">
             <el-form-item label="Description 1">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description1"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="2">
             <el-form-item label="Description 2">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description2"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="3">
             <el-form-item label="Description 3">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description3"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="4">
             <el-form-item label="Description 4">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description4"></tinymce>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
+          <el-col :span="24" key="5">
             <el-form-item label="Description 5">
-                <tinymce></tinymce>
-                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input> -->
+                <tinymce v-if="loading" v-model="data.Description5"></tinymce>
               </el-form-item>   
           </el-col>
        </el-row>
        <hr>
        <br>
-       <h2>關鍵字</h2>
+       <h3>Search Term</h3>
        <br>
        <el-row :gutter="20">
-          <el-col :span="20" >
-            <el-form-item label="關鍵詞 1 (Search Term)">
+          <el-col :span="8" >
+            <el-form-item label="關鍵字 1 (Search Term)">
               <el-input v-model="data.Keyword1"> </el-input>
               </el-form-item>
-            <el-form-item label="關鍵詞 2 (Search Term)">
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="關鍵字 2 (Search Term)">
               <el-input v-model="data.Keyword2"> </el-input>
               </el-form-item>
-            <el-form-item label="關鍵詞 3 (Search Term)">
+          </el-col>
+          <el-col :span="8" >
+            <el-form-item label="關鍵字 3 (Search Term)">
               <el-input v-model="data.Keyword3"> </el-input>
               </el-form-item>
           </el-col>
        </el-row>
        <hr>
        <br>
-       <h2>圖片</h2>
+       <h3>Image</h3>
        <br>
        <el-row>
-          <el-col class="w20 p10">
-              <wonImage name="image1" :value="data.image1" @select="data.image1 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image2" :value="data.image2" @select="data.image2 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image3" :value="data.image3" @select="data.image3 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image4" :value="data.image4" @select="data.image4 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image5" :value="data.image5" @select="data.image5 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image6" :value="data.image6" @select="data.image6 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image7" :value="data.image7" @select="data.image7 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image8" :value="data.image8" @select="data.image8 = arguments[0]"></wonImage>
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image9" :value="data.image9" @select="data.image9 = arguments[0]"></wonImage> 
-          </el-col>
-          <el-col class="w20 p10">
-              <wonImage name="image10" :value="data.image10" @select="data.image10 = arguments[0]"></wonImage>
+        <el-button size="small" type="primary" @click="handleUpload">点击上传</el-button>
+       </el-row>
+       <br>
+       <el-row :gutter="20">
+          <el-col :span="6" v-for="(item,i) in fileList" :key="'img'+i">
+            <div class="imgcontainer"> 
+              <img  width="100%" height="150px"  :src="item.base64" alt="">
+              <i class="icon el-icon-close" @click="handleClose(i)"></i>
+              <span class="name">&nbsp;{{item.name}}</span>
+            </div>
           </el-col>
        </el-row>
        <br>
@@ -257,16 +230,16 @@
         </el-form-item>
         </el-col>
        </el-row>
+       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">编辑</el-button> 
     </el-form> 
-    <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
     </div>         
  </div>     
 </template>
 <script>
-import wonImage from "./wonImage/wonImage";
+import tinymce from '@/common/tinymce'
 export default {
   components: {
-    wonImage
+    tinymce
   },
   data() {
     return {
@@ -277,9 +250,10 @@ export default {
       searchLanguageOption: [],
       searchBrandOption: [],
       searchManufacturerOption: [],
+      fileList: [],
       loading:false,
       data: {
-        contentId:'',
+        ContentId: "NA_test2_test2",
         SKU: "",
         Enable: true,
         Language: "",
@@ -289,16 +263,16 @@ export default {
         Account: "",
         cartLongTitle: "",
         cartShortTitle: "",
-        image1: "",
-        image2: "",
-        image3: "",
-        image4: "",
-        image5: "",
-        image6: "",
-        image7: "",
-        image8: "",
-        image9: "",
-        image10: "",
+        imageName1: "test111",
+        imageName2: "test111",
+        imageName3: "test111",
+        imageName4: "test111",
+        imageName5: "test111",
+        imageName6: "test111",
+        imageName7: "test111",
+        imageName8: "test111",
+        imageName9: "test111",
+        imageName10: "test111",
         BulletPoint1: "",
         BulletPoint2: "",
         BulletPoint3: "",
@@ -323,7 +297,7 @@ export default {
         ReplaceWordValue1: "",
         ReplaceWordValue2: "",
         ReplaceWordValue3: "",
-        version: ""
+        version: "test111"
       }
     };
   },
@@ -370,7 +344,6 @@ export default {
         token: this.token
       }
     });
-    this.loading = true;
     Promise.all([
       account,
       platform,
@@ -386,7 +359,7 @@ export default {
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
       let oldData = JSON.parse(this.$route.query.data);
-      this.loading = false;
+      this.loading = true;
       this.data.Account = oldData.account;
       this.data.Brand = oldData.brand;
       this.data.Language = oldData.language;
@@ -419,26 +392,58 @@ export default {
       this.data.Keyword1 = oldData.keyword1; 
       this.data.Keyword2 = oldData.keyword2; 
       this.data.Keyword3 = oldData.keyword3; 
+      this.data.contentId = oldData.contentId; 
+      this.data.lastUpdatedTime = oldData.lastUpdatedTime;
     });
   },
   methods: {
-    goBack() {
+     goBack() {
       this.$router.push("/documentManage");
+    },
+    handleClose(index){
+      this.fileList.splice(index,1);
+    },
+    handleUpload(){
+      if(this.fileList.length>=10){
+        this.$message.warning('最多上传10张')
+        return
+      }
+      let input = document.createElement('input');
+      input.type = "file";
+      input.click()
+      input.addEventListener('change',()=>{
+        let URL = window.URL || window.webkitURL;
+        var base64 = URL.createObjectURL(input.files[0]);
+        let obj = {
+          name:input.files[0].name+'',
+          base64
+        }
+        this.fileList.push(obj);
+      })
     },
     submit() {
       this.$refs["form"].validate(action => {
         if (action) {
-          let data = [];
-          data.push(_.cloneDeep(this.data));
-
+          this.submitLoading = true;
+          let info = [];
+          _.each(this.fileList,(v,i)=>{
+            this.data['imageName'+(i+1)] = v.name;
+          })
+          info.push(_.cloneDeep(this.data));
+          let obj = {
+            data: info
+          };
           axios({
             url: "/content/add",
             method: "post",
             data: {
-              data: JSON.stringify(data),
+              value: JSON.stringify(obj),
               token: this.token
             }
-          }).then(res => {});
+          }).then(res => {
+            this.submitLoading = true;
+            this.$router.push('/documentManage');
+          });
         }
       });
     }

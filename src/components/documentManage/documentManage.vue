@@ -46,12 +46,8 @@
         <br>
         <el-col>
                <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-<<<<<<< HEAD
-                 <el-table-column min-width="140" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-=======
                  <el-table-column min-width="140" label="最後更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
->>>>>>> c4b0c96174814e2ffbfc0363ece89b2e9714eec2
-                 <el-table-column min-width="71" label="Content ID" prop="contentId"></el-table-column>
+                 <el-table-column min-width="81" label="Content ID" prop="contentId"></el-table-column>
                  <el-table-column min-width="71" label="平台" prop="platform" ></el-table-column>
                  <el-table-column min-width="71" label="語言" prop="language"></el-table-column>
                  <el-table-column min-width="70" label="國家" prop="country"></el-table-column>
