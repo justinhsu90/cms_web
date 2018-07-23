@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="tinymce">
     <textarea :id= "Id"></textarea>
   </div>
 </template>
@@ -235,4 +235,10 @@
     }
   }
 </script>
+<style>
+#tinymce .mce-branding{
+  display: none !important; 
+}
+</style>
+
 
