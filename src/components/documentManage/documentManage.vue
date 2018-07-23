@@ -46,21 +46,21 @@
         <br>
         <el-col>
                <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column min-width="140" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="71" label="contentId" prop="contentId"></el-table-column>
-                 <el-table-column min-width="71" label="platform" prop="platform" ></el-table-column>
-                 <el-table-column min-width="71" label="language" prop="language"></el-table-column>
-                 <el-table-column min-width="70" label="country" prop="country"></el-table-column>
-                 <el-table-column min-width="80" label="account" prop="account"></el-table-column>
-                  <el-table-column min-width="80" label="sku" prop="sku"></el-table-column>
-                  <el-table-column min-width="120" label="title" prop="title"></el-table-column>
-                  <el-table-column min-width="80" label="Enable" prop="enable">
+                 <el-table-column min-width="140" label="最後更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="71" label="Content ID" prop="contentId"></el-table-column>
+                 <el-table-column min-width="71" label="平台" prop="platform" ></el-table-column>
+                 <el-table-column min-width="71" label="語言" prop="language"></el-table-column>
+                 <el-table-column min-width="70" label="國家" prop="country"></el-table-column>
+                 <el-table-column min-width="80" label="帳號" prop="account"></el-table-column>
+                  <el-table-column min-width="80" label="SKU" prop="sku"></el-table-column>
+                  <el-table-column min-width="120" label="產品標題" prop="title"></el-table-column>
+                  <el-table-column min-width="80" label="啟用" prop="enable">
                       <template slot-scope="scope">
                             <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
                             <el-tag  v-else type="info">false</el-tag>
                       </template>
                   </el-table-column>
-                  <el-table-column min-width="80" label="Action" align="center">
+                  <el-table-column min-width="80" label="動作" align="center">
                     <template slot-scope="scope">
                        <el-button type="text" title="编辑" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
                     </template>
