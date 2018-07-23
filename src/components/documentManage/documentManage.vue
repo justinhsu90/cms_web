@@ -2,20 +2,20 @@
     <div>
         <el-row>
         <el-col :span="22">
-        <el-input v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
+        <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
         </el-input>
          <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select v-model="searchAccount" @change="handleCondition('acc')" clearable>
+          <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
          </div>
           <div style="display:inline-block;width:140px">
-          <el-select v-model="searchPlatform" @change="handleCondition('plat')" clearable>
+          <el-select  placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
             </el-select>
          </div>
          <div style="display:inline-block;width:140px">
-          <el-select v-model="searchCountry"  @change="handleCondition('cou')" clearable>
+          <el-select  placeholder="國家" v-model="searchCountry"  @change="handleCondition('cou')" clearable>
                 <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
                    <span style="float: left">{{ v.countryCode }}</span>
                     <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
@@ -23,7 +23,7 @@
             </el-select>
          </div>
          <div style="display:inline-block;width:140px">
-          <el-select v-model="searchLanguage" @change="handleCondition('lang')" clearable> 
+          <el-select placeholder="語言"  v-model="searchLanguage" @change="handleCondition('lang')" clearable> 
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
                   <span style="float: left">{{ v.languageCode }}</span>
                     <span style="float: right; color: #8492a6; font-size: 13px">{{ v.languageName }}</span>
@@ -46,21 +46,21 @@
         <br>
         <el-col>
                <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column min-width="140" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="71" label="contentId" prop="contentId"></el-table-column>
-                 <el-table-column min-width="71" label="platform" prop="platform" ></el-table-column>
-                 <el-table-column min-width="71" label="language" prop="language"></el-table-column>
-                 <el-table-column min-width="70" label="country" prop="country"></el-table-column>
-                 <el-table-column min-width="80" label="account" prop="account"></el-table-column>
-                  <el-table-column min-width="80" label="sku" prop="sku"></el-table-column>
-                  <el-table-column min-width="120" label="title" prop="title"></el-table-column>
-                  <el-table-column min-width="80" label="Enable" prop="enable">
+                 <el-table-column min-width="140" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="71" label="Content ID" prop="contentId"></el-table-column>
+                 <el-table-column min-width="71" label="平台" prop="platform" ></el-table-column>
+                 <el-table-column min-width="71" label="語言" prop="language"></el-table-column>
+                 <el-table-column min-width="70" label="國家" prop="country"></el-table-column>
+                 <el-table-column min-width="80" label="帳號" prop="account"></el-table-column>
+                  <el-table-column min-width="80" label="SKU" prop="sku"></el-table-column>
+                  <el-table-column min-width="120" label="產品標題" prop="title"></el-table-column>
+                  <el-table-column min-width="80" label="啟用" prop="enable">
                       <template slot-scope="scope">
                             <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
                             <el-tag  v-else type="info">false</el-tag>
                       </template>
                   </el-table-column>
-                  <el-table-column min-width="80" label="Action" align="center">
+                  <el-table-column min-width="80" label="動作" align="center">
                     <template slot-scope="scope">
                        <el-button type="text" title="编辑" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
                     </template>

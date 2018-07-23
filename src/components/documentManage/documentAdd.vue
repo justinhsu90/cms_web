@@ -78,6 +78,21 @@
                <el-input v-model="data.ReplaceWordValue3"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordKey1">
+               <el-input v-model="data.ReplaceWordKey1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordKey2">
+               <el-input v-model="data.ReplaceWordKey2"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordKey3">
+               <el-input v-model="data.ReplaceWordKey3"></el-input>
+            </el-form-item>
+          </el-col>
        </el-row>
        <hr>
        <br>
@@ -105,65 +120,71 @@
        <h3>Bullet Point</h3>
        <br>
        <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint1">
-                  <el-input type=“textarea” v-model="data.BulletPoint1"></el-input>
+                  <el-input rows="4" type="textarea" v-model="data.BulletPoint1"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint2">
-                  <el-input v-model="data.BulletPoint2"></el-input>
+                  <el-input rows="4" type="textarea" v-model="data.BulletPoint2"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint3">
-                  <el-input v-model="data.BulletPoint3"></el-input>
+                  <el-input rows="4" type="textarea" v-model="data.BulletPoint3"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint4">
-                  <el-input v-model="data.BulletPoint4"></el-input>
+                  <el-input rows="4" type="textarea" v-model="data.BulletPoint4"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint5">
-                  <el-input v-model="data.BulletPoint5"></el-input>
+                  <el-input rows="4" type="textarea" v-model="data.BulletPoint5"></el-input>
               </el-form-item>   
           </el-col>
        </el-row>
        <hr>
-       <br>
+       <br> 
        <h3>Description</h3>
-       <br>
+       <br> 
          <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="short Description">
-                  <el-input  rows="4" type="textarea" v-model="data.shortDescription"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.shortDescription"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description1">
-                  <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description2">
-                  <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description3">
-                  <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description4">
-                  <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description5">
-                  <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input> -->
               </el-form-item>   
           </el-col>
        </el-row>
@@ -193,7 +214,20 @@
        <h3>Image</h3>
        <br>
        <el-row>
-          <el-col class="w20 p10">
+        <el-upload
+  class="upload-demo"
+  action="https://jsonplaceholder.typicode.com/posts/"
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :before-remove="beforeRemove"
+  multiple
+  :limit="10"
+  :on-exceed="handleExceed"
+  :file-list="fileList">
+  <el-button size="small" type="primary">点击上传</el-button>
+  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
+          <!-- <el-col class="w20 p10">
               <wonImage name="image1" :value="data.imageName1" @select="data.imageName1 = arguments[0]"></wonImage>
           </el-col>
           <el-col class="w20 p10">
@@ -222,7 +256,7 @@
           </el-col>
           <el-col class="w20 p10">
               <wonImage name="image10" :value="data.imageName10" @select="data.imageName10 = arguments[0]"></wonImage>
-          </el-col>
+          </el-col> -->
        </el-row>
        <br>
        <hr>
@@ -241,9 +275,11 @@
 </template>
 <script>
 import wonImage from "./wonImage/wonImage";
+import tinymce from '@/common/tinymce'
 export default {
   components: {
-    wonImage
+    wonImage,
+    tinymce
   },
   watch: {},
   data() {
@@ -255,8 +291,9 @@ export default {
       searchLanguageOption: [],
       searchBrandOption: [],
       searchManufacturerOption: [],
+      fileList: [],
       data: {
-        ContentId:'NA_test2_test2',
+        ContentId: "NA_test2_test2",
         SKU: "",
         Enable: true,
         Language: "",
@@ -270,8 +307,8 @@ export default {
         imageName2: "test111",
         imageName3: "test111",
         imageName4: "test111",
-        imageName5: "test111",        
-        imageName6: "test111",        
+        imageName5: "test111",
+        imageName6: "test111",
         imageName7: "test111",
         imageName8: "test111",
         imageName9: "test111",
@@ -300,7 +337,7 @@ export default {
         ReplaceWordValue1: "",
         ReplaceWordValue2: "",
         ReplaceWordValue3: "",
-        version:"test111",
+        version: "test111"
       }
     };
   },
@@ -367,14 +404,30 @@ export default {
     goBack() {
       this.$router.push("/documentManage");
     },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 10 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+      );
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
     submit() {
       this.$refs["form"].validate(action => {
         if (action) {
           let info = [];
           info.push(_.cloneDeep(this.data));
           let obj = {
-              data:info
-          }  
+            data: info
+          };
           axios({
             url: "/content/add",
             method: "post",

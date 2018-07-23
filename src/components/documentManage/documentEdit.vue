@@ -12,7 +12,7 @@
       <el-row :gutter="20">
         <el-col :span="8">
        <el-form-item label="Content ID">
-          <el-input  v-model="data.contentId"></el-input>
+          <el-input  v-model="data.contentId" disabled></el-input>
        </el-form-item>
        </el-col>
         <el-col :span="8">
@@ -22,7 +22,7 @@
        </el-col>
         <el-col :span="8">
        <el-form-item label="LastUpdatedTime">
-          <el-input  v-model="data.lastUpdatedTime"></el-input>
+          <el-input  v-model="data.lastUpdatedTime" disabled></el-input>
        </el-form-item>
        </el-col>
        </el-row>
@@ -92,6 +92,21 @@
                <el-input v-model="data.ReplaceWordValue3"></el-input>
             </el-form-item>
           </el-col>
+               <el-col :span="8">
+            <el-form-item label="ReplaceWordKey1">
+               <el-input v-model="data.ReplaceWordKey1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordKey2">
+               <el-input v-model="data.ReplaceWordKey2"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="ReplaceWordKey3">
+               <el-input v-model="data.ReplaceWordKey3"></el-input>
+            </el-form-item>
+          </el-col>
        </el-row>
        <hr>
        <br>
@@ -119,29 +134,29 @@
        <h3>Bullet Point</h3>
        <br>
        <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint1">
-                  <el-input type=“textarea” v-model="data.BulletPoint1"></el-input>
+                  <el-input  rows="4" type="textarea" v-model="data.BulletPoint1"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint2">
-                  <el-input v-model="data.BulletPoint2"></el-input>
+                  <el-input   rows="4" type="textarea"  v-model="data.BulletPoint2"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint3">
-                  <el-input v-model="data.BulletPoint3"></el-input>
+                  <el-input   rows="4" type="textarea" v-model="data.BulletPoint3"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint4">
-                  <el-input v-model="data.BulletPoint4"></el-input>
+                  <el-input  rows="4" type="textarea" v-model="data.BulletPoint4"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item label="BulletPoint5">
-                  <el-input v-model="data.BulletPoint5"></el-input>
+                  <el-input   rows="4" type="textarea" v-model="data.BulletPoint5"></el-input>
               </el-form-item>   
           </el-col>
        </el-row>
@@ -149,35 +164,41 @@
        <br>
        <h3>Description</h3>
        <br>
-         <el-row :gutter="20">
+        <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="short Description">
-                  <el-input  rows="4" type="textarea" v-model="data.shortDescription"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.shortDescription"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description1">
-                  <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description2">
-                  <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description3">
-                  <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description4">
-                  <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
             <el-form-item label="Description5">
-                  <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input>
+                <tinymce></tinymce>
+                  <!-- <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input> -->
               </el-form-item>   
           </el-col>
        </el-row>
