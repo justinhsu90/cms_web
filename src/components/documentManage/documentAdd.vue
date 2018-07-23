@@ -14,21 +14,21 @@
        </el-form-item>
        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="Account">
+            <el-form-item label="帳號">
                <el-select  clearable  filterable allow-create v-model="data.Account">
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Platform">
+            <el-form-item label="平台">
                <el-select clearable  filterable allow-create v-model="data.Platform">
                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Country">
+            <el-form-item label="國家">
                <el-select clearable  filterable allow-create v-model="data.Country">
                <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
                    <span style="float: left">{{ v.countryCode }}</span>
@@ -40,7 +40,7 @@
        </el-row>
        <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="Language">
+            <el-form-item label="語言">
                <el-select clearable  filterable allow-create v-model="data.Language">
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
                   <span style="float: left">{{ v.languageCode }}</span>
@@ -50,31 +50,31 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Brand">
+            <el-form-item label="品牌">
                <el-select  clearable  filterable allow-create v-model="data.Brand">
                <el-option v-for="(v,i) in searchBrandOption" :key="'brand'+i" :label="v.brand" :value="v.brand"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Manufacturer">
+            <el-form-item label="製造商">
                <el-select clearable  filterable allow-create v-model="data.Manufacturer">
                 <el-option v-for="(v,i) in searchManufacturerOption" :key="'mau'+i" :label="v.manufacturer" :value="v.manufacturer"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="ReplaceWordValue1">
+            <el-form-item label="替換字1">
                <el-input v-model="data.ReplaceWordValue1"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="ReplaceWordValue2">
+            <el-form-item label="替換字2">
                <el-input v-model="data.ReplaceWordValue2"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="ReplaceWordValue3">
+            <el-form-item label="替換字3">
                <el-input v-model="data.ReplaceWordValue3"></el-input>
             </el-form-item>
           </el-col>
@@ -100,17 +100,17 @@
        <br>
        <el-row :gutter="20">
           <el-col :span="8">
-              <el-form-item label="Title">
+              <el-form-item label="產品標題">
                   <el-input v-model="data.Title"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8">
-              <el-form-item label="cartLongTitle">
+              <el-form-item label="購物車長標題">
                   <el-input v-model="data.cartLongTitle"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="cartShortTitle">
+            <el-form-item label="購物車短標題">
                   <el-input v-model="data.cartShortTitle"></el-input>
               </el-form-item>
           </el-col>
@@ -120,29 +120,29 @@
        <h3>Bullet Point</h3>
        <br>
        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item label="BulletPoint1">
-                  <el-input rows="4" type="textarea" v-model="data.BulletPoint1"></el-input>
+          <el-col :span="8">
+            <el-form-item label="Bullet Point 1">
+                  <el-input type=“textarea” v-model="data.BulletPoint1"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="BulletPoint2">
-                  <el-input rows="4" type="textarea" v-model="data.BulletPoint2"></el-input>
+          <el-col :span="8">
+            <el-form-item label="Bullet Point 2">
+                  <el-input v-model="data.BulletPoint2"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="BulletPoint3">
-                  <el-input rows="4" type="textarea" v-model="data.BulletPoint3"></el-input>
+          <el-col :span="8">
+            <el-form-item label="Bullet Point 3">
+                  <el-input v-model="data.BulletPoint3"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="BulletPoint4">
-                  <el-input rows="4" type="textarea" v-model="data.BulletPoint4"></el-input>
+          <el-col :span="8">
+            <el-form-item label="Bullet Point 4">
+                  <el-input v-model="data.BulletPoint4"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="24">
-            <el-form-item label="BulletPoint5">
-                  <el-input rows="4" type="textarea" v-model="data.BulletPoint5"></el-input>
+          <el-col :span="8">
+            <el-form-item label="Bullet Point 5">
+                  <el-input v-model="data.BulletPoint5"></el-input>
               </el-form-item>   
           </el-col>
        </el-row>
@@ -158,31 +158,31 @@
               </el-form-item>   
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description1">
+            <el-form-item label="Description 1">
                 <tinymce></tinymce>
                   <!-- <el-input  rows="4" type="textarea" v-model="data.Description1"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description2">
+            <el-form-item label="Description 2">
                 <tinymce></tinymce>
                   <!-- <el-input  rows="4" type="textarea" v-model="data.Description2"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description3">
+            <el-form-item label="Description 3">
                 <tinymce></tinymce>
                   <!-- <el-input  rows="4" type="textarea" v-model="data.Description3"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description4">
+            <el-form-item label="Description 4">
                 <tinymce></tinymce>
                   <!-- <el-input  rows="4" type="textarea" v-model="data.Description4"></el-input> -->
               </el-form-item>   
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description5">
+            <el-form-item label="Description 5">
                 <tinymce></tinymce>
                   <!-- <el-input  rows="4" type="textarea" v-model="data.Description5"></el-input> -->
               </el-form-item>   
@@ -194,17 +194,17 @@
        <br>
        <el-row :gutter="20">
           <el-col :span="8" >
-            <el-form-item label="Search Term1">
+            <el-form-item label="關鍵字 1 (Search Term)">
               <el-input v-model="data.Keyword1"> </el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Search Term2">
+            <el-form-item label="關鍵字 2 (Search Term)">
               <el-input v-model="data.Keyword2"> </el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8" >
-            <el-form-item label="Search Term3">
+            <el-form-item label="關鍵字 3 (Search Term)">
               <el-input v-model="data.Keyword3"> </el-input>
               </el-form-item>
           </el-col>
