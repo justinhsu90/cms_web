@@ -34,11 +34,11 @@ export default {
   methods: {
     handleSizeChange(size){
         this.fetchCondition.limit = size;
-        this.fetchTableData();
+        this.handleSearch();
     },
     handleCurrentChange(current){
        this.fetchCondition.skip = current-1; 
-       this.fetchTableData();
+       this.handleSearch();
     },
      handleSortChange(row) {
          
@@ -47,27 +47,27 @@ export default {
       } else {
         this.fetchCondition.order = row.prop;
       }
-      this.fetchTableData();
+      this.handleSearch();
     },
-    fetchTableData() {
-      this.isTableLoading = true;
-      axios({
-        url: this.fetchOption.url,
-        method:this.fetchOption.method,
-        data: {
-          where: this.fetchOption.where,
-          token: this.token,
-          skip:  this.fetchCondition.skip,
-          limit: this.fetchCondition.limit,
-          order: this.fetchCondition.order
-        }
-      }).then((res) => {
-        this.isTableLoading = false;
-        this.tableData = this.loadsh.cloneDeep(res.data);
-        this.total = res.count;
-        
-      });
-    }
+    // fetchTableData() {
+    //   this.isTableLoading = true;
+    //   axios({
+    //     url: this.fetchOption.url,
+    //     method:this.fetchOption.method,
+    //     data: {
+    //       where: this.fetchOption.where,
+    //       token: this.token,
+    //       skip:  this.fetchCondition.skip,
+    //       limit: this.fetchCondition.limit,
+    //       order: this.fetchCondition.order
+    //     }
+    //   }).then((res) => {
+    //     this.isTableLoading = false;
+    //     this.tableData = this.loadsh.cloneDeep(res.data);
+    //     this.total = res.count;
+
+    //   });
+    // }
   }
 };
 </script>
