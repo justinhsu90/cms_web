@@ -136,7 +136,7 @@
         default: () => {
           return {
             theme: 'modern',
-            height: 300
+            height: 120
           }
         }
       },
