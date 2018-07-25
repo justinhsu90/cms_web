@@ -6,28 +6,48 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h3>编辑文案</h3>
-    <br>
+    <h2>編輯文案</h2>
+    <br> 
     <el-form ref="form" :model="data" label-position="top" v-loading="!loading">
-       <el-form-item label="SKU">
-          <el-input class="w50" v-model="data.SKU"></el-input>
-       </el-form-item>
+      <el-row :gutter="20"> 
+        <el-col :span="4">
+          <el-form-item label="Content ID">
+            <el-input v-model="data.contentId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item label="SKU">
+            <el-input v-model="data.SKU"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item label="最後更新時間">
+            <el-input v-model="data.lastUpdatedTime"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          
+          <el-form-item label="啟用">
+            <el-input v-model="data.Enable"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
        <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="3">
             <el-form-item label="帳號">
                <el-select  clearable  filterable allow-create v-model="data.Account" >
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="3">
             <el-form-item label="平台">
                <el-select clearable  filterable allow-create v-model="data.Platform">
                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="3">
             <el-form-item label="國家">
                <el-select clearable  filterable allow-create v-model="data.Country">
                <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
@@ -37,9 +57,7 @@
             </el-select>
             </el-form-item>
           </el-col>
-       </el-row>
-       <el-row :gutter="20">
-          <el-col :span="8">
+           <el-col :span="4">
             <el-form-item label="語言">
                <el-select clearable  filterable allow-create v-model="data.Language">
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
@@ -49,98 +67,104 @@
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+           <el-col :span="3">
             <el-form-item label="品牌">
                <el-select  clearable  filterable allow-create v-model="data.Brand">
                <el-option v-for="(v,i) in searchBrandOption" :key="'brand'+i" :label="v.brand" :value="v.brand"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="3">
             <el-form-item label="製造商">
                <el-select clearable  filterable allow-create v-model="data.Manufacturer">
                 <el-option v-for="(v,i) in searchManufacturerOption" :key="'mau'+i" :label="v.manufacturer" :value="v.manufacturer"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="替換字1">
+       </el-row>
+       <el-row :gutter="20">
+          <el-col :span="4">
+            <el-form-item label="替換值 1">
                <el-input v-model="data.ReplaceWordValue1"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="替換字2">
-               <el-input v-model="data.ReplaceWordValue2"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="替換字3">
-               <el-input v-model="data.ReplaceWordValue3"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="ReplaceWordKey1">
+          <el-col :span="6">
+              <el-form-item label="替換字 1">
                <el-input v-model="data.ReplaceWordKey1"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="ReplaceWordKey2">
+       </el-row>
+        <el-row :gutter="20">
+          <el-col :span="4">
+              <el-form-item label="替換值 2">
                <el-input v-model="data.ReplaceWordKey2"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="ReplaceWordKey3">
+          <el-col :span="6">
+            <el-form-item label="替換字 2">
+               <el-input v-model="data.ReplaceWordValue2"></el-input>
+            </el-form-item>
+          </el-col>
+           </el-row>
+        <el-row :gutter="20">
+          <el-col :span="4">
+          <el-form-item label="替換值 2">
+               <el-input v-model="data.ReplaceWordValue3"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="替換字 3">
                <el-input v-model="data.ReplaceWordKey3"></el-input>
             </el-form-item>
           </el-col>
        </el-row>
        <hr>
        <br>
-       <h3>Title</h3>
+       <h2>標題</h2>
        <br>
        <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="20">
               <el-form-item label="產品標題">
                   <el-input v-model="data.Title"></el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8">
-              <el-form-item label="購物車長標題">
-                  <el-input v-model="data.cartLongTitle"></el-input>
+             <el-form-item label="購物車短標題">
+                  <el-input v-model="data.cartShortTitle"></el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="購物車短標題">
-                  <el-input v-model="data.cartShortTitle"></el-input>
+          <el-col :span="12">
+             <el-form-item label="購物車長標題">
+                  <el-input v-model="data.cartLongTitle"></el-input>
               </el-form-item>
           </el-col>
        </el-row>
        <hr>
        <br>
-       <h3>Bullet Point</h3>
+       <h2>Bullet Point</h2>
        <br>
        <el-row :gutter="20">
-          <el-col :span="8">
+          <el-col :span="20">
             <el-form-item label="Bullet Point 1">
-                  <el-input type=“textarea” v-model="data.BulletPoint1"></el-input>
+                  <el-input v-model="data.BulletPoint1"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="20">
             <el-form-item label="Bullet Point 2">
                   <el-input v-model="data.BulletPoint2"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="20">
             <el-form-item label="Bullet Point 3">
                   <el-input v-model="data.BulletPoint3"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="20">
             <el-form-item label="Bullet Point 4">
                   <el-input v-model="data.BulletPoint4"></el-input>
               </el-form-item>   
           </el-col>
-          <el-col :span="8">
+          <el-col :span="20">
             <el-form-item label="Bullet Point 5">
                   <el-input v-model="data.BulletPoint5"></el-input>
               </el-form-item>   
@@ -148,7 +172,7 @@
        </el-row>
        <hr>
        <br> 
-       <h3>Description</h3>
+       <h2>Description</h2>
        <br> 
          <el-row :gutter="20"> 
           <el-col :span="24">
@@ -184,7 +208,7 @@
        </el-row>
        <hr>
        <br>
-       <h3>Search Term</h3>
+       <h2>關鍵字</h2>
        <br>
        <el-row :gutter="20">
           <el-col :span="8" >
@@ -205,14 +229,14 @@
        </el-row>
        <hr>
        <br>
-       <h3>Image</h3>
+       <h2>圖片</h2>
        <br>
        <el-row>
         <el-button size="small" type="primary" @click="handleUpload">点击上传</el-button>
        </el-row>
        <br>
        <el-row :gutter="20">
-          <el-col :span="6" v-for="(item,i) in fileList" :key="'img'+i">
+          <el-col :span="4" v-for="(item,i) in fileList" :key="'img'+i">
             <div class="imgcontainer"> 
               <img  width="100%" height="150px"  :src="item.base64" alt="">
               <i class="icon el-icon-close" @click="handleClose(i)"></i>

@@ -46,23 +46,24 @@
         <br>
         <el-col>
                <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column min-width="140" label="最後更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="81" label="Content ID" prop="contentId"></el-table-column>
-                 <el-table-column min-width="71" label="平台" prop="platform" ></el-table-column>
-                 <el-table-column min-width="71" label="語言" prop="language"></el-table-column>
-                 <el-table-column min-width="70" label="國家" prop="country"></el-table-column>
-                 <el-table-column min-width="80" label="帳號" prop="account"></el-table-column>
+                 <el-table-column  min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="100" label="Content ID" prop="contentId"></el-table-column>
+                 <el-table-column min-width="75" label="平台" prop="platform" ></el-table-column>
+                 <el-table-column min-width="75" label="語言" prop="language"></el-table-column>
+                 <el-table-column min-width="60" label="國家" prop="country"></el-table-column>
+                 <el-table-column min-width="90" label="帳號" prop="account"></el-table-column>
                   <el-table-column min-width="80" label="SKU" prop="sku"></el-table-column>
-                  <el-table-column min-width="120" label="產品標題" prop="title"></el-table-column>
-                  <el-table-column min-width="80" label="啟用" prop="enable">
+                  <el-table-column min-width="160" label="產品標題" prop="title"></el-table-column>
+                  <el-table-column min-width="60" label="啟用" prop="enable">
                       <template slot-scope="scope">
                             <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
                             <el-tag  v-else type="info">false</el-tag>
                       </template>
                   </el-table-column>
-                  <el-table-column min-width="80" label="動作" align="center">
+                  <el-table-column min-width="50" label="動作" align="center">
                     <template slot-scope="scope">
-                       <el-button type="text" title="编辑" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                       <el-button type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                       <el-button type="text" title="複製" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
                     </template>
                   </el-table-column>
         </el-table> 
