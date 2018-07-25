@@ -182,9 +182,11 @@
               </el-form-item>   
           </el-col>
           <el-col :span="24">
+                <el-button  type="success" @click="showDialog">预览</el-button>
                 
           </el-col>
        </el-row>
+       <br>
        <hr>
        <br>
        <h3>Search Term</h3>
@@ -366,6 +368,9 @@ export default {
     });
   },
   methods: {
+    showDialog(){
+
+    },
     goBack() {
       this.$router.push("/documentManage");
     },
