@@ -20,10 +20,10 @@ export default {
          layout:'total, sizes, prev, pager, next, jumper'
       }
   }, 
-  created(){
-    this.maxHeight = document.scrollingElement.clientHeight / 1.7;
+  mounted(){
+    this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 92;
     window.addEventListener('resize',()=>{
-      this.maxHeight = document.scrollingElement.clientHeight / 1.7;
+      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 92;
     })
   },
   watch:{

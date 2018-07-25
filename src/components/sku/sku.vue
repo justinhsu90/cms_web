@@ -30,7 +30,7 @@
         <br>
         <br>
         <el-col>
-               <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
+               <el-table  ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column sortable="custom"   label="Product Name" prop="productName"  min-width="180"></el-table-column>  
                  <el-table-column sortable="custom"   min-width="80" label="SKU" prop="sku"></el-table-column>
                 <el-table-column  sortable="custom"   min-width="80"  label="New SKU" prop="newSKU"></el-table-column>
@@ -140,7 +140,6 @@ export default {
       value: "",
       tableData: [],
       isTableLoading: false,
-      maxHeight: "",
       showDialog: false,
       title: "新增",
       row: [],

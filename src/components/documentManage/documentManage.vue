@@ -45,7 +45,7 @@
         <br>
         <br>
         <el-col>
-               <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
+               <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column  min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
                  <el-table-column min-width="100" label="Content ID" prop="contentId"></el-table-column>
                  <el-table-column min-width="75" label="平台" prop="platform" ></el-table-column>
@@ -94,7 +94,6 @@ export default {
       tableData: [],
       condition:[],
       isTableLoading: false,
-      maxHeight: "",
       searchAccount:'',
       searchAccountOption:[],
       searchPlatform:'',

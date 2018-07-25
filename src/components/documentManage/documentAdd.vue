@@ -1,6 +1,6 @@
 <template>
-<div>
-    <div id="edit" style="padding:20px"> 
+<div id="edit">
+    <div style="padding:20px"> 
     <div class="heade">
       <i class="el-icon-arrow-left"></i>
       <a href="javascript:void(0)" @click="goBack">返回</a>
@@ -8,37 +8,46 @@
     <br>
     <h2>新增文案</h2>
     <br> 
-    <el-form ref="form" :model="data" label-position="top" v-loading="!loading">
+    <el-form ref="form" :model="data" label-position="top"   v-loading="!loading">
       <el-row :gutter="20"> 
-        <el-col :span="5">
-          <el-form-item label="SKU">
+        <el-col :span="12">
+          <el-form-item label="SKU" class="el-form-left">
             <el-input v-model="data.SKU"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
-          
-          <el-form-item label="啟用">
-            <el-input v-model="data.Enable"></el-input>
+        <el-col :span="12">
+          <el-form-item label="啟用" class="el-form-left">
+            <el-switch style="margin-top:9px" v-model="data.Enable"></el-switch>
           </el-form-item>
         </el-col>
       </el-row>
        <el-row :gutter="20">
-          <el-col :span="3">
-            <el-form-item label="帳號">
+          <el-col :span="12">
+            <el-form-item label="帳號" class="el-form-left">
                <el-select  clearable  filterable allow-create v-model="data.Account" >
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
-            <el-form-item label="平台">
+          <el-col :span="12">
+            <el-form-item label="替换字1" class="el-form-left">
+                <el-input v-model="data.ReplaceWordValue1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="平台" class="el-form-left">
                <el-select clearable  filterable allow-create v-model="data.Platform">
                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
-            <el-form-item label="國家">
+          <el-col :span="12">
+            <el-form-item label="替換值 1" class="el-form-left">
+               <el-input v-model="data.ReplaceWordKey1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="國家" class="el-form-left"> 
                <el-select clearable  filterable allow-create v-model="data.Country">
                <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
                    <span style="float: left">{{ v.countryCode }}</span>
@@ -47,8 +56,13 @@
             </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="4">
-            <el-form-item label="語言">
+          <el-col :span="12">
+              <el-form-item label="替換字 2" class="el-form-left">
+               <el-input v-model="data.ReplaceWordValue2"></el-input>
+            </el-form-item>
+          </el-col>
+           <el-col :span="12">
+            <el-form-item label="語言" class="el-form-left">
                <el-select clearable  filterable allow-create v-model="data.Language">
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
                   <span style="float: left">{{ v.languageCode }}</span>
@@ -57,54 +71,33 @@
             </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="3">
-            <el-form-item label="品牌">
+          <el-col :span="12">
+              <el-form-item label="替換值 2" class="el-form-left">
+               <el-input v-model="data.ReplaceWordKey2"></el-input>
+            </el-form-item>
+          </el-col>
+           <el-col :span="12">
+            <el-form-item label="品牌" class="el-form-left">
                <el-select  clearable  filterable allow-create v-model="data.Brand">
                <el-option v-for="(v,i) in searchBrandOption" :key="'brand'+i" :label="v.brand" :value="v.brand"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
-            <el-form-item label="製造商">
+          <el-col :span="12">
+            <el-form-item label="替換字 3" class="el-form-left">
+               <el-input v-model="data.ReplaceWordValue3"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="製造商" class="el-form-left">
                <el-select clearable  filterable allow-create v-model="data.Manufacturer">
                 <el-option v-for="(v,i) in searchManufacturerOption" :key="'mau'+i" :label="v.manufacturer" :value="v.manufacturer"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-       </el-row>
-       <el-row :gutter="20">
-          <el-col :span="4">
-            <el-form-item label="替換值 1">
-               <el-input v-model="data.ReplaceWordValue1"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-              <el-form-item label="替換字 1">
-               <el-input v-model="data.ReplaceWordKey1"></el-input>
-            </el-form-item>
-          </el-col>
-       </el-row>
-        <el-row :gutter="20">
-          <el-col :span="4">
-              <el-form-item label="替換值 2">
-               <el-input v-model="data.ReplaceWordKey2"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="替換字 2">
-               <el-input v-model="data.ReplaceWordValue2"></el-input>
-            </el-form-item>
-          </el-col>
-           </el-row>
-        <el-row :gutter="20">
-          <el-col :span="4">
-          <el-form-item label="替換值 2">
+          <el-col :span="12">
+          <el-form-item label="替換值 3" class="el-form-left">
                <el-input v-model="data.ReplaceWordValue3"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="替換字 3">
-               <el-input v-model="data.ReplaceWordKey3"></el-input>
             </el-form-item>
           </el-col>
        </el-row>
@@ -251,7 +244,7 @@
  </div>     
 </template>
 <script>
-import tinymce from '@/common/tinymce'
+import tinymce from "@/common/tinymce";
 export default {
   components: {
     tinymce
@@ -267,7 +260,7 @@ export default {
       searchBrandOption: [],
       searchManufacturerOption: [],
       fileList: [],
-      loading:false,
+      loading: false,
       data: {
         ContentId: "NA_test2_test2",
         SKU: "",
@@ -378,41 +371,39 @@ export default {
     });
   },
   methods: {
-    showDialog(){
-
-    },
+    showDialog() {},
     goBack() {
       this.$router.push("/documentManage");
     },
-    handleClose(index){
-      this.fileList.splice(index,1);
+    handleClose(index) {
+      this.fileList.splice(index, 1);
     },
-    handleUpload(){
-      if(this.fileList.length>=10){
-        this.$message.warning('最多上传10张')
-        return
+    handleUpload() {
+      if (this.fileList.length >= 10) {
+        this.$message.warning("最多上传10张");
+        return;
       }
-      let input = document.createElement('input');
+      let input = document.createElement("input");
       input.type = "file";
-      input.click()
-      input.addEventListener('change',()=>{
+      input.click();
+      input.addEventListener("change", () => {
         let URL = window.URL || window.webkitURL;
         var base64 = URL.createObjectURL(input.files[0]);
         let obj = {
-          name:input.files[0].name+'',
+          name: input.files[0].name + "",
           base64
-        }
+        };
         this.fileList.push(obj);
-      })
+      });
     },
     submit() {
       this.$refs["form"].validate(action => {
         if (action) {
           this.submitLoading = true;
           let info = [];
-          _.each(this.fileList,(v,i)=>{
-            this.data['imageName'+(i+1)] = v.name;
-          })
+          _.each(this.fileList, (v, i) => {
+            this.data["imageName" + (i + 1)] = v.name;
+          });
           info.push(_.cloneDeep(this.data));
           let obj = {
             data: info
@@ -426,7 +417,7 @@ export default {
             }
           }).then(res => {
             this.submitLoading = true;
-            this.$router.push('/documentManage');
+            this.$router.push("/documentManage");
           });
         }
       });
@@ -434,7 +425,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss">
 #edit .heade {
   font-size: 16px;
   color: #45a2ff;
@@ -442,37 +433,48 @@ export default {
 #edit .heade a {
   color: #45a2ff;
 }
-.w50 {
-  width: 50%;
-}
-.w20 {
-  width: 20%;
-}
-.p10 {
-  padding: 10px !important;
-}
-hr {
-  border: none;
-  border-top: 1px solid #dfe4ec;
-}
-.imgcontainer{
-  padding: 30px 5px 5px 5px;
-  border:1px dashed #dfe4ec;
-  position: relative;
-}
-.icon{
-  position: absolute;
-  right: 0px;
-  top: 9px;
-  font-size: 14px;
-  cursor: pointer;
-}
-.name{
-  position: absolute;
-  left: 0px;
-  top: 4px;
-  font-size: 14px;
-}
+#edit{
+ .w50 {
+    width: 50%;
+  }
+  .w20 {
+    width: 20%;
+  }
+  .p10 {
+    padding: 10px !important;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #dfe4ec;
+  }
+  .imgcontainer {
+    padding: 30px 5px 5px 5px;
+    border: 1px dashed #dfe4ec;
+    position: relative;
+  }
+  .icon {
+    position: absolute;
+    right: 0px;
+    top: 9px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .name {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    font-size: 14px;
+  }
+  .el-form-left {
+    & div:nth-child(1) {
+      float: left;
+      margin-right: 10px;
+    }
+    .el-form-item__content {
+      overflow: hidden;
+    }
+  }
+ } 
 </style>
 
 

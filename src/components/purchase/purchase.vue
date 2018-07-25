@@ -117,7 +117,6 @@ export default {
       remarkShow: false,
       tableData: [],
       isTableLoading: false,
-      maxHeight: "",
       showDialog: false,
       title: "添加",
       row: [],
@@ -135,7 +134,6 @@ export default {
     };
   },
   created() {
-    this.maxHeight = document.scrollingElement.clientHeight / 1.5;
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
   },
