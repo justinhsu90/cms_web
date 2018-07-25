@@ -136,7 +136,7 @@
        <el-row :gutter="20">
           <el-col :span="20">
             <el-form-item label="Bullet Point 1">
-                  <el-input type=“textarea” v-model="data.BulletPoint1"></el-input>
+                  <el-input v-model="data.BulletPoint1"></el-input>
               </el-form-item>   
           </el-col>
           <el-col :span="20">

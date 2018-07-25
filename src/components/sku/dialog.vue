@@ -41,14 +41,14 @@
        <el-checkbox  v-if="title=='編輯'" v-model="trueProductName"></el-checkbox>
         <el-input v-model="form.productName" style="width:50%"></el-input> 
      </el-form-item>
-     <el-form-item label="图片"  prop="image" :show-message="showMessage">
+     <el-form-item label="圖片"  prop="image" :show-message="showMessage">
            <el-checkbox  v-if="title=='編輯'" v-model="imageStatus"></el-checkbox>
                    <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
                     <img v-if="form.image" :src="form.image" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
      </el-form-item>
- <el-form-item  label="状态："  prop="status" class="inline">
+ <el-form-item  label="狀態："  prop="status" class="inline">
             <el-checkbox v-if="title=='編輯'" v-model="trueStatus"></el-checkbox>
             <el-input  v-model="form.status" style="width:50%"></el-input> 
      </el-form-item>         
@@ -131,7 +131,7 @@
     <el-button size="mini" type="text" @click="popoverCancel">取消</el-button>
     <el-button type="primary" size="mini" @click="popoverConfirm">確定</el-button>
   </div>
-  <el-button type="primary" slot="reference" :loading="isLoading" @click="handleConfirm">確 定</el-button>
+  <el-button type="primary" slot="reference" :loading="isLoading" @click="handleConfirm">確定</el-button>
 </el-popover>
   </span>
   </el-dialog>
@@ -443,12 +443,12 @@ export default {
               if(request.readyState==4&&request.status==200){
                   this.isLoading = false;
                   this.$emit("showDailog", false); 
-                  this.$message.success('添加成功')
+                  this.$message.success('新增成功')
               }
               if(request.status!=200){
                     this.isLoading = false;
               this.$emit("showDailog", false);
-              this.$message.warning('添加失敗')
+              this.$message.warning('新增失敗')
               }
             }
           }

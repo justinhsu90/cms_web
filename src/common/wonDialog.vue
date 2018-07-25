@@ -7,7 +7,7 @@
 export default {
     props:{
         title:{
-            default:'编辑'
+            default:'編輯'
         },
         data:{
             default:[]

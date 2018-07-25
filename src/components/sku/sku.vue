@@ -142,7 +142,7 @@ export default {
       isTableLoading: false,
       maxHeight: "",
       showDialog: false,
-      title: "添加",
+      title: "新增",
       row: [],
       dialogTableVisible: false,
       fetchCondition: {
@@ -184,7 +184,7 @@ export default {
     }, 500),
     handleAdd() {
       this.showDialog = true;
-      this.title = "添加";
+      this.title = "新增";
     },
     handleShow() {
       this.showDialog = false;

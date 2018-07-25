@@ -50,7 +50,7 @@
         </el-row>
         <br>
         <el-form-item label="">
-            <el-button type="primary" @click="handleAdd" v-if="!formData">添加產品</el-button>
+            <el-button type="primary" @click="handleAdd" v-if="!formData">新增產品</el-button>
         </el-form-item>
   <el-row :gutter="12">
           <el-col :span="8">
@@ -396,7 +396,7 @@ export default {
               if (this.$route.params.id == "edit") {
                 this.$message.success("編輯成功");
               } else {
-                this.$message.success("添加成功");
+                this.$message.success("新增成功");
               }
               this.$router.push("/purchase");
               this.submitLoading = false;
@@ -406,7 +406,7 @@ export default {
               if (this.$route.params.id == "edit") {
                 this.$message.error("編輯失敗");
               } else {
-                this.$message.success("添加失敗");
+                this.$message.success("新增失敗");
               }
             });
         } else {
