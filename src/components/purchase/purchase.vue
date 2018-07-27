@@ -31,7 +31,7 @@
         <br>
         <br>
         <el-col>
-               <el-table  :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
+               <el-table  ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                 <el-table-column    label="狀態" prop="status" min-width="150"></el-table-column>  
                 <el-table-column    min-width="150" label="建單時間" prop="addedTime"></el-table-column>
                 <el-table-column     min-width="100"  label="採購單號" prop="purchaseId" sortable="custom"></el-table-column>
@@ -80,8 +80,7 @@
                </el-table-column>
         </el-table>
         </el-col>
-        </el-row>
-        <br>
+        </el-row>        
         <el-row>
           <el-col>
      <div style="float:right">
@@ -110,6 +109,7 @@ export default {
   data() {
     return {
       record: [],
+      maxHeight: 450,
       exploreShow: false,
       peopleShow: false,
       treasureShow: false,
@@ -136,6 +136,12 @@ export default {
   created() {
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
+  },
+  mounted(){
+ this.$nextTick(()=>{
+      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 52;
+      this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
+    })
   },
   methods: {
     handleSearch:_.debounce(function(){

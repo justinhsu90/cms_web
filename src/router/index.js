@@ -57,13 +57,13 @@ let router = new VueRouter({
                 component:documentManage
             },        
             {   name:'documentEdit',
-                path:'/documentAdd',
+                path:'/documentEdit',
                 component:documentEdit
             },
-            // {   name:'documentAdd',
-            //     path:'/documentAdd',
-            //     component:documentAdd
-            // },        
+            {   name:'documentAdd',
+                path:'/documentAdd',
+                component:documentAdd
+            },        
         ]
     },
     {

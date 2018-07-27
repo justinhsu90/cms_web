@@ -6,16 +6,16 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>編輯文案</h2>
+    <h2>{{!type?'增加':'编辑'}}文案</h2>
     <br> 
     <el-form ref="form" :model="data" label-position="top"   v-loading="!loading">
       <el-row :gutter="20"> 
         <el-col :span="12">
-          <el-form-item label="Content ID" class="el-form-left">
+          <el-form-item label="Content ID" class="el-form-left" v-if="type"> 
             <el-input  disabled v-model="data.contentId"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12" class="el-form-left">
+        <el-col :span="12" class="el-form-left" v-if="type">
           <el-form-item label="最後更新時間">
             <el-input disabled v-model="data.lastUpdatedTime"></el-input>
           </el-form-item>
@@ -229,11 +229,15 @@
        </el-row>
        <br>
        <el-row :gutter="20">
-          <el-col :span="4" v-for="(item,i) in fileList" :key="'img'+i">
+          <el-col :span="8" v-for="(item,i) in fileList" :key="'img'+i">
             <div class="imgcontainer"> 
-              <img  width="100%" height="150px"  :src="item.base64" alt="">
+              <div style="height:190px">
+              <img  style="max-height:190px;" width="60%" :src="item.base64" alt="">
+              </div>
+              <div>
               <i class="icon el-icon-close" @click="handleClose(i)"></i>
               <span class="name">&nbsp;{{item.name}}</span>
+              </div>
             </div>
           </el-col>
        </el-row>
@@ -247,7 +251,7 @@
         </el-form-item>
         </el-col>
        </el-row>
-       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">编辑</el-button> 
+       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">{{!type?'增加':'编辑'}}</el-button> 
     </el-form> 
     </div>         
  </div>     
@@ -269,6 +273,7 @@ export default {
       searchManufacturerOption: [],
       fileList: [],
       loading:false,
+      type:true,
       data: {
         ContentId: "NA_test2_test2",
         SKU: "",
@@ -319,6 +324,9 @@ export default {
     };
   },
   created() {
+    if(this.$route.query.type == "copy"){
+      this.type = false;
+    }
     let account = axios({
       url: "/content/value/account",
       method: "post",
@@ -491,21 +499,26 @@ export default {
     border-top: 1px solid #dfe4ec;
   }
   .imgcontainer {
-    padding: 30px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
     border: 1px dashed #dfe4ec;
     position: relative;
+    text-align: center;
+    height: 240px;
+    & div{
+      margin-top: 15px; 
+    }
+    & div:after{
+      content: '';
+      display: block;
+      clear: both;
+    }
   }
   .icon {
-    position: absolute;
-    right: 0px;
-    top: 9px;
-    font-size: 14px;
+    float: right;;
     cursor: pointer;
   }
   .name {
-    position: absolute;
-    left: 0px;
-    top: 4px;
+    float: left;
     font-size: 14px;
   }
   .el-form-left {

@@ -10,7 +10,7 @@
         <br>
         <br>
         <el-col>
-               <el-table ref="wonTable"   :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
+               <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column min-width="80" label="addressLine1" prop="addressLine1"></el-table-column>
                  <el-table-column min-width="80" label="addressLine2" prop="addressLine2"></el-table-column>
                  <el-table-column min-width="80" label="agent" prop="agent" sortable="custom"></el-table-column>
@@ -71,6 +71,7 @@ export default {
   data() {
     return {   
       tableData: [], 
+      maxHeight: 450,
       isTableLoading: false,
       fetchCondition: {
         skip: 0,
@@ -86,6 +87,12 @@ export default {
   },
   created() {
     this.handleSearch();
+  },
+  mounted(){
+ this.$nextTick(()=>{
+      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 52;
+      this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
+    })
   },
   methods: {
       handleSearch:_.debounce(function(){

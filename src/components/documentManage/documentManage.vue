@@ -60,10 +60,10 @@
                             <el-tag  v-else type="info">false</el-tag>
                       </template>
                   </el-table-column>
-                  <el-table-column min-width="50" label="動作" align="center">
+                  <el-table-column width="80" label="動作" align="center">
                     <template slot-scope="scope">
-                       <el-button type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
-                       <el-button type="text" title="複製" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                       <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+                       <el-button type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
                     </template>
                   </el-table-column>
         </el-table> 
@@ -92,6 +92,7 @@ export default {
   data() {
     return {
       tableData: [],
+      maxHeight: 450,
       condition:[],
       isTableLoading: false,
       searchAccount:'',
@@ -113,6 +114,12 @@ export default {
         where:""
       },
     };
+  },
+  mounted(){
+ this.$nextTick(()=>{
+      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 52;
+      this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
+    })
   },
   created() {
     let account = axios({
@@ -189,6 +196,12 @@ export default {
       this.$router.push({
         name: "documentEdit",
         query: { data: JSON.stringify(val) },
+      });
+    },
+    handleCopy(val){
+      this.$router.push({
+        name: "documentEdit",
+        query: { data: JSON.stringify(val),type:'copy'},
       });
     },
     handleAdd(){

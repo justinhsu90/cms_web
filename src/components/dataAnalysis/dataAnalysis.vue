@@ -175,7 +175,8 @@
 import { format } from "../../common/until/format";
 export default {
   data: () => ({
-    parcelCount: {},
+    parcelCount: {
+    },
     MarginTarget: {},
     performance: [],
     productPerformance: [],
