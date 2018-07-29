@@ -6,56 +6,68 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>新增採購需求單</h2>
+    <h2>新增採購需求單</h2>      
+    <br>
+       <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
+    <br>
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
-      <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-      <div slot="header" class="clearfix">
-        <span>{{i+1}}</span>
-        <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-      </div>
+      <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
+        <el-button disabled style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+
         <el-row :gutter="20">
-            <el-col :span="12">
+           <el-col :span="2">
+              <el-form-item label="序號">
+                <span>{{i+1}}</span>
+              </el-form-item>
+            </el-col>
+          
+             <el-col :span="3">
+              <el-form-item label="需採購數量">
+              <el-input v-model="v.queryQuantity"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="採購類型">
+              <el-select  placeholder="類型"  clearable>
+            </el-select>
+            </el-form-item>
+            </el-col>
+             <el-col :span="5">
               <el-form-item label="SKU">
               <el-input v-model="v.SKU"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="sku">
-              <el-input v-model="v.sku"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="productName">
+            <el-col :span="10">
+              <el-form-item label="產品名稱">
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="productSpec">
+            <el-col :span="9">
+              <el-form-item label="產品規格">
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="queryQuantity">
-              <el-input v-model="v.queryQuantity"></el-input>
+            <el-col :span="10">
+              <el-form-item label="備註">
+              <el-input v-model="v.note" type="textarea" rows="1"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="isPurchased">
+             <el-col :span="2">
+              <el-form-item label="已購買">
               <el-switch v-model="v.isPurchased"></el-switch>
               </el-form-item>
             </el-col>
-            <el-col :span="24">
-              <el-form-item label="備註">
-              <el-input v-model="v.note" type="textarea" rows="4"></el-input>
+            <!-- <el-col :span="1">
+              <el-form-item label="刪除">
+                    <el-button style="float: right; padding: 15px" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
               </el-form-item>
-            </el-col>
+            </el-col> -->
+
+
         </el-row>
       </el-card>
-      <br>
-        <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
-      <br>
-      <br>
+   
        <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
     </el-form> 
     </div>         

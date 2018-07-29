@@ -214,7 +214,7 @@
           </el-col>
        </el-row>
        <el-row>
-        <el-button size="small" type="success" @click="handlePreview">点击预览</el-button>
+        <el-button size="small" type="success" @click="handlePreview">點擊預覽</el-button>
        </el-row>
        <br>
        <hr>
@@ -243,7 +243,7 @@
        <h2>圖片</h2>
        <br>
        <el-row>
-        <el-button size="small" type="success" @click="handleUpload">点击上传</el-button>
+        <el-button size="small" type="success" @click="handleUpload">點擊上傳</el-button>
        </el-row>
        <br>
        <el-row :gutter="20">
@@ -420,7 +420,7 @@ export default {
     },
     handleUpload() {
       if (this.fileList.length >= 10) {
-        this.$message.warning("最多上传10张");
+        this.$message.warning("做多上傳10張");
         return;
       }
       let input = document.createElement("input");
