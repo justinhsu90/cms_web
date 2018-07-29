@@ -97,7 +97,7 @@
           </el-col>
           <el-col :span="12">
           <el-form-item label="替換值 3" class="el-form-left">
-               <el-input v-model="data.ReplaceWordValue3"></el-input>
+               <el-input v-model="data.ReplaceWordKey3"></el-input>
             </el-form-item>
           </el-col>
        </el-row>
@@ -159,35 +159,62 @@
        <br> 
          <el-row :gutter="20"> 
           <el-col :span="24">
-            <el-form-item label="short Description">
+            <el-form-item  class="label" label="short Description">
+              <template slot="label">
+                  <span>short Description</span>
+                  <span style="float:right">{{data.shortDescription.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.shortDescription"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="1">
-            <el-form-item label="Description 1">
+            <el-form-item class="label" label="Description 1">
+              <template slot="label">
+                  <span>Description 1</span>
+                  <span style="float:right">{{data.Description1.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description1"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="2">
-            <el-form-item label="Description 2">
+            <el-form-item class="label" label="Description 2">
+              <template slot="label">
+                  <span>Description 2</span>
+                  <span style="float:right">{{data.Description2.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description2"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="3">
-            <el-form-item label="Description 3">
+            <el-form-item class="label" label="Description 3">
+              <template slot="label">
+                  <span>Description 3</span>
+                  <span style="float:right">{{data.Description3.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description3"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="4">
-            <el-form-item label="Description 4">
+            <el-form-item class="label" label="Description 4">
+              <template slot="label">
+                  <span>Description 4</span>
+                  <span style="float:right">{{data.Description4.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description4"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="5">
-            <el-form-item label="Description 5">
+            <el-form-item class="label" label="Description 5">
+              <template slot="label">
+                  <span>Description 5</span>
+                  <span style="float:right">{{data.Description5.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description5"></tinymce>
               </el-form-item>   
           </el-col>
+       </el-row>
+       <el-row>
+        <el-button size="small" type="success" @click="handlePreview">点击预览</el-button>
        </el-row>
        <br>
        <hr>
@@ -216,15 +243,19 @@
        <h2>圖片</h2>
        <br>
        <el-row>
-        <el-button size="small" type="primary" @click="handleUpload">点击上传</el-button>
+        <el-button size="small" type="success" @click="handleUpload">点击上传</el-button>
        </el-row>
        <br>
        <el-row :gutter="20">
-          <el-col :span="4" v-for="(item,i) in fileList" :key="'img'+i">
+          <el-col :span="8" v-for="(item,i) in fileList" :key="'img'+i">
             <div class="imgcontainer"> 
-              <img  width="100%" height="150px"  :src="item.base64" alt="">
+              <div style="height:190px">
+              <img  style="max-height:190px;" width="60%" :src="item.base64" alt="">
+              </div>
+              <div>
               <i class="icon el-icon-close" @click="handleClose(i)"></i>
               <span class="name">&nbsp;{{item.name}}</span>
+              </div>
             </div>
           </el-col>
        </el-row>
@@ -234,7 +265,7 @@
        <el-row :gutter="20">
          <el-col>
           <el-form-item label="備註">
-            <el-input type="textarea" :rows="4" v-model="data.note"></el-input>
+            <el-input type="textarea" :rows="4" v-model="data.version"></el-input>
         </el-form-item>
         </el-col>
        </el-row>
@@ -249,7 +280,6 @@ export default {
   components: {
     tinymce
   },
-  watch: {},
   data() {
     return {
       submitLoading: false,
@@ -371,12 +401,22 @@ export default {
     });
   },
   methods: {
-    showDialog() {},
     goBack() {
       this.$router.push("/documentManage");
     },
     handleClose(index) {
       this.fileList.splice(index, 1);
+    },
+    handlePreview(){
+      let Description = this.data.shortDescription;
+      let Description1 = this.data.Description1;
+      let Description2 = this.data.Description2;
+      let Description3 = this.data.Description3;
+      let Description4 = this.data.Description4;
+      let Description5 = this.data.Description5;
+      let totalDescription = Description + Description1 + Description2 + Description3 + Description4 + Description5;
+      let previewWindow = window.open('', '_blank');
+      previewWindow.document.write(totalDescription);
     },
     handleUpload() {
       if (this.fileList.length >= 10) {
@@ -417,6 +457,7 @@ export default {
             }
           }).then(res => {
             this.submitLoading = true;
+            this.Bus.$emit('refresh');
             this.$router.push("/documentManage");
           });
         }
@@ -448,22 +489,32 @@ export default {
     border-top: 1px solid #dfe4ec;
   }
   .imgcontainer {
-    padding: 30px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
     border: 1px dashed #dfe4ec;
     position: relative;
+    text-align: center;
+    height: 240px;
+    & div{
+      margin-top: 15px; 
+    }
+    & div:after{
+      content: '';
+      display: block;
+      clear: both;
+    }
   }
   .icon {
-    position: absolute;
-    right: 0px;
-    top: 9px;
-    font-size: 14px;
+    float: right;;
     cursor: pointer;
   }
   .name {
-    position: absolute;
-    left: 0px;
-    top: 4px;
+    float: left;
     font-size: 14px;
+  }
+  .label{
+    .el-form-item__label{
+      width: 100%;
+    }
   }
   .el-form-left {
     & div:nth-child(1) {
@@ -474,7 +525,7 @@ export default {
       overflow: hidden;
     }
   }
- } 
+ }
 </style>
 
 

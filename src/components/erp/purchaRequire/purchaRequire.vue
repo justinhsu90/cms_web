@@ -5,17 +5,17 @@
         <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
         </el-input>
          <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+          <el-select placeholder="樣品" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
          </div>
           <div style="display:inline-block;width:140px">
-          <el-select  placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
+          <el-select  placeholder="採購" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
             </el-select>
          </div>
          <div style="display:inline-block;width:140px">
-          <el-select  placeholder="國家" v-model="searchCountry"  @change="handleCondition('cou')" clearable>
+          <el-select  placeholder="耗材" v-model="searchCountry"  @change="handleCondition('cou')" clearable>
                 <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
                    <span style="float: left">{{ v.countryCode }}</span>
                     <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
@@ -23,17 +23,15 @@
             </el-select>
          </div>
          <div style="display:inline-block;width:140px">
-          <el-select placeholder="語言"  v-model="searchLanguage" @change="handleCondition('lang')" clearable> 
-                <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
-                  <span style="float: left">{{ v.languageCode }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.languageName }}</span>
+          <el-select  placeholder="购买" v-model="searchLanguage"  @change="handleCondition('lang')" clearable>
+                <el-option v-for="(v,i) in searchLanguageOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
                 </el-option>
             </el-select>
-         </div>   
+         </div> 
          <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
         </el-col>
         <el-col :span="2">
-            <el-button style="float:right" @click="handleAdd"  type="primary" >新增文案</el-button>
+            <el-button style="float:right" @click="handleAdd"  type="primary" >新增採購需求單</el-button>
         </el-col>
         <br>
         <br>
@@ -41,23 +39,26 @@
         <el-col>
                <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column  min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="100" label="Content ID" prop="contentId" sortable="custom"></el-table-column>
-                 <el-table-column min-width="75" label="平台" prop="platform" sortable="custom"></el-table-column>
-                 <el-table-column min-width="75" label="語言" prop="language" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="國家" prop="country" sortable="custom"></el-table-column>
-                 <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="SKU" prop="sku" sortable="custom"></el-table-column>
-                  <el-table-column min-width="160" label="產品標題" prop="title"></el-table-column>
+                 <el-table-column min-width="75" label="queryTime" prop="queryTime"></el-table-column>
+                 <el-table-column min-width="75" label="purchaseQueryId" prop="purchaseQueryId" ></el-table-column>
+                 <el-table-column min-width="75" label="purchaseId" prop="purchaseId"></el-table-column>
+                 <el-table-column min-width="60" label="purchaseType" prop="purchaseType"></el-table-column>
+                 <el-table-column min-width="90" label="queryQuantity" prop="queryQuantity"></el-table-column>
+                  <el-table-column min-width="75" label="SKU" prop="sku"></el-table-column>
+                  <el-table-column min-width="75" label="productName" prop="productName"></el-table-column>
+                  <el-table-column min-width="75" label="productSpec" prop="productSpec"></el-table-column>
+                  <el-table-column min-width="75" label="addedBy" prop="addedBy"></el-table-column>
+                  <el-table-column min-width="90" label="lastModifiedBy" prop="lastModifiedBy"></el-table-column>
+                  <el-table-column min-width="120" label="note" prop="note"></el-table-column>
                   <el-table-column min-width="60" label="啟用" prop="enable">
                       <template slot-scope="scope">
-                            <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
+                            <el-tag  v-if="scope.row.isPurchased" type="success">true</el-tag>
                             <el-tag  v-else type="info">false</el-tag>
                       </template>
                   </el-table-column>
                   <el-table-column width="80" label="動作" align="center">
                     <template slot-scope="scope">
                        <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-                       <el-button type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
                     </template>
                   </el-table-column>
         </el-table> 
@@ -79,7 +80,7 @@
     </div>
 </template>
 <script>
-import wonTableContainer from "../../common/wonTableContainer";
+import wonTableContainer from "@/common/wonTableContainer";
 
 export default {
   extends: wonTableContainer,
@@ -96,14 +97,14 @@ export default {
       searchCountry:'',
       searchCountryOption:[],
       searchLanguage:'',
-      searchLanguageOption:[],
+      searchLanguageOption:[{countryCode:'是',countryNameChinese:true},{countryCode:'否',countryNameChinese:false}],
       fetchCondition: {
         skip: 0,
         limit: 10,
         order: "-lastUpdatedTime"
       },
       fetchOption: {
-        url: "/content/search",
+        url: "/purchasequery/search",
         method: "post",
         where:""
       },
@@ -131,19 +132,10 @@ export default {
         token:this.token
       }  
     })
-    let language = axios({
-      url:'/content/value/language',
-      method:'post',
-      data:{
-        token:this.token
-      }  
-    })
-    Promise.all([account,platform,country,language]).then(([account,platform,country,language])=>{
+    Promise.all([account,platform,country]).then(([account,platform,country])=>{
         this.searchAccountOption = _.cloneDeep(account.data);
         this.searchPlatformOption = _.cloneDeep(platform.data);
         this.searchCountryOption = _.cloneDeep(country.data);
-        this.searchLanguageOption = _.cloneDeep(language.data);
-
     })
     this.handleSearch();
     this.Bus.$on('refresh',this.handleSearch);
@@ -159,17 +151,14 @@ export default {
           order: this.fetchCondition.order
         }
       if(this.condition.includes('1')){
-        data.account = this.searchAccount;
+        data.purchaseType = this.searchAccount;
       }
       if(this.condition.includes('2')){
-         data.platform = this.searchPlatform;
+         data.purchaseType = this.searchPlatform;
         
       }
-      if(this.condition.includes('3')){
-        data.country = this.searchCountry;
-      }
       if(this.condition.includes('4')){
-        data.language = this.searchLanguage;
+        data.isPaid = this.searchLanguage;
       }
       axios({
         url: this.fetchOption.url,
@@ -183,18 +172,12 @@ export default {
     }, 500),
     handleEdit(val) {
       this.$router.push({
-        name: "documentEdit",
+        name: "purchaEdit",
         query: { data: JSON.stringify(val) },
       });
     },
-    handleCopy(val){
-      this.$router.push({
-        name: "documentEdit",
-        query: { data: JSON.stringify(val),type:'copy'},
-      });
-    },
     handleAdd(){
-        this.$router.push('/documentAdd');
+        this.$router.push('/purchaAdd');
     },
     handleCondition(sign){
       if(sign == "acc"){

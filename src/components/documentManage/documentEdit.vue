@@ -107,7 +107,7 @@
           </el-col>
           <el-col :span="12">
           <el-form-item label="替換值 3" class="el-form-left">
-               <el-input v-model="data.ReplaceWordValue3"></el-input>
+               <el-input v-model="data.ReplaceWordKey3"></el-input>
             </el-form-item>
           </el-col>
        </el-row>
@@ -167,38 +167,66 @@
        <br> 
        <h2>Description</h2>
        <br> 
-         <el-row :gutter="20"> 
+      <el-row :gutter="20"> 
           <el-col :span="24">
-            <el-form-item label="short Description">
+            <el-form-item  class="label" label="short Description">
+              <template slot="label">
+                  <span>short Description</span>
+                  <span style="float:right">{{data.shortDescription.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.shortDescription"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="1">
-            <el-form-item label="Description 1">
+            <el-form-item class="label" label="Description 1">
+              <template slot="label">
+                  <span>Description 1</span>
+                  <span style="float:right">{{data.Description1.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description1"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="2">
-            <el-form-item label="Description 2">
+            <el-form-item class="label" label="Description 2">
+              <template slot="label">
+                  <span>Description 2</span>
+                  <span style="float:right">{{data.Description2.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description2"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="3">
-            <el-form-item label="Description 3">
+            <el-form-item class="label" label="Description 3">
+              <template slot="label">
+                  <span>Description 3</span>
+                  <span style="float:right">{{data.Description3.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description3"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="4">
-            <el-form-item label="Description 4">
+            <el-form-item class="label" label="Description 4">
+              <template slot="label">
+                  <span>Description 4</span>
+                  <span style="float:right">{{data.Description4.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description4"></tinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="5">
-            <el-form-item label="Description 5">
+            <el-form-item class="label" label="Description 5">
+              <template slot="label">
+                  <span>Description 5</span>
+                  <span style="float:right">{{data.Description5.length}}字符</span>
+              </template>
                 <tinymce v-if="loading" v-model="data.Description5"></tinymce>
               </el-form-item>   
           </el-col>
        </el-row>
+       <el-row>
+        <el-button size="small" type="success" @click="handlePreview">点击预览</el-button>
+       </el-row>
+       <br>
        <hr>
        <br>
        <h2>關鍵字</h2>
@@ -247,7 +275,7 @@
        <el-row :gutter="20">
          <el-col>
           <el-form-item label="備註">
-            <el-input type="textarea" :rows="4" v-model="data.note"></el-input>
+            <el-input type="textarea" :rows="4" v-model="data.version"></el-input>
         </el-form-item>
         </el-col>
        </el-row>
@@ -426,6 +454,17 @@ export default {
      goBack() {
       this.$router.push("/documentManage");
     },
+    handlePreview(){
+      let Description = this.data.shortDescription;
+      let Description1 = this.data.Description1;
+      let Description2 = this.data.Description2;
+      let Description3 = this.data.Description3;
+      let Description4 = this.data.Description4;
+      let Description5 = this.data.Description5;
+      let totalDescription = Description + Description1 + Description2 + Description3 + Description4 + Description5;
+      let previewWindow = window.open('', '_blank');
+      previewWindow.document.write(totalDescription);
+    },
     handleClose(index){
       this.fileList.splice(index,1);
     },
@@ -468,6 +507,7 @@ export default {
             }
           }).then(res => {
             this.submitLoading = true;
+            this.Bus.$emit('refresh');
             this.$router.push('/documentManage');
           });
         }

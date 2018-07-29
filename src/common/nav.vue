@@ -1,4 +1,5 @@
 <template>
+<div id="nav">
  <el-container>
   <el-header>
       <h1>
@@ -28,10 +29,28 @@
       active-text-color="#409eff"
       @select="handleSelect"
       >
-      <el-menu-item :index="v.index" v-for="(v,i) in navData" :key="i">
-        <i class="el-icon-menu"></i>
-        <span slot="title">{{v.label}}</span>
+    <template  v-for="(v,i) in navData">
+      <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
+            <template  slot="title"> 
+          <i class="el-icon-menu"></i>
+          <span slot="title">{{v.label}}</span>
+      </template>
+       <template>
+        <el-menu-item-group >
+           <template slot="title">
+             <div></div>
+           </template>
+          <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
+        </el-menu-item-group>
+        </template>
+      </el-submenu>
+       <el-menu-item :index="v.index" v-else  :key="i">
+        <template  slot="title"> 
+          <i class="el-icon-menu"></i>
+          <span slot="title">{{v.label}}</span>
+      </template>
       </el-menu-item>
+      </template>
     </el-menu>
   </el-col>
 </el-row>
@@ -41,47 +60,60 @@
     </el-main>
   </el-container>
 </el-container>
-
+</div>
 </template>
 <script>
 export default {
   data() {
     return {
       defaultNav: "",
-      username:'',
-      navData:[{
-        index:'sku',
-        label:'SKU管理'
-      },{
-        index:'wocher',
-        label:'Wowcher 訂單管理'
-      },
-      {
-        index:'purchase',
-        label:'採購單'
-      },
-      {
-        index:'dataAnalysis',
-        label:'儀表板'
-      },
-      {
-        index:'edit',
-        label:'可視化編輯器'
-      },
-      {
-        index:'documentManage',
-        label:'文案管理'
-      }]
-    }; 
+      username: "",
+      navData: [
+        {
+          index: "sku",
+          label: "SKU管理"
+        },
+        {
+          index: "wocher",
+          label: "Wowcher 訂單管理"
+        },
+        {
+          index: "purchase",
+          label: "採購單"
+        },
+        {
+          index: "dataAnalysis",
+          label: "儀表板"
+        },
+        {
+          index: "documentManage",
+          label: "文案管理"
+        },
+        {
+          index: "erp",
+          label: "ERP",
+          isLevel: true,
+          child: [
+            {
+              index: "purchaRequire",
+              label: "採購需求單"
+            },
+            {
+              index: "erpPurchase",
+              label: "採購單"
+            },
+          ]
+        }
+      ]
+    };
   },
-  created(){
-    document.cookie.split(';').forEach((v,i)=>{
-    let str = v.split('=')[0].trim();
-    if(str == "username"){
-        this.username = v.split('=')[1];
-     }
-   })
-
+  created() {
+    document.cookie.split(";").forEach((v, i) => {
+      let str = v.split("=")[0].trim();
+      if (str == "username") {
+        this.username = v.split("=")[1];
+      }
+    });
   },
   methods: {
     handleSelect(index, router) {
@@ -117,44 +149,41 @@ export default {
   }
 };
 </script>  
-<style scoped>
-.el-container {
+<style lang="scss">
+#nav{
   width: 100%;
   height: 100%;
-}
-.el-header {
-  background-color: rgb(83, 90, 107);
-  color: white;
-  height: 90px !important;
-  line-height: 90px;
-}
-h1 {
-  float: left;
-}
+.el-container {
+    width: 100%;
+    height: 100%;
+  }
+  .el-header {
+    background-color: rgb(83, 90, 107);
+    color: white;
+    height: 90px !important;
+    line-height: 90px;
+  }
+  h1 {
+    float: left;
+  }
 
-.el-aside {
-  background-color: rgb(50, 65, 87);
-  color: white;
-  text-align: center;
-  height: 100%;
-}
-.el-menu{
-  border: none;
-}
-.el-menu-item {
-  color: white;
-  text-align: left;
-  border:none;
-}
-.el-main {
-  height: 100%;
-}
-
-.el-submenu__title:hover {
-  background: rgb(191, 205, 217, 0.4) !important;
-}
-.el-menu-item:hover,
-.el-submenu:hover {
-  background: rgb(191, 205, 217, 0.4) !important;
-}
+  .el-aside {
+    background-color: rgb(50, 65, 87);
+    color: white;
+    height: 100%;
+  }
+  .el-menu {
+    border: none;
+  }
+  .el-menu-item {
+    color: white;
+    border: none;
+  }
+  .el-main {
+    height: 100%;
+  }
+  .el-menu-item-group__title{
+    display: none !important;
+  }
+  }
 </style>

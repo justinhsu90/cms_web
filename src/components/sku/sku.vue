@@ -160,12 +160,6 @@ export default {
   created() {
     this.handleSearch();
   },
-  mounted(){
-    this.$nextTick(()=>{
-      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 52;
-      this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
-    })
-  },
   methods: {
     handleSearch: _.debounce(function() {
       this.isTableLoading = true;
