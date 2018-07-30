@@ -34,7 +34,7 @@
               <el-input v-model="v.SKU"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="9">
+            <el-col :span="8">
               <el-form-item label="產品名稱">
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
