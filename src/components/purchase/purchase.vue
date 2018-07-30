@@ -122,7 +122,7 @@ export default {
       row: [],
       dialogTableVisible: false,
       fetchOption: {
-        url: "http://api.myfbmanage.com:8000/data-server/purchase/list",
+        url: "http://118.163.10.109:8000/data-server/purchase/list",
         where: "",
         method: "post"
       },

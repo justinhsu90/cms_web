@@ -448,6 +448,7 @@ export default {
       this.data.contentId = oldData.contentId; 
       this.data.Enable = oldData.enable; 
       this.data.lastUpdatedTime = oldData.lastUpdatedTime;
+      this.data.note = oldData.note;
       setTimeout(()=>{
         this.loading = true;
       },2000)

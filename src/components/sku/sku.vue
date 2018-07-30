@@ -151,7 +151,7 @@ export default {
         order: "productName"
       },
       fetchOption: {
-        url: "http://api.myfbmanage.com:8000/data-server/sku/search",
+        url: "http://118.163.10.109:8000/data-server/sku/search",
         where: "",
         method: "post"
       }
