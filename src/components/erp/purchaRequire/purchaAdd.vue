@@ -13,9 +13,9 @@
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
-        <el-button disabled style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
 
         <el-row :gutter="20">
+                  <el-button disabled style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
            <el-col :span="2">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
@@ -58,13 +58,6 @@
               <el-switch v-model="v.isPurchased"></el-switch>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="1">
-              <el-form-item label="刪除">
-                    <el-button style="float: right; padding: 15px" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-              </el-form-item>
-            </el-col> -->
-
-
         </el-row>
       </el-card>
    

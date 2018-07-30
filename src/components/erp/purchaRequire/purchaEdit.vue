@@ -10,7 +10,7 @@
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-        <el-button disabled style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+        <!-- <el-button disabled style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button> -->
 
         <el-row :gutter="20">
              <el-col :span="2">
@@ -34,7 +34,7 @@
               <el-input v-model="v.SKU"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="9">
               <el-form-item label="產品名稱">
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
