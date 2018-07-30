@@ -187,7 +187,7 @@ export default {
             callback(new Error('SKU結構有誤'))
           }else{
               that.axios({
-              url: "http://api.myfbmanage.com:8000/data-server/sku/similarimg",
+              url: "http://118.163.10.109:8000/data-server/sku/similarimg",
               method: "post",
               data:{
                 sku:value,
@@ -219,7 +219,7 @@ export default {
   },
   mounted() {
          axios({
-              url:"http://api.myfbmanage.com:8000/data-server/sku/cat",
+              url:"http://118.163.10.109:8000/data-server/sku/cat",
                method: "post",
               data:{
                 token:this.token
@@ -246,9 +246,9 @@ export default {
       this.form.deprecatedSKU = this.row.deprecatedSKU;
 
       this.form.priceRMB = this.row.priceRMB;      
-      this.url = "http://api.myfbmanage.com:8000/data-server/sku/update";       
+      this.url = "http://118.163.10.109:8000/data-server/sku/update";       
     } else {
-      this.url = "http://api.myfbmanage.com:8000/data-server/sku/add";
+      this.url = "http://118.163.10.109:8000/data-server/sku/add";
     }
   },
   watch: {
@@ -317,7 +317,7 @@ export default {
     },
     handleAuto() {
       axios({
-        url: "http://api.myfbmanage.com:8000/data-server/sku/newindex",
+        url: "http://118.163.10.109:8000/data-server/sku/newindex",
         method: "post",
         data: {
           category: this.searchValue,

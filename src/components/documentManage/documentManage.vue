@@ -1,8 +1,8 @@
 <template>
     <div>
         <el-row>
-        <el-col :span="22">
-        <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
+        <el-col :span="24">
+        <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
         </el-input>
          <div style="margin-left:5px;display:inline-block;width:140px">
           <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
@@ -31,9 +31,7 @@
             </el-select>
          </div>   
          <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
-        </el-col>
-        <el-col :span="2">
-            <el-button style="float:right" @click="handleAdd"  type="primary" >新增文案</el-button>
+         <el-button style="float:right" @click="handleAdd"  type="primary" >新增文案</el-button>
         </el-col>
         <br>
         <br>
@@ -48,7 +46,7 @@
                  <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
                   <el-table-column min-width="80" label="SKU" prop="sku" sortable="custom"></el-table-column>
                   <el-table-column min-width="160" label="產品標題" prop="title"></el-table-column>
-                  <el-table-column min-width="60" label="啟用" prop="enable">
+                  <el-table-column min-width="50" label="啟用" prop="enable">
                       <template slot-scope="scope">
                             <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
                             <el-tag  v-else type="info">false</el-tag>

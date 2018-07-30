@@ -6,74 +6,68 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>编辑採購需求單</h2>
+    <h2>編輯採購需求單</h2>
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-      <div slot="header" class="clearfix">
-        <span>{{i+1}}</span>
         <el-button disabled style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-      </div>
+
         <el-row :gutter="20">
-            <el-col :span="12">
+             <el-col :span="2">
+              <el-form-item label="已購買">
+              <el-switch v-model="v.isPurchased"></el-switch>
+              </el-form-item>
+            </el-col>
+             <el-col :span="5">
+              <el-form-item label="採購需求單號">
+              <el-input v-model="v.purchaseQueryId" disabled></el-input>
+              </el-form-item>
+            </el-col>
+           
+             <el-col :span="3">
+              <el-form-item label="需採購數量">
+              <el-input v-model="v.queryQuantity"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="5">
               <el-form-item label="SKU">
               <el-input v-model="v.SKU"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="sku">
-              <el-input v-model="v.sku"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="productName">
+            <el-col :span="8">
+              <el-form-item label="產品名稱">
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="productSpec">
+            <el-col :span="6">
+              <el-form-item label="產品規格">
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="queryQuantity">
-              <el-input v-model="v.queryQuantity"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="isPurchased">
-              <el-switch v-model="v.isPurchased"></el-switch>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="purchaseId">
+            <el-col :span="6">
+              <el-form-item label="採購單號">
               <el-input v-model="v.purchaseId" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="purchaseQueryId">
-              <el-input v-model="v.purchaseQueryId" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="queryTime">
+            <el-col :span="6">
+              <el-form-item label="新增時間">
               <el-input v-model="v.queryTime" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
-              <el-form-item label="purchaseType">
+            <el-col :span="6">
+              <el-form-item label="採購類型">
               <el-input v-model="v.purchaseType" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item label="備註">
-              <el-input v-model="v.note" type="textarea" rows="4"></el-input>
+              <el-input v-model="v.note" type="textarea" rows="1"></el-input>
               </el-form-item>
             </el-col>
         </el-row>
       </el-card>
       <br>
-       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">编辑</el-button> 
+       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">編輯</el-button> 
     </el-form> 
     </div>         
  </div>     

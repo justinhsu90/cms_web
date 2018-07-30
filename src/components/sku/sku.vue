@@ -31,7 +31,7 @@
         <br>
         <el-col>
                <el-table  ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column sortable="custom"   label="Product Name" prop="productName"  min-width="180"></el-table-column>  
+                 <el-table-column sortable="custom"   label="產品名稱" prop="productName"  min-width="180"></el-table-column>  
                  <el-table-column sortable="custom"   min-width="80" label="SKU" prop="sku"></el-table-column>
                 <el-table-column  sortable="custom"   min-width="80"  label="New SKU" prop="newSKU"></el-table-column>
                   <!-- ama   -->
@@ -91,7 +91,7 @@
                     </template>
                 </el-table-column>
               </template>
-                <el-table-column label="Image" min-width="100">
+                <el-table-column label="圖片" min-width="100">
                     <template slot-scope="scope" >
                         <img  width="80" height="80" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">                        
                         <el-dialog title="圖片"  :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
@@ -99,7 +99,7 @@
                         </el-dialog>
                     </template>
                 </el-table-column>
-               <el-table-column min-width="50" label="Action"   fixed="right">
+               <el-table-column min-width="50" label="動作"   fixed="right">
                    <template slot-scope="scope">
                     <el-button type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
                    </template>

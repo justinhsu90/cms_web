@@ -6,7 +6,7 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>{{!type?'增加':'编辑'}}文案</h2>
+    <h2>{{!type?'增加':'編輯'}}文案</h2>
     <br> 
     <el-form ref="form" :model="data" label-position="top"   v-loading="!loading">
       <el-row :gutter="20"> 
@@ -224,7 +224,7 @@
           </el-col>
        </el-row>
        <el-row>
-        <el-button size="small" type="success" @click="handlePreview">点击预览</el-button>
+        <el-button size="small" type="success" @click="handlePreview">點擊預覽</el-button>
        </el-row>
        <br>
        <hr>
@@ -253,7 +253,7 @@
        <h2>圖片</h2>
        <br>
        <el-row>
-        <el-button size="small" type="primary" @click="handleUpload">点击上传</el-button>
+        <el-button size="small" type="primary" @click="handleUpload">點擊上傳</el-button>
        </el-row>
        <br>
        <el-row :gutter="20">
@@ -279,7 +279,7 @@
         </el-form-item>
         </el-col>
        </el-row>
-       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">{{!type?'增加':'编辑'}}</el-button> 
+       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">{{!type?'增加':'編輯'}}</el-button> 
     </el-form> 
     </div>         
  </div>     
