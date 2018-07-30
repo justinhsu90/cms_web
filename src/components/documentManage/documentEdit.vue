@@ -275,7 +275,7 @@
        <el-row :gutter="20">
          <el-col>
           <el-form-item label="備註">
-            <el-input type="textarea" :rows="4" v-model="data.version"></el-input>
+            <el-input type="textarea" :rows="4" v-model="data.note"></el-input>
         </el-form-item>
         </el-col>
        </el-row>
@@ -313,16 +313,16 @@ export default {
         Account: "",
         cartLongTitle: "",
         cartShortTitle: "",
-        imageName1: "test111",
-        imageName2: "test111",
-        imageName3: "test111",
-        imageName4: "test111",
-        imageName5: "test111",
-        imageName6: "test111",
-        imageName7: "test111",
-        imageName8: "test111",
-        imageName9: "test111",
-        imageName10: "test111",
+        imageName1: "",
+        imageName2: "",
+        imageName3: "",
+        imageName4: "",
+        imageName5: "",
+        imageName6: "",
+        imageName7: "",
+        imageName8: "",
+        imageName9: "",
+        imageName10: "",
         BulletPoint1: "",
         BulletPoint2: "",
         BulletPoint3: "",
@@ -347,7 +347,8 @@ export default {
         ReplaceWordValue1: "",
         ReplaceWordValue2: "",
         ReplaceWordValue3: "",
-        version: "test111"
+        version: "",
+        note:""
       }
     };
   },
@@ -412,7 +413,6 @@ export default {
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
       let oldData = JSON.parse(this.$route.query.data);
-      this.loading = true;
       this.data.Account = oldData.account;
       this.data.Brand = oldData.brand;
       this.data.Language = oldData.language;
@@ -448,6 +448,9 @@ export default {
       this.data.contentId = oldData.contentId; 
       this.data.Enable = oldData.enable; 
       this.data.lastUpdatedTime = oldData.lastUpdatedTime;
+      setTimeout(()=>{
+        this.loading = true;
+      },2000)
     });
   },
   methods: {

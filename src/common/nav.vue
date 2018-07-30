@@ -141,7 +141,7 @@ export default {
   },
   watch: {
     $route: {
-      handler(newRouter) {
+      handler(newRouter) {        
         this.defaultNav = newRouter.path.slice(1);
       },
       immediate: true
