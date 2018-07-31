@@ -15,7 +15,7 @@
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
 
         <el-row :gutter="20">
-                  <el-button disabled style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+                  <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
            <el-col :span="2">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
@@ -88,7 +88,17 @@ export default {
       }
     };
   },
-  created() {},
+  created() {
+    axios({
+      url: "/content/value/purchaseType",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then((res)=>{
+      debugger
+    })
+  },
   methods: {
     goBack() {
       this.$router.push("/purchaRequire");

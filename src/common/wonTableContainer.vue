@@ -28,9 +28,10 @@ export default {
     this.$nextTick(()=>{
       this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 52;
       this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
-      window.addEventListener('resize',()=>{
-        this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 52;
-      this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
+      let that = this;
+      window.addEventListener('resize',()=>{        
+        that.maxHeight = document.scrollingElement.clientHeight - that.$refs.wonTable.$el.getBoundingClientRect().top - 52;
+        that.$refs.wonTable.$el.style.maxHeight = that.maxHeight +'px';
       })
     })
   },

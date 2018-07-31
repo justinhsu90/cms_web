@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-row>
-        <el-col :span="24">
+        <el-col :span="22">
         <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
         </el-input>
          <div style="margin-left:5px;display:inline-block;width:140px">
@@ -30,10 +30,9 @@
          </div> 
          <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
         </el-col>
-                    <el-button style="float:right" @click="handleAdd"  type="primary" >新增採購需求單</el-button>
-
-<!-- <el-col :span="2"> -->
-        <!-- </el-col> -->
+        <el-col :span="2">
+                  <el-button style="float:right" @click="handleAdd"  type="primary" >新增採購需求單</el-button>
+        </el-col>
         <br>
         <br>
         <br>

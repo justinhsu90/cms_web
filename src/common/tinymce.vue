@@ -169,7 +169,9 @@
         this.Editor = window.tinymce.init({
           // 默认配置
           ...this.DefaultConfig,
-          
+          // force_br_newlines : false,
+          // force_p_newlines : false,
+          // forced_root_block : '',
           // 图片上传
           images_upload_handler: function (blobInfo, success, failure) {
             if (blobInfo.blob().size > self.maxSize) {
@@ -225,7 +227,7 @@
             )
             // 抛出 'input' 事件钩子，同步value数据
             editor.on(
-              'input change undo redo', () => {
+              'input change undo redo', () => { 
                 self.$emit('input', editor.getContent())
               }
             )
