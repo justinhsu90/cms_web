@@ -38,14 +38,14 @@
         <br>
         <el-col>
                <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column  min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="100" label="Content ID" prop="contentId" sortable="custom"></el-table-column>
+                 <el-table-column  min-width="80" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="120" label="Content ID" prop="contentId" sortable="custom"></el-table-column>
                  <el-table-column min-width="75" label="平台" prop="platform" sortable="custom"></el-table-column>
                  <el-table-column min-width="75" label="語言" prop="language" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="國家" prop="country" sortable="custom"></el-table-column>
-                 <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
+                 <!-- <el-table-column min-width="60" label="國家" prop="country" sortable="custom"></el-table-column> -->
+                 <!-- <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column> -->
                   <el-table-column min-width="80" label="SKU" prop="sku" sortable="custom"></el-table-column>
-                  <el-table-column min-width="160" label="產品標題" prop="title"></el-table-column>
+                  <el-table-column min-width="150" label="產品標題" prop="title"></el-table-column>
                   <el-table-column min-width="50" label="啟用" prop="enable">
                       <template slot-scope="scope">
                             <el-tag  v-if="scope.row.enable" type="success">true</el-tag>

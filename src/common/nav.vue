@@ -70,6 +70,10 @@ export default {
       username: "",
       navData: [
         {
+          index: "dataAnalysis",
+          label: "儀表板"
+        },
+        {
           index: "sku",
           label: "SKU管理"
         },
@@ -80,10 +84,6 @@ export default {
         {
           index: "purchase",
           label: "採購單"
-        },
-        {
-          index: "dataAnalysis",
-          label: "儀表板"
         },
         {
           index: "documentManage",
@@ -160,8 +160,8 @@ export default {
   .el-header {
     background-color: rgb(83, 90, 107);
     color: white;
-    height: 90px !important;
-    line-height: 90px;
+    height: 50px !important;
+    line-height: 50px;
   }
   h1 {
     float: left;
