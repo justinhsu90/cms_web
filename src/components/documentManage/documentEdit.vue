@@ -222,6 +222,24 @@
                 <tinymce v-if="loading" v-model="data.Description5"></tinymce>
               </el-form-item>   
           </el-col>
+                 <el-col :span="24" key="6">
+            <el-form-item class="label" label="Description 6">
+              <template slot="label">
+                  <span>Description 6</span>
+                  <span style="float:right">{{data.Description6.length}}字符</span>
+              </template>
+                <tinymce v-if="loading" v-model="data.Description6"></tinymce>
+              </el-form-item>   
+          </el-col>
+          <el-col :span="24" key="7">
+            <el-form-item class="label" label="Description 7">
+              <template slot="label">
+                  <span>Description 7</span>
+                  <span style="float:right">{{data.Description7.length}}字符</span>
+              </template>
+                <tinymce v-if="loading" v-model="data.Description7"></tinymce>
+              </el-form-item>   
+          </el-col>
        </el-row>
        <el-row>
         <el-button size="small" type="success" @click="handlePreview">點擊預覽</el-button>
@@ -233,18 +251,48 @@
        <br>
        <el-row :gutter="20">
           <el-col :span="8" >
-            <el-form-item label="關鍵字 1 (Search Term)">
+            <el-form-item class="label" label="關鍵字 1 (Search Term)">
+              <template slot="label">
+                  <span>關鍵字 1 (Search Term)</span>
+                  <span style="float:right">{{data.Keyword1.length}}字符</span>
+              </template>
               <el-input v-model="data.Keyword1"> </el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="關鍵字 2 (Search Term)">
+            <el-form-item  class="label" label="關鍵字 2 (Search Term)">
+              <template slot="label">
+                  <span>關鍵字 2 (Search Term)</span>
+                  <span style="float:right">{{data.Keyword2.length}}字符</span>
+              </template>
               <el-input v-model="data.Keyword2"> </el-input>
               </el-form-item>
           </el-col>
           <el-col :span="8" >
-            <el-form-item label="關鍵字 3 (Search Term)">
+            <el-form-item class="label" label="關鍵字 3 (Search Term)">
+              <template slot="label">
+                  <span>關鍵字 3 (Search Term)</span>
+                  <span style="float:right">{{data.Keyword3.length}}字符</span>
+              </template>
               <el-input v-model="data.Keyword3"> </el-input>
+              </el-form-item>
+          </el-col>
+          <el-col :span="8" >
+            <el-form-item class="label" label="關鍵字 4 (Search Term)">
+              <template slot="label">
+                  <span>關鍵字 4 (Search Term)</span>
+                  <span style="float:right">{{data.Keyword4.length}}字符</span>
+              </template>
+              <el-input v-model="data.Keyword4"> </el-input>
+              </el-form-item>
+          </el-col>
+          <el-col :span="8" >
+            <el-form-item class="label" label="關鍵字 5 (Search Term)">
+              <template slot="label">
+                  <span>關鍵字 5 (Search Term)</span>
+                  <span style="float:right">{{data.Keyword5.length}}字符</span>
+              </template>
+              <el-input v-model="data.Keyword5"> </el-input>
               </el-form-item>
           </el-col>
        </el-row>
@@ -339,6 +387,8 @@ export default {
         Keyword1: "",
         Keyword2: "",
         Keyword3: "",
+        Keyword4: "",
+        Keyword5: "",
         Manufacturer: "",
         Brand: "",
         ReplaceWordKey1: "",
@@ -442,15 +492,19 @@ export default {
       this.data.Description3 = oldData.description3;
       this.data.Description4 = oldData.description4;
       this.data.Description5 = oldData.description5; 
+      this.data.Description6 = oldData.Description6; 
+      this.data.Description7 = oldData.description7; 
       this.data.Keyword1 = oldData.keyword1; 
       this.data.Keyword2 = oldData.keyword2; 
-      this.data.Keyword3 = oldData.keyword3; 
+      this.data.Keyword3 = oldData.keyword3;
+      this.data.Keyword4 = oldData.keyword4;
+      this.data.Keyword5 = oldData.keyword5; 
       this.data.contentId = oldData.contentId; 
       this.data.Enable = oldData.enable; 
       this.data.lastUpdatedTime = oldData.lastUpdatedTime;
       setTimeout(()=>{
         this.loading = true;
-      },2000)
+      },3000)
     });
   },
   methods: {
