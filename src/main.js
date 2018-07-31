@@ -16,6 +16,7 @@ Vue.prototype.qs = qs;
 
 //axios的配置
 axios.defaults.baseURL = 'http://118.163.10.109:8000/data-server/';
+// axios.defaults.baseURL = 'http://127.0.0.1:8080/data-server/';
 axios.interceptors.request.use((request) => {
   request.data = qs.stringify(request.data);
   return request;

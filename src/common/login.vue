@@ -42,7 +42,7 @@
                     if (valid) {    
                         this.loading = true;
                         axios({
-                            url:'http://api.myfbmanage.com:8000/data-server/auth/login',
+                            url:'http://118.163.10.109:8000/data-server/auth/login',
                             method:'post',
                             data:_.cloneDeep(this.ruleForm)
                         }).then((res)=>{     
