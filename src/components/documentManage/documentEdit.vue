@@ -492,7 +492,7 @@ export default {
       this.data.Description3 = oldData.description3 || ""; 
       this.data.Description4 = oldData.description4 || ""; 
       this.data.Description5 = oldData.description5 || ""; 
-      this.data.Description6 = oldData.Description6 || ""; 
+      this.data.Description6 = oldData.description6 || ""; 
       this.data.Description7 = oldData.description7 || "";  
       this.data.Keyword1 = oldData.keyword1 || "";  
       this.data.Keyword2 = oldData.keyword2 || ""; 
@@ -619,6 +619,11 @@ export default {
     float: left;
     font-size: 14px;
   }
+  .label{
+    .el-form-item__label{
+      width: 100%;
+    }
+  }
   .el-form-left {
     & div:nth-child(1) {
       float: left;
@@ -628,7 +633,7 @@ export default {
       overflow: hidden;
     }
   }
- } 
+ }
 </style>
 
 
