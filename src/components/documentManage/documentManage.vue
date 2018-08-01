@@ -52,10 +52,11 @@
                             <el-tag  v-else type="info">false</el-tag>
                       </template>
                   </el-table-column>
-                  <el-table-column width="80" label="動作" align="center">
+                  <el-table-column width="100" label="動作" align="center">
                     <template slot-scope="scope">
                        <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                        <el-button type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
+                       <el-button type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
                     </template>
                   </el-table-column>
         </el-table> 
@@ -85,16 +86,16 @@ export default {
     return {
       tableData: [],
       maxHeight: 450,
-      condition:[],
+      condition: [],
       isTableLoading: false,
-      searchAccount:'',
-      searchAccountOption:[],
-      searchPlatform:'',
-      searchPlatformOption:[],
-      searchCountry:'',
-      searchCountryOption:[],
-      searchLanguage:'',
-      searchLanguageOption:[],
+      searchAccount: "",
+      searchAccountOption: [],
+      searchPlatform: "",
+      searchPlatformOption: [],
+      searchCountry: "",
+      searchCountryOption: [],
+      searchLanguage: "",
+      searchLanguageOption: [],
       fetchCondition: {
         skip: 0,
         limit: 10,
@@ -103,70 +104,70 @@ export default {
       fetchOption: {
         url: "/content/search",
         method: "post",
-        where:""
-      },
+        where: ""
+      }
     };
   },
   created() {
     let account = axios({
-      url:'/content/value/account',
-      method:'post',
-      data:{
-        token:this.token
-      }  
-    })
+      url: "/content/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
     let platform = axios({
-      url:'/content/value/platform',
-      method:'post',
-      data:{
-        token:this.token
-      }  
-    })
+      url: "/content/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
     let country = axios({
-      url:'/content/value/country',
-      method:'post',
-      data:{
-        token:this.token
-      }  
-    })
+      url: "/content/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
     let language = axios({
-      url:'/content/value/language',
-      method:'post',
-      data:{
-        token:this.token
-      }  
-    })
-    Promise.all([account,platform,country,language]).then(([account,platform,country,language])=>{
+      url: "/content/value/language",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([account, platform, country, language]).then(
+      ([account, platform, country, language]) => {
         this.searchAccountOption = _.cloneDeep(account.data);
         this.searchPlatformOption = _.cloneDeep(platform.data);
         this.searchCountryOption = _.cloneDeep(country.data);
         this.searchLanguageOption = _.cloneDeep(language.data);
-
-    })
+      }
+    );
     this.handleSearch();
-    this.Bus.$on('refresh',this.handleSearch);
+    this.Bus.$on("refresh", this.handleSearch);
   },
   methods: {
     handleSearch: _.debounce(function() {
       this.isTableLoading = true;
       let data = {
-          where: this.fetchOption.where,
-          token: this.token,
-          skip: this.fetchCondition.skip,
-          limit: this.fetchCondition.limit,
-          order: this.fetchCondition.order
-        }
-      if(this.condition.includes('1')){
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
         data.account = this.searchAccount;
       }
-      if(this.condition.includes('2')){
-         data.platform = this.searchPlatform;
-        
+      if (this.condition.includes("2")) {
+        data.platform = this.searchPlatform;
       }
-      if(this.condition.includes('3')){
+      if (this.condition.includes("3")) {
         data.country = this.searchCountry;
       }
-      if(this.condition.includes('4')){
+      if (this.condition.includes("4")) {
         data.language = this.searchLanguage;
       }
       axios({
@@ -182,45 +183,66 @@ export default {
     handleEdit(val) {
       this.$router.push({
         name: "documentEdit",
-        query: { data: JSON.stringify(val) },
+        query: { data: JSON.stringify(val) }
       });
     },
-    handleCopy(val){
+    handleDelete(val) {
+      this.$confirm("是否删除", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          axios({
+            url: "/content/remove",
+            method: "post",
+            data: {
+              value:val.contentId,
+              token: this.token
+            }
+          }).then(()=>{
+            this.handleSearch();
+            this.$message.success('删除成功');
+          })
+        })
+        .catch(() => {});
+    },
+    handleCopy(val) {
       this.$router.push({
         name: "documentEdit",
-        query: { data: JSON.stringify(val),type:'copy'},
+        query: { data: JSON.stringify(val), type: "copy" }
       });
     },
-    handleAdd(){
-        this.$router.push('/documentAdd');
+    handleAdd() {
+      this.$router.push("/documentAdd");
     },
-    handleCondition(sign){
-      if(sign == "acc"){
-        if(!this.searchAccount){
-          _.pull(this.condition, '1');
-        }else{
-          this.condition.push('1');
+    handleCondition(sign) {
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          this.condition.push("1");
         }
       }
-      if(sign == "plat"){
-        if(!this.searchPlatform){
-          _.pull(this.condition, '2');
-        }else{
-          this.condition.push('2');
+      if (sign == "plat") {
+        if (!this.searchPlatform) {
+          _.pull(this.condition, "2");
+        } else {
+          this.condition.push("2");
         }
       }
-      if(sign == "cou"){
-        if(!this.searchCountry){
-          _.pull(this.condition, '3'); 
-        }else{
-          this.condition.push('3');
+      if (sign == "cou") {
+        if (!this.searchCountry) {
+          _.pull(this.condition, "3");
+        } else {
+          this.condition.push("3");
         }
       }
-      if(sign == "lang"){
-        if(!this.searchLanguage){
-          _.pull(this.condition, '4');   
-        }else{
-          this.condition.push('4');
+      if (sign == "lang") {
+        if (!this.searchLanguage) {
+          _.pull(this.condition, "4");
+        } else {
+          this.condition.push("4");
         }
       }
       this.handleSearch();
