@@ -159,9 +159,9 @@
        <br> 
          <el-row :gutter="20"> 
           <el-col :span="24">
-            <el-form-item  class="label" label="short Description">
+            <el-form-item  class="label" label="Short Description">
               <template slot="label">
-                  <span>short Description</span>
+                  <span>Short Description</span>
                   <span style="float:right">{{data.shortDescription.length}}字符</span>
               </template>
                 <tinymce v-if="loading" v-model="data.shortDescription"></tinymce>
@@ -239,8 +239,8 @@
        <br>
        <h2>關鍵字</h2>
        <br>
-     <el-row :gutter="20">
-          <el-col :span="8" >
+     <el-row :gutter="24">
+          <el-col :span="24" >
             <el-form-item class="label" label="關鍵字 1 (Search Term)">
               <template slot="label">
                   <span>關鍵字 1 (Search Term)</span>
@@ -249,7 +249,7 @@
               <el-input v-model="data.Keyword1"> </el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="24">
             <el-form-item class="label" label="關鍵字 2 (Search Term)">
               <template slot="label">
                   <span>關鍵字 2 (Search Term)</span>
@@ -258,7 +258,7 @@
               <el-input v-model="data.Keyword2"> </el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="8" >
+          <el-col :span="24" >
             <el-form-item  class="label" label="關鍵字 3 (Search Term)">
               <template slot="label">
                   <span>關鍵字 3 (Search Term)</span>
@@ -267,7 +267,7 @@
               <el-input v-model="data.Keyword3"> </el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="8" >
+          <el-col :span="24" >
             <el-form-item class="label" label="關鍵字 4 (Search Term)">
               <template slot="label">
                   <span>關鍵字 4 (Search Term)</span>
@@ -276,7 +276,7 @@
               <el-input v-model="data.Keyword4"> </el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="8" >
+          <el-col :span="24" >
             <el-form-item class="label" label="關鍵字 5 (Search Term)">
               <template slot="label">
                   <span>關鍵字 5 (Search Term)</span>
