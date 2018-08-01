@@ -12,7 +12,7 @@
       <el-row :gutter="20"> 
         <el-col :span="12">
           <el-form-item label="Content ID" class="el-form-left" v-if="type"> 
-            <el-input  disabled v-model="data.contentId"></el-input>
+            <el-input  disabled v-model="data.ContentId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12" class="el-form-left" v-if="type">
@@ -351,7 +351,7 @@ export default {
       loading:false,
       type:true,
       data: {
-        ContentId: "NA_test2_test2",
+        ContentId: "",
         SKU: "",
         Enable: true,
         Language: "",
@@ -485,7 +485,6 @@ export default {
       this.data.BulletPoint5 = oldData.bulletPoint5;
       this.data.cartLongTitle = oldData.cartLongTitle;
       this.data.cartShortTitle = oldData.cartShortTitle;
-      this.data.contentId = oldData.contentId; 
       this.data.Country = oldData.country; 
       this.data.Description1 = oldData.description1 || ""; 
       this.data.Description2 = oldData.description2 || ""; 
@@ -499,7 +498,7 @@ export default {
       this.data.Keyword3 = oldData.keyword3 || ""; 
       this.data.Keyword4 = oldData.keyword4 || ""; 
       this.data.Keyword5 = oldData.keyword5 || ""; 
-      this.data.contentId = oldData.contentId; 
+      this.data.ContentId = oldData.contentId; 
       this.data.Enable = oldData.enable; 
       this.data.lastUpdatedTime = oldData.lastUpdatedTime;
       this.data.note = oldData.note;
