@@ -557,7 +557,7 @@ export default {
             data: info
           };
           axios({
-            url: "/content/add",
+            url: "/content/update",
             method: "post",
             data: {
               value: JSON.stringify(obj),
