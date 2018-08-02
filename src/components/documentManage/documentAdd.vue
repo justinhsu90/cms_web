@@ -490,7 +490,7 @@ export default {
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
       setTimeout(()=>{
         this.loading = true;
-      },3000)
+      },1000)
     });
   },
   methods: {

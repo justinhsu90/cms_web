@@ -28,6 +28,7 @@
       text-color="white"
       active-text-color="#409eff"
       @select="handleSelect"
+      collapse-transition
       >
     <template  v-for="(v,i) in navData">
       <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
@@ -56,7 +57,10 @@
 </el-row>
     </el-aside>
     <el-main>
-         <router-view></router-view>
+         <keep-alive :exclude="$route.meta.exclude">
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     </el-main>
   </el-container>
 </el-container>
@@ -76,10 +80,6 @@ export default {
         {
           index: "sku",
           label: "SKU管理"
-        },
-        {
-          index: "wocher",
-          label: "Wowcher 訂單管理"
         },
         {
           index: "purchase",
@@ -117,7 +117,9 @@ export default {
   },
   methods: {
     handleSelect(index, router) {
+
       this.$router.push(`/${index}`);
+
     },
     handleQuit() {
       let that = this;
@@ -141,8 +143,12 @@ export default {
   },
   watch: {
     $route: {
-      handler(newRouter) {        
-        this.defaultNav = newRouter.path.slice(1);
+      handler(newRouter) {    
+        if(newRouter.meta.sign){
+          this.defaultNav = newRouter.meta.sign;
+        }else{
+          this.defaultNav = newRouter.path.slice(1);
+        }    
       },
       immediate: true
     }

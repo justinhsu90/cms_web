@@ -33,7 +33,17 @@ let router = new VueRouter({
         children:[
             {
                 path:'/sku',
-                component:sku
+                component:sku,
+                meta:{
+                    keepAlive:true
+                }
+            },
+            {   
+                path:'/dataAnalysis',
+                component:dataAnalysis,
+                meta:{
+                    keepAlive:true
+                }
             },
             {
                 path:'/wocher',
@@ -51,15 +61,14 @@ let router = new VueRouter({
             },
             {   name:'purchaseEdit',
                 path:'/purchase/:id',
-                component:purchaseEdit
+                component:purchaseEdit,
+                meta:{
+                    sign:'purchase'
+                }
             },
             {   name:'edit',
                 path:'/edit',
                 component:edit
-            },
-            {   name:'dataAnalysis',
-                path:'/dataAnalysis',
-                component:dataAnalysis
             },
             {   name:'documentManage',
                 path:'/documentManage',
@@ -70,11 +79,17 @@ let router = new VueRouter({
             },        
             {   name:'documentEdit',
                 path:'/documentEdit',
-                component:documentEdit
+                component:documentEdit,
+                meta:{
+                    sign:'documentManage'
+                }
             },
             {   name:'documentAdd',
                 path:'/documentAdd',
-                component:documentAdd
+                component:documentAdd,
+                meta:{
+                    sign:'documentManage'
+                }
             },
             {   name:'purchaRequire',
                 path:'/purchaRequire',
@@ -85,11 +100,17 @@ let router = new VueRouter({
             },
             {   name:'purchaAdd',
                 path:'/purchaAdd',
-                component:purchaAdd
+                component:purchaAdd,
+                meta:{
+                    sign:'purchaRequire'
+                }
             }, 
             {   name:'purchaEdit',
                 path:'/purchaEdit',
-                component:purchaEdit
+                component:purchaEdit,
+                meta:{
+                    sign:'purchaRequire'
+                }
             },
             {   name:'erpPurchase',
                 path:'/erpPurchase',
@@ -100,11 +121,17 @@ let router = new VueRouter({
             },
             {   name:'erpPurchaseAdd',
                 path:'/erpPurchaseAdd',
-                component:erpPurchaseAdd
+                component:erpPurchaseAdd,
+                meta:{
+                    sign:'erpPurchase'
+                }
             }, 
             {   name:'erpPurchaseEdit',
                 path:'/erpPurchaseEdit',
-                component:erpPurchaseEdit
+                component:erpPurchaseEdit,
+                meta:{
+                    sign:'erpPurchase'
+                }
             }         
         ]
     },
