@@ -1,9 +1,10 @@
 <template>
     <div id="app">
-    <keep-alive :exclude="$route.meta.exclude">
+    <!-- <keep-alive :exclude="$route.meta.exclude">
         <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <router-view v-if="!$route.meta.keepAlive"></router-view> -->
+    <router-view></router-view>
     </div>
 </template>
 <style >
