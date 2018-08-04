@@ -554,6 +554,14 @@ export default {
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
       let ReplaceWordKey2 = this.data.ReplaceWordKey2;
       let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]');
+
       if(!!ReplaceWordValue1){
         let reg = new RegExp(`${ReplaceWordValue1}`,'g');
         totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
@@ -580,6 +588,14 @@ export default {
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
       let ReplaceWordKey2 = this.data.ReplaceWordKey2;
       let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]');
+
       if(!!ReplaceWordValue1){
         let reg = new RegExp(`${ReplaceWordValue1}`,'g');
         totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
@@ -607,6 +623,14 @@ export default {
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
       let ReplaceWordKey2 = this.data.ReplaceWordKey2;
       let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]');
+      
        if(!!ReplaceWordValue1){
         let reg = new RegExp(`${ReplaceWordValue1}`,'g');
         totalDescription = totalDescription.replace(reg,ReplaceWordKey1);

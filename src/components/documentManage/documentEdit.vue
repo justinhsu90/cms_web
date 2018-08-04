@@ -292,7 +292,7 @@
        <el-row>
         <el-button  size="small" type="success" @click="handlePreview">點擊預覽</el-button>
         <el-button style="margin-left:20px" size="small" type="success" @click="handleCheck">查看源码</el-button>
-        <el-select v-model="selectTinymce">
+        <el-select  style="margin-left:16px" v-model="selectTinymce">
             <el-option v-for="(v,i) in selectTinymceOption" :key="i" :label="v.label" :value="v.value"></el-option>
         </el-select>
         </el-row>
@@ -577,7 +577,7 @@ export default {
       this.data.note = oldData.note;
       setTimeout(()=>{
         this.loading = true;
-      },1000)
+      },2000)
     });
   },
   methods: {
@@ -595,6 +595,14 @@ export default {
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
       let ReplaceWordKey2 = this.data.ReplaceWordKey2;
       let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]');
+
       if(!!ReplaceWordValue1){
         let reg = new RegExp(`${ReplaceWordValue1}`,'g');
         totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
@@ -621,6 +629,14 @@ export default {
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
       let ReplaceWordKey2 = this.data.ReplaceWordKey2;
       let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+      
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]');
+
       if(!!ReplaceWordValue1){
         let reg = new RegExp(`${ReplaceWordValue1}`,'g');
         totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
@@ -648,6 +664,14 @@ export default {
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
       let ReplaceWordKey2 = this.data.ReplaceWordKey2;
       let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]'); 
+
        if(!!ReplaceWordValue1){
         let reg = new RegExp(`${ReplaceWordValue1}`,'g');
         totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
