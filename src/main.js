@@ -55,31 +55,31 @@ axios.interceptors.response.use((response) => {
   return response.data;
 });
 
-// router.beforeEach((to, form, next) => {
-//   let token;
-//   document.cookie.split(';').forEach((v,i)=>{
-//     let str = v.split('=')[0];
-//     str = str.trim();
-//     if(str == "token"){
-//         token = v.split('=')[1];
-//      }
-//    })
-//   if (to.meta.name == "login") {
-//     if (!!token) {
-//      Vue.prototype.token = token;
-//       next('/nav');
-//     } else {
-//       next();
-//     }
-//   } else {
-//     if (!!token) {
-//       Vue.prototype.token = token;
-//       next()
-//     } else {
-//       next('/login');
-//     }
-//   }
-// })
+router.beforeEach((to, form, next) => {
+  let token;
+  document.cookie.split(';').forEach((v,i)=>{
+    let str = v.split('=')[0];
+    str = str.trim();
+    if(str == "token"){
+        token = v.split('=')[1];
+     }
+   })
+  if (to.meta.name == "login") {
+    if (!!token) {
+     Vue.prototype.token = token;
+      next('/nav');
+    } else {
+      next();
+    }
+  } else {
+    if (!!token) {
+      Vue.prototype.token = token;
+      next()
+    } else {
+      next('/login');
+    }
+  }
+})
 new Vue({
   el: '#app',
   router,

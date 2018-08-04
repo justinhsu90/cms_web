@@ -163,6 +163,7 @@ export default {
   methods: {
     handleSearch: _.debounce(function() {
       this.isTableLoading = true;
+      console.log(this.token)
       axios({
         url: this.fetchOption.url,
         method: this.fetchOption.method,
