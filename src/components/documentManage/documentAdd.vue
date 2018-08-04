@@ -12,42 +12,52 @@
     <el-form ref="form" :model="data" label-position="top"  v-loading="!loading">
       <el-row :gutter="20"> 
         <el-col :span="12">
+          <el-form-item label="Content ID" class="el-form-left" v-if="type"> 
+            <el-input  disabled v-model="data.ContentId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12" class="el-form-left" v-if="type">
+          <el-form-item label="最後更新時間">
+            <el-input disabled v-model="data.lastUpdatedTime"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item label="SKU" class="el-form-left">
             <el-input v-model="data.SKU"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item label="啟用" class="el-form-left">
-            <el-switch style="margin-top:9px" v-model="data.Enable"></el-switch>
+            <el-switch  style="margin-top:9px" v-model="data.Enable"></el-switch>
           </el-form-item>
         </el-col>
       </el-row>
-       <el-row :gutter="20">
-          <el-col :span="12">
+        <el-row :gutter="20">
+          <el-col :span="5">
             <el-form-item label="帳號" class="el-form-left">
                <el-select  clearable  filterable allow-create v-model="data.Account" >
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="替换字1" class="el-form-left">
-                <el-input v-model="data.ReplaceWordValue1"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="5">
             <el-form-item label="平台" class="el-form-left">
                <el-select clearable  filterable allow-create v-model="data.Platform">
                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="5">
+            <el-form-item label="替换字 1" class="el-form-left">
+                <el-input v-model="data.ReplaceWordValue1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="替換值 1" class="el-form-left">
                <el-input v-model="data.ReplaceWordKey1"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="5">
             <el-form-item label="國家" class="el-form-left"> 
                <el-select clearable  filterable allow-create v-model="data.Country">
                <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
@@ -57,12 +67,7 @@
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-              <el-form-item label="替換字 2" class="el-form-left">
-               <el-input v-model="data.ReplaceWordValue2"></el-input>
-            </el-form-item>
-          </el-col>
-           <el-col :span="12">
+         <el-col :span="5">
             <el-form-item label="語言" class="el-form-left">
                <el-select clearable  filterable allow-create v-model="data.Language">
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
@@ -72,31 +77,38 @@
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+           <el-col :span="5">
+              <el-form-item label="替換字 2" class="el-form-left">
+               <el-input v-model="data.ReplaceWordValue2"></el-input>
+            </el-form-item>
+          </el-col>
+           
+          <el-col :span="8">
               <el-form-item label="替換值 2" class="el-form-left">
                <el-input v-model="data.ReplaceWordKey2"></el-input>
             </el-form-item>
           </el-col>
-           <el-col :span="12">
+           <el-col :span="5">
             <el-form-item label="品牌" class="el-form-left">
                <el-select  clearable  filterable allow-create v-model="data.Brand">
                <el-option v-for="(v,i) in searchBrandOption" :key="'brand'+i" :label="v.brand" :value="v.brand"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="替換字 3" class="el-form-left">
-               <el-input v-model="data.ReplaceWordValue3"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="5">
             <el-form-item label="製造商" class="el-form-left">
                <el-select clearable  filterable allow-create v-model="data.Manufacturer">
                 <el-option v-for="(v,i) in searchManufacturerOption" :key="'mau'+i" :label="v.manufacturer" :value="v.manufacturer"></el-option>
             </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="5">
+            <el-form-item label="替換字 3" class="el-form-left">
+               <el-input v-model="data.ReplaceWordValue3"></el-input>
+            </el-form-item>
+          </el-col>
+          
+          <el-col :span="8">
           <el-form-item label="替換值 3" class="el-form-left">
                <el-input v-model="data.ReplaceWordKey3"></el-input>
             </el-form-item>
@@ -107,21 +119,29 @@
        <h2>標題</h2>
        <br>
        <el-row :gutter="20">
-          <el-col :span="20">
-              <el-form-item label="產品標題">
-                  <el-input v-model="data.Title"></el-input>
+         <el-col :span="24">
+             <el-form-item class="label" label="產品標題">
+              <template slot="label">
+                  <span>產品標題</span>
+                  <span style="float:right">{{data.Title.length}}字符</span>
+              </template>
+              <el-input v-model="data.Title"> </el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="8">
-             <el-form-item label="購物車短標題">
-                  <el-input v-model="data.cartShortTitle"></el-input>
+           <el-col :span="12">
+             <el-form-item class="label" label="購物車短標題">
+              <template slot="label">
+                  <span>購物車短標題</span>
+                  <span style="float:right">{{data.cartShortTitle.length}}字符</span>
+              </template>
+              <el-input v-model="data.cartShortTitle"> </el-input>
               </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
              <el-form-item label="購物車長標題">
                   <el-input v-model="data.cartLongTitle"></el-input>
               </el-form-item>
-          </el-col>
+          </el-col> -->
        </el-row>
        <el-row>
         <el-button size="small" type="success" @click="handleTitlePreview">點擊預覽</el-button>
@@ -131,31 +151,51 @@
        <br>
        <h2>Bullet Point</h2>
        <br>
-       <el-row :gutter="20">
-          <el-col :span="20">
-            <el-form-item label="Bullet Point 1">
-                  <el-input v-model="data.BulletPoint1"></el-input>
-              </el-form-item>   
+        <el-row :gutter="20">
+          <el-col :span="24">
+             <el-form-item class="label" label="Bullet Point 1">
+              <template slot="label">
+                  <span>Bullet Point 1</span>
+                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+              </template>
+              <el-input v-model="data.BulletPoint5"> </el-input>
+              </el-form-item>
           </el-col>
-          <el-col :span="20">
-            <el-form-item label="Bullet Point 2">
-                  <el-input v-model="data.BulletPoint2"></el-input>
-              </el-form-item>   
+           <el-col :span="24">
+             <el-form-item class="label" label="Bullet Point 2">
+              <template slot="label">
+                  <span>Bullet Point 2</span>
+                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+              </template>
+              <el-input v-model="data.BulletPoint5"> </el-input>
+              </el-form-item>
           </el-col>
-          <el-col :span="20">
-            <el-form-item label="Bullet Point 3">
-                  <el-input v-model="data.BulletPoint3"></el-input>
-              </el-form-item>   
+           <el-col :span="24">
+             <el-form-item class="label" label="Bullet Point 3">
+              <template slot="label">
+                  <span>Bullet Point 3</span>
+                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+              </template>
+              <el-input v-model="data.BulletPoint5"> </el-input>
+              </el-form-item>
           </el-col>
-          <el-col :span="20">
-            <el-form-item label="Bullet Point 4">
-                  <el-input v-model="data.BulletPoint4"></el-input>
-              </el-form-item>   
+           <el-col :span="24">
+             <el-form-item class="label" label="Bullet Point 4">
+              <template slot="label">
+                  <span>Bullet Point 4</span>
+                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+              </template>
+              <el-input v-model="data.BulletPoint5"> </el-input>
+              </el-form-item>
           </el-col>
-          <el-col :span="20">
-            <el-form-item label="Bullet Point 5">
-                  <el-input v-model="data.BulletPoint5"></el-input>
-              </el-form-item>   
+          <el-col :span="24">
+             <el-form-item class="label" label="Bullet Point 5">
+              <template slot="label">
+                  <span>Bullet Point 5</span>
+                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+              </template>
+              <el-input v-model="data.BulletPoint5"> </el-input>
+              </el-form-item>
           </el-col>
        </el-row>
        <el-row>
