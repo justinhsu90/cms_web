@@ -11,7 +11,7 @@
     
     <el-form ref="form" :model="data" label-position="top"  v-loading="!loading">
       <el-row :gutter="20"> 
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label="Content ID" class="el-form-left" v-if="type"> 
             <el-input  disabled v-model="data.ContentId"></el-input>
           </el-form-item>
@@ -20,7 +20,7 @@
           <el-form-item label="最後更新時間">
             <el-input disabled v-model="data.lastUpdatedTime"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="12">
           <el-form-item label="SKU" class="el-form-left">
             <el-input v-model="data.SKU"></el-input>
@@ -156,36 +156,36 @@
              <el-form-item class="label" label="Bullet Point 1">
               <template slot="label">
                   <span>Bullet Point 1</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint1.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint1"> </el-input>
               </el-form-item>
           </el-col>
            <el-col :span="24">
              <el-form-item class="label" label="Bullet Point 2">
               <template slot="label">
                   <span>Bullet Point 2</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint2.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint2"> </el-input>
               </el-form-item>
           </el-col>
            <el-col :span="24">
              <el-form-item class="label" label="Bullet Point 3">
               <template slot="label">
                   <span>Bullet Point 3</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint3.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint3"> </el-input>
               </el-form-item>
           </el-col>
            <el-col :span="24">
              <el-form-item class="label" label="Bullet Point 4">
               <template slot="label">
                   <span>Bullet Point 4</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint4.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint4"> </el-input>
               </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -291,7 +291,7 @@
        <el-row>
         <el-button  size="small" type="success" @click="handlePreview">點擊預覽</el-button>
         <el-button style="margin-left:20px" size="small" type="success" @click="handleCheck">查看源码</el-button>
-        <el-select v-model="selectTinymce">
+        <el-select style="margin-left:16px" v-model="selectTinymce">
             <el-option v-for="(v,i) in selectTinymceOption" :key="i" :label="v.label" :value="v.value"></el-option>
         </el-select>
         </el-row>
@@ -403,7 +403,7 @@ export default {
     return {
       selectTinymce:1,
       selectTinymceOption:[{
-        label:'简易版',
+        label:'亚马逊',
         value:1
       },
       {
@@ -516,9 +516,7 @@ export default {
         token: this.token
       }
     });
-    setTimeout(()=>{
-        this.loading = true;
-      },4000)
+    
     Promise.all([
       account,
       platform,
@@ -533,6 +531,9 @@ export default {
       this.searchLanguageOption = _.cloneDeep(language.data);
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
+      setTimeout(()=>{
+        this.loading = true;
+      },1000)
     });
   },
   methods: {

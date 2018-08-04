@@ -17,7 +17,7 @@
           height: 500,
           theme: 'modern',
           menubar: false,
-          toolbar: `alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | preview removeformat  hr | paste code  link | undo redo | fullscreen `,
+          toolbar: `outdent indent | numlist bullist | preview removeformat  hr | paste code  link | undo redo | fullscreen `,
           plugins: `
             paste
             importcss

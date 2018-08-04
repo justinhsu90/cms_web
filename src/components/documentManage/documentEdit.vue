@@ -157,36 +157,36 @@
              <el-form-item class="label" label="Bullet Point 1">
               <template slot="label">
                   <span>Bullet Point 1</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint1.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint1"> </el-input>
               </el-form-item>
           </el-col>
            <el-col :span="24">
              <el-form-item class="label" label="Bullet Point 2">
               <template slot="label">
                   <span>Bullet Point 2</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint2.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint2"> </el-input>
               </el-form-item>
           </el-col>
            <el-col :span="24">
              <el-form-item class="label" label="Bullet Point 3">
               <template slot="label">
                   <span>Bullet Point 3</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint3.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint3"> </el-input>
               </el-form-item>
           </el-col>
            <el-col :span="24">
              <el-form-item class="label" label="Bullet Point 4">
               <template slot="label">
                   <span>Bullet Point 4</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint4.length}}字符</span>
               </template>
-              <el-input v-model="data.BulletPoint5"> </el-input>
+              <el-input v-model="data.BulletPoint4"> </el-input>
               </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -404,7 +404,7 @@ export default {
     return {
       selectTinymce:1,
       selectTinymceOption:[{
-        label:'简易版',
+        label:'亚马逊',
         value:1
       },
       {
