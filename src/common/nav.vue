@@ -138,7 +138,9 @@ export default {
             done();
           }
         }
-      });
+      }).catch(()=>{
+
+      })
     }
   },
   watch: {

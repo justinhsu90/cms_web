@@ -1,30 +1,50 @@
 <template>
-    <el-dialog :title="title" v-model="show">
-        122123
-    </el-dialog>
+    <el-dialog :title="title" :visible.sync="dialogVisible">
+    <slot name="content"></slot>
+    <div slot="footer" class="dialog-footer">
+    <el-button v-if="showCancel" @click="dialogVisible = false">{{cancelButtonText}}</el-button>
+    <el-button v-if="showConfirm" type="primary" @click="dialogVisible = false">{{confirmButtonText}}</el-button>
+    </div>
+</el-dialog>
 </template>
 <script>
 export default {
+    name:'wonDialog',
     props:{
         title:{
-            default:'編輯'
+            type:String,
+            default:'添加'
         },
-        data:{
-            default:[]
+        showConfirm:{
+            type:Boolean,
+            default:true
+        },
+        showCancel:{
+            type:Boolean,
+            default:true
+        },
+        confirmButtonText:{
+            type:String,
+            default:'确定'
+        },
+        cancelButtonText:{
+            type:String,
+            default:'取消'
         }
     },
     data(){
         return {
-            show:true
+            dialogVisible:false
         }
     },
     created(){
-        this.$on('showDialog',this.handleShow)
-    },
-    mounted:{
-        handleShow(){
-            
-        }
+        this.$on('visible',(value)=>{
+            if(value){
+                this.dialogVisible = true;
+            }else{
+                this.dialogVisible = false;
+            }
+        })
     }
 }
 </script>

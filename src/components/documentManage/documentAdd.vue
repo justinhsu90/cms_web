@@ -8,7 +8,8 @@
     <br>
     <h2>新增文案</h2>
     <br> 
-    <el-form ref="form" :model="data" label-position="top"   v-loading="!loading">
+    
+    <el-form ref="form" :model="data" label-position="top"  v-loading="!loading">
       <el-row :gutter="20"> 
         <el-col :span="12">
           <el-form-item label="SKU" class="el-form-left">
@@ -122,6 +123,10 @@
               </el-form-item>
           </el-col>
        </el-row>
+       <el-row>
+        <el-button size="small" type="success" @click="handleTitlePreview">點擊預覽</el-button>
+       </el-row>
+       <br> 
        <hr>
        <br>
        <h2>Bullet Point</h2>
@@ -153,6 +158,10 @@
               </el-form-item>   
           </el-col>
        </el-row>
+       <el-row>
+       <el-button  style="margin-bottom:10px" size="small" type="success" @click="handleBulletPointPreview">點擊預覽</el-button>
+       </el-row>
+       <br> 
        <hr>
        <br> 
        <h2>Description</h2>
@@ -164,7 +173,8 @@
                   <span>Short Description</span>
                   <span style="float:right">{{data.shortDescription.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.shortDescription"></tinymce>
+                <tinymce v-if="loading&&selectTinymce==2" v-model="data.shortDescription"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.shortDescription"></minTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="1">
@@ -173,7 +183,8 @@
                   <span>Description 1</span>
                   <span style="float:right">{{data.Description1.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.Description1"></tinymce>
+                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description1"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description1"></minTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="2">
@@ -182,7 +193,8 @@
                   <span>Description 2</span>
                   <span style="float:right">{{data.Description2.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.Description2"></tinymce>
+                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description2"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description2"></minTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="3">
@@ -191,7 +203,8 @@
                   <span>Description 3</span>
                   <span style="float:right">{{data.Description3.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.Description3"></tinymce>
+                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description3"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description3"></minTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="4">
@@ -200,7 +213,8 @@
                   <span>Description 4</span>
                   <span style="float:right">{{data.Description4.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.Description4"></tinymce>
+                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description4"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description4"></minTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="5">
@@ -209,7 +223,8 @@
                   <span>Description 5</span>
                   <span style="float:right">{{data.Description5.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.Description5"></tinymce>
+                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description5"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description5"></minTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="6">
@@ -218,7 +233,8 @@
                   <span>Description 6</span>
                   <span style="float:right">{{data.Description6.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.Description6"></tinymce>
+               <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description6"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description6"></minTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="7">
@@ -227,13 +243,18 @@
                   <span>Description 7</span>
                   <span style="float:right">{{data.Description7.length}}字符</span>
               </template>
-                <tinymce v-if="loading" v-model="data.Description7"></tinymce>
+               <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description7"></tinymce>
+                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description7"></minTinymce>
               </el-form-item>   
           </el-col>
        </el-row>
        <el-row>
-        <el-button size="small" type="success" @click="handlePreview">點擊預覽</el-button>
-       </el-row>
+        <el-button  size="small" type="success" @click="handlePreview">點擊預覽</el-button>
+        <el-button style="margin-left:20px" size="small" type="success" @click="handleCheck">查看源码</el-button>
+        <el-select v-model="selectTinymce">
+            <el-option v-for="(v,i) in selectTinymceOption" :key="i" :label="v.label" :value="v.value"></el-option>
+        </el-select>
+        </el-row>
        <br>
        <hr>
        <br>
@@ -319,17 +340,38 @@
        </el-row>
        <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
     </el-form> 
-    </div>         
+    </div>
+    <wonDialog ref="title" title="标题" :showConfirm="false">
+      <div v-html="titleHtml" slot="content"></div>
+    </wonDialog>    
+    <wonDialog ref="bulletPoint" title="Bullet Point" :showConfirm="false">
+      <div v-html="bulletPointHtml" slot="content"></div>    
+    </wonDialog>         
  </div>     
 </template>
 <script>
 import tinymce from "@/common/tinymce";
+import minTinymce from "@/common/minTinymce";
+import wonDialog from "@/common/wonDialog";
 export default {
   components: {
-    tinymce
+    tinymce,
+    minTinymce,
+    wonDialog
   },
   data() {
     return {
+      selectTinymce:1,
+      selectTinymceOption:[{
+        label:'简易版',
+        value:1
+      },
+      {
+        label:'完整版',
+        value:2
+      }],
+      titleHtml:'',
+      bulletPointHtml:'',
       submitLoading: false,
       searchAccountOption: [],
       searchPlatformOption: [],
@@ -434,6 +476,9 @@ export default {
         token: this.token
       }
     });
+    setTimeout(()=>{
+        this.loading = true;
+      },4000)
     Promise.all([
       account,
       platform,
@@ -448,9 +493,6 @@ export default {
       this.searchLanguageOption = _.cloneDeep(language.data);
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
-      setTimeout(()=>{
-        this.loading = true;
-      },1000)
     });
   },
   methods: {
@@ -460,6 +502,56 @@ export default {
     handleClose(index) {
       this.fileList.splice(index, 1);
     },
+    handleTitlePreview(){
+      let title1 = this.data.Title;
+      let title2 = this.data.cartLongTitle;
+      let title3 = this.data.cartShortTitle;
+      let totalTitle = title1 + title2 + title3;
+      let ReplaceWordValue1 = this.data.ReplaceWordValue1;
+      let ReplaceWordValue2 = this.data.ReplaceWordValue2;
+      let ReplaceWordValue3 = this.data.ReplaceWordValue3;
+      let ReplaceWordKey1 = this.data.ReplaceWordKey1;
+      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+      if(!!ReplaceWordValue1){
+        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
+        totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue2){
+        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
+        totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue3){
+        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
+        totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
+      }
+      this.titleHtml = totalTitle;
+      this.$refs['title'].$emit('visible',true);
+    },
+    handleBulletPointPreview(){
+      let title1 = this.data.BulletPoint1;
+      let title2 = this.data.BulletPoint2;
+      let title3 = this.data.BulletPoint3;
+      let title4 = this.data.BulletPoint4;
+      let title5 = this.data.BulletPoint5;
+      let totalBullet = title1 + title2 + title3 + title4 + title5;
+      let ReplaceWordValue1 = this.data.ReplaceWordValue1;
+      let ReplaceWordValue2 = this.data.ReplaceWordValue2;
+      let ReplaceWordValue3 = this.data.ReplaceWordValue3;
+      let ReplaceWordKey1 = this.data.ReplaceWordKey1;
+      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+      if(!!ReplaceWordValue1){
+        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
+        totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue2){
+        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
+        totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue3){
+        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
+        totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
+      }
+      this.bulletPointHtml = totalBullet;
+      this.$refs['bulletPoint'].$emit('visible',true);
+    },
     handlePreview(){
       let Description = this.data.shortDescription;
       let Description1 = this.data.Description1;
@@ -468,8 +560,51 @@ export default {
       let Description4 = this.data.Description4;
       let Description5 = this.data.Description5;
       let totalDescription = Description + Description1 + Description2 + Description3 + Description4 + Description5;
+      let ReplaceWordValue1 = this.data.ReplaceWordValue1;
+      let ReplaceWordValue2 = this.data.ReplaceWordValue2;
+      let ReplaceWordValue3 = this.data.ReplaceWordValue3;
+      let ReplaceWordKey1 = this.data.ReplaceWordKey1;
+      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+       if(!!ReplaceWordValue1){
+        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
+        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue2){
+        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
+        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue3){
+        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
+        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      }
       let previewWindow = window.open('', '_blank');
       previewWindow.document.write(totalDescription);
+    },
+    handleCheck(){
+      let Description = this.data.shortDescription;
+      let Description1 = this.data.Description1;
+      let Description2 = this.data.Description2;
+      let Description3 = this.data.Description3;
+      let Description4 = this.data.Description4;
+      let Description5 = this.data.Description5;
+      let totalDescription = Description + Description1 + Description2 + Description3 + Description4 + Description5;
+      let ReplaceWordValue1 = this.data.ReplaceWordValue1;
+      let ReplaceWordValue2 = this.data.ReplaceWordValue2;
+      let ReplaceWordValue3 = this.data.ReplaceWordValue3;
+      let ReplaceWordKey1 = this.data.ReplaceWordKey1;
+      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+       if(!!ReplaceWordValue1){
+        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
+        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue2){
+        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
+        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      }else if(!!ReplaceWordValue3){
+        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
+        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      }
+      let previewWindow = window.open('', '_blank');
+      previewWindow.document.body.innerText = totalDescription;
     },
     handleUpload() {
       if (this.fileList.length >= 10) {
