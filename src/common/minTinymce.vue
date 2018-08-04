@@ -17,7 +17,7 @@
           height: 500,
           theme: 'modern',
           menubar: false,
-          toolbar: `outdent indent | numlist bullist | preview removeformat  hr | paste code  link | undo redo | fullscreen `,
+          toolbar: `bold italic  | outdent indent | numlist bullist | preview removeformat  hr | paste code  link | undo redo | fullscreen `,
           plugins: `
             paste
             importcss
@@ -169,9 +169,9 @@
         this.Editor = window.tinymce.init({
           // 默认配置
           ...this.DefaultConfig,
-          // force_br_newlines : false,
-          // force_p_newlines : false,
-          // forced_root_block : '',
+          force_br_newlines : false,
+          force_p_newlines : false,
+          forced_root_block : '',
           // 图片上传
           images_upload_handler: function (blobInfo, success, failure) {
             if (blobInfo.blob().size > self.maxSize) {
