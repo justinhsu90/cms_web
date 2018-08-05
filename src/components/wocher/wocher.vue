@@ -11,7 +11,7 @@
             </el-select>
          </div>
           <div style="display:inline-block;width:140px">
-          <el-select  placeholder="订单状态" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
+          <el-select  placeholder="訂單裝態" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
                 <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v.name" :value="v.name"></el-option>
             </el-select>
          </div>
@@ -24,7 +24,7 @@
             </el-select>
          </div>
          <div style="display:inline-block;width:140px">
-          <el-select placeholder="订单类型"  v-model="searchOrdertype" @change="handleCondition('type')" clearable> 
+          <el-select placeholder="訂單類型"  v-model="searchOrdertype" @change="handleCondition('type')" clearable> 
                 <el-option v-for="(v,i) in searchOrdertypeOption" :key="'languate'+i" :value="v.name">
                 </el-option>
             </el-select>
@@ -36,49 +36,21 @@
         <br>
         <el-col>
                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <!-- <el-table-column min-width="80" label="addressLine1" prop="addressLine1"></el-table-column>
-                 <el-table-column min-width="80" label="addressLine2" prop="addressLine2"></el-table-column> -->
-                 <el-table-column min-width="100" label="wowcherCode" prop="wowcherCode" sortable="custom"></el-table-column>
+                 <el-table-column min-width="100" label="Wowcher Code" prop="wowcherCode" sortable="custom"></el-table-column>
                  <el-table-column min-width="100" label="redeemedAt" prop="redeemedAt" sortable="custom"></el-table-column>
-                  <el-table-column min-width="95" label="orderStatus" prop="orderStatus" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="orderType" prop="orderType" sortable="custom"></el-table-column>
-                  <el-table-column min-width="100" label="productName" prop="productName"></el-table-column>
-                  <el-table-column min-width="80" label="customerName" prop="customerName" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="shipoutTime" prop="shipoutTime"></el-table-column>
-                  <el-table-column min-width="80" label="trackingNo" prop="trackingNo" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="agent" prop="agent" sortable="custom"></el-table-column>
+                 <el-table-column min-width="95" label="發貨狀態" prop="orderStatus" sortable="custom"></el-table-column>
+                 <el-table-column min-width="80" label="訂單狀態" prop="orderType" sortable="custom"></el-table-column>
+                 <el-table-column min-width="80" label="產品顏色" prop="colour"></el-table-column>
+                 <el-table-column min-width="100" label="產品名稱" prop="productName"></el-table-column>
+                 <el-table-column min-width="80" label="客戶名稱" prop="customerName" sortable="custom"></el-table-column>
+                 <el-table-column min-width="80" label="發出時間" prop="shipoutTime"></el-table-column>
+                 <el-table-column min-width="80" label="單號" prop="trackingNo" sortable="custom"></el-table-column>
+                 <el-table-column min-width="80" label="發貨方式" prop="shippingMethod" sortable="custom"></el-table-column>
                  <el-table-column width="80" label="動作"   fixed="right">
-                   <template slot-scope="scope">
-                    <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
-                   </template>
+                 <template slot-scope="scope">
+                 <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
+                </template>
                </el-table-column> 
-                 <!-- <el-table-column min-width="80" label="birthday" prop="birthday"></el-table-column>
-                 <el-table-column min-width="80" label="city" prop="city"></el-table-column>
-                 <el-table-column min-width="80" label="colour" prop="colour"></el-table-column>
-                  <el-table-column min-width="80" label="country" prop="country"></el-table-column>
-                  <el-table-column min-width="80" label="currency" prop="currency"></el-table-column>
-                  <el-table-column min-width="80" label="customField" prop="customField"></el-table-column> -->
-                
-                  <!-- <el-table-column min-width="80" label="dealId" prop="dealId"></el-table-column>
-                  <el-table-column min-width="80" label="dealTitle" prop="dealTitle"></el-table-column>
-                  <el-table-column min-width="80" label="email" prop="email"></el-table-column>
-                  <el-table-column min-width="80" label="houseNumber" prop="houseNumber"></el-table-column>
-                  <el-table-column min-width="80" label="logistic" prop="logistic"></el-table-column>
-                  <el-table-column min-width="80" label="marketingPermission" prop="marketingPermission"></el-table-column>
-                  <el-table-column min-width="80" label="orderId" prop="orderId"></el-table-column> -->
-                 
-                 
-                  <!-- <el-table-column min-width="80" label="phone" prop="phone" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="platformOrderId" prop="platformOrderId"></el-table-column>
-                  <el-table-column min-width="80" label="postcode" prop="postcode" sortable="custom"></el-table-column> -->
-                  <!-- <el-table-column min-width="80" label="price" prop="price"></el-table-column>
-                  <el-table-column min-width="80" label="productOptoins" prop="productOptoins"></el-table-column>
-                  <el-table-column min-width="80" label="quantity" prop="quantity"></el-table-column> -->
-                
-                  
-                  <!-- <el-table-column min-width="80" label="shippingMethod" prop="shippingMethod" sortable="custom"></el-table-column>
-                  <el-table-column min-width="80" label="sku" prop="sku"></el-table-column>
-                  <el-table-column min-width="80" label="spec" prop="spec"></el-table-column> -->
                 
         </el-table> 
         </el-col>
