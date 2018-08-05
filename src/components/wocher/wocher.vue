@@ -10,11 +10,6 @@
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
          </div>
-          <div style="display:inline-block;width:140px">
-          <el-select  placeholder="訂單裝態" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
-                <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v.name" :value="v.name"></el-option>
-            </el-select>
-         </div>
          <div style="display:inline-block;width:140px">
           <el-select  placeholder="國家" v-model="searchCountry"  @change="handleCondition('cou')" clearable>
                 <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName" >
@@ -23,8 +18,14 @@
                 </el-option>
             </el-select>
          </div>
+           <div style="display:inline-block;width:140px">
+          <el-select  placeholder="出貨狀態" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
+                <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v.name" :value="v.name"></el-option>
+            </el-select>
+         </div>
+        
          <div style="display:inline-block;width:140px">
-          <el-select placeholder="訂單類型"  v-model="searchOrdertype" @change="handleCondition('type')" clearable> 
+          <el-select placeholder="訂單狀態"  v-model="searchOrdertype" @change="handleCondition('type')" clearable> 
                 <el-option v-for="(v,i) in searchOrdertypeOption" :key="'languate'+i" :value="v.name">
                 </el-option>
             </el-select>
@@ -36,19 +37,16 @@
         <br>
         <el-col>
                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column min-width="100" label="Wowcher Code" prop="wowcherCode" sortable="custom"></el-table-column>
-                 <el-table-column min-width="100" label="redeemedAt" prop="redeemedAt" sortable="custom"></el-table-column>
-                 <el-table-column min-width="95" label="發貨狀態" prop="orderStatus" sortable="custom"></el-table-column>
-                 <el-table-column min-width="80" label="訂單狀態" prop="orderType" sortable="custom"></el-table-column>
-                 <el-table-column min-width="80" label="產品顏色" prop="colour"></el-table-column>
-                 <el-table-column min-width="100" label="產品名稱" prop="productName"></el-table-column>
-                 <el-table-column min-width="80" label="客戶名稱" prop="customerName" sortable="custom"></el-table-column>
-                 <el-table-column min-width="80" label="發出時間" prop="shipoutTime"></el-table-column>
-                 <el-table-column min-width="80" label="單號" prop="trackingNo" sortable="custom"></el-table-column>
-                 <el-table-column min-width="80" label="發貨方式" prop="shippingMethod" sortable="custom"></el-table-column>
-                 <el-table-column width="80" label="動作"   fixed="right">
+                 <el-table-column min-width="110" label="Wowcher Code" prop="wowcherCode"></el-table-column>
+                 <el-table-column min-width="75" label="下單時間" prop="redeemedAt" sortable="custom"></el-table-column>
+                 <el-table-column min-width="75" label="發貨狀態" prop="orderStatus" sortable="custom"></el-table-column>
+                 <el-table-column min-width="75" label="訂單狀態" prop="orderType" sortable="custom"></el-table-column>
+                 <el-table-column min-width="200" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
+                 <el-table-column min-width="120" label="客戶名稱" prop="customerName" sortable="custom"></el-table-column>
+                 <el-table-column min-width="120" label="單號" prop="trackingNo" sortable="custom"></el-table-column>
+                 <el-table-column width="50" label="動作" fixed="right">
                  <template slot-scope="scope">
-                 <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
+                     <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
                 </template>
                </el-table-column> 
                 
