@@ -11,95 +11,95 @@
           <el-row :gutter="20">
              <el-col :span="8">
           <el-form-item label="wowcherCode:">    
-                <span>{{data.wowcherCode}}</span>
+                <el-input disabled v-model="data.wowcherCode"></el-input>
           </el-form-item>
           <el-form-item label="redeemedAt:">    
-                <span>{{data.redeemedAt}}</span>
+                <el-input disabled v-model="data.redeemedAt"></el-input>
           </el-form-item>
           <el-form-item label="orderStatus:">    
-                <span>{{data.orderStatus}}</span>
+                <el-input disabled v-model="data.orderStatus"></el-input>
           </el-form-item>
           <el-form-item label="orderType:">    
-                <span>{{data.orderType}}</span>
+                <el-input disabled v-model="data.orderType"></el-input>
           </el-form-item>
           <el-form-item label="productName:">    
-                <span>{{data.productName}}</span>
+                <el-input disabled v-model="data.productName"></el-input>
           </el-form-item>
           <el-form-item label="customerName:">    
-                <span>{{data.customerName}}</span>
+                <el-input disabled v-model="data.customerName"></el-input>
           </el-form-item>
           <el-form-item label="shipoutTime:">    
-                <span>{{data.shipoutTime}}</span>
+                <el-input disabled v-model="data.shipoutTime"></el-input>
           </el-form-item>  
           <el-form-item label="trackingNo:">    
-                <span>{{data.trackingNo}}</span>
+                <el-input disabled v-model="data.trackingNo"></el-input>
           </el-form-item>
           <el-form-item label="agent:">    
-                <span>{{data.agent}}</span>
+                <el-input disabled v-model="data.agent"></el-input>
           </el-form-item>  
           <el-form-item label="birthday:">    
-                <span>{{data.birthday}}</span>
+                <el-input disabled v-model="data.birthday"></el-input>
           </el-form-item>
           </el-col>
           <el-col :span="8">  
           <el-form-item label="city:">    
-                <span>{{data.city}}</span>
+                <el-input disabled v-model="data.city"></el-input>
           </el-form-item>  
           <el-form-item label="colour:">    
-                <span>{{data.colour}}</span>
+                <el-input disabled v-model="data.colour"></el-input>
           </el-form-item>  
           <el-form-item label="country:">    
-                <span>{{data.country}}</span>
+                <el-input disabled v-model="data.country"></el-input>
           </el-form-item>  
           <el-form-item label="customField:">    
-                <span>{{data.customField}}</span>
+                <el-input disabled v-model="data.customField"></el-input>
           </el-form-item>  
           <el-form-item label="dealId:">    
-                <span>{{data.dealId}}</span>
+                <el-input disabled v-model="data.dealId"></el-input>
           </el-form-item>  
           <el-form-item label="dealTitle:">    
-                <span>{{data.dealTitle}}</span>
+                <el-input disabled v-model="data.dealTitle"></el-input>
           </el-form-item>  
           <el-form-item label="email:">    
-                <span>{{data.email}}</span>
+                <el-input disabled v-model="data.email"></el-input>
           </el-form-item>
           <el-form-item label="houseNumber:">    
-                <span>{{data.houseNumber}}</span>
+                <el-input disabled v-model="data.houseNumber"></el-input>
           </el-form-item>  
           <el-form-item label="logistic:">    
-                <span>{{data.logistic}}</span>
+                <el-input disabled v-model="data.logistic"></el-input>
           </el-form-item>  
           <el-form-item label="phone:">    
-                <span>{{data.phone}}</span>
+                <el-input disabled v-model="data.phone"></el-input>
           </el-form-item>  
           </el-col>  
           <el-col :span="8">  
           <el-form-item label="platformOrderId:">    
-                <span>{{data.platformOrderId}}</span>
+                <el-input disabled v-model="data.platformOrderId"></el-input>
           </el-form-item>  
           <el-form-item label="postcode:">    
-                <span>{{data.postcode}}</span>
+                <el-input disabled v-model="data.postcode"></el-input>
           </el-form-item>  
           <el-form-item label="price:">    
-                <span>{{data.price}}</span>
+                <el-input disabled v-model="data.price"></el-input>
           </el-form-item>  
           <el-form-item label="postcode:">    
-                <span>{{data.postcode}}</span>
+                <el-input disabled v-model="data.postcode"></el-input>
           </el-form-item>  
           <el-form-item label="productOptoins:">    
-                <span>{{data.productOptoins}}</span>
+                <el-input disabled v-model="data.productOptoins"></el-input>
           </el-form-item>  
           <el-form-item label="quantity:">    
-                <span>{{data.quantity}}</span>
+                <el-input disabled v-model="data.quantity"></el-input>
           </el-form-item>  
           <el-form-item label="shippingMethod:">    
-                <span>{{data.shippingMethod}}</span>
+                <el-input disabled v-model="data.shippingMethod"></el-input>
           </el-form-item>  
           <el-form-item label="sku:">    
-                <span>{{data.sku}}</span>
+                <el-input disabled v-model="data.sku"></el-input>
           </el-form-item>  
           <el-form-item label="spec:">    
-                <span>{{data.spec}}</span>
+                <el-input disabled v-model="data.spec"></el-input>
           </el-form-item>
           </el-col>  
           </el-row>
