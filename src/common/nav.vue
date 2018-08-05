@@ -82,6 +82,10 @@ export default {
           label: "SKU管理"
         },
         {
+          index: "wocher",
+          label: "Wowcher订单管理"
+        },
+        {
           index: "purchase",
           label: "採購單"
         },

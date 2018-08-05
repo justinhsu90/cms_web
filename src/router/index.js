@@ -4,6 +4,7 @@ import nav from '@/common/nav'
 import login from '@/common/login'
 import sku from '@/components/sku/sku'
 import wocher from '@/components/wocher/wocher'
+import wocherEdit from '@/components/wocher/wocherEdit'
 import edit from '@/components/tinymce/tinymce'
 import purchase from '@/components/purchase/purchase'
 import purchaseEdit from '@/components/purchase/purchaseEdit'
@@ -46,10 +47,19 @@ let router = new VueRouter({
                 }
             },
             {
+                name:'wocher',    
                 path:'/wocher',
                 component:wocher,
                 meta:{
                     keepAlive:true
+                }
+            },
+            {
+                name:'wocherEdit',
+                path:'/wocherEdit',
+                component:wocherEdit,
+                meta:{
+                    sign:'wocher'
                 }
             },
             {
