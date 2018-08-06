@@ -278,7 +278,7 @@ export default {
 
     this.loading = true;
     let promiseOne = axios({
-      url: "http://118.163.10.109:8000/data-server/purchase/data/account",
+      url: "http://60.251.57.138:8080/data-server/purchase/data/account",
       method: "post",
       data: {
         token: this.token
@@ -286,7 +286,7 @@ export default {
     });
 
     let promiseTwo = axios({
-      url: `http://118.163.10.109:8000/data-server/purchase/data/platform`,
+      url: `http://60.251.57.138:8080/data-server/purchase/data/platform`,
       method: "POST",
       data: {
         token: this.token
@@ -294,7 +294,7 @@ export default {
     });
 
     let promiseThree = axios({
-      url: "http://118.163.10.109:8000/data-server/purchase/currencies",
+      url: "http://60.251.57.138:8080/data-server/purchase/currencies",
       method: "post",
       data: {
         token: this.token,
@@ -313,7 +313,7 @@ export default {
   methods: {
     autoProductName(obj) {
       axios({
-        url: "http://118.163.10.109:8000/data-server/sku/info",
+        url: "http://60.251.57.138:8080/data-server/sku/info",
         method: "post",
         data: {
           value: obj.productSKU,
@@ -375,13 +375,13 @@ export default {
     submit() {
       this.$refs["form"].validate(action => {
         if (action) {
-          let url = "http://118.163.10.109:8000/data-server/purchase/add";
+          let url = "http://60.251.57.138:8080/data-server/purchase/add";
           let data = {
             value: JSON.stringify(this.getValue()),
             token: this.token
           };
           if (this.$route.params.id == "edit") {
-            url = "http://118.163.10.109:8000/data-server/purchase/update";
+            url = "http://60.251.57.138:8080/data-server/purchase/update";
             data.type = "purchase";
           }
 

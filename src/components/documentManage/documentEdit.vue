@@ -205,7 +205,9 @@
        <br> 
        <hr>
        <br> 
-       <h2>Description</h2>
+       <h2>Description <el-select  style="margin-left:16px" v-model="selectTinymce">
+            <el-option v-for="(v,i) in selectTinymceOption" :key="i" :label="v.label" :value="v.value"></el-option>
+        </el-select></h2>
        <br> 
          <el-row :gutter="20"> 
           <el-col :span="24">
@@ -292,9 +294,7 @@
        <el-row>
         <el-button  size="small" type="success" @click="handlePreview">點擊預覽</el-button>
         <el-button style="margin-left:20px" size="small" type="success" @click="handleCheck">查看源码</el-button>
-        <el-select  style="margin-left:16px" v-model="selectTinymce">
-            <el-option v-for="(v,i) in selectTinymceOption" :key="i" :label="v.label" :value="v.value"></el-option>
-        </el-select>
+       
         </el-row>
        <br>
        <hr>
@@ -404,11 +404,11 @@ export default {
     return {
       selectTinymce:1,
       selectTinymceOption:[{
-        label:'亚马逊',
+        label:'Amazon',
         value:1
       },
       {
-        label:'完整版',
+        label:'全功能',
         value:2
       }],
       titleHtml:'',
