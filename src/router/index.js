@@ -51,6 +51,30 @@ let router = new VueRouter({
                 }
             },
             {
+                name:'wowcherDealList',
+                path:'/wowcherDealList',
+                component:wowcherDealList,
+                meta:{
+                    keepAlive:true 
+                }
+            },
+            {
+                name:'wowcherDealEdit',
+                path:'/wowcherDealEdit',
+                component:wowcherDealEdit,
+                meta:{
+                    sign:'wowcher'
+                }
+            },
+            {
+                name:'wowcherDealAdd',
+                path:'/wowcherDealAdd',
+                component:wowcherDealAdd,
+                meta:{
+                    sign:'wowcher'
+                }
+            },
+            {
                 name:'wowcher',    
                 path:'/wowcher',
                 component:wowcher,
@@ -70,30 +94,6 @@ let router = new VueRouter({
                 name:'wowcherEdit',
                 path:'/wowcherEdit',
                 component:wowcherEdit,
-                meta:{
-                    sign:'wowcher'
-                }
-            },
-            {
-                name:'wowcherDealList',
-                path:'/wowcherDealList',
-                component:wowcherDealList,
-                meta:{
-                    sign:'wowcher'
-                }
-            },
-            {
-                name:'wowcherDealEdit',
-                path:'/wowcherDealEdit',
-                component:wowcherDealEdit,
-                meta:{
-                    sign:'wowcher'
-                }
-            },
-            {
-                name:'wowcherDealAdd',
-                path:'/wowcherDealAdd',
-                component:wowcherDealAdd,
                 meta:{
                     sign:'wowcher'
                 }

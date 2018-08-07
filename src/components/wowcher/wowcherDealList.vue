@@ -2,9 +2,8 @@
               <div>
                   <el-row>
                       <el-col :span="24">
-                    <el-input v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
-                      <el-button  style="width:100%;margin:0 " @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
-                  </el-input>
+                    <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                    </el-input>
                     <div style="margin-left:5px;display:inline-block;width:140px">
                     <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                           <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
@@ -19,9 +18,7 @@
                       </el-select>
                   </div>
                   <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
-         <el-button style="float:right" @click="handleAdd"  type="primary" >新增 Deal</el-button>
-        
-                  <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
+                    <el-button style="float:right" @click="handleAdd"  type="primary" >新增 Deal</el-button> 
                   </el-col>    
                   <br>
                   <br>
@@ -33,16 +30,18 @@
                           <el-table-column min-width="70" label="帳號" prop="account" sortable="custom"></el-table-column>
                           <el-table-column min-width="70" label="國家" prop="country" sortable="custom"></el-table-column>
                           <el-table-column min-width="250" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
-                          <!-- <el-table-column min-width="80" label="產品規格" prop="productSpec" sortable="custom"></el-table-column> -->
-                          <el-table-column min-width="110" label="Final Price" prop="finalPrice" sortable="custom"></el-table-column>
-                          <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom"></el-table-column>
+                          <el-table-column min-width="110" label="Final Price" prop="finalPrice" sortable="custom">
+                              <template slot-scope="scope">
+                                    {{scope.row.finalPrice | formatToYuan}}&nbsp;{{scope.row.currency}}
+                              </template>
+                          </el-table-column>
+                          <el-table-column min-width="70" label="售價"  prop="salePrice" sortable="custom"></el-table-column>
                           <el-table-column min-width="90" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
                           <el-table-column width="80" label="動作" fixed="right">
                           <template slot-scope="scope">
                             <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                           </template>
                     </el-table-column> 
-                      
               </el-table> 
               </el-col>
                 <div style="float:right">

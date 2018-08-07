@@ -35,6 +35,18 @@ export default {
       })
     })
   },
+  filters:{
+    formatToPercent(row,column,cellValue){
+        return (cellValue*100).toFixed(2)+"%"
+    },
+    formatToYuan(row,column,cellValue){
+        if(cellValue){
+          return cellValue.toFixed(2)
+        }else{
+          return row.toFixed(2)
+        }
+    }
+  },
   methods: {
     handleSizeChange(size) {
       this.fetchCondition.limit = size;

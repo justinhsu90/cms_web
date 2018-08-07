@@ -2,8 +2,7 @@
     <div>
         <el-row>
             <el-col :span="24">
-          <el-input v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
-            <el-button  style="width:100%;margin:0 " @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
+        <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
         </el-input>
           <div style="margin-left:5px;display:inline-block;width:140px">
           <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>

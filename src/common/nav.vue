@@ -83,7 +83,7 @@ export default {
         },
         {
           index: "wowcherMain",
-          label: "Wowcher",
+          label: "WowcherMain",
           isLevel: true,
           child: [
             {
