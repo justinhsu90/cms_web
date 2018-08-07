@@ -4,6 +4,7 @@ import nav from '@/common/nav'
 import login from '@/common/login'
 import sku from '@/components/sku/sku'
 import wowcher from '@/components/wowcher/wowcher'
+import wowcherOrder from '@/components/wowcher/wowcherOrder'
 import wowcherEdit from '@/components/wowcher/wowcherEdit'
 import wowcherDealList from '@/components/wowcher/wowcherDealList'
 import wowcherDealEdit from '@/components/wowcher/wowcherDealEdit'
@@ -58,6 +59,22 @@ let router = new VueRouter({
                 }
             },
             {
+                name:'wowcherOrder',    
+                path:'/wowcherOrder',
+                component:wowcherOrder,
+                meta:{
+                    sign:'wowcher'
+                }
+            },
+            {
+                name:'wowcherEdit',
+                path:'/wowcherEdit',
+                component:wowcherEdit,
+                meta:{
+                    sign:'wowcher'
+                }
+            },
+            {
                 name:'wowcherDealList',
                 path:'/wowcherDealList',
                 component:wowcherDealList,
@@ -77,14 +94,6 @@ let router = new VueRouter({
                 name:'wowcherDealAdd',
                 path:'/wowcherDealAdd',
                 component:wowcherDealAdd,
-                meta:{
-                    sign:'wowcher'
-                }
-            },
-            {
-                name:'wowcherEdit',
-                path:'/wowcherEdit',
-                component:wowcherEdit,
                 meta:{
                     sign:'wowcher'
                 }

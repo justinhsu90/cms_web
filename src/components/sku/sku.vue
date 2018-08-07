@@ -151,7 +151,7 @@ export default {
         order: "productName"
       },
       fetchOption: {
-        url: "http://60.251.57.138:8000/data-server/sku/search",
+        url: "/sku/search",
         where: "",
         method: "post"
       }

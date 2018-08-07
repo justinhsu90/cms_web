@@ -37,13 +37,20 @@
         <br>
         <el-col>
                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column min-width="110" label="Wowcher Code" prop="wowcherCode"></el-table-column>
+                 <el-table-column min-width="110" label="Wowcher Code" prop="wowcherCode">
+                 </el-table-column>
                  <el-table-column min-width="75" label="下單時間" prop="redeemedAt" sortable="custom"></el-table-column>
                  <el-table-column min-width="75" label="發貨狀態" prop="orderStatus" sortable="custom"></el-table-column>
                  <el-table-column min-width="75" label="訂單狀態" prop="orderType" sortable="custom"></el-table-column>
                  <el-table-column min-width="200" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
                  <el-table-column min-width="120" label="客戶名稱" prop="customerName" sortable="custom"></el-table-column>
-                 <el-table-column min-width="120" label="單號" prop="trackingNo" sortable="custom"></el-table-column>
+                 <el-table-column min-width="120" label="單號" prop="trackingNo" sortable="custom">
+                    <template slot-scope="scope">
+                            <el-button type="text" @click="handleLook(scope.row.trackingNo)">
+                                <span>{{scope.row.trackingNo}}</span>
+                            </el-button>
+                    </template>
+                 </el-table-column>
                  <el-table-column width="50" label="動作" fixed="right">
                  <template slot-scope="scope">
                      <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
@@ -138,6 +145,14 @@ export default {
     this.handleSearch();
   },
   methods: {
+    handleLook(val){
+        this.$router.push({
+          name:'wowcherOrder',
+          query:{
+            id:val
+          }
+        })
+    },
      handleCondition(sign) {
       if (sign == "acc") {
         if (!this.searchAccount) {
@@ -201,7 +216,7 @@ export default {
       },500),
       handleCheck(val){
         this.$router.push({
-        name: "wocherEdit",
+        name: "wowcherEdit",
         query: { data: JSON.stringify(val) }
       });
       }
@@ -215,4 +230,5 @@ export default {
   background: rgb(237, 241, 245);
   text-align: center;
 }
+
 </style>
