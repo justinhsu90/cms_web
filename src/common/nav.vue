@@ -82,13 +82,20 @@ export default {
           label: "SKU管理"
         },
         {
-          index: "wocher",
-          label: "Wowcher訂單"
+          index: "wowcherMain",
+          label: "Wowcher",
+          isLevel: true,
+          child: [
+            {
+              index: "wowcher",
+              label: "Wowcher訂單"
+            },
+            {
+              index: "wowcherDealList",
+              label: "Wowcher上架清單"
+            }
+          ]
         },
-        // {
-        //   index: "purchase",
-        //   label: "採購單"
-        // },
         {
           index: "documentManage",
           label: "文案管理"
@@ -105,7 +112,7 @@ export default {
             {
               index: "erpPurchase",
               label: "採購單"
-            },
+            }
           ]
         }
       ]

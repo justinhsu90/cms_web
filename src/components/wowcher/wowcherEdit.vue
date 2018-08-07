@@ -151,7 +151,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/wocher");
+      this.$router.push("/wowcher");
     }
   }
 };
