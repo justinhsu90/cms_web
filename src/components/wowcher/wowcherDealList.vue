@@ -36,7 +36,7 @@
                           <el-table-column min-width="90" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
                           <el-table-column width="80" label="動作" fixed="right">
                           <template slot-scope="scope">
-                              <el-button type="text" title="編輯" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
+                            <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                           </template>
                     </el-table-column> 
                       
@@ -154,6 +154,12 @@
                   this.total = count;
                 });
                 },500),
+                handleEdit(val) {
+                 this.$router.push({
+                 name: "wowcherDealEdit",
+               query: { data: JSON.stringify(val) }
+                });
+                 },
                 handleCheck(val){
                   this.$router.push({
                   name: "wowcherDealList",
