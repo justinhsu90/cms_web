@@ -6,6 +6,7 @@ import sku from '@/components/sku/sku'
 import wowcher from '@/components/wowcher/wowcher'
 import wowcherEdit from '@/components/wowcher/wowcherEdit'
 import wowcherDealList from '@/components/wowcher/wowcherDealList'
+import wowcherDealEdit from '@/components/wowcher/wowcherDealEdit'
 import edit from '@/components/tinymce/tinymce'
 import purchase from '@/components/purchase/purchase'
 import purchaseEdit from '@/components/purchase/purchaseEdit'
@@ -60,7 +61,15 @@ let router = new VueRouter({
                 path:'/wowcherDealList',
                 component:wowcherDealList,
                 meta:{
-                    sign:'w'
+                    sign:'wowcher'
+                }
+            },
+            {
+                name:'wowcherDealEdit',
+                path:'/wowcherDealEdit',
+                component:wowcherDealEdit,
+                meta:{
+                    sign:'wowcher'
                 }
             },
             {
