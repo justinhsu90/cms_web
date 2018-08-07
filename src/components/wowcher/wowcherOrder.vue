@@ -14,9 +14,7 @@
     </div>
 </template>
 <script>
-import wonTableContainer from "../../common/wonTableContainer";
 export default {
-  extends: wonTableContainer,
   data() {
     return {
       tableData: [],
@@ -44,7 +42,7 @@ export default {
            token:this.token,
            trackingnumber:this.$route.query.id
          }
-        }).then(({trackList})=>{
+        }).then(({data:{trackList}})=>{
           this.tableData = _.cloneDeep(trackList);
           this.isTableLoading = false;
         })
