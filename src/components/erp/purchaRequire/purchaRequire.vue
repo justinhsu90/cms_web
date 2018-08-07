@@ -9,19 +9,6 @@
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
             </el-select>
          </div>
-          <div style="display:inline-block;width:140px">
-          <el-select  placeholder="採購" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
-                <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
-            </el-select>
-         </div>
-         <div style="display:inline-block;width:140px">
-          <el-select  placeholder="耗材" v-model="searchCountry"  @change="handleCondition('cou')" clearable>
-                <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
-                   <span style="float: left">{{ v.countryCode }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                </el-option>
-            </el-select>
-         </div>
          <div style="display:inline-block;width:140px">
           <el-select  placeholder="購買" v-model="searchLanguage"  @change="handleCondition('lang')" clearable>
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
@@ -92,10 +79,6 @@ export default {
       isTableLoading: false,
       searchAccount:'',
       searchAccountOption:[],
-      searchPlatform:'',
-      searchPlatformOption:[],
-      searchCountry:'',
-      searchCountryOption:[],
       searchLanguage:'',
       searchLanguageOption:[{countryCode:'是',countryNameChinese:true},{countryCode:'否',countryNameChinese:false}],
       fetchCondition: {
@@ -112,30 +95,14 @@ export default {
   },
   created() {
     let account = axios({
-      url:'/content/value/account',
+      url:'/purchasequery/value/purchasetype',
       method:'post',
       data:{
         token:this.token
       }  
     })
-    let platform = axios({
-      url:'/content/value/platform',
-      method:'post',
-      data:{
-        token:this.token
-      }  
-    })
-    let country = axios({
-      url:'/content/value/country',
-      method:'post',
-      data:{
-        token:this.token
-      }  
-    })
-    Promise.all([account,platform,country]).then(([account,platform,country])=>{
+    Promise.all([account]).then(([account])=>{
         this.searchAccountOption = _.cloneDeep(account.data);
-        this.searchPlatformOption = _.cloneDeep(platform.data);
-        this.searchCountryOption = _.cloneDeep(country.data);
     })
     this.handleSearch();
     this.Bus.$on('refresh',this.handleSearch);
@@ -148,17 +115,12 @@ export default {
           token: this.token,
           skip: this.fetchCondition.skip,
           limit: this.fetchCondition.limit,
-          order: this.fetchCondition.order
         }
       if(this.condition.includes('1')){
         data.purchaseType = this.searchAccount;
       }
       if(this.condition.includes('2')){
-         data.purchaseType = this.searchPlatform;
-        
-      }
-      if(this.condition.includes('4')){
-        data.isPaid = this.searchLanguage;
+        data.isPurchased = this.searchLanguage;
       }
       axios({
         url: this.fetchOption.url,
@@ -187,25 +149,11 @@ export default {
           this.condition.push('1');
         }
       }
-      if(sign == "plat"){
-        if(!this.searchPlatform){
-          _.pull(this.condition, '2');
-        }else{
-          this.condition.push('2');
-        }
-      }
-      if(sign == "cou"){
-        if(!this.searchCountry){
-          _.pull(this.condition, '3'); 
-        }else{
-          this.condition.push('3');
-        }
-      }
       if(sign == "lang"){
         if(!this.searchLanguage){
-          _.pull(this.condition, '4');   
+          _.pull(this.condition, '2');   
         }else{
-          this.condition.push('4');
+          this.condition.push('2');
         }
       }
       this.handleSearch();
