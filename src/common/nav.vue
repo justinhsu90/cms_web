@@ -4,7 +4,7 @@
   <el-header>
       <h1>
           <i class="el-icon-menu"></i>&nbsp;&nbsp;
-          <span>後台管理系統</span> 
+          <span>菲德利內部管理系統</span> 
       </h1>
       <h1 style="float:right">
         <el-popover placement="bottom" width="200" trigger="click">
@@ -82,12 +82,19 @@ export default {
           label: "SKU管理"
         },
         {
-          index: "wocher",
-          label: "Wowcher订单管理"
-        },
-        {
-          index: "purchase",
-          label: "採購單"
+          index: "wowcherMain",
+          label: "Wowcher",
+          isLevel: true,
+          child: [
+            {
+              index: "wowcher",
+              label: "Wowcher訂單"
+            },
+            {
+              index: "wowcherDealList",
+              label: "Wowcher上架清單"
+            }
+          ]
         },
         {
           index: "documentManage",
@@ -105,7 +112,7 @@ export default {
             {
               index: "erpPurchase",
               label: "採購單"
-            },
+            }
           ]
         }
       ]

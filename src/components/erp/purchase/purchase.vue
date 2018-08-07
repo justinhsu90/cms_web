@@ -10,7 +10,7 @@
             </el-select>
          </div>
          <div style="display:inline-block;width:140px">
-          <el-select  placeholder="购买" v-model="searchLanguage"  @change="handleCondition('lang')" clearable>
+          <el-select  placeholder="購買" v-model="searchLanguage"  @change="handleCondition('lang')" clearable>
                 <el-option v-for="(v,i) in searchLanguageOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
                 </el-option>
             </el-select>
