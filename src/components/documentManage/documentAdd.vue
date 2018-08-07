@@ -403,7 +403,7 @@ export default {
     return {
       selectTinymce:1,
       selectTinymceOption:[{
-        label:'亚马逊',
+        label:'Amazon',
         value:1
       },
       {

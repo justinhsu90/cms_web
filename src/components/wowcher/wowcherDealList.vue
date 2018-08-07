@@ -19,6 +19,9 @@
                       </el-select>
                   </div>
                   <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
+         <el-button style="float:right" @click="handleAdd"  type="primary" >新增 Deal</el-button>
+        
+                  <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
                   </el-col>    
                   <br>
                   <br>
@@ -159,6 +162,9 @@
                  name: "wowcherDealEdit",
                query: { data: JSON.stringify(val) }
                 });
+                 },
+                  handleAdd() {
+                 this.$router.push("/wowcherDealAdd");
                  },
                 handleCheck(val){
                   this.$router.push({
