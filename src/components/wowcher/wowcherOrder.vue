@@ -6,10 +6,10 @@
         </div>
           <br>
                <el-table ref="wonTable"  :data="tableData" v-loading="isTableLoading" >   
-                 <el-table-column min-width="75" label="序号" prop="index" ></el-table-column>
-                 <el-table-column min-width="75" label="地址" prop="location" ></el-table-column>
-                 <el-table-column min-width="75" label="狀態" prop="status" ></el-table-column>
-                 <el-table-column min-width="75" label="时间" prop="time" ></el-table-column>
+                 <el-table-column min-width="20" label="流水號" prop="index" ></el-table-column>
+                 <el-table-column min-width="80" label="地點" prop="location" ></el-table-column>
+                 <el-table-column min-width="100" label="狀態" prop="status" ></el-table-column>
+                 <el-table-column min-width="75" label="時間" prop="time" ></el-table-column>
         </el-table> 
     </div>
 </template>
