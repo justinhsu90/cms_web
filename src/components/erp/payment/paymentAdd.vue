@@ -6,9 +6,10 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>添加樣品</h2>
+      <h2>添加Payment
+      </h2>
       <br>
-       <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
+      <el-button type="success" size="small" @click="handleAdd">新增產品</el-button>
       <br>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -20,50 +21,49 @@
                 <span>{{i+1}}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
-              <el-form-item label="shipoutTime">
-                <el-date-picker v-model="v.shipoutTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+            <el-col :span="4">
+              <el-form-item label="purchaseId">
+                <el-input v-model="v.purchaseId"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
-              <el-form-item label="shippingMethod">
-                <el-input v-model="v.shippingMethod"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="trackingNumber">
-                <el-input v-model="v.trackingNumber"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="agent">
-                <el-input v-model="v.agent"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="toWhom">
-                <el-input v-model="v.toWhom"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="2">
+            <el-col :span="4">
               <el-form-item label="currency">
                 <el-input v-model="v.currency"></el-input>
               </el-form-item>
             </el-col>
+            <el-col :span="9">
+              <el-form-item label="paidBy">
+                <el-input v-model="v.paidBy"></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="5">
-              <el-form-item label="shipmentCreatedTime">
-                <el-date-picker v-model="v.shipmentCreatedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+              <el-form-item label="paymentTime">
+                <el-date-picker v-model="v.paymentTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
-              <el-form-item label="agentOrderId">
-                <el-input v-model="v.agentOrderId"></el-input>
+              <el-form-item label="paymentMethod">
+                <el-input v-model="v.paymentMethod"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="3">
-              <el-form-item label="sampleName">
-                <el-input v-model="v.sampleName"></el-input>
+              <el-form-item label="paymentAccount">
+                <el-input v-model="v.paymentAccount"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="purchasedBy">
+                <el-input v-model="v.purchasedBy"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="paymentPlatformId">
+                <el-input v-model="v.paymentPlatformId"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="shippingCost">
+                <el-input v-model="v.shippingCost"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -89,14 +89,15 @@ export default {
             formData: {
                 data: [
                     {
-                        shipoutTime: "",
-                        shippingMethod: "",
-                        trackingNumber: "",
-                        agent: "",
-                        toWhom: "",
-                        shipmentCreatedTime: "",
-                        agentOrderId: "",
-                        sampleName: "",
+                        purchaseId: "",
+                        currency: "",
+                        paymentTime: "",
+                        paidBy: "",
+                        paymentMethod: "",
+                        paymentAccount: "",
+                        purchasedBy: "",
+                        shippingCost: "",
+                        paymentPlatformId: "",
                         note: ""
                     }
                 ]
@@ -106,18 +107,19 @@ export default {
     created() {},
     methods: {
         goBack() {
-            this.$router.push("/wowcherSample");
+            this.$router.push("/payment");
         },
         handleAdd() {
             let obj = {
-                shipoutTime: "",
-                shippingMethod: "",
-                trackingNumber: "",
-                agent: "",
-                toWhom: "",
-                shipmentCreatedTime: "",
-                agentOrderId: "",
-                sampleName: "",
+                purchaseId: "",
+                currency: "",
+                paymentTime: "",
+                paidBy: "",
+                paymentMethod: "",
+                paymentAccount: "",
+                purchasedBy: "",
+                shippingCost: "",
+                paymentPlatformId: "",
                 note: ""
             };
             this.formData.data.push(obj);
@@ -127,12 +129,9 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
-            data.shipmentCreatedTime = this.moment(
-                data.ShipmentCreatedTime
-            ).format('"YYYY-MM-DD HH:mm:ss"');
-            data.shipoutTime = this.moment(
-                data.shipoutTime
-            ).format('"YYYY-MM-DD HH:mm:ss"');
+            data.paymentTime = this.moment(data.paymentTime).format(
+                '"YYYY-MM-DD HH:mm:ss"'
+            );
             let obj = {
                 data
             };
@@ -144,7 +143,7 @@ export default {
                     this.getValue();
                     this.submitLoading = true;
                     axios({
-                        url: "wowcher/sample/add",
+                        url: "payment/add",
                         method: "post",
                         data: {
                             value: this.getValue(),
@@ -153,7 +152,7 @@ export default {
                     }).then(res => {
                         this.submitLoading = true;
                         this.Bus.$emit("refresh");
-                        this.$router.push("/wowcherSample");
+                        this.$router.push("/payment");
                     });
                 }
             });

@@ -123,6 +123,10 @@ export default {
             {
               index: "erpPurchase",
               label: "採購單"
+            },
+            {
+              index: "payment",
+              label: "payment"
             }
           ]
         }

@@ -9,7 +9,7 @@
     <h2>新增採購需求單</h2>      
     <br>
        <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
-    <br>
+    <br> 
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">

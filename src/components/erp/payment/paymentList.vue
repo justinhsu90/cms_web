@@ -14,22 +14,17 @@
         <br>
         <el-col>
                <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column  min-width="75" label="wowcherCode" prop="wowcherCode" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="trackingNumber" prop="trackingNumber" sortable="custom"></el-table-column>
-                 <el-table-column min-width="65" label="shippingMethod" prop="shippingMethod" sortable="custom"></el-table-column>
-                 <el-table-column min-width="65" label="shipmentProductName" prop="shipmentProductName" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="shipmentCreatedTime" prop="shipmentCreatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="platformOrderId" prop="platformOrderId"></el-table-column>
-                 <el-table-column min-width="60" label="originProductName" prop="originProductName"></el-table-column>
-                 <el-table-column min-width="60" label="platformOrderId" prop="platformOrderId"></el-table-column>
+                 <el-table-column  min-width="75" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="60" label="paymentId" prop="paymentId" sortable="custom"></el-table-column>
+                 <el-table-column min-width="65" label="purchaseId" prop="purchaseId" sortable="custom"></el-table-column>
+                 <el-table-column min-width="65" label="paymentTime" prop="paymentTime" sortable="custom"></el-table-column>
+                 <el-table-column min-width="60" label="paymentAccount" prop="paymentAccount" sortable="custom"></el-table-column>
+                 <el-table-column min-width="60" label="paymentMethod" prop="paymentMethod"></el-table-column>
+                 <el-table-column min-width="60" label="paymentPlatformId" prop="paymentPlatformId"></el-table-column>
+                 <el-table-column min-width="60" label="paymentTotalAmount" prop="paymentTotalAmount"></el-table-column>
                  <el-table-column min-width="60" label="note" prop="note"></el-table-column>
-                 <el-table-column min-width="60" label="lastUpdatedTime" prop="lastUpdatedTime"></el-table-column>
-                 <el-table-column min-width="60" label="isManual" prop="isManual"></el-table-column>
-                 <el-table-column min-width="60" label="agentReference" prop="agentReference"></el-table-column>
-                 <el-table-column min-width="60" label="agentOrderId" prop="agentOrderId"></el-table-column>
-                 <el-table-column min-width="60" label="agent" prop="agent"></el-table-column>
-                 <el-table-column min-width="60" label="agentOrderId" prop="agentOrderId"></el-table-column>
-                 <el-table-column min-width="60" label="addedTime" prop="addedTime"></el-table-column>
+                 <el-table-column min-width="60" label="lastModifiedBy" prop="lastModifiedBy"></el-table-column>
+                 <el-table-column min-width="60" label="paidBy" prop="paidBy"></el-table-column>
                   <el-table-column width="80" label="動作" align="center">
                     <template slot-scope="scope">
                        <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
@@ -70,7 +65,7 @@ export default {
         order: "-lastUpdatedTime"
       },
       fetchOption: {
-        url: "wowcher/rpm/search",
+        url: "/payment/search",
         method: "post",
         where:""
       },
@@ -102,12 +97,12 @@ export default {
     }, 500),
     handleEdit(val) {
       this.$router.push({
-        name: "replacementEdit",
+        name: "paymentEdit",
         query: { data: JSON.stringify(val) },
       });
     },
     handleAdd(){
-        this.$router.push('/replacementAdd');
+        this.$router.push('/paymentAdd');
     }
   }
 };

@@ -8,9 +8,13 @@
       <br>
       <h2>添加Replacement</h2>
       <br>
+       <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
+      <br>
+      <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
           <el-row :gutter="10">
+              <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
             <el-col :span="2">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
