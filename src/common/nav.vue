@@ -93,6 +93,10 @@ export default {
             {
               index: "wowcherDealList",
               label: "Wowcher上架清單"
+            },
+            {
+              index: "wowcherRpmList",
+              label: "Replacement清單"
             }
           ]
         },

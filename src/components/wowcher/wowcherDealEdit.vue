@@ -61,17 +61,22 @@
             </el-col>
 
            
-           <el-col :span="5">
-              <el-form-item label="Sale Price (on Wowcher)">
+           <el-col :span="3">
+              <el-form-item label="Wowcher 售價">
               <el-input v-model="v.salePrice" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+             <el-col :span="3">
+              <el-form-item label="Wowcher 運費">
+              <el-input v-model="v.shippingCost" ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
               <el-form-item label="Final Price">
               <el-input v-model="v.finalPrice" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <el-form-item label="幣別">
               <el-input v-model="v.currency" ></el-input>
               </el-form-item>
@@ -86,29 +91,26 @@
               <el-input v-model="v.productCostCurrency" ></el-input>
               </el-form-item>
             </el-col>
-
-
             <el-col :span="6">
               <el-form-item label="最後更新時間">
-              <el-input v-model="v.lastUpdatedTime" ></el-input>
+              <el-input v-model="v.lastUpdatedTime" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="最後更新人員">
-              <el-input v-model="v.lastModifiedBy" ></el-input>
+              <el-input v-model="v.lastModifiedBy" disabled></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="6">
               <el-form-item label="新增時間">
-              <el-input v-model="v.addedTime" ></el-input>
+              <el-input v-model="v.addedTime" disabled></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="4">
               <el-form-item label="新增人員">
-              <el-input v-model="v.addedBy" ></el-input>
+              <el-input v-model="v.addedBy" disabled></el-input>
               </el-form-item>
             </el-col>
-
             <el-col :span="24">
               <el-form-item label="備註">
               <el-input v-model="v.note" type="textarea" rows="1"></el-input>
@@ -157,6 +159,7 @@ export default {
     this.formData.data[0].productName = data.productName;
     this.formData.data[0].productSpec = data.productSpec;
     this.formData.data[0].startDate = data.startDate;
+    this.formData.data[0].shippingCost = data.shippingCost;
     this.formData.data[0].finalPrice = data.finalPrice;
     this.formData.data[0].shippingCost = data.shippingCost;
     this.formData.data[0].salePrice = data.salePrice;
@@ -175,21 +178,6 @@ export default {
     goBack() {
       this.$router.push("/wowcherDealList");
     },
-    handleAdd() {
-      let obj = {
-        SKU: "",
-        isPurchased: false,
-        sku: "",
-        productName: "",
-        productSpec: "",
-        queryQuantity:"",
-        note: ""
-      };
-      this.formData.data.push(obj)
-    },
-    handleDelete(index) {
-      this.formData.data.splice(index,1);
-    },
     getValue(){
     let data = _.cloneDeep(this.formData.data);
     let obj = {
@@ -203,7 +191,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/deal/update",
+            url: "/wowcher/deal/update",
             method: "post",
             data: {
               value: this.getValue(),

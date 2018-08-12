@@ -61,17 +61,22 @@
             </el-col>
 
            
-           <el-col :span="5">
-              <el-form-item label="Sale Price (on Wowcher)">
+           <el-col :span="3">
+              <el-form-item label="Wowcher 售價">
               <el-input v-model="v.salePrice" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+             <el-col :span="3">
+              <el-form-item label="Wowcher 運費">
+              <el-input v-model="v.shippingCost" ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
               <el-form-item label="Final Price">
               <el-input v-model="v.finalPrice" ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <el-form-item label="幣別">
               <el-input v-model="v.currency" ></el-input>
               </el-form-item>

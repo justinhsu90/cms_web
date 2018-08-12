@@ -9,6 +9,7 @@ import wowcherEdit from '@/components/wowcher/wowcherEdit'
 import wowcherDealList from '@/components/wowcher/wowcherDealList'
 import wowcherDealEdit from '@/components/wowcher/wowcherDealEdit'
 import wowcherDealAdd from '@/components/wowcher/wowcherDealAdd'
+import wowcherRpmList from '@/components/wowcher/wowcherRpmList'
 import edit from '@/components/tinymce/tinymce'
 import purchase from '@/components/purchase/purchase'
 import purchaseEdit from '@/components/purchase/purchaseEdit'
@@ -54,6 +55,14 @@ let router = new VueRouter({
                 name:'wowcherDealList',
                 path:'/wowcherDealList',
                 component:wowcherDealList,
+                meta:{
+                    keepAlive:true 
+                }
+            },
+            {
+                name:'wowcherRpmList',
+                path:'/wowcherRpmList',
+                component:wowcherRpmList,
                 meta:{
                     keepAlive:true 
                 }
