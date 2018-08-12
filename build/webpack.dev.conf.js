@@ -47,7 +47,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
+    
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
@@ -70,6 +70,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
+
+if(process.env.NODE_Analyze){
+  devWebpackConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port

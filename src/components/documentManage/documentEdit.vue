@@ -209,7 +209,7 @@
             <el-option v-for="(v,i) in selectTinymceOption" :key="i" :label="v.label" :value="v.value"></el-option>
         </el-select></h2>
        <br> 
-         <el-row :gutter="20"> 
+        <el-row :gutter="20"> 
           <el-col :span="24">
             <el-form-item  class="label" label="Short Description">
               <template slot="label">
@@ -218,6 +218,7 @@
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.shortDescription"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.shortDescription"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.shortDescription"></smallTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="1">
@@ -228,6 +229,7 @@
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description1"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description1"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description1"></smallTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="2">
@@ -238,6 +240,7 @@
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description2"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description2"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description2"></smallTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="3">
@@ -248,6 +251,7 @@
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description3"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description3"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description3"></smallTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="4">
@@ -258,6 +262,7 @@
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description4"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description4"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description4"></smallTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="5">
@@ -268,6 +273,7 @@
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description5"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description5"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description5"></smallTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="6">
@@ -278,6 +284,7 @@
               </template>
                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description6"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description6"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description6"></smallTinymce>
               </el-form-item>   
           </el-col>
           <el-col :span="24" key="7">
@@ -288,6 +295,7 @@
               </template>
                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description7"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description7"></minTinymce>
+                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description7"></smallTinymce>
               </el-form-item>   
           </el-col>
        </el-row>
@@ -393,11 +401,13 @@
 <script>
 import tinymce from '@/common/tinymce'
 import minTinymce from "@/common/minTinymce";
+import smallTinymce from "@/common/smallTinymce";
 import wonDialog from "@/common/wonDialog";
 export default {
   components: {
     tinymce,
     minTinymce,
+    smallTinymce,
     wonDialog
   },
   data() {
@@ -408,7 +418,11 @@ export default {
         value:1
       },
       {
-        label:'全功能',
+        label:'Cdiscount',
+        value:3
+      },
+      {
+        label:'完整版',
         value:2
       }],
       titleHtml:'',

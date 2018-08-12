@@ -82,7 +82,7 @@ export default {
           label: "SKU管理"
         },
         {
-          index: "wowcherMain",
+          index: "wowcher",
           label: "WowcherMain",
           isLevel: true,
           child: [
@@ -93,6 +93,14 @@ export default {
             {
               index: "wowcherDealList",
               label: "Wowcher上架清單"
+            },
+            {
+              index: "replacement",
+              label: "Replacement"
+            },
+            {
+              index: "wowcherSample",
+              label: "Wowcher 樣品單"
             }
           ]
         },

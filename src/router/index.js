@@ -2,26 +2,42 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import nav from '@/common/nav'
 import login from '@/common/login'
+
 import sku from '@/components/sku/sku'
-import wowcher from '@/components/wowcher/wowcher'
-import wowcherOrder from '@/components/wowcher/wowcherOrder'
-import wowcherEdit from '@/components/wowcher/wowcherEdit'
-import wowcherDealList from '@/components/wowcher/wowcherDealList'
-import wowcherDealEdit from '@/components/wowcher/wowcherDealEdit'
-import wowcherDealAdd from '@/components/wowcher/wowcherDealAdd'
-import edit from '@/components/tinymce/tinymce'
+
+import wowcher from '@/components/wowcher/wowcher/wowcher'
+import wowcherOrder from '@/components/wowcher/wowcher/wowcherOrder'
+import wowcherEdit from '@/components/wowcher/wowcher/wowcherEdit'
+import wowcherDealList from '@/components/wowcher/wowcherDeal/wowcherDealList'
+import wowcherDealEdit from '@/components/wowcher/wowcherDeal/wowcherDealEdit'
+import wowcherDealAdd from '@/components/wowcher/wowcherDeal/wowcherDealAdd'
+import replacementList from '@/components/wowcher/wowcherReplacement/replacementList'
+import replacementAdd from '@/components/wowcher/wowcherReplacement/replacementAdd'
+import replacementEdit from '@/components/wowcher/wowcherReplacement/replacementEdit'
+
+import wowcherSampleList from '../components/wowcher/wowcherSample/sampleList'
+import wowcherSampleEdit from '@/components/wowcher/wowcherSample/sampleEdit'
+import wowcherSampleAdd from '@/components/wowcher/wowcherSample/sampleAdd'
+
 import purchase from '@/components/purchase/purchase'
 import purchaseEdit from '@/components/purchase/purchaseEdit'
+
+
 import dataAnalysis from '@/components/dataAnalysis/dataAnalysis'
+
 import documentManage from '@/components/documentManage/documentManage'
 import documentEdit from '@/components/documentManage/documentEdit'
 import documentAdd from '@/components/documentManage/documentAdd'
+
 import purchaRequire from '@/components/erp/purchaRequire/purchaRequire'
 import purchaAdd from '@/components/erp/purchaRequire/purchaAdd'
 import purchaEdit from '@/components/erp/purchaRequire/purchaEdit'
+
 import erpPurchase from '@/components/erp/purchase/purchase'
 import erpPurchaseAdd from '@/components/erp/purchase/purchaseAdd'
 import erpPurchaseEdit from '@/components/erp/purchase/purchaseEdit'
+
+
 Vue.use(VueRouter);
 let router = new VueRouter({
   routes: [{
@@ -99,6 +115,54 @@ let router = new VueRouter({
                 }
             },
             {
+                name:'replacement',    
+                path:'/replacement',
+                component:replacementList,
+                meta:{
+                    keepAlive:true
+                }
+            },
+            {
+                name:'replacementAdd',    
+                path:'/replacementAdd',
+                component:replacementAdd,
+                meta:{
+                    sign:'replacement'
+                }
+            },
+            {
+                name:'replacementEdit',
+                path:'/replacementEdit',
+                component:replacementEdit,
+                meta:{
+                    sign:'replacement'
+                }
+            },
+            {
+                name:'wowcherSample',    
+                path:'/wowcherSample',
+                component:wowcherSampleList,
+                meta:{
+                    keepAlive:true
+                }
+            },
+            {
+                name:'wowcherSampleAdd',    
+                path:'/wowcherSampleAdd',
+                component:wowcherSampleAdd,
+                meta:{
+                    sign:'wowcherSample'
+                }
+            },
+            {
+                name:'wowcherSampleEdit',
+                path:'/wowcherSampleEdit',
+                component:wowcherSampleEdit,
+                meta:{
+                    sign:'wowcherSample'
+                }
+            },
+            {
                 path:'/purchase',
                 component:purchase,
                 meta:{
@@ -111,10 +175,6 @@ let router = new VueRouter({
                 meta:{
                     sign:'purchase'
                 }
-            },
-            {   name:'edit',
-                path:'/edit',
-                component:edit
             },
             {   name:'documentManage',
                 path:'/documentManage',
