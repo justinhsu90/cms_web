@@ -171,7 +171,6 @@ export default {
             data.AddedTime = this.moment(data.AddedTime).format(
                 '"YYYY-MM-DD HH:mm:ss"'
             );
-            debugger
             let obj = {
                 data
             };

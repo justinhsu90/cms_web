@@ -591,7 +591,7 @@ export default {
       this.data.note = oldData.note;
       setTimeout(()=>{
         this.loading = true;
-      },2000)
+      },2500)
     });
   },
   methods: {

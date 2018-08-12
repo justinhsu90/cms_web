@@ -531,7 +531,7 @@ export default {
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
       setTimeout(()=>{
         this.loading = true;
-      },1000)
+      },2500)
     });
   },
   methods: {

@@ -14,10 +14,12 @@ import wowcherDealAdd from '@/components/wowcher/wowcherDeal/wowcherDealAdd'
 import replacementList from '@/components/wowcher/wowcherReplacement/replacementList'
 import replacementAdd from '@/components/wowcher/wowcherReplacement/replacementAdd'
 import replacementEdit from '@/components/wowcher/wowcherReplacement/replacementEdit'
+import wowcherRpmList from '@/components/wowcher/wowcherRpmList'
 
 import wowcherSampleList from '../components/wowcher/wowcherSample/sampleList'
 import wowcherSampleEdit from '@/components/wowcher/wowcherSample/sampleEdit'
 import wowcherSampleAdd from '@/components/wowcher/wowcherSample/sampleAdd'
+
 
 import purchase from '@/components/purchase/purchase'
 import purchaseEdit from '@/components/purchase/purchaseEdit'
@@ -70,6 +72,14 @@ let router = new VueRouter({
                 name:'wowcherDealList',
                 path:'/wowcherDealList',
                 component:wowcherDealList,
+                meta:{
+                    keepAlive:true 
+                }
+            },
+            {
+                name:'wowcherRpmList',
+                path:'/wowcherRpmList',
+                component:wowcherRpmList,
                 meta:{
                     keepAlive:true 
                 }

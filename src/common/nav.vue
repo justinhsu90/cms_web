@@ -101,6 +101,9 @@ export default {
             {
               index: "wowcherSample",
               label: "Wowcher 樣品單"
+            },{
+              index: "wowcherRpmList",
+              label: "Replacement清單"
             }
           ]
         },
