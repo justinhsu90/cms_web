@@ -6,86 +6,88 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>添加Replacement</h2>
-      <br>
-       <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
-      <br>
+      <h2>新增 Replacement</h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-          <el-row :gutter="10">
+          <el-row :gutter="20">
               <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-            <el-col :span="2">
-              <el-form-item label="序號">
-                <span>{{i+1}}</span>
-              </el-form-item>
-            </el-col>
+          </el-row>
+          <el-row :gutter="20">
             <el-col :span="4">
-              <el-form-item label="OriginProductName">
-                <el-input v-model="v.OriginProductName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="ShipmentProductName">
-                <el-input v-model="v.ShipmentProductName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="AgentOrderId">
-                <el-input v-model="v.AgentOrderId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="trackingNumber">
-                <el-input v-model="v.trackingNumber"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="ShippingMethod">
-                <el-input v-model="v.ShippingMethod"></el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :span="2">
-              <el-form-item label="currency">
-                <el-input v-model="v.currency"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="ShipmentCreatedTime">
-                <el-date-picker v-model="v.ShipmentCreatedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="shipoutTime">
-                <el-date-picker v-model="v.shipoutTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="AddedTime">
-                <el-date-picker v-model="v.AddedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="Agent">
-                <el-input v-model="v.Agent"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="isManual">
+              <el-form-item label="手動發貨 (Y or N)">
                 <el-input v-model="v.isManual"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
-              <el-form-item label="wowcherCode">
+            <el-col :span="6">
+              <el-form-item label="Wowcher Code">
                 <el-input v-model="v.wowcherCode"></el-input>
+              </el-form-item>
+            </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <br>
+              <p> 如發貨地址, 產品, 收件人需修改, 則填寫對應內容</p>
+              <br>
+            </el-row>
+            <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item label="需發貨物品名稱">
+                <el-input v-model="v.ShipmentProductName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="備註">
-                <el-input v-model="v.Note" type="textarea" rows="1"></el-input>
+                <el-input v-model="v.Note" ></el-input>
               </el-form-item>
             </el-col>
+            </el-row>
+            <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item label="收件人">
+                <el-input v-model="v.receiverName"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="電話">
+                <el-input v-model="v.phone"></el-input>
+              </el-form-item>
+            </el-col>
+            </el-row>
+            <el-row :gutter="20">
+            <el-col :span="12">
+              <el-form-item label="地址1">
+                <el-input v-model="v.address1"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="地址2">
+                <el-input v-model="v.address2"></el-input>
+              </el-form-item>
+            </el-col>
+            </el-row>
+            <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item label="城市">
+                <el-input v-model="v.city"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="省/州">
+                <el-input v-model="v.county"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="郵編">
+                <el-input v-model="v.postcode"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="國家">
+                <el-input v-model="v.country"></el-input>
+              </el-form-item>
+            </el-col>
+            
           </el-row>
         </el-card>
         <br>
@@ -104,19 +106,18 @@ export default {
             formData: {
                 data: [
                     {
-                        OriginProductName: "",
-                        ShipmentProductName: "",
-                        AgentOrderId: "",
-                        trackingNumber: "",
-                        ShippingMethod: "",
-                        currency: "",
-                        ShipmentCreatedTime: "",
-                        shipoutTime: "",
-                        AddedTime: "",
-                        Agent: "",
-                        Note: "",
                         isManual: "",
-                        wowcherCode: ""
+                        wowcherCode: "",
+                        ShipmentProductName: "",
+                        Note: "",
+                        receiverName: "",
+                        phone: "",
+                        address1: "",
+                        address2: "",
+                        city: "",
+                        county: "",
+                        postcode: "",
+                        country: ""
                     }
                 ]
             }
@@ -129,19 +130,18 @@ export default {
         },
         handleAdd() {
             let obj = {
-                OriginProductName: "",
-                ShipmentProductName: "",
-                AgentOrderId: "",
-                trackingNumber: "",
-                ShippingMethod: "",
-                currency: "",
-                ShipmentCreatedTime: "",
-                shipoutTime: "",
-                AddedTime: "",
-                Agent: "",
-                Note: "",
                 isManual: "",
-                wowcherCode: ""
+                wowcherCode: "",
+                ShipmentProductName: "",
+                Note: "",
+                receiverName: "",
+                phone: "",
+                address1: "",
+                address2: "",
+                city: "",
+                county: "",
+                postcode: "",
+                country: ""
             };
             this.formData.data.push(obj);
         },

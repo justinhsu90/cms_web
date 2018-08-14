@@ -188,7 +188,7 @@ export default {
     },
     handleDelete(val) {
       this.$confirm("是否删除", "提示", {
-        confirmButtonText: "确定",
+        confirmButtonText: "確定",
         cancelButtonText: "取消",
         type: "warning"
       })

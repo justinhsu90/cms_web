@@ -1,59 +1,57 @@
 <template>
-    <div>
-        <el-row>
-        <el-col :span="22">
-        <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
-          <el-button slot="append" @click="handleSearch" icon="el-icon-search"></el-button>
-        </el-input>
-        </el-col>
-        <el-col :span="2">
-            <el-button style="float:right" @click="handleAdd"  type="primary" >新增Replacement</el-button>
-        </el-col>
-        <br>
-        <br>
-        <br>
-        <el-col>
-               <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <el-table-column  min-width="75" label="wowcherCode" prop="wowcherCode" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="trackingNumber" prop="trackingNumber" sortable="custom"></el-table-column>
-                 <el-table-column min-width="65" label="shippingMethod" prop="shippingMethod" sortable="custom"></el-table-column>
-                 <el-table-column min-width="65" label="shipmentProductName" prop="shipmentProductName" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="shipmentCreatedTime" prop="shipmentCreatedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="platformOrderId" prop="platformOrderId"></el-table-column>
-                 <el-table-column min-width="60" label="originProductName" prop="originProductName"></el-table-column>
-                 <el-table-column min-width="60" label="platformOrderId" prop="platformOrderId"></el-table-column>
-                 <el-table-column min-width="60" label="note" prop="note"></el-table-column>
-                 <el-table-column min-width="60" label="lastUpdatedTime" prop="lastUpdatedTime"></el-table-column>
-                 <el-table-column min-width="60" label="isManual" prop="isManual"></el-table-column>
-                 <el-table-column min-width="60" label="agentReference" prop="agentReference"></el-table-column>
-                 <el-table-column min-width="60" label="agentOrderId" prop="agentOrderId"></el-table-column>
-                 <el-table-column min-width="60" label="agent" prop="agent"></el-table-column>
-                 <el-table-column min-width="60" label="agentOrderId" prop="agentOrderId"></el-table-column>
-                 <el-table-column min-width="60" label="addedTime" prop="addedTime"></el-table-column>
-                  <el-table-column width="80" label="動作" align="center">
-                    <template slot-scope="scope">
-                       <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-                    </template>
-                  </el-table-column>
-        </el-table> 
-        </el-col>
-           <div style="float:right">
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :total='total'
-      :current-page="currentPage"
-      :page-sizes="pageSizes"
-      :layout="layout"
-      >
-    </el-pagination>
-    </div> 
-        </el-row>
-        <br>
-        <br>
-    </div>
-</template>
-<script>
+                <div>
+                    <el-row>
+                        <el-col :span="24">
+                      <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                      </el-input>
+                      <div style="margin-left:5px;display:inline-block;width:140px">
+                      <el-select placeholder="狀態" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                            <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+                        </el-select>
+                    </div>
+                    <div  style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;"  @click="handleSearch" class="el-input-group__append"><i class="el-icon-search"></i></div>
+                      <el-button style="float:right" @click="handleAdd"  type="primary" >新增補/重發</el-button> 
+                    </el-col>    
+                    <br>
+                    <br>
+                    <br>
+                    <el-col>
+                          <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
+                            <el-table-column min-width="150" label="Platform Order ID" prop="platformOrderId"></el-table-column>
+                            <el-table-column min-width="150" label="Wowcher Code" prop="wowcherCode"></el-table-column>
+                            <el-table-column min-width="110" label="建單時間" prop="addedTime" sortable="custom"></el-table-column>
+                            <el-table-column min-width="110" label="物流單時間" prop="shipmentCreatedTime"></el-table-column>
+                            <el-table-column min-width="110" label="發貨時間" prop="shipoutTime" sortable="custom"></el-table-column>
+                            <el-table-column min-width="70" label="手動" prop="Manual"></el-table-column>
+                            <el-table-column min-width="100" label="備註" prop="note"></el-table-column>
+                            <el-table-column min-width="140" label="發貨品名" prop="shipmentProductName"></el-table-column>
+                            <el-table-column width="80" label="動作" fixed="right">
+                            <template slot-scope="scope">
+                            <!-- <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button> -->
+                            <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
+                            <el-button type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
+                      </template>
+                      </el-table-column> 
+                </el-table> 
+                </el-col>
+                  <div style="float:right">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :total='total'
+              :current-page="currentPage"
+              :page-sizes="pageSizes"
+              :layout="layout"
+              >
+            </el-pagination>
+            </div> 
+                </el-row>
+                <br>
+                <br>
+            
+            </div>
+        </template>
+        <script> 
 import wonTableContainer from "@/common/wonTableContainer";
 
 export default {
@@ -100,15 +98,42 @@ export default {
         this.total = count;
       });
     }, 500),
-    handleEdit(val) {
-      this.$router.push({
-        name: "replacementEdit",
-        query: { data: JSON.stringify(val) },
-      });
+    // handleEdit(val) {
+    //   this.$router.push({
+    //     name: "replacementEdit",
+    //     query: { data: JSON.stringify(val) },
+    //   });
+    // },
+    handleDelete(val) {
+      this.$confirm("是否删除", "提示", {
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          axios({
+            url: "wowcher/rpm/delete",
+            method: "post",
+            data: {
+              value:val.platformOrderId,
+              token: this.token
+            }
+          }).then(()=>{
+            this.handleSearch();
+            this.$message.success('删除成功');
+          })
+        })
+        .catch(() => {});
     },
     handleAdd(){
         this.$router.push('/replacementAdd');
-    }
+    },
+    handleCheck(val){
+        this.$router.push({
+        name: "replacementCheck",
+        query: { data: JSON.stringify(val) }
+      });
+      }
   }
 };
 </script>

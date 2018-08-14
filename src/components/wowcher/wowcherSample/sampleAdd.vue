@@ -6,9 +6,9 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>添加樣品</h2>
+      <h2>新增樣品發貨單</h2>
       <br>
-       <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
+       <el-button type="success" size="small" @click="handleAdd" >新增樣品</el-button>
       <br>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">

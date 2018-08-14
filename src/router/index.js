@@ -14,7 +14,7 @@ import wowcherDealAdd from '@/components/wowcher/wowcherDeal/wowcherDealAdd'
 import replacementList from '@/components/wowcher/wowcherReplacement/replacementList'
 import replacementAdd from '@/components/wowcher/wowcherReplacement/replacementAdd'
 import replacementEdit from '@/components/wowcher/wowcherReplacement/replacementEdit'
-import wowcherRpmList from '@/components/wowcher/wowcherRpmList'
+import replacementCheck from '@/components/wowcher/wowcherReplacement/replacementCheck'
 
 import wowcherSampleList from '../components/wowcher/wowcherSample/sampleList'
 import wowcherSampleEdit from '@/components/wowcher/wowcherSample/sampleEdit'
@@ -34,9 +34,11 @@ import documentAdd from '@/components/documentManage/documentAdd'
 import purchaRequire from '@/components/erp/purchaRequire/purchaRequire'
 import purchaAdd from '@/components/erp/purchaRequire/purchaAdd'
 import purchaEdit from '@/components/erp/purchaRequire/purchaEdit'
+
 import erpPurchase from '@/components/erp/purchase/purchase'
 import erpPurchaseAdd from '@/components/erp/purchase/purchaseAdd'
 import erpPurchaseEdit from '@/components/erp/purchase/purchaseEdit'
+
 import paymentList from '@/components/erp/payment/paymentList'
 import paymentAdd from '@/components/erp/payment/paymentAdd'
 import paymentEdit from '@/components/erp/payment/paymentEdit'
@@ -73,14 +75,6 @@ let router = new VueRouter({
           name: 'wowcherDealList',
           path: '/wowcherDealList',
           component: wowcherDealList,
-          meta: {
-            keepAlive: true
-          }
-        },
-        {
-          name: 'wowcherRpmList',
-          path: '/wowcherRpmList',
-          component: wowcherRpmList,
           meta: {
             keepAlive: true
           }
@@ -137,6 +131,14 @@ let router = new VueRouter({
           name: 'replacementAdd',
           path: '/replacementAdd',
           component: replacementAdd,
+          meta: {
+            sign: 'replacement'
+          }
+        },
+        {
+          name: 'replacementCheck',
+          path: '/replacementCheck',
+          component: replacementCheck,
           meta: {
             sign: 'replacement'
           }

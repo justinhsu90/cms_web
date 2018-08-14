@@ -82,34 +82,31 @@ export default {
           label: "SKU管理"
         },
         {
+          index: "documentManage",
+          label: "文案管理"
+        },
+        {
           index: "wowcher",
-          label: "WowcherMain",
+          label: "Wowcher",
           isLevel: true,
           child: [
             {
               index: "wowcher",
-              label: "Wowcher訂單"
+              label: "訂單查詢"
             },
             {
               index: "wowcherDealList",
-              label: "Wowcher上架清單"
+              label: "上架清單"
             },
             {
               index: "replacement",
-              label: "Replacement"
+              label: "補發清單"
             },
             {
               index: "wowcherSample",
-              label: "Wowcher 樣品單"
-            },{
-              index: "wowcherRpmList",
-              label: "Replacement清單"
+              label: "樣品清單"
             }
           ]
-        },
-        {
-          index: "documentManage",
-          label: "文案管理"
         },
         {
           index: "erp",
@@ -118,15 +115,19 @@ export default {
           child: [
             {
               index: "purchaRequire",
-              label: "採購需求單"
+              label: "(1) 採購需求單"
             },
             {
               index: "erpPurchase",
-              label: "採購單"
+              label: "(2) 採購單"
             },
             {
               index: "payment",
-              label: "payment"
+              label: "(3) 付款單"
+            },
+            {
+              index: "shipment",
+              label: "(4) 物流單"
             }
           ]
         }

@@ -81,7 +81,9 @@ export default {
       isTableLoading: false,
       fetchCondition: {
         skip: 0,
-        limit: 10
+        limit: 10,
+        order: "-lastUpdatedTime"
+
       },
       fetchOption: {
         url: "/wowcher/deal/search",
@@ -136,7 +138,9 @@ export default {
         where: this.fetchOption.where,
         token: this.token,
         skip: this.fetchCondition.skip,
-        limit: this.fetchCondition.limit
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+
       };
       if (this.condition.includes("1")) {
         data.account = this.searchAccount;
