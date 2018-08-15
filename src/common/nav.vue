@@ -82,6 +82,10 @@ export default {
           label: "SKU管理"
         },
         {
+          index: "upc",
+          label: "UPC管理"
+        },
+        {
           index: "documentManage",
           label: "文案管理"
         },

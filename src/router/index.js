@@ -3,7 +3,7 @@ import Vue from 'vue'
 import nav from '@/common/nav'
 import login from '@/common/login'
 
-import sku from '@/components/sku/sku'
+import skuList from '@/components/sku/skuList'
 
 import wowcher from '@/components/wowcher/wowcher/wowcher'
 import wowcherOrder from '@/components/wowcher/wowcher/wowcherOrder'
@@ -11,6 +11,11 @@ import wowcherEdit from '@/components/wowcher/wowcher/wowcherEdit'
 import wowcherDealList from '@/components/wowcher/wowcherDeal/wowcherDealList'
 import wowcherDealEdit from '@/components/wowcher/wowcherDeal/wowcherDealEdit'
 import wowcherDealAdd from '@/components/wowcher/wowcherDeal/wowcherDealAdd'
+
+import upcAdd from '@/components/upc/upcAdd'
+import upcEdit from '@/components/upc/upcEdit'
+import upcList from '@/components/upc/upcList'
+
 import replacementList from '@/components/wowcher/wowcherReplacement/replacementList'
 import replacementAdd from '@/components/wowcher/wowcherReplacement/replacementAdd'
 import replacementEdit from '@/components/wowcher/wowcherReplacement/replacementEdit'
@@ -59,7 +64,7 @@ let router = new VueRouter({
       redirect: '/sku',
       children: [{
           path: '/sku',
-          component: sku,
+          component: skuList,
           meta: {
             keepAlive: true
           }
@@ -71,6 +76,31 @@ let router = new VueRouter({
             keepAlive: true
           }
         },
+        {
+          name: 'upcList',
+          path: '/upc',
+          component: upcList,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'upcAdd',
+          path: '/upc',
+          component: upcAdd,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'upcEdit',
+          path: '/upc',
+          component: upcEdit,
+          meta: {
+            keepAlive: true
+          }
+        },
+        
         {
           name: 'wowcherDealList',
           path: '/wowcherDealList',
