@@ -14,24 +14,16 @@
       <br>
       <el-col>
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-          <el-table-column min-width="75" label="orderId" prop="orderId" sortable="custom"></el-table-column>
-          <el-table-column min-width="60" label="trackingNumber" prop="trackingNumber" sortable="custom"></el-table-column>
-          <el-table-column min-width="65" label="agentOrderId" prop="agentOrderId" sortable="custom"></el-table-column>
-          <el-table-column min-width="65" label="shipmentCreatedTime" prop="shipmentCreatedTime" sortable="custom"></el-table-column>
-          <el-table-column min-width="60" label="toWhom" prop="toWhom" sortable="custom"></el-table-column>
-          <el-table-column min-width="60" label="agent" prop="agent"></el-table-column>
-          <el-table-column min-width="60" label="lastUpdatedTime" prop="lastUpdatedTime"></el-table-column>
-          <el-table-column min-width="60" label="trackingNumber" prop="trackingNumber"></el-table-column>
-          <el-table-column min-width="60" label="paymshippingMethod" prop="paymshippingMethod"></el-table-column>
-          <el-table-column min-width="60" label="sampleName" prop="sampleName"></el-table-column>
-          <el-table-column min-width="60" label="shipoutTime" prop="shipoutTime"></el-table-column>
-          <el-table-column min-width="60" label="addedTime" prop="addedTime"></el-table-column>
-          <el-table-column min-width="60" label="addedBy" prop="addedBy"></el-table-column>
-          <el-table-column min-width="60" label="lastModifiedBy" prop="lastModifiedBy"></el-table-column>
-          <el-table-column min-width="60" label="note" prop="note"></el-table-column>
-          <el-table-column width="80" label="動作" align="center">
+          <el-table-column min-width="75" label="樣品單號" prop="agentOrderId" sortable="custom"></el-table-column>
+          <el-table-column min-width="60" label="快遞單號" prop="trackingNumber" sortable="custom"></el-table-column>
+          <el-table-column min-width="60" label="收件者" prop="toWhom" sortable="custom"></el-table-column>
+          <el-table-column min-width="60" label="發貨方式" prop="shippingMethod"></el-table-column>
+          <el-table-column min-width="150" label="樣品名稱" prop="sampleName"></el-table-column>
+          <el-table-column min-width="60" label="發貨時間" prop="shipoutTime"></el-table-column>
+          <el-table-column min-width="60" label="備註" prop="note"></el-table-column>
+          <el-table-column width="50" label="動作" align="center">
             <template slot-scope="scope">
-              <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+               <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>

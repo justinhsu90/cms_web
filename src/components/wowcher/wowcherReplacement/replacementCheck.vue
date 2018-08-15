@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>新增 Replacement</h2>
+      <h2>查看 Replacement</h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
@@ -21,7 +21,7 @@
                 <el-input v-model="v.lastUpdatedTime" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="3">
               <el-form-item label="最後更新">
                 <el-input v-model="v.lastModifiedBy" disabled></el-input>
               </el-form-item>
@@ -31,21 +31,26 @@
                 <el-input v-model="v.AddedTime" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item label="最後更新">
+            <el-col :span="3">
+              <el-form-item label="建單">
                 <el-input v-model="v.addedBy" disabled></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="3">
+            <el-col :span="2">
               <el-form-item label="手動發貨">
                 <el-input v-model="v.isManual" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="7">
+              <el-form-item label="Order ID">
+                <el-input v-model="v.platformOrderId" disabled></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
               <el-form-item label="物流單建立時間">
-                <el-input v-model="v.ShipmentCreatedTime" disabled></el-input>
+                <el-input v-model="v.shipmentCreatedTime" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -53,17 +58,12 @@
                 <el-input v-model="v.shipoutTime" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
-              <el-form-item label="貨代">
-                <el-input v-model="v.agent" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-form-item label="發貨方式">
                 <el-input v-model="v.shippingMethod" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item label="物流單號">
                 <el-input v-model="v.trackingNumber" disabled></el-input>
               </el-form-item>
@@ -77,7 +77,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="備註">
-                <el-input v-model="v.Note" disabled></el-input>
+                <el-input v-model="v.note" disabled></el-input>
               </el-form-item>
             </el-col>
             </el-row>
@@ -126,11 +126,8 @@
                 <el-input v-model="v.country" disabled></el-input>
               </el-form-item>
             </el-col>
-            
           </el-row>
         </el-card>
-        <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">编辑</el-button>
       </el-form>
     </div>
   </div>
@@ -145,19 +142,21 @@ export default {
             formData: {
                 data: [
                     {
-                        OriginProductName: "",
-                        ShipmentProductName: "",
+                        // OriginProductName: "",
+                        shipmentProductName: "",
                         AgentOrderId: "",
                         trackingNumber: "",
                         ShippingMethod: "",
                         currency: "",
                         ShipmentCreatedTime: "",
                         shipoutTime: "",
+                        addedBy: "",
                         AddedTime: "",
                         Agent: "",
                         Note: "",
                         isManual: "",
-                        wowcherCode: ""
+                        wowcherCode: "",
+                        lastModifiedBy: ""
                     }
                 ]
             }
@@ -165,81 +164,35 @@ export default {
     },
     created() {
         let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].OriginProductName = data.originProductName;
         this.formData.data[0].ShipmentProductName = data.shipmentProductName;
+        this.formData.data[0].platformOrderId = data.platformOrderId;
         this.formData.data[0].AgentOrderId = data.agentOrderId;
         this.formData.data[0].trackingNumber = data.trackingNumber;
-        this.formData.data[0].ShippingMethod = data.shippingMethod;
+        this.formData.data[0].shippingMethod = data.shippingMethod;
         this.formData.data[0].currency = data.currency;
-        this.formData.data[0].ShipmentCreatedTime = data.shipmentCreatedTime;
+        this.formData.data[0].shipmentCreatedTime = data.shipmentCreatedTime;
         this.formData.data[0].shipoutTime = data.shipoutTime;
         this.formData.data[0].AddedTime = data.addedTime;
-        this.formData.data[0].Agent = data.agent;
-        this.formData.data[0].Note = data.note;
+        this.formData.data[0].note = data.note;
         this.formData.data[0].isManual = data.isManual;
         this.formData.data[0].wowcherCode = data.wowcherCode;
         this.formData.data[0].purchasedQuantity = data.purchasedQuantity;
+        this.formData.data[0].receiverName = data.receiverName;
+        this.formData.data[0].address1 = data.address1;
+        this.formData.data[0].address2 = data.address2;
+        this.formData.data[0].city = data.city;
+        this.formData.data[0].county = data.county;
+        this.formData.data[0].postcode = data.postcode;
+        this.formData.data[0].country = data.country;
+        this.formData.data[0].phone = data.phone;
+        this.formData.data[0].lastUpdatedTime = data.lastUpdatedTime;
+        this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
+        this.formData.data[0].addedBy = data.addedBy;
+
     },
     methods: {
         goBack() {
             this.$router.push("/replacement");
-        },
-        handleAdd() {
-            let obj = {
-                OriginProductName: "",
-                ShipmentProductName: "",
-                AgentOrderId: "",
-                trackingNumber: "",
-                ShippingMethod: "",
-                currency: "",
-                ShipmentCreatedTime: "",
-                shipoutTime: "",
-                AddedTime: "",
-                Agent: "",
-                Note: "",
-                isManual: "",
-                wowcherCode: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.ShipmentCreatedTime = this.moment(
-                data.ShipmentCreatedTime
-            ).format('"YYYY-MM-DD HH:mm:ss"');
-            data.shipoutTime = this.moment(data.shipoutTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
-            data.AddedTime = this.moment(data.AddedTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "wowcher/rpm/update",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/replacement");
-                    });
-                }
-            });
         }
     }
 };

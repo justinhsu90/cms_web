@@ -22,7 +22,7 @@
                             <el-table-column min-width="110" label="建單時間" prop="addedTime" sortable="custom"></el-table-column>
                             <el-table-column min-width="110" label="物流單時間" prop="shipmentCreatedTime"></el-table-column>
                             <el-table-column min-width="110" label="發貨時間" prop="shipoutTime" sortable="custom"></el-table-column>
-                            <el-table-column min-width="70" label="手動" prop="Manual"></el-table-column>
+                            <el-table-column min-width="70" label="手動" prop="isManual"></el-table-column>
                             <el-table-column min-width="100" label="備註" prop="note"></el-table-column>
                             <el-table-column min-width="140" label="發貨品名" prop="shipmentProductName"></el-table-column>
                             <el-table-column width="80" label="動作" fixed="right">
@@ -98,12 +98,6 @@ export default {
         this.total = count;
       });
     }, 500),
-    // handleEdit(val) {
-    //   this.$router.push({
-    //     name: "replacementEdit",
-    //     query: { data: JSON.stringify(val) },
-    //   });
-    // },
     handleDelete(val) {
       this.$confirm("是否删除", "提示", {
         confirmButtonText: "確定",
