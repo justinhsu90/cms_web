@@ -404,6 +404,7 @@ import minTinymce from "@/common/minTinymce";
 import smallTinymce from "@/common/smallTinymce";
 import wonDialog from "@/common/wonDialog";
 export default {
+  name:'documentEdit',
   components: {
     tinymce,
     minTinymce,
@@ -589,9 +590,9 @@ export default {
       this.data.Enable = oldData.enable; 
       this.data.lastUpdatedTime = oldData.lastUpdatedTime;
       this.data.note = oldData.note;
-      setTimeout(()=>{
+      this.$nextTick(()=>{
         this.loading = true;
-      },2500)
+      })
     });
   },
   methods: {

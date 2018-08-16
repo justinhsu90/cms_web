@@ -387,6 +387,7 @@ import minTinymce from "@/common/minTinymce";
 import smallTinymce from "@/common/smallTinymce";
 import wonDialog from "@/common/wonDialog";
 export default {
+  name:'documentAdd', 
   components: {
     tinymce,
     minTinymce,
@@ -529,9 +530,9 @@ export default {
       this.searchLanguageOption = _.cloneDeep(language.data);
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
-      setTimeout(()=>{
+      this.$nextTick(()=>{
         this.loading = true;
-      },2500)
+      })
     });
   },
   methods: {
