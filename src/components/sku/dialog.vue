@@ -187,7 +187,7 @@ export default {
             callback(new Error('SKU結構有誤'))
           }else{
               that.axios({
-              url: "http://118.163.10.109:8000/data-server/sku/similarimg",
+              url: "sku/similarimg",
               method: "post",
               data:{
                 sku:value,
@@ -219,7 +219,7 @@ export default {
   },
   mounted() {
          axios({
-              url:"http://118.163.10.109:8000/data-server/sku/cat",
+              url:"sku/cat",
                method: "post",
               data:{
                 token:this.token
@@ -246,9 +246,9 @@ export default {
       this.form.deprecatedSKU = this.row.deprecatedSKU;
 
       this.form.priceRMB = this.row.priceRMB;      
-      this.url = "http://118.163.10.109:8000/data-server/sku/update";       
+      this.url = "sku/update";       
     } else {
-      this.url = "http://118.163.10.109:8000/data-server/sku/add";
+      this.url = "sku/add";
     }
   },
   watch: {
@@ -317,7 +317,7 @@ export default {
     },
     handleAuto() {
       axios({
-        url: "http://118.163.10.109:8000/data-server/sku/newindex",
+        url: "sku/newindex",
         method: "post",
         data: {
           category: this.searchValue,

@@ -220,7 +220,6 @@
                 self.loading = false
                 self.$emit('on-ready');
                 this.$findFather('documentEdit').$forceUpdate();
-                console.log(this.$findFather('documentEdit').$forceUpdate)
                 if(!self.value){
                    return; 
                 }

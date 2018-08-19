@@ -62,7 +62,7 @@
               <template v-if="parcelShow">
                   <el-table-column  min-width="80"  key="7" label="小包(長)" prop="parcelLengthCM" >
                     <template slot-scope="scope">
-                        <span>{{scope.row.parcelLengthCM}}kg</span>
+                        <span>{{scope.row.parcelLengthCM}}cm</span>
                     </template>
                 </el-table-column>
                 <el-table-column  min-width="80" key="5" label="小包(寬)" prop="parcelWidthCM" >
@@ -77,7 +77,7 @@
                 </el-table-column>
                 <el-table-column  min-width="80" key="8"  label="小包(重)" prop="parcelWeightKG" >
                     <template slot-scope="scope">
-                        <span>{{scope.row.parcelWeightKG}}cm</span>
+                        <span>{{scope.row.parcelWeightKG}}kg</span>
                     </template>
                 </el-table-column>
               </template>  
@@ -85,7 +85,7 @@
                 <template v-if="productShow">
                   <el-table-column  min-width="80"  key="7" label="商品(長)" prop="productLengthCM" >
                     <template slot-scope="scope">
-                        <span>{{scope.row.productLengthCM}}kg</span>
+                        <span>{{scope.row.productLengthCM}}cm</span>
                     </template>
                 </el-table-column>
                 <el-table-column  min-width="80" key="5" label="商品(寬)" prop="productWidthCM" >
@@ -100,7 +100,7 @@
                 </el-table-column>
                 <el-table-column  min-width="80" key="8"  label="商品(重)" prop="productWeightKG" >
                     <template slot-scope="scope">
-                        <span>{{scope.row.productWeightKG}}cm</span>
+                        <span>{{scope.row.productWeightKG}}kg</span>
                     </template>
                 </el-table-column>
               </template> 
