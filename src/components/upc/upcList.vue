@@ -12,11 +12,12 @@
                   </el-col>    
                   <el-col>
                         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                          <el-table-column min-width="110" label="狀態" prop="status" sortable="custom"></el-table-column>
-                          <el-table-column min-width="110" label="UPC/EAN" prop="upcean" sortable="custom"></el-table-column>
+                          <!-- <el-table-column min-width="110" label="狀態" prop="status" sortable="custom"></el-table-column> -->
+                          <el-table-column min-width="110" label="UPC/EAN" prop="upc" sortable="custom"></el-table-column>
                           <el-table-column min-width="110" label="對應SKU" prop="sku" sortable="custom"></el-table-column>
                           <el-table-column min-width="110" label="對應ASIN" prop="asin" sortable="custom"></el-table-column>
                           <el-table-column min-width="200" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
+                          <el-table-column min-width="70" label="平台" prop="platform" sortable="custom"></el-table-column>
                           <el-table-column min-width="70" label="國家" prop="country" sortable="custom"></el-table-column>
                           <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
                           <el-table-column min-width="110" label="備註" prop="note"></el-table-column>
@@ -69,7 +70,7 @@ export default {
 
       },
       fetchOption: {
-        url: "/wowcher/deal/search",
+        url: "/upc/search",
         where: "",
         method: "post"
       }
