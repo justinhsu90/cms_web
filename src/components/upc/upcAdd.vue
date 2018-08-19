@@ -6,7 +6,7 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>新增 Wowcher Deal</h2>
+    <h2>新增 UPC</h2>
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">

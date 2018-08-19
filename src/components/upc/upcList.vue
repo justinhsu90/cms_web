@@ -12,15 +12,17 @@
                   </el-col>    
                   <el-col>
                         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                          <el-table-column min-width="110" label="狀態" prop="status" sortable="custom"></el-table-column>
-                          <el-table-column min-width="110" label="UPC/EAN" prop="upcean" sortable="custom"></el-table-column>
+                          <!-- <el-table-column min-width="110" label="狀態" prop="status" sortable="custom"></el-table-column> -->
+                          <el-table-column min-width="110" label="最後更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+                          <el-table-column min-width="110" label="UPC/EAN" prop="upc" sortable="custom"></el-table-column>
                           <el-table-column min-width="110" label="對應SKU" prop="sku" sortable="custom"></el-table-column>
                           <el-table-column min-width="110" label="對應ASIN" prop="asin" sortable="custom"></el-table-column>
                           <el-table-column min-width="200" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
+                          <el-table-column min-width="70" label="平台" prop="platform" sortable="custom"></el-table-column>
                           <el-table-column min-width="70" label="國家" prop="country" sortable="custom"></el-table-column>
                           <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
                           <el-table-column min-width="110" label="備註" prop="note"></el-table-column>
-                          <el-table-column width="80" label="動作" fixed="right">
+                          <el-table-column width="70" label="動作" fixed="right">
                           <template slot-scope="scope">
                             <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                           </template>
@@ -69,7 +71,7 @@ export default {
 
       },
       fetchOption: {
-        url: "/wowcher/deal/search",
+        url: "/upc/search",
         where: "",
         method: "post"
       }
@@ -143,16 +145,16 @@ export default {
     }, 500),
     handleEdit(val) {
       this.$router.push({
-        name: "upc",
+        name: "upcEdit",
         query: { data: JSON.stringify(val) }
       });
     },
     handleAdd() {
-      this.$router.push("/upcEdit");
+      this.$router.push("/upcAdd");
     },
     handleCheck(val) {
       this.$router.push({
-        name: "wowcherDealList",
+        name: "UpcList",
         query: { data: JSON.stringify(val) }
       });
     }
