@@ -17,14 +17,14 @@
                     <br>
                     <el-col>
                           <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                            <el-table-column min-width="150" label="Platform Order ID" prop="platformOrderId"></el-table-column>
-                            <el-table-column min-width="150" label="Wowcher Code" prop="wowcherCode"></el-table-column>
-                            <el-table-column min-width="110" label="建單時間" prop="addedTime" sortable="custom"></el-table-column>
+                            <el-table-column min-width="130" label="Platform Order ID" prop="platformOrderId"></el-table-column>
+                            <!-- <el-table-column min-width="140" label="Wowcher Code" prop="wowcherCode"></el-table-column> -->
+                            <el-table-column min-width="100" label="建單時間" prop="addedTime" sortable="custom"></el-table-column>
                             <el-table-column min-width="110" label="物流單時間" prop="shipmentCreatedTime"></el-table-column>
                             <el-table-column min-width="110" label="發貨時間" prop="shipoutTime" sortable="custom"></el-table-column>
-                            <el-table-column min-width="70" label="手動" prop="isManual"></el-table-column>
+                            <el-table-column min-width="50" label="手動" prop="isManual"></el-table-column>
                             <el-table-column min-width="100" label="備註" prop="note"></el-table-column>
-                            <el-table-column min-width="140" label="發貨品名" prop="shipmentProductName"></el-table-column>
+                            <el-table-column min-width="200" label="發貨品名" prop="shipmentProductName"></el-table-column>
                             <el-table-column width="80" label="動作" fixed="right">
                             <template slot-scope="scope">
                             <!-- <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button> -->
