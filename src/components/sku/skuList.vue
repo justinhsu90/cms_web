@@ -22,8 +22,9 @@
             <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
          <el-checkbox-button   label="ama" :key="1">Amazon出貨尺寸</el-checkbox-button>
          <el-checkbox-button   label="parcel" :key="2">小包出貨尺寸</el-checkbox-button>
-         <el-checkbox-button   label="deprecatedSku" :key="3">已停用SKU</el-checkbox-button>
-         <el-checkbox-button   label="price" :key="4">成本</el-checkbox-button>
+         <el-checkbox-button   label="product" :key="3">商品出貨尺寸</el-checkbox-button>
+         <el-checkbox-button   label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
+         <el-checkbox-button   label="price" :key="5">成本</el-checkbox-button>
     </el-checkbox-group>
         </el-col>
         <br>
@@ -79,8 +80,30 @@
                         <span>{{scope.row.parcelWeightKG}}cm</span>
                     </template>
                 </el-table-column>
-                
               </template>  
+              <!-- product -->
+                <template v-if="productShow">
+                  <el-table-column  min-width="80"  key="7" label="商品(長)" prop="productLengthCM" >
+                    <template slot-scope="scope">
+                        <span>{{scope.row.productLengthCM}}kg</span>
+                    </template>
+                </el-table-column>
+                <el-table-column  min-width="80" key="5" label="商品(寬)" prop="productWidthCM" >
+                        <template slot-scope="scope">
+                        <span>{{scope.row.productWidthCM}}cm</span>
+                    </template>
+                </el-table-column>
+                <el-table-column  min-width="80"  key="6" label="商品(高)" prop="productHeightCM" >
+                        <template slot-scope="scope">
+                        <span>{{scope.row.productHeightCM}}cm</span>
+                    </template>
+                </el-table-column>
+                <el-table-column  min-width="80" key="8"  label="商品(重)" prop="productWeightKG" >
+                    <template slot-scope="scope">
+                        <span>{{scope.row.productWeightKG}}cm</span>
+                    </template>
+                </el-table-column>
+              </template> 
             <template v-if="deprecatedSkuShow">
                 <el-table-column  min-width="100"  label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
               </template>
@@ -91,6 +114,7 @@
                     </template>
                 </el-table-column>
               </template>
+
                 <el-table-column label="圖片" min-width="100">
                     <template slot-scope="scope" >
                         <img  width="80" height="80" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">                        
@@ -138,6 +162,7 @@ export default {
       parcelShow: false,
       deprecatedSkuShow: false,
       priceShow: false,
+      productShow:false,
       value: "",
       tableData: [],
       isTableLoading: false,
@@ -151,7 +176,7 @@ export default {
         order: "productName"
       },
       fetchOption: {
-        url: "/sku/search",
+        url: "sku/search",
         where: "",
         method: "post"
       }
@@ -162,7 +187,7 @@ export default {
   },
   methods: {
     handleSearch: _.debounce(function() {
-      this.isTableLoading = true;
+      this.isTableLoading = true;      
       axios({
         url: this.fetchOption.url,
         method: this.fetchOption.method,
@@ -205,6 +230,12 @@ export default {
         this.parcelShow = true;
       } else {
         this.parcelShow = false;
+      }
+
+      if (val.includes("product")) {
+        this.productShow = true;
+      } else {
+        this.productShow = false;
       }
 
       if (val.includes("deprecatedSku")) {

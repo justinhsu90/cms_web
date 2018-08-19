@@ -1,15 +1,15 @@
 import Vue from 'vue';
 import router from '@/router';
 import ElementUI from '../static/lib/ele/index';
-import axios from 'axios';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App'
 import moment from 'moment'
+import axios from '@/common/until/Ajax'
 import qs from 'qs'
 const Bus = new Vue();
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
-Vue.prototype.axios = axios;
+window.axios = axios;
 Vue.prototype.moment = moment;
 Vue.prototype.Bus = Bus;
 Vue.prototype.qs = qs;
@@ -43,18 +43,6 @@ function child(componentName, eventName, params) {
 }
 Vue.prototype.$child = child;
 
-
-//axios的配置
-// axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
-axios.defaults.baseURL = 'http://118.163.10.109:8000/data-server/';
-// axios.defaults.baseURL = 'http://127.0.0.1:8080/data-server/';
-axios.interceptors.request.use((request) => {
-  request.data = qs.stringify(request.data);
-  return request;
-});
-axios.interceptors.response.use((response) => {
-  return response.data;
-});
 
 router.beforeEach((to, form, next) => {
   let token;

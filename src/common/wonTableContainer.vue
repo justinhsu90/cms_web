@@ -26,14 +26,14 @@ export default {
   },
   mounted(){
     this.$nextTick(()=>{
-      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 52;
+      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 100;
       this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
       let that = this;
-      window.addEventListener('resize',()=>{        
-        that.maxHeight = document.scrollingElement.clientHeight - that.$refs.wonTable.$el.getBoundingClientRect().top - 52;
-        that.$refs.wonTable.$el.style.maxHeight = that.maxHeight +'px';
-      })
-    })
+      window.addEventListener('resize',_.debounce(()=>{
+          that.maxHeight = document.scrollingElement.clientHeight - that.$refs.wonTable.$el.getBoundingClientRect().top - 100;
+          that.$refs.wonTable.$el.style.maxHeight = that.maxHeight +'px';
+      },500));   
+    })      
   },
   filters:{
     formatToPercent(row,column,cellValue){

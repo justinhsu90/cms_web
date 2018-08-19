@@ -42,7 +42,7 @@
                     if (valid) {    
                         this.loading = true;
                         axios({
-                            url:'/auth/login',
+                            url:'auth/login',
                             method:'post',
                             data:_.cloneDeep(this.ruleForm)
                         }).then((res)=>{     

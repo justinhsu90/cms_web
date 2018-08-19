@@ -70,7 +70,6 @@ module.exports = {
   plugins:[
     new webpack.ProvidePlugin({
       '_':'lodash',
-      'axios':'axios'
     })
   ],
   node: {
