@@ -28,7 +28,7 @@
           </el-table-column>
         </el-table>
       </el-col>
-      <div style="float:right">
+      <div style="float:right;margin-top:5px">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
         </el-pagination>
       </div>

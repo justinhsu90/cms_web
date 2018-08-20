@@ -58,7 +58,7 @@
                 
         </el-table> 
         </el-col>
-           <div style="float:right">
+           <div style="float:right;margin-top:5px">
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
