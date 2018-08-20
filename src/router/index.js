@@ -81,18 +81,18 @@ let router = new VueRouter({
         },
         {
           name: 'upcAdd',
-          path: '/upc',
+          path: '/upcAdd',
           component: upcAdd,
           meta: {
-            keepAlive: true
+            sign: 'upcList'
           }
         },
         {
           name: 'upcEdit',
-          path: '/upc',
+          path: '/upcEdit',
           component: upcEdit,
           meta: {
-            keepAlive: true
+            sign: 'upcList'
           }
         },
         

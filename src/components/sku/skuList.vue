@@ -150,6 +150,7 @@ import directiveDialog from "./dialog";
 import wonTableContainer from "../../common/wonTableContainer";
 export default {
   extends: wonTableContainer,
+  name:'sku',
   data() {
     return {
       record: [],
@@ -180,6 +181,7 @@ export default {
   },
   created() {
     this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
   },
   methods: {
     handleSearch: _.debounce(function() {

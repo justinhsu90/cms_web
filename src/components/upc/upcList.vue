@@ -77,25 +77,6 @@ export default {
     };
   },
   created() {
-    // let account = axios({
-    //   url: "/wowcher/value/account",
-    //   method: "post",
-    //   data: {
-    //     token: this.token
-    //   }
-    // });
-    // let country = axios({
-    //   url: "/wowcher/value/country",
-    //   method: "post",
-    //   data: {
-    //     token: this.token
-    //   }
-    // });
-
-    Promise.all([account, country]).then(([account, country]) => {
-      this.searchAccountOption = _.cloneDeep(account.data);
-      this.searchCountryOption = _.cloneDeep(country.data);
-    });
     this.handleSearch();
   },
   methods: {
@@ -126,12 +107,12 @@ export default {
         order: this.fetchCondition.order
 
       };
-      if (this.condition.includes("1")) {
-        data.account = this.searchAccount;
-      }
-      if (this.condition.includes("3")) {
-        data.country = this.searchCountry;
-      }
+      // if (this.condition.includes("1")) {
+      //   data.account = this.searchAccount;
+      // }
+      // if (this.condition.includes("3")) {
+      //   data.country = this.searchCountry;
+      // }
       axios({
         url: this.fetchOption.url,
         method: this.fetchOption.method,

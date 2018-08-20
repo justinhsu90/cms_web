@@ -186,7 +186,7 @@ export default {
           if(!rules.test(value)){
             callback(new Error('SKU結構有誤'))
           }else{
-              that.axios({
+              axios({
               url: "sku/similarimg",
               method: "post",
               data:{
@@ -399,12 +399,14 @@ export default {
             }   
             this.isLoading = true;
             var request = new XMLHttpRequest();
-            request.open("POST", this.url);
+            let url = 'http://60.251.57.138:8000/data-server/'+ this.url;
+            request.open("POST", url);
             request.send(formData);
             request.onreadystatechange=()=>{
               if(request.readyState==4&&request.status==200){
               this.isLoading = false;
               this.$emit("showDailog", false);
+              this.$findFather('sku').$emit('refresh');
               this.$message.success('編輯成功');
               }
               if(request.status!=200){
@@ -437,13 +439,15 @@ export default {
             }   
             this.isLoading = true;
             var request = new XMLHttpRequest();
-            request.open("POST", this.url);
+            let url = 'http://60.251.57.138:8000/data-server/'+ this.url;
+            request.open("POST", url);
             request.send(formData);
             request.onreadystatechange=()=>{
               if(request.readyState==4&&request.status==200){
                   this.isLoading = false;
                   this.$emit("showDailog", false); 
-                  this.$message.success('新增成功')
+                  this.$message.success('新增成功');
+                  this.$findFather('sku').$emit('refresh');
               }
               if(request.status!=200){
                     this.isLoading = false;
@@ -458,7 +462,8 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss">
+#dialog{
  h3 {
   text-align: left;
 }
@@ -468,37 +473,36 @@ export default {
   color: #bbbbbb;
   font-size: 12px;
 }
-.inline .el-form-item__content {
-  width: 60% !important;
-  background: red;
-  display: inline-block !important;
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar-uploader {
-  display: inline-block;
-  width: 80%;
-}
-.el-switch span {
-  border-color: transparent !important;
-  background: red;
-}
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 img{
   width:100%;
   height:100%;
 }
 #dialog ml18{
   margin-left:18px !important;
+}
 }
 </style>
 
