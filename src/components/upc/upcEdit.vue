@@ -11,7 +11,34 @@
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
         <el-row :gutter="20">
-             <el-col :span="5">
+           <el-col :span="6">
+              <el-form-item label="UPC">
+              <el-input v-model="v.upc"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="4">
+              <el-form-item label="使用 SKU">
+              <el-input v-model="v.subSku"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="ASIN">
+              <el-input v-model="v.asin"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="產品名稱">
+              <el-input v-model="v.productName"></el-input>
+              </el-form-item>
+            </el-col>
+        </el-row>
+        <el-row :gutter="20">
+            <el-col :span="4">
+              <el-form-item label="平台">
+              <el-input v-model="v.platform"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="4">
               <el-form-item label="帳號">
               <el-input v-model="v.account"></el-input>
               </el-form-item>
@@ -21,96 +48,30 @@
               <el-input v-model="v.country"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="5">
-              <el-form-item label="Deal ID">
-              <el-input v-model="v.dealId"></el-input>
-              </el-form-item>
-            </el-col>
-           
-             <el-col :span="5">
-              <el-form-item label="Product ID">
-              <el-input v-model="v.productId"></el-input>
-              </el-form-item>
-            </el-col>
-
-              <el-col :span="5">
-              <el-form-item label="開始日期">
-              <el-input v-model="v.startDate"></el-input>
-              </el-form-item>
-            </el-col>
-
-             <el-col :span="16">
-              <el-form-item label="產品名稱">
-              <el-input v-model="v.productName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="產品規格">
-              <el-input v-model="v.productSpec"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="10">
-              <el-form-item label="產品中文申報名稱">
-              <el-input v-model="v.declareNameChinese"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="14">
-              <el-form-item label="產品英文申報名稱">
-              <el-input v-model="v.declareNameEnglish"></el-input>
-              </el-form-item>
-            </el-col>
-
-           
-           <el-col :span="3">
-              <el-form-item label="Wowcher 售價">
-              <el-input v-model="v.salePrice" ></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="3">
-              <el-form-item label="Wowcher 運費">
-              <el-input v-model="v.shippingCost" ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="Final Price">
-              <el-input v-model="v.finalPrice" ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="幣別">
-              <el-input v-model="v.currency" ></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="4">
-              <el-form-item label="產品成本">
-              <el-input v-model="v.productCost" ></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="4">
-              <el-form-item label="產品成本幣別">
-              <el-input v-model="v.productCostCurrency" ></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
+            </el-row>
+            <el-row :gutter="20">
+             <el-col :span="7">
               <el-form-item label="最後更新時間">
               <el-input v-model="v.lastUpdatedTime" disabled></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item label="最後更新人員">
+              <el-col :span="5">
+              <el-form-item label="更新者">
               <el-input v-model="v.lastModifiedBy" disabled></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="6">
-              <el-form-item label="新增時間">
+             <el-col :span="7">
+              <el-form-item label="配對時間">
               <el-input v-model="v.addedTime" disabled></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="4">
-              <el-form-item label="新增人員">
+            <el-col :span="5">
+              <el-form-item label="配對者">
               <el-input v-model="v.addedBy" disabled></el-input>
               </el-form-item>
             </el-col>
+            </el-row>
+            <el-row :gutter="20">
             <el-col :span="24">
               <el-form-item label="備註">
               <el-input v-model="v.note" type="textarea" rows="1"></el-input>
@@ -134,17 +95,14 @@ export default {
       formData: {
         data: [
           {
-            SKU: "",
-            isPurchased: false,
-            sku: "",
-            purchaseId:"",
-            purchaseQueryId:"",
-            productName: "",
-            productSpec: "",
-            queryQuantity:"",
-            note: "",
-            queryTime:"",
-            purchaseType:"",
+        subSku: "",
+        upc: "",
+        productName: "",
+        asin: "",
+        country: "",
+        account: "",
+        platform: "",
+        note: ""
           }
         ]
       }
@@ -154,20 +112,11 @@ export default {
     let data = JSON.parse(this.$route.query.data);
     this.formData.data[0].country = data.country;
     this.formData.data[0].account = data.account;
-    this.formData.data[0].productId = data.productId; 
-    this.formData.data[0].dealId = data.dealId;
+    this.formData.data[0].upc = data.upc; 
+    this.formData.data[0].subSku = data.subSku;
     this.formData.data[0].productName = data.productName;
-    this.formData.data[0].productSpec = data.productSpec;
-    this.formData.data[0].startDate = data.startDate;
-    this.formData.data[0].shippingCost = data.shippingCost;
-    this.formData.data[0].finalPrice = data.finalPrice;
-    this.formData.data[0].shippingCost = data.shippingCost;
-    this.formData.data[0].salePrice = data.salePrice;
-    this.formData.data[0].productCost = data.productCost;
-    this.formData.data[0].productCostCurrency = data.productCostCurrency;
-    this.formData.data[0].currency = data.currency;
-    this.formData.data[0].declareNameChinese = data.declareNameChinese;
-    this.formData.data[0].declareNameEnglish = data.declareNameEnglish;
+    this.formData.data[0].asin = data.asin;
+    this.formData.data[0].platform = data.platform;
     this.formData.data[0].note = data.note;
     this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
     this.formData.data[0].addedBy = data.addedBy;
@@ -176,7 +125,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/wowcherDealList");
+      this.$router.push("/upc");
     },
     getValue(){
     let data = _.cloneDeep(this.formData.data);
@@ -191,7 +140,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/wowcher/deal/update",
+            url: "/upc/update",
             method: "post",
             data: {
               value: this.getValue(),
@@ -200,7 +149,7 @@ export default {
           }).then(res => {
             this.submitLoading = true;
             this.Bus.$emit("refresh");
-            this.$router.push("/wowcherDealList");
+            this.$router.push("/upc");
           });
         }
       });

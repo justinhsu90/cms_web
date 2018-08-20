@@ -5,9 +5,9 @@ import login from '@/common/login'
 
 import skuList from '@/components/sku/skuList'
 
-import wowcher from '@/components/wowcher/wowcher/wowcher'
-import wowcherOrder from '@/components/wowcher/wowcher/wowcherOrder'
-import wowcherEdit from '@/components/wowcher/wowcher/wowcherEdit'
+import wowcherOrderList from '@/components/wowcher/wowcherOrder/wowcherOrderList'
+import wowcherTrackingStatus from '@/components/wowcher/wowcherOrder/wowcherTrackingStatus'
+import wowcherOrderView from '@/components/wowcher/wowcherOrder/wowcherOrderView'
 import wowcherDealList from '@/components/wowcher/wowcherDeal/wowcherDealList'
 import wowcherDealEdit from '@/components/wowcher/wowcherDeal/wowcherDealEdit'
 import wowcherDealAdd from '@/components/wowcher/wowcherDeal/wowcherDealAdd'
@@ -24,11 +24,6 @@ import replacementCheck from '@/components/wowcher/wowcherReplacement/replacemen
 import wowcherSampleList from '../components/wowcher/wowcherSample/sampleList'
 import wowcherSampleEdit from '@/components/wowcher/wowcherSample/sampleEdit'
 import wowcherSampleAdd from '@/components/wowcher/wowcherSample/sampleAdd'
-
-
-import purchase from '@/components/purchase/purchase'
-import purchaseEdit from '@/components/purchase/purchaseEdit'
-
 
 import dataAnalysis from '@/components/dataAnalysis/dataAnalysis'
 
@@ -126,25 +121,25 @@ let router = new VueRouter({
           }
         },
         {
-          name: 'wowcher',
+          name: 'wowcherOrderList',
           path: '/wowcher',
-          component: wowcher,
+          component: wowcherOrderList,
           meta: {
             keepAlive: true
           }
         },
         {
-          name: 'wowcherOrder',
-          path: '/wowcherOrder',
-          component: wowcherOrder,
+          name: 'wowcherTrackingStatus',
+          path: '/wowcher',
+          component: wowcherTrackingStatus,
           meta: {
             sign: 'wowcher'
           }
         },
         {
-          name: 'wowcherEdit',
-          path: '/wowcherEdit',
-          component: wowcherEdit,
+          name: 'wowcherOrderView',
+          path: '/wowcher',
+          component: wowcherOrderView,
           meta: {
             sign: 'wowcher'
           }
@@ -205,21 +200,7 @@ let router = new VueRouter({
             sign: 'wowcherSample'
           }
         },
-        {
-          path: '/purchase',
-          component: purchase,
-          meta: {
-            keepAlive: true
-          }
-        },
-        {
-          name: 'purchaseEdit',
-          path: '/purchase/:id',
-          component: purchaseEdit,
-          meta: {
-            sign: 'purchase'
-          }
-        },
+      
         {
           name: 'documentManage',
           path: '/documentManage',

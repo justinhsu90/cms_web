@@ -15,7 +15,6 @@
   content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段"> 
 <el-button slot="reference"  style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666" >?</el-button>
 </el-popover>
-
         </el-col>
         <el-col :span="14">
             <el-button style="float:right" @click="handleAdd"  type="primary" >新增SKU</el-button>
@@ -27,9 +26,6 @@
          <el-checkbox-button   label="price" :key="5">成本</el-checkbox-button>
     </el-checkbox-group>
         </el-col>
-        <br>
-        <br>
-        <br>
         <el-col>
                <el-table  ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column sortable="custom"   label="產品名稱" prop="productName"  min-width="180"></el-table-column>  

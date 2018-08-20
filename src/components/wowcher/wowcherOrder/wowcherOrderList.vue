@@ -146,7 +146,7 @@ export default {
   methods: {
     handleLook(val){
         this.$router.push({
-          name:'wowcherOrder',
+          name:'wowcherOrderView',
           query:{
             id:val
           }
@@ -215,7 +215,7 @@ export default {
       },500),
       handleCheck(val){
         this.$router.push({
-        name: "wowcherEdit",
+        name: "wowcherOrderView",
         query: { data: JSON.stringify(val) }
       });
       }

@@ -9,9 +9,6 @@
         <el-col :span="2">
             <el-button style="float:right" @click="handleAdd"  type="primary" >新增Replacement</el-button>
         </el-col>
-        <br>
-        <br>
-        <br>
         <el-col>
                <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column  min-width="75" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
