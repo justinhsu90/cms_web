@@ -22,7 +22,7 @@
           </el-form-item>
            </el-col>
              <el-col :span="5">
-          <el-form-item label="兌換時間">    
+          <el-form-item label="下單時間">    
                 <el-input disabled v-model="data.redeemedAt"></el-input>
           </el-form-item>
           </el-col>
@@ -82,7 +82,7 @@
           </el-row>
           <el-row :gutter="24">
           <h3>產品內容</h3>
-           <el-col :span="12"> 
+           <el-col :span="13"> 
           <el-form-item label="產品名稱">    
                 <el-input disabled v-model="data.productName"></el-input>
           </el-form-item>
@@ -90,6 +90,11 @@
           <el-col :span="4">
           <el-form-item label="顏色">    
                 <el-input disabled v-model="data.colour"></el-input>
+          </el-form-item>  
+          </el-col>
+          <el-col :span="7">
+          <el-form-item label="Product Options">    
+                <el-input disabled v-model="data.productOptions"></el-input>
           </el-form-item>  
           </el-col>
           </el-row>

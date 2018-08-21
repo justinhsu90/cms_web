@@ -12,9 +12,6 @@
       <el-col :span="14">
         <el-button style="float:right" @click="handleAdd" type="primary">新增SKU</el-button>
         <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
-          <!-- <el-checkbox-button label="ama" :key="1">Amazon出貨尺寸</el-checkbox-button>
-          <el-checkbox-button label="parcel" :key="2">小包出貨尺寸</el-checkbox-button>
-          <el-checkbox-button label="product" :key="3">商品出貨尺寸</el-checkbox-button> -->
           <el-checkbox-button label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
           <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
         </el-checkbox-group>
@@ -23,76 +20,24 @@
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column sortable="custom" label="產品名稱" prop="productName" min-width="180"></el-table-column>
           <el-table-column sortable="custom" min-width="80" label="SKU" prop="sku"></el-table-column>
-          <el-table-column sortable="custom" min-width="80" label="New SKU" prop="newSKU"></el-table-column>
+          <!-- <el-table-column sortable="custom" min-width="80" label="New SKU" prop="newSKU"></el-table-column> -->
           <!-- ama   -->
           <!-- <template v-if="amaShow"> -->
-            <el-table-column min-width="100" key="4" label="Amazon" prop="Amazon" >
+            <el-table-column min-width="100" key="4" label="Amazon(長x寬x高/重)" prop="Amazon" >
               <template slot-scope="scope">
-                <span>{{scope.row.amazonLengthCM}}cm</span>x<span>{{scope.row.amazonWidthCM}}cm</span>x<span>{{scope.row.amazonHeightCM}}cm</span>/<span>{{scope.row.amazonWeightKG}}kg</span>
+                <span>{{scope.row.amazonLengthCM}}</span>x<span>{{scope.row.amazonWidthCM}}</span>x<span>{{scope.row.amazonHeightCM}}cm</span>/<span>{{scope.row.amazonWeightKG}}kg</span>
               </template>
             </el-table-column>
-            <!-- <el-table-column min-width="100" key="1" label="Amazon(寬)" prop="amazonWidthCM" fixed="right">
+            <el-table-column min-width="80" key="7" label="小包(長x寬x高/重)" prop="parcel">
               <template slot-scope="scope">
-                <span>{{scope.row.amazonWidthCM}}cm</span>
+                <span>{{scope.row.parcelLengthCM}}</span>x<span>{{scope.row.parcelWidthCM}}</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
               </template>
             </el-table-column>
-            <el-table-column min-width="100" key="2" label="Amazon(高)" prop="amazonHeightCM" fixed="right">
+            <el-table-column min-width="80"  label="產品(長x寬x高/重)" prop="productLengthCM">
               <template slot-scope="scope">
-                <span>{{scope.row.amazonHeightCM}}cm</span>
+                <span>{{scope.row.productLengthCM}}</span>x<span>{{scope.row.productWidthCM}}</span>x<span>{{scope.row.productHeightCM}}cm</span>/<span>{{scope.row.productWeightKG}}kg</span>
               </template>
             </el-table-column>
-            <el-table-column min-width="100" key="3" label="Amazon(重)" prop="amazonWeightKG" fixed="right">
-              <template slot-scope="scope">
-                <span>{{scope.row.amazonWeightKG}}kg</span>
-              </template>
-            </el-table-column> -->
-          <!-- </template> -->
-          <!-- parcel -->
-          <!-- <template v-if="parcelShow"> -->
-            <el-table-column min-width="80" key="7" label="小包" prop="parcel">
-              <template slot-scope="scope">
-                <span>{{scope.row.parcelLengthCM}}cm</span>x<span>{{scope.row.parcelWidthCM}}cm</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
-              </template>
-            </el-table-column>
-            <!-- <el-table-column min-width="80" key="5" label="小包(寬)" prop="parcelWidthCM">
-              <template slot-scope="scope">
-                <span>{{scope.row.parcelWidthCM}}cm</span>
-              </template>
-            </el-table-column>
-            <el-table-column min-width="80" key="6" label="小包(高)" prop="parcelHeightCM">
-              <template slot-scope="scope">
-                <span>{{scope.row.parcelHeightCM}}cm</span>
-              </template>
-            </el-table-column>
-            <el-table-column min-width="80" key="8" label="小包(重)" prop="parcelWeightKG">
-              <template slot-scope="scope">
-                <span>{{scope.row.parcelWeightKG}}kg</span>
-              </template>
-            </el-table-column>
-          </template> -->
-          <!-- product -->
-          <!-- <template v-if="productShow"> -->
-            <el-table-column min-width="80"  label="商品(長)" prop="productLengthCM">
-              <template slot-scope="scope">
-                <span>{{scope.row.productLengthCM}}cm</span>x<span>{{scope.row.productWidthCM}}cm</span>x<span>{{scope.row.productHeightCM}}cm</span>/<span>{{scope.row.productWeightKG}}kg</span>
-              </template>
-            </el-table-column>
-            <!-- <el-table-column min-width="80" key="5" label="商品(寬)" prop="productWidthCM">
-              <template slot-scope="scope">
-                <span>{{scope.row.productWidthCM}}cm</span>
-              </template>
-            </el-table-column>
-            <el-table-column min-width="80" key="6" label="商品(高)" prop="productHeightCM">
-              <template slot-scope="scope">
-                <span>{{scope.row.productHeightCM}}cm</span>
-              </template>
-            </el-table-column>
-            <el-table-column min-width="80" key="8" label="商品(重)" prop="productWeightKG">
-              <template slot-scope="scope">
-                <span>{{scope.row.productWeightKG}}kg</span>
-              </template>
-            </el-table-column> -->
-          <!-- </template> -->
           <template v-if="deprecatedSkuShow">
             <el-table-column min-width="100" label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
           </template>
@@ -103,8 +48,7 @@
               </template>
             </el-table-column>
           </template>
-
-          <el-table-column class-name="tableColumn" label="圖片" width="100" align="center">
+          <el-table-column class-name="tableColumn" label="圖片" width="70" align="center">
             <template slot-scope="scope">
               <img width="50" height="50" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">
               <el-dialog title="圖片" :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
