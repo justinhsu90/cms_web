@@ -2,10 +2,10 @@
   <div id="nav">
     <el-container>
       <el-header>
-        <h1>
+        <h2>
           <i class="el-icon-menu"></i>&nbsp;&nbsp;
-          <span>菲德利內部管理系統</span>
-        </h1>
+          <span style="font-size:20px">菲德利內部管理系統</span>
+        </h2>
         <h1 style="float:right">
           <el-popover placement="bottom" width="200" trigger="click">
             <div>
@@ -18,43 +18,31 @@
         </h1>
       </el-header>
       <el-container>
-        <transition name="aside">
-          <el-aside width="200px">
-            <!-- <el-row>
-              <el-col style="line-height:50px;text-align:center;">
-                <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;" @click="handleClick"></span>
-              </el-col>
-            </el-row> -->
-            <el-row class="tac">
-              <el-col :span="24">
-                <el-menu :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect" collapse-transition>
-                  <template v-for="(v,i) in navData">
-                    <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
-                      <template slot="title">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">{{v.label}}</span>
-                      </template>
-                      <template>
-                        <el-menu-item-group>
-                          <template slot="title">
-                            <div></div>
-                          </template>
-                          <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
-                        </el-menu-item-group>
-                      </template>
-                    </el-submenu>
-                    <el-menu-item :index="v.index" v-else :key="i">
-                      <template slot="title">
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">{{v.label}}</span>
-                      </template>
-                    </el-menu-item>
+        <div class="backgroud">
+          <div style="line-height:50px;text-align:center;">
+            <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
+          </div>
+          <div>
+            <el-menu :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
+              <template v-for="(v,i) in navData">
+                <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
+                  <template slot="title">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">{{v.label}}</span>
                   </template>
-                </el-menu>
-              </el-col>
-            </el-row>
-          </el-aside>
-        </transition>
+                  <el-menu-item-group>
+                    <div slot="title"></div>
+                    <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
+                  </el-menu-item-group>
+                </el-submenu>
+                <el-menu-item :index="v.index" v-else :key="i">
+                  <i class="el-icon-menu"></i>
+                  <span slot="title">{{v.label}}</span>
+                </el-menu-item>
+              </template>
+            </el-menu>
+          </div>
+        </div>
         <el-main>
           <keep-alive :exclude="$route.meta.exclude">
             <router-view v-if="$route.meta.keepAlive"></router-view>
@@ -70,8 +58,9 @@ export default {
     data() {
         return {
             defaultNav: "",
-            asideShow:true,
+            asideShow: true,
             username: "",
+            isCollapse: false,
             navData: [
                 {
                     index: "dataAnalysis",
@@ -151,7 +140,7 @@ export default {
             this.$router.push(`/${index}`);
         },
         handleClick() {
-          this.asideShow = false;
+            this.isCollapse = !this.isCollapse;
         },
         handleQuit() {
             let that = this;
@@ -195,6 +184,19 @@ export default {
         width: 100%;
         height: 100%;
     }
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 180px;
+        height: 100%;
+    }
+    .backgroud {
+        background: rgb(50, 65, 87);
+    }
+    .el-submenu .el-menu-item {
+        height: 50px;
+        line-height: 50px;
+        padding: 0 45px;
+        min-width: 180px;
+    }
     .el-header {
         background-color: rgb(83, 90, 107);
         color: white;
@@ -203,12 +205,6 @@ export default {
     }
     h1 {
         float: left;
-    }
-
-    .el-aside {
-        background-color: rgb(50, 65, 87);
-        color: white;
-        height: 100%;
     }
     .el-menu {
         border: none;
@@ -223,14 +219,5 @@ export default {
     .el-menu-item-group__title {
         display: none !important;
     }
-    // .aside-enter-active,
-    // .aside-leave-active {
-    //   transition-property: transform;
-    //   transition-duration: 1s;
-    // }
-    // .aside-enter,
-    // .aside-leave-to {
-    //     transform: translateX(-100%);
-    // }
 }
 </style>
