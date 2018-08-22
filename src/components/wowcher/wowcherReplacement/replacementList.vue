@@ -70,7 +70,8 @@ export default {
       fetchOption: {
         url: "wowcher/rpm/search",
         method: "post",
-        where:""
+        where:"",
+        order: "-lastUpdatedTime"
       },
     };
   },
