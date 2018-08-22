@@ -209,9 +209,9 @@ export default {
     .el-menu {
         border: none;
     }
-    .el-main {
-        overflow: inherit !important;
-    }
+    // .el-main {
+    //     overflow: inherit !important;
+    // }
     .el-menu-item {
         color: white;
         border: none;
