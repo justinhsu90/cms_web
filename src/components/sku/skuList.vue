@@ -17,6 +17,7 @@
         </el-checkbox-group>
       </el-col>
       <el-col>
+        <br>
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column sortable="custom" label="產品名稱" prop="productName" min-width="180"></el-table-column>
           <el-table-column sortable="custom" min-width="80" label="SKU" prop="sku"></el-table-column>
@@ -70,8 +71,6 @@
         </div>
       </el-col>
     </el-row>
-    <br>
-    <br>
     <directiveDialog :title="title" :row="row" v-if="showDialog" @showDailog="handleShow"></directiveDialog>
   </div>
 </template>
@@ -187,12 +186,6 @@ export default {
 
 <style lang="scss">
 #sku {
-    // .el-table th {
-    //     color: #62717e;
-    //     background: rgb(237, 241, 245);
-    //     text-align: center;
-        
-    // }
     .tableColumn {
         padding: 5px !important;
     }
