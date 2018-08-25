@@ -203,7 +203,7 @@ export default {
         height: 50px !important;
         line-height: 50px;
     }
-    h2 {
+    .h2 {
         float: left;
     }
     .el-menu {
