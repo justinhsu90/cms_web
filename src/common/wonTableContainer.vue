@@ -26,11 +26,11 @@ export default {
   },
   mounted(){
     this.$nextTick(()=>{
-      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 50;
+      this.maxHeight = document.scrollingElement.clientHeight - this.$refs.wonTable.$el.getBoundingClientRect().top - 60;
       this.$refs.wonTable.$el.style.maxHeight = this.maxHeight +'px';
       let that = this;
       window.addEventListener('resize',_.debounce(()=>{
-          that.maxHeight = document.scrollingElement.clientHeight - that.$refs.wonTable.$el.getBoundingClientRect().top - 50;
+          that.maxHeight = document.scrollingElement.clientHeight - that.$refs.wonTable.$el.getBoundingClientRect().top - 60;
           that.$refs.wonTable.$el.style.maxHeight = that.maxHeight +'px';
       },500));   
     })      

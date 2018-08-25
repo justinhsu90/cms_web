@@ -1,57 +1,57 @@
 <template>
-  <div id="nav">
-    <el-container>
-      <el-header>
-        <h2>
-          <i class="el-icon-menu"></i>&nbsp;&nbsp;
-          <span style="font-size:20px">菲德利內部管理系統</span>
-        </h2>
-        <h1 style="float:right">
-          <el-popover placement="bottom" width="200" trigger="click">
-            <div>
-              <span>帳號資訊：</span>
-              <span>{{username}}</span>
-            </div>
-            <i type="text" slot="reference" class="el-icon-won-50"></i>
-          </el-popover>
-          <i type="text" class="el-icon-setting" @click="handleQuit"></i>
-        </h1>
-      </el-header>
-      <el-container>
-        <div class="backgroud">
-          <div style="line-height:50px;text-align:center;">
-            <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
-          </div>
-          <div>
-            <el-menu :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
-              <template v-for="(v,i) in navData">
-                <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
-                  <template slot="title">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">{{v.label}}</span>
-                  </template>
-                  <el-menu-item-group>
-                    <div slot="title"></div>
-                    <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
-                  </el-menu-item-group>
-                </el-submenu>
-                <el-menu-item :index="v.index" v-else :key="i">
-                  <i class="el-icon-menu"></i>
-                  <span slot="title">{{v.label}}</span>
-                </el-menu-item>
-              </template>
-            </el-menu>
-          </div>
-        </div>
-        <el-main>
-          <keep-alive :exclude="$route.meta.exclude">
-            <router-view v-if="$route.meta.keepAlive"></router-view>
-          </keep-alive>
-          <router-view v-if="!$route.meta.keepAlive"></router-view>
-        </el-main>
-      </el-container>
-    </el-container>
-  </div>
+    <div id="nav">
+        <el-container>
+            <el-header>
+                <div class="logo">
+                    <img   width="140px" src="../assets/img/logo.png" alt="">
+                    <span>菲德利內部管理系統</span>
+                </div>
+                <div class="headerRight">
+                    <el-popover placement="bottom" width="200" trigger="click">
+                        <div>
+                            <span>帳號資訊：</span>
+                            <span>{{username}}</span>
+                        </div>
+                        <i  style="font-size:20px" type="text" slot="reference" class="el-icon-won-50"></i>
+                    </el-popover>
+                    <i style="font-size:20px" type="text" class="el-icon-setting" @click="handleQuit"></i>
+                </div>
+            </el-header>
+            <el-container>
+                <div class="backgroud">
+                    <div style="line-height:50px;text-align:center;border-bottom:1px solid #E4E9EE">
+                        <span class="el-icon-won-28" style="cursor:pointer;font-size:15px;color:#62717E;" @click="handleClick"></span>
+                    </div>
+                    <div>
+                        <el-menu :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="#F4F7FC" text-color="#62717E" active-text-color="#62717E" @select="handleSelect">
+                            <template v-for="(v,i) in navData">
+                                <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
+                                    <template slot="title">
+                                        <i class="el-icon-menu"></i>
+                                        <span slot="title">{{v.label}}</span>
+                                    </template>
+                                    <el-menu-item-group>
+                                        <div slot="title"></div>
+                                        <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
+                                    </el-menu-item-group>
+                                </el-submenu>
+                                <el-menu-item :index="v.index" v-else :key="i">
+                                    <i class="el-icon-menu"></i>
+                                    <span slot="title">{{v.label}}</span>
+                                </el-menu-item>
+                            </template>
+                        </el-menu>
+                    </div>
+                </div>
+                <el-main>
+                    <keep-alive :exclude="$route.meta.exclude">
+                        <router-view v-if="$route.meta.keepAlive"></router-view>
+                    </keep-alive>
+                    <router-view v-if="!$route.meta.keepAlive"></router-view>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
 </template>
 <script>
 export default {
@@ -177,6 +177,7 @@ export default {
 };
 </script>  
 <style lang="scss">
+@import "../assets/css/fontStyle.css";
 #nav {
     width: 100%;
     height: 100%;
@@ -189,7 +190,7 @@ export default {
         height: 100%;
     }
     .backgroud {
-        background: rgb(50, 65, 87);
+        background: #f4f7fc;
     }
     .el-submenu .el-menu-item {
         height: 50px;
@@ -198,26 +199,58 @@ export default {
         min-width: 180px;
     }
     .el-header {
-        background-color: rgb(83, 90, 107);
+        background-color: #45a2ff;
         color: white;
-        height: 50px !important;
-        line-height: 50px;
     }
-    h1 {
+    .logo{
+        width:400px;
         float: left;
+        line-height: 60px;
+        img{
+            vertical-align: middle;
+        }
+        span{
+            display:inline-block;
+            vertical-align: middle;
+            font-size: 20px;
+        }
+    }
+    .headerRight{
+        float: right;
+        line-height: 60px;
+        i{
+           font-size: 20px;
+           cursor: pointer; 
+        }
     }
     .el-menu {
         border: none;
     }
-    // .el-main {
-    //     overflow: inherit !important;
-    // }
     .el-menu-item {
-        color: white;
+        color: #62717e;
         border: none;
+    }
+    .el-menu-item:focus,
+    .el-menu-item:hover {
+        background-color: white !important;
+    }
+    .el-menu-item:focus, .el-menu-item:hover{
+        background-color: white !important;
+    }
+    .el-submenu__title:focus,
+    .el-submenu__title:hover {
+        background-color: white !important;
     }
     .el-menu-item-group__title {
         display: none !important;
+    }
+    .el-table th {
+        color: #62717e;
+        background: rgb(237, 241, 245);
+        text-align: center;
+    }
+    .el-button--primary {
+        background: #45a2ff !important;
     }
 }
 </style>
