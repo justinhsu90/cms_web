@@ -2,20 +2,20 @@
     <div id="nav">
         <el-container>
             <el-header>
-                <h2 class="h2">
-                    <i class="el-icon-menu"></i>&nbsp;&nbsp;
-                    <span style="font-size:20px">菲德利內部管理系統</span>
-                </h2>
-                <h1 style="float:right">
+                <div class="logo">
+                    <img   width="140px" src="../assets/img/logo.png" alt="">
+                    <span>菲德利內部管理系統</span>
+                </div>
+                <div class="headerRight">
                     <el-popover placement="bottom" width="200" trigger="click">
                         <div>
                             <span>帳號資訊：</span>
                             <span>{{username}}</span>
                         </div>
-                        <i type="text" slot="reference" class="el-icon-won-50"></i>
+                        <i  style="font-size:20px" type="text" slot="reference" class="el-icon-won-50"></i>
                     </el-popover>
-                    <i type="text" class="el-icon-setting" @click="handleQuit"></i>
-                </h1>
+                    <i style="font-size:20px" type="text" class="el-icon-setting" @click="handleQuit"></i>
+                </div>
             </el-header>
             <el-container>
                 <div class="backgroud">
@@ -178,23 +178,6 @@ export default {
 </script>  
 <style lang="scss">
 @import "../assets/css/fontStyle.css";
-* {
-    padding: 0;
-    margin: 0;
-}
-html,
-body,
-#app {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-.login-wrap {
-    background: #324157;
-}
-a {
-    text-decoration: none;
-}
 #nav {
     width: 100%;
     height: 100%;
@@ -218,11 +201,27 @@ a {
     .el-header {
         background-color: #45a2ff;
         color: white;
-        height: 50px !important;
-        line-height: 50px;
     }
-    .h2 {
+    .logo{
+        width:400px;
         float: left;
+        line-height: 60px;
+        img{
+            vertical-align: middle;
+        }
+        span{
+            display:inline-block;
+            vertical-align: middle;
+            font-size: 20px;
+        }
+    }
+    .headerRight{
+        float: right;
+        line-height: 60px;
+        i{
+           font-size: 20px;
+           cursor: pointer; 
+        }
     }
     .el-menu {
         border: none;
@@ -233,11 +232,14 @@ a {
     }
     .el-menu-item:focus,
     .el-menu-item:hover {
-        background: white !important;
+        background-color: white !important;
+    }
+    .el-menu-item:focus, .el-menu-item:hover{
+        background-color: white !important;
     }
     .el-submenu__title:focus,
     .el-submenu__title:hover {
-        background: white !important;
+        background-color: white !important;
     }
     .el-menu-item-group__title {
         display: none !important;
