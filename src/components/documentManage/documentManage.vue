@@ -35,8 +35,7 @@
         </div>
         <el-button style="float:right" @click="handleAdd" type="primary">新增文案</el-button>
       </el-col>
-      <el-col>
-        <br>
+      <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column min-width="130" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
           <el-table-column min-width="150" label="Content ID" prop="contentId" sortable="custom"></el-table-column>
@@ -77,6 +76,7 @@ export default {
             maxHeight: 450,
             condition: [],
             isTableLoading: false,
+            pageSizes: [20, 40, 60, 100, 200],
             searchAccount: "",
             searchAccountOption: [],
             searchPlatform: "",
@@ -87,7 +87,7 @@ export default {
             searchLanguageOption: [],
             fetchCondition: {
                 skip: 0,
-                limit: 10,
+                limit: 20,
                 order: "-lastUpdatedTime"
             },
             fetchOption: {

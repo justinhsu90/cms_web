@@ -9,8 +9,7 @@
       <el-col :span="2">
         <el-button style="float:right" @click="handleAdd" type="primary">新增樣品</el-button>
       </el-col>
-      <el-col>
-          <br>
+      <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column min-width="75" label="樣品單號" prop="agentOrderId" sortable="custom"></el-table-column>
           <el-table-column min-width="60" label="快遞單號" prop="trackingNumber" sortable="custom"></el-table-column>

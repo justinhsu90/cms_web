@@ -22,8 +22,7 @@
         </div>
         <el-button style="float:right" @click="handleAdd" type="primary">新增 Deal</el-button>
       </el-col>
-      <el-col>
-        <br>
+      <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column min-width="100" label="Deal ID" prop="dealId" sortable="custom"></el-table-column>
           <el-table-column min-width="110" label="Product ID" prop="productId" sortable="custom"></el-table-column>

@@ -20,8 +20,7 @@
         <el-col :span="2">
             <el-button style="float:right" @click="handleAdd"  type="primary" >新增採購</el-button>
         </el-col>
-        <el-col>
-          <br>
+        <el-col class="mt5">
                <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column  min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
                  <el-table-column min-width="60" label="purchaseId" prop="purchaseId" sortable="custom"></el-table-column>

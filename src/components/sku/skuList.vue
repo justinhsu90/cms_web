@@ -2,7 +2,7 @@
   <div id="sku">
     <el-row>
       <el-col :span="10">
-        <el-input v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
+        <el-input  v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
           <el-button style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
         </el-input>
         <el-popover ref="popover" placement="top-start" title="搜索" width="200" trigger="hover" content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段">
@@ -16,8 +16,7 @@
           <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
         </el-checkbox-group>
       </el-col>
-      <el-col>
-        <br>
+      <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column sortable="custom" label="產品名稱" prop="productName" min-width="180"></el-table-column>
           <el-table-column sortable="custom" min-width="80" label="SKU" prop="sku"></el-table-column>

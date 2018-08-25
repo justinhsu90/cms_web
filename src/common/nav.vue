@@ -247,5 +247,11 @@ export default {
     .btnh{
         padding: 4px 0px;
     }
+    .mt5{
+        margin-top: 5px;
+    }
+    .el-main{
+        padding:10px 15px;
+    }
 }
 </style>

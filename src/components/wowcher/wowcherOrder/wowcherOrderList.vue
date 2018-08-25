@@ -33,8 +33,7 @@
           <i class="el-icon-search"></i>
         </div>
       </el-col>
-      <el-col>
-        <br>
+      <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column min-width="110" label="Wowcher Code" prop="wowcherCode">
           </el-table-column>

@@ -10,8 +10,7 @@
         </el-popover>
         <el-button style="float:right" @click="handleAdd" type="primary">指派 UPC</el-button>
       </el-col>
-      <el-col>
-        <br>
+      <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <!-- <el-table-column min-width="90" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
           <el-table-column min-width="110" label="UPC/EAN" prop="upc" sortable="custom"></el-table-column>
@@ -43,6 +42,7 @@ export default {
     data() {
         return {
             tableData: [],
+            pageSizes: [20, 40, 60, 100, 200],
             condition: [],
             searchAccount: "",
             searchAccountOption: [],
@@ -56,7 +56,7 @@ export default {
             isTableLoading: false,
             fetchCondition: {
                 skip: 0,
-                limit: 15,
+                limit: 20,
                 order: "-lastUpdatedTime"
             },
             fetchOption: {
