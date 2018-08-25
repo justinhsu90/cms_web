@@ -137,7 +137,7 @@ export default {
     methods: {
         handleLook(val) {
             this.$router.push({
-                name: "wowcherOrderView",
+                name: "wowcherTrackingStatus",
                 query: {
                     id: val
                 }

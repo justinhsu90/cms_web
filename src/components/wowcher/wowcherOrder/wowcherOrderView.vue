@@ -8,7 +8,7 @@
     <br>
     <h2>Wowcher 訂單內容</h2>
     <br>
-    <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
+    <el-form ref="form" :model="data"   v-loading="loading" label-position="top">
           <el-row :gutter="24">
             <h3>基本資料</h3>
              <el-col :span="5">

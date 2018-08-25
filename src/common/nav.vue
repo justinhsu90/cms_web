@@ -118,10 +118,10 @@ export default {
                             index: "payment",
                             label: "(3) 付款單"
                         },
-                        {
-                            index: "wowcherSample",
-                            label: "(4) 物流單"
-                        }
+                        // {
+                        //     index: "sku",
+                        //     label: "(4) 物流單"
+                        // }
                     ]
                 }
             ]

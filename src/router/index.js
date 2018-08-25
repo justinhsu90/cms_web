@@ -133,15 +133,15 @@ let router = new VueRouter({
           path: '/wowcher',
           component: wowcherTrackingStatus,
           meta: {
-            sign: 'wowcher'
+            sign: 'wowcherOrderList'
           }
         },
         {
           name: 'wowcherOrderView',
-          path: '/wowcher',
+          path: '/wowcherOrderView',
           component: wowcherOrderView,
           meta: {
-            sign: 'wowcher'
+            sign: 'wowcherOrderList'
           }
         },
         {
