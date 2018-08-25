@@ -3,7 +3,7 @@ export default {
   data() {
     return {
       currentPage: 4,
-      total: 10,
+      total: 15,
       fetchOption: {
         url: "",
         where: "",
@@ -15,7 +15,7 @@ export default {
         order: "created"
       },
       isTableLoading: true,
-      pageSizes: [10, 20, 50, 100, 200],
+      pageSizes: [15, 30, 45, 100, 200],
       layout: "total, sizes, prev, pager, next, jumper"
     };
   },

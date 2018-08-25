@@ -38,25 +38,23 @@
       <el-col>
         <br>
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-          <el-table-column min-width="80" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
+          <el-table-column min-width="130" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
           <el-table-column min-width="150" label="Content ID" prop="contentId" sortable="custom"></el-table-column>
           <el-table-column min-width="75" label="平台" prop="platform" sortable="custom"></el-table-column>
           <el-table-column min-width="60" label="語言" prop="language" sortable="custom"></el-table-column>
           <!-- <el-table-column min-width="60" label="國家" prop="country" sortable="custom"></el-table-column> -->
           <!-- <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column> -->
-          <el-table-column min-width="100" label="SKU" prop="sku" sortable="custom"></el-table-column>
-          <el-table-column min-width="200" label="產品標題" prop="title"></el-table-column>
-          <!-- <el-table-column min-width="50" label="啟用" prop="enable">
+          <!-- <el-table-column min-width="100" label="SKU" prop="sku" sortable="custom"></el-table-column> -->
+          <el-table-column min-width="200" label="產品標題" prop="title">
                       <template slot-scope="scope">
-                            <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
-                            <el-tag  v-else type="info">false</el-tag>
+                            <span class="line2">{{scope.row.title}}</span>
                       </template>
-                  </el-table-column> -->
+          </el-table-column>
           <el-table-column width="100" label="動作" align="center">
             <template slot-scope="scope">
-              <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-              <el-button type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
-              <el-button type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>

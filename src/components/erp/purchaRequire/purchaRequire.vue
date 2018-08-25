@@ -45,7 +45,7 @@
           </el-table-column>
           <el-table-column width="60" label="動作" align="center">
             <template slot-scope="scope">
-              <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -78,7 +78,7 @@ export default {
             ],
             fetchCondition: {
                 skip: 0,
-                limit: 10,
+                limit: 15,
                 order: "-lastUpdatedTime"
             },
             fetchOption: {

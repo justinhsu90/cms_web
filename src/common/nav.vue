@@ -1,57 +1,57 @@
 <template>
-  <div id="nav">
-    <el-container>
-      <el-header>
-        <h2 class="h2">
-          <i class="el-icon-menu"></i>&nbsp;&nbsp;
-          <span style="font-size:20px">菲德利內部管理系統</span>
-        </h2>
-        <h1 style="float:right">
-          <el-popover placement="bottom" width="200" trigger="click">
-            <div>
-              <span>帳號資訊：</span>
-              <span>{{username}}</span>
-            </div>
-            <i type="text" slot="reference" class="el-icon-won-50"></i>
-          </el-popover>
-          <i type="text" class="el-icon-setting" @click="handleQuit"></i>
-        </h1>
-      </el-header>
-      <el-container>
-        <div class="backgroud">
-          <div style="line-height:50px;text-align:center;">
-            <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
-          </div>
-          <div>
-            <el-menu :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
-              <template v-for="(v,i) in navData">
-                <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
-                  <template slot="title">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">{{v.label}}</span>
-                  </template>
-                  <el-menu-item-group>
-                    <div slot="title"></div>
-                    <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
-                  </el-menu-item-group>
-                </el-submenu>
-                <el-menu-item :index="v.index" v-else :key="i">
-                  <i class="el-icon-menu"></i>
-                  <span slot="title">{{v.label}}</span>
-                </el-menu-item>
-              </template>
-            </el-menu>
-          </div>
-        </div>
-        <el-main>
-          <keep-alive :exclude="$route.meta.exclude">
-            <router-view v-if="$route.meta.keepAlive"></router-view>
-          </keep-alive>
-          <router-view v-if="!$route.meta.keepAlive"></router-view>
-        </el-main>
-      </el-container>
-    </el-container>
-  </div>
+    <div id="nav">
+        <el-container>
+            <el-header>
+                <h2 class="h2">
+                    <i class="el-icon-menu"></i>&nbsp;&nbsp;
+                    <span style="font-size:20px">菲德利內部管理系統</span>
+                </h2>
+                <h1 style="float:right">
+                    <el-popover placement="bottom" width="200" trigger="click">
+                        <div>
+                            <span>帳號資訊：</span>
+                            <span>{{username}}</span>
+                        </div>
+                        <i type="text" slot="reference" class="el-icon-won-50"></i>
+                    </el-popover>
+                    <i type="text" class="el-icon-setting" @click="handleQuit"></i>
+                </h1>
+            </el-header>
+            <el-container>
+                <div class="backgroud">
+                    <div style="line-height:50px;text-align:center;">
+                        <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
+                    </div>
+                    <div>
+                        <el-menu :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
+                            <template v-for="(v,i) in navData">
+                                <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
+                                    <template slot="title">
+                                        <i class="el-icon-menu"></i>
+                                        <span slot="title">{{v.label}}</span>
+                                    </template>
+                                    <el-menu-item-group>
+                                        <div slot="title"></div>
+                                        <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
+                                    </el-menu-item-group>
+                                </el-submenu>
+                                <el-menu-item :index="v.index" v-else :key="i">
+                                    <i class="el-icon-menu"></i>
+                                    <span slot="title">{{v.label}}</span>
+                                </el-menu-item>
+                            </template>
+                        </el-menu>
+                    </div>
+                </div>
+                <el-main>
+                    <keep-alive :exclude="$route.meta.exclude">
+                        <router-view v-if="$route.meta.keepAlive"></router-view>
+                    </keep-alive>
+                    <router-view v-if="!$route.meta.keepAlive"></router-view>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
 </template>
 <script>
 export default {
@@ -119,7 +119,7 @@ export default {
                             label: "(3) 付款單"
                         },
                         {
-                            index: "shipment",
+                            index: "wowcherSample",
                             label: "(4) 物流單"
                         }
                     ]
@@ -220,12 +220,32 @@ export default {
         color: #62717e;
         background: rgb(237, 241, 245);
     }
-    .el-table:before{
+    .el-table:before {
         left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    z-index: 99;
+        bottom: 0;
+        width: 100%;
+        height: 2px;
+        z-index: 99;
+    }
+    .el-table td,
+    .el-table th {
+        padding: 0px 0;
+        min-width: 0;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        position: relative;
+        height: 20px;
+    }
+    .line2 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+    }
+    .btnh{
+        padding: 4px 0px;
     }
 }
 </style>

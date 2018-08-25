@@ -52,7 +52,7 @@
           </el-table-column>
           <el-table-column width="50" label="動作" fixed="right">
             <template slot-scope="scope">
-              <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
             </template>
           </el-table-column>
 
@@ -86,7 +86,7 @@ export default {
             fetchCondition: {
                 skip: 0,
                 order: "-redeemedAt",
-                limit: 10
+                limit: 15
             },
             fetchOption: {
                 url: "/wowcher/order/search",

@@ -59,7 +59,7 @@
           </el-table-column>
           <el-table-column min-width="50" label="動作" fixed="right">
             <template slot-scope="scope">
-              <el-button type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+              <el-button class="btnh"  type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -98,7 +98,7 @@ export default {
             dialogTableVisible: false,
             fetchCondition: {
                 skip: 0,
-                limit: 10,
+                limit: 15,
                 order: "productName"
             },
             fetchOption: {
@@ -186,8 +186,8 @@ export default {
 
 <style lang="scss">
 #sku {
-    .tableColumn {
-        padding: 5px !important;
+    img{
+        display: block;
     }
 }
 </style>

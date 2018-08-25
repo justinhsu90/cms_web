@@ -28,8 +28,8 @@
           <el-table-column width="80" label="動作" fixed="right">
             <template slot-scope="scope">
               <!-- <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button> -->
-              <el-button type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
-              <el-button type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="查看" icon="el-icon-won-40" @click="handleCheck(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -54,7 +54,7 @@ export default {
             isTableLoading: false,
             fetchCondition: {
                 skip: 0,
-                limit: 10,
+                limit: 15,
                 order: "-lastUpdatedTime"
             },
             fetchOption: {
