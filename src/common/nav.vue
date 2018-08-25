@@ -23,7 +23,7 @@
                         <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
                     </div>
                     <div>
-                        <el-menu :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
+                        <el-menu :unique-opened="true" :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
                             <template v-for="(v,i) in navData">
                                 <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
                                     <template slot="title">
