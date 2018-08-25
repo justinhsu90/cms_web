@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-  import '../../static/lib/tinymce/tinymce.min.js'
+  import '../assets/lib/tinymce/tinymce.min.js'
   export default {
     data () {
       const Id = Date.now()

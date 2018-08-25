@@ -2,7 +2,7 @@
   <div id="nav">
     <el-container>
       <el-header>
-        <h2>
+        <h2 class="h2">
           <i class="el-icon-menu"></i>&nbsp;&nbsp;
           <span style="font-size:20px">菲德利內部管理系統</span>
         </h2>
@@ -203,15 +203,12 @@ export default {
         height: 50px !important;
         line-height: 50px;
     }
-    h1 {
+    h2 {
         float: left;
     }
     .el-menu {
         border: none;
     }
-    // .el-main {
-    //     overflow: inherit !important;
-    // }
     .el-menu-item {
         color: white;
         border: none;
@@ -219,5 +216,10 @@ export default {
     .el-menu-item-group__title {
         display: none !important;
     }
+    .el-table th {
+        color: #62717e;
+        background: rgb(237, 241, 245);
+    }
+    
 }
 </style>
