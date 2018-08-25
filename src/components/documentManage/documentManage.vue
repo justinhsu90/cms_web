@@ -35,7 +35,6 @@
         </el-col>
         <br>
         <br>
-        <br>
         <el-col>
                <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
                  <el-table-column  min-width="80" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
