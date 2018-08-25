@@ -220,6 +220,12 @@ export default {
         color: #62717e;
         background: rgb(237, 241, 245);
     }
-    
+    .el-table:before{
+        left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 99;
+    }
 }
 </style>
