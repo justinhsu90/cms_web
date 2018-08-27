@@ -2,18 +2,24 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:15%;float:left">
                 </el-input>
+                <div style="margin-left:5px;display:inline-block;width:140px">
+                    <el-select placeholder="顯示類型" v-model="searchAccount" @change="handleCondition('display')" clearable>
+                        <el-option v-for="(v,i) in searchAccountOption" :key="'display'+i" :label="v.account" :value="v.account"></el-option>
+                    </el-select>
+                </div>
+                <div style="display:inline-block;width:140px">
+                    <el-select placeholder="合併做單" v-model="searchMerge" @change="handleCondition('merge')" clearable>
+                        <el-option v-for="(v,i) in searchMergeOption" :key="'merge'+i" :label="v.label" :value="v.value"></el-option>
+                    </el-select>
+                </div>
                 <div style="margin-left:5px;display:inline-block;width:140px">
                     <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                         <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
                     </el-select>
                 </div>
-                <div style="display:inline-block;width:140px">
-                    <el-select placeholder="merge" v-model="searchMerge" @change="handleCondition('merge')" clearable>
-                        <el-option v-for="(v,i) in searchMergeOption" :key="'merge'+i" :label="v.label" :value="v.value"></el-option>
-                    </el-select>
-                </div>
+                
                 <div style="display:inline-block;width:140px">
                     <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
                         <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese">
@@ -31,37 +37,42 @@
                 <el-table ref="wonTable" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column type="expand">
                         <template slot-scope="scope">
-                            <h5 style="margin-bottom:3px;margin-top:3px;">用户订单</h5>
+                            <!-- <h5 style="margin-bottom:3px;margin-top:3px;">訂單</h5> -->
                             <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
-                                <th class="w30">productName</th>
-                                <th>Declarenamechinese</th>
-                                <th>Quantity</th>
-                                <th>Color</th>
-                                <th>Wowcher core</th>
+                                <th>Wowcher Code</th>
+                                <th class="w30">產品名稱</th>
+                                <th>申報中文名稱</th>
+                                <th>申報英文名稱</th>
+                                <th>數量</th>
+                                <th>顏色</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(v,i) in scope.row.list" :key="i">
+                                        <td>{{v.wowchercode}}</td>
                                         <td>{{v.productName}}</td>
                                         <td>{{v.declareNameChinese}}</td>
+                                        <td>{{v.declareNameEnglish}}</td>
                                         <td>{{v.quantity}}</td>
                                         <td>{{v.color}}</td>
-                                        <td>{{v.wowchercore}}</td>
+                                        
                                     </tr>
                                 </tbody>
                             </table>   
                             <h5 style="margin-bottom:3px"></h5>                         
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label="platformOrderId" prop="platformOrderId" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="trackingNumber" prop="trackingNumber" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="shippingMethod" prop="shippingMethod" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="hippingAgent" prop="hippingAgent" sortable="hippingAgent"></el-table-column>
-                    <el-table-column min-width="60" label="status" prop="status">
+                    
+                    <el-table-column min-width="60" label="狀態" prop="status">
                         <template slot-scope="scope">
                             <span class="line2">{{scope.row.title}}</span>
                         </template>
                     </el-table-column>
+                    <el-table-column min-width="100" label="Platform Order ID" prop="platformOrderId" sortable="custom"></el-table-column>
+                    <el-table-column min-width="100" label="物流單號" prop="trackingNumber" sortable="custom"></el-table-column>
+                    <el-table-column min-width="100" label="發貨方式" prop="shippingMethod" sortable="custom"></el-table-column>
+                    <el-table-column min-width="100" label="貨代" prop="hippingAgent" sortable="hippingAgent"></el-table-column>
+                    
                     <el-table-column width="60" label="動作" align="center">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
@@ -206,6 +217,13 @@ export default {
         },
         handleCondition(sign) {
             if (sign == "acc") {
+                if (!this.searchAccount) {
+                    _.pull(this.condition, "1");
+                } else {
+                    this.condition.push("1");
+                }
+            }
+            if (sign == "display") {
                 if (!this.searchAccount) {
                     _.pull(this.condition, "1");
                 } else {
