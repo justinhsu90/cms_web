@@ -79,6 +79,10 @@ export default {
                     label: "文案管理"
                 },
                 {
+                    index: "shipment",
+                    label: "shipment"
+                },
+                {
                     index: "wowcher",
                     label: "Wowcher",
                     isLevel: true,

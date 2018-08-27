@@ -31,6 +31,10 @@ import documentManage from '@/components/documentManage/documentManage'
 import documentEdit from '@/components/documentManage/documentEdit'
 import documentAdd from '@/components/documentManage/documentAdd'
 
+import shipment from '@/components/shipment/shipment'
+import shipmentEdit from '@/components/shipment/shipmentEdit'
+import shipmentAdd from '@/components/shipment/shipmentAdd'
+
 import purchaRequire from '@/components/erp/purchaRequire/purchaRequire'
 import purchaAdd from '@/components/erp/purchaRequire/purchaAdd'
 import purchaEdit from '@/components/erp/purchaRequire/purchaEdit'
@@ -223,6 +227,30 @@ let router = new VueRouter({
           component: documentAdd,
           meta: {
             sign: 'documentManage'
+          }
+        },
+        {
+          name: 'shipment',
+          path: '/shipment',
+          component: shipment,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'shipmentEdit',
+          path: '/shipmentEdit',
+          component: shipmentEdit,
+          meta: {
+            sign: 'shipment'
+          }
+        },
+        {
+          name: 'shipmentAdd',
+          path: '/shipmentAdd',
+          component: shipmentAdd,
+          meta: {
+            sign: 'shipment'
           }
         },
         {
