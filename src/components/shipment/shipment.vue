@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="shipment">
         <el-row>
             <el-col :span="24">
                 <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
@@ -31,14 +31,14 @@
                 <el-table ref="wonTable" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column type="expand">
                         <template slot-scope="scope">
-                            <h5 style="margin-bottom:3px;margin-top:3px;">用户订单</h5>
+                            <h5 style="margin-bottom:6px;margin-top:10px;">用户订单</h5>
                             <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
-                                <th class="w30">productName</th>
-                                <th>Declarenamechinese</th>
-                                <th>Quantity</th>
-                                <th>Color</th>
-                                <th>Wowcher core</th>
+                                    <th class="w30">productName</th>
+                                    <th>Declarenamechinese</th>
+                                    <th>Quantity</th>
+                                    <th>Color</th>
+                                    <th>Wowcher core</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(v,i) in scope.row.list" :key="i">
@@ -49,11 +49,15 @@
                                         <td>{{v.wowchercore}}</td>
                                     </tr>
                                 </tbody>
-                            </table>   
-                            <h5 style="margin-bottom:3px"></h5>                         
+                            </table>
+                            <h5 style="margin-bottom:15px"></h5>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label="platformOrderId" prop="platformOrderId" sortable="custom"></el-table-column>
+                    <el-table-column min-width="100" label="platformOrderId" prop="platformOrderId" sortable="custom">
+                        <template slot-scope="scope">
+                            <span style="color:#45a2ff">{{scope.row.platformOrderId}}</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column min-width="100" label="trackingNumber" prop="trackingNumber" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="shippingMethod" prop="shippingMethod" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="hippingAgent" prop="hippingAgent" sortable="hippingAgent"></el-table-column>
@@ -64,7 +68,7 @@
                     </el-table-column>
                     <el-table-column width="60" label="動作" align="center">
                         <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+                            <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -241,26 +245,35 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
-}
-.wonTable {
-    width:100%;
-    table-layout: fixed;
-    th{
-        border: 1px solid #ebeef5;
-        background: oldlace !important; 
-    }
-    td{
-        border: 1px solid #ebeef5;
+<style lang="scss">
+#shipment {
+    .el-table th {
+        color: #62717e;
+        background: rgb(237, 241, 245);
         text-align: center;
-        background: #f0f9eb;
     }
-    .w30{
-        width:30%;
+    .wonTable {
+        width: 100%;
+        table-layout: fixed;
+        th {
+            border-bottom: 1px solid #ebeef5;
+            padding:5px;
+            background: oldlace !important;
+            
+        }
+        td {
+            padding:5px;
+            border-bottom: 1px solid #ebeef5;
+            text-align: center;
+            background: #f0f9eb;
+        }
+        .w30 {
+            width: 30%;
+        }
+    }
+    .el-table__expand-icon {
+        color:#45a2ff;
+
     }
 }
 </style>
