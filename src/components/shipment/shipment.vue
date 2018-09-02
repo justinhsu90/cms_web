@@ -38,6 +38,34 @@
                     <el-table-column type="expand">
                         <template slot-scope="scope">
                             <!-- <h5 style="margin-bottom:3px;margin-top:3px;">訂單</h5> -->
+                            <el-row type="flex" justify="space-around" style="padding:5px">
+                                <el-col :span="7"> 
+                                    <div>
+                                      <span class="infol">customerName:</span>    
+                                      <span class="infoR">{{scope.row.customerName}}</span>    
+                                    </div>
+                                </el-col>
+                                <el-col :span="4">
+                                    <div style="margin-bottom:4px">
+                                      <span class="infol">country:</span>    
+                                      <span class="infoR">{{scope.row.country}}</span>    
+                                    </div> 
+                                    <div>
+                                        <span class="infol">city:</span>    
+                                        <span class="infoR">{{scope.row.city}}</span>    
+                                    </div>
+                                </el-col>
+                                <el-col :span="10">
+                                    <div style="margin-bottom:4px">
+                                        <span class="infol">address1:</span>    
+                                        <span class="infoR">{{scope.row.address1}}</span>    
+                                    </div>
+                                    <div>
+                                        <span class="infol">address2:</span>    
+                                        <span class="infoR">{{scope.row.address2}}</span>    
+                                     </div>   
+                                </el-col>
+                            </el-row>
                             <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
                                 <th>Wowcher Code</th>
@@ -97,6 +125,7 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
+            setMaxHeight:false,
             tableData: [],
             searchMerge: "",
             searchMergeOption: [
@@ -264,6 +293,16 @@ export default {
 
 <style lang="scss">
 #shipment {
+    .tc{
+        text-align:center;
+    }
+    .infol{
+        color:#99a9bf;
+        font-size: 15px;
+    }
+    .infoR{
+        font-size: 15px;
+    }
     .el-table th {
         color: #62717e;
         background: rgb(237, 241, 245);

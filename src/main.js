@@ -2,6 +2,8 @@ import Vue from 'vue';
 import router from '@/router';
 import ElementUI from '../static/lib/ele/index';
 import 'element-ui/lib/theme-chalk/index.css';
+import "./assets/css/reset.css"
+import "./assets/css/fontStyle.css";
 import App from './App'
 import moment from 'moment'
 import axios from '@/common/until/Ajax'

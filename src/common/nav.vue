@@ -242,18 +242,6 @@ export default {
         position: relative;
         height: 20px;
     }
-    .line2 {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
-        overflow: hidden;
-    }
-    .btnh{
-        padding: 4px 0px;
-    }
-    .mt5{
-        margin-top: 5px;
-    }
     .el-main{
         padding:10px 15px;
     }
