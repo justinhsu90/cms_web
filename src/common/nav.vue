@@ -80,7 +80,7 @@ export default {
                 },
                 {
                     index: "shipment",
-                    label: "shipment"
+                    label: "小包做單"
                 },
                 {
                     index: "wowcher",
