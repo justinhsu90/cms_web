@@ -84,7 +84,7 @@
                                       
                                 </el-col>
                             </el-row>
-                            <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
+                            <table class="wonTable" cellspacing="0" cellpadding="0" border="0" >
                                 <thead>
                                 <th>Wowcher Code</th>
                                 <th class="w30">產品名稱</th>
@@ -95,12 +95,12 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(v,i) in scope.row.list" :key="i">
-                                        <td>{{v.wowchercode}}</td>
+                                        <td>{{v.orderId}}</td>
                                         <td>{{v.productName}}</td>
                                         <td>{{v.declareNameChinese}}</td>
                                         <td>{{v.declareNameEnglish}}</td>
                                         <td>{{v.quantity}}</td>
-                                        <td>{{v.color}}</td>
+                                        <td>{{v.colour}}</td>
                                         
                                     </tr>
                                 </tbody>
