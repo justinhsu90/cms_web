@@ -43,11 +43,11 @@
           <el-table-column min-width="200" label="產品名稱" prop="productName"></el-table-column>
           <el-table-column min-width="120" label="客戶名稱" prop="customerName"></el-table-column>
           <el-table-column min-width="120" label="單號" prop="trackingNo" sortable="custom">
-            <template slot-scope="scope">
+            <!-- <template slot-scope="scope">
               <el-button type="text" @click="handleLook(scope.row.trackingNo)">
                 <span>{{scope.row.trackingNo}}</span>
               </el-button>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column width="50" label="動作" fixed="right">
             <template slot-scope="scope">

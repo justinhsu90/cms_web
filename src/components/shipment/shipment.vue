@@ -39,31 +39,49 @@
                         <template slot-scope="scope">
                             <!-- <h5 style="margin-bottom:3px;margin-top:3px;">訂單</h5> -->
                             <el-row type="flex" justify="space-around" style="padding:5px">
-                                <el-col :span="7"> 
+                                <el-col :span="6"> 
                                     <div>
-                                      <span class="infol">customerName:</span>    
-                                      <span class="infoR">{{scope.row.customerName}}</span>    
+                                      <span class="infol">收件人:</span>    
+                                      <span class="infoR"> {{scope.row.customerName}}</span>    
+                                    </div>
+                                    <div>
+                                      <span class="infol">電話:</span>    
+                                      <span class="infoR"> {{scope.row.phone}}</span>    
                                     </div>
                                 </el-col>
-                                <el-col :span="4">
+                                <el-col :span="6">
                                     <div style="margin-bottom:4px">
-                                      <span class="infol">country:</span>    
-                                      <span class="infoR">{{scope.row.country}}</span>    
+                                        <span class="infol">地址1:</span>    
+                                        <span class="infoR"> {{scope.row.address1}}</span>    
+                                    </div>
+                                   <div style="margin-bottom:4px">
+                                      <span class="infol">省/州:</span>    
+                                      <span class="infoR"> {{scope.row.county}}</span>    
                                     </div> 
-                                    <div>
-                                        <span class="infol">city:</span>    
-                                        <span class="infoR">{{scope.row.city}}</span>    
-                                    </div>
                                 </el-col>
-                                <el-col :span="10">
-                                    <div style="margin-bottom:4px">
-                                        <span class="infol">address1:</span>    
-                                        <span class="infoR">{{scope.row.address1}}</span>    
-                                    </div>
+                                <el-col :span="6">
+                                     <div>
+                                        <span class="infol">地址2:</span>    
+                                        <span class="infoR"> {{scope.row.address2}}</span>    
+                                     </div>
+                                   <div style="margin-bottom:4px">
+                                      <span class="infol">郵編:</span>    
+                                      <span class="infoR"> {{scope.row.postcode}}</span>    
+                                    </div> 
+                                </el-col>
+                                <el-col :span="6">
+
                                     <div>
-                                        <span class="infol">address2:</span>    
-                                        <span class="infoR">{{scope.row.address2}}</span>    
-                                     </div>   
+                                        <span class="infol">城市:</span>    
+                                        <span class="infoR"> {{scope.row.city}}</span>    
+                                    </div>
+                                    <div style="margin-bottom:4px">
+                                      <span class="infol">國家:</span>    
+                                      <span class="infoR"> {{scope.row.country}}</span>    
+                                    </div> 
+
+
+                                      
                                 </el-col>
                             </el-row>
                             <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
