@@ -38,7 +38,7 @@
                     <el-table-column type="expand">
                         <template slot-scope="scope">
                             <!-- <h5 style="margin-bottom:3px;margin-top:3px;">訂單</h5> -->
-                            <el-row type="flex" justify="space-around" style="padding:5px">
+                            <el-row type="flex" justify="space-around" style="padding:5px;margin-left:50px">
                                 <el-col :span="6"> 
                                     <div>
                                       <span class="infol">收件人:</span>    
@@ -79,9 +79,6 @@
                                       <span class="infol">國家:</span>    
                                       <span class="infoR"> {{scope.row.country}}</span>    
                                     </div> 
-
-
-                                      
                                 </el-col>
                             </el-row>
                             <table class="wonTable" cellspacing="0" cellpadding="0" border="0" >
@@ -107,7 +104,7 @@
                             </table>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label="Platform Order ID" prop="platformOrderId" sortable="custom" align="left">
+                    <el-table-column min-width="100" label="Platform Order ID" prop="platformOrderId" align="left">
                         <template slot-scope="scope">
                             <span style="color:#45a2ff">{{scope.row.platformOrderId}}</span>
                         </template>
