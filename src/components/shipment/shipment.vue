@@ -83,22 +83,21 @@
                             </el-row>
                             <table class="wonTable" cellspacing="0" cellpadding="0" border="0" >
                                 <thead>
-                                <th>Wowcher Code</th>
+                                <th>平台訂單號</th>
+                                <th>數量</th>
+                                <th>顏色</th>
                                 <th class="w30">產品名稱</th>
                                 <th>申報中文名稱</th>
                                 <th>申報英文名稱</th>
-                                <th>數量</th>
-                                <th>顏色</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(v,i) in scope.row.list" :key="i">
                                         <td>{{v.orderId}}</td>
+                                        <td>{{v.quantity}}</td>
+                                        <td>{{v.colour}}</td>
                                         <td>{{v.productName}}</td>
                                         <td>{{v.declareNameChinese}}</td>
                                         <td>{{v.declareNameEnglish}}</td>
-                                        <td>{{v.quantity}}</td>
-                                        <td>{{v.colour}}</td>
-                                        
                                     </tr>
                                 </tbody>
                             </table>
