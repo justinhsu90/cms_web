@@ -551,6 +551,7 @@ export default {
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
       let oldData = JSON.parse(this.$route.query.data);
+      console.log(this.data)
       this.data.Account = oldData.account;
       this.data.Brand = oldData.brand;
       this.data.Language = oldData.language;
@@ -562,17 +563,17 @@ export default {
       this.data.ReplaceWordValue1 = oldData.replaceWordValue1;
       this.data.ReplaceWordValue2 = oldData.replaceWordValue2;
       this.data.ReplaceWordValue3 = oldData.replaceWordValue3;
-      this.data.shortDescription = oldData.shortDescription;
+      this.data.shortDescription = oldData.shortDescription || "";
       this.data.SKU = oldData.sku;
-      this.data.Title = oldData.title;
+      this.data.Title = oldData.title || "";
       this.data.version = oldData.version;
-      this.data.BulletPoint1 = oldData.bulletPoint1;
-      this.data.BulletPoint2 = oldData.bulletPoint2;
-      this.data.BulletPoint3 = oldData.bulletPoint3;
-      this.data.BulletPoint4 = oldData.bulletPoint4;
-      this.data.BulletPoint5 = oldData.bulletPoint5;
-      this.data.cartLongTitle = oldData.cartLongTitle;
-      this.data.cartShortTitle = oldData.cartShortTitle;
+      this.data.BulletPoint1 = oldData.bulletPoint1 || "";
+      this.data.BulletPoint2 = oldData.bulletPoint2 || "";
+      this.data.BulletPoint3 = oldData.bulletPoint3 || "";
+      this.data.BulletPoint4 = oldData.bulletPoint4 || "";
+      this.data.BulletPoint5 = oldData.bulletPoint5 || "";
+      this.data.cartLongTitle = oldData.cartLongTitle || "";
+      this.data.cartShortTitle = oldData.cartShortTitle || "";
       this.data.Country = oldData.country; 
       this.data.Description1 = oldData.description1 || ""; 
       this.data.Description2 = oldData.description2 || ""; 
