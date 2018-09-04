@@ -34,7 +34,11 @@
               {{scope.row.finalPrice | formatToYuan}}&nbsp;{{scope.row.currency}}
             </template>
           </el-table-column>
-          <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom"></el-table-column>
+          <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom">
+               <template slot-scope="scope">
+              {{scope.row.salePrice | formatToYuan}}&nbsp;{{scope.row.currency}}
+            </template>
+          </el-table-column>
           <el-table-column min-width="90" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
           <el-table-column width="80" label="動作" fixed="right">
             <template slot-scope="scope">
