@@ -54,9 +54,9 @@
                                         <span class="infol">地址1:</span>    
                                         <span class="infoR"> {{scope.row.address1}}</span>    
                                     </div>
-                                   <div style="margin-bottom:4px">
-                                      <span class="infol">省/州:</span>    
-                                      <span class="infoR"> {{scope.row.county}}</span>    
+                                    <div style="margin-bottom:4px">
+                                        <span class="infol">省/州:</span>    
+                                        <span class="infoR"> {{scope.row.county}}</span>    
                                     </div> 
                                 </el-col>
                                 <el-col :span="6">
@@ -64,20 +64,19 @@
                                         <span class="infol">地址2:</span>    
                                         <span class="infoR"> {{scope.row.address2}}</span>    
                                      </div>
-                                   <div style="margin-bottom:4px">
-                                      <span class="infol">郵編:</span>    
-                                      <span class="infoR"> {{scope.row.postcode}}</span>    
-                                    </div> 
+                                     <div style="margin-bottom:4px">
+                                        <span class="infol">郵編:</span>    
+                                        <span class="infoR"> {{scope.row.postcode}}</span>    
+                                     </div> 
                                 </el-col>
                                 <el-col :span="6">
-
                                     <div>
                                         <span class="infol">城市:</span>    
                                         <span class="infoR"> {{scope.row.city}}</span>    
                                     </div>
                                     <div style="margin-bottom:4px">
-                                      <span class="infol">國家:</span>    
-                                      <span class="infoR"> {{scope.row.country}}</span>    
+                                        <span class="infol">國家:</span>    
+                                        <span class="infoR"> {{scope.row.country}}</span>    
                                     </div> 
                                 </el-col>
                             </el-row>
