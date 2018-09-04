@@ -105,7 +105,7 @@
                     </el-table-column>
                     <el-table-column min-width="100" label="Platform Order ID" prop="platformOrderId" align="left">
                         <template slot-scope="scope">
-                            <span style="color:#45a2ff">{{scope.row.platformOrderId}}</span>
+                            <span @click="handleToggle(scope.row)" style="color:#45a2ff;cursor:pointer">{{scope.row.platformOrderId}}</span>
                         </template>
                     </el-table-column>
                     
@@ -120,7 +120,7 @@
                     
                     <el-table-column width="60" label="動作" align="center">
                         <template slot-scope="scope">
-                            <el-button type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -252,6 +252,10 @@ export default {
                 })
                 .catch(() => {});
         },
+        handleToggle(row){
+            row.toggle = !row.toggle;
+            this.$refs['wonTable'].toggleRowExpansion(row,row.toggle);
+        },
         handleCopy(val) {
             this.$router.push({
                 name: "shipmentEdit",
@@ -322,16 +326,18 @@ export default {
         background: rgb(237, 241, 245);
     }
     .wonTable {
-        width: 100%;
+        width: 85%;
         table-layout: fixed;
+        margin:0 auto;
+        margin-left:4%;
         th {
             border-bottom: 1px solid #ebeef5;
-            padding:5px;
+            padding:4px;
             background: oldlace !important;
             text-align: center;
         }
         td {
-            padding:5px;
+            padding:4px;
             border-bottom: 1px solid #ebeef5;
             text-align: center;
             background: #f0f9eb;
@@ -342,7 +348,9 @@ export default {
     }
     .el-table__expand-icon {
         color:#45a2ff;
-
+    }
+    .btnh{
+        padding: 6px 0;
     }
 }
 </style>
