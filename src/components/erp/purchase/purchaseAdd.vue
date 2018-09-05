@@ -258,9 +258,9 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
-            data.purchasedTime = this.moment(data.purchasedTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
+            _.each(data,(v)=>{
+                 v.purchasedTime = this.moment(v.purchasedTime).format('YYYY-MM-DD HH:mm:ss');
+            })            
             let obj = {
                 data
             };
