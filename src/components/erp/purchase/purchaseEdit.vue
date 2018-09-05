@@ -9,7 +9,7 @@
     <h2>编辑採購需求單</h2>
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
-        <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
+      <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
           <el-row :gutter="10">
             <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
             <el-col :span="2">
@@ -34,7 +34,7 @@
                 <template slot="label">
                   <span>SKU</span>
                 </template>
-                <el-input   v-model.trim="v.sku"></el-input>
+                <el-input  v-model.trim="v.sku"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
@@ -47,8 +47,9 @@
                 <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
             </el-col>
-
-            <el-col :span="3">
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="3">
               <el-form-item label="採購總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
                 <el-input v-model="v.purchasedTotalAmount"></el-input>
               </el-form-item>
@@ -94,6 +95,8 @@
                 <el-input v-model="v.purchasedBy"></el-input>
               </el-form-item>
             </el-col>
+           </el-row> 
+           <el-row>
             <el-col :span="24">
               <el-form-item label="備註">
                 <el-input v-model="v.note" type="textarea" rows="1"></el-input>

@@ -51,8 +51,9 @@
                 <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
             </el-col>
-
-            <el-col :span="3">
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="3">
               <el-form-item label="採購總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
                 <el-input v-model="v.purchasedTotalAmount"></el-input>
               </el-form-item>
@@ -98,6 +99,8 @@
                 <el-input v-model="v.purchasedBy"></el-input>
               </el-form-item>
             </el-col>
+           </el-row> 
+           <el-row>
             <el-col :span="24">
               <el-form-item label="備註">
                 <el-input v-model="v.note" type="textarea" rows="1"></el-input>
@@ -221,12 +224,12 @@ export default {
                 sku:value
             }
         }).then((res)=>{
-            if(!res){
-              this.$message.success('SKU检测成功')
-            }else{
+            if(!res.message){
               this.$message.error('SKU重复,请重新输入');
               row.sku = "";
               row.productName = "";  
+            }else{
+              this.$message.success('SKU检测成功')
             }
           })
         },
