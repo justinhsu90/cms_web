@@ -27,7 +27,7 @@
                  <el-table-column min-width="65" label="purchasedTime" prop="purchasedTime" sortable="custom"></el-table-column>
                  <el-table-column min-width="65" label="purchaseType" prop="purchaseType" sortable="custom"></el-table-column>
                  <el-table-column min-width="60" label="purchasedQuantity" prop="purchasedQuantity" sortable="custom"></el-table-column>
-                 <el-table-column min-width="60" label="sku" prop="account" sortable="sku"></el-table-column>
+                 <el-table-column min-width="60" label="sku" prop="sku" sortable="sku"></el-table-column>
                   <el-table-column min-width="60" label="productName" prop="productName" sortable="custom"></el-table-column>
                   <el-table-column min-width="60" label="productSpec" prop="productSpec"></el-table-column>
                   <el-table-column min-width="60" label="purchaseOrderId" prop="purchaseOrderId"></el-table-column>
