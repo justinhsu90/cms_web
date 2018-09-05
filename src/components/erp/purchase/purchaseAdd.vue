@@ -225,11 +225,11 @@ export default {
             }
         }).then((res)=>{
             if(!res.message){
+              this.$message.success('SKU检测成功')
+            }else{
               this.$message.error('SKU重复,请重新输入');
               row.sku = "";
               row.productName = "";  
-            }else{
-              this.$message.success('SKU检测成功')
             }
           })
         },
