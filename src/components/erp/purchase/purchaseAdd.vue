@@ -6,7 +6,9 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>新增採購單 <el-button type="success" size="small" @click="handleAdd">新增產品</el-button></h2> 
+      <h2>新增採購單
+        <el-button type="success" size="small" @click="handleAdd">新增產品</el-button>
+      </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
@@ -17,56 +19,18 @@
                 <span>{{i+1}}</span>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購類型" :prop="'data.'+i+'.purchaseType'" :rules="rules">
-                <el-select v-model="v.purchaseType">
-                  <el-option v-for="(value,i) in purchaseType" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="採購時間" :prop="'data.'+i+'.purchasedTime'" :rules="rules">
-                <el-date-picker style="width:100%" v-model="v.purchasedTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購平台"  :prop="'data.'+i+'.purchasedPlatform'" :rules="rules">
-                <el-select v-model="v.purchasedPlatform">
-                  <el-option v-for="(value,i) in purchasePlatform" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購帳號" :prop="'data.'+i+'.purchasedAccount'" :rules="rules">
-                <el-select v-model="v.purchasedAccount">
-                  <el-option v-for="(value,i) in purchaseAccount" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="採購平台單號" :prop="'data.'+i+'.purchaseOrderId'" :rules="rules"> 
-                <el-input v-model="v.purchaseOrderId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="購買人員">
-                <el-input v-model="v.purchasedBy"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="10">
             <el-col :span="2">
               <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" :rules="rules">
                 <el-input v-model.number="v.purchasedQuantity"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="4">
               <el-form-item label="SKU" :prop="'data.'+i+'.sku'" :rules="rules">
                 <template slot="label">
                   <span>SKU</span>
                   <el-button type="text" @click="handleCheckSku(v.sku,v)">檢查</el-button>
                 </template>
-                <el-input @blur="handleCheckSku(v.sku,v)"  v-model.trim="v.sku"></el-input>
+                <el-input @blur="handleCheckSku(v.sku,v)" v-model.trim="v.sku"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
@@ -81,7 +45,7 @@
             </el-col> -->
             <!-- </el-row>
             <el-row :gutter="10"> -->
-              <el-col :span="3">
+            <el-col :span="3">
               <el-form-item label="該品總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
                 <el-input v-model="v.purchasedTotalAmount"></el-input>
               </el-form-item>
@@ -92,14 +56,52 @@
               </el-form-item>
             </el-col>
             <el-col :span="3">
-              <el-form-item label="幣別"  :prop="'data.'+i+'.currency'"  :rules="rules">
+              <el-form-item label="幣別" :prop="'data.'+i+'.currency'" :rules="rules">
                 <el-select v-model="v.currency">
                   <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-           </el-row> 
+          </el-row>
         </el-card>
+        <el-row :gutter="10">
+          <el-col :span="3">
+            <el-form-item label="採購類型" prop="purchaseType" :rules="rules">
+              <el-select v-model="formData.purchaseType">
+                <el-option v-for="(value,i) in purchaseType" :label="value" :value="value" :key="i"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="採購時間" prop="purchasedTime" :rules="rules">
+              <el-date-picker style="width:100%" v-model="formData.purchasedTime" type="date" placeholder="選擇日期時間"> </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label="採購平台" prop="purchasedPlatform" :rules="rules">
+              <el-select v-model="formData.purchasedPlatform">
+                <el-option v-for="(value,i) in purchasePlatform" :label="value" :value="value" :key="i"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label="採購帳號" prop="purchasedAccount" :rules="rules">
+              <el-select v-model="formData.purchasedAccount">
+                <el-option v-for="(value,i) in purchaseAccount" :label="value" :value="value" :key="i"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="採購平台單號" prop="purchaseOrderId" :rules="rules">
+              <el-input v-model="formData.purchaseOrderId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label="購買人員">
+              <el-input v-model="formData.purchasedBy"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <br>
         <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
       </el-form>
@@ -117,11 +119,17 @@ export default {
             purchaseType: [],
             purchaseAccount: [],
             currency: [],
-            rules:{
-              required:true,
-              message:'此項目必填'
+            rules: {
+                required: true,
+                message: "此項目必填"
             },
             formData: {
+                purchasedTime: "",
+                purchaseType: "",
+                purchasedPlatform: "",
+                purchasedAccount: "",
+                purchaseOrderId: "",
+                purchasedBy: "",
                 data: [
                     {
                         sku: "",
@@ -130,14 +138,8 @@ export default {
                         purchasedQuantity: "",
                         purchasedTotalAmount: "",
                         currency: "",
-                        purchasedTime: "",
-                        purchasedPlatform: "",
-                        purchasedAccount: "",
-                        purchasedBy: "",
                         note: "",
-                        shippingCost: "",
-                        purchaseOrderId: "",
-                        purchaseType: ""
+                        shippingCost: ""
                     }
                 ]
             }
@@ -204,27 +206,27 @@ export default {
         //     }
         //   })
         //   },500),
-      handleCheckSku(value,row){
-          if(!value){
-            return;
-          }
-          axios({
-            url: "/erp/check/sku",
-            method: "post",
-            data: {
-                token: this.token,
-                sku:value
+        handleCheckSku(value, row) {
+            if (!value) {
+                return;
             }
-        }).then((res)=>{
-            if(!res.message){
-              this.$message.success('SKU檢查成功');
-              row.productName = res.productName;  
-            }else{
-              this.$message.error('SKU不存在');
-              row.sku = "";
-              row.productName = "";  
-            }
-          })
+            axios({
+                url: "/erp/check/sku",
+                method: "post",
+                data: {
+                    token: this.token,
+                    sku: value
+                }
+            }).then(res => {
+                if (!res.message) {
+                    this.$message.success("SKU檢查成功");
+                    row.productName = res.productName;
+                } else {
+                    this.$message.error("SKU不存在");
+                    row.sku = "";
+                    row.productName = "";
+                }
+            });
         },
         handleAdd() {
             let obj = {
@@ -234,14 +236,8 @@ export default {
                 purchasedQuantity: "",
                 purchasedTotalAmount: "",
                 currency: "",
-                purchasedTime: "",
-                purchasedPlatform: "",
-                purchasedAccount: "",
-                purchasedBy: "",
                 note: "",
-                shippingCost: "",
-                purchaseOrderId: "",
-                purchaseType: ""
+                shippingCost: ""
             };
             this.formData.data.push(obj);
         },
@@ -250,9 +246,16 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
-            _.each(data,(v)=>{
-                 v.purchasedTime = this.moment(v.purchasedTime).format('YYYY-MM-DD HH:mm:ss');
-            })            
+            _.each(data, v => {
+                v.purchasedTime = this.moment(v.purchasedTime).format(
+                    "YYYY-MM-DD"
+                );
+                v.purchaseType = this.formData.purchaseType;
+                v.purchasedPlatform = this.formData.purchasedPlatform;
+                v.purchasedAccount = this.formData.purchasedAccount;
+                v.purchaseOrderId = this.formData.purchaseOrderId;
+                v.purchasedBy = this.formData.purchasedBy;
+            });
             let obj = {
                 data
             };

@@ -68,7 +68,7 @@
             </el-col>
             <el-col :span="3">
               <el-form-item label="採購時間" :prop="'data.'+i+'.purchasedTime'" :rules="rules">
-                <el-date-picker style="width:100%" v-model="v.purchasedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker style="width:100%" v-model="v.purchasedTime" type="date" placeholder="选择日期时间"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
@@ -230,7 +230,7 @@ export default {
     getValue() {
       let data = _.cloneDeep(this.formData.data);
       _.each(data,(v)=>{
-         v.purchasedTime = this.moment(v.purchasedTime).format('YYYY-MM-DD HH:mm:ss');
+         v.purchasedTime = this.moment(v.purchasedTime).format('YYYY-MM-DD');
       })
       let obj = {
         data
