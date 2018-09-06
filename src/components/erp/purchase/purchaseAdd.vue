@@ -115,6 +115,14 @@
 export default {
     watch: {},
     data() {
+      let purchasedBy;
+      document.cookie.split(";").forEach((v, i) => {
+            let str = v.split("=")[0].trim();
+            if (str == "name") {
+                purchasedBy = v.split("=")[1];
+            }
+        });
+      
         return {
             submitLoading: false,
             loading: false,
@@ -122,6 +130,7 @@ export default {
             purchaseType: [],
             purchaseAccount: [],
             currency: [],
+            purchasedBy,
             rules: {
                 required: true,
                 message: "此項目必填"
@@ -132,7 +141,7 @@ export default {
                 purchasedPlatform: "",
                 purchasedAccount: "",
                 purchaseOrderId: "",
-                purchasedBy: "",
+                purchasedBy,
                 currency: "",
                 data: [
                     {
