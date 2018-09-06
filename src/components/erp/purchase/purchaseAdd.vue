@@ -56,7 +56,7 @@
           </el-row>
           <el-row :gutter="10">
             <el-col :span="2">
-              <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" >
+              <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" :rules="rules">
                 <el-input v-model.number="v.purchasedQuantity"></el-input>
               </el-form-item>
             </el-col>
