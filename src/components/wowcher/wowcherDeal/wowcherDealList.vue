@@ -75,7 +75,7 @@ export default {
             fetchCondition: {
                 skip: 0,
                 limit: 15,
-                order: "-lastUpdatedTime"
+                order: "-StartDate"
             },
             fetchOption: {
                 url: "/wowcher/deal/search",
