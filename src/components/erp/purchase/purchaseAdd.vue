@@ -7,7 +7,7 @@
       </div>
       <br>
       <h2>新增採購單
-        <el-button type="success" size="small" @click="handleAdd">新增產品</el-button>
+        <el-button :disabled="disabled" style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -44,7 +44,7 @@
             </el-form-item>
           </el-col>
            <el-col :span="3">
-              <el-form-item label="幣別" :prop="'data.'+i+'.currency'" :rules="rules">
+              <el-form-item label="幣別" prop="currency" :rules="rules">
                 <el-select v-model="formData.currency">
                   <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
                 </el-select> 
@@ -133,6 +133,7 @@ export default {
                 purchasedAccount: "",
                 purchaseOrderId: "",
                 purchasedBy: "",
+                currency: "",
                 data: [
                     {
                         sku: "",
@@ -140,7 +141,6 @@ export default {
                         productSpec: "",
                         purchasedQuantity: "",
                         purchasedTotalAmount: "",
-                        currency: "",
                         note: "",
                         shippingCost: ""
                     }
@@ -188,6 +188,17 @@ export default {
             this.currency = _.cloneDeep(resFour);
             this.purchasePlatform = _.cloneDeep(resOne);
         });
+    },
+    computed:{
+      disabled(){
+        let disabled = false;
+          _.each(this.formData.data,(v)=>{
+            if(!v.sku){  
+                disabled = true;
+            }
+          })
+          return disabled;
+      }
     },
     methods: {
         goBack() {
@@ -238,7 +249,6 @@ export default {
                 productSpec: "",
                 purchasedQuantity: "",
                 purchasedTotalAmount: "",
-                currency: "",
                 note: "",
                 shippingCost: ""
             };
@@ -258,6 +268,7 @@ export default {
                 v.purchasedAccount = this.formData.purchasedAccount;
                 v.purchaseOrderId = this.formData.purchaseOrderId;
                 v.purchasedBy = this.formData.purchasedBy;
+                v.currency = this.formData.currency;
             });
             let obj = {
                 data
