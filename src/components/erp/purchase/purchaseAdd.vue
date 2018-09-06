@@ -88,7 +88,7 @@
             </el-col>
             <el-col :span="3">
               <el-form-item label="該品運費" :prop="'data.'+i+'.shippingCost'" :rules="rules">
-                <el-input v-model="v.shippingCost"></el-input>
+                <el-input v-model.number="v.shippingCost"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="3">
