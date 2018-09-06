@@ -148,7 +148,7 @@ export default {
         },
         handleQuit() {
             let that = this;
-            this.$confirm("是否要退出", "提示", {
+            this.$confirm("是否要退出", "提示", { 
                 type: "info",
                 beforeClose(action, instance, done) {
                     if (action == "confirm") {
@@ -157,6 +157,7 @@ export default {
                         let expires = "expires=" + d.toUTCString();
                         document.cookie = `token="";path="/";expires=${expires}`;
                         document.cookie = `username="";path="/";expires=${expires}`;
+                        document.cookie = `name="";path="/";expires=${expires}`;
                         that.$router.push("/login");
                         done();
                     } else {

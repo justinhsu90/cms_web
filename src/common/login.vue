@@ -16,7 +16,6 @@
         </div>
     </div>
 </template>
-
 <script>
     export default {
         data: function(){
@@ -36,6 +35,8 @@
                 }
             }
         },
+        created(){
+        },
         methods: {
             submitForm() {
                 this.$refs['ruleForm'].validate((valid) => {
@@ -54,7 +55,8 @@
                                 let getTime = date.getTime()+3*(864e+5);
                                 date.setTime(getTime);
                                 document.cookie=`token=${res.token};path=/;expires=${date.toUTCString()}`;
-                                document.cookie=`username=${this.ruleForm.username};path=/;expires=${date.toUTCString()}`;
+                                document.cookie=`username=${res.userName};path=/;expires=${date.toUTCString()}`;
+                                document.cookie=`name=${res.name};path=/;expires=${date.toUTCString()}`;
                                 this.$router.push('/sku');
                             }   
                         }).catch((res)=>{
