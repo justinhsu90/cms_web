@@ -6,16 +6,13 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>新增採購單</h2>
-      <br>
-      <el-button type="success" size="small" @click="handleAdd">新增產品</el-button>
-      <br>
+      <h2>新增採購單 <el-button type="success" size="small" @click="handleAdd">新增產品</el-button></h2> 
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
           <el-row :gutter="10">
             <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-            <el-col :span="2">
+            <el-col :span="1">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
               </el-form-item>
@@ -27,52 +24,9 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="2">
-              <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" :rules="rules">
-                <el-input v-model.number="v.purchasedQuantity"></el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="5">
-              <el-form-item label="SKU" :prop="'data.'+i+'.sku'" :rules="rules">
-                <template slot="label">
-                  <span>SKU</span>
-                  <el-button type="text" @click="handleCheckSku(v.sku,v)">检查</el-button>
-                </template>
-                <el-input @blur="handleCheckSku(v.sku,v)"  v-model.trim="v.sku"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="產品名稱">
-                <el-input v-model="v.productName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="產品規格">
-                <el-input v-model="v.productSpec"></el-input>
-              </el-form-item>
-            </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="3">
-              <el-form-item label="採購總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
-                <el-input v-model="v.purchasedTotalAmount"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-form-item label="運費">
-                <el-input v-model="v.shippingCost"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="幣別"  :prop="'data.'+i+'.currency'"  :rules="rules">
-                <el-select v-model="v.currency">
-                  <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
               <el-form-item label="採購時間" :prop="'data.'+i+'.purchasedTime'" :rules="rules">
-                <el-date-picker style="width:100%" v-model="v.purchasedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker style="width:100%" v-model="v.purchasedTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
@@ -89,24 +43,62 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="5">
               <el-form-item label="採購平台單號" :prop="'data.'+i+'.purchaseOrderId'" :rules="rules"> 
                 <el-input v-model="v.purchaseOrderId"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="3">
               <el-form-item label="購買人員">
                 <el-input v-model="v.purchasedBy"></el-input>
               </el-form-item>
             </el-col>
-           </el-row> 
-           <el-row>
-            <el-col :span="24">
-              <el-form-item label="備註">
-                <el-input v-model="v.note" type="textarea" rows="1"></el-input>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="2">
+              <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" >
+                <el-input v-model.number="v.purchasedQuantity"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
+            <el-col :span="5">
+              <el-form-item label="SKU" :prop="'data.'+i+'.sku'" :rules="rules">
+                <template slot="label">
+                  <span>SKU</span>
+                  <el-button type="text" @click="handleCheckSku(v.sku,v)">檢查</el-button>
+                </template>
+                <el-input @blur="handleCheckSku(v.sku,v)"  v-model.trim="v.sku"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="產品名稱">
+                <el-input v-model="v.productName"></el-input>
+              </el-form-item>
+            </el-col>
+            <!-- <el-col :span="4">
+              <el-form-item label="產品規格">
+                <el-input v-model="v.productSpec"></el-input>
+              </el-form-item>
+            </el-col> -->
+            <!-- </el-row>
+            <el-row :gutter="10"> -->
+              <el-col :span="3">
+              <el-form-item label="該品總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
+                <el-input v-model="v.purchasedTotalAmount"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="該品運費" :prop="'data.'+i+'.shippingCost'" :rules="rules">
+                <el-input v-model="v.shippingCost"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="幣別"  :prop="'data.'+i+'.currency'"  :rules="rules">
+                <el-select v-model="v.currency">
+                  <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+           </el-row> 
         </el-card>
         <br>
         <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
@@ -127,7 +119,7 @@ export default {
             currency: [],
             rules:{
               required:true,
-              message:'此项必填'
+              message:'此項目必填'
             },
             formData: {
                 data: [
@@ -225,10 +217,10 @@ export default {
             }
         }).then((res)=>{
             if(!res.message){
-              this.$message.success('SKU检测成功');
+              this.$message.success('SKU檢查成功');
               row.productName = res.productName;  
             }else{
-              this.$message.error('SKU重复,请重新输入');
+              this.$message.error('SKU不存在');
               row.sku = "";
               row.productName = "";  
             }
