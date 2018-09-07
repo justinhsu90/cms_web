@@ -58,7 +58,7 @@
         </el-row>
         <br>
          <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-          <el-row :gutter="5">
+          <el-row :gutter="10">
             <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
             <el-col :span="1">
               <el-form-item label="序號">
@@ -101,8 +101,10 @@
                 <el-input v-model.number="v.shippingCost"></el-input>
               </el-form-item>
             </el-col>
+            
           </el-row>
         </el-card>
+       
         <br>
         <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
       </el-form>

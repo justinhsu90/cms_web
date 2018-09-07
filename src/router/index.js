@@ -43,6 +43,10 @@ import erpPurchase from '@/components/erp/purchase/purchase'
 import erpPurchaseAdd from '@/components/erp/purchase/purchaseAdd'
 import erpPurchaseEdit from '@/components/erp/purchase/purchaseEdit'
 
+import erpSale from '@/components/erp/sale/sale'
+import erpSaleAdd from '@/components/erp/sale/saleAdd'
+import erpSaleEdit from '@/components/erp/sale/saleEdit'
+
 import paymentList from '@/components/erp/payment/paymentList'
 import paymentAdd from '@/components/erp/payment/paymentAdd'
 import paymentEdit from '@/components/erp/payment/paymentEdit'
@@ -299,6 +303,30 @@ let router = new VueRouter({
           component: erpPurchaseEdit,
           meta: {
             sign: 'erpPurchase'
+          }
+        },
+        {
+          name: 'erpSale',
+          path: '/erpSale',
+          component: erpSale,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'erpSaleAdd',
+          path: '/erpSaleAdd',
+          component: erpSaleAdd,
+          meta: {
+            sign: 'erpSale'
+          }
+        },
+        {
+          name: 'erpSaleEdit',
+          path: '/erpSaleEdit',
+          component: erpSaleEdit,
+          meta: {
+            sign: 'erpSale'
           }
         },
         {

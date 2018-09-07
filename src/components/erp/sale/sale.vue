@@ -5,17 +5,17 @@
         <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:15%;float:left">
         </el-input>
          <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="採購類型" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+          <el-select placeholder="銷貨國家" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
             </el-select>
          </div>
          <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="採購平台" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+          <el-select placeholder="銷貨平台" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
             </el-select>
          </div>
          <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="採購帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+          <el-select placeholder="銷貨帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
             </el-select>
          </div>
@@ -36,33 +36,21 @@
         </el-col>
         <el-col class="mt5">
                <el-table   ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">   
-                 <!-- <el-table-column  min-width="75" label="最後更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
-                 <el-table-column min-width="50" label="採購單號" prop="purchaseId" sortable="custom"></el-table-column>
-                 <el-table-column min-width="50" label="採購時間" prop="purchasedTime" sortable="custom"></el-table-column>
-                 <el-table-column min-width="25" label="類型" prop="purchaseType"></el-table-column>
-                 <el-table-column min-width="30" label="數量" prop="purchasedQuantity"></el-table-column>
-                 <el-table-column min-width="50" label="SKU" prop="sku"></el-table-column>
-                  <el-table-column min-width="120" label="產品名稱" prop="productName" ></el-table-column>
-                  <!-- <el-table-column min-width="60" label="規格" prop="productSpec"></el-table-column> -->
-                  <!-- <el-table-column min-width="60" label="採購平台單號" prop="purchaseOrderId"></el-table-column> -->
-                  <el-table-column min-width="40" label="採購平台" prop="purchasedPlatform"></el-table-column>
-                  <!-- <el-table-column min-width="60" label="採購帳號" prop="purchasedAccount"></el-table-column> -->
-                  <el-table-column min-width="50" label="總金額" prop="purchasedTotalAmount">
+                 <el-table-column min-width="60" label="銷貨單號" prop="saleId" sortable="custom"></el-table-column>
+                 <el-table-column min-width="55" label="銷貨時間" prop="saleTime" sortable="custom"></el-table-column>
+                 <!-- <el-table-column min-width="40" label="銷貨類型" prop="saleType"></el-table-column> -->
+                 <el-table-column min-width="35" label="數量" prop="saleQuantity"></el-table-column>
+                 <el-table-column min-width="70" label="SKU" prop="sku"></el-table-column>
+                  <el-table-column min-width="110" label="產品名稱" prop="productName" ></el-table-column>
+                  <el-table-column min-width="40" label="銷貨平台" prop="salePlatform"></el-table-column>
+                  <el-table-column min-width="40" label="銷貨帳號" prop="saleAccount"></el-table-column>
+                  <el-table-column min-width="55" label="出貨倉庫" prop="saleWarehouse"></el-table-column>
+                  <el-table-column min-width="40" label="幣別" prop="currency"></el-table-column>
+                  <el-table-column min-width="55" label="總金額" prop="saleTotalAmount">
                          <template slot-scope="scope">
               {{scope.row.purchasedTotalAmount | formatToYuan}}&nbsp;{{scope.row.currency}}
                           </template>
                   </el-table-column>
-                  <!-- <el-table-column min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
-                  <!-- <el-table-column min-width="40" label="幣別" prop="currency"></el-table-column> -->
-                  <el-table-column min-width="30" label="採購人" prop="purchasedBy"></el-table-column>
-                  <!-- <el-table-column min-width="60" label="備註" prop="note"></el-table-column> -->
-                  <!-- <el-table-column min-width="60" label="最後更新人" prop="lastModifiedBy"></el-table-column> -->
-                  <!-- <el-table-column min-width="60" label="啟用" prop="enable">
-                      <template slot-scope="scope">
-                            <el-tag  v-if="scope.row.enable" type="success">true</el-tag>
-                            <el-tag  v-else type="info">false</el-tag>
-                      </template>
-                  </el-table-column> -->
                   <el-table-column width="50" label="動作" align="center">
                     <template slot-scope="scope">
                        <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
