@@ -1,58 +1,58 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :span="24">
-        <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
-        </el-input>
-        <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-            <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
-          </el-select>
-        </div>
-        <div style="display:inline-block;width:140px">
-          <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
-            <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
-              <span style="float: left">{{ v.countryCode }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryName }}</span>
-            </el-option>
-          </el-select>
-        </div>
-        <div style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;" @click="handleSearch" class="el-input-group__append">
-          <i class="el-icon-search"></i>
-        </div>
-        <el-button style="float:right" @click="handleAdd" type="primary">新增 Deal</el-button>
-      </el-col>
-      <el-col class="mt5">
-        <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-          <el-table-column min-width="100" label="Deal ID" prop="dealId" sortable="custom"></el-table-column>
-          <el-table-column min-width="110" label="Product ID" prop="productId" sortable="custom"></el-table-column>
-          <el-table-column min-width="70" label="帳號" prop="account" sortable="custom"></el-table-column>
-          <el-table-column min-width="70" label="國家" prop="country" sortable="custom"></el-table-column>
-          <el-table-column min-width="250" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
-          <el-table-column min-width="110" label="Final Price" prop="finalPrice" sortable="custom">
-            <template slot-scope="scope">
-              {{scope.row.finalPrice | formatToYuan}}&nbsp;{{scope.row.currency}}
-            </template>
-          </el-table-column>
-          <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom">
-               <template slot-scope="scope">
-              {{scope.row.salePrice | formatToYuan}}&nbsp;{{scope.row.currency}}
-            </template>
-          </el-table-column>
-          <el-table-column min-width="90" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
-          <el-table-column width="80" label="動作" fixed="right">
-            <template slot-scope="scope">
-              <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
-      <div style="float:right;margin-top:5px">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-        </el-pagination>
-      </div>
-    </el-row>
-  </div>
+    <div>
+        <el-row>
+            <el-col :span="24">
+                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                </el-input>
+                <div style="margin-left:5px;display:inline-block;width:140px">
+                    <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                        <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+                    </el-select>
+                </div>
+                <div style="display:inline-block;width:140px">
+                    <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+                        <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
+                            <span style="float: left">{{ v.countryCode }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryName }}</span>
+                        </el-option>
+                    </el-select>
+                </div>
+                <div style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;" @click="handleSearch" class="el-input-group__append">
+                    <i class="el-icon-search"></i>
+                </div>
+                <el-button style="float:right" @click="handleAdd" type="primary">新增 Deal</el-button>
+            </el-col>
+            <el-col class="mt5">
+                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
+                    <el-table-column min-width="100" label="Deal ID" prop="dealId" sortable="custom"></el-table-column>
+                    <el-table-column min-width="110" label="Product ID" prop="productId" sortable="custom"></el-table-column>
+                    <el-table-column min-width="70" label="帳號" prop="account" sortable="custom"></el-table-column>
+                    <el-table-column min-width="70" label="國家" prop="country" sortable="custom"></el-table-column>
+                    <el-table-column min-width="250" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
+                    <el-table-column min-width="110" label="Final Price" prop="finalPrice" sortable="custom">
+                        <template slot-scope="scope">
+                            {{scope.row.finalPrice | formatToYuan}}&nbsp;{{scope.row.currency}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom">
+                        <template slot-scope="scope">
+                            {{scope.row.salePrice | formatToYuan}}&nbsp;{{scope.row.currency}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="90" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
+                    <el-table-column width="80" label="動作" fixed="right">
+                        <template slot-scope="scope">
+                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-col>
+            <div style="float:right;margin-top:5px">
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
+                </el-pagination>
+            </div>
+        </el-row>
+    </div>
 </template>
       <script>
 import wonTableContainer from "@/common/wonTableContainer";
@@ -105,6 +105,7 @@ export default {
             this.searchCountryOption = _.cloneDeep(country.data);
         });
         this.handleSearch();
+        this.Bus.$on("refresh", this.handleSearch);
     },
     methods: {
         handleCondition(sign) {
@@ -167,8 +168,7 @@ export default {
     }
 };
 </script>
-
-          <style scoped>
+<style scoped>
 .el-table th {
     color: #62717e;
     background: rgb(237, 241, 245);
