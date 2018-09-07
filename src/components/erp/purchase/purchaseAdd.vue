@@ -267,8 +267,8 @@ export default {
         getValue() {
             let data = _.cloneDeep(this.formData.data);
             _.each(data, v => {
-                v.purchasedTime = this.moment(v.purchasedTime).format(
-                    "YYYY-MM-DD"
+                v.purchasedTime = this.moment(this.formData.purchasedTime).format(
+                    "YYYY-MM-DD"    
                 );
                 v.purchaseType = this.formData.purchaseType;
                 v.purchasedPlatform = this.formData.purchasedPlatform;
