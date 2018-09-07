@@ -12,7 +12,7 @@
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
           <el-row :gutter="10">
             <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-            <el-col :span="2">
+            <el-col :span="1">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
               </el-form-item>
@@ -24,12 +24,12 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="3">
               <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" :rules="rules">
                 <el-input v-model.number="v.purchasedQuantity"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="6">
               <el-form-item label="SKU" :prop="'data.'+i+'.sku'" :rules="rules">
                 <template slot="label">
                   <span>SKU</span>
@@ -37,14 +37,19 @@
                 <el-input  v-model.trim="v.sku"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="7">
+            <el-col :span="8">
               <el-form-item label="產品名稱">
                 <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+            <!-- <el-col :span="4">
               <el-form-item label="產品規格">
                 <el-input v-model="v.productSpec"></el-input>
+              </el-form-item>
+            </el-col> -->
+            <el-col :span="2">
+              <el-form-item label="購買人員">
+                <el-input v-model="v.purchasedBy"></el-input>
               </el-form-item>
             </el-col>
             </el-row>
@@ -85,14 +90,9 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="5">
               <el-form-item label="採購平台單號" :prop="'data.'+i+'.purchaseOrderId'" :rules="rules"> 
                 <el-input v-model="v.purchaseOrderId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-form-item label="購買人員">
-                <el-input v-model="v.purchasedBy"></el-input>
               </el-form-item>
             </el-col>
            </el-row> 
@@ -105,7 +105,7 @@
           </el-row>
         </el-card>
       <br>
-       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">编辑</el-button> 
+       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">編輯</el-button> 
     </el-form> 
     </div>         
  </div>     
@@ -123,7 +123,7 @@ export default {
       currency:[],
       rules:{
               required:true,
-              message:'此项必填'
+              message:'此項必填'
             },
       formData: {
         data: [
