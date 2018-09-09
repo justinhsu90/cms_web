@@ -1,16 +1,33 @@
 <template>
-  <div id="edit">
+  <div id="sale">
     <div style="padding:20px">
       <div class="heade">
         <i class="el-icon-arrow-left"></i>
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>新增採購單
+      <h2>新增銷貨單
         <el-button :disabled="disabled" style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
       </h2>
       <br>
-      <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
+      <el-table :data="tableData">
+          <el-table-column prop="id" label="id">
+              <template slot-scope="scope">
+                    <el-input style="width:100%" v-model="scope.row.id"></el-input>
+              </template>
+          </el-table-column>
+          <el-table-column prop="age" label="age">
+              <template slot-scope="scope">
+                    <el-input v-model="scope.row.id"></el-input>
+              </template>
+          </el-table-column>
+          <el-table-column prop="find" label="find">
+              <template slot-scope="scope">
+                    <el-input v-model="scope.row.id"></el-input>
+              </template>
+          </el-table-column>
+      </el-table>
+      <!-- <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-row :gutter="10">
           <el-col :span="3">
             <el-form-item label="採購類型" prop="purchaseType" :rules="rules">
@@ -84,13 +101,6 @@
                 <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="4">
-              <el-form-item label="產品規格">
-                <el-input v-model="v.productSpec"></el-input>
-              </el-form-item>
-            </el-col> -->
-            <!-- </el-row>
-            <el-row :gutter="10"> -->
             <el-col :span="3">
               <el-form-item label="該品總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
                 <el-input v-model="v.purchasedTotalAmount"></el-input>
@@ -103,11 +113,10 @@
             </el-col>
             
           </el-row>
-        </el-card>
-       
+        </el-card> 
         <br>
         <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
-      </el-form>
+      </el-form> -->
     </div>
   </div>
 </template>
@@ -124,6 +133,15 @@ export default {
         });
       
         return {
+            tableData:[{
+                id:1,
+                age:2,
+                find:3
+            },{
+                id:1,
+                age:2,
+                find:3
+            }],
             submitLoading: false,
             loading: false,
             purchasePlatform: [],
@@ -211,7 +229,7 @@ export default {
     },
     methods: {
         goBack() {
-            this.$router.push("/erpPurchase");
+            this.$router.push("/erpSale");
         },
         // handleCheckSku:_.debounce((value,row)=>{
         //   axios({
@@ -308,7 +326,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#edit {
+#sale {
     .heade {
         font-size: 16px;
         color: #45a2ff;
@@ -321,6 +339,12 @@ export default {
     }
     .heade a {
         color: #45a2ff;
+    }
+    .cell{
+        padding: 0px;
+    }
+    .el-input__inner{
+        border:none;
     }
 }
 </style>

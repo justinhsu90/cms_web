@@ -192,7 +192,7 @@ export default {
                 url: this.fetchOption.url,
                 method: this.fetchOption.method,
                 data
-            }).then(({ data, count }) => {
+            }).then(({ data, count }) => {  
                 this.isTableLoading = false;
                 this.tableData = _.cloneDeep(data);
                 this.total = count;
@@ -239,9 +239,5 @@ export default {
 </script>
 
 <style scoped>
-.el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
-}
+
 </style>
