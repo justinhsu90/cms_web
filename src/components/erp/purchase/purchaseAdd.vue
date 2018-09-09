@@ -84,13 +84,6 @@
                 <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            <!-- <el-col :span="4">
-              <el-form-item label="產品規格">
-                <el-input v-model="v.productSpec"></el-input>
-              </el-form-item>
-            </el-col> -->
-            <!-- </el-row>
-            <el-row :gutter="10"> -->
             <el-col :span="3">
               <el-form-item label="該品總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
                 <el-input v-model="v.purchasedTotalAmount"></el-input>

@@ -1,267 +1,266 @@
 <template>
-<div id="edit">
-    <div style="padding:20px"> 
-    <div class="heade">
-      <i class="el-icon-arrow-left"></i>
-      <a href="javascript:void(0)" @click="goBack">返回</a>
+    <div id="sale">
+        <div style="padding:20px">
+            <div class="heade">
+                <i class="el-icon-arrow-left"></i>
+                <a href="javascript:void(0)" @click="goBack">返回</a>
+            </div>
+            <br>
+            <h2>编辑銷貨單
+            </h2>
+            <br>
+            <el-form ref="form" :model="formData" :rules="rules">
+                <el-row :gutter="10">
+                    <el-col :span="4">
+                        <el-form-item label="salePlatform" prop="salePlatform">
+                            <el-select v-model="formData.salePlatform">
+                                <el-option v-for="(value,i) in searchPlatformOption" :label="value" :value="value" :key="i"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item label="saleAccount" prop="saleAccount">
+                            <el-select v-model="formData.saleAccount">
+                                <el-option v-for="(value,i) in searchAccountOption" :label="value" :value="value" :key="i"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item label="saleCountry" prop="saleCountry">
+                            <el-select v-model="formData.saleCountry">
+                                <el-option v-for="(value,i) in searchCountryOption" :label="value" :value="value" :key="i"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item label="currency" prop="currency">
+                            <el-select v-model="formData.currency">
+                                <el-option v-for="(value,i) in searchCurrecyOption" :label="value" :value="value" :key="i"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="5">
+                        <el-form-item label="saleTime" prop="saleTime">
+                            <el-date-picker value-format="yyyy-MM-dd" style="width:100%" v-model="formData.saleTime" type="date" placeholder="選擇日期時間"> </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <br>
+                <div>
+                    <table cellspacing="0" cellpadding="0">
+                        <colgroup>
+                            <col width="100">
+                            <col width="100">
+                            <col width="200">
+                            <col width="100">
+                            <col width="100">
+                            <col width="100">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>saleId</th>
+                                <th>sku</th>
+                                <th>productName</th>
+                                <th>saleTotalAmount</th>
+                                <th>saleQuantity</th>
+                                <th>productSpec</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(v,i) in formData.data" :key="i">
+                                <td>{{formData.saleId}}</td>
+                                <td>
+                                    <el-form-item :prop="'data.'+i+'.sku'" :rules="requredRule">
+                                        <el-input v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
+                                    </el-form-item>
+                                </td>
+                                <td>
+                                    <el-form-item :prop="'data.'+i+'.productName'" :rules="requredRule">
+                                        <el-input v-model="v.productName"></el-input>
+                                    </el-form-item>
+                                </td>
+                                <td>
+                                    <el-form-item :prop="'data.'+i+'.saleTotalAmount'" :rules="requredRule">
+                                        <el-input v-model.number="v.saleTotalAmount"></el-input>
+                                    </el-form-item>
+                                </td>
+                                <td>
+                                    <el-form-item :prop="'data.'+i+'.saleQuantity'" :rules="requredRule">
+                                        <el-input v-model.number="v.saleQuantity"></el-input>
+                                    </el-form-item>
+                                </td>
+                                <td>
+                                    <el-form-item :prop="'data.'+i+'.productSpec'" :rules="requredRule">
+                                        <el-input v-model="v.productSpec"></el-input>
+                                    </el-form-item>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">更新</el-button>
+            </el-form>
+        </div>
+
     </div>
-    <br>
-    <h2>编辑銷貨單</h2>
-    <br> 
-    <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
-      <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-          <el-row :gutter="10">
-            <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-            <el-col :span="1">
-              <el-form-item label="序號">
-                <span>{{i+1}}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購類型" :prop="'data.'+i+'.purchaseType'" :rules="rules">
-                <el-select v-model="v.purchaseType">
-                  <el-option v-for="(value,i) in purchaseType" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" :rules="rules">
-                <el-input v-model.number="v.purchasedQuantity"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="SKU" :prop="'data.'+i+'.sku'" :rules="rules">
-                <template slot="label">
-                  <span>SKU</span>
-                </template>
-                <el-input  v-model.trim="v.sku"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="產品名稱">
-                <el-input v-model="v.productName"></el-input>
-              </el-form-item>
-            </el-col>
-            <!-- <el-col :span="4">
-              <el-form-item label="產品規格">
-                <el-input v-model="v.productSpec"></el-input>
-              </el-form-item>
-            </el-col> -->
-            <el-col :span="2">
-              <el-form-item label="購買人員">
-                <el-input v-model="v.purchasedBy"></el-input>
-              </el-form-item>
-            </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="3">
-              <el-form-item label="採購總金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
-                <el-input v-model="v.purchasedTotalAmount"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-form-item label="運費">
-                <el-input v-model="v.shippingCost"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="幣別"  :prop="'data.'+i+'.currency'"  :rules="rules">
-                <el-select v-model="v.currency">
-                  <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購時間" :prop="'data.'+i+'.purchasedTime'" :rules="rules">
-                <el-date-picker style="width:100%" v-model="v.purchasedTime" type="date" placeholder="选择日期时间"> </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購平台"  :prop="'data.'+i+'.purchasedPlatform'" :rules="rules">
-                <el-select v-model="v.purchasedPlatform">
-                  <el-option v-for="(value,i) in purchasePlatform" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購帳號" :prop="'data.'+i+'.purchasedAccount'" :rules="rules">
-                <el-select v-model="v.purchasedAccount">
-                  <el-option v-for="(value,i) in purchaseAccount" :label="value" :value="value" :key="i"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="採購平台單號" :prop="'data.'+i+'.purchaseOrderId'" :rules="rules"> 
-                <el-input v-model="v.purchaseOrderId"></el-input>
-              </el-form-item>
-            </el-col>
-           </el-row> 
-           <el-row>
-            <el-col :span="24">
-              <el-form-item label="備註">
-                <el-input v-model="v.note" type="textarea" rows="1"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-card>
-      <br>
-       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">編輯</el-button> 
-    </el-form> 
-    </div>         
- </div>     
+
 </template>
 <script>
 export default {
-  watch: {},
-  data() {
-    return {
-      submitLoading: false,
-      loading: false,
-      purchasePlatform:[],
-      purchaseType:[],
-      purchaseAccount:[],
-      currency:[],
-      rules:{
-              required:true,
-              message:'此項必填'
+    data() {
+        return {
+            submitLoading: false,
+            loading: false,
+            searchAccountOption: [],
+            searchPlatformOption: [],
+            searchCountryOption: [],
+            searchCurrecyOption: [],
+            requredRule: {
+                required: true
             },
-      formData: {
-        data: [
-          {
-            sku: "",
-            productName: "",
-            productSpec: "",
-            purchasedQuantity: "",
-            purchasedTotalAmount: "",
-            currency: "",
-            purchasedTime: "",
-            purchasedPlatform: "",
-            purchasedAccount: "",
-            purchasedBy: "",
-            note: "",
-            shippingCost: "",
-            purchaseOrderId: "",
-            purchaseType: ""
-          }
-        ]
-      }
-    };
-  },
-  created() {
-      let purchasePlatform = axios({
-      url: "/erp/value/purchasePlatform",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-    let purchaseType = axios({
-      url: "/erp/value/purchaseType",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-    let purchaseAccount = axios({
-      url: "/erp/value/purchaseAccount",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-    let currency = axios({ 
-      url: "/erp/value/currency",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-  Promise.all([purchasePlatform,purchaseType,purchaseAccount,currency]).then(([resOne,resTwo,resThree,resFour])=>{
-      this.purchaseType = _.cloneDeep(resTwo);
-      this.purchaseAccount = _.cloneDeep(resThree);
-      this.currency = _.cloneDeep(resFour);
-      this.purchasePlatform = _.cloneDeep(resOne);
-  })
-    
-    let data = JSON.parse(this.$route.query.data);
-    this.formData.data[0].sku = data.sku; 
-    this.formData.data[0].shippingCost = data.shippingCost;
-    this.formData.data[0].purchasedTotalAmount = data.purchasedTotalAmount;
-    this.formData.data[0].purchasedTime = new Date(data.purchasedTime);
-    this.formData.data[0].purchasedQuantity = data.purchasedQuantity;
-    this.formData.data[0].purchasedPlatform = data.purchasedPlatform;
-    this.formData.data[0].purchasedBy = data.purchasedBy;
-    this.formData.data[0].purchasedAccount = data.purchasedAccount;
-    this.formData.data[0].purchaseType = data.purchaseType;
-    this.formData.data[0].purchaseOrderId = data.purchaseOrderId;
-    this.formData.data[0].purchaseId = data.purchaseId;
-    this.formData.data[0].productSpec = data.productSpec;
-    this.formData.data[0].productName = data.productName;
-    this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
-    this.formData.data[0].currency= data.currency;
-    this.formData.data[0].note = data.note;
-  },
-  methods: {
-    goBack() {
-      this.$router.push("/erpSale");
+            rules: {
+                currency: {
+                    required: true,
+                    message:'此项必填'
+                }
+            },
+            formData: {
+                saleId:"",
+                currency: "",
+                saleTime: "",
+                salePlatform: "",
+                saleAccount: "",
+                saleCountry: "",
+                note:"",
+                data: [
+                    {
+                        sku: "",
+                        productName: "",
+                        saleTotalAmount: "",
+                        saleQuantity: "",
+                        productSpec:""
+                    }
+                ]
+            }
+        };
     },
-    handleAdd() {
-      let obj =   {
-            sku: "",
-            productName: "",
-            productSpec: "",
-            purchasedQuantity: "",
-            purchasedTotalAmount: "",
-            currency: "",
-            purchasedTime: "",
-            purchasedPlatform: "",
-            purchasedAccount: "",
-            purchasedBy: "",
-            note: "",
-            shippingCost: "",
-            purchaseOrderId: "",
-            purchaseType: ""
-          }
-      this.formData.data.push(obj);
-    },
-    handleDelete(index) {
-      this.formData.data.splice(index, 1);
-    },
-    getValue() {
-      let data = _.cloneDeep(this.formData.data);
-      _.each(data,(v)=>{
-         v.purchasedTime = this.moment(v.purchasedTime).format('YYYY-MM-DD');
-      })
-      let obj = {
-        data
-      };
-      return JSON.stringify(obj);
-    },
-    submit() {
-      this.$refs["form"].validate(action => {
-        if (action) {
-          this.getValue();
-          this.submitLoading = true;
-          axios({
-            url: "/purchase/update",
+    created() {
+        let saleCurrency = axios({
+            url: "/erp/value/currency",
             method: "post",
             data: {
-              value: this.getValue(),
-              token: this.token
+                token: this.token
             }
-          }).then(res => {
-            this.submitLoading = true;
-            this.Bus.$emit("refresh");
+        });
+        let salePlatform = axios({
+            url: "/erp/value/salePlatform",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
+        let saleCountry = axios({
+            url: "/erp/value/saleCountry",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
+        let saleAccount = axios({
+            url: "/erp/value/saleAccount",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
+        Promise.all([
+            salePlatform,
+            saleCountry,
+            saleAccount,
+            saleCurrency
+        ]).then(([platform, country, account, currency]) => {
+            let data = JSON.parse(this.$route.query.data);
+            this.formData.currency = data.currency;
+            this.formData.saleTime = data.saleTime;
+            this.formData.salePlatform = data.salePlatform;
+            this.formData.saleAccount = data.saleAccount;
+            this.formData.saleCountry = data.saleCountry;
+            this.formData.saleId = data.saleId;
+            this.formData.data[0].sku = data.sku;
+            this.formData.data[0].productName = data.productName;
+            this.formData.data[0].saleTotalAmount = data.saleTotalAmount;
+            this.formData.data[0].saleQuantity = data.saleQuantity;
+            this.formData.data[0].productSpec = data.productSpec;
+            this.searchAccountOption = _.cloneDeep(account);
+            this.searchPlatformOption = _.cloneDeep(platform);
+            this.searchCountryOption = _.cloneDeep(country);
+            this.searchCurrecyOption = _.cloneDeep(currency);
+        });
+    },
+    methods: {
+        goBack() {
             this.$router.push("/erpSale");
-          });
+        },
+        handleCheckSku(value, row) {
+            if (!value) {
+                return;
+            }
+            axios({
+                url: "/erp/check/sku",
+                method: "post",
+                data: {
+                    token: this.token,
+                    sku: value
+                }
+            }).then(res => {
+                if (!res.message) {
+                    this.$message.success("SKU檢查成功");
+                    row.productName = res.productName;
+                } else {
+                    this.$message.error("SKU不存在");
+                    row.sku = "";
+                    row.productName = "";
+                }
+            });
+        },
+        getValue() {
+            let data = [];
+            _.each(this.formData.data, (v) => {
+                let obj = _.cloneDeep(v);
+                obj.currency = this.formData.currency;
+                obj.saleTime = this.formData.saleTime;
+                obj.salePlatform = this.formData.salePlatform;
+                obj.saleAccount = this.formData.saleAccount;
+                obj.saleCountry = this.formData.saleCountry;
+                data.push(obj);
+            });
+            return JSON.stringify(data);
+        },
+        submit() {
+            this.$refs["form"].validate(action => {
+                if (action) {
+                    this.submitLoading = true;
+                    axios({
+                        url: "/sale/update",
+                        method: "post",
+                        data: {
+                            value: this.getValue(),
+                            token: this.token
+                        }
+                    }).then(res => {
+                        this.submitLoading = true;
+                        this.Bus.$emit("refresh");
+                        this.$router.push("/erpSale");
+                    });
+                }
+            });
         }
-      });
     }
-  }
 };
 </script>
 <style lang="scss">
-#edit {
+#sale {
     .heade {
         font-size: 16px;
         color: #45a2ff;
@@ -274,6 +273,51 @@ export default {
     }
     .heade a {
         color: #45a2ff;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+        border-top: 1px solid #ebeef5;
+        border-bottom: 1px solid #ebeef5;
+        border-left: 1px solid #ebeef5;
+        .btnh {
+            padding: 4px 0px;
+            color: #62717e;
+        }
+        .cell {
+            padding: 0px;
+        }
+        .el-form-item {
+            overflow: hidden;
+            margin: 0px;
+        }
+        .el-form-item__content {
+            line-height: 0px;
+        }
+        .is-error input {
+            background: #f56c6c;
+            border-radius: 0%;
+        }
+        .el-input__inner {
+            border: none;
+            height: 35px;
+            text-align: center;
+        }
+        th {
+            padding: 4px;
+            background: #edf1f5;
+            text-align: center;
+            color: #62717e;
+            // border-right: 1px solid #ebeef5;
+        }
+        td {
+            padding: 0px;
+            border-top: 1px solid #ebeef5;
+            border-right: 1px solid #ebeef5;
+            text-align: center;
+            background: white;
+            color: #62717e;
+        }
     }
 }
 </style>
