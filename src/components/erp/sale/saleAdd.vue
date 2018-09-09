@@ -7,42 +7,42 @@
             </div>
             <br>
             <h2>新增銷貨單
-                <el-button :disabled="disabled" style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
+                <el-button :disabled="disabled" style="float:right" type="success" size="medium" @click="handleAdd">加入產品</el-button>
             </h2>
             <br>
             <el-form ref="form" :model="formData" :rules="rules">
                 <el-row :gutter="10">
-                    <el-col :span="4">
-                        <el-form-item label="salePlatform" prop="salePlatform">
+                    <el-col :span="3">
+                        <el-form-item label="銷貨平台：" prop="salePlatform">
                             <el-select v-model="formData.salePlatform">
                                 <el-option v-for="(value,i) in searchPlatformOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="saleAccount" prop="saleAccount">
+                    <el-col :span="3">
+                        <el-form-item label="銷貨帳號：" prop="saleAccount">
                             <el-select v-model="formData.saleAccount">
                                 <el-option v-for="(value,i) in searchAccountOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="saleCountry" prop="saleCountry">
+                    <el-col :span="2">
+                        <el-form-item label="銷貨國家：" prop="saleCountry">
                             <el-select v-model="formData.saleCountry">
                                 <el-option v-for="(value,i) in searchCountryOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="currency" prop="currency">
+                    <el-col :span="2">
+                        <el-form-item label="幣別：" prop="currency">
                             <el-select v-model="formData.currency">
                                 <el-option v-for="(value,i) in searchCurrecyOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="5">
-                        <el-form-item label="saleTime" prop="saleTime">
-                            <el-date-picker value-format="yyyy-MM-dd" style="width:100%" v-model="formData.saleTime" type="date" placeholder="選擇日期時間"> </el-date-picker>
+                    <el-col :span="3">
+                        <el-form-item label="銷貨時間：" prop="saleTime">
+                            <el-date-picker value-format="yyyy-MM-dd" style="width:100%" v-model="formData.saleTime" type="date" placeholder="選擇日期"> </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -50,22 +50,22 @@
                 <div>
                     <table cellspacing="0" cellpadding="0">
                         <colgroup>
+                            <col width="40">
                             <col width="100">
-                            <col width="100">
-                            <col width="200">
-                            <col width="100">
-                            <col width="100">
-                            <col width="100">
+                            <col width="250">
+                            <col width="80">
+                            <col width="80">
+                            <!-- <col width="100"> -->
                             <col width="40">
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>序号</th>
-                                <th>sku</th>
-                                <th>productName</th>
-                                <th>saleTotalAmount</th>
-                                <th>saleQuantity</th>
-                                <th>productSpec</th>
+                                <th>序號</th>
+                                <th>SKU</th>
+                                <th>產品名稱</th>
+                                <th>銷貨總金額</th>
+                                <th>銷貨數量</th>
+                                <!-- <th>productSpec</th> -->
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -92,11 +92,11 @@
                                         <el-input v-model.number="v.saleQuantity"></el-input>
                                     </el-form-item>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <el-form-item :prop="'data.'+i+'.productSpec'" :rules="requredRule">
                                         <el-input v-model="v.productSpec"></el-input>
                                     </el-form-item>
-                                </td>
+                                </td> -->
                                 <td>
                                     <el-button :disabled="i==0" class="btnh" type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(i)"></el-button>
                                 </td>
