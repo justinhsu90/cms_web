@@ -18,11 +18,11 @@
                 </h1>
             </el-header>
             <el-container>
-                <div class="backgroud">
+                <div class="aside">
                     <div style="line-height:50px;text-align:center;">
                         <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
                     </div>
-                    <div>
+                 <div>
                         <el-menu :unique-opened="true" :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
                             <template v-for="(v,i) in navData">
                                 <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
@@ -193,8 +193,10 @@ export default {
         width: 180px;
         height: 100%;
     }
-    .backgroud {
+    .aside {
         background: rgb(50, 65, 87);
+        overflow: auto;
+        flex:2;
     }
     .el-submenu .el-menu-item {
         height: 50px;
@@ -245,6 +247,8 @@ export default {
     }
     .el-main{
         padding:10px 15px;
+        flex-basis:initial;
+        flex:12;
     }
 }
 </style>

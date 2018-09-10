@@ -12,14 +12,14 @@
             <br>
             <el-form ref="form" :model="formData" :rules="rules">
                 <el-row :gutter="10">
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <el-form-item label="銷貨平台：" prop="salePlatform">
                             <el-select v-model="formData.salePlatform">
                                 <el-option v-for="(value,i) in searchPlatformOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <el-form-item label="銷貨帳號：" prop="saleAccount">
                             <el-select v-model="formData.saleAccount">
                                 <el-option v-for="(value,i) in searchAccountOption" :label="value" :value="value" :key="i"></el-option>
@@ -40,7 +40,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="3">
+                    <el-col :span="4">
                         <el-form-item label="銷貨時間：" prop="saleTime">
                             <el-date-picker value-format="yyyy-MM-dd" style="width:100%" v-model="formData.saleTime" type="date" placeholder="選擇日期"> </el-date-picker>
                         </el-form-item>
@@ -55,7 +55,7 @@
                             <col width="250">
                             <col width="80">
                             <col width="80">
-                            <!-- <col width="100"> -->
+                            <col width="80">
                             <col width="40">
                         </colgroup>
                         <thead>
@@ -63,9 +63,9 @@
                                 <th>序號</th>
                                 <th>SKU</th>
                                 <th>產品名稱</th>
-                                <th>銷貨總金額</th>
+                                <th>銷貨金額</th>
                                 <th>銷貨數量</th>
-                                <!-- <th>productSpec</th> -->
+                                <th>銷貨總金額</th>                                
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -73,34 +73,49 @@
                             <tr v-for="(v,i) in formData.data" :key="i">
                                 <td>{{i+1}}</td>
                                 <td>
-                                    <el-form-item :prop="'data.'+i+'.sku'" :rules="requredRule">
+                                    <el-form-item label="" :prop="'data.'+i+'.sku'" :rules="requredRule">
                                         <el-input v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
                                     </el-form-item>
                                 </td>
                                 <td>
-                                    <el-form-item :prop="'data.'+i+'.productName'" :rules="requredRule">
+                                    <el-form-item label="" :prop="'data.'+i+'.productName'" :rules="requredRule">
                                         <el-input v-model="v.productName"></el-input>
                                     </el-form-item>
                                 </td>
                                 <td>
-                                    <el-form-item :prop="'data.'+i+'.saleTotalAmount'" :rules="requredRule">
+                                    <el-form-item label="" :prop="'data.'+i+'.saleTotalAmount'" :rules="requredRule">
                                         <el-input v-model.number="v.saleTotalAmount"></el-input>
                                     </el-form-item>
                                 </td>
                                 <td>
-                                    <el-form-item :prop="'data.'+i+'.saleQuantity'" :rules="requredRule">
+                                    <el-form-item label="" :prop="'data.'+i+'.saleQuantity'" :rules="requredRule">
                                         <el-input v-model.number="v.saleQuantity"></el-input>
                                     </el-form-item>
                                 </td>
-                                <!-- <td>
-                                    <el-form-item :prop="'data.'+i+'.productSpec'" :rules="requredRule">
-                                        <el-input v-model="v.productSpec"></el-input>
-                                    </el-form-item>
-                                </td> -->
+                                <td>
+                                     <span>{{v.saleQuantity*v.saleTotalAmount ? (v.saleQuantity*v.saleTotalAmount).toFixed(2) : ""}}</span>
+                                </td>
                                 <td>
                                     <el-button :disabled="i==0" class="btnh" type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(i)"></el-button>
                                 </td>
                             </tr>
+                            <tr style="height:35px">
+                                <td>
+                                    总计
+                                </td>
+                                <td></td>  
+                                <td></td>   
+                                <td>
+                                    {{totalAmount}}
+                                </td>
+                                <td>
+                                    {{totalQuantity}}
+                                </td>
+                                <td>
+                                    {{(totalAmount * totalQuantity) ? (totalAmount * totalQuantity).toFixed(2) : ""}}
+                                </td> 
+                                <td></td>   
+                            </tr>  
                         </tbody>
                     </table>
                 </div>
@@ -144,7 +159,7 @@ export default {
                         productName: "",
                         saleTotalAmount: "",
                         saleQuantity: "",
-                        productSpec:""
+                        productSpec:"",
                     }
                 ]
             }
@@ -200,6 +215,28 @@ export default {
                 }
             });
             return disabled;
+        },
+        totalQuantity(){
+             let total = 0;
+            _.each(this.formData.data,(v)=>{
+                 total += v.saleQuantity;
+            })
+            if(total == 0){
+                return "";
+            }else{
+                return total;
+            }
+        },
+        totalAmount(){
+            let total = 0;
+            _.each(this.formData.data,(v)=>{
+                 total += v.saleTotalAmount;
+            })
+            if(total == 0){
+                return "";
+            }else{
+                return total;
+            }
         }
     },
     methods: {
@@ -322,6 +359,8 @@ export default {
             border: none;
             height: 35px;
             text-align: center;
+            color: #62717e;
+            font-size: 14px;
         }
         th {
             padding: 4px;
@@ -337,6 +376,7 @@ export default {
             text-align: center;
             background: white;
             color: #62717e;
+            font-size: 14px;
         }
     }
 }

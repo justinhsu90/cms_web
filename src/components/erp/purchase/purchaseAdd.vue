@@ -79,7 +79,7 @@
                 <el-input @blur="handleCheckSku(v.sku,v)" v-model.trim="v.sku"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item label="產品名稱">
                 <el-input v-model="v.productName"></el-input>
               </el-form-item>
@@ -92,6 +92,11 @@
             <el-col :span="3">
               <el-form-item label="該品運費" :prop="'data.'+i+'.shippingCost'" :rules="rules">
                 <el-input v-model.number="v.shippingCost"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="該品總運費">
+                <el-input :disabled="true" :value="(v.shippingCost * v.purchasedTotalAmount) ? (v.shippingCost * v.purchasedTotalAmount).toFixed(2) : ''"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -204,22 +209,6 @@ export default {
         goBack() {
             this.$router.push("/erpPurchase");
         },
-        // handleCheckSku:_.debounce((value,row)=>{
-        //   axios({
-        //     url: "/erp/check/sku",
-        //     method: "post",
-        //     data: {
-        //         token: this.token,
-        //         sku:value
-        //     }
-        // }).then((res)=>{
-        //     if(!res){
-        //       this.$message.success('SKU检测成功')
-        //     }else{
-        //       this.$message.error('SKU重复,请重新输入')
-        //     }
-        //   })
-        //   },500),
         handleCheckSku(value, row) {
             if (!value) {
                 return;
