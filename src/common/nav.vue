@@ -196,7 +196,6 @@ export default {
     .aside {
         background: rgb(50, 65, 87);
         overflow: auto;
-        flex:2;
     }
     .el-submenu .el-menu-item {
         height: 50px;
