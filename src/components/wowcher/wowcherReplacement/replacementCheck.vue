@@ -13,117 +13,117 @@
           <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item label="Wowcher Code">
-                <el-input v-model="v.wowcherCode" disabled></el-input>
+                <el-input v-model="v.wowcherCode"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="最後更新時間">
-                <el-input v-model="v.lastUpdatedTime" disabled></el-input>
+                <el-input v-model="v.lastUpdatedTime"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="3">
               <el-form-item label="最後更新">
-                <el-input v-model="v.lastModifiedBy" disabled></el-input>
+                <el-input v-model="v.lastModifiedBy"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="建立時間">
-                <el-input v-model="v.AddedTime" disabled></el-input>
+                <el-input v-model="v.AddedTime"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="3">
               <el-form-item label="建單">
-                <el-input v-model="v.addedBy" disabled></el-input>
+                <el-input v-model="v.addedBy"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="2">
               <el-form-item label="手動發貨">
-                <el-input v-model="v.isManual" disabled></el-input>
+                <el-input v-model="v.isManual"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="7">
               <el-form-item label="Order ID">
-                <el-input v-model="v.platformOrderId" disabled></el-input>
+                <el-input v-model="v.platformOrderId"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="物流單建立時間">
-                <el-input v-model="v.shipmentCreatedTime" disabled></el-input>
+                <el-input v-model="v.shipmentCreatedTime"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="發貨時間">
-                <el-input v-model="v.shipoutTime" disabled></el-input>
+                <el-input v-model="v.shipoutTime"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="發貨方式">
-                <el-input v-model="v.shippingMethod" disabled></el-input>
+                <el-input v-model="v.shippingMethod"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="物流單號">
-                <el-input v-model="v.trackingNumber" disabled></el-input>
+                <el-input v-model="v.trackingNumber"></el-input>
               </el-form-item>
             </el-col>
             </el-row>
             <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="需發貨物品名稱">
-                <el-input v-model="v.ShipmentProductName" disabled></el-input>
+                <el-input v-model="v.ShipmentProductName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="備註">
-                <el-input v-model="v.note" disabled></el-input>
+                <el-input v-model="v.note"></el-input>
               </el-form-item>
             </el-col>
             </el-row>
             <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="收件人">
-                <el-input v-model="v.receiverName" disabled></el-input>
+                <el-input v-model="v.receiverName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="電話">
-                <el-input v-model="v.phone" disabled></el-input>
+                <el-input v-model="v.phone"></el-input>
               </el-form-item>
             </el-col>
             </el-row>
             <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="地址1">
-                <el-input v-model="v.address1" disabled></el-input>
+                <el-input v-model="v.address1"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="地址2">
-                <el-input v-model="v.address2" disabled></el-input>
+                <el-input v-model="v.address2" ></el-input>
               </el-form-item>
             </el-col>
             </el-row>
             <el-row :gutter="20">
             <el-col :span="6">
               <el-form-item label="城市">
-                <el-input v-model="v.city" disabled></el-input>
+                <el-input v-model="v.city"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="省/州">
-                <el-input v-model="v.county" disabled></el-input>
+                <el-input v-model="v.county" ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="郵編">
-                <el-input v-model="v.postcode" disabled></el-input>
+                <el-input v-model="v.postcode" ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="國家">
-                <el-input v-model="v.country" disabled></el-input>
+                <el-input v-model="v.country" ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
