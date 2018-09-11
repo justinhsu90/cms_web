@@ -61,7 +61,7 @@
                         <thead>
                             <tr>
                                 <th>序號</th>
-                                <th>SKU</th>
+                                <th>SKU <el-button class="ml0"  type="text" @click="handleQuerySku">查询</el-button></th>
                                 <th>產品名稱</th>
                                 <th>銷貨金額</th>
                                 <th>銷貨數量</th>
@@ -112,7 +112,7 @@
                                     {{totalQuantity}}
                                 </td>
                                 <td>
-                                    {{(totalAmount * totalQuantity) ? (totalAmount * totalQuantity).toFixed(2) : ""}}
+                                    {{(totalAmount * totalQuantity) ? (totalAmount * totalQuantity).toFixed(2) : "0.00"}}
                                 </td> 
                                 <td></td>   
                             </tr>  
@@ -123,12 +123,16 @@
                 <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
             </el-form>
         </div>
-
+        <querySku ref="querySku"></querySku>
     </div>
 
 </template>
 <script>
+import querySku from "@/common/querySku"
 export default {
+    components:{
+        querySku
+    },
     data() {
         return {
             submitLoading: false,
@@ -219,29 +223,32 @@ export default {
         totalQuantity(){
              let total = 0;
             _.each(this.formData.data,(v)=>{
-                 total += v.saleQuantity;
+                 total += Number(v.saleQuantity);
             })
             if(total == 0){
-                return "";
+                return 0;
             }else{
-                return total;
+                return total.toFixed(2);
             }
         },
         totalAmount(){
             let total = 0;
             _.each(this.formData.data,(v)=>{
-                 total += v.saleTotalAmount;
+                 total += Number(v.saleTotalAmount);
             })
             if(total == 0){
-                return "";
+                return 0;
             }else{
-                return total;
+                return total.toFixed(2);
             }
         }
     },
     methods: {
         goBack() {
             this.$router.push("/erpSale");
+        },
+         handleQuerySku(){
+            this.$refs['querySku'].$findChild('wonDialog','visible',true);
         },
         handleDelete(i) {
             this.formData.data.splice(i, 1);

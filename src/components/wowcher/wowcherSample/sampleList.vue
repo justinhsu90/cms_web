@@ -93,9 +93,5 @@ export default {
 </script>
 
 <style scoped>
-.el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
-}
+
 </style>

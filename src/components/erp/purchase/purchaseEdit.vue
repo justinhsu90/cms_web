@@ -1,5 +1,5 @@
 <template>
-<div id="edit">
+<div id="purchaseEdit">
     <div style="padding:20px"> 
     <div class="heade">
       <i class="el-icon-arrow-left"></i>
@@ -261,7 +261,7 @@ export default {
 };
 </script>
 <style lang="scss">
-#edit {
+#purchaseEdit {
     .heade {
         font-size: 16px;
         color: #45a2ff;

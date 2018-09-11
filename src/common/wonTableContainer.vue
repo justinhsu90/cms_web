@@ -2,8 +2,8 @@
 export default {
     data() {
         return {
-            setMaxHeight:true,
-            currentPage: 4,
+            setMaxHeight: true,
+            currentPage: 1,
             total: 15,
             fetchOption: {
                 url: "",

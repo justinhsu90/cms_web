@@ -34,17 +34,17 @@ function findFather(componentName){
 Vue.prototype.$findFather = findFather;
 //找孩子
 
-function child(componentName, eventName, params) { 
+function findChild(componentName, eventName, params) { 
   this.$children.forEach(child => {
-    var name = child.$options.componentName;
+    var name = child.$options.componentName || child.$options.name;
     if (name === componentName) {
       child.$emit.apply(child, [eventName].concat(params)); 
     } else {
-      broadcast.apply(child, [componentName, eventName].concat([params]));
+      findChild.apply(child, [componentName, eventName].concat([params]));
     }
   });
 }
-Vue.prototype.$child = child;
+Vue.prototype.$findChild = findChild;
 
 
 router.beforeEach((to, form, next) => {
