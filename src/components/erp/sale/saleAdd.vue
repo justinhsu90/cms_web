@@ -47,7 +47,7 @@
                     </el-col>
                 </el-row>
                 <br>
-                <div>
+                <div id="table">
                     <table cellspacing="0" cellpadding="0">
                         <colgroup>
                             <col width="40">
@@ -56,16 +56,16 @@
                             <col width="80">
                             <col width="80">
                             <col width="80">
-                            <col width="40">
+                            <col width="50">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th>序號</th>
-                                <th>SKU <el-button class="ml0"  type="text" @click="handleQuerySku">查询</el-button></th>
+                                <th>SKU </th>
                                 <th>產品名稱</th>
                                 <th>銷貨金額</th>
                                 <th>銷貨數量</th>
-                                <th>銷貨總金額</th>                                
+                                <th>銷貨總金額</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -93,18 +93,19 @@
                                     </el-form-item>
                                 </td>
                                 <td>
-                                     <span>{{v.saleQuantity*v.saleTotalAmount ? (v.saleQuantity*v.saleTotalAmount).toFixed(2) : ""}}</span>
+                                    <span>{{v.saleQuantity*v.saleTotalAmount ? (v.saleQuantity*v.saleTotalAmount).toFixed(2) : ""}}</span>
                                 </td>
                                 <td>
-                                    <el-button :disabled="i==0" class="btnh" type="text" title="删除" icon="el-icon-won-22" @click="handleDelete(i)"></el-button>
+                                    <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleDelete(i)">删除</el-button>
+                                    <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查询</el-button>
                                 </td>
                             </tr>
                             <tr style="height:35px">
                                 <td>
                                     总计
                                 </td>
-                                <td></td>  
-                                <td></td>   
+                                <td></td>
+                                <td></td>
                                 <td>
                                     {{totalAmount}}
                                 </td>
@@ -113,9 +114,9 @@
                                 </td>
                                 <td>
                                     {{(totalAmount * totalQuantity) ? (totalAmount * totalQuantity).toFixed(2) : "0.00"}}
-                                </td> 
-                                <td></td>   
-                            </tr>  
+                                </td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -123,14 +124,15 @@
                 <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
             </el-form>
         </div>
-        <querySku ref="querySku"></querySku>
+        <querySku name="slaeAdd" ref="querySku"></querySku>
     </div>
 
 </template>
 <script>
-import querySku from "@/common/querySku"
+import querySku from "@/common/querySku";
 export default {
-    components:{
+    name:'slaeAdd',
+    components: {
         querySku
     },
     data() {
@@ -147,7 +149,7 @@ export default {
             rules: {
                 currency: {
                     required: true,
-                    message:'此项必填'
+                    message: "此项必填"
                 }
             },
             formData: {
@@ -156,14 +158,14 @@ export default {
                 salePlatform: "",
                 saleAccount: "",
                 saleCountry: "",
-                note:"",
+                note: "",
                 data: [
                     {
                         sku: "",
                         productName: "",
                         saleTotalAmount: "",
                         saleQuantity: "",
-                        productSpec:"",
+                        productSpec: ""
                     }
                 ]
             }
@@ -220,35 +222,46 @@ export default {
             });
             return disabled;
         },
-        totalQuantity(){
-             let total = 0;
-            _.each(this.formData.data,(v)=>{
-                 total += Number(v.saleQuantity);
-            })
-            if(total == 0){
+        totalQuantity() {
+            let total = 0;
+            _.each(this.formData.data, v => {
+                total += Number(v.saleQuantity);
+            });
+            if (total == 0) {
                 return 0;
-            }else{
+            } else {
                 return total.toFixed(2);
             }
         },
-        totalAmount(){
+        totalAmount() {
             let total = 0;
-            _.each(this.formData.data,(v)=>{
-                 total += Number(v.saleTotalAmount);
-            })
-            if(total == 0){
+            _.each(this.formData.data, v => {
+                total += Number(v.saleTotalAmount);
+            });
+            if (total == 0) {
                 return 0;
-            }else{
+            } else {
                 return total.toFixed(2);
             }
         }
+    },
+    mounted() {
+        this.$on("selectSku", this.handleSku);
     },
     methods: {
         goBack() {
             this.$router.push("/erpSale");
         },
-         handleQuerySku(){
-            this.$refs['querySku'].$findChild('wonDialog','visible',true);
+        handleQuerySku(index) {
+            this.$refs["querySku"].$findChild("wonDialog", "visible", index);
+        },
+        handleSku(val) {
+            _.each(this.formData.data, (v, i) => {
+                if (i == val[1]) {
+                    v.sku = val[0].sku;
+                    v.productName = val[0].productName;
+                }
+            });
         },
         handleDelete(i) {
             this.formData.data.splice(i, 1);
@@ -281,7 +294,7 @@ export default {
                 productName: "",
                 saleTotalAmount: "",
                 saleQuantity: "",
-                productSpec:""
+                productSpec: ""
             };
             this.formData.data.push(obj);
         },
@@ -290,7 +303,7 @@ export default {
         },
         getValue() {
             let data = [];
-            _.each(this.formData.data, (v) => {
+            _.each(this.formData.data, v => {
                 let obj = _.cloneDeep(v);
                 obj.currency = this.formData.currency;
                 obj.saleTime = this.formData.saleTime;
@@ -338,52 +351,54 @@ export default {
     .heade a {
         color: #45a2ff;
     }
-    table {
-        table-layout: fixed;
-        width: 100%;
-        border-top: 1px solid #ebeef5;
-        border-bottom: 1px solid #ebeef5;
-        border-left: 1px solid #ebeef5;
-        .btnh {
-            padding: 4px 0px;
-            color: #62717e;
-        }
-        .cell {
-            padding: 0px;
-        }
-        .el-form-item {
-            overflow: hidden;
-            margin: 0px;
-        }
-        .el-form-item__content {
-            line-height: 0px;
-        }
-        .is-error input {
-            background: #f56c6c;
-            border-radius: 0%;
-        }
-        .el-input__inner {
-            border: none;
-            height: 35px;
-            text-align: center;
-            color: #62717e;
-            font-size: 14px;
-        }
-        th {
-            padding: 4px;
-            background: #edf1f5;
-            text-align: center;
-            color: #62717e;
-            // border-right: 1px solid #ebeef5;
-        }
-        td {
-            padding: 0px;
+    #table {
+        table {
+            table-layout: fixed;
+            width: 100%;
             border-top: 1px solid #ebeef5;
-            border-right: 1px solid #ebeef5;
-            text-align: center;
-            background: white;
-            color: #62717e;
-            font-size: 14px;
+            border-bottom: 1px solid #ebeef5;
+            border-left: 1px solid #ebeef5;
+            .btnh {
+                padding: 4px 0px;
+                color: #62717e;
+            }
+            .cell {
+                padding: 0px;
+            }
+            .el-form-item {
+                overflow: hidden;
+                margin: 0px;
+            }
+            .el-form-item__content {
+                line-height: 0px;
+            }
+            .is-error input {
+                background: #f56c6c;
+                border-radius: 0%;
+            }
+            .el-input__inner {
+                border: none;
+                height: 35px;
+                text-align: center;
+                color: #62717e;
+                font-size: 14px;
+            }
+            th {
+                padding: 4px;
+                background: #edf1f5;
+                text-align: center;
+                color: #62717e;
+                // border-right: 1px solid #ebeef5;
+            }
+            td {
+                padding: 0px;
+                border-top: 1px solid #ebeef5;
+                border-right: 1px solid #ebeef5;
+                text-align: center;
+                background: white;
+                color: #62717e;
+                font-size: 14px;
+            }
         }
     }
 }

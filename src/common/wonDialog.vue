@@ -3,7 +3,7 @@
         <slot name="content"></slot>
         <div slot="footer" class="dialog-footer">
             <el-button v-if="showCancel" @click="dialogVisible = false">{{cancelButtonText}}</el-button>
-            <el-button v-if="showConfirm" type="primary" @click="dialogVisible = false">{{confirmButtonText}}</el-button>
+            <el-button v-if="showConfirm" type="primary" @click="confirm">{{confirmButtonText}}</el-button>
         </div>
     </el-dialog>
 </template>
@@ -30,7 +30,9 @@ export default {
         cancelButtonText: {
             type: String,
             default: "取消"
-        }
+        },
+        row: {},
+        name:{}
     },
     data() {
         return {
@@ -39,12 +41,23 @@ export default {
     },
     created() {
         this.$on("visible", value => {
+            this.value = value;
+            if (typeof value == "number") {
+                value += "";
+            }
             if (value) {
                 this.dialogVisible = true;
             } else {
                 this.dialogVisible = false;
             }
         });
+    },
+    methods: {
+        confirm() {
+            this.dialogVisible = false;
+            let father = this.$findFather(this.name);
+            father.$emit("selectSku", [this.row, this.value]);
+        }
     }
 };
 </script>

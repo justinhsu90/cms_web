@@ -90,7 +90,7 @@
                 <template slot="label">
                   <span>SKU</span>
                   <el-button type="text" @click="handleCheckSku(v.sku,v)">檢查</el-button>
-                  <el-button class="ml0"  type="text" @click="handleQuerySku">查询</el-button>
+                  <el-button class="ml0"  type="text" @click="handleQuerySku(i)">查询</el-button>
                 </template>
                 <el-input @blur="handleCheckSku(v.sku,v)" v-model.trim="v.sku"></el-input>
               </el-form-item>
@@ -121,12 +121,13 @@
         <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
       </el-form>
     </div>
-    <querySku ref="querySku"></querySku>
+    <querySku name="purchaseAdd" ref="querySku"></querySku>
   </div>
 </template>
 <script>
 import querySku from "@/common/querySku"
 export default {
+    name:"purchaseAdd",
     components:{
         querySku
     },
@@ -174,7 +175,7 @@ export default {
             }
         };
     },
-    created() {
+    created() {        
         let purchasePlatform = axios({
             url: "/erp/value/purchasePlatform",
             method: "post",
@@ -248,12 +249,24 @@ export default {
             }
         }
     },
+    mounted(){
+        this.$on('selectSku',this.handleSku)
+    },
     methods: {
         goBack() {
             this.$router.push("/erpPurchase");
         },
-        handleQuerySku(){
-            this.$refs['querySku'].$findChild('wonDialog','visible',true);
+        handleSku(val){
+            _.each(this.formData.data,(v,i)=>{
+                
+                if(i == val[1]){
+                  v.sku = val[0].sku;
+                  v.productName = val[0].productName; 
+                }
+            })
+        },
+        handleQuerySku(index){
+            this.$refs['querySku'].$findChild('wonDialog','visible',index);  
         },
         handleCheckSku(value, row) {
             if (!value) {
