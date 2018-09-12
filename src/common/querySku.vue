@@ -8,7 +8,7 @@
                     </el-input>
                 </el-col>
                 <el-col class="mt5">
-                    <el-table highlight-current-row @current-change="handleCurrentChange"  ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
+                    <el-table highlight-current-row @current-change="currentChange"  ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                         <el-table-column min-width="50" label="sku" prop="sku" ></el-table-column>
                         <el-table-column min-width="60" label="productName" prop="productName" ></el-table-column>
                         <el-table-column align="center" width="120" label="snapshotURL" prop="snapshotURL">
@@ -48,9 +48,10 @@ export default {
             row:{
 
             },
+            pageSizes: [10, 30, 50, 100, 200],
             fetchCondition: {
                 skip: 0,
-                limit: 15
+                limit: 10
             },
             fetchOption: {
                 url: "/erp/search/sku",
@@ -63,7 +64,7 @@ export default {
         this.handleSearch();
     },
     methods: {
-        handleCurrentChange(row){
+        currentChange(row){
             this.row = _.cloneDeep(row);
             if(!_.isEmpty(this.row)){
                 this.showConfirm = true;
@@ -95,9 +96,14 @@ export default {
 };
 </script>
 
-<style>
-    #querySku .el-table th{
+<style lang="scss">
+    #querySku {
+    .el-table th{
         height:30px;
+    }
+    .mt5{
+            margin-top: 0;
+        }
     }
 </style>
 

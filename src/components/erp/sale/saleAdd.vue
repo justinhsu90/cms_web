@@ -100,7 +100,7 @@
                                     <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查询</el-button>
                                 </td>
                             </tr>
-                            <tr style="height:35px">
+                            <tr class="total">
                                 <td>
                                     总计
                                 </td>
@@ -131,7 +131,7 @@
 <script>
 import querySku from "@/common/querySku";
 export default {
-    name:'slaeAdd',
+    name: "slaeAdd",
     components: {
         querySku
     },
@@ -350,6 +350,13 @@ export default {
     }
     .heade a {
         color: #45a2ff;
+    }
+    .total {
+        height: 35px;
+        background: #f0f9eb;
+        td {
+            background: transparent !important;
+        }
     }
     #table {
         table {
