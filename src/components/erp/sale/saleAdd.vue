@@ -97,7 +97,7 @@
                                 </td>
                                 <td>
                                     <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleDelete(i)">删除</el-button>
-                                    <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查询</el-button>
+                                    <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查詢</el-button>
                                 </td>
                             </tr>
                             <tr class="total">

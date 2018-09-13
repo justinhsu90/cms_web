@@ -90,7 +90,7 @@
                 <template slot="label">
                   <span>SKU</span>
                   <el-button type="text" @click="handleCheckSku(v.sku,v)">檢查</el-button>
-                  <el-button class="ml0"  type="text" @click="handleQuerySku(i)">查询</el-button>
+                  <el-button class="ml0"  type="text" @click="handleQuerySku(i)">查詢SKU</el-button>
                 </template>
                 <el-input @blur="handleCheckSku(v.sku,v)" v-model.trim="v.sku"></el-input>
               </el-form-item>
