@@ -45,7 +45,7 @@
           <!-- <el-table-column min-width="60" label="採購帳號" prop="purchasedAccount"></el-table-column> -->
           <el-table-column min-width="50" label="總金額" prop="purchasedTotalAmount">
             <template slot-scope="scope">
-              {{scope.row.purchasedTotalAmount | formatToYuan}}&nbsp;{{scope.row.currency}}
+              {{scope.row.purchasedTotalAmount | formatToMoney}}&nbsp;{{scope.row.currency}}
             </template>
           </el-table-column>
           <!-- <el-table-column min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
@@ -75,7 +75,7 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
-
+import { format } from "@/common/until/format";
 export default {
     extends: wonTableContainer,
     data() {
@@ -164,6 +164,9 @@ export default {
         );
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
+    },
+    filters:{
+        ...format
     },
     methods: {
         handleSearch: _.debounce(function() {

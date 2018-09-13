@@ -41,12 +41,12 @@
           <el-table-column min-width="40" label="銷貨平台" prop="salePlatform"></el-table-column>
           <el-table-column min-width="40" label="銷貨帳號" prop="saleAccount"></el-table-column>
           <el-table-column min-width="55" label="出貨倉庫" prop="saleWarehouse"></el-table-column>
-          <el-table-column min-width="40" label="幣別" prop="currency"></el-table-column>
-          <!-- <el-table-column min-width="55" label="總金額" prop="saleTotalAmount">
+          <!-- <el-table-column min-width="40" label="幣別" prop="currency"></el-table-column> -->
+          <el-table-column min-width="75" label="總金額" prop="saleTotalAmount">
             <template slot-scope="scope">
-              {{scope.row.purchasedTotalAmount | formatToYuan}}&nbsp;{{scope.row.currency}}
+             {{scope.row.currency.toUpperCase()}}&nbsp;{{scope.row.saleTotalAmount | formatToMoney}}
             </template>
-          </el-table-column> -->
+          </el-table-column>
           <el-table-column width="50" label="動作" align="center">
             <template slot-scope="scope">
               <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
@@ -63,7 +63,7 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
-
+import { format } from "@/common/until/format";
 export default {
     extends: wonTableContainer,
     data() {
@@ -120,6 +120,9 @@ export default {
                 where: ""
             }
         };
+    },
+    filters:{
+        ...format
     },
    created() {
         let salePlatform = axios({
