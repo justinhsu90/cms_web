@@ -52,7 +52,7 @@
             </el-col>
             <el-col :span="2">
               <el-form-item label="總金額">
-                 <el-input disabled :value=" (totalShippingCost + totalPurchasedAmount).toFixed(2) "></el-input>
+                 <el-input disabled :value=" (Number(totalShippingCost) + Number(totalPurchasedAmount)).toFixed(2) "></el-input>
               </el-form-item>
             </el-col>
           <el-col :span="2">
@@ -112,7 +112,7 @@
             </el-col>
             <el-col :span="3">
               <el-form-item label="該品總金額">
-                <el-input :disabled="true" :value="(v.shippingCost + v.purchasedTotalAmount) ? (v.shippingCost + v.purchasedTotalAmount).toFixed(2) : ''"></el-input>
+                <el-input :disabled="true" :value="(Number(v.shippingCost) + Number(v.purchasedTotalAmount)) ? (Number(v.shippingCost) + Number(v.purchasedTotalAmount)).toFixed(2) : ''"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
