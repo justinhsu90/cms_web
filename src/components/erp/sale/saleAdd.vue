@@ -93,7 +93,7 @@
                                     </el-form-item>
                                 </td>
                                 <td>
-                                    <span>{{v.saleQuantity*v.saleTotalAmount ? (v.saleQuantity*v.saleTotalAmount).toFixed(2) : ""}}</span>
+                                    <span>{{v.saleQuantity*v.saleTotalAmount | formatToMoney}}</span>
                                 </td>
                                 <td>
                                     <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleDelete(i)">删除</el-button>
@@ -107,13 +107,13 @@
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    {{totalAmount}}
+                                    {{totalAmount | formatToMoney}}
                                 </td>
                                 <td>
-                                    {{totalQuantity}}
+                                    {{totalQuantity | formatToMoney}}
                                 </td>
                                 <td>
-                                    {{(totalAmount * totalQuantity) ? (totalAmount * totalQuantity).toFixed(2) : "0.00"}}
+                                    {{(totalAmount * totalQuantity) | formatToMoney}}
                                 </td>
                                 <td></td>
                             </tr>
@@ -130,6 +130,7 @@
 </template>
 <script>
 import querySku from "@/common/querySku";
+import { format } from "@/common/until/format";
 export default {
     name: "slaeAdd",
     components: {
@@ -171,7 +172,7 @@ export default {
             }
         };
     },
-    created() {
+    created() { 
         let saleCurrency = axios({
             url: "/erp/value/currency",
             method: "post",
@@ -211,6 +212,9 @@ export default {
             this.searchCountryOption = _.cloneDeep(country);
             this.searchCurrecyOption = _.cloneDeep(currency);
         });
+    },
+    filters:{
+        ...format
     },
     computed: {
         disabled() {

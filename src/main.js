@@ -9,6 +9,7 @@ import App from './App'
 import moment from 'moment'
 import axios from '@/common/until/Ajax'
 import qs from 'qs'
+
 const Bus = new Vue();
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
@@ -16,6 +17,7 @@ window.axios = axios;
 Vue.prototype.moment = moment;
 Vue.prototype.Bus = Bus;
 Vue.prototype.qs = qs;
+
 //找祖辈元素
 function findFather(componentName){
   let parent = this.$parent || this.$root;
