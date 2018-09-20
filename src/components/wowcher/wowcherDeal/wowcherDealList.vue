@@ -113,14 +113,18 @@ export default {
                 if (!this.searchAccount) {
                     _.pull(this.condition, "1");
                 } else {
-                    this.condition.push("1");
+                    if(!this.condition.includes('1')){
+                       this.condition.push("1");
+                    }
                 }
             }
             if (sign == "cou") {
                 if (!this.searchCountry) {
                     _.pull(this.condition, "3");
                 } else {
-                    this.condition.push("3");
+                    if(!this.condition.includes('3')){
+                       this.condition.push("3");
+                    }
                 }
             }
             this.handleSearch();

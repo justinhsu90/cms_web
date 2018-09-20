@@ -127,7 +127,11 @@ export default {
                             label: "(4) 銷貨單"
                         }
                     ]
-                }
+                },
+                {
+                    index: "singleLetter",
+                    label: "補發信單"
+                },
             ]
         };
     },

@@ -67,6 +67,7 @@ export default {
         };
     },
     created() {
+        this.Bus.$on("refresh",this.handleSearch);
         this.handleSearch();
     },
     methods: {

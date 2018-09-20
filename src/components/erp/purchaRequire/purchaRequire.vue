@@ -140,14 +140,18 @@ export default {
                 if (!this.searchAccount) {
                     _.pull(this.condition, "1");
                 } else {
-                    this.condition.push("1");
+                    if(!this.condition.includes('1')){
+                       this.condition.push("1");
+                    }
                 }
             }
             if (sign == "lang") {
                 if (!this.searchLanguage) {
                     _.pull(this.condition, "2");
                 } else {
-                    this.condition.push("2");
+                    if(!this.condition.includes('2')){
+                       this.condition.push("2");
+                    }
                 }
             }
             this.handleSearch();

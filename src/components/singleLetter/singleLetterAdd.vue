@@ -6,13 +6,13 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>編輯 UPC</h2>
+    <h2>指派 UPC</h2>
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
         <el-row :gutter="20">
            <el-col :span="6">
-              <el-form-item label="UPC">
+              <el-form-item label="UPC (指定輸入)">
               <el-input v-model="v.upc"></el-input>
               </el-form-item>
             </el-col>
@@ -48,30 +48,6 @@
               <el-input v-model="v.country"></el-input>
               </el-form-item>
             </el-col>
-            </el-row>
-            <el-row :gutter="20">
-             <el-col :span="7">
-              <el-form-item label="最後更新時間">
-              <el-input v-model="v.lastUpdatedTime" disabled></el-input>
-              </el-form-item>
-            </el-col>
-              <el-col :span="5">
-              <el-form-item label="更新者">
-              <el-input v-model="v.lastModifiedBy" disabled></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="7">
-              <el-form-item label="配對時間">
-              <el-input v-model="v.addedTime" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="配對者">
-              <el-input v-model="v.addedBy" disabled></el-input>
-              </el-form-item>
-            </el-col>
-            </el-row>
-            <el-row :gutter="20">
             <el-col :span="24">
               <el-form-item label="備註">
               <el-input v-model="v.note" type="textarea" rows="1"></el-input>
@@ -80,7 +56,7 @@
         </el-row>
       </el-card>
       <br>
-       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">編輯</el-button> 
+       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
     </el-form> 
     </div>         
  </div>     
@@ -108,26 +84,26 @@ export default {
       }
     };
   },
-  created() {
-    let data = JSON.parse(this.$route.query.data);
-    this.formData.data[0].country = data.country;
-    this.formData.data[0].account = data.account;
-    this.formData.data[0].upc = data.upc; 
-    this.formData.data[0].subSku = data.subSku;
-    this.formData.data[0].productName = data.productName;
-    this.formData.data[0].asin = data.asin;
-    this.formData.data[0].platform = data.platform;
-    this.formData.data[0].note = data.note;
-    this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
-    this.formData.data[0].addedBy = data.addedBy;
-    this.formData.data[0].addedTime = data.addedTime;
-    this.formData.data[0].lastUpdatedTime = data.lastUpdatedTime;
-    this.formData.data[0].id = data.id;
-    
-  },
+  created() {},
   methods: {
     goBack() {
       this.$router.push("/upc");
+    },
+    handleAdd() {
+      let obj = {
+        subSku: "",
+        upc: "",
+        productName: "",
+        asin: "",
+        country: "",
+        account: "",
+        platform: "",
+        note: ""
+      };
+      this.formData.data.push(obj)
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index,1);
     },
     getValue(){
     let data = _.cloneDeep(this.formData.data);
@@ -142,7 +118,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/upc/update",
+            url: "/upc/add",
             method: "post",
             data: {
               value: this.getValue(),

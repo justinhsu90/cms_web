@@ -276,7 +276,9 @@ export default {
                 if (!this.searchAccount) {
                     _.pull(this.condition, "1");
                 } else {
-                    this.condition.push("1");
+                    if(!this.condition.includes('1')){
+                       this.condition.push("1");
+                    }
                 }
             }
 
@@ -284,7 +286,9 @@ export default {
                 if (!this.searchMerge) {
                     _.pull(this.condition, "2");
                 } else {
-                    this.condition.push("2");
+                    if(!this.condition.includes('2')){
+                       this.condition.push("2");
+                    }
                 }
             }
 
@@ -292,16 +296,11 @@ export default {
                 if (!this.searchCountry) {
                     _.pull(this.condition, "3");
                 } else {
-                    this.condition.push("3");
+                    if(!this.condition.includes('3')){
+                       this.condition.push("3");
+                    }
                 }
             }
-            // if (sign == "lang") {
-            //     if (!this.searchLanguage) {
-            //         _.pull(this.condition, "4");
-            //     } else {
-            //         this.condition.push("4");
-            //     }
-            // }
             this.handleSearch();
         }
     }

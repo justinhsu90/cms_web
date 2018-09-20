@@ -1,12 +1,12 @@
 <template>
-    <el-dialog :title="title" :visible.sync="dialogVisible">
+    <el-dialog :title="title" :visible.sync="dialogVisible"  :width="size">
         <slot name="content"></slot>
         <div slot="footer" class="dialog-footer">
             <el-button v-if="showCancel" @click="dialogVisible = false">{{cancelButtonText}}</el-button>
             <el-button v-if="showConfirm" type="primary" @click="confirm">{{confirmButtonText}}</el-button>
         </div>
     </el-dialog>
-</template>
+</template>   
 <script>
 export default {
     name: "wonDialog",
@@ -14,6 +14,10 @@ export default {
         title: {
             type: String,
             default: "添加"
+        },
+        size:{
+            type: String,
+            default:'60%'
         },
         showConfirm: {
             type: Boolean,

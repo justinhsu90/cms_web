@@ -206,21 +206,27 @@ export default {
                 if (!this.searchPlatform) {
                     _.pull(this.condition, "1");
                 } else {
-                    this.condition.push("1");
+                    if(!this.condition.includes('1')){
+                       this.condition.push("1");
+                    }
                 }
             }
             if (sign == "country") {
                 if (!this.searchCountry) {
                     _.pull(this.condition, "2");
                 } else {
-                    this.condition.push("2");
+                    if(!this.condition.includes('2')){
+                       this.condition.push("2");
+                    }
                 }
             }
             if (sign == "acc") {
                 if (!this.searchAccount) {
                     _.pull(this.condition, "3");
                 } else {
-                    this.condition.push("3");
+                    if(!this.condition.includes('3')){
+                       this.condition.push("3");
+                    }
                 }
             }
             this.handleSearch();
