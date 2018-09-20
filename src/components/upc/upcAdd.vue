@@ -12,8 +12,8 @@
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
         <el-row :gutter="20">
            <el-col :span="6">
-              <el-form-item label="UPC (指定輸入)">
-              <el-input v-model="v.upc"></el-input>
+              <el-form-item label="EAN:13碼 / UPC:12碼 (手動輸入)">
+              <el-input v-model="v.ean"></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="4">
@@ -72,7 +72,7 @@ export default {
         data: [
           {
         subSku: "",
-        upc: "",
+        ean: "",
         productName: "",
         asin: "",
         country: "",
@@ -92,7 +92,7 @@ export default {
     handleAdd() {
       let obj = {
         subSku: "",
-        upc: "",
+        ean: "",
         productName: "",
         asin: "",
         country: "",

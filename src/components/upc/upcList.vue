@@ -13,7 +13,7 @@
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <!-- <el-table-column min-width="90" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
-          <el-table-column min-width="110" label="UPC/EAN" prop="upc" sortable="custom"></el-table-column>
+          <el-table-column min-width="110" label="EAN (UPC)" prop="ean" sortable="custom"></el-table-column>
           <el-table-column min-width="130" label="對應SKU" prop="subSku" sortable="custom"></el-table-column>
           <el-table-column min-width="100" label="對應ASIN" prop="asin" sortable="custom"></el-table-column>
           <el-table-column min-width="150" label="產品名稱" prop="productName" sortable="custom"></el-table-column>

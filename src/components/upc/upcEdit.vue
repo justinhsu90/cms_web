@@ -12,8 +12,8 @@
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
         <el-row :gutter="20">
            <el-col :span="6">
-              <el-form-item label="UPC">
-              <el-input v-model="v.upc"></el-input>
+              <el-form-item label="EAN/UPC (EAN:13碼, UPC:12碼)">
+              <el-input v-model="v.ean"></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="4">
@@ -96,7 +96,7 @@ export default {
         data: [
           {
         subSku: "",
-        upc: "",
+        ean: "",
         productName: "",
         asin: "",
         country: "",
@@ -112,7 +112,7 @@ export default {
     let data = JSON.parse(this.$route.query.data);
     this.formData.data[0].country = data.country;
     this.formData.data[0].account = data.account;
-    this.formData.data[0].upc = data.upc; 
+    this.formData.data[0].ean = data.ean; 
     this.formData.data[0].subSku = data.subSku;
     this.formData.data[0].productName = data.productName;
     this.formData.data[0].asin = data.asin;

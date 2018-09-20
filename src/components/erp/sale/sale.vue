@@ -34,17 +34,16 @@
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <el-table-column min-width="60" label="銷貨單號" prop="saleId" sortable="custom"></el-table-column>
           <el-table-column min-width="55" label="銷貨時間" prop="saleTime" sortable="custom"></el-table-column>
-          <!-- <el-table-column min-width="40" label="銷貨類型" prop="saleType"></el-table-column> -->
+          <el-table-column min-width="40" label="銷貨類型" prop="saleType"></el-table-column>
           <el-table-column min-width="35" label="數量" prop="saleQuantity"></el-table-column>
           <el-table-column min-width="70" label="SKU" prop="sku"></el-table-column>
           <el-table-column min-width="110" label="產品名稱" prop="productName"></el-table-column>
           <el-table-column min-width="40" label="銷貨平台" prop="salePlatform"></el-table-column>
           <el-table-column min-width="40" label="銷貨帳號" prop="saleAccount"></el-table-column>
           <el-table-column min-width="55" label="出貨倉庫" prop="saleWarehouse"></el-table-column>
-          <!-- <el-table-column min-width="40" label="幣別" prop="currency"></el-table-column> -->
           <el-table-column min-width="75" label="總金額" prop="saleTotalAmount">
             <template slot-scope="scope">
-             {{scope.row.currency.toUpperCase()}}&nbsp;{{scope.row.saleTotalAmount | formatToMoney}}
+             {{scope.row.saleTotalAmount | formatToMoney}}&nbsp;{{scope.row.currency.toUpperCase()}}
             </template>
           </el-table-column>
           <el-table-column width="50" label="動作" align="center">
