@@ -16,8 +16,6 @@ import upcAdd from '@/components/upc/upcAdd'
 import upcEdit from '@/components/upc/upcEdit'
 import upcList from '@/components/upc/upcList'
 
-import singleLetterAdd from '@/components/singleLetter/singleLetterAdd'
-import singleLetterEdit from '@/components/singleLetter/singleLetterEdit'
 import singleLetter from '@/components/singleLetter/singleLetter'
 
 import replacementList from '@/components/wowcher/wowcherReplacement/replacementList'
@@ -115,22 +113,6 @@ let router = new VueRouter({
             keepAlive: true
           }
         },
-        // {
-        //   name: 'singleLetterAdd',
-        //   path: '/singleLetterAdd',
-        //   component: singleLetterAdd,
-        //   meta: {
-        //     sign: 'singleLetter'
-        //   }
-        // },
-        // {
-        //   name: 'singleLetterEdit',
-        //   path: '/singleLetterEdit',
-        //   component: singleLetterEdit,
-        //   meta: {
-        //     sign: 'singleLetter'
-        //   }
-        // },  
         {
           name: 'wowcherDealList',
           path: '/wowcherDealList',
