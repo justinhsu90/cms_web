@@ -47,11 +47,16 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
-            searchAccount:"",
             tableData: [],
             maxHeight: 450,
             condition: [],
             isTableLoading: false,
+            searchAccount: "",
+            searchAccountOption: [
+                {
+                    account: "已補發",
+                }
+            ],
             fetchCondition: {
                 skip: 0,
                 limit: 15,
@@ -70,6 +75,18 @@ export default {
         this.Bus.$on("refresh", this.handleSearch);
     },
     methods: {
+        handleCondition(sign) {
+            if (sign == "acc") {
+                if (!this.searchAccount) {
+                    _.pull(this.condition, "1");
+                } else {
+                    if (!this.condition.includes("1")) {
+                        this.condition.push("1");
+                    }
+                }
+            }
+            this.handleSearch();
+        },
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
             let data = {
@@ -79,6 +96,11 @@ export default {
                 limit: this.fetchCondition.limit,
                 order: this.fetchCondition.order
             };
+            if (this.condition.includes("1")) {
+                data.type = 'Y';
+            } else {
+                data.type = "N";
+            }
             axios({
                 url: this.fetchOption.url,
                 method: this.fetchOption.method,
