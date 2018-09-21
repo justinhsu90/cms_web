@@ -5,12 +5,12 @@
         <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:15%;float:left">
         </el-input>
         <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="信單帳號" v-model="searchAccount" @change="handleCondition('account')" clearable>
+          <el-select placeholder="所屬帳號" v-model="searchAccount" @change="handleCondition('account')" clearable>
             <el-option v-for="(v,i) in singleLetterAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
           </el-select>
         </div>
         <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="信單类型" v-model="searchType" @change="handleCondition('type')" clearable>
+          <el-select placeholder="通知狀態" v-model="searchType" @change="handleCondition('type')" clearable>
             <el-option v-for="(v,i) in singleLetterTypeOption" :key="'type'+i" :label="v.type" :value="v.type"></el-option>
           </el-select>
         </div>
@@ -20,13 +20,13 @@
       </el-col>
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">      
-          <el-table-column min-width="110" label="最後更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-          <el-table-column min-width="130" label="物流單號" prop="trackingNumber" sortable="custom"></el-table-column>
-          <el-table-column min-width="100" label="帳號" prop="account" sortable="custom"></el-table-column>
-          <el-table-column min-width="150" label="客戶姓名" prop="customerName" sortable="custom"></el-table-column>
-          <el-table-column min-width="70" label="郵箱" prop="email" sortable="custom"></el-table-column>
-          <el-table-column min-width="70" label="加入時間" prop="addedTime" sortable="custom"></el-table-column>
-          <el-table-column min-width="90" label="補發時間" prop="emailSentTime" sortable="custom"></el-table-column>
+          <!-- <el-table-column min-width="100" label="最後更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
+          <el-table-column min-width="90" label="物流單號" prop="trackingNumber" sortable="custom"></el-table-column>
+          <el-table-column min-width="80" label="帳號" prop="account" sortable="custom"></el-table-column>
+          <el-table-column min-width="80" label="客戶姓名" prop="customerName"></el-table-column>
+          <el-table-column min-width="160" label="郵箱" prop="email" ></el-table-column>
+          <el-table-column min-width="100" label="加入時間" prop="addedTime" sortable="custom"></el-table-column>
+          <el-table-column min-width="100" label="補發時間" prop="emailSentTime" sortable="custom"></el-table-column>
         </el-table>
       </el-col>
       <div style="float:right">
@@ -34,8 +34,8 @@
         </el-pagination>
       </div>
     </el-row>
-    <wonDialog :row="valueAdd" name="single" ref="wonDialog" title="新增" size="40%"> 
-         <el-input slot="content" type="textarea"  :rows="4" :autosize="{ minRows: 4, maxRows: 6}" v-model="valueAdd"  placeholder="请输入新增内容"></el-input>
+    <wonDialog :row="valueAdd" name="single" ref="wonDialog" title="新增通知" size="40%"> 
+         <el-input slot="content" type="textarea"  :rows="4" :autosize="{ minRows: 4, maxRows: 6}" v-model="valueAdd"  placeholder="請輸入單號,並以逗號區隔"></el-input>
     </wonDialog>
   </div>
 </template>
