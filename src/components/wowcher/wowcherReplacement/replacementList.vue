@@ -97,9 +97,9 @@ export default {
                 order: this.fetchCondition.order
             };
             if (this.condition.includes("1")) {
-                data.type = 'Y';
+                data.status = 'Y';
             } else {
-                data.type = "N";
+                data.status = "N";
             }
             axios({
                 url: this.fetchOption.url,
