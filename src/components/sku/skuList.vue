@@ -111,7 +111,7 @@ export default {
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
     },
-    methods: {
+    methods: {  
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
             axios({

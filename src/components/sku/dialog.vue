@@ -403,9 +403,10 @@ export default {
                                     ) {
                                         this.isLoading = false;
                                         this.$emit("showDailog", false);
-                                        this.$findFather("sku").$emit(
-                                            "refresh"
-                                        );
+                                        // this.$findFather("sku").$emit(
+                                        //     "refresh"
+                                        // );
+                                        this.$findFather("sku").handleSearch();
                                         this.$message.success("編輯成功");
                                     }
                                     if (request.status != 200) {
@@ -452,7 +453,7 @@ export default {
                                 this.isLoading = false;
                                 this.$emit("showDailog", false);
                                 this.$message.success("新增成功");
-                                this.$findFather("sku").$emit("refresh");
+                                this.$findFather("sku").handleSearch();
                             }
                             if (request.status != 200) {
                                 this.isLoading = false;
