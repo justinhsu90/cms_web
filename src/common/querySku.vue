@@ -77,7 +77,7 @@ export default {
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
             let data = {
-                value:this.fetchOption.where,
+                where:this.fetchOption.where,
                 token: this.token,
                 skip: this.fetchCondition.skip,
                 limit: this.fetchCondition.limit
