@@ -26,19 +26,16 @@
               <el-input v-model="v.dealId"></el-input>
               </el-form-item>
             </el-col>
-           
              <el-col :span="5">
               <el-form-item label="Product ID">
               <el-input v-model="v.productId"></el-input>
               </el-form-item>
             </el-col>
-
               <el-col :span="5">
               <el-form-item label="開始日期">
-              <el-input v-model="v.startDate"></el-input>
+                 <el-date-picker style="width:100%" v-model="v.startDate" type="date" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
-
              <el-col :span="16">
               <el-form-item label="產品名稱 (完整Wowcher原名)">
               <el-input v-model="v.productName"></el-input>
