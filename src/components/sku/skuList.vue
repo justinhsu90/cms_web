@@ -74,7 +74,7 @@
   </div>
 </template>
 <script>
-import directiveDialog from "./dialog";
+
 import wonTableContainer from "../../common/wonTableContainer";
 export default {
     extends: wonTableContainer,
@@ -92,7 +92,6 @@ export default {
             tableData: [],
             isTableLoading: false,
             showDialog: false,
-            title: "新增",
             row: [],
             dialogTableVisible: false,
             fetchCondition: {
@@ -134,16 +133,17 @@ export default {
             });
         }, 500),
         handleAdd() {
-            this.showDialog = true;
-            this.title = "新增";
+            this.$router.push('/skuAdd');
         },
         handleShow() {
             this.showDialog = false;
         },
         handleEdit(row) {
-            this.title = "編輯";
-            this.showDialog = true;
             this.row = _.cloneDeep(row);
+            this.$router.push({
+                name:'skuEdit',
+                query: { data: JSON.stringify(this.row) }
+            });
         },
         handleSize(val) {
             if (val.includes("ama")) {
@@ -176,9 +176,6 @@ export default {
                 this.priceShow = false;
             }
         }
-    },
-    components: {
-        directiveDialog
     }
 };
 </script>

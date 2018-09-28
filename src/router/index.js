@@ -4,6 +4,8 @@ import nav from '@/common/nav'
 import login from '@/common/login'
 
 import skuList from '@/components/sku/skuList'
+import skuAdd from '@/components/sku/skuAdd'
+import skuEdit from '@/components/sku/skuEdit'
 
 import wowcherOrderList from '@/components/wowcher/wowcherOrder/wowcherOrderList'
 import wowcherTrackingStatus from '@/components/wowcher/wowcherOrder/wowcherTrackingStatus'
@@ -72,6 +74,22 @@ let router = new VueRouter({
           component: skuList,
           meta: {
             keepAlive: true
+          }
+        },
+        {
+          name:'skuAdd',
+          path: '/skuAdd',
+          component: skuAdd,
+          meta: {
+            sign:'sku'
+          }
+        },
+        {
+          name:'skuEdit',
+          path: '/skuEdit',
+          component: skuEdit,
+          meta: {
+            sign:'sku'
           }
         },
         {
