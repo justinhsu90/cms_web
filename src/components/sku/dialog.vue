@@ -37,7 +37,7 @@
         <el-form-item label="圖片" prop="image" :show-message="showMessage">
           <el-checkbox v-if="title=='編輯'" v-model="imageStatus"></el-checkbox>
           <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
-            <img v-if="form.image" :src="form.image" class="avatar">
+            <img v-if="base64" :src="base64" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -205,7 +205,8 @@ export default {
             deprecatedSkuShow: false,
             priceShow: false,
             trueSku: true,
-            image: ""
+            image: "",
+            base64:""
         };
     },
     mounted() {
@@ -280,8 +281,9 @@ export default {
                 return isJPG;
             }
         },
-        handleAvatarSuccess(file) {
+        handleAvatarSuccess(file,fileList) {
             let url = URL || webkitURL;
+            this.form.image = file.raw;
             let blob = url.createObjectURL(file.raw);
             let canvas = document.createElement("canvas");
             let image = document.createElement("img");
@@ -293,7 +295,7 @@ export default {
                 let cas = canvas.getContext("2d");
                 cas.drawImage(image, 0, 0);
                 let base64 = canvas.toDataURL(file.raw.type);
-                this.form.image = base64;
+                this.base64 = base64;
             });
         },
         handleCancel() {
@@ -395,7 +397,6 @@ export default {
                                     "http://60.251.57.138:8000/data-server/" +
                                     this.url;
                                 request.open("POST", url);
-                                request.send(formData);
                                 request.onreadystatechange = () => {
                                     if (
                                         request.readyState == 4 &&
@@ -415,6 +416,7 @@ export default {
                                         this.$message.warning("編輯失敗");
                                     }
                                 };
+                                request.send(formData);
                             }
                         });
                     } else {
@@ -444,7 +446,6 @@ export default {
                         let url =
                             "http://60.251.57.138:8000/data-server/" + this.url;
                         request.open("POST", url);
-                        request.send(formData);
                         request.onreadystatechange = () => {
                             if (
                                 request.readyState == 4 &&
@@ -461,6 +462,8 @@ export default {
                                 this.$message.warning("新增失敗");
                             }
                         };
+                        request.send(formData);
+                        
                     }
                 });
             });
