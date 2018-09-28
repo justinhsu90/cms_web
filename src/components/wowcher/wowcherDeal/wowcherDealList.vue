@@ -28,17 +28,18 @@
                     <el-table-column min-width="110" label="Product ID" prop="productId" sortable="custom"></el-table-column>
                     <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
                     <el-table-column min-width="70" label="國家" prop="country" sortable="custom"></el-table-column>
+                    <el-table-column min-width="100" label="SKU" prop="sku" sortable="custom"></el-table-column>
                     <el-table-column min-width="250" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
                     <el-table-column min-width="110" label="Final Price" prop="finalPrice" sortable="custom">
                         <template slot-scope="scope">
                             {{scope.row.finalPrice | formatToYuan}}&nbsp;{{scope.row.currency}}
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom">
+                    <!-- <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom">
                         <template slot-scope="scope">
                             {{scope.row.salePrice | formatToYuan}}&nbsp;{{scope.row.currency}}
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column min-width="90" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
                     <el-table-column width="80" label="動作" fixed="right">
                         <template slot-scope="scope">
@@ -63,6 +64,7 @@ export default {
             tableData: [],
             condition: [],
             searchAccount: "",
+            sku: "",
             searchAccountOption: [],
             searchCountry: "",
             searchCountryOption: [],

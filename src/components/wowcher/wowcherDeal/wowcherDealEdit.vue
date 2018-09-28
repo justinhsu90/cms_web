@@ -49,12 +49,17 @@
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="10">
+             <el-col :span="5">
+              <el-form-item label="SKU">
+              <el-input v-model="v.sku"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="7">
               <el-form-item label="產品中文申報名稱">
               <el-input v-model="v.declareNameChinese"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="14">
+             <el-col :span="10">
               <el-form-item label="產品英文申報名稱">
               <el-input v-model="v.declareNameEnglish"></el-input>
               </el-form-item>
@@ -134,7 +139,6 @@ export default {
       formData: {
         data: [
           {
-            SKU: "",
             isPurchased: false,
             sku: "",
             purchaseId:"",
@@ -155,6 +159,7 @@ export default {
     this.formData.data[0].country = data.country;
     this.formData.data[0].account = data.account;
     this.formData.data[0].productId = data.productId; 
+    this.formData.data[0].sku = data.sku; 
     this.formData.data[0].dealId = data.dealId;
     this.formData.data[0].productName = data.productName;
     this.formData.data[0].productSpec = data.productSpec;
