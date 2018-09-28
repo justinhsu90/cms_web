@@ -40,7 +40,7 @@
             </el-col>
 
              <el-col :span="16">
-              <el-form-item label="產品名稱">
+              <el-form-item label="產品名稱 (完整Wowcher原名)">
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
@@ -49,13 +49,18 @@
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="10">
-              <el-form-item label="產品中文申報名稱">
+             <el-col :span="5">
+              <el-form-item label="SKU">
+              <el-input v-model="v.sku"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="7">
+              <el-form-item label="產品申報名稱(中文)">
               <el-input v-model="v.declareNameChinese"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="14">
-              <el-form-item label="產品英文申報名稱">
+             <el-col :span="10">
+              <el-form-item label="產品申報名稱(英文)">
               <el-input v-model="v.declareNameEnglish"></el-input>
               </el-form-item>
             </el-col>
@@ -114,8 +119,9 @@ export default {
       formData: {
         data: [
           {
-             dealId: "",
+        dealId: "",
         productId: "",
+        sku: "",
         productName: "",
         productSpec: "",
         currency: "",
@@ -142,6 +148,7 @@ export default {
     handleAdd() {
       let obj = {
         dealId: "",
+        sku: "",
         productId: "",
         productName: "",
         productSpec: "",

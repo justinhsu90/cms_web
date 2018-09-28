@@ -61,7 +61,7 @@
                                 <th>銷貨Id</th>
                                 <th>SKU</th>
                                 <th>產品名稱</th>
-                                <th>銷貨金額</th>
+                                <th>銷貨金額/個</th>
                                 <th>銷貨數量</th>
                                 <th>銷貨總金額</th>                                
                             </tr>
