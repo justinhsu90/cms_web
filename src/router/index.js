@@ -144,7 +144,7 @@ let router = new VueRouter({
           path: '/wowcherDealEdit',
           component: wowcherDealEdit,
           meta: {
-            sign: 'wowcher'
+            sign: 'wowcherDealList'
           }
         },
         {
@@ -152,7 +152,7 @@ let router = new VueRouter({
           path: '/wowcherDealAdd',
           component: wowcherDealAdd,
           meta: {
-            sign: 'wowcher'
+            sign: 'wowcherDealList'
           }
         },
         {

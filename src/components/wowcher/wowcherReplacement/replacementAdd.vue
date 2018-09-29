@@ -15,12 +15,12 @@
           </el-row>
           <el-row :gutter="20">
             <el-col :span="4">
-              <el-form-item label="手動發貨 (Y or N)">
+              <el-form-item label="手動發貨 (Y or N)" prop="isManual" :rules="{required:true}">
                 <el-input v-model="v.isManual"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="Wowcher Code">
+              <el-form-item label="Wowcher Code" prop="wowcherCode" :rules="{required:true}">
                 <el-input v-model="v.wowcherCode"></el-input>
               </el-form-item>
             </el-col>
@@ -106,7 +106,7 @@ export default {
             formData: {
                 data: [
                     {
-                        isManual: "",
+                        isManual: "N",
                         wowcherCode: "",
                         ShipmentProductName: "",
                         Note: "",

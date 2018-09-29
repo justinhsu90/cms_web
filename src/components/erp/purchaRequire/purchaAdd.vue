@@ -29,7 +29,7 @@
             </el-col>
             <el-col :span="3">
               <el-form-item label="採購類型">
-              <el-select  placeholder="類型"  clearable>
+              <el-select v-model="v.purchaseType" placeholder="類型"  clearable>
             </el-select>
             </el-form-item>
             </el-col>
