@@ -15,93 +15,75 @@
                 <img :src="detectorURL" v-if="showDetector" style="width:100px;height:100px;position:absolute;top:0px;right:25%" alt="">
         </div>
                 <el-form-item label="New SKU" prop="newSku">
-                    <el-checkbox v-model="trueNewSku"></el-checkbox>
                     <el-input v-model="form.newSku" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="商品名稱" prop="productName" :rules="{required:true}">
-                    <el-checkbox v-model="trueProductName"></el-checkbox>
                     <el-input v-model="form.productName" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
-                    <el-checkbox v-model="imageStatus"></el-checkbox>
                     <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
                         <img v-if="base64" :src="base64" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
                 <el-form-item label="狀態：" prop="status" class="inline">
-                    <el-checkbox v-model="trueStatus"></el-checkbox>
                     <el-input v-model="form.status" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="採購成本 (RMB)：" prop="priceRMB">
-                    <el-checkbox v-model="priceShow"></el-checkbox>
                     <el-input style="width:20%" v-model="form.priceRMB"></el-input>
                 </el-form-item>
         </el-form>
 
         <el-form ref="form3" :model="form" label-position="top">
-            <el-form-item label="Amazon 出貨尺寸" style="margin-bottom:0px">
-                <template slot="label">
-                    <span>Amazon尺寸</span> &nbsp;&nbsp;&nbsp;
-                    <el-switch v-model="amaShow"></el-switch>
-                </template>
-            </el-form-item>
             <el-row :gutter="20">
-                <el-col :span="4" v-if="amaShow">
+                <el-col :span="4" >
                     <el-form-item label="Amazon 長(CM)" prop="amazonLengthCM">
                         <el-input v-model="form.amazonLengthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" v-if="amaShow">
+                <el-col :span="4">
                     <el-form-item label="Amazon 寬(CM)" prop="amazonWidthCM">
                         <el-input v-model="form.amazonWidthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" v-if="amaShow">
+                <el-col :span="4">
                     <el-form-item label="Amazon 高(CM))" prop="amazonHeightCM">
                         <el-input v-model="form.amazonHeightCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" v-if="amaShow">
+                <el-col :span="4" >
                     <el-form-item label="Amazon 重(kg)" prop="amazonWeightKG">
                         <el-input v-model="form.amazonWeightKG"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item label="小包出貨尺寸" style="margin-bottom:0px">
-                <template slot="label">
-                    <span>小包尺寸</span>&nbsp;&nbsp;&nbsp;
-                    <el-switch v-model="pricalShow"></el-switch>
-                </template>
-            </el-form-item>
             <el-row :gutter="20">
-                <el-col :span="4" v-if="pricalShow">
+                <el-col :span="4" >
                     <el-form-item label="小包 長(CM)" prop="parcelLengthCM">
                         <el-input v-model="form.parcelLengthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" v-if="pricalShow">
+                <el-col :span="4" >
                     <el-form-item label="小包 寬(CM)" prop="parcelWidthCM">
                         <el-input v-model="form.parcelWidthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" v-if="pricalShow">
+                <el-col :span="4" >
                     <el-form-item label="小包 高(CM)" prop="parcelHeightCM">
                         <el-input v-model="form.parcelHeightCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" v-if="pricalShow">
+                <el-col :span="4">
                     <el-form-item label="小包 重(kg)" prop="parcelWeightKG">
                         <el-input v-model="form.parcelWeightKG"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item label="已停用 SKU：" prop="deprecatedSKU" :show-message="deprecatedSkuShow">
+            <el-form-item label="已停用 SKU：" prop="deprecatedSKU">
                 <template slot="label">
                     <span>Deprecated SKU：</span>
-                    <el-switch v-model="deprecatedSkuShow"></el-switch>
                 </template>
-                <el-input type="textarea" rows='4' v-if="deprecatedSkuShow" v-model="form.deprecatedSKU" style="width:70%"></el-input>
+                <el-input type="textarea" rows='4' v-model="form.deprecatedSKU" style="width:70%"></el-input>
             </el-form-item>
             <el-button @click="handleConfirm" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">更新</el-button>
         </el-form>
@@ -117,11 +99,7 @@ export default {
             searchValue: "IT",
             base64: "",
             showDetector: false,
-            trueStatus: false,
-            trueProductName: false,
-            imageStatus: false,
             detectorURL: "../../static/img/1.png",
-            trueNewSku: false,
             searchOptions: [],
             submitLoading: false,
             form: {
@@ -176,10 +154,6 @@ export default {
             showMessage: true,
             autoShowMessage: true,
             skuShowMessage: true,
-            amaShow: false,
-            pricalShow: false,
-            deprecatedSkuShow: false,
-            priceShow: false,
             trueSku: true,
             image: "",
             base64: ""
@@ -297,10 +271,6 @@ export default {
                     if (action) {
                         this.submitLoading = true;
                         let obj = {
-                            trueStatus: true,
-                            trueProductName: true,
-                            imageStatus: true,
-                            trueNewSku: true
                         };
                         let value = {
                             data: []
@@ -310,27 +280,19 @@ export default {
                         } else {
                             obj.sku = this.form.sku;
                         }
-                        if (this.amaShow) {
                             obj.amazonWidthCM = this.form.amazonWidthCM;
                             obj.amazonHeightCM = this.form.amazonHeightCM;
                             obj.amazonWeightKG = this.form.amazonWeightKG;
                             obj.amazonLengthCM = this.form.amazonLengthCM;
-                        }
 
-                        if (this.pricalShow) {
                             obj.parcelWidthCM = this.form.parcelWidthCM;
                             obj.parcelHeightCM = this.form.parcelHeightCM;
                             obj.parcelWeightKG = this.form.parcelWeightKG;
                             obj.parcelLengthCM = this.form.parcelLengthCM;
-                        }
 
-                        if (this.deprecatedSkuShow) {
                             obj.deprecatedSKU = this.form.deprecatedSKU;
-                        }
 
-                        if (this.priceShow) {
                             obj.priceRMB = this.form.priceRMB;
-                        }
 
                         obj.productName = this.form.productName;
                         obj.status = this.form.status;
