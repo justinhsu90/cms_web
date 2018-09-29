@@ -13,7 +13,7 @@
                     <el-input :disabled="true" v-model.trim="form.sku" style="width:50%;" @blur="handleInspect"></el-input>
                 </el-form-item>
                 <img :src="detectorURL" v-if="showDetector" style="width:100px;height:100px;position:absolute;top:0px;right:25%" alt="">
-        </div>
+            </div>
                 <el-form-item label="New SKU" prop="newSku">
                     <el-input v-model="form.newSku" style="width:50%"></el-input>
                 </el-form-item>
@@ -29,53 +29,84 @@
                 <el-form-item label="狀態：" prop="status" class="inline">
                     <el-input v-model="form.status" style="width:50%"></el-input>
                 </el-form-item>
-                <el-form-item label="採購成本 (RMB)：" prop="priceRMB">
-                    <el-input style="width:20%" v-model="form.priceRMB"></el-input>
-                </el-form-item>
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <el-form-item label="採購成本 (RMB)：" prop="priceRMB">
+                            <el-input  v-model="form.priceRMB"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="採購幣別：" prop="productCostCurrency">
+                            <el-input  v-model="form.productCostCurrency"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
         </el-form>
 
-        <el-form ref="form3" :model="form" label-position="top">
+        <el-form ref="form3" :model="form" label-position="left" label-width="150px">
             <el-row :gutter="20">
-                <el-col :span="4" >
+                <el-col :span=6>
                     <el-form-item label="Amazon 長(CM)" prop="amazonLengthCM">
                         <el-input v-model="form.amazonLengthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="6">
                     <el-form-item label="Amazon 寬(CM)" prop="amazonWidthCM">
                         <el-input v-model="form.amazonWidthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="6">
                     <el-form-item label="Amazon 高(CM))" prop="amazonHeightCM">
                         <el-input v-model="form.amazonHeightCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" >
+                <el-col :span="6">
                     <el-form-item label="Amazon 重(kg)" prop="amazonWeightKG">
                         <el-input v-model="form.amazonWeightKG"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="4" >
+                <el-col :span="6">
                     <el-form-item label="小包 長(CM)" prop="parcelLengthCM">
                         <el-input v-model="form.parcelLengthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" >
+                <el-col :span="6">
                     <el-form-item label="小包 寬(CM)" prop="parcelWidthCM">
                         <el-input v-model="form.parcelWidthCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4" >
+                <el-col :span="6">
                     <el-form-item label="小包 高(CM)" prop="parcelHeightCM">
                         <el-input v-model="form.parcelHeightCM"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="6">
                     <el-form-item label="小包 重(kg)" prop="parcelWeightKG">
                         <el-input v-model="form.parcelWeightKG"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="商品 長(CM)" prop="productLengthCM">
+                        <el-input v-model="form.productLengthCM"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="商品 寬(CM)" prop="productWidthCM">
+                        <el-input v-model="form.productWidthCM"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="商品 高(CM)" prop="productHeightCM">
+                        <el-input v-model="form.productHeightCM"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="商品 重(kg)" prop="productWeightKG">
+                        <el-input v-model="form.productWeightKG"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -117,8 +148,13 @@ export default {
                 parcelHeightCM: "",
                 parcelWeightKG: "",
                 parcelLengthCM: "",
+                productWidthCM: "",
+                productHeightCM: "",
+                productWeightKG: "",
+                productLengthCM: "",
                 deprecatedSKU: "",
-                priceRMB: ""
+                priceRMB: "",
+                productCostCurrency:""
             },
             skuValidate: {
                 required: true,
@@ -169,7 +205,7 @@ export default {
         }).then(res => {
             this.searchOptions = _.cloneDeep(res);
         });
-        let data = JSON.parse(this.$route.query.data);  
+        let data = JSON.parse(this.$route.query.data);
         this.url = "sku/update";
         this.form.image = data.imageURL;
         this.base64 = data.imageURL;
@@ -186,11 +222,15 @@ export default {
         this.form.parcelHeightCM = data.parcelHeightCM;
         this.form.parcelWeightKG = data.parcelWeightKG;
         this.form.parcelLengthCM = data.parcelLengthCM;
+        this.form.productWidthCM = data.productWidthCM;
+        this.form.productHeightCM = data.productHeightCM;
+        this.form.productWeightKG = data.productWeightKG;
+        this.form.productLengthCM = data.productLengthCM;
+        this.form.productCostCurrency = data.productCostCurrency;
 
         this.form.deprecatedSKU = data.deprecatedSKU;
 
         this.form.priceRMB = data.priceRMB;
-        
     },
     watch: {
         "form.autoSku"(newVal, oldVal) {
@@ -211,9 +251,7 @@ export default {
         }
     },
     methods: {
-        handleInspect(){
-            
-        },
+        handleInspect() {},
         goBack() {
             this.$router.push("/sku");
         },
@@ -270,8 +308,7 @@ export default {
                 this.$refs["form3"].validate((action, dom) => {
                     if (action) {
                         this.submitLoading = true;
-                        let obj = {
-                        };
+                        let obj = {};
                         let value = {
                             data: []
                         };
@@ -280,19 +317,25 @@ export default {
                         } else {
                             obj.sku = this.form.sku;
                         }
-                            obj.amazonWidthCM = this.form.amazonWidthCM;
-                            obj.amazonHeightCM = this.form.amazonHeightCM;
-                            obj.amazonWeightKG = this.form.amazonWeightKG;
-                            obj.amazonLengthCM = this.form.amazonLengthCM;
+                        obj.amazonWidthCM = this.form.amazonWidthCM;
+                        obj.amazonHeightCM = this.form.amazonHeightCM;
+                        obj.amazonWeightKG = this.form.amazonWeightKG;
+                        obj.amazonLengthCM = this.form.amazonLengthCM;
 
-                            obj.parcelWidthCM = this.form.parcelWidthCM;
-                            obj.parcelHeightCM = this.form.parcelHeightCM;
-                            obj.parcelWeightKG = this.form.parcelWeightKG;
-                            obj.parcelLengthCM = this.form.parcelLengthCM;
+                        obj.parcelWidthCM = this.form.parcelWidthCM;
+                        obj.parcelHeightCM = this.form.parcelHeightCM;
+                        obj.parcelWeightKG = this.form.parcelWeightKG;
+                        obj.parcelLengthCM = this.form.parcelLengthCM;
 
-                            obj.deprecatedSKU = this.form.deprecatedSKU;
+                        obj.productWidthCM = this.form.productWidthCM;
+                        obj.productHeightCM = this.form.productHeightCM;
+                        obj.productWeightKG = this.form.productWeightKG;
+                        obj.productLengthCM = this.form.productLengthCM;
 
-                            obj.priceRMB = this.form.priceRMB;
+                        obj.deprecatedSKU = this.form.deprecatedSKU;
+
+                        obj.priceRMB = this.form.priceRMB;
+                        obj.productCostCurrency = this.form.productCostCurrency;
 
                         obj.productName = this.form.productName;
                         obj.status = this.form.status;
@@ -305,6 +348,19 @@ export default {
                         if (this.form.image) {
                             formData.append("uploadfile", this.form.image);
                         }
+                        // axios({
+                        //     url:this.url,
+                        //     method:'put',
+                        //     data:formData,
+                        //     headers: {
+                        //         'Content-type': 'multipart/form-data'
+                        //     },
+                        // }).then((res)=>{
+                        //         this.submitLoading = false;
+                        //         this.$message.success("編輯成功");
+                        //         this.goBack();
+                        //         this.Bus.$emit('refresh')
+                        // })
                         var request = new XMLHttpRequest();
                         let url =
                             "http://60.251.57.138:8000/data-server/" + this.url;
@@ -317,7 +373,7 @@ export default {
                                 this.submitLoading = false;
                                 this.$message.success("編輯成功");
                                 this.goBack();
-                                this.Bus.$emit('refresh')
+                                this.Bus.$emit("refresh");
                             }
                             if (request.status != 200) {
                                 this.$message.warning("編輯失敗");
@@ -333,6 +389,9 @@ export default {
 </script>
 <style lang="scss">
 #skuAdd {
+    .el-form-item {
+        margin-bottom: 18px;
+    }
     .heade {
         font-size: 16px;
         color: #45a2ff;
@@ -340,7 +399,7 @@ export default {
     .heade a {
         color: #45a2ff;
     }
-    .el-switch__input:focus~.el-switch__core{
+    .el-switch__input:focus ~ .el-switch__core {
         outline: none !important;
     }
     h3 {
