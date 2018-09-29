@@ -36,11 +36,17 @@
                 <el-form-item label="商品名稱" prop="productName" :rules="{required:true}">
                     <el-input v-model="form.productName" style="width:50%"></el-input>
                 </el-form-item>
+                <el-form-item label="中文名稱" prop="productNameChinese" :rules="{required:true}">
+                    <el-input v-model="form.productNameChinese" style="width:50%"></el-input>
+                </el-form-item>
                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
                     <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
                         <img v-if="base64" :src="base64" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
+                </el-form-item>
+                <el-form-item label="狀態：" prop="status" class="inline">
+                 <el-input type="textarea" rows="4" v-model="form.status" style="width:60%"></el-input>
                 </el-form-item>
                 <el-row :gutter="20">
                     <el-col :span="6">
@@ -122,8 +128,11 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-form-item label="狀態：" prop="status" class="inline">
-                <el-input type="textarea" rows="4" v-model="form.status" style="width:60%"></el-input>
+            <el-form-item label="已停用 SKU：" prop="deprecatedSKU">
+                <template slot="label">
+                    <span>已停用 SKU：：</span>
+                </template>
+                <el-input type="textarea" rows='4' v-model="form.deprecatedSKU" style="width:70%"></el-input>
             </el-form-item>
             <el-button @click="handleConfirm" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
         </el-form>
@@ -166,6 +175,7 @@ export default {
                 productHeightCM: "",
                 productWeightKG: "",
                 productLengthCM: "",
+                productNameChinese:"",
                 deprecatedSKU: "",
                 priceRMB: "",
                 productCostCurrency:""
@@ -338,6 +348,8 @@ export default {
                         obj.productLengthCM = this.form.productLengthCM;
                         obj.priceRMB = this.form.priceRMB;
                         obj.productCostCurrency = this.form.productCostCurrency;
+                        obj.productNameChinese = this.form.productNameChinese;
+                        obj.deprecatedSKU = this.form.deprecatedSKU;
                         value.data.push(obj);
                         value = JSON.stringify(value);
                         this.submitLoading = true;
