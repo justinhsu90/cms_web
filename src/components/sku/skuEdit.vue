@@ -29,13 +29,13 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="狀態：" prop="status" class="inline">
+                <!-- <el-form-item label="狀態：" prop="status" class="inline">
                     <el-input v-model="form.status" style="width:50%"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-row :gutter="20">
                     <el-col :span="6">
-                        <el-form-item label="採購成本 (RMB)：" prop="priceRMB">
-                            <el-input  v-model="form.priceRMB"></el-input>
+                        <el-form-item label="採購成本 (RMB)：" prop="productCost">
+                            <el-input  v-model="form.productCost"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -59,7 +59,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item label="Amazon 高(CM))" prop="amazonHeightCM">
+                    <el-form-item label="Amazon 高(CM)" prop="amazonHeightCM">
                         <el-input v-model="form.amazonHeightCM"></el-input>
                     </el-form-item>
                 </el-col>
@@ -156,7 +156,7 @@ export default {
                 productWeightKG: "",
                 productLengthCM: "",
                 deprecatedSKU: "",
-                priceRMB: "",
+                productCost: "",
                 productCostCurrency:""
             },
             skuValidate: {
@@ -233,7 +233,7 @@ export default {
         this.form.productNameChinese = data.productNameChinese;
         this.form.deprecatedSKU = data.deprecatedSKU;
 
-        this.form.priceRMB = data.priceRMB;
+        this.form.productCost = data.productCost;
     },
     watch: {
         "form.autoSku"(newVal, oldVal) {
@@ -334,7 +334,7 @@ export default {
                         obj.productHeightCM = this.form.productHeightCM;
                         obj.productWeightKG = this.form.productWeightKG;
                         obj.productLengthCM = this.form.productLengthCM;
-                        obj.priceRMB = this.form.priceRMB;
+                        obj.productCost = this.form.productCost;
                         obj.productCostCurrency = this.form.productCostCurrency;
                         obj.productNameChinese = this.form.productNameChinese;
                         obj.deprecatedSKU = this.form.deprecatedSKU;      
@@ -364,6 +364,7 @@ export default {
                         // })
                         var request = new XMLHttpRequest();
                         let url =
+                            // "http://127.0.0.1:8080/data-server/" + this.url;
                             "http://60.251.57.138:8000/data-server/" + this.url;
                         request.open("POST", url);
                         request.onreadystatechange = () => {

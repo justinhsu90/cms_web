@@ -8,7 +8,7 @@
                     <el-select placeholder="狀態" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                         <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
                     </el-select>
-                </div>
+                </div>  
                 <div style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;" @click="handleSearch" class="el-input-group__append">
                     <i class="el-icon-search"></i>
                 </div>
@@ -23,7 +23,7 @@
                     <el-table-column min-width="110" label="發貨時間" prop="shipoutTime" sortable="custom"></el-table-column>
                     <el-table-column min-width="50" label="手動" prop="isManual"></el-table-column>
                     <el-table-column min-width="100" label="單號" prop="trackingNumber"></el-table-column>
-                    <el-table-column min-width="100" label="備註" prop="note"></el-table-column>
+                    <!-- <el-table-column min-width="100" label="備註" prop="note"></el-table-column> -->
                     <el-table-column min-width="200" label="發貨品名" prop="shipmentProductName"></el-table-column>
                     <el-table-column width="80" label="動作" fixed="right">
                         <template slot-scope="scope">

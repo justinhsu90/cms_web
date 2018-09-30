@@ -33,19 +33,22 @@
                 <span>{{scope.row.parcelLengthCM}}</span>x<span>{{scope.row.parcelWidthCM}}</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
               </template>
             </el-table-column>
-            <el-table-column min-width="80"  label="產品(長x寬x高/重)" prop="productLengthCM">
+            <!-- <el-table-column min-width="80"  label="產品(長x寬x高/重)" prop="productLengthCM">
               <template slot-scope="scope">
                 <span>{{scope.row.productLengthCM}}</span>x<span>{{scope.row.productWidthCM}}</span>x<span>{{scope.row.productHeightCM}}cm</span>/<span>{{scope.row.productWeightKG}}kg</span>
               </template>
-            </el-table-column>
+            </el-table-column> -->
           <template v-if="deprecatedSkuShow">
             <el-table-column min-width="100" label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
           </template>
           <template v-if="priceShow">
-            <el-table-column min-width="70" label="成本 (RMB)" prop="priceRMB" key="10">
-              <template slot-scope="scope">
-                <span>{{scope.row.priceRMB}}</span>
-              </template>
+            <el-table-column min-width="70" label="成本" prop="productCost" key="10">
+                 <template slot-scope="scope">
+              {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.productCostCurrency}}
+            </template>
+              <!-- <template slot-scope="scope">
+                <span>{{scope.row.productCost}}</span>
+              </template> -->
             </el-table-column>
           </template>
           <el-table-column class-name="tableColumn" label="圖片" width="70" align="center">
