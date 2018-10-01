@@ -6,7 +6,7 @@
                 <a href="javascript:void(0)" @click="goBack">返回</a>
             </div>
             <br>
-            <h2>编辑銷貨單
+            <h2>编辑銷貨單 <span>&nbsp;&nbsp;订单ID:{{formData.saleId}}</span>
             </h2>
             <br>
             <el-form ref="form" :model="formData" :rules="rules">
@@ -49,7 +49,6 @@
                 <div>
                     <table cellspacing="0" cellpadding="0">
                         <colgroup>
-                            <col width="40">
                             <col width="100">
                             <col width="250">
                             <col width="80">
@@ -58,7 +57,6 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>銷貨Id</th>
                                 <th>SKU</th>
                                 <th>產品名稱</th>
                                 <th>銷貨金額/個</th>
@@ -68,7 +66,6 @@
                         </thead>
                         <tbody>
                             <tr v-for="(v,i) in formData.data" :key="i">
-                                <td>{{formData.saleId}}</td>
                                 <td>
                                     <el-form-item :prop="'data.'+i+'.sku'" :rules="requredRule">
                                         <el-input v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
@@ -97,7 +94,6 @@
                                 <td>
                                     总计
                                 </td>
-                                <td></td>  
                                 <td></td>   
                                 <td>
                                     {{totalAmount}}

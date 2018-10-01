@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>编辑採購單
+      <h2>编辑採購單 <span>&nbsp;&nbsp;订单ID:{{purchaseOrderId}}</span>
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -59,7 +59,6 @@
         <div id="table">
           <table cellspacing="0" cellpadding="0">
             <colgroup>
-              <col width="40">
               <col width="100">
               <col width="250">
               <col width="80">
@@ -70,7 +69,6 @@
                         </colgroup>
             <thead>
               <tr>
-                <th>序號</th>
                 <th>SKU </th>
                 <th>產品名稱</th>
                 <th>該品金額/個</th>
@@ -82,7 +80,6 @@
             </thead>
             <tbody>
               <tr v-for="(v,i) in formData.data" :key="i">
-                <td>{{i+1}}</td>
                 <td>
                   <el-form-item label="" :prop="'data.'+i+'.sku'" :rules="requredRule">
                     <el-input v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
@@ -119,7 +116,6 @@
                 <td>
                   总计
                 </td>
-                <td></td>
                 <td></td>
                 <td>
                   {{totalPurchasedAmount | formatToMoney}}
@@ -166,6 +162,7 @@ export default {
         return {
             Div:U.Math.Div,
             Mul:U.Math.Mul,
+            purchaseOrderId:'',
             showQuerySku: false,
             submitLoading: false,
             loading: false,
@@ -243,6 +240,7 @@ export default {
             this.currency = _.cloneDeep(resFour);
             this.purchasePlatform = _.cloneDeep(resOne);
             let data = JSON.parse(this.$route.query.data);
+            this.purchaseOrderId = data.purchaseOrderId;
             this.formData.data[0].sku = data.sku;
             this.formData.data[0].productName = data.productName;
             this.formData.data[0].productSpec = data.productSpec;
