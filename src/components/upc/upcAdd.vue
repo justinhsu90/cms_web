@@ -17,7 +17,7 @@
               </el-form-item>
             </el-col>
              <el-col :span="4">
-              <el-form-item label="使用 SKU" prop="subSku" :rules="{required:true}"> 
+              <el-form-item label="使用 SKU" :prop="'data.'+ i +'.subSku'" :rules="{required:true}"> 
               <el-input v-model="v.subSku"></el-input>
               </el-form-item>
             </el-col>
@@ -34,17 +34,17 @@
         </el-row>
         <el-row :gutter="20">
             <el-col :span="4">
-              <el-form-item label="平台" prop="platform" :rules="{required:true}">
+              <el-form-item label="平台" :prop="'data.' + i + '.platform'" :rules="{required:true}">
               <el-input v-model="v.platform"></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="4">
-              <el-form-item label="帳號" prop="account" :rules="{required:true}">
+              <el-form-item label="帳號" :prop="'data.' + i + '.account'" :rules="{required:true}">
               <el-input v-model="v.account"></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="4">
-              <el-form-item label="國家" prop="country" :rules="{required:true}">
+              <el-form-item label="國家" :prop="'data.'+i+'.country'" :rules="{required:true}">
               <el-input v-model="v.country"></el-input>
               </el-form-item>
             </el-col>
