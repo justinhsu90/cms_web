@@ -196,6 +196,7 @@
 <script>
 import querySku from "@/common/querySku";
 import { format } from "@/common/until/format";
+import U from "@/common/until/until";
 export default {
     name: "purchaseAdd",
     components: {
@@ -211,6 +212,7 @@ export default {
         });
 
         return {
+            Mul:U.Math.Mul,
             showQuerySku: false,
             submitLoading: false,
             loading: false,
@@ -399,7 +401,7 @@ export default {
                 ).format("YYYY-MM-DD");
                 v.purchaseType = this.formData.purchaseType;
                 v.purchasedPlatform = this.formData.purchasedPlatform;
-                v.purchasedTotalAmount = v.purchasedAmount * v.purchasedQuantity;
+                v.purchasedTotalAmount = this.Mul(v.purchasedAmount, v.purchasedQuantity);
                 v.purchaseOrderId = this.formData.purchaseOrderId;
                 v.purchasedBy = this.formData.purchasedBy;
                 v.currency = this.formData.currency;

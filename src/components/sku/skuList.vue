@@ -116,6 +116,11 @@ export default {
     methods: {  
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
+            if(this.fetchOption.where){
+                this.fetchCondition.order = "sku"
+            }else{
+                this.fetchCondition.order = "-AddedTime"
+            }
             axios({
                 url: this.fetchOption.url,
                 method: this.fetchOption.method,
