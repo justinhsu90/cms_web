@@ -125,6 +125,28 @@
                 </template>
                 <el-input type="textarea" rows='4' v-model="form.deprecatedSKU" style="width:70%"></el-input>
             </el-form-item>
+            <el-row :gutter="20">
+                <el-col :span="6">
+                    <el-form-item label="最後更新時間" prop="lastUpdatedTime">
+                        <el-input v-model="form.lastUpdatedTime" disabled></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="最後更新" prop="lastModifiedBy">
+                        <el-input v-model="form.lastModifiedBy" disabled></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="加入時間" prop="addedTime">
+                        <el-input v-model="form.addedTime" disabled></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="加入人" prop="addedBy">
+                        <el-input v-model="form.addedBy" disabled></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <el-button @click="handleConfirm" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">更新</el-button>
         </el-form>
     </div>
@@ -235,10 +257,14 @@ export default {
         this.form.productHeightCM = data.productHeightCM;
         this.form.productWeightKG = data.productWeightKG;
         this.form.productLengthCM = data.productLengthCM;
+        this.form.lastUpdatedTime = data.lastUpdatedTime;
+        this.form.lastModifiedBy = data.lastModifiedBy;
+        this.form.addedTime = data.addedTime;
+        this.form.addedBy = data.addedBy;
         this.form.productCostCurrency = data.productCostCurrency;
         this.form.productNameChinese = data.productNameChinese;
-        this.form.delcareNameChinese = data.delcareNameChinese;
-        this.form.delcareNameEnglish = data.delcareNameEnglish;
+        this.form.declareNameChinese = data.declareNameChinese;
+        this.form.declareNameEnglish = data.declareNameEnglish;
         this.form.deprecatedSKU = data.deprecatedSKU;
         this.form.productCost = data.productCost;
     },
@@ -344,10 +370,11 @@ export default {
                         obj.productCost = this.form.productCost;
                         obj.productCostCurrency = this.form.productCostCurrency;
                         obj.productNameChinese = this.form.productNameChinese;
-                        obj.delcareNameChinese = this.form.delcareNameChinese;
-                        obj.delcareNameEnglish = this.form.delcareNameEnglish;
+                        obj.declareNameChinese = this.form.declareNameChinese;
+                        obj.declareNameEnglish = this.form.declareNameEnglish;
                         obj.deprecatedSKU = this.form.deprecatedSKU;      
                         obj.productName = this.form.productName;
+
                         obj.status = this.form.status;
                         obj.newSku = this.form.newSku;
                         var formData = new FormData();

@@ -357,8 +357,8 @@ export default {
                         obj.productCost = this.form.productCost;
                         obj.productCostCurrency = this.form.productCostCurrency;
                         obj.productNameChinese = this.form.productNameChinese;
-                        obj.delcareNameChinese = this.form.delcareNameChinese;
-                        obj.delcareNameEnglish = this.form.delcareNameEnglish;
+                        obj.declareNameChinese = this.form.declareNameChinese;
+                        obj.declareNameEnglish = this.form.declareNameEnglish;
                         obj.deprecatedSKU = this.form.deprecatedSKU;
                         value.data.push(obj);
                         value = JSON.stringify(value);
