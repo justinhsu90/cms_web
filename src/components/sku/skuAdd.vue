@@ -59,10 +59,12 @@
                         <el-form-item label="採購成本：" prop="productCost">
                             <el-input  v-model="form.productCost"></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col> 
                     <el-col :span="6">
                         <el-form-item label="採購幣別：" prop="productCostCurrency">
-                            <el-input  v-model="form.productCostCurrency"></el-input>
+                              <el-select v-model="form.productCostCurrency">
+                                    <el-option v-for="(v,i) in costCurrency" :key="i" :label="v" :value="v"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -161,6 +163,7 @@ export default {
             detectorURL: "../../static/img/1.png",
             trueNewSku: false,
             searchOptions: [],
+            costCurrency:[],
             submitLoading: false,
             form: {
                 autoSku: "",
@@ -240,6 +243,16 @@ export default {
             }
         }).then(res => {
             this.searchOptions = _.cloneDeep(res);
+        });
+        
+        axios({
+            url: "sku/value/currency",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        }).then(res => {
+            this.costCurrency = _.cloneDeep(res.data);
         });
 
         this.url = "sku/add";
