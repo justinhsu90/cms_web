@@ -100,7 +100,7 @@ export default {
             fetchCondition: {
                 skip: 0,
                 limit: 15,
-                order: "productName"
+                order: "-AddedTime"
             },
             fetchOption: {
                 url: "sku/search",

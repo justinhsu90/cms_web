@@ -25,7 +25,7 @@
         </el-form>
         <el-form ref="form2" :model="form" label-position="left" label-width="150px">
             <div style="position:relative">
-                <el-form-item ref="formItemTwo" label="SKU" :rules="skuValidate" prop="sku">
+                <el-form-item ref="formItemTwo" label="SKU" prop="sku">
                     <el-input v-model.trim="form.sku" style="width:50%;" @blur="handleInspect"></el-input>
                 </el-form-item>
                 <img :src="detectorURL" v-if="showDetector" style="width:100px;height:100px;position:absolute;top:0px;right:25%" alt="">
@@ -33,11 +33,17 @@
                 <el-form-item label="New SKU" prop="newSku">
                     <el-input v-model="form.newSku" style="width:50%"></el-input>
                 </el-form-item>
-                <el-form-item label="商品名稱" prop="productName" :rules="{required:true}">
+                <el-form-item label="英文名稱" prop="productName" :rules="{required:true}">
                     <el-input v-model="form.productName" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="中文名稱" prop="productNameChinese" :rules="{required:true}">
                     <el-input v-model="form.productNameChinese" style="width:50%"></el-input>
+                </el-form-item>
+                 <el-form-item label="中文申報名" prop="declareNameChinese">
+                    <el-input v-model="form.declareNameChinese" style="width:50%"></el-input>
+                </el-form-item>
+                <el-form-item label="英文申報名" prop="declareNameEnglish">
+                    <el-input v-model="form.declareNameEnglish" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
                     <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
@@ -176,6 +182,8 @@ export default {
                 productWeightKG: "",
                 productLengthCM: "",
                 productNameChinese:"",
+                declareNameChinese:"",
+                declareNameEnglish:"",
                 deprecatedSKU: "",
                 productCost: "",
                 productCostCurrency:""
@@ -349,6 +357,8 @@ export default {
                         obj.productCost = this.form.productCost;
                         obj.productCostCurrency = this.form.productCostCurrency;
                         obj.productNameChinese = this.form.productNameChinese;
+                        obj.delcareNameChinese = this.form.delcareNameChinese;
+                        obj.delcareNameEnglish = this.form.delcareNameEnglish;
                         obj.deprecatedSKU = this.form.deprecatedSKU;
                         value.data.push(obj);
                         value = JSON.stringify(value);

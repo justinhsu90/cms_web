@@ -52,7 +52,7 @@
           
 
           </el-row>
-          <h3>出貨內容</h3>
+          <h3>出貨狀態</h3>
           <el-row :gutter="24">
           <el-col :span="6">
           <el-form-item label="發貨時間">    
@@ -64,7 +64,7 @@
                 <el-input v-model="data.trackingNo"></el-input>
           </el-form-item>
           </el-col>
-          <el-col :span="4"> 
+          <el-col :span="3"> 
           <el-form-item label="發貨方式">    
                 <el-input v-model="data.shippingMethod"></el-input>
           </el-form-item>  
@@ -74,7 +74,7 @@
                 <el-input v-model="data.agent"></el-input>
           </el-form-item>  
           </el-col>
-          <el-col :span="6">  
+          <el-col :span="7">  
           <el-form-item label="貨代平台單號">    
                 <el-input v-model="data.platformOrderId"></el-input>
           </el-form-item>  
@@ -82,17 +82,22 @@
           </el-row>
           <el-row :gutter="24">
           <h3>產品內容</h3>
-           <el-col :span="13"> 
+           <el-col :span="10"> 
           <el-form-item label="產品名稱">    
                 <el-input v-model="data.productName"></el-input>
           </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
           <el-form-item label="顏色">    
                 <el-input v-model="data.colour"></el-input>
           </el-form-item>  
           </el-col>
-          <el-col :span="7">
+          <el-col :span="3">
+          <el-form-item label="尺寸">    
+                <el-input v-model="data.size"></el-input>
+          </el-form-item>  
+          </el-col>
+          <el-col :span="8">
           <el-form-item label="Product Options">    
                 <el-input v-model="data.productOptions"></el-input>
           </el-form-item>  
@@ -180,6 +185,7 @@ export default {
         birthday: "",
         city: "",
         colour: "",
+        size: "",
         country: "",
         currency: "",
         customField: "",

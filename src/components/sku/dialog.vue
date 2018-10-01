@@ -394,7 +394,8 @@ export default {
                                 this.isLoading = true;
                                 var request = new XMLHttpRequest();
                                 let url =
-                                    "http://60.251.57.138:8000/data-server/" +
+                                    "http://127.0.0.1:8080/data-server/" +
+                                    // "http://60.251.57.138:8000/data-server/" +
                                     this.url;
                                 request.open("POST", url);
                                 request.onreadystatechange = () => {
@@ -444,7 +445,8 @@ export default {
                         this.isLoading = true;
                         var request = new XMLHttpRequest();
                         let url =
-                            "http://60.251.57.138:8000/data-server/" + this.url;
+                            // "http://60.251.57.138:8000/data-server/" + this.url;
+                            "http://127.0.0.1:8080/data-server/" + this.url;
                         request.open("POST", url);
                         request.onreadystatechange = () => {
                             if (

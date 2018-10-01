@@ -43,7 +43,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="產品規格">
-              <el-input v-model="v.productSpec"></el-input>
+              <el-input v-model="v.productSpec" disabled></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="5">
@@ -51,16 +51,16 @@
               <el-input v-model="v.sku"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="7">
-              <el-form-item label="產品中文申報名稱">
+             <!-- <el-col :span="7">
+              <el-form-item label="產品中文申報名稱 (產品類別名稱即可)">
               <el-input v-model="v.declareNameChinese"></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="10">
-              <el-form-item label="產品英文申報名稱">
+              <el-form-item label="產品英文申報名稱 (產品類別名稱即可)">
               <el-input v-model="v.declareNameEnglish"></el-input>
               </el-form-item>
-            </el-col>
+            </el-col> -->
 
            
            <el-col :span="3">
@@ -83,12 +83,12 @@
               <el-input v-model="v.currency" ></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="4">
+             <el-col :span="3">
               <el-form-item label="產品成本">
               <el-input v-model="v.productCost" ></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="4">
+             <el-col :span="3">
               <el-form-item label="產品成本幣別">
               <el-input v-model="v.productCostCurrency" ></el-input>
               </el-form-item>
