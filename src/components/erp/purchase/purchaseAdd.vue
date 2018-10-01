@@ -86,8 +86,8 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="3">
-                            <el-form-item label="該品金額" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="rules">
-                                <el-input v-model="v.purchasedTotalAmount"></el-input>
+                            <el-form-item label="該品金額" :prop="'data.'+i+'.purchasedAmount'" :rules="rules">
+                                <el-input v-model="v.purchasedAmount"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="3">
@@ -97,7 +97,7 @@
                         </el-col>
                         <el-col :span="3">
                             <el-form-item label="該品總金額">
-                                <el-input :disabled="true" :value="(Number(v.shippingCost) + Number(v.purchasedTotalAmount)) ? (Number(v.shippingCost) + Number(v.purchasedTotalAmount)).toFixed(2) : ''"></el-input>
+                                <el-input :disabled="true" :value="(Number(v.shippingCost) + Number(v.purchasedAmount)) ? (Number(v.shippingCost) + Number(v.purchasedAmount)).toFixed(2) : ''"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -141,8 +141,8 @@
                                     </el-form-item>
                                 </td>
                                 <td>
-                                    <el-form-item label="" :prop="'data.'+i+'.purchasedTotalAmount'" :rules="requredRule">
-                                        <el-input v-model.number="v.purchasedTotalAmount"></el-input>
+                                    <el-form-item label="" :prop="'data.'+i+'.purchasedAmount'" :rules="requredRule">
+                                        <el-input v-model.number="v.purchasedAmount"></el-input>
                                     </el-form-item>
                                 </td>
                                 <td>
@@ -156,7 +156,7 @@
                                     </el-form-item>
                                 </td>
                                 <td>
-                                    <span>{{ v.shippingCost + (v.purchasedTotalAmount * v.purchasedQuantity) | formatToMoney}}</span>
+                                    <span>{{ v.purchasedAmount * v.purchasedQuantity | formatToMoney}}</span>
                                 </td>
                                 <td>
                                     <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleDelete(i)">删除</el-button>
@@ -173,13 +173,13 @@
                                     {{totalPurchasedAmount | formatToMoney}}
                                 </td>
                                 <td>
-                                    {{totalPurchasedQuantity | formatToMoney}}
+                                    {{totalPurchasedQuantity}}
                                 </td>
                                 <td>
                                     {{totalShippingCost | formatToMoney}}
                                 </td>
                                 <td>
-                                    {{(totalPurchasedAmount * totalPurchasedQuantity) + totalShippingCost  | formatToMoney}}
+                                    {{ totalPurchasedAmount * totalPurchasedQuantity  | formatToMoney}}
                                 </td>
                                 <td></td>
                             </tr>
@@ -240,7 +240,7 @@ export default {
                         productName: "",
                         productSpec: "",
                         purchasedQuantity: "",
-                        purchasedTotalAmount: "",
+                        purchasedAmount:"",
                         note: "",
                         shippingCost: ""
                     }
@@ -305,7 +305,7 @@ export default {
                 total += Number(v.shippingCost);
             });
             if (total == 0) {
-                return 0;
+                return '';
             } else {
                 return total;
             }
@@ -313,10 +313,10 @@ export default {
         totalPurchasedAmount() {
             let total = 0;
             _.each(this.formData.data, v => {
-                total += Number(v.purchasedTotalAmount);
+                total += Number(v.purchasedAmount);
             });
             if (total == 0) {
-                return 0;
+                return '';
             } else {
                 return total;
             }
@@ -327,7 +327,7 @@ export default {
                 total += Number(v.purchasedQuantity);
             });
             if (total == 0) {
-                return 0;
+                return '';
             } else {
                 return total;
             }
@@ -382,7 +382,7 @@ export default {
                 productName: "",
                 productSpec: "",
                 purchasedQuantity: "",
-                purchasedTotalAmount: "",
+                purchasedAmount: "",
                 note: "",
                 shippingCost: ""
             };
@@ -399,10 +399,11 @@ export default {
                 ).format("YYYY-MM-DD");
                 v.purchaseType = this.formData.purchaseType;
                 v.purchasedPlatform = this.formData.purchasedPlatform;
-                v.purchasedAccount = this.formData.purchasedAccount;
+                v.purchasedTotalAmount = v.purchasedAmount * v.purchasedQuantity;
                 v.purchaseOrderId = this.formData.purchaseOrderId;
                 v.purchasedBy = this.formData.purchasedBy;
                 v.currency = this.formData.currency;
+                delete v.purchasedAmount
             });
             let obj = {
                 data

@@ -25,9 +25,9 @@
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column min-width="90" label="Deal ID" prop="dealId" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="Product ID" prop="productId" sortable="custom"></el-table-column>
+                    <el-table-column min-width="120" label="Product ID" prop="productId" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="帳號" prop="account" sortable="custom"></el-table-column>
-                    <el-table-column min-width="70" label="國家" prop="country" sortable="custom"></el-table-column>
+                    <el-table-column min-width="80" label="國家" prop="country" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="SKU" prop="sku" sortable="custom"></el-table-column>
                     <el-table-column min-width="250" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
                     <el-table-column min-width="250" label="產品規格" prop="productSpec" sortable="custom"></el-table-column>
