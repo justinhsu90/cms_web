@@ -6,7 +6,7 @@
                 <a href="javascript:void(0)" @click="goBack">返回</a>
             </div>
             <br>
-            <h2>编辑銷貨單 <span>&nbsp;&nbsp;订单ID:{{formData.saleId}}</span>
+            <h2>編輯銷貨單 <span>&nbsp;&nbsp;訂單ID:&nbsp;{{formData.saleId}}</span>
             </h2>
             <br>
             <el-form ref="form" :model="formData" :rules="rules">
@@ -57,6 +57,7 @@
                         </colgroup>
                         <thead>
                             <tr>
+                                <th>銷貨單號</th>
                                 <th>SKU</th>
                                 <th>產品名稱</th>
                                 <th>銷貨金額/個</th>
@@ -92,7 +93,7 @@
                             </tr>
                              <tr style="height:35px">
                                 <td>
-                                    总计
+                                    總計
                                 </td>
                                 <td></td>   
                                 <td>

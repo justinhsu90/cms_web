@@ -12,45 +12,45 @@
             <br>
             <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
                 <el-row :gutter="10">
-                    <el-col :span="2">
+                    <el-col :span="3">
                         <el-form-item label="採購類型" prop="purchaseType" :rules="rules">
                             <el-select v-model="formData.purchaseType">
                                 <el-option v-for="(value,i) in purchaseType" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="3">
                         <el-form-item label="採購平台" prop="purchasedPlatform" :rules="rules">
                             <el-select v-model="formData.purchasedPlatform">
                                 <el-option v-for="(value,i) in purchasePlatform" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="3">
                         <el-form-item label="採購帳號" prop="purchasedAccount" :rules="rules">
                             <el-select v-model="formData.purchasedAccount">
                                 <el-option v-for="(value,i) in purchaseAccount" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="3">
                         <el-form-item label="幣別" prop="currency" :rules="rules">
                             <el-select v-model="formData.currency">
                                 <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="3">
                         <el-form-item label="購買人員">
                             <el-input v-model="formData.purchasedBy"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="3">
+                    <el-col :span="5">
                         <el-form-item label="採購平台單號" prop="purchaseOrderId" :rules="rules">
                             <el-input v-model="formData.purchaseOrderId"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="3">
+                    <el-col :span="4">
                         <el-form-item label="採購時間" prop="purchasedTime" :rules="rules">
                             <el-date-picker style="width:100%" v-model="formData.purchasedTime" type="date" placeholder="選擇日期時間"> </el-date-picker>
                         </el-form-item>
@@ -120,10 +120,10 @@
                                 <th>序號</th>
                                 <th>SKU </th>
                                 <th>產品名稱</th>
-                                <th>該品金額/個</th>
+                                <th>單品金額</th>
                                 <th>採購數量</th>
-                                <th>該品運費(總金額)</th>
-                                <th>該品總金額</th>
+                                <th>該品總運費</th>
+                                <th>總金額</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -165,7 +165,7 @@
                             </tr>
                             <tr class="total">
                                 <td>
-                                    总计
+                                    總計
                                 </td>
                                 <td></td>
                                 <td></td>
