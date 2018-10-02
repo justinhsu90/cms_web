@@ -25,14 +25,14 @@
         </el-form>
         <el-form ref="form2" :model="form" label-position="left" label-width="150px">
             <div style="position:relative">
-                <el-form-item ref="formItemTwo" label="SKU" prop="sku">
+                <el-form-item ref="formItemTwo" label="SKU" prop="sku" :rules="skuValidate">
                     <el-input v-model.trim="form.sku" style="width:50%;" @blur="handleInspect"></el-input>
                 </el-form-item>
-                 <div class="reference" v-if="showDetector">
+                <div class="reference" v-if="showDetector">
                     <p>同SKU产品参考图</p>
                     <img height="100%" width="100%" :src="detectorURL"  alt="">
                 </div>
-        </div>
+                </div>
                 <el-form-item label="New SKU" prop="newSku">
                     <el-input v-model="form.newSku" style="width:50%"></el-input>
                 </el-form-item>
@@ -42,7 +42,7 @@
                 <el-form-item label="中文名稱" prop="productNameChinese" :rules="{required:true}">
                     <el-input v-model="form.productNameChinese" style="width:50%"></el-input>
                 </el-form-item>
-                 <el-form-item label="中文申報名" prop="declareNameChinese">
+                <el-form-item label="中文申報名" prop="declareNameChinese">
                     <el-input v-model="form.declareNameChinese" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="英文申報名" prop="declareNameEnglish">
@@ -50,7 +50,12 @@
                 </el-form-item>
                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
                     <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
-                        <img v-if="base64" :src="base64" class="avatar">
+                        <div v-if="base64" class="avatar">
+                            <img :src="base64">
+                            <div class="delete">
+                                <i @click.stop="handleImageDelete" class="el-icon-delete"></i>
+                            </div>
+                        </div>
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
@@ -58,20 +63,21 @@
                     <el-input style="width:50%" v-model="form.imageUrl">
                         <el-button slot="prepend">http(s)://</el-button>
                     </el-input>
+                    <div class="imageUrl" v-if="form.imageUrl">
+                        <img height="100%" width="100%" :src="form.imageUrl"  alt="">
+                </div>
                 </el-form-item>
-                <!-- <el-form-item label="狀態：" prop="status" class="inline">
-                 <el-input type="textarea" rows="4" v-model="form.status" style="width:60%"></el-input>
-                </el-form-item> -->
+
                 <el-row :gutter="20">
                     <el-col :span="6">
                         <el-form-item label="採購成本：" prop="productCost">
-                            <el-input  v-model="form.productCost"></el-input>
+                            <el-input v-model="form.productCost"></el-input>
                         </el-form-item>
-                    </el-col> 
+                    </el-col>
                     <el-col :span="6">
                         <el-form-item label="採購幣別：" prop="productCostCurrency">
-                              <el-select v-model="form.productCostCurrency">
-                                    <el-option v-for="(v,i) in costCurrency" :key="i" :label="v" :value="v"></el-option>
+                            <el-select v-model="form.productCostCurrency">
+                                <el-option v-for="(v,i) in costCurrency" :key="i" :label="v" :value="v"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -171,10 +177,10 @@ export default {
             detectorURL: "../../static/img/1.png",
             trueNewSku: false,
             searchOptions: [],
-            costCurrency:[],
+            costCurrency: [],
             submitLoading: false,
             form: {
-                imageUrl:"",
+                imageUrl: "",
                 autoSku: "",
                 sku: "",
                 newSku: "",
@@ -193,12 +199,12 @@ export default {
                 productHeightCM: "",
                 productWeightKG: "",
                 productLengthCM: "",
-                productNameChinese:"",
-                declareNameChinese:"",
-                declareNameEnglish:"",
+                productNameChinese: "",
+                declareNameChinese: "",
+                declareNameEnglish: "",
                 deprecatedSKU: "",
                 productCost: "",
-                productCostCurrency:""
+                productCostCurrency: ""
             },
             skuValidate: {
                 required: true,
@@ -231,14 +237,14 @@ export default {
             imageUrlValidate: {
                 validator(rule, value, callback) {
                     let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
-                    if(value){
-                        if(rules.test(value)){
-                            callback()
-                        }else{
-                            callback(new Error('输入网址不合法'))
+                    if (value) {
+                        if (rules.test(value)) {
+                            callback();
+                        } else {
+                            callback(new Error("输入网址不合法"));
                         }
-                    }else{
-                        callback()
+                    } else {
+                        callback();
                     }
                 }
             },
@@ -267,7 +273,7 @@ export default {
         }).then(res => {
             this.searchOptions = _.cloneDeep(res);
         });
-        
+
         axios({
             url: "sku/value/currency",
             method: "post",
@@ -409,7 +415,7 @@ export default {
                         var request = new XMLHttpRequest();
                         let url =
                             "http://60.251.57.138:8000/data-server/" + this.url;
-                            // "http://127.0.0.1:8080/data-server/" + this.url;
+                        // "http://127.0.0.1:8080/data-server/" + this.url;
                         request.open("POST", url);
                         request.onreadystatechange = () => {
                             if (
@@ -435,17 +441,29 @@ export default {
 };
 </script>
 <style lang="scss">
-
 #skuAdd {
+    .imageUrl {
+        width: 150px;
+        position: absolute;
+        top: -40px;
+        right: 27%;
+        border: 1px dashed #d9d9d9;
+        box-sizing: border-box;
+        p {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    }
     .reference {
         width: 150px;
         position: absolute;
         top: 0px;
         right: 25%;
-        border:1px dashed #d9d9d9;
-        padding:5px;
+        border: 1px dashed #d9d9d9;
+        padding: 5px;
         box-sizing: border-box;
-        p{
+        p {
             font-size: 12px;
             text-align: center;
             margin-bottom: 5px;

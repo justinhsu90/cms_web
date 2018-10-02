@@ -47,6 +47,9 @@
                     <el-input style="width:50%" v-model="form.imageUrl">
                         <el-button slot="prepend">http(s)://</el-button>
                     </el-input>
+                    <div class="imageUrl" v-if="form.imageUrl">
+                        <img height="100%" width="100%" :src="form.imageUrl"  alt="">
+                </div>
                 </el-form-item>
                 <el-row :gutter="20">
                     <el-col :span="6">
@@ -468,6 +471,19 @@ export default {
 </script>
 <style lang="scss">
 #skuEdit {
+       .imageUrl {
+        width: 150px;
+        position: absolute;
+        top: -40px;
+        right: 27%;
+        border: 1px dashed #d9d9d9;
+        box-sizing: border-box;
+        p {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    }
     .reference {
         width: 150px;
         position: absolute;
