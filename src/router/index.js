@@ -157,24 +157,24 @@ let router = new VueRouter({
         },
         {
           name: 'wowcherOrderList',
-          path: '/wowcher',
+          path: '/wowcherOrderList',
           component: wowcherOrderList,
           meta: {
             keepAlive: true
           }
         },
         {
-          name: 'wowcherTrackingStatus',
-          path: '/wowcher',
-          component: wowcherTrackingStatus,
+          name: 'wowcherOrderView',
+          path: '/wowcherOrderView',
+          component: wowcherOrderView,
           meta: {
             sign: 'wowcherOrderList'
           }
         },
         {
-          name: 'wowcherOrderView',
-          path: '/wowcherOrderView',
-          component: wowcherOrderView,
+          name: 'wowcherTrackingStatus',
+          path: '/wowcherTrackingStatus',
+          component: wowcherTrackingStatus,
           meta: {
             sign: 'wowcherOrderList'
           }

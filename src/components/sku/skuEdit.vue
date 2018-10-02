@@ -1,5 +1,5 @@
 <template>
-    <div id="skuAdd" style="padding:20px">
+    <div id="skuEdit" style="padding:20px">
         <div class="heade">
             <i class="el-icon-arrow-left"></i>
             <a href="javascript:void(0)" @click="goBack">返回</a>
@@ -9,18 +9,21 @@
         <br>
         <el-form ref="form2" :model="form" label-position="left" label-width="150px">
             <div style="position:relative">
-                <el-form-item ref="formItemTwo" label="SKU" prop="sku">
+                <el-form-item ref="formItemTwo" label="SKU" prop="sku" :rules="skuValidate">
                     <el-input :disabled="true" v-model.trim="form.sku" style="width:50%;" @blur="handleInspect"></el-input>
                 </el-form-item>
-                <img :src="detectorURL" v-if="showDetector" style="width:100px;height:100px;position:absolute;top:0px;right:25%" alt="">
-            </div>
+                <div class="reference" v-if="showDetector">
+                    <p>同SKU产品参考图</p>
+                    <img height="100%" width="100%" :src="detectorURL"  alt="">
+                </div>
+                </div>
                 <el-form-item label="New SKU" prop="newSku">
                     <el-input v-model="form.newSku" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="英文名稱" prop="productName" :rules="{required:true}">
                     <el-input v-model="form.productName" style="width:50%"></el-input>
                 </el-form-item>
-                 <el-form-item label="中文名稱" prop="productNameChinese" :rules="{required:true}">
+                <el-form-item label="中文名稱" prop="productNameChinese" :rules="{required:true}">
                     <el-input v-model="form.productNameChinese" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="中文申報名" prop="declareNameChinese">
@@ -29,25 +32,32 @@
                 <el-form-item label="英文申報名" prop="declareNameEnglish">
                     <el-input v-model="form.declareNameEnglish" style="width:50%"></el-input>
                 </el-form-item>
-                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
+                <el-form-item label="圖片" prop="image" :show-message="showMessage">
                     <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
-                        <img v-if="base64" :src="base64" class="avatar">
+                        <div v-if="base64" class="avatar">
+                            <img :src="base64">
+                            <div class="delete">
+                                <i @click.stop="handleImageDelete" class="el-icon-delete"></i>
+                            </div>
+                        </div>
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <!-- <el-form-item label="狀態：" prop="status" class="inline">
-                    <el-input v-model="form.status" style="width:50%"></el-input>
-                </el-form-item> -->
+                <el-form-item label="圖片url" prop="imageUrl" :rules="imageUrlValidate">
+                    <el-input style="width:50%" v-model="form.imageUrl">
+                        <el-button slot="prepend">http(s)://</el-button>
+                    </el-input>
+                </el-form-item>
                 <el-row :gutter="20">
                     <el-col :span="6">
                         <el-form-item label="採購成本 (RMB)：" prop="productCost">
-                            <el-input  v-model="form.productCost"></el-input>
+                            <el-input v-model="form.productCost"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="採購幣別：" prop="productCostCurrency">
                             <el-select v-model="form.productCostCurrency">
-                                    <el-option v-for="(v,i) in costCurrency" :key="i" :label="v" :value="v"></el-option>
+                                <el-option v-for="(v,i) in costCurrency" :key="i" :label="v" :value="v"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -165,7 +175,7 @@ export default {
             showDetector: false,
             detectorURL: "../../static/img/1.png",
             searchOptions: [],
-            costCurrency:[],
+            costCurrency: [],
             submitLoading: false,
             form: {
                 autoSku: "",
@@ -174,6 +184,7 @@ export default {
                 productName: "",
                 status: "",
                 image: "",
+                imageUrl:"",
                 amazonWidthCM: "",
                 amazonHeightCM: "",
                 amazonWeightKG: "",
@@ -188,7 +199,21 @@ export default {
                 productLengthCM: "",
                 deprecatedSKU: "",
                 productCost: "",
-                productCostCurrency:""
+                productCostCurrency: ""
+            },
+            imageUrlValidate: {
+                validator(rule, value, callback) {
+                    let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
+                    if(value){
+                        if(rules.test(value)){
+                            callback()
+                        }else{
+                            callback(new Error('输入网址不合法'))
+                        }
+                    }else{
+                        callback()
+                    }
+                }
             },
             skuValidate: {
                 required: true,
@@ -239,7 +264,7 @@ export default {
         }).then(res => {
             this.searchOptions = _.cloneDeep(res);
         });
-         axios({
+        axios({
             url: "sku/value/currency",
             method: "post",
             data: {
@@ -299,6 +324,9 @@ export default {
         }
     },
     methods: {
+        handleImageDelete() {
+            this.base64 = "";
+        },
         handleInspect() {},
         goBack() {
             this.$router.push("/sku");
@@ -384,8 +412,9 @@ export default {
                         obj.productNameChinese = this.form.productNameChinese;
                         obj.declareNameChinese = this.form.declareNameChinese;
                         obj.declareNameEnglish = this.form.declareNameEnglish;
-                        obj.deprecatedSKU = this.form.deprecatedSKU;      
+                        obj.deprecatedSKU = this.form.deprecatedSKU;
                         obj.productName = this.form.productName;
+                        obj.imageUrl = this.form.imageUrl;
 
                         obj.status = this.form.status;
                         obj.newSku = this.form.newSku;
@@ -438,7 +467,21 @@ export default {
 };
 </script>
 <style lang="scss">
-#skuAdd {
+#skuEdit {
+    .reference {
+        width: 150px;
+        position: absolute;
+        top: 0px;
+        right: 25%;
+        border:1px dashed #d9d9d9;
+        padding:5px;
+        box-sizing: border-box;
+        p{
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    }
     .el-form-item {
         margin-bottom: 18px;
     }
@@ -482,8 +525,27 @@ export default {
     .avatar {
         width: 178px;
         height: 178px;
-        display: block;
+        position: relative;
+        &:hover .delete {
+            display: block;
+        }
+        .delete {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 0px;
+            display: none;
+        }
+        .el-icon-delete::before {
+            position: absolute;
+            top: 50% !important;
+            left: 50%;
+            color: #409eff;
+            transform: translate(-50%, -50%);
+        }
     }
+
     img {
         width: 100%;
         height: 100%;

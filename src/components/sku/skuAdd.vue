@@ -28,7 +28,10 @@
                 <el-form-item ref="formItemTwo" label="SKU" prop="sku">
                     <el-input v-model.trim="form.sku" style="width:50%;" @blur="handleInspect"></el-input>
                 </el-form-item>
-                <img :src="detectorURL" v-if="showDetector" style="width:100px;height:100px;position:absolute;top:0px;right:25%" alt="">
+                 <div class="reference" v-if="showDetector">
+                    <p>同SKU产品参考图</p>
+                    <img height="100%" width="100%" :src="detectorURL"  alt="">
+                </div>
         </div>
                 <el-form-item label="New SKU" prop="newSku">
                     <el-input v-model="form.newSku" style="width:50%"></el-input>
@@ -50,6 +53,11 @@
                         <img v-if="base64" :src="base64" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
+                </el-form-item>
+                <el-form-item label="圖片url" prop="imageUrl" :rules="imageUrlValidate">
+                    <el-input style="width:50%" v-model="form.imageUrl">
+                        <el-button slot="prepend">http(s)://</el-button>
+                    </el-input>
                 </el-form-item>
                 <!-- <el-form-item label="狀態：" prop="status" class="inline">
                  <el-input type="textarea" rows="4" v-model="form.status" style="width:60%"></el-input>
@@ -166,6 +174,7 @@ export default {
             costCurrency:[],
             submitLoading: false,
             form: {
+                imageUrl:"",
                 autoSku: "",
                 sku: "",
                 newSku: "",
@@ -216,6 +225,20 @@ export default {
                             }
                             callback();
                         });
+                    }
+                }
+            },
+            imageUrlValidate: {
+                validator(rule, value, callback) {
+                    let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
+                    if(value){
+                        if(rules.test(value)){
+                            callback()
+                        }else{
+                            callback(new Error('输入网址不合法'))
+                        }
+                    }else{
+                        callback()
                     }
                 }
             },
@@ -373,6 +396,7 @@ export default {
                         obj.declareNameChinese = this.form.declareNameChinese;
                         obj.declareNameEnglish = this.form.declareNameEnglish;
                         obj.deprecatedSKU = this.form.deprecatedSKU;
+                        obj.imageUrl = this.form.imageUrl;
                         value.data.push(obj);
                         value = JSON.stringify(value);
                         this.submitLoading = true;
@@ -411,19 +435,34 @@ export default {
 };
 </script>
 <style lang="scss">
+
 #skuAdd {
+    .reference {
+        width: 150px;
+        position: absolute;
+        top: 0px;
+        right: 25%;
+        border:1px dashed #d9d9d9;
+        padding:5px;
+        box-sizing: border-box;
+        p{
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    }
     .el-form-item {
-        margin-bottom: 18x;
+        margin-bottom: 18px;
     }
     .heade {
         font-size: 16px;
         color: #45a2ff;
     }
-    .el-switch__input:focus ~ .el-switch__core {
-        outline: none !important;
-    }
     .heade a {
         color: #45a2ff;
+    }
+    .el-switch__input:focus ~ .el-switch__core {
+        outline: none !important;
     }
     h3 {
         text-align: left;
@@ -440,7 +479,6 @@ export default {
         cursor: pointer;
         position: relative;
         overflow: hidden;
-        display: inline-block !important;
     }
     .avatar-uploader .el-upload:hover {
         border-color: #409eff;
@@ -456,8 +494,27 @@ export default {
     .avatar {
         width: 178px;
         height: 178px;
-        display: block;
+        position: relative;
+        &:hover .delete {
+            display: block;
+        }
+        .delete {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 0px;
+            display: none;
+        }
+        .el-icon-delete::before {
+            position: absolute;
+            top: 50% !important;
+            left: 50%;
+            color: #409eff;
+            transform: translate(-50%, -50%);
+        }
     }
+
     img {
         width: 100%;
         height: 100%;

@@ -212,7 +212,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/wowcher");
+      this.$router.push("/wowcherOrderList");
     }
   }
 };

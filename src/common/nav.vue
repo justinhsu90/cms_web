@@ -88,7 +88,7 @@ export default {
                     isLevel: true,
                     child: [
                         {
-                            index: "wowcher",
+                            index: "wowcherOrderList",
                             label: "訂單查詢"
                         },
                         {
