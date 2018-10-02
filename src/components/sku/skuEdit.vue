@@ -34,9 +34,9 @@
                 </el-form-item>
                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
                     <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
-                        <div v-if="base64" class="avatar">
-                            <img :src="base64">
-                            <div class="delete">
+                        <div v-if="base64 || form.imageUrl" class="avatar">
+                            <img :src="base64 ? base64 : form.imageUrl">
+                            <div class="delete"> 
                                 <i @click.stop="handleImageDelete" class="el-icon-delete"></i>
                             </div>
                         </div>
@@ -47,9 +47,9 @@
                     <el-input style="width:50%" v-model="form.imageUrl">
                         <el-button slot="prepend">http(s)://</el-button>
                     </el-input>
-                    <div class="imageUrl" v-if="form.imageUrl">
+                    <!-- <div class="imageUrl" v-if="form.imageUrl">
                         <img height="100%" width="100%" :src="form.imageUrl"  alt="">
-                </div>
+                </div> -->
                 </el-form-item>
                 <el-row :gutter="20">
                     <el-col :span="6">
@@ -329,6 +329,7 @@ export default {
     methods: {
         handleImageDelete() {
             this.base64 = "";
+            this.form.imageUrl = "";
         },
         handleInspect() {},
         goBack() {
