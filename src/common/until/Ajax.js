@@ -6,6 +6,9 @@ axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
 
 // axios.defaults.baseURL = 'http://localhost:8080/data-server/';
 axios.interceptors.request.use((request) => {
+  if(request.isFormData){
+    return request;  
+  }
   request.data = qs.stringify(request.data);
   return request;
 });

@@ -33,7 +33,7 @@
                     <el-input v-model="form.declareNameEnglish" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
-                    <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
+                    <el-upload class="avatar-uploader" :auto-upload="false" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
                         <div v-if="base64 || form.imageUrl" class="avatar">
                             <img :src="base64 ? base64 : form.imageUrl">
                             <div class="delete"> 
@@ -222,7 +222,8 @@ export default {
                 required: true,
                 token: this.token,
                 validator(rule, value, callback) {
-                    let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
+                    // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
+                    let rules = /^[A-Za-z]{2}[0-9]{4}/;
                     if (!rule.required) {
                         callback();
                     }
@@ -277,7 +278,7 @@ export default {
             this.costCurrency = _.cloneDeep(res.data);
         });
         let data = JSON.parse(this.$route.query.data);
-        this.url = "sku/update";
+        
         this.form.image = data.imageURL;
         this.base64 = data.imageURL;
         this.form.productName = data.productName;
@@ -443,26 +444,43 @@ export default {
                         //         this.goBack();
                         //         this.Bus.$emit('refresh')
                         // })
-                        var request = new XMLHttpRequest();
-                        let url =
-                            // "http://127.0.0.1:8080/data-server/" + this.url;
-                            "http://60.251.57.138:8000/data-server/" + this.url;
-                        request.open("POST", url);
-                        request.onreadystatechange = () => {
-                            if (
-                                request.readyState == 4 &&
-                                request.status == 200
-                            ) {
+                      let url = "http://60.251.57.138:8000/data-server/sku/update";
+                       axios({
+                            url,
+                            method: "post",
+                            data: formData,
+                            headers: {
+                                "Content-type": "multipart/form-data"
+                            },
+                            isFormData:true
+                        })
+                            .then(res => {
                                 this.submitLoading = false;
                                 this.$message.success("編輯成功");
                                 this.goBack();
                                 this.Bus.$emit("refresh");
-                            }
-                            if (request.status != 200) {
+                            })
+                            .catch(() => {
+                                this.submitLoading = false;
                                 this.$message.warning("編輯失敗");
-                            }
-                        };
-                        request.send(formData);
+                            });
+                        // var request = new XMLHttpRequest();    
+                        // request.open("POST", url);
+                        // request.onreadystatechange = () => {
+                        //     if (
+                        //         request.readyState == 4 &&
+                        //         request.status == 200
+                        //     ) {
+                        //         this.submitLoading = false;
+                        //         this.$message.success("編輯成功");
+                        //         this.goBack();
+                        //         this.Bus.$emit("refresh");
+                        //     }
+                        //     if (request.status != 200) {
+                        //         this.$message.warning("編輯失敗");
+                        //     }
+                        // };
+                        // request.send(formData);
                     }
                 });
             });

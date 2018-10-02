@@ -43,6 +43,11 @@ import purchaRequire from '@/components/erp/purchaRequire/purchaRequire'
 import purchaAdd from '@/components/erp/purchaRequire/purchaAdd'
 import purchaEdit from '@/components/erp/purchaRequire/purchaEdit'
 
+
+import receivable from '@/components/erp/purchaseReceivable/receivable'
+import receivableAdd from '@/components/erp/purchaseReceivable/receivableAdd'
+import receivableEdit from '@/components/erp/purchaseReceivable/receivableEdit'
+
 import erpPurchase from '@/components/erp/purchase/purchase'
 import erpPurchaseAdd from '@/components/erp/purchase/purchaseAdd'
 import erpPurchaseEdit from '@/components/erp/purchase/purchaseEdit'
@@ -306,6 +311,30 @@ let router = new VueRouter({
           component: purchaEdit,
           meta: {
             sign: 'purchaRequire'
+          }
+        },
+        {
+          name: 'receivable',
+          path: '/receivable',
+          component: receivable,
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'receivableAdd',
+          path: '/receivableAdd',
+          component: receivableAdd,
+          meta: {
+            sign: 'receivable'
+          }
+        },
+        {
+          name: 'receivableEdit',
+          path: '/receivableEdit',
+          component: receivableEdit,
+          meta: {
+            sign: 'receivable'
           }
         },
         {

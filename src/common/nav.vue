@@ -125,6 +125,10 @@ export default {
                         {
                             index: "erpSale",
                             label: "(4) 銷貨單"
+                        },
+                        {
+                            index: "receivable",
+                            label: "(5) 應收帳款表"
                         }
                     ]
                 },

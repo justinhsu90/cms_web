@@ -49,10 +49,10 @@
                     <el-input v-model="form.declareNameEnglish" style="width:50%"></el-input>
                 </el-form-item>
                 <el-form-item label="圖片" prop="image" :show-message="showMessage">
-                    <el-upload class="avatar-uploader" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
+                    <el-upload class="avatar-uploader" :auto-upload="false" action='' :before-upload="beforeAvatarUpload" :on-change="handleAvatarSuccess" :show-file-list="false">
                         <div v-if="base64 || form.imageUrl" class="avatar">
                             <img :src="base64 ? base64 : form.imageUrl">
-                            <div class="delete"> 
+                            <div class="delete">
                                 <i @click.stop="handleImageDelete" class="el-icon-delete"></i>
                             </div>
                         </div>
@@ -207,7 +207,8 @@ export default {
                 required: true,
                 token: this.token,
                 validator(rule, value, callback) {
-                    let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
+                    // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
+                    let rules = /^[A-Za-z]{2}[0-9]{4}/;
                     if (!rule.required) {
                         callback();
                     }
@@ -280,8 +281,6 @@ export default {
         }).then(res => {
             this.costCurrency = _.cloneDeep(res.data);
         });
-
-        this.url = "sku/add";
     },
     watch: {
         "form.autoSku"(newVal, oldVal) {
@@ -415,25 +414,43 @@ export default {
                         this.isLoading = true;
                         var request = new XMLHttpRequest();
                         let url =
-                            "http://60.251.57.138:8000/data-server/" + this.url;
-                        // "http://127.0.0.1:8080/data-server/" + this.url;
-                        request.open("POST", url);
-                        request.onreadystatechange = () => {
-                            if (
-                                request.readyState == 4 &&
-                                request.status == 200
-                            ) {
+                            "http://60.251.57.138:8000/data-server/sku/add";
+                        axios({
+                            url,
+                            method: "post",
+                            data: formData,
+                            headers: {
+                                "Content-type": "multipart/form-data"
+                            },
+                            isFormData:true
+                        })
+                            .then(res => {
                                 this.submitLoading = false;
                                 this.$message.success("新增成功");
                                 this.Bus.$emit("refresh");
                                 this.goBack();
-                            }
-                            if (request.status != 200) {
+                            })
+                            .catch(() => {
                                 this.submitLoading = false;
                                 this.$message.warning("新增失敗");
-                            }
-                        };
-                        request.send(formData);
+                            });
+                        // request.open("POST", url);
+                        // request.onreadystatechange = () => {
+                        //     if (
+                        //         request.readyState == 4 &&
+                        //         request.status == 200
+                        //     ) {
+                        //         this.submitLoading = false;
+                        //         this.$message.success("新增成功");
+                        //         this.Bus.$emit("refresh");
+                        //         this.goBack();
+                        //     }
+                        //     if (request.status != 200) {
+                        //         this.submitLoading = false;
+                        //         this.$message.warning("新增失敗");
+                        //     }
+                        // };
+                        // request.send(formData);
                     });
                 });
             });
