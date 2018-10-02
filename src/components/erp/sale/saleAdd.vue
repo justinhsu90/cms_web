@@ -12,28 +12,28 @@
             <br>
             <el-form ref="form" :model="formData" :rules="rules">
                 <el-row :gutter="10">
-                    <el-col :span="2">
+                    <el-col :span="4">
                         <el-form-item label="銷貨平台：" prop="salePlatform">
                             <el-select v-model="formData.salePlatform">
                                 <el-option v-for="(value,i) in searchPlatformOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="4">
                         <el-form-item label="銷貨帳號：" prop="saleAccount">
                             <el-select v-model="formData.saleAccount">
                                 <el-option v-for="(value,i) in searchAccountOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="3">
                         <el-form-item label="銷貨國家：" prop="saleCountry">
                             <el-select v-model="formData.saleCountry">
                                 <el-option v-for="(value,i) in searchCountryOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="4">
                         <el-form-item label="幣別：" prop="currency">
                             <el-select v-model="formData.currency">
                                 <el-option v-for="(value,i) in searchCurrecyOption" :label="value" :value="value" :key="i"></el-option>
@@ -50,11 +50,11 @@
                 <div id="table">
                     <table cellspacing="0" cellpadding="0">
                         <colgroup>
-                            <col width="40">
-                            <col width="100">
+                            <col width="30">
+                            <col width="90">
                             <col width="250">
-                            <col width="80">
-                            <col width="80">
+                            <col width="70">
+                            <col width="60">
                             <col width="80">
                             <col width="50">
                         </colgroup>
@@ -102,7 +102,7 @@
                             </tr>
                             <tr class="total">
                                 <td>
-                                    总计
+                                    總計
                                 </td>
                                 <td></td>
                                 <td></td>

@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>编辑採購單 <span>&nbsp;&nbsp;订单ID:{{purchaseOrderId}}</span>
+      <h2>標及採購單 <span>&nbsp;&nbsp;订单ID:&nbsp;{{formData.purchaseId}}</span>
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -71,10 +71,10 @@
               <tr>
                 <th>SKU </th>
                 <th>產品名稱</th>
-                <th>該品金額/個</th>
+                <th>單品金額</th>
                 <th>採購數量</th>
-                <th>該品運費(總金額)</th>
-                <th>該品總金額</th>
+                <th>該品總運費</th>
+                <th>總金額</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -114,7 +114,7 @@
               </tr>
               <tr class="total">
                 <td>
-                  总计
+                  總計
                 </td>
                 <td></td>
                 <td>
@@ -135,7 +135,7 @@
           </table>
         </div>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">编辑</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">編輯</el-button>
       </el-form>
     </div>
     <querySku name="purchaseAdd" ref="querySku"></querySku>
