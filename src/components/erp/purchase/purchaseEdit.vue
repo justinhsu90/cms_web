@@ -135,7 +135,14 @@
           </table>
         </div>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">編輯</el-button>
+        <el-popover placement="top" width="160" v-model="popoverVisible">
+                <p>是否要提交？</p>
+                <div style="text-align: right; margin: 0">
+                    <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
+                    <el-button type="primary" size="mini" @click="submit">確定</el-button>
+                </div>
+                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">添加</el-button>
+        </el-popover>
       </el-form>
     </div>
     <querySku name="purchaseAdd" ref="querySku"></querySku>
@@ -165,6 +172,7 @@ export default {
             purchaseOrderId:'',
             showQuerySku: false,
             submitLoading: false,
+            popoverVisible:false,
             loading: false,
             purchasePlatform: [],
             purchaseType: [],
@@ -369,6 +377,7 @@ export default {
         submit() {
             this.$refs["form"].validate(action => {
                 if (action) {
+                    this.popoverVisible = false;
                     this.getValue();
                     this.submitLoading = true;
                     axios({
