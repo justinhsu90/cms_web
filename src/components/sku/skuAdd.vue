@@ -414,7 +414,10 @@ export default {
                         this.isLoading = true;
                         var request = new XMLHttpRequest();
                         let url =
+
+
                             "http://60.251.57.138:8000/data-server/sku/add";
+                            // "http://127.0.0.1:8080/data-server/sku/add";
                         axios({
                             url,
                             method: "post",

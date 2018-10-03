@@ -444,7 +444,8 @@ export default {
                         //         this.goBack();
                         //         this.Bus.$emit('refresh')
                         // })
-                      let url = "http://60.251.57.138:8000/data-server/sku/update";
+                    //   let url = "http://60.251.57.138:8000/data-server/sku/update";
+                      let url = "http://127.0.0.1:8080/data-server/sku/update";
                        axios({
                             url,
                             method: "post",

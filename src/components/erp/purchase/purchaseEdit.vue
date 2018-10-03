@@ -373,6 +373,7 @@ export default {
                     this.submitLoading = true;
                     axios({
                         url: "/purchase/update",
+
                         method: "post",
                         data: {
                             value: this.getValue(),
