@@ -1,5 +1,5 @@
 <template>
-    <div id="purchaseAdd">
+    <div id="receivableAdd">
         <div style="padding:20px">
             <div class="heade">
                 <i class="el-icon-arrow-left"></i>
@@ -11,13 +11,6 @@
             <br>
             <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
                 <el-row :gutter="10">
-                    <el-col :span="3">
-                        <el-form-item label="費用類型" prop="financialSpendType" :rules="rules">
-                            <el-select placeholder="请选择" v-model="formData.financialSpendType" clearable>
-                                <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
                     <el-col :span="3">
                         <el-form-item label="平台" prop="platform" :rules="rules">
                             <el-select placeholder="请选择" v-model="formData.platform" clearable>
@@ -33,6 +26,13 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="3">
+                        <el-form-item label="幣別" prop="currency" :rules="rules">
+                            <el-select v-model="formData.currency">
+                                <el-option v-for="(value,i) in searchCurrencyOption" :label="value.currency" :value="value.currency" :key="i"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="3">
                         <el-form-item label="国家" prop="country" :rules="rules">
                             <el-select placeholder="请选择" v-model="formData.country" clearable>
                                 <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :value="v.countryNameChinese">
@@ -40,6 +40,12 @@
                                     <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
                                 </el-option>
                             </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="時間" prop="date" :rules="rules">
+                            <el-date-picker clearable style="width:100%" value-format="yyyy-MM-dd" v-model="formData.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -58,16 +64,10 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="3">
-                            <el-form-item label="幣別" :prop="'data.'+i+'.currency'" :rules="rules">
-                                <el-select v-model="v.currency">
-                                    <el-option v-for="(value,i) in searchCurrencyOption" :label="value.currency" :value="value.currency" :key="i"></el-option>
+                            <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
+                                <el-select placeholder="请选择" v-model="v.financialSpendType" clearable>
+                                    <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
                                 </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="時間" :prop="'data.'+ i + '.date'" :rules="rules">
-                                <el-date-picker clearable style="width:100%" value-format="yyyy-MM-dd" v-model="v.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
-                                </el-date-picker>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -129,6 +129,7 @@ export default {
                     }
                 ]
             },
+            id:"",
             submitLoading: false,
             loading: false,
             searchAccountOption: [],
@@ -144,17 +145,17 @@ export default {
                 message: "此項目必填"
             },
             formData: {
+                date: "",
                 country: "",
                 account: "",
                 platform: "",
-                financialSpendType: "",
+                periodStartDate: "",
+                periodEndDate: "",
                 data: [
                     {
-                        date: "",
+                        financialSpendType: "",
                         currency: "",
-                        amount: "",
-                        periodStartDate: "",
-                        periodEndDate: ""
+                        amount: ""
                     }
                 ]
             }
@@ -235,16 +236,16 @@ export default {
             let data = _.cloneDeep(this.formData.data);
             _.each(data, v => {
                 v.id = this.id;
-                  v.country = this.formData.country;
+                v.country = this.formData.country;
                 v.account = this.formData.account;
                 v.platform = this.formData.platform;
-                v.financialSpendType = this.formData.financialSpendType;
-                v.periodStartDate = this.moment(
-                    v.date[0]
-                ).format("YYYY-MM-DD");
-                v.periodEndDate = this.moment(
-                    v.date[1]
-                ).format("YYYY-MM-DD");
+                v.currency = this.formData.currency;
+                v.periodStartDate = this.moment(this.formData.date[0]).format(
+                    "YYYY-MM-DD"
+                );
+                v.periodEndDate = this.moment(this.formData.date[1]).format(
+                    "YYYY-MM-DD"
+                );
                 delete v.date
             });
             let obj = {
