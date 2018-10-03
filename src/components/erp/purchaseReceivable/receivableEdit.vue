@@ -216,10 +216,11 @@ export default {
             this.formData.country = data.country;
             this.formData.account = data.account;
             this.formData.platform = data.platform;
-            this.formData.financialSpendType = data.financialSpendType;
-            this.formData.data[0].currency = data.currency;
+            this.formData.currency = data.currency;
+            this.formData.data[0].financialSpendType = data.financialSpendType;
             this.formData.data[0].amount = data.amount;
-            this.formData.data[0].date = [data.periodStartDate,data.periodEndDate];
+            this.formData.date = [data.periodStartDate,data.periodEndDate];
+            
         });
     },
     filters: {
