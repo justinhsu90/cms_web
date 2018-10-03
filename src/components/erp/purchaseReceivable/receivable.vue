@@ -4,13 +4,13 @@
             <el-col :span="22">
                 <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:15%;float:left">
                 </el-input>
-                <!-- <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="應收帳款類型" v-model="searchType" @change="handleCondition('type')" clearable>
-                        <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v" :value="v"></el-option>
-                    </el-select>
-                </div> -->
                 <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="應收帳款国家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+                    <el-select placeholder="費用類型" v-model="searchType" @change="handleCondition('type')" clearable>
+                        <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                    </el-select>
+                </div>
+                <div style="margin-left:5px;display:inline-block;width:120px">
+                    <el-select placeholder="国家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
                         <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i"  :value="v.countryNameChinese">
                             <span style="float: left">{{ v.countryCode }}</span>
                             <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
@@ -18,12 +18,12 @@
                     </el-select>
                 </div>
                 <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="應收帳款平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
+                    <el-select placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
                         <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
                 <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="應收帳款帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                    <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                         <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
@@ -144,13 +144,13 @@ export default {
                 token: this.token
             }
         });
-        // let receivableType = axios({
-        //     url: "/accountreceivable/value/financialSpendType ",
-        //     method: "post",
-        //     data: {
-        //         token: this.token
-        //     }
-        // });
+        let receivableType = axios({
+            url: "/accountreceivable/value/financialSpendType ",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
         let receivableAccount = axios({
             url: "/accountreceivable/value/account",
             method: "post",
@@ -168,11 +168,12 @@ export default {
         Promise.all([
             receivablePlatform,
             receivableAccount,
-            receivableCountry
-        ]).then(([platform, account, country]) => {
+            receivableCountry,
+            receivableType
+        ]).then(([platform, account, country, type]) => {
             this.searchAccountOption = _.cloneDeep(account);
             this.searchPlatformOption = _.cloneDeep(platform);
-            // this.searchTypeOption = _.cloneDeep(type);
+            this.searchTypeOption = _.cloneDeep(type.data);
             this.searchCountryOption = _.cloneDeep(country.data);
         });
         this.handleSearch();

@@ -11,6 +11,40 @@
             </h2>
             <br>
             <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
+                <el-row :gutter="10">
+                    <el-col :span="3">
+                        <el-form-item label="費用類型" prop="financialSpendType" :rules="rules">
+                            <el-select placeholder="请选择" v-model="formData.financialSpendType" clearable>
+                                <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="3">
+                        <el-form-item label="平台" prop="platform" :rules="rules">
+                            <el-select placeholder="请选择" v-model="formData.platform" clearable>
+                                <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="3">
+                        <el-form-item label="帳號" prop="account" :rules="rules">
+                            <el-select placeholder="请选择" v-model="formData.account" clearable>
+                                <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="3">
+                        <el-form-item label="国家" prop="country" :rules="rules">
+                            <el-select placeholder="请选择" v-model="formData.country" clearable>
+                                <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :value="v.countryNameChinese">
+                                    <span style="float: left">{{ v.countryCode }}</span>
+                                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <br>
                 <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
                     <el-row :gutter="10">
                         <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
@@ -25,44 +59,13 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="3">
-                            <el-form-item label="費用類型" :prop="'data.'+i+'.financialSpendType'" :rules="rules">
-                                <el-select placeholder="请选择" v-model="v.financialSpendType" clearable>
-                                    <el-option v-for="(v,i) in searchAccountOption" :key="'type'+i" :label="v" :value="v"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="平台" :prop="'data.'+i+'.platform'" :rules="rules">
-                                <el-select placeholder="请选择" v-model="v.platform" clearable>
-                                    <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="帳號" :prop="'data.'+i+'.account'" :rules="rules">
-                                <el-select placeholder="请选择" v-model="v.account" clearable>
-                                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="国家" :prop="'data.'+ i + '.country'" :rules="rules">
-                                <el-select placeholder="请选择" v-model="v.country" clearable>
-                                    <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :value="v.countryNameChinese">
-                                        <span style="float: left">{{ v.countryCode }}</span>
-                                        <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
                             <el-form-item label="幣別" :prop="'data.'+i+'.currency'" :rules="rules">
                                 <el-select v-model="v.currency">
                                     <el-option v-for="(value,i) in searchCurrencyOption" :label="value.currency" :value="value.currency" :key="i"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5">
+                        <el-col :span="6">
                             <el-form-item label="時間" :prop="'data.'+ i + '.date'" :rules="rules">
                                 <el-date-picker clearable style="width:100%" value-format="yyyy-MM-dd" v-model="v.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
                                 </el-date-picker>
@@ -72,8 +75,14 @@
                 </el-card>
             </el-form>
             <br>
-            <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
-
+            <el-popover placement="top" width="160" v-model="popoverVisible">
+                <p>是否要提交？</p>
+                <div style="text-align: right; margin: 0">
+                    <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
+                    <el-button type="primary" size="mini" @click="submit">確定</el-button>
+                </div>
+                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
+            </el-popover>
         </div>
     </div>
 </template>
@@ -83,6 +92,7 @@ export default {
     name: "receivableAdd",
     data() {
         return {
+            popoverVisible: false,
             pickerOptions: {
                 shortcuts: [
                     {
@@ -135,14 +145,14 @@ export default {
                 message: "此項目必填"
             },
             formData: {
+                country: "",
+                account: "",
+                platform: "",
+                financialSpendType: "",
                 data: [
                     {
                         date: "",
-                        country: "",
-                        account: "",
-                        platform: "",
                         currency: "",
-                        financialSpendType: "",
                         amount: "",
                         periodStartDate: "",
                         periodEndDate: ""
@@ -159,13 +169,13 @@ export default {
                 token: this.token
             }
         });
-        // let receivableType = axios({
-        //     url: "/accountreceivable/value/financialSpendType ",
-        //     method: "post",
-        //     data: {
-        //         token: this.token
-        //     }
-        // });
+        let receivableType = axios({
+            url: "/accountreceivable/value/financialSpendType ",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
         let receivableAccount = axios({
             url: "/accountreceivable/value/account",
             method: "post",
@@ -192,11 +202,12 @@ export default {
             receivablePlatform,
             receivableAccount,
             receivableCountry,
-            receivableCurrencies
-        ]).then(([platform, account, country, currencies]) => {
+            receivableCurrencies,
+            receivableType
+        ]).then(([platform, account, country, currencies, type]) => {
             this.searchAccountOption = _.cloneDeep(account);
             this.searchPlatformOption = _.cloneDeep(platform);
-            // this.searchTypeOption = _.cloneDeep(type);
+            this.searchTypeOption = _.cloneDeep(type.data);
             this.searchCountryOption = _.cloneDeep(country.data);
             this.searchCurrencyOption = _.cloneDeep(currencies);
         });
@@ -213,11 +224,7 @@ export default {
         },
         handleAdd() {
             let obj = {
-                country: "",
-                account: "",
-                platform: "",
                 currency: "",
-                financialSpendType: "",
                 amount: "",
                 periodStartDate: "",
                 periodEndDate: ""
@@ -230,6 +237,10 @@ export default {
         getValue() {
             let data = _.cloneDeep(this.formData.data);
             _.each(data, v => {
+                v.country = this.formData.country;
+                v.account = this.formData.account;
+                v.platform = this.formData.platform;
+                v.financialSpendType = this.formData.financialSpendType;
                 v.periodStartDate = this.moment(v.date[0]).format("YYYY-MM-DD");
                 v.periodEndDate = this.moment(v.date[1]).format("YYYY-MM-DD");
                 delete v.date;
@@ -253,6 +264,7 @@ export default {
                         }
                     }).then(res => {
                         this.submitLoading = true;
+                        this.popoverVisible = false;
                         this.Bus.$emit("refresh");
                         this.$router.push("/receivable");
                     });
