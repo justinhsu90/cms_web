@@ -10,7 +10,7 @@
                     </el-select>
                 </div>
                 <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="国家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+                    <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
                         <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i"  :value="v.countryNameChinese">
                             <span style="float: left">{{ v.countryCode }}</span>
                             <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
@@ -27,8 +27,8 @@
                         <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
-                <div style="margin-left:5px;display:inline-block;width:250px">
-                    <el-date-picker clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
+                <div style="margin-left:5px;display:inline-block;width:230px">
+                    <el-date-picker clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                     </el-date-picker>
                 </div>
                 <div style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;" @click="handleSearch" class="el-input-group__append">
@@ -36,23 +36,25 @@
                 </div>
             </el-col>
             <el-col :span="2">
-                <el-button style="float:right" @click="handleAdd" type="primary">新增應收帳款</el-button>
+                <el-button style="float:right" @click="handleAdd" type="primary">新增</el-button>
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="20" label="ID" prop="id" sortable="custom"></el-table-column>
+                    <el-table-column min-width="30" label="ID" prop="id"></el-table-column>
+                    <el-table-column min-width="50" label="費用類型" prop="financialSpendType"></el-table-column>
                     <el-table-column min-width="50" label="國家" prop="country" sortable="custom"></el-table-column>
                     <el-table-column min-width="50" label="帳號" prop="account"></el-table-column>
                     <el-table-column min-width="50" label="平台" prop="platform"></el-table-column>
-                    <el-table-column min-width="50" label="幣別" prop="currency"></el-table-column>
-                    <el-table-column min-width="50" label="費用類型" prop="financialSpendType"></el-table-column>
-                    <el-table-column min-width="40" label="金額" prop="amount">
+                    <el-table-column min-width="60" label="金額" prop="amount">
                         <template slot-scope="scope">
-                            <span>{{scope.row.amount | formatToMoney}}</span>
+                           {{scope.row.amount | formatToMoney}}&nbsp;{{scope.row.currency.toUpperCase()}}
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="50" label="費用涵蓋起始日期" prop="periodStartDate"></el-table-column>
-                    <el-table-column min-width="50" label="費用涵蓋結束日期" prop="periodEndDate"></el-table-column>
+                    <el-table-column min-width="80" label="日期" prop="periodEndDate">
+                        <template slot-scope="scope">
+                           {{scope.row.periodStartDate}}&nbsp;{{"~"}}&nbsp;{{scope.row.periodEndDate}}
+                        </template>
+                    </el-table-column>
                     <el-table-column width="50" label="動作" align="center">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>

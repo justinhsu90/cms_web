@@ -13,14 +13,14 @@
                 <el-row :gutter="10">
                     <el-col :span="3">
                         <el-form-item label="平台" prop="platform" :rules="rules">
-                            <el-select placeholder="请选择" v-model="formData.platform" clearable>
+                            <el-select placeholder="請選擇" v-model="formData.platform" clearable>
                                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="3">
                         <el-form-item label="帳號" prop="account" :rules="rules">
-                            <el-select placeholder="请选择" v-model="formData.account" clearable>
+                            <el-select placeholder="請選擇" v-model="formData.account" clearable>
                                 <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                             </el-select>
                         </el-form-item>
@@ -33,8 +33,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="3">
-                        <el-form-item label="国家" prop="country" :rules="rules">
-                            <el-select placeholder="请选择" v-model="formData.country" clearable>
+                        <el-form-item label="國家" prop="country" :rules="rules">
+                            <el-select placeholder="請選擇" v-model="formData.country" clearable>
                                 <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :value="v.countryNameChinese">
                                     <span style="float: left">{{ v.countryCode }}</span>
                                     <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
@@ -58,18 +58,19 @@
                                 <span>{{id}}</span>
                             </el-form-item>
                         </el-col>
+                         <el-col :span="3">
+                            <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
+                                <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>
+                                    <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
                         <el-col :span="3">
                             <el-form-item label="金額" :rules="rules">
                                 <el-input v-model="v.amount"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
-                                <el-select placeholder="请选择" v-model="v.financialSpendType" clearable>
-                                    <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
+                       
                     </el-row>
                 </el-card>
             </el-form>

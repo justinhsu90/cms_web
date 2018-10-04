@@ -2,8 +2,8 @@ import axios from 'axios';
 import qs from 'qs';
 //axios的配置
 // axios.defaults.baseURL = 'http://118.163.10.109:8000/data-server/';
-// axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
-axios.defaults.baseURL = 'http://localhost:8080/data-server/';
+axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
+// axios.defaults.baseURL = 'http://localhost:8080/data-server/';
 axios.interceptors.request.use((request) => {
   if(request.isFormData){
     return request;  
@@ -22,17 +22,17 @@ function Ajax(config={}){
     axios(config).then((res)=>{
       response(res);
     }).catch(()=>{
-      // axios.defaults.baseURL = 'http://118.163.10.109:8000/data-server/';
-      axios.defaults.baseURL = 'http://localhost:8080/data-server/';
+      axios.defaults.baseURL = 'http://118.163.10.109:8000/data-server/';
+      // axios.defaults.baseURL = 'http://localhost:8080/data-server/';
 
         axios(config).then((res)=>{
-          // axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
-          axios.defaults.baseURL = 'http://localhost:8080/data-server/';
+          axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
+          // axios.defaults.baseURL = 'http://localhost:8080/data-server/';
 
           response(res);
         }).catch(()=>{
-          // axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
-          axios.defaults.baseURL = 'http://localhost:8080/data-server/';
+          axios.defaults.baseURL = 'http://60.251.57.138:8000/data-server/';
+          // axios.defaults.baseURL = 'http://localhost:8080/data-server/';
 
           Promise.reject('服务器错误'); 
         })
