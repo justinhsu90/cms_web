@@ -32,8 +32,8 @@
               </el-form-item>
             </el-col>
               <el-col :span="5">
-              <el-form-item label="開始日期">
-              <el-date-picker style="width:100%" v-model="v.startDate" type="date" placeholder="選擇日期時間"> </el-date-picker>
+               <el-form-item label="開始日期">
+                 <el-date-picker style="width:100%" v-model="v.startDate" type="date" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
              <el-col :span="16">
