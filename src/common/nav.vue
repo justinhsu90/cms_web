@@ -128,7 +128,10 @@ export default {
                         },
                         {
                             index: "receivable",
-                            label: "(5) 應收帳款表"
+                            label: "(5-1) 應收帳款單"
+                        },{
+                            index: "receivable_report",
+                            label: "(5-2) 費用應收表"
                         }
                     ]
                 },

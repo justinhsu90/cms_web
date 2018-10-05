@@ -20,7 +20,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="Wowcher Code" :prop="'data.'+ i + '.wowcherCode'" :rules="{required:true}">
+              <el-form-item label="訂單號" :prop="'data.'+ i + '.wowcherCode'" :rules="{required:true}">
                 <el-input v-model="v.wowcherCode"></el-input>
               </el-form-item>
             </el-col>
