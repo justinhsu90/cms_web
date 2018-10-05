@@ -53,7 +53,7 @@
                         <div v-if="base64 || form.imageUrl" class="avatar">
                             <img :src="base64 ? base64 : form.imageUrl">
                             <div class="delete">
-                                <i @click.stop="handleImageDelete" class="el-icon-delete"></i>
+                                <i @click.stop="handleImageDelete" > 删除</i>
                             </div>
                         </div>
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -519,9 +519,6 @@ export default {
         position: relative;
         overflow: hidden;
     }
-    .avatar-uploader .el-upload:hover {
-        border-color: #409eff;
-    }
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
@@ -540,17 +537,26 @@ export default {
         .delete {
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.8);
             position: absolute;
             top: 0px;
             display: none;
         }
-        .el-icon-delete::before {
+        .delete i{
             position: absolute;
             top: 50% !important;
             left: 50%;
-            color: #409eff;
+            color: #62717E;
             transform: translate(-50%, -50%);
+            font-style: normal;
+        }
+        .delete i:hover{
+            background-color: #45A2FF;
+            color: #FFF !important;
+            width:60px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
         }
     }
 

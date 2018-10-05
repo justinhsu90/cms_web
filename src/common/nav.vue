@@ -83,6 +83,10 @@ export default {
                     label: "小包做單"
                 },
                 {
+                    index: "replacement",
+                    label: "補發清單"
+                },
+                {
                     index: "wowcher",
                     label: "Wowcher",
                     isLevel: true,
@@ -94,10 +98,6 @@ export default {
                         {
                             index: "wowcherDealList",
                             label: "上架清單"
-                        },
-                        {
-                            index: "replacement",
-                            label: "補發清單"
                         },
                         {
                             index: "wowcherSample",

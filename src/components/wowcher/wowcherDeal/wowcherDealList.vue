@@ -6,9 +6,11 @@
                 </el-input>
                 <div style="margin-left:5px;display:inline-block;width:140px">
                     <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                        <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+                        <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
+
+
                 <div style="display:inline-block;width:140px">
                     <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
                         <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
@@ -24,24 +26,14 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="90" label="Deal ID" prop="dealId" sortable="custom"></el-table-column>
+                    <el-table-column min-width="110" label="Deal ID" prop="dealId" sortable="custom"></el-table-column>
                     <el-table-column min-width="120" label="Product ID" prop="productId" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="帳號" prop="account" sortable="custom"></el-table-column>
                     <el-table-column min-width="80" label="國家" prop="country" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="SKU" prop="sku" sortable="custom"></el-table-column>
                     <el-table-column min-width="250" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
                     <el-table-column min-width="250" label="產品規格" prop="productSpec" sortable="custom"></el-table-column>
-                    <!-- <el-table-column min-width="110" label="Final Price" prop="finalPrice" sortable="custom">
-                        <template slot-scope="scope">
-                            {{scope.row.finalPrice | formatToYuan}}&nbsp;{{scope.row.currency}}
-                        </template>
-                    </el-table-column> -->
-                    <!-- <el-table-column min-width="70" label="售價" prop="salePrice" sortable="custom">
-                        <template slot-scope="scope">
-                            {{scope.row.salePrice | formatToYuan}}&nbsp;{{scope.row.currency}}
-                        </template>
-                    </el-table-column> -->
-                    <el-table-column min-width="90" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
+                    <el-table-column min-width="100" label="開始日期" prop="startDate" sortable="custom"></el-table-column>
                     <el-table-column width="80" label="動作" fixed="right">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
@@ -89,14 +81,14 @@ export default {
     },
     created() {
         let account = axios({
-            url: "/wowcher/value/account",
+            url: "/wowcher/deal/value/account",
             method: "post",
             data: {
                 token: this.token
             }
         });
         let country = axios({
-            url: "/wowcher/value/country",
+            url: "/wowcher/deal/value/country",
             method: "post",
             data: {
                 token: this.token
@@ -104,7 +96,7 @@ export default {
         });
 
         Promise.all([account, country]).then(([account, country]) => {
-            this.searchAccountOption = _.cloneDeep(account.data);
+            this.searchAccountOption = _.cloneDeep(account);
             this.searchCountryOption = _.cloneDeep(country.data);
         });
         this.handleSearch();

@@ -20,10 +20,10 @@ import upcList from '@/components/upc/upcList'
 
 import singleLetter from '@/components/singleLetter/singleLetter'
 
-import replacementList from '@/components/wowcher/wowcherReplacement/replacementList'
-import replacementAdd from '@/components/wowcher/wowcherReplacement/replacementAdd'
-import replacementEdit from '@/components/wowcher/wowcherReplacement/replacementEdit'
-import replacementCheck from '@/components/wowcher/wowcherReplacement/replacementCheck'
+import replacementList from '@/components/wowcherReplacement/replacementList'
+import replacementAdd from '@/components/wowcherReplacement/replacementAdd'
+import replacementEdit from '@/components/wowcherReplacement/replacementEdit'
+import replacementCheck from '@/components/wowcherReplacement/replacementCheck'
 
 import wowcherSampleList from '../components/wowcher/wowcherSample/sampleList'
 import wowcherSampleEdit from '@/components/wowcher/wowcherSample/sampleEdit'
