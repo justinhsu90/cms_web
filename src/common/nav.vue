@@ -130,7 +130,7 @@ export default {
                             index: "receivable",
                             label: "(5-1) 應收帳款單"
                         },{
-                            index: "receivable_report",
+                            index: "receivableReport",
                             label: "(5-2) 費用應收表"
                         }
                     ]

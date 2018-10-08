@@ -36,7 +36,8 @@ export default {
             default: "取消"
         },
         row: {},
-        name:{}
+        name:{},
+        type:{}
     },
     data() {
         return {
@@ -58,7 +59,9 @@ export default {
     },
     methods: {
         confirm() {
-            this.dialogVisible = false;
+            if(this.type != 'form'){
+                this.dialogVisible = false;
+            }
             let father = this.$findFather(this.name);
             father.$emit("selectSku", [this.row, this.value]);
         }
