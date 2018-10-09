@@ -9,42 +9,13 @@
             <h2>查看费用帳款
             </h2>
             <br>
-            <!-- <el-form ref="form" :model="formData" label-position="top">
-                <el-row :gutter="20">
-                    <el-col :span="4">
-                        <el-form-item label="Report ID">
-                            <el-input v-model="formData.reportId" disabled></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="年">
-                            <el-input v-model="formData.year" disabled></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="月">
-                            <el-input v-model="formData.month" disabled></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="5">
-                        <el-form-item label="生成時間">
-                            <el-date-picker disabled  type="datetime" v-model="formData.generatedTime"></el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="生成人">
-                            <el-input v-model="formData.generatedBy" disabled></el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-            </el-form> -->
-            <table cellspacing="0" cellpadding="0">
+            <table cellspacing="0" cellpadding="0" v-loading="loading">
                 <caption>
                     <h3 class="mt">
                         {{year}}年{{month}}月费用应收帳款表
                     </h3>
                     <h5 class="tr">
-                        生成时间{{generatedTime | formatToTime}}
+                        生成时间 {{generatedTime | formatToTime}}
                     </h5>
                 </caption>
                 <thead>
@@ -102,13 +73,7 @@ export default {
     name: "receivableReportEdit",
     data() {
         return {
-            // formData: {
-            //     generatedBy: "",
-            //     generatedTime: "",
-            //     month: "",
-            //     reportId: "",
-            //     year: ""
-            // }
+            loading:true,
             add: U.Math.Add,
             data: [],
             year: "",
@@ -126,6 +91,9 @@ export default {
     },
     created() {
         let id = JSON.parse(this.$route.query.id);
+        this.year = this.$route.query.year;
+        this.month = this.$route.query.month;
+        this.generatedTime = this.$route.query.generatedTime;
         axios({
             url: "/accountreceivable/report",
             method: "post",
@@ -134,9 +102,7 @@ export default {
                 reportid: id
             }
         }).then(res => {
-            this.year = res.year;
-            this.month = res.month;
-            this.generatedTime = res.generatedTime;
+          
             let obj = {
                 incomeSale: "",
                 incomeRefund: "",
@@ -238,6 +204,7 @@ export default {
                 }, obj);
                 this.data.push(dataObj);
             });
+            this.loading = false;
         });
     },
     methods: {
@@ -289,6 +256,7 @@ caption {
 }
 .tr {
     text-align: right;
+    padding-right: 10px;
 }
 .mt {
     margin-top: 10px;

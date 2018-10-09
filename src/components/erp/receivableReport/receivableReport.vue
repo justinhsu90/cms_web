@@ -53,7 +53,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="月" prop="month" :rules="{required:true}">
-                            <el-date-picker clearable style="width:100%;" v-model="form.month" type="month" placeholder="选择月"  format="MM" value-format="MM">
+                            <el-date-picker clearable style="width:100%;" v-model="form.month" type="month" placeholder="选择月" format="MM" value-format="MM">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -207,7 +207,12 @@ export default {
         handleEdit(val) {
             this.$router.push({
                 name: "receivableReportEdit",
-                query: { id: val.reportId }
+                query: {
+                    id: val.reportId,
+                    year: val.year,
+                    month: val.month,
+                    generatedTime: val.generatedTime
+                }
             });
         },
         handleExport() {
@@ -267,9 +272,9 @@ export default {
                         url: "/accountreceivable/report/generate",
                         method: "post",
                         data: this.getValue()
-                    }).then(()=>{
+                    }).then(() => {
                         this.handleSearch();
-                    })
+                    });
                 }
             });
         }
