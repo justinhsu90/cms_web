@@ -79,28 +79,16 @@
                         <td>{{v.account | formToEmpty}}</td>
                         <td>{{v.country | formToEmpty}}</td>
                         <td>{{v.currency | formToEmpty}}</td>
-                        <template v-if='v.financialType == "應收"'>
-                            <td></td>
-                            <td></td>
-                            <td>{{v.amount}}</td>
-                        </template>
-                        <template v-else-if="v.financialType == '銷售額'">
-                            <td>{{v.amount}}</td>
-                            <td></td>
-                            <td></td>
-                        </template>
-                        <template v-else>
-                            <td></td>
-                            <td>{{v.amount}}</td>
-                            <td></td>
-                        </template>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{v.incomeSale | formToEmpty}}</td>
+                        <td>{{v.incomeRefund | formToEmpty}}</td>
+                        <td>{{v.incomeReceivable | formToEmpty}}</td>
+                        <td>{{v.successFee | formToEmpty}}</td>
+                        <td>{{v.freight | formToEmpty}}</td>
+                        <td>{{v.storageCharge | formToEmpty}}</td>
+                        <td>{{ add(add(v.successFee,v.freight),v.storageCharge) | formToEmpty}}</td>
+                        <td>{{v.fees | formToEmpty}}</td>
+                        <td>{{v.advertising | formToEmpty}}</td>
+                        <td>{{add(v.fees,v.advertising) | formToEmpty}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -108,7 +96,8 @@
     </div>
 </template>
 <script>
-import moment from 'moment'
+import moment from "moment";
+import U from "@/common/until/until";
 export default {
     name: "receivableReportEdit",
     data() {
@@ -120,18 +109,19 @@ export default {
             //     reportId: "",
             //     year: ""
             // }
+            add: U.Math.Add,
             data: [],
-            year:'',
-            month:'',
-            generatedTime:''
+            year: "",
+            month: "",
+            generatedTime: ""
         };
     },
     filters: {
         formatToTime(val) {
             return moment(val).format("YYYY-MM-DD HH:mm:ss");
         },
-        formToEmpty(val){
-            return val ? val : '-';
+        formToEmpty(val) {
+            return val ? val : "-";
         }
     },
     created() {
@@ -144,10 +134,110 @@ export default {
                 reportid: id
             }
         }).then(res => {
-            this.data = _.cloneDeep(res);
-            this.year = this.data[0].year;    
-            this.month = this.data[0].month;    
-            this.generatedTime = this.data[0].generatedTime;    
+            this.year = res.year;
+            this.month = res.month;
+            this.generatedTime = res.generatedTime;
+            let obj = {
+                incomeSale: "",
+                incomeRefund: "",
+                incomeReceivable: "",
+                successFee: "",
+                freight: "",
+                storageCharge: "",
+                fees: "",
+                advertising: ""
+            };
+            let data = {};
+            _.each(res, (v, i) => {
+                let str =
+                    v.account +
+                    "-" +
+                    v.country +
+                    "-" +
+                    v.currency +
+                    "-" +
+                    v.platform;
+                if (str in data) {
+                    data[str].push(v);
+                } else {
+                    data[str] = [v];
+                }
+            });
+            _.each(data, (v, key) => {
+                let arr = key.split("-");
+                let obj = {
+                    account: arr[0],
+                    country: arr[1],
+                    currency: arr[2],
+                    platform: arr[3],
+                    incomeSale: 0,
+                    incomeRefund: 0,
+                    incomeReceivable: 0,
+                    successFee: 0,
+                    freight: 0,
+                    storageCharge: 0,
+                    fees: 0,
+                    advertising: 0
+                };
+                let dataObj = v.reduce((accumulator, currentValue, index) => {
+                    if (
+                        currentValue.financialType == "頭程運費" ||
+                        currentValue.financialType == "尾程運費"
+                    ) {
+                        accumulator.freight = this.add(
+                            accumulator.freight,
+                            currentValue.amount
+                        );
+                    }
+                    if (
+                        currentValue.financialType == "倉儲費" ||
+                        currentValue.financialType == "海外倉儲費"
+                    ) {
+                        accumulator.storageCharge = this.add(
+                            accumulator.storageCharge,
+                            currentValue.amount
+                        );
+                    }
+                    if (currentValue.financialType == "訂單成交費") {
+                        accumulator.successFee = this.add(
+                            accumulator.successFee,
+                            currentValue.amount
+                        );
+                    }
+                    if (currentValue.financialType == "帳號使用規費") {
+                        accumulator.fees = this.add(
+                            accumulator.fees,
+                            currentValue.amount
+                        );
+                    }
+                    if (currentValue.financialType == "廣告費") {
+                        accumulator.advertising = this.add(
+                            accumulator.advertising,
+                            currentValue.amount
+                        );
+                    }
+                    if (currentValue.financialType == "銷售額") {
+                        accumulator.incomeSale = this.add(
+                            accumulator.incomeSale,
+                            currentValue.amount
+                        );
+                    }
+                    if (currentValue.financialType == "退貨(減項)") {
+                        accumulator.incomeRefund = this.add(
+                            accumulator.incomeRefund,
+                            currentValue.amount
+                        );
+                    }
+                    if (currentValue.financialType == "應收") {
+                        accumulator.incomeReceivable = this.add(
+                            accumulator.incomeReceivable,
+                            currentValue.amount
+                        );
+                    }
+                    return accumulator;
+                }, obj);
+                this.data.push(dataObj);
+            });
         });
     },
     methods: {
@@ -189,18 +279,18 @@ td {
     background: white;
     color: #62717e;
     font-size: 14px;
+    word-break: break-all;
 }
-caption{
+caption {
     border-top: 1px solid #ebeef5;
     border-right: 1px solid #ebeef5;
     border-left: 1px solid #ebeef5;
     height: 60px;
-
 }
-.tr{
+.tr {
     text-align: right;
 }
-.mt{
-    margin-top:10px;
+.mt {
+    margin-top: 10px;
 }
 </style>

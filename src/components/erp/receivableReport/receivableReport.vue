@@ -61,21 +61,21 @@
                 <el-row :gutter="20">
                     <el-col :span="12">
                         <el-form-item label="平台">
-                            <el-select style="width:100%" v-model="form.platform">
+                            <el-select style="width:100%" v-model="form.platform" clearable>
                                 <el-option v-for="(v,i) in searchPlatformOption" :label="v" :value="v" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="账号">
-                            <el-select style="width:100%" v-model="form.account">
+                            <el-select style="width:100%" v-model="form.account" clearable>
                                 <el-option v-for="(v,i) in searchAccountOption" :label="v" :value="v" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="国家">
-                            <el-select style="width:100%" v-model="form.country">
+                            <el-select style="width:100%" v-model="form.country" clearable>
                                 <el-option v-for="(v,i) in searchCountryOption" :value="v.countryNameChinese" :key="i">
                                     <span style="float: left">{{ v.countryCode }}</span>
                                     <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
@@ -267,7 +267,9 @@ export default {
                         url: "/accountreceivable/report/generate",
                         method: "post",
                         data: this.getValue()
-                    });
+                    }).then(()=>{
+                        this.handleSearch();
+                    })
                 }
             });
         }

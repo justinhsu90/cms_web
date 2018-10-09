@@ -64,39 +64,39 @@
                     </div>
                     <br>
                     <br>
-                    <div  style="margin-bottom:10px;width:45%;float:left">
+                    <div  style="margin-bottom:10px;width:49%;float:left">
                         <el-card class="box-card mb10" v-for="(v,i) in formData.dataIncome" :key="i">
                             <el-row :gutter="10">
                                 <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i,'income')"></el-button>
                                 <el-col :span="12">
-                                    <el-form-item label="費用類型" :prop="'dataIncome.'+ i +'.financialSpendType'" :rules="rules">
-                                        <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>
+                                    <el-form-item  class="el-form-item_label" label="費用：" :prop="'dataIncome.'+ i +'.financialSpendType'" :rules="rules">
+                                        <el-select  style="width:65%" placeholder="請選擇" v-model="v.financialSpendType" clearable>
                                             <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
                                         </el-select>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item label="金額" :prop="'dataIncome.'+ i +'.amount'" :rules="rules">
-                                        <el-input v-model="v.amount"></el-input>
+                                    <el-form-item  class="el-form-item_label" label="金額：" :prop="'dataIncome.'+ i +'.amount'" :rules="rules">
+                                        <el-input  style="width:65%" v-model="v.amount"></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
                         </el-card>
                     </div>
-                    <div  style="margin-bottom:10px;width:45%;float:right">
+                    <div  style="margin-bottom:10px;width:49%;float:right">
                         <el-card class="box-card mb10" v-for="(v,i) in formData.data" :key="i + 'income'">
                             <el-row :gutter="10">
                                 <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
                                 <el-col :span="12">
-                                    <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
-                                        <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>
+                                    <el-form-item class="el-form-item_label" label="費用：" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
+                                        <el-select style="width:65%"  placeholder="請選擇" v-model="v.financialSpendType" clearable>
                                             <el-option v-for="(v,i) in searchIncomeTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
                                         </el-select>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item label="金額"   :prop="'data.'+ i +'.amount'"  :rules="rules">
-                                        <el-input v-model="v.amount"></el-input>
+                                    <el-form-item class="el-form-item_label" label="金額："   :prop="'data.'+ i +'.amount'"  :rules="rules">
+                                        <el-input  style="width:65%" v-model="v.amount"></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -354,6 +354,9 @@ export default {
 /deep/ .el-form-item__label {
     padding: 0px !important;
 }
+/deep/ .el-form-item_label>div:nth-child(1){
+    float: left;
+}
 .heade a {
     color: #45a2ff;
 }
@@ -363,6 +366,7 @@ export default {
 .mb10{
     margin-bottom:10px; 
 }
+
 </style>
 
 
