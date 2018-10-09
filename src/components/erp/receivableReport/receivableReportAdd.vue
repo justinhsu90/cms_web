@@ -54,11 +54,6 @@
                 <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
                     <el-row :gutter="10">
                         <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-                        <!-- <el-col :span="2">
-                            <el-form-item label="序號">
-                                <span>{{i+1}}</span>
-                            </el-form-item>
-                        </el-col> -->
                        <el-col :span="5">
                             <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
                                 <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>

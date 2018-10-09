@@ -28,7 +28,7 @@
                     <el-table-column min-width="30" label="Report ID" prop="reportId"></el-table-column>
                     <el-table-column min-width="50" label="年" prop="year"></el-table-column>
                     <el-table-column min-width="50" label="月" prop="month"></el-table-column>
-                    <el-table-column min-width="50" label="生成時間" prop="generatedTime"></el-table-column>
+                    <el-table-column min-width="50" label="生成時間" prop="generatedTime" :formatter="formatToTime"></el-table-column>
                     <el-table-column min-width="50" label="生成人" prop="generatedBy"></el-table-column>
                     <el-table-column width="100" label="动作" align="center">
                         <template slot-scope="scope">
@@ -207,7 +207,7 @@ export default {
         handleEdit(val) {
             this.$router.push({
                 name: "receivableReportEdit",
-                query: { data: JSON.stringify(val) }
+                query: { id: val.reportId }
             });
         },
         handleExport() {

@@ -126,7 +126,7 @@ export default {
         getValue() {
             let data = _.cloneDeep(this.formData.data);
             data.paymentTime = this.moment(data.paymentTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
+                "YYYY-MM-DD HH:mm:ss"
             );
             let obj = {
                 data

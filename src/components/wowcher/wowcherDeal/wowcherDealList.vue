@@ -9,13 +9,17 @@
                         <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
-
-
                 <div style="display:inline-block;width:140px">
                     <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
                         <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
                             <span style="float: left">{{ v.countryCode }}</span>
                             <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryName }}</span>
+                        </el-option>
+                    </el-select>
+                </div>
+                <div style="display:inline-block;width:140px">
+                    <el-select placeholder="更新状态" v-model="searchStatus" @change="handleCondition('status')" clearable>
+                        <el-option v-for="(v,i) in searchStatusOption" :key="'status'+i" :label="v" :value="v">
                         </el-option>
                     </el-select>
                 </div>
@@ -56,6 +60,8 @@ export default {
         return {
             tableData: [],
             condition: [],
+            searchStatusOption:['未更新'],
+            searchStatus:'',
             searchAccount: "",
             sku: "",
             searchAccountOption: [],
@@ -113,6 +119,15 @@ export default {
                     }
                 }
             }
+            if (sign == "status") {
+                if (!this.searchStatus) {
+                    _.pull(this.condition, "2");
+                } else {
+                    if(!this.condition.includes('2')){
+                       this.condition.push("2");
+                    }
+                }
+            }
             if (sign == "cou") {
                 if (!this.searchCountry) {
                     _.pull(this.condition, "3");
@@ -135,6 +150,9 @@ export default {
             };
             if (this.condition.includes("1")) {
                 data.account = this.searchAccount;
+            }
+            if (this.condition.includes("2")) {
+                data.filed = 'y';
             }
             if (this.condition.includes("3")) {
                 data.country = this.searchCountry;

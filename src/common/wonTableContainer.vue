@@ -1,3 +1,4 @@
+
 <script>
 export default {
     data() {
@@ -50,6 +51,9 @@ export default {
         }
     },
     filters: {
+        formatToTime(row,col) {
+            return this.moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
+        },
         formatToPercent(row, column, cellValue) {
             return (cellValue * 100).toFixed(2) + "%";
         },
@@ -62,6 +66,19 @@ export default {
         }
     },
     methods: {
+        formatToTime(row,col) {
+            return this.moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
+        },
+        formatToPercent(row, column, cellValue) {
+            return (cellValue * 100).toFixed(2) + "%";
+        },
+        formatToYuan(row, column, cellValue) {
+            if (cellValue) {
+                return cellValue.toFixed(2);
+            } else {
+                return row.toFixed(2);
+            }
+        },
         handleSizeChange(size) {
             this.fetchCondition.limit = size;
             this.handleSearch();

@@ -9,7 +9,7 @@
             <h2>查看费用帳款
             </h2>
             <br>
-            <el-form ref="form" :model="formData" label-position="top">
+            <!-- <el-form ref="form" :model="formData" label-position="top">
                 <el-row :gutter="20">
                     <el-col :span="4">
                         <el-form-item label="Report ID">
@@ -37,7 +37,8 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
-            </el-form>
+            </el-form> -->
+            
         </div>
     </div>
 </template>
@@ -46,22 +47,28 @@ export default {
     name: "receivableReportEdit",
     data() {
         return {
-            formData: {
-                generatedBy: "",
-                generatedTime: "",
-                month: "",
-                reportId: "",
-                year: ""
-            }
+            // formData: {
+            //     generatedBy: "",
+            //     generatedTime: "",
+            //     month: "",
+            //     reportId: "",
+            //     year: ""
+            // }
+            data:[]
         };
     },
     created() {
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.generatedBy = data.generatedBy;
-        this.formData.generatedTime = data.generatedTime;
-        this.formData.month = data.month;
-        this.formData.reportId = data.reportId;
-        this.formData.year = data.year;
+        let id = JSON.parse(this.$route.query.id);
+           axios({
+               url:'/accountreceivable/report',
+               method:'post',
+               data:{
+                   token:this.token,
+                   reportid: id
+               }
+           }).then((res)=>{
+               
+           })
     },
     methods: {
         goBack() {
