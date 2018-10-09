@@ -196,9 +196,13 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
+            _.each(data,(v)=>{
+              v.startDate = this.moment(v.startDate).format('YYYY-MM-DD')
+            })
             let obj = {
                 data
             };
+            
             return JSON.stringify(obj);
         },
         submit() {

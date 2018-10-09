@@ -53,7 +53,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="月" prop="month" :rules="{required:true}">
-                            <el-date-picker clearable style="width:100%;" v-model="form.month" type="month" placeholder="选择年" value-format="MM">
+                            <el-date-picker clearable style="width:100%;" v-model="form.month" type="month" placeholder="选择月"  format="MM" value-format="MM">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>

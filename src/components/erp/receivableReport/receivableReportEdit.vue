@@ -38,11 +38,77 @@
                     </el-col>
                 </el-row>
             </el-form> -->
-            
+            <table cellspacing="0" cellpadding="0">
+                <caption>
+                    <h3 class="mt">
+                        {{year}}年{{month}}月费用应收帳款表
+                    </h3>
+                    <h5 class="tr">
+                        生成时间{{generatedTime | formatToTime}}
+                    </h5>
+                </caption>
+                <thead>
+                    <tr>
+                        <th colspan="5">客戶資料</th>
+                        <th colspan="3">收入</th>
+                        <th colspan="4">變動成本</th>
+                        <th colspan="3">固定成本</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>客工商</td>
+                        <td>平台</td>
+                        <td>賬號</td>
+                        <td>國家</td>
+                        <td>幣別</td>
+                        <td>銷售額</td>
+                        <td>退貨退款</td>
+                        <td>應收</td>
+                        <td>成交費</td>
+                        <td>運費</td>
+                        <td>倉儲費</td>
+                        <td>總金額</td>
+                        <td>規費</td>
+                        <td>廣告費</td>
+                        <td>總金額</td>
+                    </tr>
+                    <tr v-for="(v,i) in data" :key="i">
+                        <td>{{v.erpClientId | formToEmpty}}</td>
+                        <td>{{v.platform | formToEmpty}}</td>
+                        <td>{{v.account | formToEmpty}}</td>
+                        <td>{{v.country | formToEmpty}}</td>
+                        <td>{{v.currency | formToEmpty}}</td>
+                        <template v-if='v.financialType == "應收"'>
+                            <td></td>
+                            <td></td>
+                            <td>{{v.amount}}</td>
+                        </template>
+                        <template v-else-if="v.financialType == '銷售額'">
+                            <td>{{v.amount}}</td>
+                            <td></td>
+                            <td></td>
+                        </template>
+                        <template v-else>
+                            <td></td>
+                            <td>{{v.amount}}</td>
+                            <td></td>
+                        </template>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
 <script>
+import moment from 'moment'
 export default {
     name: "receivableReportEdit",
     data() {
@@ -54,21 +120,35 @@ export default {
             //     reportId: "",
             //     year: ""
             // }
-            data:[]
+            data: [],
+            year:'',
+            month:'',
+            generatedTime:''
         };
+    },
+    filters: {
+        formatToTime(val) {
+            return moment(val).format("YYYY-MM-DD HH:mm:ss");
+        },
+        formToEmpty(val){
+            return val ? val : '-';
+        }
     },
     created() {
         let id = JSON.parse(this.$route.query.id);
-           axios({
-               url:'/accountreceivable/report',
-               method:'post',
-               data:{
-                   token:this.token,
-                   reportid: id
-               }
-           }).then((res)=>{
-               
-           })
+        axios({
+            url: "/accountreceivable/report",
+            method: "post",
+            data: {
+                token: this.token,
+                reportid: id
+            }
+        }).then(res => {
+            this.data = _.cloneDeep(res);
+            this.year = this.data[0].year;    
+            this.month = this.data[0].month;    
+            this.generatedTime = this.data[0].generatedTime;    
+        });
     },
     methods: {
         goBack() {
@@ -80,20 +160,47 @@ export default {
 <style lang="scss" scoped>
 #receivableEdit {
     .heade {
-        font-size: 16px;
         color: #45a2ff;
+        & a {
+            color: #45a2ff;
+            font-size: 16px;
+        }
     }
 }
-/deep/ .el-form-item {
-    margin-bottom: 6px;
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
 }
-/deep/ .el-form-item__label {
-    padding: 0px !important;
+th {
+    padding: 4px;
+    text-align: center;
+    color: #62717e;
+    border-right: 1px solid #ebeef5;
 }
-.heade a {
-    color: #45a2ff;
+td {
+    padding: 0px;
+    border-top: 1px solid #ebeef5;
+    border-right: 1px solid #ebeef5;
+    text-align: center;
+    background: white;
+    color: #62717e;
+    font-size: 14px;
 }
-/deep/ .el-card__body {
-    padding: 10px;
+caption{
+    border-top: 1px solid #ebeef5;
+    border-right: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
+    height: 60px;
+
+}
+.tr{
+    text-align: right;
+}
+.mt{
+    margin-top:10px;
 }
 </style>

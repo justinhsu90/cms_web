@@ -1,5 +1,7 @@
 
+
 <script>
+import moment from 'moment'
 export default {
     data() {
         return {
@@ -52,7 +54,7 @@ export default {
     },
     filters: {
         formatToTime(row,col) {
-            return this.moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
+            return moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
         },
         formatToPercent(row, column, cellValue) {
             return (cellValue * 100).toFixed(2) + "%";
