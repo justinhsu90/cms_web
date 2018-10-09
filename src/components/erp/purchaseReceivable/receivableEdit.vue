@@ -50,7 +50,7 @@
                     </el-col>
                 </el-row>
                 <br>
-                <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
+                <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px;width:50%">
                     <el-row :gutter="10">
                         <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
                         <!-- <el-col :span="2">
@@ -58,14 +58,14 @@
                                 <span>{{id}}</span>
                             </el-form-item>
                         </el-col> -->
-                         <el-col :span="5">
+                         <el-col :span="12">
                             <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
                                 <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>
                                     <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="5">
+                        <el-col :span="10">
                             <el-form-item label="金額" :rules="rules">
                                 <el-input v-model="v.amount"></el-input>
                             </el-form-item>

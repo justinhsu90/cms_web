@@ -7,7 +7,7 @@
             </div>
             <br>
             <h2>新增應收帳款
-                <el-button style="float:right" type="success" size="small" @click="handleAdd">新增</el-button>
+
             </h2>
             <br>
             <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -51,28 +51,57 @@
                     </el-col>
                 </el-row>
                 <br>
-                <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
-                    <el-row :gutter="10">
-                        <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-                        <!-- <el-col :span="2">
-                            <el-form-item label="序號">
-                                <span>{{i+1}}</span>
-                            </el-form-item>
-                        </el-col> -->
-                       <el-col :span="5">
-                            <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
-                                <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>
-                                    <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                         <el-col :span="5">
-                            <el-form-item label="金額" :rules="rules">
-                                <el-input v-model="v.amount"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        
-                    </el-row>
+                <el-card class="box-card">
+                    <div>
+                        <div style="width:45%;float:left;">
+                            <h3 style="float:left">收入(含退貨)</h3>
+                            <el-button style="float:right" type="success" size="small" @click="handleAdd('income')">新增</el-button>
+                        </div>
+                        <div style="width:45%;float:right;">
+                            <h3 style="float:left">支出</h3>
+                            <el-button style="float:right" type="success" size="small" @click="handleAdd()">新增</el-button>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div  style="margin-bottom:10px;width:45%;float:left">
+                        <el-card class="box-card mb10" v-for="(v,i) in formData.dataIncome" :key="i">
+                            <el-row :gutter="10">
+                                <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i,'income')"></el-button>
+                                <el-col :span="12">
+                                    <el-form-item label="費用類型" :prop="'dataIncome.'+ i +'.financialSpendType'" :rules="rules">
+                                        <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>
+                                            <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="10">
+                                    <el-form-item label="金額" :prop="'dataIncome.'+ i +'.amount'" :rules="rules">
+                                        <el-input v-model="v.amount"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-card>
+                    </div>
+                    <div  style="margin-bottom:10px;width:45%;float:right">
+                        <el-card class="box-card mb10" v-for="(v,i) in formData.data" :key="i + 'income'">
+                            <el-row :gutter="10">
+                                <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+                                <el-col :span="12">
+                                    <el-form-item label="費用類型" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
+                                        <el-select placeholder="請選擇" v-model="v.financialSpendType" clearable>
+                                            <el-option v-for="(v,i) in searchIncomeTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="10">
+                                    <el-form-item label="金額"   :prop="'data.'+ i +'.amount'"  :rules="rules">
+                                        <el-input v-model="v.amount"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+                        </el-card>
+                    </div>
                 </el-card>
             </el-form>
             <br>
@@ -91,6 +120,12 @@
 import { format } from "@/common/until/format";
 export default {
     name: "receivableAdd",
+    computed:{
+        disabled(){
+            let arr = this.formData.data.concat(this.formData.dataIncome);
+            return arr.length <= 1;
+        }
+    },
     data() {
         return {
             popoverVisible: false,
@@ -136,8 +171,10 @@ export default {
             searchAccountOption: [],
             searchPlatformOption: [],
             searchTypeOption: [],
+            searchIncomeTypeOption: [],
             searchCountryOption: [],
             searchCurrencyOption: [],
+
             requredRule: {
                 required: true
             },
@@ -152,10 +189,17 @@ export default {
                 platform: "",
                 periodStartDate: "",
                 periodEndDate: "",
+                dataIncome: [
+                    { 
+                        incomeorspend: 'income',
+                        financialSpendType: "",
+                        amount: ""
+                    }
+                ],
                 data: [
                     {
+                        incomeorspend: 'spend',
                         financialSpendType: "",
-                        currency: "",
                         amount: ""
                     }
                 ]
@@ -208,7 +252,15 @@ export default {
         ]).then(([platform, account, country, currencies, type]) => {
             this.searchAccountOption = _.cloneDeep(account);
             this.searchPlatformOption = _.cloneDeep(platform);
-            this.searchTypeOption = _.cloneDeep(type.data);
+            _.each(type.data,(v,i)=>{
+                if(v.financialspendTerm == '收入'){
+                    this.searchTypeOption.push(_.cloneDeep(v));
+                }else{
+                    this.searchIncomeTypeOption.push(_.cloneDeep(v));
+                }
+
+            })
+            
             this.searchCountryOption = _.cloneDeep(country.data);
             this.searchCurrencyOption = _.cloneDeep(currencies);
         });
@@ -223,19 +275,30 @@ export default {
         goBack() {
             this.$router.push("/receivable");
         },
-        handleAdd() {
+        handleAdd(val) {
             let obj = {
                 financialSpendType: "",
                 currency: "",
                 amount: ""
             };
-            this.formData.data.push(obj);
+            if(val == 'income'){
+                obj.incomeorspend = 'income';
+                this.formData.dataIncome.push(obj);
+                
+            }else{
+                obj.incomeorspend = 'speed';
+                this.formData.data.push(obj);
+            } 
         },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
+        handleDelete(index,val) {
+            if(val == 'income'){
+                this.formData.dataIncome.splice(index, 1);
+            }else{
+                this.formData.data.splice(index, 1);
+            }
         },
         getValue() {
-            let data = _.cloneDeep(this.formData.data);
+            let data = _.cloneDeep(this.formData.data.concat(this.formData.dataIncome));
             _.each(data, v => {
                 v.country = this.formData.country;
                 v.account = this.formData.account;
@@ -296,6 +359,9 @@ export default {
 }
 /deep/ .el-card__body {
     padding: 10px;
+}
+.mb10{
+    margin-bottom:10px; 
 }
 </style>
 
