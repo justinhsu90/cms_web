@@ -13,18 +13,18 @@
           <el-row :gutter="20">
             <el-col :span="4">
               <el-form-item label="帳號">
-                <el-select placeholder="帳號" v-model="v.account" @change="handleCondition('acc')" clearable>
+                <el-select placeholder="帳號" v-model="v.account"  clearable>
                   <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="國家">
-                <el-select placeholder="國家" v-model="v.country" @change="handleCondition('cou')" clearable>
-                  <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
-                    <span style="float: left">{{ v.countryCode }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryName }}</span>
-                  </el-option>
+                <el-select placeholder="國家" v-model="v.country"  clearable>
+                  <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i"  :value="v.countryCode">
+                        <span style="float: left">{{ v.countryCode }}</span>  
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                  </el-option>     
                 </el-select>
               </el-form-item>
             </el-col>
