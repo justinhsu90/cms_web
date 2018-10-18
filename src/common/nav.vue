@@ -139,6 +139,10 @@ export default {
                     index: "singleLetter",
                     label: "補發信單"
                 },
+                {
+                    index: "excelUpload",
+                    label: "excelUpload"
+                },
             ]
         };
     },

@@ -2,6 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import nav from '@/common/nav'
 import login from '@/common/login'
+import asyncComponent from '@/common/until/asyncComponent'
 
 import skuList from '@/components/sku/skuList'
 import skuAdd from '@/components/sku/skuAdd'
@@ -64,6 +65,7 @@ import paymentList from '@/components/erp/payment/paymentList'
 import paymentAdd from '@/components/erp/payment/paymentAdd'
 import paymentEdit from '@/components/erp/payment/paymentEdit'
 
+// import excelUploadList from '@/components/excelUpload/excelUploadList'
 
 Vue.use(VueRouter);
 let router = new VueRouter({
@@ -435,6 +437,15 @@ let router = new VueRouter({
           component: paymentEdit,
           meta: {
             sign: 'payment'
+          }
+        },
+        {
+          name: 'excelUpload',
+          path: '/excelUpload',          
+          
+          component: asyncComponent('excelUpload/excelUploadList'),
+          meta: {
+            sign: 'excelUpload'
           }
         }
       ]
