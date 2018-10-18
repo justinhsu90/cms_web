@@ -85,22 +85,31 @@
         </el-row>
         <el-row :gutter="24">
           <h3>產品內容</h3>
-          <el-col :span="10">
+           <el-col :span="13">
             <el-form-item label="產品名稱">
               <el-input disabled v-model="data.productName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+        </el-row>
+          <el-row :gutter="24">
+           <el-col :span="5">
+            <el-form-item label="SKU">
+              <el-input disabled v-model="data.sku"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="4">
             <el-form-item label="顏色">
               <el-input disabled v-model="data.colour"></el-input>
             </el-form-item>
-          </el-col>
-          <el-col :span="3">
+            </el-col>
+            <el-col :span="4">
             <el-form-item label="尺寸">
               <el-input disabled v-model="data.size"></el-input>
             </el-form-item>
-          </el-col>
-          <el-col :span="8">
+          </el-col>    
+          </el-row> 
+          <el-row :gutter="24">     
+          <el-col :span="13">
             <el-form-item label="Product Options">
               <el-input disabled v-model="data.productOptions"></el-input>
             </el-form-item>
