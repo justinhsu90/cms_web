@@ -65,7 +65,7 @@ import paymentList from '@/components/erp/payment/paymentList'
 import paymentAdd from '@/components/erp/payment/paymentAdd'
 import paymentEdit from '@/components/erp/payment/paymentEdit'
 
-// import excelUploadList from '@/components/excelUpload/excelUploadList'
+
 
 Vue.use(VueRouter);
 let router = new VueRouter({
@@ -442,8 +442,15 @@ let router = new VueRouter({
         {
           name: 'excelUpload',
           path: '/excelUpload',          
-          
           component: asyncComponent('excelUpload/excelUploadList'),
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'addUpload',
+          path: '/addUpload',          
+          component: asyncComponent('excelUpload/excelUploadFile'),
           meta: {
             sign: 'excelUpload'
           }

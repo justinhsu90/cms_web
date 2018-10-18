@@ -22,7 +22,7 @@
                     <div style="line-height:50px;text-align:center;">
                         <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
                     </div>
-                 <div>
+                    <div>
                         <el-menu :unique-opened="true" :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
                             <template v-for="(v,i) in navData">
                                 <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
@@ -83,6 +83,10 @@ export default {
                     label: "小包做單"
                 },
                 {
+                    index: "wowcherOrderList",
+                    label: "訂單查詢"
+                },
+                {
                     index: "replacement",
                     label: "補發清單"
                 },
@@ -91,10 +95,6 @@ export default {
                     label: "Wowcher",
                     isLevel: true,
                     child: [
-                        {
-                            index: "wowcherOrderList",
-                            label: "訂單查詢"
-                        },
                         {
                             index: "wowcherDealList",
                             label: "上架清單"
@@ -129,7 +129,8 @@ export default {
                         {
                             index: "receivable",
                             label: "(5-1) 應收帳款單"
-                        },{
+                        },
+                        {
                             index: "receivableReport",
                             label: "(5-2) 費用應收表"
                         }
@@ -142,7 +143,7 @@ export default {
                 {
                     index: "excelUpload",
                     label: "excelUpload"
-                },
+                }
             ]
         };
     },
@@ -163,7 +164,7 @@ export default {
         },
         handleQuit() {
             let that = this;
-            this.$confirm("是否要退出", "提示", { 
+            this.$confirm("是否要退出", "提示", {
                 type: "info",
                 beforeClose(action, instance, done) {
                     if (action == "confirm") {
@@ -259,10 +260,10 @@ export default {
         position: relative;
         height: 20px;
     }
-    .el-main{
-        padding:10px 15px;
-        flex-basis:initial;
-        flex:12;
+    .el-main {
+        padding: 10px 15px;
+        flex-basis: initial;
+        flex: 12;
     }
 }
 </style>

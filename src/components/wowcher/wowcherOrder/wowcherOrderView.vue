@@ -6,7 +6,9 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>Wowcher 訂單內容</h2>
+      <h2><span>Wowcher 訂單內容</span>
+      <img class="title-img" :src="data.snapShotUrl" alt="">
+      </h2>
       <br>
       <el-form ref="form" :model="data" v-loading="loading" label-position="top">
         <el-row :gutter="24">
@@ -262,6 +264,15 @@ export default {
     color: #45a2ff;
 }
 #edit {
+  h2{
+    position: relative;
+  }
+    .title-img{
+    position: absolute;
+    right: 0px;
+    z-index: 999;
+    width:100px;
+    }
     .w50 {
         width: 50%;
     }

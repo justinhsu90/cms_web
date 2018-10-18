@@ -39,4 +39,7 @@ a {
 .btnh{
     padding: 4px 0px;
 }
+ul,li{
+    list-style: none;
+}
 
