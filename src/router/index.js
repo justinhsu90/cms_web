@@ -8,9 +8,6 @@ import skuList from '@/components/sku/skuList'
 import skuAdd from '@/components/sku/skuAdd'
 import skuEdit from '@/components/sku/skuEdit'
 
-import wowcherOrderList from '@/components/wowcher/wowcherOrder/wowcherOrderList'
-import wowcherTrackingStatus from '@/components/wowcher/wowcherOrder/wowcherTrackingStatus'
-import wowcherOrderView from '@/components/wowcher/wowcherOrder/wowcherOrderView'
 import wowcherDealList from '@/components/wowcher/wowcherDeal/wowcherDealList'
 import wowcherDealEdit from '@/components/wowcher/wowcherDeal/wowcherDealEdit'
 import wowcherDealAdd from '@/components/wowcher/wowcherDeal/wowcherDealAdd'
@@ -74,6 +71,13 @@ let router = new VueRouter({
       component: login,
       meta: {
         name: 'login'
+      }
+    },
+    {
+      path: '/404',
+      component: asyncComponent('404/404'),
+      meta: {
+        name: '404'
       }
     },
     {
@@ -167,27 +171,27 @@ let router = new VueRouter({
           }
         },
         {
-          name: 'wowcherOrderList',
-          path: '/wowcherOrderList',
-          component: wowcherOrderList,
+          name: 'orderList',
+          path: '/orderList',
+          component: asyncComponent('order/orderList'),
           meta: {
             keepAlive: true
           }
         },
         {
-          name: 'wowcherOrderView',
-          path: '/wowcherOrderView',
-          component: wowcherOrderView,
+          name: 'orderView',
+          path: '/orderView',
+          component: asyncComponent('order/orderView'),
           meta: {
-            sign: 'wowcherOrderList'
+            sign: 'orderList'
           }
         },
         {
-          name: 'wowcherTrackingStatus',
-          path: '/wowcherTrackingStatus',
-          component: wowcherTrackingStatus,
+          name: 'trackingStatus',
+          path: '/trackingStatus',
+          component: asyncComponent('order/trackingStatus'),
           meta: {
-            sign: 'wowcherOrderList'
+            sign: 'orderList'
           }
         },
         {
@@ -459,7 +463,7 @@ let router = new VueRouter({
     },
     {
       path: '*',
-      redirect: '/'
+      redirect: '/404'
     }
   ]
 })

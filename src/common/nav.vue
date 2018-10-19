@@ -83,7 +83,7 @@ export default {
                     label: "小包做單"
                 },
                 {
-                    index: "wowcherOrderList",
+                    index: "orderList",
                     label: "訂單查詢"
                 },
                 {

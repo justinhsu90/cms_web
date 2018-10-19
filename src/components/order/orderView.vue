@@ -234,7 +234,7 @@ export default {
     },
     methods: {
         goBack() {
-            this.$router.push("/wowcherOrderList");
+            this.$router.push("/orderList");
         },
         handleChange(v) {
           let that= this;
