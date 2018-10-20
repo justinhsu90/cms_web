@@ -265,5 +265,8 @@ export default {
         flex-basis: initial;
         flex: 12;
     }
+    .label-tips {
+        color: #bbbbbb;
+    }
 }
 </style>

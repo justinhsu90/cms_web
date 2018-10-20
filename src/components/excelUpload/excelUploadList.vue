@@ -5,7 +5,7 @@
                 <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
                 </el-input>
                 <div style="margin-left:5px;display:inline-block;width:140px">
-                    <el-select placeholder="file" v-model="searchFileType" @change="handleCondition('file')" clearable>
+                    <el-select placeholder="文件類型" v-model="searchFileType" @change="handleCondition('file')" clearable>
                         <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
@@ -18,27 +18,27 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="80" label="fileId" prop="fileId">
+                    <el-table-column min-width="80" label="File ID" prop="fileId">
                     </el-table-column>
-                    <el-table-column min-width="100" label="fileName" prop="fileName">
+                    <el-table-column min-width="100" label="文件名稱" prop="fileName">
                     </el-table-column>
-                    <el-table-column min-width="80" label="fileType" prop="fileType">
+                    <el-table-column min-width="80" label="文件類型" prop="fileType">
                     </el-table-column>
 
-                    <el-table-column min-width="80" label="addedBy" prop="addedBy">
+                    <el-table-column min-width="80" label="加入" prop="addedBy">
                     </el-table-column>
                     <!-- <el-table-column min-width="80" label="fileUrl" prop="fileUrl">
               <template slot-scope="scope">
                   <img :src="scope.row.fileUrl" alt="" style="width:80px">
               </template>
           </el-table-column> -->
-                    <el-table-column min-width="80" label="uploadStatus" prop="uploadStatus">
+                    <el-table-column min-width="80" label="匯入狀態" prop="uploadStatus">
                     </el-table-column>
-                    <el-table-column min-width="80" label="addedTime" prop="addedTime" :formatter="formatToTime">
+                    <el-table-column min-width="80" label="加入時間" prop="addedTime" :formatter="formatToTime">
                     </el-table-column>
-                    <el-table-column min-width="80" label="lastUpdatedTime" prop="lastUpdatedTime" :formatter="formatToTime">
+                    <el-table-column min-width="80" label="最夠更新時間" prop="lastUpdatedTime" :formatter="formatToTime">
                     </el-table-column>
-                    <el-table-column width="80" label="動作" fixed="right" align="center">
+                    <el-table-column width="80" label="下載文件" fixed="right" align="center">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="下载" icon="el-icon-won-102" @click="handleDown(scope.row)"></el-button>
                         </template>
