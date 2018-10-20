@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2><span>Wowcher 訂單內容</span>
+      <h2><span>訂單內容</span>
       <img class="title-img" :src="data.snapShotUrl" alt="">
       </h2>
       <br>
@@ -15,27 +15,27 @@
           <h3>基本資料</h3>
           <el-col :span="5">
             <el-form-item label="所屬帳號">
-              <el-input disabled v-model="data.account"></el-input>
+              <el-input v-model="data.account"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="Wowcher Code">
-              <el-input disabled v-model="data.wowcherCode"></el-input>
+            <el-form-item label="訂單號">
+              <el-input v-model="data.wowcherCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="下單時間">
-              <el-input disabled v-model="data.redeemedAt"></el-input>
+              <el-input v-model="data.redeemedAt"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Deal ID:">
-              <el-input disabled v-model="data.dealId"></el-input>
+              <el-input v-model="data.dealId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="Product ID:">
-              <el-input disabled v-model="data.productId"></el-input>
+              <el-input v-model="data.productId"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -43,7 +43,7 @@
         <el-row :gutter="24">
           <el-col :span="4">
             <el-form-item label="出貨狀態">
-              <el-input disabled v-model="data.orderStatus"></el-input>
+              <el-input v-model="data.orderStatus"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -59,27 +59,27 @@
         <el-row :gutter="24">
           <el-col :span="6">
             <el-form-item label="發貨時間">
-              <el-input disabled v-model="data.shipoutTime"></el-input>
+              <el-input v-model="data.shipoutTime"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="物流單號">
-              <el-input disabled v-model="data.trackingNo"></el-input>
+              <el-input v-model="data.trackingNo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="3">
             <el-form-item label="發貨方式">
-              <el-input disabled v-model="data.shippingMethod"></el-input>
+              <el-input v-model="data.shippingMethod"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="3">
             <el-form-item label="貨代">
-              <el-input  disabled v-model="data.agent"></el-input>
+              <el-input v-model="data.agent"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="貨代平台單號">
-              <el-input disabled v-model="data.platformOrderId"></el-input>
+              <el-input v-model="data.platformOrderId"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -87,31 +87,31 @@
           <h3>產品內容</h3>
            <el-col :span="13">
             <el-form-item label="產品名稱">
-              <el-input disabled v-model="data.productName"></el-input>
+              <el-input v-model="data.productName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
           <el-row :gutter="24">
            <el-col :span="5">
             <el-form-item label="SKU">
-              <el-input disabled v-model="data.sku"></el-input>
+              <el-input v-model="data.sku"></el-input>
             </el-form-item>
             </el-col>
             <el-col :span="4">
             <el-form-item label="顏色">
-              <el-input disabled v-model="data.colour"></el-input>
+              <el-input v-model="data.colour"></el-input>
             </el-form-item>
             </el-col>
             <el-col :span="4">
             <el-form-item label="尺寸">
-              <el-input disabled v-model="data.size"></el-input>
+              <el-input v-model="data.size"></el-input>
             </el-form-item>
           </el-col>    
           </el-row> 
           <el-row :gutter="24">     
           <el-col :span="13">
             <el-form-item label="Product Options">
-              <el-input disabled v-model="data.productOptions"></el-input>
+              <el-input v-model="data.productOptions"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -119,49 +119,49 @@
           <h3>客戶資料</h3>
           <el-col :span="6">
             <el-form-item label="客戶名稱">
-              <el-input disabled v-model="data.customerName"></el-input>
+              <el-input v-model="data.customerName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="地址1">
-              <el-input disabled v-model="data.addressLine1"></el-input>
+              <el-input v-model="data.addressLine1"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="地址2">
-              <el-input disabled v-model="data.addressLine2"></el-input>
+              <el-input v-model="data.addressLine2"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="城市">
-              <el-input disabled v-model="data.city"></el-input>
+              <el-input v-model="data.city"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="省/州">
-              <el-input  disabled v-model="data.county"></el-input>
+              <el-input v-model="data.county"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="3">
             <el-form-item label="郵編:">
-              <el-input disabled v-model="data.postcode"></el-input>
+              <el-input v-model="data.postcode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="2">
             <el-form-item label="國家">
-              <el-input disabled v-model="data.country"></el-input>
+              <el-input v-model="data.country"></el-input>
             </el-form-item>
           </el-col>
           <!-- </el-row>
           <el-row :gutter="24"> -->
           <el-col :span="4">
             <el-form-item label="電話:">
-              <el-input disabled v-model="data.phone"></el-input>
+              <el-input v-model="data.phone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="Email:">
-              <el-input disabled v-model="data.email"></el-input>
+              <el-input v-model="data.email"></el-input>
             </el-form-item>
           </el-col>
           <!-- <el-col :span="8">

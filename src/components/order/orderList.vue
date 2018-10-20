@@ -35,7 +35,7 @@
       </el-col>
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-          <el-table-column min-width="80" label="Wowcher Code" prop="wowcherCode">
+          <el-table-column min-width="80" label="訂單號" prop="wowcherCode">
           </el-table-column>
           <el-table-column min-width="85" label="下單時間" prop="redeemedAt" sortable="custom"></el-table-column>
           <el-table-column min-width="70" label="發貨狀態" prop="orderStatus"></el-table-column>
