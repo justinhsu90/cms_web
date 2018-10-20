@@ -11,10 +11,10 @@
                     <el-form-item>
                           <div v-if="files">
                             <ul>
-                                <li>
+                                <li v-for="(v,i) in files" :key="i" >
                                     <i class="el-icon-document"></i>
-                                    <span style="color:#606266">{{files.name}}</span>
-                                    <el-button type="text" icon="el-icon-close" @click="handleDelete"></el-button>
+                                    <span style="color:#606266">{{v.name}}</span>
+                                    <el-button type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
                                 </li>
                             </ul>
                         </div>
@@ -22,7 +22,7 @@
                     </el-form-item>
                 </el-form>
                 <br>
-               <el-button  @click="submit" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
+               <el-button  @click="submit" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">匯入</el-button>
             </el-row>
         </div>
     </div>
@@ -47,15 +47,16 @@ export default {
         handleUpload() {
             let input = document.createElement("input");
             input.type = "file";
+            input.multiple = 'multiple';
             input.click();
             input.addEventListener("change", () => {
-                this.formData.append('uploadfile',input.files[0]);
-                this.files = input.files[0];
+                this.files = input.files;
             });
         },
-        handleDelete(){
+        handleDelete(i){
             this.formData.delete('uploadfile');
-            this.files = '';
+            this.files = this.files.splice(i,1);
+            debugger
         },
         upload() {
             axios({
@@ -71,6 +72,7 @@ export default {
             })
         },
         submit(){
+               this.formData.append('uploadfile',files);
                 this.upload();
         }
     }

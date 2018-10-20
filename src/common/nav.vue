@@ -142,7 +142,7 @@ export default {
                 },
                 {
                     index: "excelUpload",
-                    label: "excelUpload"
+                    label: "表格匯入"
                 }
             ]
         };
