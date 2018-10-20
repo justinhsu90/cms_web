@@ -14,14 +14,27 @@
                             <span class="f-12 label-tips">可以选择多文件</span>
                         </template>
                         <el-button size="small" type="success" @click="handleUpload">点击上传</el-button>
-                         <div v-if="files">
-                            <ul>
+                        <div v-if="!isEmpty(files)" style="width:80%;margin-top:10px">
+                            <!-- <ul>
                                 <li v-for="(v,i) in files" :key="i">
                                     <i class="el-icon-document"></i>
                                     <span style="color:#606266">{{v.name}}</span>
                                     <el-button type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
                                 </li>
-                            </ul>
+                            </ul> -->
+                            <el-table :data="files">
+                                <el-table-column label="文件名" min-width="100" prop="name"></el-table-column>
+                                <el-table-column label="檔案大小" prop="size" width="200">
+                                    <template slot-scope="scope">
+                                        {{scope.row.size}}kb
+                                    </template>
+                                </el-table-column>
+                                <el-table-column width="80" label="操作" fixed="right" align="center">
+                                    <template slot-scope="scope">
+                                        <el-button class="btnh" type="text" title="下载" icon="el-icon-won-22" @click="handleDelete(scope)"></el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
                         </div>
                     </el-form-item>
                 </el-form>
@@ -33,12 +46,16 @@
 </template>
 
 <script>
+import U from '@/common/until/until'
 export default {
     data() {
         return {
+            Div:U.Math.Div,
+            Mul:U.Math.Mul,
             form: {},
-            files: "",
-            isLoading:false,
+            files: [],
+            isLoading: false,
+            isEmpty:_.isEmpty
         };
     },
     created() {},
@@ -54,13 +71,12 @@ export default {
             input.addEventListener("change", () => {
                 let data = [];
                 _.each(input.files, v => {
-                    data.push(v);
+                    this.files.push(v);
                 });
-                this.files = data;
             });
         },
-        handleDelete(i) {
-            this.files.splice(i, 1);
+        handleDelete(scope) {
+            this.files.splice(scope.$index, 1);
         },
         submit() {
             let totalAjax = [];
@@ -77,19 +93,21 @@ export default {
                     },
                     isFormData: true
                 });
-                totalAjax.push(ajax)
+                totalAjax.push(ajax);
             });
             this.isLoading = true;
-            if(_.isEmpty(totalAjax)){
+            if (_.isEmpty(totalAjax)) {
                 this.goBack();
                 return;
             }
-            Promise.all(totalAjax).then(()=>{
-                this.goBack();
-                this.$message.success('保存成功');
-            }).catch(()=>{
-                this.$message.error('保存失败');
-            })
+            Promise.all(totalAjax)
+                .then(() => {
+                    this.goBack();
+                    this.$message.success("保存成功");
+                })
+                .catch(() => {
+                    this.$message.error("保存失败");
+                });
         }
     }
 };
@@ -108,8 +126,8 @@ export default {
         color: #606266;
     }
 }
-.f-12{
-    font-size: 12px;;
+.f-12 {
+    font-size: 12px;
 }
 </style>
 

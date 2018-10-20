@@ -143,6 +143,10 @@ export default {
                 {
                     index: "excelUpload",
                     label: "表格匯入"
+                },
+                {
+                    index: "shipping",
+                    label: "貨代出貨清單"
                 }
             ]
         };

@@ -458,6 +458,14 @@ let router = new VueRouter({
           meta: {
             sign: 'excelUpload'
           }
+        },
+        {
+          name: 'shipping',
+          path: '/shipping',          
+          component: asyncComponent('shipping/shippingList'),
+          meta: {
+            sign: 'shipping'
+          }
         }
       ]
     },
