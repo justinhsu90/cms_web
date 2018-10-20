@@ -14,7 +14,7 @@
                 </div>
             </el-col>
             <el-col :span="2">
-                <el-button style="float:right" type="primary" @click="handleUpload" size="small">上传文件</el-button>
+                <el-button style="float:right" type="primary" @click="handleUpload" size="small">上傳文件</el-button>
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
@@ -40,7 +40,7 @@
                     </el-table-column>
                     <el-table-column width="80" label="下載文件" fixed="right" align="center">
                         <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="下载" icon="el-icon-won-102" @click="handleDown(scope.row)"></el-button>
+                            <el-button class="btnh" type="text" title="下載" icon="el-icon-won-102" @click="handleDown(scope.row)"></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
