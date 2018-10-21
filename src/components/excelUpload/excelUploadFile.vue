@@ -14,7 +14,7 @@
                             <span class="f-12 label-tips">可以选择多文件</span>
                         </template>
                         <el-button size="small" type="success" @click="handleUpload">点击上传</el-button>
-                        <div v-if="!isEmpty(files)" style="width:80%;margin-top:10px">
+                        <div  style="width:80%;margin-top:10px">
                             <!-- <ul>
                                 <li v-for="(v,i) in files" :key="i">
                                     <i class="el-icon-document"></i>
@@ -26,7 +26,14 @@
                                 <el-table-column label="文件名" min-width="100" prop="name"></el-table-column>
                                 <el-table-column label="檔案大小" prop="size" width="200">
                                     <template slot-scope="scope">
-                                        {{scope.row.size}}kb
+                                        {{scope.row.size}}b
+                                    </template>
+                                </el-table-column>
+                                <el-table-column label="檔案类型" prop="size" width="200">
+                                    <template slot-scope="scope">
+                                        <el-select placeholder="檔案类型" v-model="type[scope.$index]" clearable>
+                                            <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
+                                        </el-select>
                                     </template>
                                 </el-table-column>
                                 <el-table-column width="80" label="操作" fixed="right" align="center">
@@ -55,10 +62,23 @@ export default {
             form: {},
             files: [],
             isLoading: false,
-            isEmpty:_.isEmpty
+            isEmpty:_.isEmpty,
+            searchFiletypeOption:[],
+            type:{},
         };
+    },    
+    created(){
+          let filetype = axios({
+            url: "/excel/upload/value/filetype",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
+        Promise.all([filetype]).then(([filetype]) => {
+            this.searchFiletypeOption = _.cloneDeep(filetype);
+        });
     },
-    created() {},
     methods: {
         goBack() {
             this.$router.go(-1);
@@ -69,21 +89,37 @@ export default {
             input.multiple = "multiple";
             input.click();
             input.addEventListener("change", () => {
-                let data = [];
-                _.each(input.files, v => {
+                _.each(input.files, (v,i) => {
                     this.files.push(v);
                 });
+                _.each(this.files,(value,index)=>{
+                    if(this.type[index] == ''){
+                        this.$set(this.type,index,'');
+                    }
+                })
             });
         },
         handleDelete(scope) {
             this.files.splice(scope.$index, 1);
+
+            delete this.type[scope.$index];
+            let index = 0;
+            let obj = {
+                    
+            }
+            _.each(this.type,(v,k)=>{
+                 obj[index] = v;
+                 index++;
+            })
+            this.type = obj;
         },
         submit() {
             let totalAjax = [];
-            _.each(this.files, v => {
+            _.each(this.files, (v,i) => {
                 let formData = new FormData();
                 formData.append("token", this.token);
                 formData.append("uploadfile", v);
+                formData.append("filetype", this.type[i]);
                 let ajax = axios({
                     url: "/excel/upload/add",
                     method: "post",
