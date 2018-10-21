@@ -2,15 +2,15 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:10%;float:left">
                 </el-input>
                 <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="代理" v-model="searchAgent" @change="handleCondition('agent')" clearable>
+                    <el-select placeholder="貨代" v-model="searchAgent" @change="handleCondition('agent')" clearable>
                         <el-option v-for="(v,i) in searchAgentOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
                 <div style="display:inline-block;width:120px">
-                    <el-select placeholder="運行方式" v-model="searchShippingMethod" @change="handleCondition('shipping')" clearable>
+                    <el-select placeholder="運輸方式" v-model="searchShippingMethod" @change="handleCondition('shipping')" clearable>
                         <el-option v-for="(v,i) in searchShippingMethodOption" :key="'country'+i" :label="v" :value="v">
                         </el-option>
                     </el-select>
@@ -20,12 +20,12 @@
                         <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
-                <div style="margin-left:5px;display:inline-block;width:180px">
-                    <el-date-picker clearable style="width:100%"   @change="handleCondition" value-format="yyyy-MM-dd" v-model="orderDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="訂單開始日期" end-placeholder="訂單結束日期" :picker-options="pickerOptions">
+                <div style="margin-left:5px;display:inline-block;width:220px">
+                    <el-date-picker clearable style="width:100%"   @change="handleCondition" value-format="yyyy-MM-dd" v-model="orderDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="做單日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                     </el-date-picker>
                 </div>
-                <div style="margin-left:5px;display:inline-block;width:180px">
-                    <el-date-picker clearable style="width:100%"   @change="handleCondition" value-format="yyyy-MM-dd" v-model="shipoutDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="運費開始日期" end-placeholder="運費結束日期" :picker-options="pickerOptions">
+                <div style="margin-left:5px;display:inline-block;width:220px">
+                    <el-date-picker clearable style="width:100%"   @change="handleCondition" value-format="yyyy-MM-dd" v-model="shipoutDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="出貨日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                     </el-date-picker>
                 </div>
                 <div style="cursor:pointer;display: inline-block;width: 14px;height: 38px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;" @click="handleSearch" class="el-input-group__append">
@@ -35,28 +35,28 @@
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
 
-                    <el-table-column min-width="80" label="代理商" prop="agent">
+                    <el-table-column min-width="50" label="貨代" prop="agent">
                     </el-table-column>
-                    <el-table-column min-width="90" label="訂單ID" prop="orderId" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="平台訂單ID" prop="platformOrderId"></el-table-column>
-                    <el-table-column min-width="75" label="平台" prop="platform"></el-table-column>
-
-                    <el-table-column min-width="100" label="商品名稱" prop="productName"></el-table-column>
-                    <el-table-column min-width="100" label="運送時間" prop="shipoutTime"></el-table-column>
-                    <el-table-column min-width="100" label="費用" prop="shippingFee">
-                        <template slot-scope="scope">
-                            {{scope.row.shippingFee + scope.row.shippingFeeCurrency}}
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="100" label="運行方式" prop="shippingMethod"></el-table-column>
-                    <el-table-column min-width="100" label="訂單號" prop="trackingNumber"></el-table-column>
-
-                    <el-table-column min-width="100" label="訂單狀態" prop="orderStatus">
+                    <el-table-column min-width="100" label="貨代單號" prop="orderId"></el-table-column>
+                    <el-table-column min-width="100" label="平台訂單號" prop="platformOrderId"></el-table-column>
+                     <el-table-column min-width="70" label="訂單狀態" prop="orderStatus">
                         <template slot-scope="scope">
                             <el-tag type="success">{{scope.row.orderStatus}}</el-tag>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="120" label="下單訂單時間" prop="orderTime"></el-table-column>
+                    <!-- <el-table-column min-width="75" label="平台" prop="platform"></el-table-column> -->
+                    <!-- <el-table-column min-width="200" label="商品名稱" prop="productName"></el-table-column> -->
+                    <el-table-column min-width="70" label="做單時間" prop="orderTime"></el-table-column>
+                    <el-table-column min-width="70" label="發出時間" prop="shipoutTime"></el-table-column>
+                    <el-table-column min-width="70" label="費用" prop="shippingFee">
+                        <template slot-scope="scope">
+                            {{scope.row.shippingFee + scope.row.shippingFeeCurrency}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="80" label="運輸方式" prop="shippingMethod"></el-table-column>
+                    <el-table-column min-width="100" label="物流單號" prop="trackingNumber"></el-table-column>
+
+                   
                     <el-table-column min-width="130" label="最後更新時間" prop="lastUpdatedTime" sortable="custom" :formatter="formatToTime">
                     </el-table-column>
                     <el-table-column width="50" label="動作" fixed="right">

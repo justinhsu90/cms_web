@@ -13,68 +13,70 @@
       <el-form ref="form" :model="data" v-loading="loading" label-position="top">
         <h3>基本資料</h3>
         <el-row :gutter="24">
-          <el-col :span="5">
-            <el-form-item label="代理人">
-              <el-input  disabled v-model="data.agent"  ></el-input>
+          <el-col :span="3">
+            <el-form-item label="貨代">
+              <el-input v-model="data.agent"  ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
-            <el-form-item label="下單時間">
-              <el-date-picker disabled v-model="data.orderTime" type="date" placeholder="选择日期">
-              </el-date-picker>
+           
+          <el-col :span="6">
+            <el-form-item label="貨代單號">
+              <el-input v-model="data.orderId"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
-            <el-form-item label="訂單 ID:">
-              <el-input disabled v-model="data.orderId"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
+          <el-col :span="3">
             <el-form-item label="訂單狀態">
-              <el-input disabled v-model="data.orderStatus"></el-input>
+              <el-input v-model="data.orderStatus"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label="做單時間">
+           <el-input v-model="data.orderTime"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="24">
+
+          <el-col :span="3">
+            <el-form-item label="平台">
+              <el-input v-model="data.platform"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="平台單號">
+              <el-input  v-model="data.platformOrderId"></el-input>
+            </el-form-item>
+          </el-col>
+
+        </el-row>
         <h3>出貨狀態</h3>
         <el-row :gutter="24">
-          <el-col :span="6">
+          <el-col :span="4">
             <el-form-item label="發貨時間">
-              <el-input disabled v-model="data.shipoutTime"></el-input>
+              <el-input v-model="data.shipoutTime"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="發貨費用">
-              <el-input disabled v-model="data.shippingFee"></el-input>
+          <el-col :span="3">
+            <el-form-item label="運費">
+              <el-input v-model="data.shippingFee"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="費用幣別">
-              <el-input disabled  v-model="data.shippingFeeCurrency"></el-input>
+          <el-col :span="3">
+            <el-form-item label="運費幣別">
+              <el-input  v-model="data.shippingFeeCurrency"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          </el-row>
+        <h3>物流訊息</h3>
+        <el-row :gutter="24">
+          <el-col :span="4">
             <el-form-item label="物流單號">
-              <el-input disabled v-model="data.trackingNumber"></el-input>
+              <el-input v-model="data.trackingNumber"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="3">
             <el-form-item label="發貨方式">
-              <el-input disabled v-model="data.shippingMethod"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item label="貨代">
-              <el-input disabled v-model="data.agent"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item label="平台">
-              <el-input disabled v-model="data.platform"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="貨代平台單號">
-              <el-input  disabled v-model="data.platformOrderId"></el-input>
+              <el-input v-model="data.shippingMethod"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
