@@ -70,7 +70,7 @@ router.beforeEach((to, form, next) => {
       Vue.prototype.token = token;
       next()
     } else {
-      next('/login');
+      next('/');
     }
   }
 })

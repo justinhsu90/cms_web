@@ -192,7 +192,7 @@ export default {
                         document.cookie = `token="";path="/";expires=${expires}`;
                         document.cookie = `username="";path="/";expires=${expires}`;
                         document.cookie = `name="";path="/";expires=${expires}`;
-                        that.$router.push("/login");
+                        that.$router.push("/");
                         done();
                     } else {
                         done();
