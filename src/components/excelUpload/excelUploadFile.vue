@@ -8,12 +8,12 @@
             <br>
             <el-row>
                 <el-form ref="form" :model="form" label-position="top">
-                    <el-form-item label="上传文件">
+                    <el-form-item label="上傳文件">
                         <template slot="label">
-                            <span>上传文件</span>
-                            <span class="f-12 label-tips">可以选择多文件</span>
+                            <span>上傳文件</span>
+                            <span class="f-12 label-tips">可以選擇多個文件</span>
                         </template>
-                        <el-button size="small" type="success" @click="handleUpload">点击上传</el-button>
+                        <el-button size="small" type="success" @click="handleUpload">點擊上傳</el-button>
                         <div  style="width:80%;margin-top:10px">
                             <!-- <ul>
                                 <li v-for="(v,i) in files" :key="i">
@@ -38,7 +38,7 @@
                                 </el-table-column>
                                 <el-table-column width="80" label="操作" fixed="right" align="center">
                                     <template slot-scope="scope">
-                                        <el-button class="btnh" type="text" title="下载" icon="el-icon-won-22" @click="handleDelete(scope)"></el-button>
+                                        <el-button class="btnh" type="text" title="下載" icon="el-icon-won-22" @click="handleDelete(scope)"></el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -142,7 +142,7 @@ export default {
                     this.$message.success("保存成功");
                 })
                 .catch(() => {
-                    this.$message.error("保存失败");
+                    this.$message.error("保存失敗");
                 });
         }
     }

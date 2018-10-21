@@ -62,10 +62,10 @@ export default {
             username: "",
             isCollapse: false,
             navData: [
-                {
-                    index: "dataAnalysis",
-                    label: "儀表板"
-                },
+                // {
+                //     index: "dataAnalysis",
+                //     label: "儀表板"
+                // },
                 {
                     index: "sku",
                     label: "SKU管理"
