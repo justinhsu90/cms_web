@@ -15,13 +15,6 @@
                         </template>
                         <el-button size="small" type="success" @click="handleUpload">點擊上傳</el-button>
                         <div  style="width:80%;margin-top:10px">
-                            <!-- <ul>
-                                <li v-for="(v,i) in files" :key="i">
-                                    <i class="el-icon-document"></i>
-                                    <span style="color:#606266">{{v.name}}</span>
-                                    <el-button type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-                                </li>
-                            </ul> -->
                             <el-table :data="files">
                                 <el-table-column label="文件名" min-width="100" prop="name"></el-table-column>
                                 <el-table-column label="檔案大小" prop="size" width="200">

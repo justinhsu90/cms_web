@@ -7,12 +7,13 @@
       </div>
       <br>
       <h2><span>訂單內容</span>
-      <img class="title-img" :src="data.snapShotUrl" alt="">
+    
       </h2>
       <br>
       <el-form ref="form" :model="data" v-loading="loading" label-position="top">
-        <el-row :gutter="24">
           <h3>基本資料</h3>
+
+        <el-row :gutter="24">
           <el-col :span="5">
             <el-form-item label="所屬帳號">
               <el-input v-model="data.account"></el-input>
@@ -84,7 +85,11 @@
           </el-col>
         </el-row>
         <el-row :gutter="24">
-          <h3>產品內容</h3>
+          <h3>
+            <span>產品內容</span>
+            <img class="title-img" :src="data.snapShotUrl" alt="">
+          </h3>
+            
            <el-col :span="13">
             <el-form-item label="產品名稱">
               <el-input v-model="data.productName"></el-input>
@@ -273,14 +278,15 @@ export default {
     color: #45a2ff;
 }
 #edit {
-  h2{
+  h3{
     position: relative;
   }
     .title-img{
     position: absolute;
-    right: 0px;
+    right: 15%;
+    top:10%;
     z-index: 999;
-    width:100px;
+    width:250px;
     }
     .w50 {
         width: 50%;

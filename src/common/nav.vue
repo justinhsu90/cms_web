@@ -68,19 +68,41 @@ export default {
                 // },
                 {
                     index: "sku",
-                    label: "SKU管理"
-                },
-                {
-                    index: "upc",
-                    label: "UPC管理"
-                },
-                {
-                    index: "documentManage",
-                    label: "文案管理"
+                    label: "產品相關",
+                    isLevel: true,
+                    child: [
+                        {
+                            index: "sku",
+                            label: "SKU管理"
+                        },
+                        {
+                            index: "upc",
+                            label: "UPC管理"
+                        },
+                        {
+                            index: "documentManage",
+                            label: "文案管理"
+                        }
+                    ]
                 },
                 {
                     index: "shipment",
-                    label: "小包做單"
+                    label: "做單及出貨",
+                    isLevel: true,
+                    child: [
+                        {
+                            index: "shipment",
+                            label: "小包做單"
+                        },
+                        {
+                            index: "excelUpload",
+                            label: "表格匯入"
+                        },
+                        {
+                            index: "shipping",
+                            label: "貨代出貨清單"
+                        }
+                    ]
                 },
                 {
                     index: "orderList",
@@ -139,14 +161,6 @@ export default {
                 {
                     index: "singleLetter",
                     label: "補發信單"
-                },
-                {
-                    index: "excelUpload",
-                    label: "表格匯入"
-                },
-                {
-                    index: "shipping",
-                    label: "貨代出貨清單"
                 }
             ]
         };

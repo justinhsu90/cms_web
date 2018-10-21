@@ -466,6 +466,14 @@ let router = new VueRouter({
           meta: {
             sign: 'shipping'
           }
+        },
+        {
+          name: 'shippingView',
+          path: '/shippingView',          
+          component: asyncComponent('shipping/shippingView'),
+          meta: {
+            sign: 'shipping'
+          }
         }
       ]
     },
