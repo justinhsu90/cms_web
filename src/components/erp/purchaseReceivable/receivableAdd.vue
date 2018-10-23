@@ -7,14 +7,13 @@
             </div>
             <br>
             <h2>新增應收帳款
-
             </h2>
             <br>
             <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
                 <el-row :gutter="10">
                     <el-col :span="4">
                         <el-form-item label="平台" prop="platform" :rules="rules">
-                            <el-select placeholder="請選擇" v-model="formData.platform" clearable>
+                            <el-select placeholder="請選擇" v-model="formData.platform" clearable @change="handleSelect">
                                 <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
                             </el-select>
                         </el-form-item>
@@ -53,50 +52,63 @@
                 <br>
                 <el-card class="box-card">
                     <div>
-                        <div style="width:45%;float:left;">
+                        <div style="width:49%;float:left;">
                             <h3 style="float:left">收入(含退貨)</h3>
-                            <el-button style="float:right" type="success" size="small" @click="handleAdd('income')">新增</el-button>
+                            <el-button style="float:right" type="success" size="small" @click="handleAdd('income')" :disabled="incomeAdd">新增</el-button>
                         </div>
-                        <div style="width:45%;float:right;">
+                        <div style="width:49%;float:right;">
                             <h3 style="float:left">支出</h3>
-                            <el-button style="float:right" type="success" size="small" @click="handleAdd()">新增</el-button>
+                            <el-button style="float:right" type="success" size="small" @click="handleAdd()" :disabled="add">新增</el-button>
                         </div>
                     </div>
                     <br>
                     <br>
-                    <div  style="margin-bottom:10px;width:49%;float:left">
+                    <div style="margin-bottom:10px;width:49%;float:left">
                         <el-card class="box-card mb10" v-for="(v,i) in formData.dataIncome" :key="i">
                             <el-row :gutter="10">
                                 <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i,'income')"></el-button>
                                 <el-col :span="12">
-                                    <el-form-item  class="el-form-item_label" label="費用：" :prop="'dataIncome.'+ i +'.financialSpendType'" :rules="rules">
-                                        <el-select  style="width:65%" placeholder="請選擇" v-model="v.financialSpendType" clearable>
-                                            <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                                    <el-form-item class="el-form-item_label" label="費用：" :prop="'dataIncome.'+ i +'.financialSpendType'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
+                                        <template slot="label">
+                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">費用：</span>
+                                        </template>
+                                        <el-select style="width:65%" placeholder="請選擇" v-model="v.financialSpendType" clearable>
+                                            <el-option v-for="(v,index) in searchTypeOption" :key="'type'+index" :label="v.financialSpendType" :value="v.financialSpendType" :disabled="!!incomedisabled[index]"></el-option>
                                         </el-select>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item  class="el-form-item_label" label="金額：" :prop="'dataIncome.'+ i +'.amount'" :rules="rules">
-                                        <el-input  style="width:65%" v-model="v.amount"></el-input>
+
+                                    <el-form-item class="el-form-item_label" label="金額：" :prop="'dataIncome.'+ i +'.amount'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
+                                        <template slot="label">
+                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">金額：</span>
+                                        </template>
+                                        <el-input style="width:65%" v-model="v.amount"></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
                         </el-card>
                     </div>
-                    <div  style="margin-bottom:10px;width:49%;float:right">
+                    <div style="margin-bottom:10px;width:49%;float:right">
                         <el-card class="box-card mb10" v-for="(v,i) in formData.data" :key="i + 'income'">
                             <el-row :gutter="10">
                                 <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
                                 <el-col :span="12">
-                                    <el-form-item class="el-form-item_label" label="費用：" :prop="'data.'+ i +'.financialSpendType'" :rules="rules">
-                                        <el-select style="width:65%"  placeholder="請選擇" v-model="v.financialSpendType" clearable>
-                                            <el-option v-for="(v,i) in searchIncomeTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                                    <el-form-item class="el-form-item_label" :prop="'data.'+ i +'.financialSpendType'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
+                                        <template slot="label">
+                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">費用：</span>
+                                        </template>
+                                        <el-select style="width:65%" placeholder="請選擇" v-model="v.financialSpendType" clearable>
+                                            <el-option v-for="(v,index) in searchIncomeTypeOption" :key="'type'+index" :label="v.financialSpendType" :value="v.financialSpendType" :disabled="!!sppendDisabled[index]"></el-option>
                                         </el-select>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="10">
-                                    <el-form-item class="el-form-item_label" label="金額："   :prop="'data.'+ i +'.amount'"  :rules="rules">
-                                        <el-input  style="width:65%" v-model="v.amount"></el-input>
+                                    <el-form-item class="el-form-item_label" label="金額：" :prop="'data.'+ i +'.amount'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
+                                        <template slot="label">
+                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">金額：</span>
+                                        </template>
+                                        <el-input style="width:65%" v-model="v.amount"></el-input>
                                     </el-form-item>
                                 </el-col>
                             </el-row>
@@ -120,12 +132,6 @@
 import { format } from "@/common/until/format";
 export default {
     name: "receivableAdd",
-    computed:{
-        disabled(){
-            let arr = this.formData.data.concat(this.formData.dataIncome);
-            return arr.length <= 1;
-        }
-    },
     data() {
         return {
             popoverVisible: false,
@@ -174,7 +180,6 @@ export default {
             searchIncomeTypeOption: [],
             searchCountryOption: [],
             searchCurrencyOption: [],
-
             requredRule: {
                 required: true
             },
@@ -182,6 +187,8 @@ export default {
                 required: true,
                 message: "此項目必填"
             },
+            Income: [],
+            speed: [],
             formData: {
                 date: "",
                 country: "",
@@ -190,15 +197,15 @@ export default {
                 periodStartDate: "",
                 periodEndDate: "",
                 dataIncome: [
-                    { 
-                        incomeorspend: 'income',
+                    {
+                        incomeorspend: "income",
                         financialSpendType: "",
                         amount: ""
                     }
                 ],
                 data: [
                     {
-                        incomeorspend: 'spend',
+                        incomeorspend: "spend",
                         financialSpendType: "",
                         amount: ""
                     }
@@ -252,15 +259,16 @@ export default {
         ]).then(([platform, account, country, currencies, type]) => {
             this.searchAccountOption = _.cloneDeep(account);
             this.searchPlatformOption = _.cloneDeep(platform);
-            _.each(type.data,(v,i)=>{
-                if(v.financialspendTerm == '收入'){
+            _.each(type.data, (v, i) => {
+                if (v.financialspendTerm == "收入") {
                     this.searchTypeOption.push(_.cloneDeep(v));
-                }else{
+                    this.Income.push(v.financialSpendType);
+                } else {
+                    this.speed.push(v.financialSpendType);
                     this.searchIncomeTypeOption.push(_.cloneDeep(v));
                 }
+            });
 
-            })
-            
             this.searchCountryOption = _.cloneDeep(country.data);
             this.searchCurrencyOption = _.cloneDeep(currencies);
         });
@@ -268,7 +276,106 @@ export default {
     filters: {
         ...format
     },
+    computed: {
+        incomeAdd() {
+            if (
+                this.formData.dataIncome.length >= this.searchTypeOption.length
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        add() {
+            if (
+                this.formData.data.length >= this.searchIncomeTypeOption.length
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        disabled() {
+            let arr = this.formData.data.concat(this.formData.dataIncome);
+            return arr.length <= 1;
+        },
+        incomedisabled() {
+            let { dataIncome } = this.formData;
+            let data = new Uint16Array(this.searchTypeOption.length);
+            _.each(dataIncome, (v, i) => {
+                _.each(this.searchTypeOption, (value, index) => {
+                    if (v.financialSpendType == value.financialSpendType) {
+                        data[index] = true;
+                    }
+                });
+            });
+
+            return data;
+        },
+        sppendDisabled() {
+            let { data } = this.formData;
+            let sppedData = new Uint16Array(this.searchIncomeTypeOption.length);
+            _.each(data, (v, i) => {
+                _.each(this.searchIncomeTypeOption, (value, index) => {
+                    if (v.financialSpendType == value.financialSpendType) {
+                        sppedData[index] = true;
+                    }
+                });
+            });
+            return sppedData;
+        }
+    },
     methods: {
+        handleSelect(val) {
+            axios({
+                url: "/accountreceivable/value/platorm/requiredFinancialType",
+                method: "post",
+                data: {
+                    platform: val,
+                    token: this.token
+                }
+            }).then(res => {
+                _.each(res, v => {
+                    let obj = {
+                        financialSpendType: "",
+                        currency: "",
+                        amount: "",
+                        required: true
+                    };
+                    if (this.Income.includes(v)) {
+                        obj.incomeorspend = "income";
+                        obj.financialSpendType = v;
+                        let oba = _.find(this.formData.dataIncome,['financialSpendType',v]);
+                        _.each(this.formData.dataIncome,(value,index)=>{
+                            if(res.includes(value.financialSpendType)){
+                                value.required = true;
+                            }else{
+                                value.required = false;
+                            }
+                        })
+                        if(oba){
+                            return
+                        }
+                        this.formData.dataIncome.push(obj);
+                    } else {
+                        obj.incomeorspend = "speed";
+                        obj.financialSpendType = v;
+                        let oba = _.find(this.formData.data,['financialSpendType',v]);
+                        _.each(this.formData.data,(value,index)=>{
+                            if(res.includes(value.financialSpendType)){
+                                value.required = true;
+                            }else{
+                                value.required = false;
+                            }
+                        })
+                        if(oba){
+                            return
+                        }
+                        this.formData.data.push(obj);
+                    }
+                });
+            });
+        },
         handleDelete(index) {
             this.formData.data.splice(index, 1);
         },
@@ -281,24 +388,37 @@ export default {
                 currency: "",
                 amount: ""
             };
-            if(val == 'income'){
-                obj.incomeorspend = 'income';
+            if (val == "income") {
+                if (
+                    this.formData.dataIncome.length >=
+                    this.searchTypeOption.length
+                ) {
+                    return;
+                }
+                obj.incomeorspend = "income";
                 this.formData.dataIncome.push(obj);
-                
-            }else{
-                obj.incomeorspend = 'speed';
+            } else {
+                if (
+                    this.formData.data.length >=
+                    this.searchIncomeTypeOption.length
+                ) {
+                    return;
+                }
+                obj.incomeorspend = "speed";
                 this.formData.data.push(obj);
-            } 
+            }
         },
-        handleDelete(index,val) {
-            if(val == 'income'){
+        handleDelete(index, val) {
+            if (val == "income") {
                 this.formData.dataIncome.splice(index, 1);
-            }else{
+            } else {
                 this.formData.data.splice(index, 1);
             }
         },
         getValue() {
-            let data = _.cloneDeep(this.formData.data.concat(this.formData.dataIncome));
+            let data = _.cloneDeep(
+                this.formData.data.concat(this.formData.dataIncome)
+            );
             _.each(data, v => {
                 v.country = this.formData.country;
                 v.account = this.formData.account;
@@ -354,7 +474,7 @@ export default {
 /deep/ .el-form-item__label {
     padding: 0px !important;
 }
-/deep/ .el-form-item_label>div:nth-child(1){
+/deep/ .el-form-item_label > div:nth-child(1) {
     float: left;
 }
 .heade a {
@@ -363,10 +483,9 @@ export default {
 /deep/ .el-card__body {
     padding: 10px;
 }
-.mb10{
-    margin-bottom:10px; 
+.mb10 {
+    margin-bottom: 10px;
 }
-
 </style>
 
 
