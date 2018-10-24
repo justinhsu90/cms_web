@@ -46,8 +46,8 @@
                     <el-table-column min-width="50" label="帳號" prop="account"></el-table-column>
                     <el-table-column min-width="50" label="平台" prop="platform"></el-table-column>
                     <el-table-column min-width="60" label="金額" prop="amount">
-                        <template slot-scope="scope">
-                           {{scope.row.amount | formatToMoney}}&nbsp;{{scope.row.currency.toUpperCase()}}
+                        <template slot-scope="scope"> 
+                           {{scope.row.amount | formatToYuan}}&nbsp;{{scope.row.currency.toUpperCase()}}
                         </template>
                     </el-table-column>
                     <el-table-column min-width="80" label="日期" prop="periodEndDate">
@@ -180,9 +180,6 @@ export default {
         });
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
-    },
-    filters: {
-        ...format
     },
     methods: {
         handleSearch: _.debounce(function() {
