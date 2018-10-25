@@ -28,11 +28,20 @@ export default {
     watch: {
         "fetchOption.where"() {
             this.handleSearch();
+        },
+        "total"(n,o){
+            if(_.isEmpty(this.tableData)&& n > 0 ){
+                this.fetchCondition.skip = 0;
+                this.handleSearch();
+            }
         }
     },
     mounted() {
         if (this.setMaxHeight) {
             this.$nextTick(() => {
+                if(!this.$refs.wonTable){
+                        return;
+                }
                 this.maxHeight =
                     document.scrollingElement.clientHeight -
                     this.$refs.wonTable.$el.getBoundingClientRect().top -
