@@ -100,7 +100,7 @@
         <el-row :gutter="10" style="padding:0px">
             <el-card style="height:320px">
             <h3>各平台銷售表現</h3>
-            <el-col :span="5" class="mt10" >
+            <el-col class="mt10 w20" >
                 <el-card  style="height:120px"> 
                 <h5>Wowcher - BuySomething</h5>
                 <br>
@@ -130,7 +130,7 @@
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5"  class="mt10" >
+            <el-col  class="mt10 w20" >
                 <el-card  style="height:120px"> 
                 <h5>Wowcher - MagicTrend</h5>
                 <br>
@@ -160,7 +160,7 @@
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5"  class="mt10" >
+            <el-col  class="mt10 w20" >
                 <el-card  style="height:120px"> 
                 <h5>MightyDeals</h5>
                 <br>
@@ -190,7 +190,7 @@
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5"  class="mt10" >
+            <el-col  class="mt10 w20" >
                 <el-card  style="height:120px"> 
                 <h5>Gogroopie</h5>
                 <br>
@@ -220,7 +220,7 @@
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5"  class="mt10" >
+            <el-col  class="mt10 w20" >
                 <el-card  style="height:120px"> 
                 <h5>Cdiscount</h5>
                 <br>
@@ -250,7 +250,7 @@
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5"  class="mt10" >
+            <el-col   class="mt10 w20" >
                 <el-card  style="height:120px"> 
                 <h5>Amazon - Flybuddy</h5>
                 <br>
@@ -280,7 +280,7 @@
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5"  class="mt10" >
+            <el-col   class="mt10 w20" >
                 <el-card  style="height:120px"> 
                 <h5>Amazon - DalTech</h5>
                 <br>
@@ -421,7 +421,7 @@
     </div>
 </template>
 <script>
-import { format } from "../../common/until/format";
+import { format } from "@/common/until/format";
 export default {
   data: () => ({
     parcelCount: {},
@@ -449,12 +449,15 @@ export default {
       })
       .catch(() => {});
   },
-  methods: {
+  methods:{
+    ...format  
+  },
+  filters: {
     ...format
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" >
 .dataAnaly {
   .fl {
     float: left;
@@ -498,6 +501,9 @@ export default {
   }
   .w30 {
     width: 30%;
+  }
+  .w20 {
+    width: 20%;
   }
   .mt10 {
     margin-top: 5px;
