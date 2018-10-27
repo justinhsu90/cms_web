@@ -136,34 +136,69 @@
         <br>
         <el-row style="padding:0px">
             <el-col :span="15">
+                <h5>本月產品銷售排行</h5>
                 <el-card >
-                <h5>產品銷售排行</h5>
                 <el-table :data="productPerformance">
-                    <el-table-column  min-width="180" label="產品名稱" prop="productName"></el-table-column>
-                    <el-table-column  min-width="110" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column  min-width="80" label="排行" prop="ranking"></el-table-column>
-                    <el-table-column  min-width="80" label="毛利" prop="maring"></el-table-column>
-                    <el-table-column  min-width="80" label="毛利占比" prop="percentageOfTotalRevenue"></el-table-column>
-                    <el-table-column  min-width="80" label="毛利率" prop="percentageOfMargin"></el-table-column>
+                    <el-table-column  min-width="220" label="產品名稱" prop="productName"></el-table-column>
+                    <!-- <el-table-column  min-width="110" label="SKU" prop="sku"></el-table-column> -->
+                    <!-- <el-table-column  min-width="80" label="排行" prop="ranking"></el-table-column> -->
+                    <el-table-column  min-width="60" label="毛利" prop="margin">
+                        <template slot-scope="scope">
+                          {{scope.row.margin | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
+                    <el-table-column  min-width="60" label="毛利率" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="60" label="毛利占比" prop="percentageOfTotalRevenue" :formatter="formatToPercent"></el-table-column>
+                    <!-- <el-table-column  min-width="60" label="採購成本" prop="margin">
+                        <template slot-scope="scope">
+                          {{scope.row.ProductCost | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
+                    <el-table-column  min-width="60" label="採購成本率" prop="ProductCostPercent" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="60" label="運費成本" prop="margin">
+                        <template slot-scope="scope">
+                          {{scope.row.ProductCost | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
+                    <el-table-column  min-width="60" label="運費成本率" prop="ShippingCostPercent" :formatter="formatToPercent"></el-table-column>
+                     -->
                 </el-table>
                 </el-card>
             </el-col>
         </el-row>
         <el-row style="padding-top:20px">
             <el-col :span="24">
+                <h5>月度銷售表現</h5>
                 <el-card>
                 <el-table :data="monthlyPerformance">
-                    <el-table-column width="100" label="月份" prop="title"></el-table-column>
-                    <el-table-column  min-width="80" label="營業額" prop="revenue"></el-table-column>
-                    <el-table-column  min-width="80" label="產品成本" prop="productCost" :formatter="formatToYuan"></el-table-column>
-                    <el-table-column  min-width="80" label="產品成本率" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="80" label="運輸成本" prop="shippingCost" :formatter="formatToYuan"></el-table-column>
-                    <el-table-column  min-width="80" label="運輸成本率" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="80" label="毛利" prop="margin"></el-table-column>
+                    <el-table-column width="80" label="月份" prop="title"></el-table-column>
+                    <el-table-column  min-width="60" label="售出數量" prop="quantity"></el-table-column>
+                    <el-table-column  min-width="80" label="營業額" prop="revenue">
+                         <template slot-scope="scope">
+                          {{scope.row.revenue | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
+                     <el-table-column  min-width="80" label="毛利" prop="margin">
+                        <template slot-scope="scope">
+                          {{scope.row.margin | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
                     <el-table-column  min-width="80" label="毛利率" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="80" label="售出數量" prop="quantity"></el-table-column>
-                    <el-table-column  min-width="80" label="退貨數量" prop="refundQuantity"></el-table-column>
-                    <el-table-column  min-width="80" label="退貨總金額" prop="refundAmount"></el-table-column>
+                    <el-table-column  min-width="80" label="採購成本" prop="productCost">
+                         <template slot-scope="scope">
+                          {{scope.row.productCost | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
+                    <el-table-column  min-width="80" label="採購成本率" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="80" label="運輸成本" prop="shippingCost">
+                         <template slot-scope="scope">
+                          {{scope.row.shippingCost | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
+                    <el-table-column  min-width="80" label="運輸成本率" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
+                   
+                    <!-- <el-table-column  min-width="80" label="退貨數量" prop="refundQuantity"></el-table-column> -->
+                    <!-- <el-table-column  min-width="80" label="退貨總金額" prop="refundAmount"></el-table-column> -->
                     <el-table-column  min-width="80" label="退貨率" prop="refundPercent" :formatter="formatToPercent"></el-table-column>
                 </el-table>
                 </el-card>
