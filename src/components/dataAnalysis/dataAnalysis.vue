@@ -1,8 +1,8 @@
 <template>
-    <div v-loading="loading" class="dataAnaly">
+    <div  v-loading="loading" class="dataAnaly">
         <el-row :gutter="10" style="padding:0px">
             <el-col :span="5"  >
-                <el-card  style="height:120px"> 
+                <el-card  style="height:130px"> 
                 <h5>今日須出貨包裹數量</h5>
                 <br>
                 <div class="w50 fl">
@@ -24,7 +24,7 @@
                 </el-card>
             </el-col>
             <el-col :span="5" >
-                <el-card style="height:120px">
+                <el-card style="height:130px">
                   <h5>目前準備出貨包裹數量</h5>
                 <br>
                 <div class="w50 fl">
@@ -48,12 +48,12 @@
                 </el-card>
             </el-col>
               <el-col :span="7" >
-                  <el-card style="height:120px">
+                  <el-card style="height:130px">
                   <h5>&nbsp;&nbsp;本月日均毛利</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font ta ">
-                         <span style="color:black">£{{MarginTarget.dailyMarginTarget}}</span>  
+                         <span style="color:black">£{{MarginTarget.dailyMarginTarget | formatToMoney}}</span>  
                      </div>
                      <div  class="mt10">   
                              <span class="fr f13 label-tips">目標毛利</span>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="w50 fr "> 
                      <div class="font ta">
-                        <span style="color:black">£{{MarginTarget.dailyMarginActual}}</span>
+                        <span style="color:black">£{{MarginTarget.dailyMarginActual | formatToMoney}}</span>
                     </div>
                     <div  class="mt10">
                          <span class="fr f13 label-tips" >實際毛利</span>
@@ -70,13 +70,13 @@
                 </div>
                 </el-card>
             </el-col>
-              <el-col :span="7" >
-                  <el-card style="height:120px">
+              <el-col :span="6" >
+                  <el-card style="height:130px">
                   <h5>&nbsp;&nbsp;本月日均毛利</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font2 ta ">
-                         <span>£{{MarginTarget.monthlyMarginTarget}}</span>  
+                         <span>£{{MarginTarget.monthlyMarginTarget | formatToMoney}}</span>  
                      </div>
                      <div  class="mt10">   
                              <span class="fr f13 label-tips">目標毛利</span>
@@ -85,7 +85,7 @@
                 </div>
                 <div class="w50 fr "> 
                      <div class="font2 ta">
-                        <span>£{{MarginTarget.monthlyMarginActual}}</span>
+                        <span>£{{MarginTarget.monthlyMarginActual | formatToMoney}}</span>
                     </div>
                     <div  class="mt10">
                          <span class="fr f13 label-tips" >實際毛利</span>
@@ -97,215 +97,35 @@
             </el-col>
         </el-row>
         <br>
-        <el-row :gutter="10" style="padding:0px">
+        <el-row class="dataAnaly" :gutter="10" style="padding:0px">
             <el-card style="height:320px">
             <h3>各平台銷售表現</h3>
-            <el-col class="mt10 w20" >
+            <el-col class="mt10" :span="6" v-for="(v,i) in platformPerformance" :key="i">
                 <el-card  style="height:120px"> 
-                <h5>Wowcher - BuySomething</h5>
+                <h5>{{v.title}}</h5>
                 <br>
                 <div class="w30 fl">
-                    <div class="font ta">
-                        <span>{{parcelCount.singleParcelCount}}</span>  
+                    <div class="font tc">
+                        <span>{{v.quantity}}</span>  
                      </div>
-                     <div class="mt10">
-                        <span class="fr f13 label-tips">數量</span>
+                     <div class="mt10 tc" >
+                        <span class=" f13 label-tips">數量</span>
                      </div>
                 </div>               
-                <div class="w30 fn"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
+                <div class="w35 fn"> 
+                     <div class="font tc">
+                        <span>{{v.revenue | formatToMoney}}</span>
                     </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">銷售額</span>
+                    <div  class="mt10 tc">
+                         <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
                     </div>
                 </div>
                 <div class="w30 fr"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
+                     <div class="font tc">
+                        <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
                     </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-            <el-col  class="mt10 w20" >
-                <el-card  style="height:120px"> 
-                <h5>Wowcher - MagicTrend</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font ta">
-                        <span>{{parcelCount.singleParcelCount}}</span>  
-                     </div>
-                     <div class="mt10">
-                        <span class="fr f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w30 fn"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">銷售額</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-            <el-col  class="mt10 w20" >
-                <el-card  style="height:120px"> 
-                <h5>MightyDeals</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font ta">
-                        <span>{{parcelCount.singleParcelCount}}</span>  
-                     </div>
-                     <div class="mt10">
-                        <span class="fr f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w30 fn"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">銷售額</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-            <el-col  class="mt10 w20" >
-                <el-card  style="height:120px"> 
-                <h5>Gogroopie</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font ta">
-                        <span>{{parcelCount.singleParcelCount}}</span>  
-                     </div>
-                     <div class="mt10">
-                        <span class="fr f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w30 fn"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">銷售額</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-            <el-col  class="mt10 w20" >
-                <el-card  style="height:120px"> 
-                <h5>Cdiscount</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font ta">
-                        <span>{{parcelCount.singleParcelCount}}</span>  
-                     </div>
-                     <div class="mt10">
-                        <span class="fr f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w30 fn"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">銷售額</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-            <el-col   class="mt10 w20" >
-                <el-card  style="height:120px"> 
-                <h5>Amazon - Flybuddy</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font ta">
-                        <span>{{parcelCount.singleParcelCount}}</span>  
-                     </div>
-                     <div class="mt10">
-                        <span class="fr f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w30 fn"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">銷售額</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-            <el-col   class="mt10 w20" >
-                <el-card  style="height:120px"> 
-                <h5>Amazon - DalTech</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font ta">
-                        <span>{{parcelCount.singleParcelCount}}</span>  
-                     </div>
-                     <div class="mt10">
-                        <span class="fr f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w30 fn"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">銷售額</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">毛利率</span>
+                    <div  class="mt10 tc">
+                         <span class="f13 label-tips">毛利率</span>
                     </div>
                 </div>
                 </el-card>
@@ -318,28 +138,28 @@
                 <el-card style="height:250px">
                 <h5>{{v.title}}</h5>
                 <div style="border-bottom:1px solid #E4E9EE;padding-bottom:10px">
-                <h5>利潤<span class="font" style="padding-right:15px">&nbsp;&nbsp;£{{v.revenue}}</span>售出數量 : {{v.revenue}}</h5>
+                <h5>利潤<span class="font" style="padding-right:15px">&nbsp;&nbsp;£{{v.revenue | formatToMoney}}</span>售出數量 : {{v.revenue}}</h5>
                 </div>
                 <div class="mt10">
                   <div class="fl" style="width:33.3%">
                         <div><h5 style="height:30px" class="ta">毛利</h5></div>
-                        <div class="mt10"><h5 class="ta">£{{v.margin}}</h5></div>  
-                        <div class="mt10"><h5 class="ta">{{v.marginPercent*100}}%</h5></div>  
+                        <div class="mt10"><h5 class="ta">£{{v.margin | formatToMoney}}</h5></div>  
+                        <div class="mt10"><h5 class="ta">{{(v.marginPercent*100).toFixed(2)}}%</h5></div>  
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.marginPercent}px;height:20px;border-radius:10px;background:rgb(241,76,108)`"></div></div>
                         </div>
                   </div>
                   <div class="fl"  style="width:33.3%">
                         <div><h5 style="height:30px" class="ta">產品成本</h5></div>
-                        <div class="mt10"><h5 class="ta">£{{v.productCost}}</h5></div>  
-                        <div class="mt10"><h5 class="ta">{{v.productCostPercent*100}}%</h5></div>  
+                        <div class="mt10"><h5 class="ta">£{{v.productCost | formatToMoney}}</h5></div>  
+                        <div class="mt10"><h5 class="ta">{{(v.productCostPercent*100).toFixed(2)}}%</h5></div>  
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.productCostPercent}px;height:20px;border-radius:10px;background:rgb(9,194,214)`"></div></div>
                         </div>
                     </div>  
                     <div class="fl" style="width:33.3%">
                         <div><h5 style="height:30px" class="ta">運輸成本</h5></div>
-                        <div class="mt10"><h5 class="ta">£{{v.shippingCost}}</h5></div>  
+                        <div class="mt10"><h5 class="ta">£{{v.shippingCost | formatToMoney}}</h5></div>  
                         <div class="mt10"><h5 class="ta">{{(v.shippingCostPercent*100).toFixed(2)}}%</h5></div>  
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.shippingCostPercent}px;height:20px;border-radius:10px;background:rgb(251,184,53)`"></div></div>
@@ -429,6 +249,7 @@ export default {
     performance: [],
     productPerformance: [],
     monthlyPerformance: [],
+    platformPerformance:[],
     loading: 1
   }),
   created() {
@@ -440,11 +261,12 @@ export default {
       }
     })
       .then(res => {
-        this.parcelCount = _.cloneDeep(res.parcelCount);
-        this.MarginTarget = _.cloneDeep(res.marginTarget);
-        this.performance = _.cloneDeep(res.performance);
-        this.productPerformance = _.cloneDeep(res.productPerformance);
-        this.monthlyPerformance = _.cloneDeep(res.monthlyPerformance);
+        this.parcelCount = _.cloneDeep(res.parcelCount) || {};
+        this.MarginTarget = _.cloneDeep(res.marginTarget) || {};
+        this.performance = _.cloneDeep(res.performance) || [];
+        this.productPerformance = _.cloneDeep(res.productPerformance) || [];
+        this.monthlyPerformance = _.cloneDeep(res.monthlyPerformance) || [];
+        this.platformPerformance = _.cloneDeep(res.platformPerformance) || [];
         this.loading--;
       })
       .catch(() => {});
@@ -488,6 +310,12 @@ export default {
   .w100 {
     width: 100%;
   }
+  .w20{
+      width:20%
+  }
+  .w35{
+      width:35%
+  }
   .p10 {
     padding: 10px;
   }
@@ -510,6 +338,9 @@ export default {
   }
   .ta {
     text-align: center;
+  }
+  .tr {
+    text-align: right;
   }
   .label-tips {
     color: #bbbbbb;
