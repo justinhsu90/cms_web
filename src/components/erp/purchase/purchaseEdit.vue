@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>標及採購單 <span>&nbsp;&nbsp;订单ID:&nbsp;{{formData.purchaseId}}</span>
+      <h2>編輯採購單 <span>&nbsp;&nbsp;採購單號:&nbsp;{{formData.purchaseId}}</span>
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -141,7 +141,7 @@
                     <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
                     <el-button type="primary" size="mini" @click="submit">確定</el-button>
                 </div>
-                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">添加</el-button>
+                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">編輯</el-button>
         </el-popover>
       </el-form>
     </div>
@@ -361,8 +361,10 @@ export default {
                 v.purchasedTime = this.moment(
                     this.formData.purchasedTime
                 ).format("YYYY-MM-DD");
+                v.purchaseId = this.formData.purchaseId;
                 v.purchaseType = this.formData.purchaseType;
                 v.purchasedPlatform = this.formData.purchasedPlatform;
+                v.purchasedAccount = this.formData.purchasedAccount;
                 v.purchasedTotalAmount = this.Mul(v.purchasedAmount,v.purchasedQuantity);
                 v.purchaseOrderId = this.formData.purchaseOrderId;
                 v.purchasedBy = this.formData.purchasedBy;

@@ -15,8 +15,8 @@
                         </template>
                         <el-button size="small" type="success" @click="handleUpload">點擊上傳</el-button>
                     </el-form-item>
-                    <el-form-item label="檔案类型全选">
-                        <el-select placeholder="檔案类型" v-model="typeAll" clearable @change="handleSelectAll">
+                    <el-form-item label="檔案類型全選">
+                        <el-select placeholder="檔案類型" v-model="typeAll" clearable @change="handleSelectAll">
                             <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                         </el-select>
                     </el-form-item>
@@ -26,7 +26,7 @@
                                 <el-table-column label="文件名" min-width="100" prop="name"></el-table-column>
                                 <el-table-column label="檔案大小" prop="size" width="200">
                                     <template slot-scope="scope">
-                                        {{scope.row.size}}b
+                                        {{(scope.row.size/1024).toFixed(2)}}&nbsp;KB
                                     </template>
                                 </el-table-column>
                                 <el-table-column label="檔案类型" prop="size" width="200">
