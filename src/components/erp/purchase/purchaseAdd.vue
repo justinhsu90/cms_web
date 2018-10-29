@@ -421,6 +421,7 @@ export default {
                 ).format("YYYY-MM-DD");
                 v.purchaseType = this.formData.purchaseType;
                 v.purchasedPlatform = this.formData.purchasedPlatform;
+                v.purchasedAccount = this.formData.purchasedAccount;
                 v.purchasedTotalAmount = this.Mul(v.purchasedAmount, v.purchasedQuantity);
                 v.purchaseOrderId = this.formData.purchaseOrderId;
                 v.purchasedBy = this.formData.purchasedBy;
