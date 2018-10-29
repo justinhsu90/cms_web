@@ -102,7 +102,7 @@
                                     {{totalQuantity}}
                                 </td>
                                 <td>
-                                    {{(totalAmount * totalQuantity) ? (totalAmount * totalQuantity).toFixed(2) : "0.00"}}
+                                    {{totalMoney | formatToMoney}}
                                 </td>   
                             </tr>  
                         </tbody>
@@ -217,6 +217,17 @@ export default {
         });
     },
     computed:{
+        totalMoney(){
+              let total = 0;
+            _.each(this.formData.data, v => {
+                total += Number(v.saleQuantity) * Number(v.saleTotalAmount);
+            });
+            if (total == 0) {
+                return '';
+            } else {
+                return total;
+            }
+        },
         totalQuantity(){
              let total = 0;
             _.each(this.formData.data,(v)=>{

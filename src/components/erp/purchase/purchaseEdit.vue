@@ -127,7 +127,7 @@
                   {{totalShippingCost | formatToMoney}}
                 </td>
                 <td>
-                  {{ totalPurchasedAmount * totalPurchasedQuantity | formatToMoney}}
+                  {{ totalMoney | formatToMoney}}
                 </td>
                 <td></td>
               </tr>
@@ -269,6 +269,17 @@ export default {
         });
     },
     computed: {
+         totalMoney(){
+              let total = 0;
+            _.each(this.formData.data, v => {
+                total += Number(v.purchasedAmount) * Number(v.purchasedQuantity);
+            });
+            if (total == 0) {
+                return '';
+            } else {
+                return total;
+            }
+        },
         disabled() {
             let disabled = false;
             _.each(this.formData.data, v => {
