@@ -247,6 +247,7 @@ export default {
     parcelCount: {},
     MarginTarget: {},
     performance: [],
+    platformPerformance: [],
     productPerformance: [],
     monthlyPerformance: [],
     platformPerformance:[],
