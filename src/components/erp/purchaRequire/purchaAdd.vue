@@ -29,7 +29,7 @@
             </el-col>
             <el-col :span="3">
               <el-form-item label="採購類型">
-              <el-select v-model="v.purchaseType" placeholder="類型"  clearable>
+              <el-select v-model="v.purchasetype" placeholder="類型"  clearable>
             </el-select>
             </el-form-item>
             </el-col>
@@ -89,8 +89,8 @@ export default {
     };
   },
   created() {
-    axios({
-      url: "/content/value/purchaseType",
+  let purchasetype = axios({
+      url: "/purchasequery/value/purchasetype",
       method: "post",
       data: {
         token: this.token

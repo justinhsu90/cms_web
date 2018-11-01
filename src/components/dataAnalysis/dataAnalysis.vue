@@ -1,6 +1,6 @@
 <template>
     <div  v-loading="loading" class="dataAnaly">
-        <el-row :gutter="10" style="padding:0px">
+        <!-- <el-row :gutter="10" style="padding:0px">
             <el-col :span="5"  >
                 <el-card  style="height:130px"> 
                 <h5>今日須出貨包裹數量</h5>
@@ -96,12 +96,13 @@
                 </el-card>
             </el-col>
         </el-row>
-        <br>
-        <el-row class="dataAnaly" :gutter="10" style="padding:0px">
-            <el-card style="height:320px">
-            <h3>各平台銷售表現</h3>
-            <el-col class="mt10" :span="6" v-for="(v,i) in platformPerformance" :key="i">
-                <el-card  style="height:120px"> 
+        <br> -->
+        <el-row class="dataAnaly" :gutter="5" style="padding:0px">
+            <el-card style="height:145px;background-color:#fdfdfd;">
+            <h4>各平台本日銷售表現</h4>
+                <!-- <br> -->
+            <el-col class="mt10" :span="6" v-for="(v,i) in todayPlatformPerformance" :key="i">
+                <el-card  style="height:100px"> 
                 <h5>{{v.title}}</h5>
                 <br>
                 <div class="w30 fl">
@@ -132,8 +133,81 @@
             </el-col>
             </el-card>
         </el-row>
-        <br>  
-        <el-row :gutter="10" style="padding:0px">
+        <el-row class="dataAnaly" :gutter="5" style="padding:0px">
+            <el-card style="height:145px;background-color:#fdfdfd;">
+            <h4>各平台前日銷售表現</h4>
+                <!-- <br> -->
+            <el-col class="mt10" :span="6" v-for="(v,i) in previousDayPlatformPerformance" :key="i">
+                <el-card  style="height:100px"> 
+                <h5>{{v.title}}</h5>
+                <br>
+                <div class="w30 fl">
+                    <div class="font tc">
+                        <span>{{v.quantity}}</span>  
+                     </div>
+                     <div class="mt10 tc" >
+                        <span class=" f13 label-tips">數量</span>
+                     </div>
+                </div>               
+                <div class="w35 fn"> 
+                     <div class="font tc">
+                        <span>{{v.revenue | formatToMoney}}</span>
+                    </div>
+                    <div  class="mt10 tc">
+                         <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                    </div>
+                </div>
+                <div class="w30 fr"> 
+                     <div class="font tc">
+                        <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
+                    </div>
+                    <div  class="mt10 tc">
+                         <span class="f13 label-tips">毛利率</span>
+                    </div>
+                </div>
+                </el-card>
+            </el-col>
+            </el-card>
+        </el-row>
+        <!-- <br>   -->
+        <el-row class="dataAnaly" :gutter="5" style="padding:0px">
+            <el-card style="height:145px;background-color:#fdfdfd;">
+            <h4>各平台本月銷售表現</h4>
+                <!-- <br> -->
+            <el-col class="mt10" :span="6" v-for="(v,i) in platformPerformance" :key="i">
+                <el-card  style="height:100px"> 
+                <h5>{{v.title}}</h5>
+                <br>
+                <div class="w30 fl">
+                    <div class="font tc">
+                        <span>{{v.quantity}}</span>  
+                     </div>
+                     <div class="mt10 tc" >
+                        <span class=" f13 label-tips">數量</span>
+                     </div>
+                </div>               
+                <div class="w35 fn"> 
+                     <div class="font tc">
+                        <span>{{v.revenue | formatToMoney}}</span>
+                    </div>
+                    <div  class="mt10 tc">
+                         <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                    </div>
+                </div>
+                <div class="w30 fr"> 
+                     <div class="font tc">
+                        <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
+                    </div>
+                    <div  class="mt10 tc">
+                         <span class="f13 label-tips">毛利率</span>
+                    </div>
+                </div>
+                </el-card>
+            </el-col>
+            </el-card>
+        </el-row>
+        <!-- <br>   -->
+        <!-- <el-row :gutter="10" style="padding:0px">
             <el-col :span="8"  v-for="(v,i) in performance" :key="i">
                 <el-card style="height:250px">
                 <h5>{{v.title}}</h5>
@@ -168,12 +242,13 @@
                 </div>
                 </el-card>
             </el-col>
-        </el-row>
+        </el-row> -->
         <br>
         <el-row style="padding:0px">
             <el-col :span="15">
-                <h5>本月產品銷售排行</h5>
                 <el-card >
+                <h4>Wowcher本月產品銷售排行</h4>
+                <br>
                 <el-table :data="productPerformance">
                     <el-table-column  min-width="220" label="產品名稱" prop="productName"></el-table-column>
                     <el-table-column  min-width="60" label="毛利" prop="margin">
@@ -202,8 +277,9 @@
         </el-row>
         <el-row style="padding-top:20px">
             <el-col :span="24">
-                <h5>月度銷售表現</h5>
                 <el-card>
+                <h4>Wowcher月度銷售表現</h4>
+                <br>
                 <el-table :data="monthlyPerformance">
                     <el-table-column width="80" label="月份" prop="title"></el-table-column>
                     <el-table-column  min-width="60" label="售出數量" prop="quantity"></el-table-column>
@@ -247,7 +323,8 @@ export default {
     parcelCount: {},
     MarginTarget: {},
     performance: [],
-    platformPerformance: [],
+    previousDayPlatformPerformance: [],
+    todayPlatformPerformance: [],
     productPerformance: [],
     monthlyPerformance: [],
     platformPerformance:[],
@@ -268,6 +345,8 @@ export default {
         this.productPerformance = _.cloneDeep(res.productPerformance) || [];
         this.monthlyPerformance = _.cloneDeep(res.monthlyPerformance) || [];
         this.platformPerformance = _.cloneDeep(res.platformPerformance) || [];
+        this.previousDayPlatformPerformance = _.cloneDeep(res.previousDayPlatformPerformance) || [];
+        this.todayPlatformPerformance = _.cloneDeep(res.todayPlatformPerformance) || [];
         this.loading--;
       })
       .catch(() => {});
@@ -292,6 +371,12 @@ export default {
     display: inline-block;
     margin:0 auto;
     // width:100px;
+  }
+  .ft {
+      float: top;
+  }
+  .fb {
+      float: bottom;
   }
   .font {
     font-size: 20px;
