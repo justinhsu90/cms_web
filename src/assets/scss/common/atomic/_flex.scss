@@ -1,0 +1,25 @@
+.flex {
+  display: flex !important;
+  flex-wrap: wrap;
+}
+
+.flex-r {
+  @extend .flex;
+  justify-content: flex-end;
+}
+
+.flex-h-c {
+  @extend .flex;
+  justify-content: center;
+}
+
+.flex-v-c {
+  @extend .flex;
+  align-items: center;
+}
+
+.flex-c-c {
+  @extend .flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,131 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+  color: $fontColor1;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+
+#app {
+  position: relative;
+  height: 100%;
+}
+
+.won-page {
+  padding: 20px;
+  width: 100%;
+}
+
+.won-popover-page{
+  padding: 5px;
+}
+
+.won-form-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+// .el-zoom-in-top-enter-active,
+// .el-zoom-in-top-leave-active {
+//   position: absolute;
+// }
+
+a{
+  text-decoration: none;
+  cursor: pointer;
+  color: $blue;
+  transition: 0.2s;
+  &:hover,
+  &:focus {
+    color: mix($white, $blue, 20%);
+  }
+  &:active {
+    color: mix(#000, $blue, 10%);
+  }
+
+  &.fake{
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      color: $fontColor2;
+      cursor: auto;
+      background-image: none;
+      border-color: $color1;
+    }
+  }
+}
+
+// 表格部分
+.word-inline > .cell {
+  word-break: normal;
+}
+.text-inline > .cell {
+  white-space: nowrap;
+}
+.vertical-tag { // 竖着的 el-tag
+  display: inline-block;
+  width: 1em;
+  line-height: 1.2em;
+  white-space: normal;
+  box-sizing: content-box;
+  height: auto;
+  vertical-align: middle;
+  padding: 5px;
+  & + * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.need-rebuild-tip {
+  margin-left: 20px;
+  color: $fontColor3;
+  &:after {
+      content: "重新生成应用生效";
+      margin-left: 5px;
+  }
+}
+
+.label-tips {
+  margin-left: 10px;
+  line-height: 1.2;
+  color: $fontColor3;
+}
+
+.blue-dot{
+  position: relative;
+  display: inline-block;
+  &:before{
+      content: "●";
+      color: #45A2FF;
+      position: absolute;
+      right: -15px;
+  }
+}
+
+hr{
+    box-sizing: content-box;
+    height: 1px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 0;
+    background: #eee;
+    background-clip: content-box;
+}
+
+//Tinymce 提示
+[aria-label='Insert/edit media']{
+  >div{
+      >.mce-container-body:after{
+          content: '视频支持mp4/webm,音频支持mp3/wav,不超过500MB';
+          position: absolute;
+          bottom: 15px;
+          left: 20px;
+          color: #aaa;
+      }
+  }
+}

@@ -1,0 +1,42 @@
+// 5% ~ 100%
+@for $i from 1 to 21 {
+    .w#{$i * 5} {
+        width: $i * 5% !important;
+    }
+}
+
+.wa{
+    width: auto;
+}
+
+.w-max200 {
+    max-width: 200px !important;
+}
+
+.w-max300 {
+    max-width: 300px !important;
+}
+
+.w-max400 {
+    max-width: 400px !important;
+}
+
+.w-max500 {
+    max-width: 500px !important;
+}
+
+.w-max600 {
+    max-width: 600px !important;
+}
+
+.w-max700 {
+    max-width: 700px !important;
+}
+
+.w-max800 {
+    max-width: 800px !important;
+}
+
+.w-max900 {
+    max-width: 900px !important;
+}

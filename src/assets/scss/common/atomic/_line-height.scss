@@ -1,0 +1,5 @@
+@for $i from 6 to 16 {
+  .lh#{$i * 2} {
+    line-height: $i * 2px;
+  }
+}

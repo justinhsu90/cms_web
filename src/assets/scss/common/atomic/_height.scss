@@ -1,0 +1,6 @@
+// 5% ~ 100%
+@for $i from 1 to 21 {
+  .h#{$i * 5} {
+      height: $i * 5% !important;
+  }
+}

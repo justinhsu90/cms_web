@@ -102,7 +102,7 @@
             <h4>各平台本日銷售表現</h4>
                 <!-- <br> -->
             <el-col class="mt10" :span="6" v-for="(v,i) in todayPlatformPerformance" :key="i">
-                <el-card  style="height:100px"> 
+                <el-card  style="height:105px"> 
                 <h5>{{v.title}}</h5>
                 <br>
                 <div class="w30 fl">
@@ -138,7 +138,7 @@
             <h4>各平台前日銷售表現</h4>
                 <!-- <br> -->
             <el-col class="mt10" :span="6" v-for="(v,i) in previousDayPlatformPerformance" :key="i">
-                <el-card  style="height:100px"> 
+                <el-card  style="height:105px"> 
                 <h5>{{v.title}}</h5>
                 <br>
                 <div class="w30 fl">
@@ -175,7 +175,7 @@
             <h4>各平台本月銷售表現</h4>
                 <!-- <br> -->
             <el-col class="mt10" :span="6" v-for="(v,i) in platformPerformance" :key="i">
-                <el-card  style="height:100px"> 
+                <el-card  style="height:105px"> 
                 <h5>{{v.title}}</h5>
                 <br>
                 <div class="w30 fl">
@@ -245,32 +245,49 @@
         </el-row> -->
         <br>
         <el-row style="padding:0px">
-            <el-col :span="15">
-                <el-card >
-                <h4>Wowcher本月產品銷售排行</h4>
+            <el-col :span="24">
+                <el-card>
+                <div>
+                    <h4 style="display:inline-block;">Wowcher本月產品銷售排行</h4>
+                     <div style="display:inline-block;">
+                         <el-select v-model="account" placeholder="请选择账号" @change="handleSelect('account')">
+                             <el-option v-for="(v,i) in selectAccountOption" :label="v" :value="v" :key="i" ></el-option>
+                         </el-select>
+                    </div>  
+                    <div style="display:inline-block;">
+                         <el-select v-model="year" placeholder="请选择年份"  @change="handleSelect('year')">
+                             <el-option v-for="(v,i) in selectYearOption" :label="v" :value="v" :key="i"></el-option>
+                         </el-select>
+                    </div>   
+                     <div style="display:inline-block;">
+                         <el-select v-model="month" placeholder="请选择月份" @change="handleSelect('month')">
+                             <el-option v-for="(v,i) in selectMonthOption" :label="v.monthInEng" :value="v.monthInEng" :key="i" ></el-option>
+                         </el-select>
+                    </div>   
+                </div>   
                 <br>
                 <el-table :data="productPerformance">
                     <el-table-column  min-width="220" label="產品名稱" prop="productName"></el-table-column>
+                    <el-table-column  min-width="60" label="Sku" prop="sku"></el-table-column>
+                    <el-table-column  min-width="60" label="等級" prop="ranking"></el-table-column>
+                    <el-table-column  min-width="60" label="稅收" prop="revenue"></el-table-column>
                     <el-table-column  min-width="60" label="毛利" prop="margin">
                         <template slot-scope="scope">
                           {{scope.row.margin | formatToMoney}}&nbsp;GBP
                         </template>
                     </el-table-column>
-                    <el-table-column  min-width="60" label="毛利率" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="60" label="marginPercent" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="60" label="percentageOfMargin" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
                     <el-table-column  min-width="60" label="毛利占比" prop="percentageOfTotalRevenue" :formatter="formatToPercent"></el-table-column>
-                    <!-- <el-table-column  min-width="60" label="採購成本" prop="margin">
+                    <el-table-column  min-width="60" label="商品成本" prop="productCost">
                         <template slot-scope="scope">
-                          {{scope.row.ProductCost | formatToMoney}}&nbsp;GBP
+                          {{scope.row.productCost | formatToMoney}}&nbsp;GBP
                         </template>
                     </el-table-column>
-                    <el-table-column  min-width="60" label="採購成本率" prop="ProductCostPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="60" label="運費成本" prop="margin">
-                        <template slot-scope="scope">
-                          {{scope.row.ProductCost | formatToMoney}}&nbsp;GBP
-                        </template>
-                    </el-table-column>
-                    <el-table-column  min-width="60" label="運費成本率" prop="ShippingCostPercent" :formatter="formatToPercent"></el-table-column>
-                     -->
+                    <el-table-column  min-width="60" label="商品成本率" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="60" label="運費" prop="shippingCost"></el-table-column>
+                    <el-table-column  min-width="60" label="運費成本率" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
+                    
                 </el-table>
                 </el-card>
             </el-col>
@@ -319,121 +336,193 @@
 <script>
 import { format } from "@/common/until/format";
 export default {
-  data: () => ({
-    parcelCount: {},
-    MarginTarget: {},
-    performance: [],
-    previousDayPlatformPerformance: [],
-    todayPlatformPerformance: [],
-    productPerformance: [],
-    monthlyPerformance: [],
-    platformPerformance:[],
-    loading: 1
-  }),
-  created() {
-    axios({
-      url: "/dashboard/all",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    })
-      .then(res => {
-        this.parcelCount = _.cloneDeep(res.parcelCount) || {};
-        this.MarginTarget = _.cloneDeep(res.marginTarget) || {};
-        this.performance = _.cloneDeep(res.performance) || [];
-        this.productPerformance = _.cloneDeep(res.productPerformance) || [];
-        this.monthlyPerformance = _.cloneDeep(res.monthlyPerformance) || [];
-        this.platformPerformance = _.cloneDeep(res.platformPerformance) || [];
-        this.previousDayPlatformPerformance = _.cloneDeep(res.previousDayPlatformPerformance) || [];
-        this.todayPlatformPerformance = _.cloneDeep(res.todayPlatformPerformance) || [];
-        this.loading--;
-      })
-      .catch(() => {});
-  },
-  methods:{
-    ...format  
-  },
-  filters: {
-    ...format
-  }
+    data: () => ({
+        parcelCount: {},
+        MarginTarget: {},
+        performance: [],
+        previousDayPlatformPerformance: [],
+        todayPlatformPerformance: [],
+        productPerformance: [],
+        monthlyPerformance: [],
+        platformPerformance: [],
+        loading: 1,
+        account:'',
+        month:'',
+        year:'',
+        selectAccountOption:[],
+        selectMonthOption:[],
+        selectYearOption:[],
+        condition:{
+
+        }
+    }),
+    created() {
+        let account = axios({
+            url:'dashboard/value/productPerformance/account',
+            method:'post',
+             data: {
+                token: this.token
+            }
+        });
+        let month = axios({
+            url:'dashboard/value/productPerformance/month',
+            method:'post',
+             data: {
+                token: this.token
+            }
+        })
+
+       let all = axios({
+            url: "/dashboard/all",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
+         Promise.all([account,month,all]).then(([account,month,res])=>{
+                this.selectAccountOption = _.cloneDeep(account);
+                this.selectMonthOption = _.cloneDeep(month);
+                let data = [];
+                 _.each(this.selectMonthOption,(v)=>{
+                    if(!data.includes(v.year)){
+                        data.push(v.year);    
+                    }
+                })
+                this.selectYearOption = data;
+                this.parcelCount = _.cloneDeep(res.parcelCount) || {};
+                this.MarginTarget = _.cloneDeep(res.marginTarget) || {};
+                this.performance = _.cloneDeep(res.performance) || [];
+                this.productPerformance =
+                    _.cloneDeep(res.productPerformance) || [];
+                this.originProductPerformance =  _.cloneDeep(res.productPerformance) || [];   
+                this.monthlyPerformance =
+                    _.cloneDeep(res.monthlyPerformance) || [];
+                this.platformPerformance =
+                    _.cloneDeep(res.platformPerformance) || [];
+                this.previousDayPlatformPerformance =
+                    _.cloneDeep(res.previousDayPlatformPerformance) || [];
+                this.todayPlatformPerformance =
+                    _.cloneDeep(res.todayPlatformPerformance) || [];
+
+                    
+                this.loading--;
+         })   
+
+
+    },
+    methods: {
+        ...format,
+        handleSelect(v){
+            if(v == 'account'){
+               this.condition.productPerformanceAccount = this.account;        
+            }
+
+            if(v == 'year'){
+               this.condition.productPerformanceYear = this.year;     
+            }
+
+            if(v == 'month'){
+                this.condition.productPerformanceMonth = this.month;
+            }
+            this.fetchTableData();
+        },
+        fetchTableData(){
+            if(!this.account && !this.year && !this.month){
+                this.productPerformance = this.originProductPerformance;
+                return;
+            }
+            axios({
+                url:'dashboard/productPerformace',
+                method:'post',
+                data:{
+                    ...this.condition,
+                    token:this.token
+                }
+            }).then((res)=>{
+                this.productPerformance = res || [];
+            })
+        }
+    },
+    filters: {
+        ...format
+    }
 };
 </script>
 <style lang="scss" >
 .dataAnaly {
-  .fl {
-    float: left;
-  }
-  .fr {
-    float: right;
-  }
-  .fn {
-    display: inline-block;
-    margin:0 auto;
-    // width:100px;
-  }
-  .ft {
-      float: top;
-  }
-  .fb {
-      float: bottom;
-  }
-  .font {
-    font-size: 20px;
-    color: rgb(122, 113, 202);
-  }
-  .font2 {
-    font-size: 20px;
-    color: rgb(0, 0, 0);
-  }
-  .f20 {
-    font-size: 20px;
-    color: rgb(122, 113, 202);
-  }
-  .f13 {
-    font-size: 13px;
-  }
-  .w100 {
-    width: 100%;
-  }
-  .w20{
-      width:20%
-  }
-  .w35{
-      width:35%
-  }
-  .p10 {
-    padding: 10px;
-  }
-  .clear::after {
-    content: "";
-    display: block;
-    clear: both;
-  }
-  .w50 {
-    width: 50%;
-  }
-  .w30 {
-    width: 30%;
-  }
-  .w20 {
-    width: 20%;
-  }
-  .mt10 {
-    margin-top: 5px;
-  }
-  .ta {
-    text-align: center;
-  }
-  .tr {
-    text-align: right;
-  }
-  .label-tips {
-    color: #bbbbbb;
-  }
-  .dataAnaly .el-card__body {
-    padding: 10px !important;
-  }
+    .fl {
+        float: left;
+    }
+    .fr {
+        float: right;
+    }
+    .fn {
+        display: inline-block;
+        margin: 0 auto;
+        // width:100px;
+    }
+    .ft {
+        float: top;
+    }
+    .fb {
+        float: bottom;
+    }
+    .font {
+        font-size: 20px;
+        color: rgb(122, 113, 202);
+    }
+    .font2 {
+        font-size: 20px;
+        color: rgb(0, 0, 0);
+    }
+    .f20 {
+        font-size: 20px;
+        color: rgb(122, 113, 202);
+    }
+    .f13 {
+        font-size: 13px;
+    }
+    .w100 {
+        width: 100%;
+    }
+    .w20 {
+        width: 20%;
+    }
+    .w35 {
+        width: 35%;
+    }
+    .p10 {
+        padding: 10px;
+    }
+    .clear::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .w50 {
+        width: 50%;
+    }
+    .w30 {
+        width: 30%;
+    }
+    .w20 {
+        width: 20%;
+    }
+    .mt10 {
+        margin-top: 5px;
+    }
+    .ta {
+        text-align: center;
+    }
+    .tr {
+        text-align: right;
+    }
+    .label-tips {
+        color: #bbbbbb;
+    }
+    .dataAnaly .el-card__body {
+        padding: 10px !important;
+    }
 }
 </style>
 
