@@ -29,10 +29,10 @@
                     <el-table-column width="100" label="account" prop="account"></el-table-column>
                     <el-table-column width="80" label="platform" prop="platform"></el-table-column>
                     <el-table-column width="80" label="addedBy" prop="addedBy"></el-table-column>
-                    <el-table-column width="80" label="addedTime" prop="addedTime" sortable="custom" ></el-table-column>
+                    <el-table-column width="80" label="addedTime" prop="addedTime" sortable="custom" :formatter="formatToTime" ></el-table-column>
                     <el-table-column width="80" label="inventoryChangeId" prop="inventoryChangeId" sortable="custom" ></el-table-column>
                     <el-table-column width="80" label="inventoryType" prop="inventoryType"></el-table-column>
-                    <el-table-column width="80" label="lastUpdatedTime" prop="lastUpdatedTime"></el-table-column>
+                    <el-table-column width="80" label="lastUpdatedTime" prop="lastUpdatedTime" :formatter="formatToTime"></el-table-column>
                     <el-table-column width="80" label="lastModifiedBy" prop="lastModifiedBy" sortable="custom"></el-table-column>
                     <el-table-column width="80" label="moveFrom" prop="moveFrom" sortable="custom"></el-table-column>
                     <el-table-column width="80" label="moveTo" prop="moveTo" sortable="custom"></el-table-column>
