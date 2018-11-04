@@ -117,6 +117,10 @@ export default {
                     label: "清單"
                 },
                 {
+                    index: "scriptExecutionList",
+                    label: "執行清單"
+                },
+                {
                     index: "wowcher",
                     label: "Wowcher",
                     isLevel: true,

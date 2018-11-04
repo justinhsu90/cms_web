@@ -485,6 +485,19 @@ let router = new VueRouter({
           meta: {
             sign: 'inventory'
           }
+        },
+        {
+          name: 'scriptExecution',
+          path: '/scriptExecutionList',          
+          component: asyncComponent('scriptExecution/scriptExecutionList'),
+        },
+        {
+          name: 'scriptExecutionAdd',
+          path: '/scriptExecutionAdd',          
+          component: asyncComponent('scriptExecution/scriptExecutionAdd'),
+          meta: {
+            sign: 'scriptExecution'
+          }
         }
       ]
     },
