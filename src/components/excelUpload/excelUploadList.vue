@@ -9,7 +9,7 @@
                         <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
                 </div>
-                <div style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;" @click="handleSearch" class="el-input-group__append">
+                <div  @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
             </el-col>

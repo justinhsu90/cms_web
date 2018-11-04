@@ -62,8 +62,6 @@ import paymentList from '@/components/erp/payment/paymentList'
 import paymentAdd from '@/components/erp/payment/paymentAdd'
 import paymentEdit from '@/components/erp/payment/paymentEdit'
 
-
-
 Vue.use(VueRouter);
 let router = new VueRouter({
   routes: [{
@@ -473,6 +471,19 @@ let router = new VueRouter({
           component: asyncComponent('shipping/shippingView'),
           meta: {
             sign: 'shipping'
+          }
+        },
+        {
+          name: 'inventory',
+          path: '/inventoryList',          
+          component: asyncComponent('inventory/inventoryList'),
+        },
+        {
+          name: 'inventoryAdd',
+          path: '/inventoryAdd',          
+          component: asyncComponent('inventory/inventoryAdd'),
+          meta: {
+            sign: 'inventory'
           }
         }
       ]

@@ -9,6 +9,19 @@
 .absolute {
   position: absolute;
 }
-.w_bk-a{
+
+.w_bk-a {
   word-break: break-all;
+}
+
+.search {
+  margin-left: 5px;
+  cursor: pointer;
+  display: inline-block;
+  width: 14px;
+  height: 38px;
+  text-align: center;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  line-height: 38px;
 }

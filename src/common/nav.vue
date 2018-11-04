@@ -113,6 +113,10 @@ export default {
                     label: "補發清單"
                 },
                 {
+                    index: "inventoryList",
+                    label: "清單"
+                },
+                {
                     index: "wowcher",
                     label: "Wowcher",
                     isLevel: true,

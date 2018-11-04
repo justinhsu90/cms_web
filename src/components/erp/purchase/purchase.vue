@@ -23,7 +23,7 @@
           <el-date-picker clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
           </el-date-picker>
         </div>
-        <div style="cursor:pointer;display: inline-block;width: 14px;height: 35px;text-align: center;border: 1px solid #dcdfe6;border-radius: 4px;line-height: 35px;" @click="handleSearch" class="el-input-group__append">
+        <div @click="handleSearch" class="el-input-group__append search">
           <i class="el-icon-search"></i>
         </div>
       </el-col>

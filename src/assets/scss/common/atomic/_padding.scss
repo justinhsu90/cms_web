@@ -15,6 +15,9 @@
   .pb#{$i * 5} {
       padding-bottom: $i * 5px !important;
   }
+  .p#{$i * 5} {
+    padding: $i * 5px !important;
+}
 }
 
 .nopadding{
