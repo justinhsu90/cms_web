@@ -7,31 +7,36 @@
     <br>
     <h2>新增清單</h2>
     <br> 
-     <el-form :model="form">
+     <el-form ref="form" :model="form">
          <el-row :gutter="20">
              <el-col :span="6">
-        <el-form-item label="sku">
+        <el-form-item label="sku" :rules='rules'>
               <el-input v-model="form.sku">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="quantity">
+        <el-form-item label="quantity" :rules='rules'>
               <el-input v-model="form.quantity">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="inventoryType">
-              <el-input v-model="form.inventoryType">
-              </el-input>
+        <el-form-item label="inventoryType" :rules='rules'>
+              <el-select placeholder="類型" v-model="form.inventoryType"  clearable>
+                        <el-option v-for="(v,i) in inventoryTypeOption" :key="i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
+                    </el-select>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="datetime">
-              <el-input v-model="form.datetime">
-              </el-input>
-              
+        <el-form-item label="datetime" :rules='rules'>
+                      <el-date-picker
+                      clearable
+      v-model="form.datetime"
+      type="date"
+      value-format="yyyy-MM-dd" 
+      placeholder="选择日期">
+    </el-date-picker>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
@@ -60,8 +65,9 @@
         </el-col>
              <el-col :span="6">
         <el-form-item label="warehouse">
-              <el-input v-model="form.warehouse">
-              </el-input>
+              <el-select placeholder="商品" v-model="form.warehouse"  clearable>
+                        <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
+                </el-select>
         </el-form-item>       
         </el-col>
         </el-row>
@@ -80,24 +86,91 @@ export default {
             this.$router.push("scriptExecutionList");
         },
         submit() {
-            this.submitLoading = true;
-            axios({
-                url: "script/run",
-                method: "post",
-                data: {
-                    token: this.token,
-                    scriptCode: this.form.scriptCode
+            this.$refs["form"].validate(valid => {
+                if (valid) {
+                    this.submitLoading = true;
+                    axios({
+                        url: "inventory/change/add",
+                        method: "post",
+                        data: {
+                            token: this.token,
+                            ...this.form
+                        }
+                    }).then(res => {
+                        this.submitLoading = false;
+                        this.$message.success("添加成功");
+                        this.goBack();
+                    });
                 }
-            }).then(res => {
-                this.submitLoading = false;
-                this.$message.success("添加成功");
-                this.goBack();
             });
         }
     },
+    mounted(){
+         let type = axios({
+            url: "/inventory/change/value/inventoryType",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
+        let warehouse = axios({
+            url: "/inventory/change/value/warehouse",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        });
+        Promise.all([type, warehouse]).then(([type, warehouse]) => {
+            this.warehouseOption = _.cloneDeep(warehouse);
+            this.inventoryTypeOption = _.cloneDeep(type);
+        });
+    },
     data() {
         return {
+            rules: {
+                required: true,
+                message: "此項必填"
+            },
+            inventoryTypeOption:[],
+            warehouseOption:[],
             selectOption: [],
+            pickerOptions: {
+                shortcuts: [
+                    {
+                        text: "最近一周",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 7
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    },
+                    {
+                        text: "最近一个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 30
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    },
+                    {
+                        text: "最近三个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 90
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    }
+                ]
+            },
             form: {
                 sku: "",
                 quantity: "",
@@ -134,6 +207,6 @@ a {
     color: #45a2ff;
 }
 /deep/ .el-form-item {
-    margin-bottom: 5px
+    margin-bottom: 5px;
 }
 </style>

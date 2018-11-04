@@ -14,6 +14,10 @@
                         <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
                     </el-select>
                 </div>
+                <div style="margin-left:5px;display:inline-block;width:230px">
+                    <el-date-picker clearable style="width:100%" @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                    </el-date-picker>
+                </div>
                 <div  @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
@@ -56,15 +60,52 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
+             pickerOptions: {
+                shortcuts: [
+                    {
+                        text: "最近一周",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 7
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    },
+                    {
+                        text: "最近一个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 30
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    },
+                    {
+                        text: "最近三个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 90
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    }
+                ]
+            },
+            date:[],
             tableData: [],
             maxHeight: 450,
             condition: [],
             isTableLoading: false,
-            warehouse:'',
-            warehouseOption:[],
+            warehouse: "",
+            warehouseOption: [],
             inventoryType: "",
-            inventoryTypeOption: [
-            ],
+            inventoryTypeOption: [],
             fetchCondition: {
                 skip: 0,
                 limit: 15
@@ -80,28 +121,28 @@ export default {
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
         let type = axios({
-            url:'/inventory/change/value/inventoryType',
-            method:'post',
-            data:{
-                token:this.token
+            url: "/inventory/change/value/inventoryType",
+            method: "post",
+            data: {
+                token: this.token
             }
-        })
+        });
         let warehouse = axios({
-            url:'/inventory/change/value/warehouse',
-            method:'post',
-            data:{
-                token:this.token
+            url: "/inventory/change/value/warehouse",
+            method: "post",
+            data: {
+                token: this.token
             }
-        })
-        Promise.all([type,warehouse]).then(([type,warehouse])=>{
+        });
+        Promise.all([type, warehouse]).then(([type, warehouse]) => {
             this.warehouseOption = _.cloneDeep(warehouse);
             this.inventoryTypeOption = _.cloneDeep(type);
-        })
+        });
     },
     methods: {
         handleCondition(sign) {
             if (sign == "type") {
-                if (!this.searchAccount) {
+                if (!this.inventoryType) {
                     _.pull(this.condition, "1");
                 } else {
                     if (!this.condition.includes("1")) {
@@ -111,11 +152,20 @@ export default {
             }
 
             if (sign == "warehouse") {
-                if (!this.searchAccount) {
+                if (!this.warehouse) {
                     _.pull(this.condition, "2");
                 } else {
                     if (!this.condition.includes("2")) {
                         this.condition.push("2");
+                    }
+                }
+            }
+            if (sign == "date") {
+                if (_.isEmpty(this.date)) {
+                    _.pull(this.condition, "3");
+                } else {
+                    if (!this.condition.includes("3")) {
+                        this.condition.push("3");
                     }
                 }
             }
@@ -129,15 +179,16 @@ export default {
                 skip: this.fetchCondition.skip,
                 limit: this.fetchCondition.limit
             };
-              if (this.condition.includes("1")) {
+            if (this.condition.includes("1")) {
                 data.inventoryType = this.inventoryType;
             }
             if (this.condition.includes("2")) {
                 data.warehouse = this.warehouse;
             }
-            // if (this.condition.includes("3")) {
-            //     data.country = this.searchCountry;
-            // }
+            if (this.condition.includes("3")) {
+                data.startDate = this.date[0];
+                data.endDate = this.date[1];
+            }
             axios({
                 url: this.fetchOption.url,
                 method: this.fetchOption.method,
