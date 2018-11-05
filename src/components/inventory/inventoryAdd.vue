@@ -185,16 +185,17 @@ export default {
             submitLoading: false
         };
     },
-    created() {
+   
+    created(){
         axios({
-            url: "/script/value/scriptList",
-            method: "post",
-            data: {
-                token: this.token
+            url:'/script/value/scriptList',
+            method:'post',
+            data:{
+                token:this.token
             }
-        }).then(res => {
+        }).then((res)=>{
             this.selectOption = _.cloneDeep(res);
-        });
+        })
     }
 };
 </script>
