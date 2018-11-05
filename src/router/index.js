@@ -483,7 +483,7 @@ let router = new VueRouter({
           path: '/inventoryAdd',          
           component: asyncComponent('inventory/inventoryAdd'),
           meta: {
-            sign: 'inventory'
+            sign: 'inventoryList'
           }
         },
         {
@@ -496,7 +496,7 @@ let router = new VueRouter({
           path: '/scriptExecutionAdd',          
           component: asyncComponent('scriptExecution/scriptExecutionAdd'),
           meta: {
-            sign: 'scriptExecution'
+            sign: 'scriptExecutionList'
           }
         }
       ]
