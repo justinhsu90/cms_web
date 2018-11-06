@@ -123,10 +123,19 @@ export default {
             this.type = obj;
         },
         submit() {
-            _.each(this.$refs['formChild'],(v)=>{
-                v.validate((valid)=>{
-                    if(valid){
-                          let totalAjax = [];
+            let validate = true;
+            _.each(this.$refs["formChild"], v => {
+                if(!validate)return;
+                v.validate(valid => {
+                    if (!valid) {
+                        validate = false;  
+                    }
+                });
+            });
+
+            if(!validate)return;
+
+            let totalAjax = [];
             _.each(this.files, (v, i) => {
                 let formData = new FormData();
                 formData.append("token", this.token);
@@ -150,17 +159,12 @@ export default {
             }
             Promise.all(totalAjax)
                 .then(() => {
-                    this.$router.push('excelUpload');
+                    this.$router.push("excelUpload");
                     this.$message.success("保存成功");
                 })
                 .catch(() => {
                     this.$message.error("保存失敗");
                 });
-                    }else{
-
-                    }
-                })
-            })
         }
     }
 };
@@ -182,7 +186,7 @@ export default {
 .f-12 {
     font-size: 12px;
 }
-/deep/ .el-form-item .el-form-item{
+/deep/ .el-form-item .el-form-item {
     margin-bottom: 18px;
     margin-top: 16px;
 }
