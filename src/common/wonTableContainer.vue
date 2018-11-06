@@ -67,6 +67,9 @@ export default {
         formatToTime(row,col) {
             return moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
         },
+        formatToDate(row,col) {
+            return moment(row[col.property]).format("YYYY-MM-DD");
+        },
         formatToPercent(row, column, cellValue) {
             return (cellValue * 100).toFixed(2) + "%";
         },

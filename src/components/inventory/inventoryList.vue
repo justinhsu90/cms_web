@@ -21,24 +21,24 @@
                 <div  @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
-                <el-button style="float:right" @click="handleAdd" type="primary">新增清單</el-button>
+                <el-button style="float:right" @click="handleAdd" type="primary">新增異動</el-button>
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column width="50" label="單號" prop="inventoryChangeId"></el-table-column>
-                    <el-table-column width="100" label="異動類型" prop="inventoryType"></el-table-column>
-                    <el-table-column min-width="100" label="SKU" prop="sku"></el-table-column>
+                    <el-table-column width="60" label="類型" prop="inventoryType"></el-table-column>
+                    <el-table-column min-width="60" label="SKU" prop="sku"></el-table-column>
                     <el-table-column min-width="80" label="所屬倉庫" prop="warehouse"></el-table-column>
-                    <el-table-column width="50" label="數量" prop="quantity"></el-table-column>
+                    <el-table-column width="60" label="數量" prop="quantity"></el-table-column>
                     <el-table-column width="200" label="產品名稱" prop="productName"></el-table-column>
                     <el-table-column width="80" label="帳號" prop="account"></el-table-column>
                     <el-table-column width="80" label="平台" prop="platform"></el-table-column>
                     <!-- <el-table-column width="80" label="新增" prop="addedBy"></el-table-column> -->
                     <!-- <el-table-column width="80" label="新增時間" prop="addedTime" sortable="custom" :formatter="formatToTime" ></el-table-column> -->
-                    <el-table-column width="80" label="更新時間" prop="lastUpdatedTime" :formatter="formatToTime"></el-table-column>
+                    <el-table-column width="90" label="異動時間" prop="datetime" :formatter="formatToDate"></el-table-column>
                     <!-- <el-table-column width="80" label="最後更新" prop="lastModifiedBy" sortable="custom"></el-table-column> -->
-                    <el-table-column width="80" label="移出倉庫" prop="moveFrom" ></el-table-column>
-                    <el-table-column width="80" label="移入倉庫" prop="moveTo" ></el-table-column>
+                    <el-table-column width="80" label="轉出倉庫" prop="moveFrom" ></el-table-column>
+                    <el-table-column width="80" label="轉入倉庫" prop="moveTo" ></el-table-column>
                     <!-- <el-table-column min-width="130" label="snapshotUrl" prop="snapshotUrl"></el-table-column> -->
                     <el-table-column width="50" label="動作" fixed="right">
                         <template slot-scope="scope">
