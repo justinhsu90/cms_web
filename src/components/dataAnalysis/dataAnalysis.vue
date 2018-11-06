@@ -270,23 +270,27 @@
                     <el-table-column  min-width="220" label="產品名稱" prop="productName"></el-table-column>
                     <!-- <el-table-column  min-width="60" label="Sku" prop="sku"></el-table-column> -->
                     <!-- <el-table-column  min-width="60" label="等級" prop="ranking"></el-table-column> -->
-                    <el-table-column  min-width="60" label="銷售額" prop="revenue"></el-table-column>
+                    <el-table-column  min-width="60" label="銷售額" prop="revenue">
+                         <template slot-scope="scope">
+                          {{scope.row.revenue | formatToMoney}}&nbsp;GBP
+                        </template>
+                    </el-table-column>
                     <el-table-column  min-width="60" label="毛利" prop="margin">
                         <template slot-scope="scope">
                           {{scope.row.margin | formatToMoney}}&nbsp;GBP
                         </template>
                     </el-table-column>
-                    <el-table-column  min-width="60" label="毛利率" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="60" label="毛利占比" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="50" label="毛利%" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="60" label="毛利佔比%" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
                     <!-- <el-table-column  min-width="60" label="商品成本" prop="productCost">
                         <template slot-scope="scope">
                           {{scope.row.productCost | formatToMoney}}&nbsp;GBP
                         </template>
                     </el-table-column> -->
-                    <el-table-column  min-width="60" label="商品成本率" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="50" label="成本%" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
                     <!-- <el-table-column  min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
-                    <el-table-column  min-width="60" label="運費成本率" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="60" label="營業額占比" prop="percentageOfTotalRevenue" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="50" label="運費%" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
+                    <el-table-column  min-width="50" label="營業額%" prop="percentageOfTotalRevenue" :formatter="formatToPercent"></el-table-column>
 
                 </el-table>
                 </el-card>

@@ -15,7 +15,7 @@
               </el-select>
         </el-form-item>       
         <el-form-item>
-                <el-button @click="submit"  :loading="submitLoading" type="primary" size="mediumn">新增</el-button> 
+                <el-button @click="submit"  :loading="submitLoading" type="primary" size="mediumn">新增異動</el-button> 
         </el-form-item>
     </el-form>   
     </div>
@@ -52,16 +52,16 @@ export default {
             submitLoading:false
         }
     },
-    created(){
+     created() {
         axios({
-            url:'/script/value/scriptList',
-            method:'post',
-            data:{
-                token:this.token
+            url: "/script/value/scriptList",
+            method: "post",
+            data: {
+                token: this.token
             }
-        }).then((res)=>{
+        }).then(res => {
             this.selectOption = _.cloneDeep(res);
-        })
+        });
     }
 };
 </script>

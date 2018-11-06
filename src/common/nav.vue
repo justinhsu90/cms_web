@@ -114,7 +114,7 @@ export default {
                 },
                 {
                     index: "inventoryList",
-                    label: "清單"
+                    label: "庫存異動表"
                 },
                 {
                     index: "scriptExecutionList",
