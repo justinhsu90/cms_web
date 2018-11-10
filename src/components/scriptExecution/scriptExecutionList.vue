@@ -40,17 +40,17 @@ export default {
             searchAccount: "",
             searchAccountOption: [
                 {
-                    account: "已補發",
+                    account: "已補發"
                 }
             ],
             fetchCondition: {
                 skip: 0,
-                limit: 15,
+                limit: 15
             },
             fetchOption: {
                 url: "/script/search",
                 method: "post",
-                where: "",
+                where: ""
             }
         };
     },
@@ -77,7 +77,7 @@ export default {
                 where: this.fetchOption.where,
                 token: this.token,
                 skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
+                limit: this.fetchCondition.limit
             };
             axios({
                 url: this.fetchOption.url,

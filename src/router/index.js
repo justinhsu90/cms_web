@@ -498,7 +498,15 @@ let router = new VueRouter({
           meta: {
             sign: 'scriptExecutionList'
           }
-        }
+        },
+        {
+          name: 'generateFile',
+          path: '/generateFile',          
+          component: asyncComponent('generateFile/generateFileList'),
+          meta: {
+            sign: 'generateFile'
+          }
+        },
       ]
     },
     {

@@ -101,6 +101,10 @@ export default {
                         {
                             index: "shipping",
                             label: "貨代出貨清單"
+                        },
+                        {
+                            index: "generateFile",
+                            label: "生成做單文件"
                         }
                     ]
                 },
