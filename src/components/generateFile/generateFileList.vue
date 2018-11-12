@@ -90,9 +90,9 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
-            fileLoading:false,
-            pullLoading:false,
-            url:'',
+            fileLoading: false,
+            pullLoading: false,
+            url: "",
             tableData: [],
             condition: [],
             searchShippingMethodOption: [],
@@ -214,10 +214,13 @@ export default {
                 this.iserachShippingMethodData = data;
                 return;
             }
-            let data = _.filter(this.shippingMethodData, value => {
-                return value.shippingMethodAgent == row.agent;
-            });
-            row.shippingMethodData = data;
+            if (row != "agent" && row != "iagent") {
+                let data = _.filter(this.shippingMethodData, value => {
+                    return value.shippingMethodAgent == row.agent;
+                });
+                row.shippingMethodData = data;
+                row.shippingMethod = "";
+            }
         },
         submit() {
             let data = _.cloneDeep(this.tableData);
@@ -249,11 +252,11 @@ export default {
                     value: JSON.stringify(obj)
                 }
             }).then(res => {
-                if(res.includes('http')){
+                if (res.includes("http")) {
                     this.url = res;
                     this.$refs["wonDialog"].$emit("visible", res);
-                }else{
-                    this.$message.error('生成失败');
+                } else {
+                    this.$message.error("生成失败");
                 }
                 this.fileLoading = false;
             });
