@@ -310,7 +310,7 @@ export default {
             if (this.searchAgent && this.searchShippingMethod) {
                 data.push({
                     productName: "batch",
-                    country: "",
+                    country: "GB",
                     shippingMethod: this.searchShippingMethod,
                     agent: this.searchAgent,
                     parcelWeight: 0
