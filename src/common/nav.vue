@@ -117,10 +117,6 @@ export default {
                     label: "補發清單"
                 },
                 {
-                    index: "inventoryList",
-                    label: "庫存異動表"
-                },
-                {
                     index: "scriptExecutionList",
                     label: "執行清單"
                 },
@@ -167,6 +163,10 @@ export default {
                         {
                             index: "receivableReport",
                             label: "(5-2) 費用應收表"
+                        },
+                        {
+                            index: "inventoryList",
+                            label: "庫存異動表"
                         }
                     ]
                 },

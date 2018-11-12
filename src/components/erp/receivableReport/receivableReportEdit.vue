@@ -59,7 +59,7 @@
                         <td>{{ add(add(v.successFee,v.freight),v.storageCharge) | formToEmpty}}</td>
                         <td>{{v.fees | formToEmpty}}</td>
                         <td>{{v.advertising | formToEmpty}}</td>
-                        <td>{{add(v.fees,v.advertising) | formToEmpty}}</td>
+                        <td>{{add(v.fees,v.advertising).toFixed(2) | formToEmpty}}</td>
                     </tr>
                 </tbody>
             </table>

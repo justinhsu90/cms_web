@@ -220,6 +220,7 @@ export default {
             _.each(data, v => {
                 if (init) return;
                 if (!v.agent || !v.shippingMethod) {
+                    init = true;
                     this.$message.warning("選擇貨代或運輸方式必須全部選擇");
                 }
                 delete v.shippingMethodData;
@@ -238,7 +239,11 @@ export default {
                     value: JSON.stringify(obj)
                 }
             }).then(res => {
-                this.url = res;
+                if(res.includes('http')){
+                    this.url = res;
+                }else{
+                    this.url = 'javascript:void(0)';
+                }
                 this.$refs["wonDialog"].$emit("visible", res);
             });
         }

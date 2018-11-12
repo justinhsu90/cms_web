@@ -82,6 +82,9 @@ export default {
         }
     },
     methods: {
+        formatToDate(row,col) {
+            return moment(row[col.property]).format("YYYY-MM-DD");
+        },
         formatToTime(row,col) {
             return this.moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
         },
