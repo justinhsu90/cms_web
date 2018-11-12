@@ -2,35 +2,40 @@
     <div>
         <el-row class="mb5">
             <h3>
-                <span>生成做單上傳文件</span>
-                <span class="label-tips fz14">
+                <div class="ibbox">
+                    <span>生成做單上傳文件</span>
+                    <span class="label-tips fz14">
                     請先選擇貨代,在選擇運輸方式
-                </span>
+                    </span>
+                </div>
+                <div class="ibbox">
+                    <el-button size="small" type="primary" :loading="pullLoading" @click="handleClick">抓取未發貨清單</el-button>
+                    <el-button size="small" type="primary" :loading="fileLoading" @click="submit">生成文件</el-button>
+                </div>
             </h3>
         </el-row>
-        <el-row class="mb5">
-            <div class="ibbox">
-                <el-button size="small" type="primary" :loading="pullLoading" @click="handleClick">抓取未發貨清單</el-button>
-                <el-button size="small" type="primary" :loading="fileLoading" @click="submit">生成文件</el-button>
-            </div>
-               <div class="ibbox ml10">
-                <el-select placeholder="合併貨代方式" v-model="searchAgent" @change="handleChange('agent')">
+        <el-row class="mb5" :gutter="10">
+                <el-select class="w15"  placeholder="合併貨代方式" v-model="searchAgent" @change="handleChange('agent')">
                     <el-option v-for="(v,i) in shippingMethodAgent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-select placeholder="合併運輸方式" v-model="searchShippingMethod">
+                <el-select class="w15" placeholder="合併運輸方式" v-model="searchShippingMethod">
                     <el-option v-for="(v,i) in serachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
                 </el-select>
-            </div>
-            <div class="ibbox">
-                <el-select placeholder="愛爾蘭貨代方式" v-model="isearchAgent" @change="handleChange('iagent')">
+                <el-select class="w15" placeholder="愛爾蘭貨代方式" v-model="isearchAgent" @change="handleAgentChange('iagent')">
                     <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-select placeholder="愛爾蘭運輸方式" v-model="isearchShippingMethod">
+                <el-select  class="w15" placeholder="愛爾蘭運輸方式" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
                     <el-option v-for="(v,i) in iserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
+                </el-select>   
+                <el-select class="w15" placeholder="英国貨代方式" v-model="ysearchAgent" @change="handleAgentChange('yagent')">
+                    <el-option v-for="(v,i) in yagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-            </div>
+                <el-select class="w15" placeholder="英国運輸方式" v-model="ysearchShippingMethod" @change="handleChangeShippingMethod('yagent')">
+                    <el-option v-for="(v,i) in yserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
+                    </el-option>
+                </el-select>
         </el-row>
         <el-row class="mb5">
             <span>平台：</span>
@@ -115,10 +120,14 @@ export default {
             isearchAgent: "",
             iserachShippingMethodData: [],
             isearchShippingMethod: "",
+            ysearchAgent: "",
+            yserachShippingMethodData: [],
+            ysearchShippingMethod: "",
             searchShippingMethod: "",
             searchAgent: "",
             agent: [],
-            iagent: []
+            iagent: [],
+            yagent: []
         };
     },
     created() {
@@ -130,8 +139,9 @@ export default {
             }
         }).then(shippingMethod => {
             let shippingMethodAgent = [];
-            let shippingMethodData = _.cloneDeep(shippingMethod);
             let iagent = [];
+            let yagent = [];
+            let shippingMethodData = _.cloneDeep(shippingMethod);
             this.agent = _.cloneDeep(shippingMethod);
             _.each(shippingMethod, v => {
                 if (!shippingMethodAgent.includes(v.shippingMethodAgent)) {
@@ -142,10 +152,16 @@ export default {
                         iagent.push(v.shippingMethodAgent);
                     }
                 }
+                if (v.shippingMethodCountry == "GB") {
+                    if (!yagent.includes(v.shippingMethodAgent)) {
+                        yagent.push(v.shippingMethodAgent);
+                    }
+                }
             });
             this.shippingMethodAgent = shippingMethodAgent;
             this.shippingMethodData = shippingMethodData;
             this.iagent = iagent;
+            this.yagent = yagent;
         });
     },
     methods: {
@@ -199,6 +215,50 @@ export default {
                 // this.total = count;
             });
         }, 500),
+        handleChangeShippingMethod(val) {
+            if (val == "iagent") {
+                _.each(this.tableData, v => {
+                    if (v.country == "IE") {
+                        v.shippingMethod = this.isearchShippingMethod;
+                    }
+                });
+            }
+            if (val == "yagent") {
+                _.each(this.tableData, v => {
+                    if (v.country == "GB") {
+                        v.shippingMethod = this.ysearchShippingMethod;
+                    }
+                });
+            }
+        },
+        handleAgentChange(val) {
+            if (val == "iagent") {
+                let data = _.filter(this.shippingMethodData, value => {
+                    return value.shippingMethodAgent == this.isearchAgent;
+                });
+                this.iserachShippingMethodData = data;
+                this.isearchShippingMethod = "";
+                _.each(this.tableData, v => {
+                    if (v.country == "IE") {
+                        v.agent = this.isearchAgent;
+                        this.handleChange(v);
+                    }
+                });
+            }
+            if (val == "yagent") {
+                let data = _.filter(this.shippingMethodData, value => {
+                    return value.shippingMethodAgent == this.ysearchAgent;
+                });
+                this.yserachShippingMethodData = data;
+                this.ysearchShippingMethod = "";
+                _.each(this.tableData, v => {
+                    if (v.country == "GB") {
+                        v.agent = this.ysearchAgent;
+                        this.handleChange(v);
+                    }
+                });
+            }
+        },
         handleChange(row) {
             if (row == "agent") {
                 let data = _.filter(this.shippingMethodData, value => {
@@ -214,6 +274,13 @@ export default {
                 this.iserachShippingMethodData = data;
                 return;
             }
+            if (row == "yagent") {
+                let data = _.filter(this.shippingMethodData, value => {
+                    return value.shippingMethodAgent == this.ysearchAgent;
+                });
+                this.yserachShippingMethodData = data;
+                return;
+            }
             if (row != "agent" && row != "iagent") {
                 let data = _.filter(this.shippingMethodData, value => {
                     return value.shippingMethodAgent == row.agent;
@@ -222,11 +289,11 @@ export default {
                 row.shippingMethod = "";
             }
         },
-        submit() {
+        getValue() {
             let data = _.cloneDeep(this.tableData);
             if (_.isEmpty(data)) {
                 this.$message.warning("請抓取未發貨清單");
-                return;
+                return false;
             }
             let init = false;
             _.each(data, v => {
@@ -238,28 +305,40 @@ export default {
                 delete v.shippingMethodData;
             });
             if (init) {
-                return;
+                return false;
+            }
+            if (this.searchAgent && this.searchShippingMethod) {
+                data.push({
+                    productName: "batch",
+                    country: "",
+                    shippingMethod: this.searchShippingMethod,
+                    agent: this.searchAgent,
+                    parcelWeight: 0
+                });
             }
             let obj = {
-                data
+                token: this.token,
+                value: JSON.stringify({data})
             };
-            this.fileLoading = true;
-            axios({
-                url: "/shipment/generate",
-                method: "post",
-                data: {
-                    token: this.token,
-                    value: JSON.stringify(obj)
-                }
-            }).then(res => {
-                if (res.includes("http")) {
-                    this.url = res;
-                    this.$refs["wonDialog"].$emit("visible", res);
-                } else {
-                    this.$message.error("生成失败");
-                }
-                this.fileLoading = false;
-            });
+            return obj;
+        },
+        submit() {
+            if (this.getValue()) {
+                this.fileLoading = true;
+                axios({
+                    url: "/shipment/generate",
+                    method: "post",
+                    data: this.getValue()
+                }).then(res => {
+                    if (res.includes("http")) {
+                        this.url = res;
+                        this.$refs["wonDialog"].$emit("visible", res);
+                    } else {
+                        this.$message.error("生成失败");
+                    }
+                    this.fileLoading = false;
+                });
+            }
         }
     }
     // computed:{
