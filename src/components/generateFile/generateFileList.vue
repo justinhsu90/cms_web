@@ -44,8 +44,13 @@
         <el-row>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column width="100" label="國家" prop="country"></el-table-column>
-                    <el-table-column width="100" label="包裹重量" prop="parcelWeight"></el-table-column>
+                    <el-table-column width="50" label="國家" prop="country"></el-table-column>
+                    <el-table-column width="70" label="重量" prop="parcelWeight">
+                           <template slot-scope="scope">
+                           {{scope.row.parcelWeight}}kg
+                          </template>
+
+                    </el-table-column>
                     <el-table-column min-width="50" label="貨代" prop="agent">
                         <template slot-scope="{row}">
                             <el-select v-model="row.agent" @change="handleChange(row)">
@@ -60,7 +65,7 @@
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="120" label="商品名稱" prop="productName"></el-table-column>
+                    <el-table-column min-width="220" label="商品名稱" prop="productName"></el-table-column>
                 </el-table>
             </el-col>
             <!-- <div style="float:right;margin-top:5px">
