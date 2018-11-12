@@ -10,8 +10,8 @@
         </el-row>
         <el-row class="mb5">
             <div class="ibbox">
-                <el-button size="small" type="primary" @click="handleClick">抓取未發貨清單</el-button>
-                <el-button size="small" type="primary" @click="submit">生成文件</el-button>
+                <el-button size="small" type="primary" :loading="pullLoading" @click="handleClick">抓取未發貨清單</el-button>
+                <el-button size="small" type="primary" :loading="fileLoading" @click="submit">生成文件</el-button>
             </div>
                <div class="ibbox ml10">
                 <el-select placeholder="合併貨代方式" v-model="searchAgent" @change="handleChange('agent')">
@@ -90,6 +90,8 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
+            fileLoading:false,
+            pullLoading:false,
             url:'',
             tableData: [],
             condition: [],
@@ -161,6 +163,7 @@ export default {
             return agent;
         },
         handleClick() {
+            this.pullLoading = true;
             this.handleSearch();
         },
         handleCondition(sign) {
@@ -181,6 +184,7 @@ export default {
                 data
             }).then(res => {
                 this.isTableLoading = false;
+                this.pullLoading = false;
                 this.tableData = _.cloneDeep(res);
                 _.each(this.tableData, v => {
                     if (v.agent) {
@@ -236,6 +240,7 @@ export default {
             let obj = {
                 data
             };
+            this.fileLoading = true;
             axios({
                 url: "/shipment/generate",
                 method: "post",
@@ -246,10 +251,11 @@ export default {
             }).then(res => {
                 if(res.includes('http')){
                     this.url = res;
+                    this.$refs["wonDialog"].$emit("visible", res);
                 }else{
-                    this.url = 'javascript:void(0)';
+                    this.$message.error('生成失败');
                 }
-                this.$refs["wonDialog"].$emit("visible", res);
+                this.fileLoading = false;
             });
         }
     }
