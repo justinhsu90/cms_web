@@ -49,6 +49,7 @@
         <el-row>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
+                    <el-table-column type="selection" width="55"> </el-table-column>
                     <el-table-column width="50" label="國家" prop="country"></el-table-column>
                     <el-table-column width="70" label="重量" prop="parcelWeight">
                            <template slot-scope="scope">
@@ -73,10 +74,6 @@
                     <el-table-column min-width="220" label="商品名稱" prop="productName"></el-table-column>
                 </el-table>
             </el-col>
-            <!-- <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div> --> 
         </el-row>
         <wonDialog size="30%" title="下载" :showConfirm="false" ref="wonDialog">
             <div class="t_a-c" slot="content">
@@ -212,7 +209,6 @@ export default {
                         this.$set(v, "shippingMethodData", []);
                     }
                 });
-                // this.total = count;
             });
         }, 500),
         handleChangeShippingMethod(val) {
@@ -290,7 +286,7 @@ export default {
             }
         },
         getValue() {
-            let data = _.cloneDeep(this.tableData);
+            let data = _.cloneDeep(this.$refs['wonTable'].store.states.selection);
             if (_.isEmpty(data)) {
                 this.$message.warning("請抓取未發貨清單");
                 return false;
@@ -300,7 +296,7 @@ export default {
                 if (init) return;
                 if (!v.agent || !v.shippingMethod) {
                     init = true;
-                    this.$message.warning("選擇貨代或運輸方式必須全部選擇");
+                    this.$message.warning("選擇下貨代或運輸方式必須全部填寫");
                 }
                 delete v.shippingMethodData;
             });
@@ -318,7 +314,7 @@ export default {
             }
             let obj = {
                 token: this.token,
-                value: JSON.stringify({data})
+                value: JSON.stringify({ data })
             };
             return obj;
         },
@@ -341,11 +337,6 @@ export default {
             }
         }
     }
-    // computed:{
-    //     methodAgent(){
-
-    //     }
-    // }
 };
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <div id="querySku">
+    <div>
         <wonDialog  :name="name" :row="row" title="查詢SKU" :showConfirm="showConfirm" :showCancel="showCancel">
             <el-row slot="content">
                 <el-col :span="22">
@@ -28,26 +28,24 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
-import wonDialog from "./wonDialog"; 
+import wonDialog from "./wonDialog";
 export default {
     name: "querySku",
     extends: wonTableContainer,
     components: {
         wonDialog
     },
-    props:['name'],
+    props: ["name"],
     data() {
         return {
-            showConfirm:false,
-            showCancel:true,
+            showConfirm: false,
+            showCancel: true,
             tableData: [],
             maxHeight: 450,
-            setMaxHeight:false,
+            setMaxHeight: false,
             condition: [],
             isTableLoading: false,
-            row:{
-
-            },
+            row: {},
             pageSizes: [10, 30, 50, 100, 200],
             fetchCondition: {
                 skip: 0,
@@ -64,12 +62,12 @@ export default {
         this.handleSearch();
     },
     methods: {
-        currentChange(row){
+        currentChange(row) {
             this.row = _.cloneDeep(row);
-            if(!_.isEmpty(this.row)){
+            if (!_.isEmpty(this.row)) {
                 this.showConfirm = true;
                 this.showCancel = false;
-            }else{
+            } else {
                 this.showConfirm = false;
                 this.showCancel = true;
             }
@@ -77,7 +75,7 @@ export default {
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
             let data = {
-                where:this.fetchOption.where,
+                where: this.fetchOption.where,
                 token: this.token,
                 skip: this.fetchCondition.skip,
                 limit: this.fetchCondition.limit
@@ -96,15 +94,16 @@ export default {
 };
 </script>
 
-<style lang="scss">
-    #querySku {
-    .el-table th{
-        height:30px;
-    }
-    .mt5{
-            margin-top: 0;
-        }
-    }
+<style lang="scss" scoped>
+/deep/ .el-table th {
+    height: 30px;
+}
+.mt5 {
+    margin-top: 0;
+}
+/deep/ .el-table__row.current-row td{
+    background-color: #f0f9eb !important;
+}
 </style>
 
 

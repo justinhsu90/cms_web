@@ -30,6 +30,7 @@
             <el-col :span="3">
               <el-form-item label="採購類型">
               <el-select v-model="v.purchasetype" placeholder="類型"  clearable>
+                  <el-option v-for="(v,i) in purchaseOption" :key="i" :label="v" :value="v"></el-option>
             </el-select>
             </el-form-item>
             </el-col>
@@ -43,7 +44,27 @@
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="9">
+            <el-col :span="4">
+              <el-form-item label="購買連結">
+              <el-input v-model="v.purchaseLink"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="目標價格">
+              <el-input v-model="v.targetPrice"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="目標價格幣別">
+              <el-input v-model="v.targetPriceCurrency"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="詢價帳號">
+              <el-input v-model="v.queryAccount"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
               <el-form-item label="產品規格">
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
@@ -61,7 +82,7 @@
         </el-row>
       </el-card>
    
-       <el-button @click="submit"  :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button> 
+       <el-button @click="submit"  size="large" :loading="submitLoading" type="primary" >新增</el-button> 
     </el-form> 
     </div>         
  </div>     
@@ -73,6 +94,7 @@ export default {
     return {
       submitLoading: false,
       loading: false,
+      purchaseOption:[],
       formData: {
         data: [
           {
@@ -82,7 +104,11 @@ export default {
             productName: "",
             productSpec: "",
             queryQuantity:"",
-            note: ""
+            note: "",
+            purchaseLink:"",
+            targetPrice:"",
+            targetPriceCurrency:"",
+            queryAccount:"" 
           }
         ]
       }
@@ -96,7 +122,7 @@ export default {
         token: this.token
       }
     }).then((res)=>{
-      debugger
+        this.purchaseOption = res.data;
     })
   },
   methods: {
@@ -111,7 +137,11 @@ export default {
         productName: "",
         productSpec: "",
         queryQuantity:"",
-        note: ""
+        note: "",
+        purchaseLink:"",
+        targetPrice:"",
+        targetPriceCurrency:"",
+        queryAccount:""
       };
       this.formData.data.push(obj)
     },
@@ -148,18 +178,22 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#edit .heade {
+<style lang="scss" scoped>
+.heade {
   font-size: 16px;
   color: #45a2ff;
 }
-#edit .heade a {
+.heade a {
   color: #45a2ff;
 }
-#edit {
-  .el-button--text {
-    color: #606266;
-  }
+/deep/ .el-button--text {
+  color: #606266;
+}
+/deep/ .el-form-item{
+  margin-bottom: 5px;
+}
+/deep/ .el-form-item__label{
+  padding: 0px;
 }
 </style>
 

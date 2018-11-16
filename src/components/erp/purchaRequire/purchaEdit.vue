@@ -1,5 +1,5 @@
 <template>
-<div id="edit">
+<div>
     <div style="padding:20px"> 
     <div class="heade">
       <i class="el-icon-arrow-left"></i>
@@ -38,7 +38,27 @@
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+             <el-col :span="4">
+              <el-form-item label="購買連結">
+              <el-input v-model="v.purchaseLink"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="目標價格">
+              <el-input v-model="v.targetPrice"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="目標價格幣別">
+              <el-input v-model="v.targetPriceCurrency"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="詢價帳號">
+              <el-input v-model="v.queryAccount"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
               <el-form-item label="產品規格">
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
@@ -73,105 +93,102 @@
 </template>
 <script>
 export default {
-  watch: {},
-  data() {
-    return {
-      submitLoading: false,
-      loading: false,
-      formData: {
-        data: [
-          {
-            SKU: "",
-            isPurchased: false,
-            sku: "",
-            purchaseId:"",
-            purchaseQueryId:"",
-            productName: "",
-            productSpec: "",
-            queryQuantity:"",
-            note: "",
-            queryTime:"",
-            purchaseType:"",
-          }
-        ]
-      }
-    };
-  },
-  created() {
-    let data = JSON.parse(this.$route.query.data);
-    this.formData.data[0].SKU = data.sku;
-    this.formData.data[0].sku = data.sku; 
-    this.formData.data[0].isPurchased = data.isPurchased;
-    this.formData.data[0].productName = data.productName;
-    this.formData.data[0].productSpec = data.productSpec;
-    this.formData.data[0].queryQuantity = data.queryQuantity;
-    this.formData.data[0].note = data.note;
-    this.formData.data[0].purchaseId = data.purchaseId;
-    this.formData.data[0].purchaseQueryId = data.purchaseQueryId;
-    this.formData.data[0].queryTime = data.queryTime;
-    this.formData.data[0].purchaseType = data.purchaseType;
-  },
-  methods: {
-    goBack() {
-      this.$router.push("/purchaRequire");
-    },
-    handleAdd() {
-      let obj = {
-        SKU: "",
-        isPurchased: false,
-        sku: "",
-        productName: "",
-        productSpec: "",
-        queryQuantity:"",
-        note: ""
-      };
-      this.formData.data.push(obj)
-    },
-    handleDelete(index) {
-      this.formData.data.splice(index,1);
-    },
-    getValue(){
-    let data = _.cloneDeep(this.formData.data);
-    let obj = {
-      data
-    }
-    return JSON.stringify(obj);
-    },
-    submit() {
-      this.$refs["form"].validate(action => {
-        if (action) {
-          this.getValue();
-          this.submitLoading = true;
-          axios({
-            url: "/purchasequery/add",
-            method: "post",
-            data: {
-              value: this.getValue(),
-              token: this.token
+    watch: {},
+    data() {
+        return {
+            submitLoading: false,
+            loading: false,
+            formData: {
+                data: [
+                    {
+                        SKU: "",
+                        isPurchased: false,
+                        sku: "",
+                        purchaseId: "",
+                        purchaseQueryId: "",
+                        productName: "",
+                        productSpec: "",
+                        queryQuantity: "",
+                        note: "",
+                        queryTime: "",
+                        purchaseType: "",
+                        purchaseLink: "",
+                        targetPrice: "",
+                        targetPriceCurrency: "",
+                        queryAccount: ""
+                    }
+                ]
             }
-          }).then(res => {
-            this.submitLoading = true;
-            this.Bus.$emit("refresh");
+        };
+    },
+    created() {
+        let data = JSON.parse(this.$route.query.data);
+        this.formData.data[0].SKU = data.sku;
+        this.formData.data[0].sku = data.sku;
+        this.formData.data[0].isPurchased = data.isPurchased;
+        this.formData.data[0].productName = data.productName;
+        this.formData.data[0].productSpec = data.productSpec;
+        this.formData.data[0].queryQuantity = data.queryQuantity;
+        this.formData.data[0].note = data.note;
+        this.formData.data[0].purchaseId = data.purchaseId;
+        this.formData.data[0].purchaseQueryId = data.purchaseQueryId;
+        this.formData.data[0].queryTime = data.queryTime;
+        this.formData.data[0].purchaseType = data.purchaseType;
+        this.formData.data[0].purchaseLink = data.purchaseLink;
+        this.formData.data[0].targetPrice = data.targetPrice;
+        this.formData.data[0].targetPriceCurrency = data.targetPriceCurrency;
+        this.formData.data[0].queryAccount = data.queryAccount;
+    },
+    methods: {
+        goBack() {
             this.$router.push("/purchaRequire");
-          });
+        },
+        getValue() {
+            let data = _.cloneDeep(this.formData.data);
+            let obj = {
+                data
+            };
+            return JSON.stringify(obj);
+        },
+        submit() {
+            this.$refs["form"].validate(action => {
+                if (action) {
+                    this.getValue();
+                    this.submitLoading = true;
+                    axios({
+                        url: "/purchasequery/add",
+                        method: "post",
+                        data: {
+                            value: this.getValue(),
+                            token: this.token
+                        }
+                    }).then(res => {
+                        this.submitLoading = true;
+                        this.Bus.$emit("refresh");
+                        this.$router.push("/purchaRequire");
+                    });
+                }
+            });
         }
-      });
     }
-  }
 };
 </script>
-<style lang="scss">
-#edit .heade {
-  font-size: 16px;
-  color: #45a2ff;
+<style lang="scss" scoped>
+.heade {
+    font-size: 16px;
+    color: #45a2ff;
 }
-#edit .heade a {
-  color: #45a2ff;
+.heade a {
+    color: #45a2ff;
 }
-#edit {
-  .el-button--text {
+/deep/ .el-button--text {
     color: #606266;
-  }
+}
+/deep/ .el-form-item {
+    margin-bottom: 5px;
+}
+/deep/ .el-form-item__label{
+  padding: 0px;
 }
 </style>
 
