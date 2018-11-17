@@ -120,8 +120,8 @@ export default {
             ysearchAgent: "",
             yserachShippingMethodData: [],
             ysearchShippingMethod: "",
-            searchShippingMethod: "",
-            searchAgent: "",
+            searchShippingMethod: "YTYGB",
+            searchAgent: "YD",
             agent: [],
             iagent: [],
             yagent: []
@@ -159,7 +159,11 @@ export default {
             this.shippingMethodData = shippingMethodData;
             this.iagent = iagent;
             this.yagent = yagent;
+            this.handleChange('agent');
         });
+    },
+    mounted(){
+        
     },
     methods: {
         methodAgent(row) {

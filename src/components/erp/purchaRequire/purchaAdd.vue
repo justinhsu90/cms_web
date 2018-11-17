@@ -27,6 +27,16 @@
               <el-input v-model="v.queryQuantity"></el-input>
               </el-form-item>
             </el-col>
+             <el-col :span="3">
+              <el-form-item label="買家型號">
+              <el-input v-model="v.merchantModel"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="3">
+              <el-form-item label="對應採購單號">
+              <el-input v-model="v.purchaseId"></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="3">
               <el-form-item label="採購類型">
               <el-select v-model="v.purchasetype" placeholder="類型"  clearable>
@@ -56,7 +66,9 @@
             </el-col>
             <el-col :span="4">
               <el-form-item label="目標價格幣別">
-              <el-input v-model="v.targetPriceCurrency"></el-input>
+                <el-select v-model="v.targetPriceCurrency">
+                    <el-option v-for="(v,i) in curreny"  :key="i" :label="v" :value="v"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -89,111 +101,124 @@
 </template>
 <script>
 export default {
-  watch: {},
-  data() {
-    return {
-      submitLoading: false,
-      loading: false,
-      purchaseOption:[],
-      formData: {
-        data: [
-          {
-            SKU: "",
-            isPurchased: false,
-            sku: "",
-            productName: "",
-            productSpec: "",
-            queryQuantity:"",
-            note: "",
-            purchaseLink:"",
-            targetPrice:"",
-            targetPriceCurrency:"",
-            queryAccount:"" 
-          }
-        ]
-      }
-    };
-  },
-  created() {
-  let purchasetype = axios({
-      url: "/purchasequery/value/purchasetype",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    }).then((res)=>{
-        this.purchaseOption = res.data;
-    })
-  },
-  methods: {
-    goBack() {
-      this.$router.push("/purchaRequire");
+    data() {
+        return {
+            submitLoading: false,
+            loading: false,
+            purchaseOption: [],
+            curreny:[],
+            formData: {
+                data: [
+                    {
+                        SKU: "",
+                        isPurchased: false,
+                        sku: "",
+                        productName: "",
+                        productSpec: "",
+                        queryQuantity: "",
+                        note: "",
+                        purchaseLink: "",
+                        targetPrice: "",
+                        targetPriceCurrency: "",
+                        queryAccount: "",
+                        merchantModel: "",
+                        purchaseId: ""
+                    }
+                ]
+            }
+        };
     },
-    handleAdd() {
-      let obj = {
-        SKU: "",
-        isPurchased: false,
-        sku: "",
-        productName: "",
-        productSpec: "",
-        queryQuantity:"",
-        note: "",
-        purchaseLink:"",
-        targetPrice:"",
-        targetPriceCurrency:"",
-        queryAccount:""
-      };
-      this.formData.data.push(obj)
-    },
-    handleDelete(index) {
-      this.formData.data.splice(index,1);
-    },
-    getValue(){
-    let data = _.cloneDeep(this.formData.data);
-    let obj = {
-      data
-    }
-    return JSON.stringify(obj);
-    },
-    submit() {
-      this.$refs["form"].validate(action => {
-        if (action) {
-          this.getValue();
-          this.submitLoading = true;
-          axios({
-            url: "/purchasequery/add",
+    created() {
+        let purchasetype = axios({
+            url: "/purchasequery/value/purchasetype",
             method: "post",
             data: {
-              value: this.getValue(),
-              token: this.token
+                token: this.token
             }
-          }).then(res => {
-            this.submitLoading = true;
-            this.Bus.$emit("refresh");
+        }).then(res => {
+            this.purchaseOption = res.data;
+        });
+        let currency = axios({
+            url: "/erp/value/currency",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        }).then(res => {
+            this.curreny = res;
+        });
+    },
+    methods: {
+        goBack() {
             this.$router.push("/purchaRequire");
-          });
+        },
+        handleAdd() {
+            let obj = {
+                SKU: "",
+                isPurchased: false,
+                sku: "",
+                productName: "",
+                productSpec: "",
+                queryQuantity: "",
+                note: "",
+                purchaseLink: "",
+                targetPrice: "",
+                targetPriceCurrency: "",
+                queryAccount: "",
+                merchantModel: "",
+                purchaseId: ""
+            };
+            this.formData.data.push(obj);
+        },
+        handleDelete(index) {
+            this.formData.data.splice(index, 1);
+        },
+        getValue() {
+            let data = _.cloneDeep(this.formData.data);
+            let obj = {
+                data
+            };
+            return JSON.stringify(obj);
+        },
+        submit() {
+            this.$refs["form"].validate(action => {
+                if (action) {
+                    this.getValue();
+                    this.submitLoading = true;
+                    axios({
+                        url: "/purchasequery/add",
+                        method: "post",
+                        data: {
+                            value: this.getValue(),
+                            token: this.token
+                        }
+                    }).then(res => {
+                        this.submitLoading = true;
+                        this.Bus.$emit("refresh");
+                        this.$router.push("/purchaRequire");
+                    });
+                }
+            });
         }
-      });
     }
-  }
 };
 </script>
 <style lang="scss" scoped>
 .heade {
-  font-size: 16px;
-  color: #45a2ff;
+    font-size: 16px;
+    color: #45a2ff;
 }
 .heade a {
-  color: #45a2ff;
+    color: #45a2ff;
 }
 /deep/ .el-button--text {
-  color: #606266;
+    color: #606266;
 }
-/deep/ .el-form-item{
-  margin-bottom: 5px;
+/deep/ .el-form-item {
+    margin-bottom: 5px;
 }
-/deep/ .el-form-item__label{
-  padding: 0px;
+/deep/ .el-form-item__label {
+    padding: 0px;
 }
 </style>
 

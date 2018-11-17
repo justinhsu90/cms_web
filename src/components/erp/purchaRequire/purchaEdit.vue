@@ -28,6 +28,17 @@
               <el-input v-model="v.queryQuantity"></el-input>
               </el-form-item>
             </el-col>
+
+            <el-col :span="3">
+              <el-form-item label="買家型號">
+              <el-input v-model="v.merchantModel"></el-input>
+              </el-form-item>
+            </el-col>
+             <el-col :span="3">
+              <el-form-item label="對應採購單號">
+              <el-input v-model="v.purchaseId"></el-input>
+              </el-form-item>
+            </el-col>
              <el-col :span="5">
               <el-form-item label="SKU">
               <el-input v-model="v.SKU"></el-input>
@@ -50,7 +61,9 @@
             </el-col>
             <el-col :span="4">
               <el-form-item label="目標價格幣別">
-              <el-input v-model="v.targetPriceCurrency"></el-input>
+              <el-select v-model="v.targetPriceCurrency">
+                    <el-option v-for="(v,i) in curreny"  :key="i" :label="v" :value="v"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -98,6 +111,7 @@ export default {
         return {
             submitLoading: false,
             loading: false,
+            curreny:[],
             formData: {
                 data: [
                     {
@@ -115,7 +129,9 @@ export default {
                         purchaseLink: "",
                         targetPrice: "",
                         targetPriceCurrency: "",
-                        queryAccount: ""
+                        queryAccount: "",
+                        merchantModel: "",
+                        purchaseId: ""
                     }
                 ]
             }
@@ -138,6 +154,17 @@ export default {
         this.formData.data[0].targetPrice = data.targetPrice;
         this.formData.data[0].targetPriceCurrency = data.targetPriceCurrency;
         this.formData.data[0].queryAccount = data.queryAccount;
+        this.formData.data[0].merchantModel == data.merchantModel;
+        this.formData.data[0].purchaseId = data.purchaseId;
+         let currency = axios({
+            url: "/erp/value/currency",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        }).then(res => {
+            this.curreny = res;
+        });
     },
     methods: {
         goBack() {
@@ -187,8 +214,8 @@ export default {
 /deep/ .el-form-item {
     margin-bottom: 5px;
 }
-/deep/ .el-form-item__label{
-  padding: 0px;
+/deep/ .el-form-item__label {
+    padding: 0px;
 }
 </style>
 
