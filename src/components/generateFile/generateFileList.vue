@@ -15,24 +15,24 @@
             </h3>
         </el-row>
         <el-row class="mb5" :gutter="10">
-                <el-select class="w15"  placeholder="合併貨代方式" v-model="searchAgent" @change="handleChange('agent')">
+                <el-select class="w15"  placeholder="合併貨代" v-model="searchAgent" @change="handleChange('agent')">
                     <el-option v-for="(v,i) in shippingMethodAgent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-select class="w15" placeholder="合併運輸方式" v-model="searchShippingMethod">
+                <el-select class="w15" placeholder="合併發貨渠道" v-model="searchShippingMethod">
                     <el-option v-for="(v,i) in serachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
                 </el-select>
-                <el-select class="w15" placeholder="愛爾蘭貨代方式" v-model="isearchAgent" @change="handleAgentChange('iagent')">
+                <el-select class="w15" placeholder="愛爾蘭貨代" v-model="isearchAgent" @change="handleAgentChange('iagent')">
                     <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-select  class="w15" placeholder="愛爾蘭運輸方式" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
+                <el-select  class="w15" placeholder="愛爾蘭發貨渠道" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
                     <el-option v-for="(v,i) in iserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
                 </el-select>   
-                <el-select class="w15" placeholder="英国貨代方式" v-model="ysearchAgent" @change="handleAgentChange('yagent')">
+                <el-select class="w15" placeholder="英國貨代" v-model="ysearchAgent" @change="handleAgentChange('yagent')">
                     <el-option v-for="(v,i) in yagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-select class="w15" placeholder="英国運輸方式" v-model="ysearchShippingMethod" @change="handleChangeShippingMethod('yagent')">
+                <el-select class="w15" placeholder="英國發貨渠道" v-model="ysearchShippingMethod" @change="handleChangeShippingMethod('yagent')">
                     <el-option v-for="(v,i) in yserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
                 </el-select>
@@ -64,7 +64,7 @@
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="70" label="運送方式" prop="shippingMethod">
+                    <el-table-column min-width="70" label="發貨渠道" prop="shippingMethod">
                         <template slot-scope="{row}">
                             <el-select v-model="row.shippingMethod">
                                 <el-option v-for="(v,i) in row.shippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode"></el-option>
@@ -75,9 +75,9 @@
                 </el-table>
             </el-col>
         </el-row>
-        <wonDialog size="30%" title="下载" :showConfirm="false" ref="wonDialog">
+        <wonDialog size="30%" title="下載" :showConfirm="false" ref="wonDialog">
             <div class="t_a-c" slot="content">
-                <a :href="url" class="c-a">请点击下载报告</a>
+                <a :href="url" class="c-a">點擊下載生成文檔</a>
             </div>
         </wonDialog>
     </div>
@@ -334,7 +334,7 @@ export default {
                         this.url = res;
                         this.$refs["wonDialog"].$emit("visible", res);
                     } else {
-                        this.$message.error("生成失败");
+                        this.$message.error("生成失敗");
                     }
                     this.fileLoading = false;
                 });
