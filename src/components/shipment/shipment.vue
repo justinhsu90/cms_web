@@ -138,7 +138,6 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
-            setMaxHeight:false,
             tableData: [],
             searchMerge: "",
             searchMergeOption: [

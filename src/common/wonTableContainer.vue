@@ -1,8 +1,8 @@
 
 
 <script>
-import moment from 'moment'
-import  U from '@/common/until/until'
+import moment from "moment";
+import U from "@/common/until/U";
 
 export default {
     data() {
@@ -29,8 +29,8 @@ export default {
         "fetchOption.where"() {
             this.handleSearch();
         },
-        "total"(n,o){
-            if(_.isEmpty(this.tableData)&& n > 0 ){
+        total(n, o) {
+            if (_.isEmpty(this.tableData) && n > 0) {
                 this.fetchCondition.skip = 0;
                 this.handleSearch();
             }
@@ -39,35 +39,38 @@ export default {
     mounted() {
         if (this.setMaxHeight) {
             this.$nextTick(() => {
-                if(!this.$refs.wonTable){
+                try {
+                    if (!this.$refs.wonTable) {
                         return;
-                }
-                this.maxHeight =
-                    document.scrollingElement.clientHeight -
-                    this.$refs.wonTable.$el.getBoundingClientRect().top -
-                    60;
-                this.$refs.wonTable.$el.style.maxHeight = this.maxHeight + "px";
-                let that = this;
-                window.addEventListener(
-                    "resize",
-                    _.debounce(() => {
-                        that.maxHeight =
-                            document.scrollingElement.clientHeight -
-                            that.$refs.wonTable.$el.getBoundingClientRect()
-                                .top -
-                            60;
-                        that.$refs.wonTable.$el.style.maxHeight =
-                            that.maxHeight + "px";
-                    }, 500)
-                );
+                    }
+                    this.maxHeight =
+                        document.scrollingElement.clientHeight -
+                        this.$refs.wonTable.$el.getBoundingClientRect().top -
+                        60;
+                    this.$refs.wonTable.$el.style.maxHeight =
+                        this.maxHeight + "px";
+                    let that = this;
+                    window.addEventListener(
+                        "resize",
+                        _.debounce(() => {
+                            that.maxHeight =
+                                document.scrollingElement.clientHeight -
+                                that.$refs.wonTable.$el.getBoundingClientRect()
+                                    .top -
+                                60;
+                            that.$refs.wonTable.$el.style.maxHeight =
+                                that.maxHeight + "px";
+                        }, 500)
+                    );
+                } catch (e) {}
             });
         }
     },
     filters: {
-        formatToTime(row,col) {
+        formatToTime(row, col) {
             return moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
         },
-        formatToDate(row,col) {
+        formatToDate(row, col) {
             return moment(row[col.property]).format("YYYY-MM-DD");
         },
         formatToPercent(row, column, cellValue) {
@@ -82,10 +85,10 @@ export default {
         }
     },
     methods: {
-        formatToDate(row,col) {
+        formatToDate(row, col) {
             return moment(row[col.property]).format("YYYY-MM-DD");
         },
-        formatToTime(row,col) {
+        formatToTime(row, col) {
             return this.moment(row[col.property]).format("YYYY-MM-DD HH:mm:ss");
         },
         formatToPercent(row, column, cellValue) {
@@ -115,15 +118,34 @@ export default {
             this.handleSearch();
         },
         saveFile(url, filename) {
-            var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+            var save_link = document.createElementNS(
+                "http://www.w3.org/1999/xhtml",
+                "a"
+            );
             save_link.href = url;
             save_link.download = filename;
             save_link.target = "_blank";
 
-            var event = document.createEvent('MouseEvents');
-            event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            var event = document.createEvent("MouseEvents");
+            event.initMouseEvent(
+                "click",
+                true,
+                false,
+                window,
+                0,
+                0,
+                0,
+                0,
+                0,
+                false,
+                false,
+                false,
+                false,
+                0,
+                null
+            );
             save_link.dispatchEvent(event);
-        },
+        }
         // fetchTableData() {
         //   this.isTableLoading = true;
         //   axios({

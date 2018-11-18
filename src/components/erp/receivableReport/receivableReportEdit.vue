@@ -68,7 +68,7 @@
 </template>
 <script>
 import moment from "moment";
-import U from "@/common/until/until";
+import U from "@/common/until/U";
 export default {
     name: "receivableReportEdit",
     data() {

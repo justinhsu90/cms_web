@@ -153,7 +153,7 @@
                 </template>
                 <el-input type="textarea" rows='4' v-model="form.deprecatedSKU" style="width:70%"></el-input>
             </el-form-item>
-            <el-button @click="handleConfirm" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">新增</el-button>
+            <el-button @click="handleConfirm" :loading="submitLoading" type="primary" size="large">新增</el-button>
         </el-form>
 
     </div>

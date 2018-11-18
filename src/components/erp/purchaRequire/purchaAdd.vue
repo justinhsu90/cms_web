@@ -6,22 +6,46 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>新增採購需求單</h2>      
-    <br>
-       <el-button type="success" size="small" @click="handleAdd" >新增產品</el-button>
-    <br> 
+    <h2 class="clearfix">
+        <div class="f-l"> 新增採購需求單 </div>
+        <el-button class="f-r" type="success" size="small" @click="handleAdd" >新增產品</el-button>
+    </h2>      
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
+        <el-row :gutter="20">
+            <el-col :span="4">
+                <el-form-item label="詢價帳號">
+                    <el-input v-model="formData.queryAccount"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="4">
+                <el-form-item label="購買連結">
+                    <el-input v-model="formData.purchaseLink"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="4">
+                <el-form-item label="採購類型">
+                        <el-select v-model="formData.purchasetype" placeholder="類型"  clearable>
+                            <el-option v-for="(v,i) in purchaseOption" :key="i" :label="v" :value="v"></el-option>
+                        </el-select>
+                </el-form-item>
+            </el-col>
+            <el-col :span="4">
+                <el-form-item label="已購買">
+                    <el-switch v-model="formData.isPurchased"></el-switch>
+                </el-form-item>
+            </el-col>
+        </el-row>   
+        <br> 
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
 
         <el-row :gutter="20">
-                  <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+            <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
            <el-col :span="2">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
               </el-form-item>
             </el-col>
-          
              <el-col :span="3">
               <el-form-item label="需採購數量">
               <el-input v-model="v.queryQuantity"></el-input>
@@ -37,26 +61,14 @@
               <el-input v-model="v.purchaseId"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="3">
-              <el-form-item label="採購類型">
-              <el-select v-model="v.purchasetype" placeholder="類型"  clearable>
-                  <el-option v-for="(v,i) in purchaseOption" :key="i" :label="v" :value="v"></el-option>
-            </el-select>
-            </el-form-item>
-            </el-col>
-             <el-col :span="5">
+             <el-col :span="3">
               <el-form-item label="SKU">
-              <el-input v-model="v.SKU"></el-input>
+              <el-input v-model="v.sku"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="8">
               <el-form-item label="產品名稱">
               <el-input v-model="v.productName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="購買連結">
-              <el-input v-model="v.purchaseLink"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -72,28 +84,17 @@
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="詢價帳號">
-              <el-input v-model="v.queryAccount"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
               <el-form-item label="產品規格">
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="備註">
-              <el-input v-model="v.note" type="textarea" rows="1"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="2">
-              <el-form-item label="已購買">
-              <el-switch v-model="v.isPurchased"></el-switch>
+              <el-input v-model="v.note" type="textarea" rows="2"></el-input>
               </el-form-item>
             </el-col>
         </el-row>
       </el-card>
-   
        <el-button @click="submit"  size="large" :loading="submitLoading" type="primary" >新增</el-button> 
     </el-form> 
     </div>         
@@ -106,21 +107,21 @@ export default {
             submitLoading: false,
             loading: false,
             purchaseOption: [],
-            curreny:[],
+            curreny: [],
             formData: {
+                queryAccount: "",
+                purchaseLink: "",
+                purchaseType: "",
+                isPurchased: false,
                 data: [
                     {
-                        SKU: "",
-                        isPurchased: false,
                         sku: "",
                         productName: "",
                         productSpec: "",
                         queryQuantity: "",
                         note: "",
-                        purchaseLink: "",
                         targetPrice: "",
                         targetPriceCurrency: "",
-                        queryAccount: "",
                         merchantModel: "",
                         purchaseId: ""
                     }
@@ -154,17 +155,13 @@ export default {
         },
         handleAdd() {
             let obj = {
-                SKU: "",
-                isPurchased: false,
                 sku: "",
                 productName: "",
                 productSpec: "",
                 queryQuantity: "",
                 note: "",
-                purchaseLink: "",
                 targetPrice: "",
                 targetPriceCurrency: "",
-                queryAccount: "",
                 merchantModel: "",
                 purchaseId: ""
             };
@@ -175,6 +172,12 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
+            _.each(data,(v)=>{
+                v.queryAccount = this.formData.queryAccount;
+                v.purchaseLink = this.formData.purchaseLink;
+                v.purchaseType = this.formData.purchaseType;
+                v.isPurchased = this.formData.isPurchased;
+            })
             let obj = {
                 data
             };

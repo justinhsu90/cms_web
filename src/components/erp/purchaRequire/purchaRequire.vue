@@ -42,9 +42,10 @@
               <el-tag v-else type="info">false</el-tag>
             </template>
           </el-table-column>
-          <el-table-column width="60" label="動作" align="center">
+          <el-table-column width="90" label="動作" align="center">
             <template slot-scope="scope">
               <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="轉單" icon="el-icon-won-139" @click="handleTransfer(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -130,6 +131,12 @@ export default {
             this.$router.push({
                 name: "purchaEdit",
                 query: { data: JSON.stringify(val) }
+            });
+        },
+        handleTransfer(val){
+            this.$router.push({
+                path: "/erpPurchaseAdd",
+                query: { data: JSON.stringify(val), transfer:'transfer'}
             });
         },
         handleAdd() {

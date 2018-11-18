@@ -2,25 +2,38 @@
     <div id="nav">
         <el-container>
             <el-header>
-                <h2 class="h2">
-                    <i class="el-icon-menu"></i>&nbsp;&nbsp;
-                    <span style="font-size:20px">菲德利內部管理系統</span>
+                <h2 class="f-l lh60">
+                    <i class="el-icon-menu va-m"></i>
+                    <span class="fz20 va-m">菲德利內部管理系統</span>
+                    <i class="clearmid"></i>
                 </h2>
-                <h1 style="float:right">
+                <h2 class="f-r">
                     <el-popover placement="bottom" width="200" trigger="click">
                         <div>
                             <span>帳號資訊：</span>
                             <span>{{username}}</span>
                         </div>
-                        <i type="text" slot="reference" class="el-icon-won-50"></i>
+                        <i type="text" slot="reference" class="el-icon-won-50 va-m co-p"></i>
                     </el-popover>
-                    <i type="text" class="el-icon-setting" @click="handleQuit"></i>
-                </h1>
+                    <i type="text" class="el-icon-setting va-m co-p"  @click="handleQuit"></i>
+                    <i class="clearmid"></i>
+                </h2>
+                <div class="f-r pt10">
+                    <el-autocomplete
+                        size="small"                  
+                        class="mr15 autocomplete"
+                        v-model="autoAutocomplete"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入導航名稱"
+                        :trigger-on-focus="false"
+                        @select="handleSearch">
+                    </el-autocomplete>
+                </div>
             </el-header>
             <el-container>
                 <div class="aside">
-                    <div style="line-height:50px;text-align:center;">
-                        <span class="el-icon-won-28" style="cursor:pointer;font-size:20px;color:white;" @click="handleClick"></span>
+                    <div class="lh50 t_a-c">
+                        <i class="el-icon-won-28 co-po fz20 c-white"  @click="handleClick"></i>
                     </div>
                     <div>
                         <el-menu :unique-opened="true" :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
@@ -54,6 +67,7 @@
     </div>
 </template>
 <script>
+import navData from "./navData";
 export default {
     data() {
         return {
@@ -61,120 +75,8 @@ export default {
             asideShow: true,
             username: "",
             isCollapse: false,
-            navData: [
-                {
-                    index: "dataAnalysis",
-                    label: "儀表板"
-                },
-                {
-                    index: "sku",
-                    label: "產品相關",
-                    isLevel: true,
-                    child: [
-                        {
-                            index: "sku",
-                            label: "SKU管理"
-                        },
-                        {
-                            index: "upc",
-                            label: "UPC管理"
-                        },
-                        {
-                            index: "documentManage",
-                            label: "文案管理"
-                        }
-                    ]
-                },
-                {
-                    index: "shipment",
-                    label: "做單及出貨",
-                    isLevel: true,
-                    child: [
-                        {
-                            index: "shipment",
-                            label: "小包做單"
-                        },
-                        {
-                            index: "excelUpload",
-                            label: "表格匯入"
-                        },
-                        {
-                            index: "shipping",
-                            label: "貨代出貨清單"
-                        },
-                        {
-                            index: "generateFile",
-                            label: "生成做單文件"
-                        }
-                    ]
-                },
-                {
-                    index: "orderList",
-                    label: "訂單查詢"
-                },
-                {
-                    index: "replacement",
-                    label: "補發清單"
-                },
-                {
-                    index: "scriptExecutionList",
-                    label: "執行清單"
-                },
-                {
-                    index: "wowcher",
-                    label: "Wowcher",
-                    isLevel: true,
-                    child: [
-                        {
-                            index: "wowcherDealList",
-                            label: "上架清單"
-                        },
-                        {
-                            index: "wowcherSample",
-                            label: "樣品清單"
-                        }
-                    ]
-                },
-                {
-                    index: "erp",
-                    label: "ERP",
-                    isLevel: true,
-                    child: [
-                        {
-                            index: "purchaRequire",
-                            label: "(1) 採購需求單"
-                        },
-                        {
-                            index: "erpPurchase",
-                            label: "(2) 採購單"
-                        },
-                        {
-                            index: "payment",
-                            label: "(3) 付款單"
-                        },
-                        {
-                            index: "erpSale",
-                            label: "(4) 銷貨單"
-                        },
-                        {
-                            index: "receivable",
-                            label: "(5-1) 應收帳款單"
-                        },
-                        {
-                            index: "receivableReport",
-                            label: "(5-2) 費用應收表"
-                        },
-                        {
-                            index: "inventoryList",
-                            label: "庫存異動表"
-                        }
-                    ]
-                },
-                {
-                    index: "singleLetter",
-                    label: "補發信單"
-                }
-            ]
+            navData,
+            autoAutocomplete: ""
         };
     },
     created() {
@@ -186,6 +88,33 @@ export default {
         });
     },
     methods: {
+        querySearch(queryString, cb) {
+            let data = [];
+            _.each(this.navData, v => {
+                if ("child" in v) {
+                    _.each(v.child, value => {
+                        if (value.label.includes(queryString)) {
+                            let obj = {
+                                index: value.index,
+                                value: value.label
+                            };
+                            data.push(obj);
+                        }
+                    });
+                }
+                if (v.label.includes(queryString)) {
+                    let obj = {
+                        index: v.index,
+                        value: v.label
+                    };
+                    data.push(obj);
+                }
+            });
+            cb(data);
+        },
+        handleSearch(val) {
+            this.$router.push(`/${val.index}`);
+        },
         handleSelect(index, router) {
             this.$router.push(`/${index}`);
         },
@@ -235,13 +164,18 @@ export default {
         width: 100%;
         height: 100%;
     }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 180px;
-        height: 100%;
-    }
     .aside {
         background: rgb(50, 65, 87);
         overflow: auto;
+    }
+    .el-main {
+        padding: 10px 15px;
+        flex-basis: initial;
+        flex: 12;
+    }
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 180px;
+        height: 100%;
     }
     .el-submenu .el-menu-item {
         height: 50px;
@@ -254,9 +188,6 @@ export default {
         color: white;
         height: 50px !important;
         line-height: 50px;
-    }
-    .h2 {
-        float: left;
     }
     .el-menu {
         border: none;
@@ -290,13 +221,16 @@ export default {
         position: relative;
         height: 20px;
     }
-    .el-main {
-        padding: 10px 15px;
-        flex-basis: initial;
-        flex: 12;
+}
+.autocomplete{
+    width: 150px;
+    input{
+        width: 100px;
+        float: right;
     }
-    .label-tips {
-        color: #bbbbbb;
+    input:focus{
+      width: 150px; 
+      transition: all .5s cubic-bezier(0.56, -0.33, 0.01, 1.01);   
     }
 }
 </style>

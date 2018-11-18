@@ -127,7 +127,7 @@
                     <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
                     <el-button type="primary" size="mini" @click="submit">確定</el-button>
                 </div>
-                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">添加</el-button>
+                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" size="large">添加</el-button>
             </el-popover>
             </el-form>
         </div>

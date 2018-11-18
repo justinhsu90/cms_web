@@ -50,14 +50,14 @@
                     </el-form-item>
                 </el-form>
                 <br>
-                <el-button @click="submit" :loading="isLoading" type="primary" style="width:100px;height:50px;font-size:18px;display:inline-block">匯入</el-button>
+                <el-button @click="submit" :loading="isLoading" type="primary" size="large">匯入</el-button>
             </el-row>
         </div>
     </div>
 </template>
 
 <script>
-import U from "@/common/until/until";
+import U from "@/common/until/U";
 export default {
     data() {
         return {

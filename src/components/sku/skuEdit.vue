@@ -162,7 +162,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-button @click="handleConfirm" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">更新</el-button>
+            <el-button @click="handleConfirm" :loading="submitLoading" type="primary" size="large">更新</el-button>
         </el-form>
     </div>
 </template>

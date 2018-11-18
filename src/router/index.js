@@ -58,10 +58,6 @@ import erpSale from '@/components/erp/sale/sale'
 import erpSaleAdd from '@/components/erp/sale/saleAdd'
 import erpSaleEdit from '@/components/erp/sale/saleEdit'
 
-import paymentList from '@/components/erp/payment/paymentList'
-import paymentAdd from '@/components/erp/payment/paymentAdd'
-import paymentEdit from '@/components/erp/payment/paymentEdit'
-
 Vue.use(VueRouter);
 let router = new VueRouter({
   routes: [{
@@ -420,7 +416,7 @@ let router = new VueRouter({
         {
           name: 'payment',
           path: '/payment',
-          component: paymentList,
+          component: asyncComponent('erp/payment/paymentList'),
           meta: {
             keepAlive: true
           }
@@ -428,7 +424,7 @@ let router = new VueRouter({
         {
           name: 'paymentAdd',
           path: '/paymentAdd',
-          component: paymentAdd,
+          component: asyncComponent('erp/payment/paymentAdd'),
           meta: {
             sign: 'payment'
           }
@@ -436,7 +432,31 @@ let router = new VueRouter({
         {
           name: 'paymentEdit',
           path: '/paymentEdit',
-          component: paymentEdit,
+          component: asyncComponent('erp/payment/paymentEdit'),
+          meta: {
+            sign: 'payment'
+          }
+        },
+        {
+          name: 'put-storage',
+          path: '/put-storage',
+          component: asyncComponent('erp/put-storage/put-storage-list'),
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'put-storage-add',
+          path: '/put-storage-add',
+          component: asyncComponent('erp/put-storage/put-storage-add'),
+          meta: {
+            sign: 'payment'
+          }
+        },
+        {
+          name: 'put-storage-edit',
+          path: '/put-storage-edit',
+          component: asyncComponent('erp/put-storage/put-storage-edit'),
           meta: {
             sign: 'payment'
           }

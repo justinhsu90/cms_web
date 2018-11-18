@@ -91,7 +91,7 @@
           </el-row>
         </el-card>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" style="width:150px;height:60px;font-size:18px;display:inline-block">添加</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">添加</el-button>
       </el-form>
     </div>
   </div>
