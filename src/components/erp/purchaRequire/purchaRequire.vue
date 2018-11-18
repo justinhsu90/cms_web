@@ -74,7 +74,7 @@ export default {
             searchLanguage: 1,
             searchLanguageOption: [
                 { countryCode: "是", countryNameChinese: 1 },
-                { countryCode: "否", countryNameChinese: 0 }
+                { countryCode: "否", countryNameChinese: 2 }
             ],
             fetchCondition: {
                 skip: 0,
@@ -115,7 +115,11 @@ export default {
                 data.purchaseType = this.searchAccount;
             }
             if (this.condition.includes("2")) {
-                data.isPurchased = this.searchLanguage;
+                if(this.searchLanguage ==  2){
+                    data.isPurchased = 0;
+                }else{
+                    data.isPurchased = this.searchLanguage;
+                }
             }
             axios({
                 url: this.fetchOption.url,
