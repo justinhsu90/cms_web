@@ -13,14 +13,9 @@
     <br> 
     <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
         <el-row :gutter="20">
-            <el-col :span="4">
-                <el-form-item label="詢價帳號">
-                    <el-input v-model="formData.queryAccount"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="4">
-                <el-form-item label="購買連結">
-                    <el-input v-model="formData.purchaseLink"></el-input>
+             <el-col :span="2">
+                <el-form-item label="已購買">
+                    <el-switch v-model="formData.isPurchased"></el-switch>
                 </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -31,64 +26,72 @@
                 </el-form-item>
             </el-col>
             <el-col :span="4">
-                <el-form-item label="已購買">
-                    <el-switch v-model="formData.isPurchased"></el-switch>
+                <el-form-item label="詢價帳號">
+                    <el-input v-model="formData.queryAccount"></el-input>
                 </el-form-item>
             </el-col>
+            <el-col :span="13">
+                <el-form-item label="購買連結">
+                    <el-input v-model="formData.purchaseLink"></el-input>
+                </el-form-item>
+            </el-col> 
         </el-row>   
         <br> 
       <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
 
-        <el-row :gutter="20">
-            <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-           <el-col :span="2">
+        <el-row :gutter="10">
+            <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 0px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+           <el-col :span="1">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
               </el-form-item>
             </el-col>
-             <el-col :span="3">
-              <el-form-item label="需採購數量">
+             <el-col :span="2">
+              <el-form-item label="數量">
               <el-input v-model="v.queryQuantity"></el-input>
               </el-form-item>
             </el-col>
              <el-col :span="3">
-              <el-form-item label="買家型號">
+              <el-form-item label="賣家型號">
               <el-input v-model="v.merchantModel"></el-input>
               </el-form-item>
             </el-col>
-             <el-col :span="3">
-              <el-form-item label="對應採購單號">
-              <el-input v-model="v.purchaseId"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="3">
-              <el-form-item label="SKU">
-              <el-input v-model="v.sku"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="產品名稱">
-              <el-input v-model="v.productName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
+             <el-col :span="2">
               <el-form-item label="目標價格">
               <el-input v-model="v.targetPrice"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item label="目標價格幣別">
+            <el-col :span="3">
+              <el-form-item label="幣別">
                 <el-select v-model="v.targetPriceCurrency">
                     <el-option v-for="(v,i) in curreny"  :key="i" :label="v" :value="v"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
+             <!-- <el-col :span="3">
+              <el-form-item label="對應採購單號">
+              <el-input v-model="v.purchaseId"></el-input>
+              </el-form-item>
+            </el-col> -->
+             <el-col :span="3">
+              <el-form-item label="SKU">
+              <el-input v-model="v.sku"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="5">
+              <el-form-item label="產品名稱">
+              <el-input v-model="v.productName"></el-input>
+              </el-form-item>
+            </el-col>
+        <!-- </el-row>
+        <el-row :gutter="22"> -->
+           
+            <!-- <el-col :span="4">
               <el-form-item label="產品規格">
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
-            </el-col>
-            <el-col :span="10">
+            </el-col> -->
+            <el-col :span="4">
               <el-form-item label="備註">
               <el-input v-model="v.note" type="textarea" rows="2"></el-input>
               </el-form-item>
