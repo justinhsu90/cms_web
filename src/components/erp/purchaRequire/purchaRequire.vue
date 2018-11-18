@@ -36,7 +36,7 @@
           <!-- <el-table-column min-width="75" label="新增人" prop="addedBy"></el-table-column> -->
           <!-- <el-table-column min-width="75" label="最後編輯" prop="lastModifiedBy"></el-table-column> -->
           <!-- <el-table-column min-width="60" label="備註" prop="note"></el-table-column> -->
-          <el-table-column min-width="60" label="啟用" prop="enable">
+          <el-table-column min-width="60" label="已購買" prop="enable">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.isPurchased" type="success">true</el-tag>
               <el-tag v-else type="info">false</el-tag>
@@ -45,7 +45,7 @@
           <el-table-column width="90" label="動作" align="center">
             <template slot-scope="scope">
               <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-              <el-button class="btnh" type="text" title="轉單" icon="el-icon-won-139" @click="handleTransfer(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="轉採購單" icon="el-icon-won-139" @click="handleTransfer(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
