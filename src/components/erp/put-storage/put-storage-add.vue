@@ -15,63 +15,60 @@
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
           <el-row :gutter="20">
               <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+            
+             <!-- <el-col :span="3">
+              <el-form-item label="入庫單號">
+                <el-input v-model="v.warehouseReceiveId"></el-input>
+              </el-form-item>
+            </el-col> -->
             <el-col :span="2">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="sku">
+              <el-form-item label="SKU">
                 <el-input v-model="v.sku"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="agent">
+              <el-form-item label="快遞/物流">
                 <el-input v-model="v.agent"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="productName">
+              <el-form-item label="產品名稱">
                 <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="quantity">
+              <el-form-item label="數量">
                 <el-input v-model="v.quantity"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="trackingNumber">
+              <el-form-item label="物流單號">
                 <el-input v-model="v.trackingNumber"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="stockCondition">
+              <el-form-item label="庫存狀態">
                 <el-input v-model="v.stockCondition"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item label="quantity">
-                <el-input v-model="v.quantity"></el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="6">
-              <el-form-item label="receivedDate">
-                <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss"  v-model="v.receivedDate"  type="datetime" placeholder="选择日期时间"></el-date-picker>
+              <el-form-item label="入庫時間">
+                <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss"  v-model="v.receivedDate"  type="datetime" placeholder="選擇時間日期"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
-              <el-form-item label="inspectionBy">
+              <el-form-item label="質檢人">
                 <el-input v-model="v.inspectionBy"></el-input>
               </el-form-item>
             </el-col>
+           
             <el-col :span="3">
-              <el-form-item label="warehouseReceiveId">
-                <el-input v-model="v.warehouseReceiveId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="purchaseId">
+              <el-form-item label="採購單號">
                 <el-input v-model="v.purchaseId"></el-input>
               </el-form-item>
             </el-col>

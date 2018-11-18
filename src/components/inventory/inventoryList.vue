@@ -28,7 +28,7 @@
                     <el-table-column width="50" label="單號" prop="inventoryChangeId"></el-table-column>
                     <el-table-column width="70" label="類型" prop="inventoryType"></el-table-column>
                     <el-table-column min-width="60" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="70" label="所屬倉庫" prop="warehouse"></el-table-column>
+                    <el-table-column min-width="70" max-width="100" label=" 所屬倉庫" prop="warehouse"></el-table-column>
                     <el-table-column width="60" label="數量" prop="quantity"></el-table-column>
                     <el-table-column width="200" label="產品名稱" prop="productName"></el-table-column>
                     <el-table-column width="80" label="帳號" prop="account"></el-table-column>
