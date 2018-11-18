@@ -6,7 +6,7 @@
         </el-input>
         <div style="margin-left:5px;display:inline-block;width:140px">
           <el-select placeholder="樣品" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-            <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+            <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
           </el-select>
         </div>
         <div style="display:inline-block;width:140px">
