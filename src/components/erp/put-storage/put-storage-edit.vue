@@ -33,18 +33,15 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-          <el-row>
+          <el-row class="pr6 pl6">
             <table cellspacing="0" cellpadding="0">
               <colgroup>
-                <col width="40">
+                <col width="80">
                 <col width="100">
                 <col width="250">
                 <col width="80">
                 <col width="80">
                 <col width="80">
-                <col width="80">
-                <col width="70">
               </colgroup>
               <thead>
                 <tr>
@@ -63,9 +60,11 @@
                       <el-input v-model="v.purchaseId"></el-input>
                     </el-form-item>
                   </td>
-                  <el-form-item>
-                    <el-input v-model="v.sku"></el-input>
-                  </el-form-item>
+                  <td>
+                    <el-form-item>
+                      <el-input v-model="v.sku"></el-input>
+                    </el-form-item>
+                  </td>
                   <td>
                     <el-form-item>
                       <el-input v-model="v.productName"></el-input>
@@ -90,7 +89,6 @@
               </tbody>
             </table>
           </el-row>
-        </el-card>
         <br>
         <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
       </el-form>

@@ -8,77 +8,98 @@
       <br>
       <h2>
         新增入库單
-        <el-button  style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
+        <el-button style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
-        <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-          <el-row :gutter="20">
-              <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-            
-             <!-- <el-col :span="3">
-              <el-form-item label="入庫單號">
-                <el-input v-model="v.warehouseReceiveId"></el-input>
-              </el-form-item>
-            </el-col> -->
-            <el-col :span="2">
-              <el-form-item label="序號">
-                <span>{{i+1}}</span>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="SKU">
-                <el-input v-model="v.sku"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="快遞/物流">
-                <el-input v-model="v.agent"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="產品名稱">
-                <el-input v-model="v.productName"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="數量">
-                <el-input v-model="v.quantity"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="物流單號">
-                <el-input v-model="v.trackingNumber"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="庫存狀態">
-                <el-input v-model="v.stockCondition"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="入庫時間">
-                <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss"  v-model="v.receivedDate"  type="datetime" placeholder="選擇時間日期"></el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="質檢人">
-                <el-input v-model="v.inspectionBy"></el-input>
-              </el-form-item>
-            </el-col>
-           
-            <el-col :span="3">
-              <el-form-item label="採購單號">
-                <el-input v-model="v.purchaseId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="備註">
-                <el-input v-model="v.note" type="textarea" rows="2"></el-input>
-              </el-form-item>
-            </el-col>
+         <el-row :gutter="20">
+          <el-col :span="4">
+            <el-form-item label="物流單號">
+              <el-input v-model="formData.trackingNumber"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="快遞/物流">
+              <el-input v-model="formData.agent"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="質檢人">
+              <el-input v-model="formData.inspectionBy"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="入庫時間">
+              <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss" v-model="formData.receivedDate" type="datetime" placeholder="选择日期时间"></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+          <el-row class="pr6 pl6">
+            <table cellspacing="0" cellpadding="0">
+              <colgroup>
+                <col width="30">
+                <col width="80">
+                <col width="100">
+                <col width="250">
+                <col width="80">
+                <col width="80">
+                <col width="80">
+                <col width="30">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>序號</th>
+                  <th>採購ID </th>
+                  <th>SKU </th>
+                  <th>產品名稱</th>
+                  <th>數量</th>
+                  <th>庫存狀態</th>
+                  <th>入庫單號</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(v,i) in formData.data" :key="i">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>
+                    <el-form-item>
+                      <el-input v-model="v.purchaseId"></el-input>
+                    </el-form-item>
+                  </td>
+                  <td>
+                    <el-form-item>
+                      <el-input v-model="v.sku"></el-input>
+                    </el-form-item>
+                  </td>
+                  <td>
+                    <el-form-item>
+                      <el-input v-model="v.productName"></el-input>
+                    </el-form-item>
+                  </td>
+                  <td>
+                    <el-form-item>
+                      <el-input v-model="v.quantity"></el-input>
+                    </el-form-item>
+                  </td>
+                  <td>
+                    <el-form-item>
+                      <el-input v-model="v.stockCondition"></el-input>
+                    </el-form-item>
+                  </td>
+                  <td>
+                    <el-form-item>
+                      <el-input v-model="v.warehouseReceiveId"></el-input>
+                    </el-form-item>
+                  </td>
+                  <td>
+                    <el-button type="text" title="刪除" icon="el-icon-won-22" @click="handleDelete(i)"></el-button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </el-row>
-        </el-card>
         <br>
         <el-button @click="submit" :loading="submitLoading" type="primary" size="large">添加</el-button>
       </el-form>
@@ -91,21 +112,19 @@ export default {
         return {
             submitLoading: false,
             loading: false,
-            formData: {
+               formData: {
+                receivedDate:'',
+                inspectionBy:'',
+                trackingNumber:'',
+                agent: "",
                 data: [
                     {
                         sku: "",
-                        agent: "",
-                        addBy: "",
                         productName: "",
                         quantity: "",
-                        trackingNumber: "",
                         stockCondition: "",
-                        receivedDate: [],
-                        inspectionBy: "",
                         purchaseId: "",
                         warehouseReceiveId: "",
-                        note: ""
                     }
                 ]
             }
@@ -117,25 +136,17 @@ export default {
         },
     },
     methods: {
-      handleChange(val){
-      },
         goBack() {
             this.$router.push("/put-storage");
         },
         handleAdd() {
             let obj = {
-                sku: "",
-                agent: "",
-                addBy: "",
-                productName: "",
-                quantity: "",
-                trackingNumber: "",
-                stockCondition: "",
-                receivedDate: "",
-                inspectionBy: "",
-                purchaseId: "",
-                warehouseReceiveId: "",
-                note: ""
+              sku: "",
+              productName: "",
+              quantity: "",
+              stockCondition: "",
+              purchaseId: "",
+              warehouseReceiveId: "",
             };
             this.formData.data.push(obj);
         },
@@ -144,9 +155,12 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
-            data.paymentTime = this.moment(data.paymentTime).format(
-                "YYYY-MM-DD HH:mm:ss"
-            );
+            _.each(data,(v)=>{
+                v.agent = this.formData.agent;
+                v.inspectionBy = this.formData.inspectionBy;
+                v.receivedDate = this.formData.receivedDate;  
+                v.trackingNumber = this.formData.trackingNumber;
+            })
             let obj = {
                 data
             };
@@ -158,7 +172,7 @@ export default {
                     this.getValue();
                     this.submitLoading = true;
                     axios({
-                        url: "payment/add",
+                        url: "/erp/warehouse/receive/add",
                         method: "post",
                         data: {
                             value: this.getValue(),
@@ -191,6 +205,54 @@ export default {
 }
 /deep/ .el-form-item__label {
     padding: 0px;
+}
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
+    .btnh {
+        padding: 4px 0px;
+        color: #62717e;
+    }
+    .cell {
+        padding: 0px;
+    }
+    /deep/ .el-form-item {
+        overflow: hidden;
+        margin: 0px;
+    }
+    /deep/ .el-form-item__content {
+        line-height: 0px;
+    }
+    /deep/ .is-error input {
+        background: #f56c6c;
+        border-radius: 0%;
+    }
+    /deep/ .el-input__inner {
+        border: none;
+        height: 35px;
+        text-align: center;
+        color: #62717e;
+        font-size: 14px;
+    }
+    th {
+        padding: 4px;
+        background: #edf1f5;
+        text-align: center;
+        color: #62717e;
+        // border-right: 1px solid #ebeef5;
+    }
+    td {
+        padding: 0px;
+        border-top: 1px solid #ebeef5;
+        border-right: 1px solid #ebeef5;
+        text-align: center;
+        background: white;
+        color: #62717e;
+        font-size: 14px;
+    }
 }
 </style>
 
