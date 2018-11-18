@@ -1,13 +1,22 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="22">
+      <el-col :span="22">         
         <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
-          <el-button slot="append" @click="handleSearch" icon="el-icon-search"></el-button>
+            <el-button slot="append" @click="handleSearch" icon="el-icon-search"></el-button>
         </el-input>
+        <div class="ibbox ml10">
+            <el-select placeholder="費用類型" v-model="searchStock" @change="handleCondition('stock')" clearable>
+                <el-option v-for="(v,i) in stockCondition" :key="i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+            </el-select>
+        </div>    
+        <div class="ibbox ml10">
+            <el-date-picker clearable class="w50"  @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+            </el-date-picker>
+        </div> 
       </el-col>
       <el-col :span="2">
-        <el-button style="float:right" @click="handleAdd" type="primary">新增Replacement</el-button>
+        <el-button style="float:right" @click="handleAdd" type="primary">新增入庫單</el-button>
       </el-col>
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
@@ -33,7 +42,7 @@
           </el-table-column>
         </el-table>
       </el-col>
-      <div style="float:right;margin-top:5px">
+      <div  style="float:right;margin-top:5px">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
         </el-pagination>
       </div>
@@ -42,13 +51,14 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
-
 export default {
     extends: wonTableContainer,
     data() {
         return {
+            date: [],
+            stockCondition:[],
+            searchStock:"",
             tableData: [],
-            maxHeight: 450,
             condition: [],
             isTableLoading: false,
             fetchCondition: {
@@ -68,6 +78,12 @@ export default {
         this.Bus.$on("refresh", this.handleSearch);
     },
     methods: {
+        handleChange(){
+          this.handleSearch();      
+        },
+        handleCondition(){
+
+        },
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
             let data = {
@@ -77,6 +93,10 @@ export default {
                 limit: this.fetchCondition.limit,
                 order: this.fetchCondition.order
             };
+            if(!_.isEmpty(this.date)){
+                data.startDate = this.date[0];
+                data.endDate = this.date[1];
+            }
             axios({
                 url: this.fetchOption.url,
                 method: this.fetchOption.method,
@@ -89,21 +109,13 @@ export default {
         }, 500),
         handleEdit(val) {
             this.$router.push({
-                name: "paymentEdit",
+                name: "put-storage-edit",
                 query: { data: JSON.stringify(val) }
             });
         },
         handleAdd() {
-            this.$router.push("/paymentAdd");
+            this.$router.push("/put-storage-add");
         }
     }
 };
 </script>
-
-<style scoped>
-.el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
-}
-</style>

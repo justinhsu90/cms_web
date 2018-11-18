@@ -7,9 +7,47 @@ import U from "@/common/until/U";
 export default {
     data() {
         return {
+            pickerOptions: {
+                shortcuts: [
+                    {
+                        text: "最近一周",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 7
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    },
+                    {
+                        text: "最近一个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 30
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    },
+                    {
+                        text: "最近三个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 90
+                            );
+                            picker.$emit("pick", [start, end]);
+                        }
+                    }
+                ]
+            },
             setMaxHeight: true,
             currentPage: 1,
             total: 15,
+            maxHeight: 450,
             fetchOption: {
                 url: "",
                 where: "",
@@ -26,8 +64,9 @@ export default {
         };
     },
     watch: {
-        "fetchOption.where"() {
-            this.handleSearch();
+        "fetchOption.where":{
+            handler: 'handleSearch',
+            immediate: true
         },
         total(n, o) {
             if (_.isEmpty(this.tableData) && n > 0) {

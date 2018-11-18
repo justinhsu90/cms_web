@@ -27,7 +27,7 @@
                 <el-input v-model="v.currency"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="9">
+            <el-col :span="8">
               <el-form-item label="paidBy">
                 <el-input v-model="v.paidBy"></el-input>
               </el-form-item>

@@ -87,11 +87,11 @@ export default [
             },
             {
                 index: "payment",
-                label: "(3) 付款單"
+                label: "(3-1) 付款單"
             },
             {
                 index: "put-storage",
-                label: "(3-1) 入庫單"
+                label: "(3-2) 入庫單"
             },
             {
                 index: "erpSale",

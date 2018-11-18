@@ -1,83 +1,93 @@
 <template>
-  <div id="edit">
-    <div style="padding:20px">
+  <div>
+    <div class="p20">
       <div class="heade">
         <i class="el-icon-arrow-left"></i>
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>编辑Payment
+      <h2>
+        编辑入库單
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-          <el-row :gutter="10">
+          <el-row :gutter="20">
             <el-col :span="2">
               <el-form-item label="序號">
                 <span>{{i+1}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
+              <el-form-item label="sku">
+                <el-input v-model="v.sku"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="agent">
+                <el-input v-model="v.agent"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="productName">
+                <el-input v-model="v.productName"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="quantity">
+                <el-input v-model="v.quantity"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="trackingNumber">
+                <el-input v-model="v.trackingNumber"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="stockCondition">
+                <el-input v-model="v.stockCondition"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="quantity">
+                <el-input v-model="v.quantity"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="receivedDate">
+                  <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss"  v-model="v.receivedDate"  type="datetime" placeholder="选择日期时间"></el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="inspectionBy">
+                <el-input v-model="v.inspectionBy"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
+              <el-form-item label="warehouseReceiveId">
+                <el-input v-model="v.warehouseReceiveId"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="3">
               <el-form-item label="purchaseId">
                 <el-input v-model="v.purchaseId"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item label="currency">
-                <el-input v-model="v.currency"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="9">
-              <el-form-item label="paidBy">
-                <el-input v-model="v.paidBy"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="paymentTime">
-                <el-date-picker v-model="v.paymentTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="paymentMethod">
-                <el-input v-model="v.paymentMethod"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="paymentAccount">
-                <el-input v-model="v.paymentAccount"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="purchasedBy">
-                <el-input v-model="v.purchasedBy"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="paymentPlatformId">
-                <el-input v-model="v.paymentPlatformId"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="shippingCost">
-                <el-input v-model="v.shippingCost"></el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="12">
               <el-form-item label="備註">
-                <el-input v-model="v.note" type="textarea" rows="1"></el-input>
+                <el-input v-model="v.note" type="textarea" rows="2"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
         </el-card>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">添加</el-button>
       </el-form>
     </div>
   </div>
 </template>
 <script>
 export default {
-    watch: {},
     data() {
         return {
             submitLoading: false,
@@ -85,15 +95,17 @@ export default {
             formData: {
                 data: [
                     {
+                        sku: "",
+                        agent: "",
+                        addBy: "",
+                        productName: "",
+                        quantity: "",
+                        trackingNumber: "",
+                        stockCondition: "",
+                        receivedDate: [],
+                        inspectionBy: "",
                         purchaseId: "",
-                        currency: "",
-                        paymentTime: "",
-                        paidBy: "",
-                        paymentMethod: "",
-                        paymentAccount: "",
-                        purchasedBy: "",
-                        shippingCost: "",
-                        paymentPlatformId: "",
+                        warehouseReceiveId: "",
                         note: ""
                     }
                 ]
@@ -102,45 +114,46 @@ export default {
     },
     created() {
         let data = JSON.parse(this.$route.query.data);
+        this.formData.data[0].sku = data.sku;
+        this.formData.data[0].agent = data.agent;
+        this.formData.data[0].addBy = data.addBy;
+        this.formData.data[0].productName = data.productName;
+        this.formData.data[0].quantity = data.quantity;
+        this.formData.data[0].trackingNumber = data.trackingNumber;
+        this.formData.data[0].stockCondition = data.stockCondition;
+        this.formData.data[0].receivedDate = data.receivedDate;
+        this.formData.data[0].inspectionBy = data.inspectionBy;
         this.formData.data[0].purchaseId = data.purchaseId;
-        this.formData.data[0].currenc = data.currenc;
-        this.formData.data[0].paymentTime = data.paymentTime;
-        this.formData.data[0].paidBy = data.paidBy;
-        this.formData.data[0].paymentMethod = data.paymentMethod;
-        this.formData.data[0].paymentAccount = data.paymentAccount;
-        this.formData.data[0].currency = data.agentOrderId;
-        this.formData.data[0].purchasedBy = data.purchasedBy;
-        this.formData.data[0].shippingCost = data.shippingCost;
+        this.formData.data[0].warehouseReceiveId = data.warehouseReceiveId;
         this.formData.data[0].note = data.note;
-        this.formData.data[0].paymentPlatformId = data.paymentPlatformId;
     },
     methods: {
+        handleChange() {},
         goBack() {
-            this.$router.push("/payment");
+            this.$router.push("/put-storage");
         },
         handleAdd() {
             let obj = {
+                sku: "",
+                agent: "",
+                addBy: "",
+                productName: "",
+                quantity: "",
+                trackingNumber: "",
+                stockCondition: "",
+                receivedDate: "",
+                inspectionBy: "",
                 purchaseId: "",
-                currency: "",
-                paymentTime: "",
-                paidBy: "",
-                paymentMethod: "",
-                paymentAccount: "",
-                purchasedBy: "",
-                shippingCost: "",
-                paymentPlatformId: "",
+                warehouseReceiveId: "",
                 note: ""
             };
             this.formData.data.push(obj);
         },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
-            data.paymentTime = this.moment(data.paymentTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
+            // data.paymentTime = this.moment(data.paymentTime).format(
+            //     "YYYY-MM-DD HH:mm:ss"
+            // );
             let obj = {
                 data
             };
@@ -152,7 +165,7 @@ export default {
                     this.getValue();
                     this.submitLoading = true;
                     axios({
-                        url: "payment/update",
+                        url: "payment/add",
                         method: "post",
                         data: {
                             value: this.getValue(),
@@ -161,7 +174,7 @@ export default {
                     }).then(res => {
                         this.submitLoading = true;
                         this.Bus.$emit("refresh");
-                        this.$router.push("/payment");
+                        this.goBack();
                     });
                 }
             });
@@ -169,18 +182,22 @@ export default {
     }
 };
 </script>
-<style lang="scss">
-#edit .heade {
+<style lang="scss" scoped>
+.heade {
     font-size: 16px;
     color: #45a2ff;
 }
-#edit .heade a {
+.heade a {
     color: #45a2ff;
 }
-#edit {
-    .el-button--text {
-        color: #606266;
-    }
+/deep/ .el-button--text {
+    color: #606266;
+}
+/deep/ .el-form-item {
+    margin-bottom: 5px;
+}
+/deep/ .el-form-item__label {
+    padding: 0px;
 }
 </style>
 
