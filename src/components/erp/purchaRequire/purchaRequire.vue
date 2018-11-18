@@ -67,14 +67,14 @@ export default {
         return {
             tableData: [],
             maxHeight: 450,
-            condition: [],
+            condition: ["2"],
             isTableLoading: false,
             searchAccount: "",
             searchAccountOption: [],
-            searchLanguage: "",
+            searchLanguage: 1,
             searchLanguageOption: [
-                { countryCode: "是", countryNameChinese: true },
-                { countryCode: "否", countryNameChinese: false }
+                { countryCode: "是", countryNameChinese: 1 },
+                { countryCode: "否", countryNameChinese: 0 }
             ],
             fetchCondition: {
                 skip: 0,
@@ -98,8 +98,8 @@ export default {
         });
         Promise.all([account]).then(([account]) => {
             this.searchAccountOption = _.cloneDeep(account.data);
+            this.handleSearch();
         });
-        this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
     },
     methods: {

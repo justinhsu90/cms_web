@@ -8,7 +8,7 @@
         <h2>编辑SKU</h2>
         <br>
         <el-form ref="form2" :model="form" label-position="left" label-width="150px">
-            <div style="position:relative">
+            <div class="relative">
                 <el-form-item ref="formItemTwo" label="SKU" prop="sku" :rules="skuValidate">
                     <el-input :disabled="true" v-model.trim="form.sku" style="width:50%;" @blur="handleInspect"></el-input>
                 </el-form-item>
@@ -140,7 +140,7 @@
                 </template>
                 <el-input type="textarea" rows='4' v-model="form.deprecatedSKU" style="width:70%"></el-input>
             </el-form-item>
-            <el-row :gutter="20">
+            <el-row :gutter="20" v-if="!isCopy">
                 <el-col :span="7">
                     <el-form-item label="最後更新時間" prop="lastUpdatedTime">
                         <el-date-picker style="width:100%" v-model="form.lastUpdatedTime" disabled></el-date-picker>

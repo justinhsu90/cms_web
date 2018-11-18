@@ -62,6 +62,7 @@
           <el-table-column min-width="50" label="動作" fixed="right">
             <template slot-scope="scope">
               <el-button class="btnh"  type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+              <el-button class="btnh"  type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -143,14 +144,19 @@ export default {
         handleAdd() {
             this.$router.push('/skuAdd');
         },
+        handleCopy(row){
+            this.$router.push({
+                name:'skuAdd',
+                query: { data: JSON.stringify(row), copy:1}
+            });     
+        },
         handleShow() {
             this.showDialog = false;
         },
         handleEdit(row) {
-            this.row = _.cloneDeep(row);
             this.$router.push({
                 name:'skuEdit',
-                query: { data: JSON.stringify(this.row) }
+                query: { data: JSON.stringify(row) }
             });
         },
         handleSize(val) {

@@ -24,22 +24,22 @@
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="agent">
+              <el-form-item label="代理">
                 <el-input v-model="v.agent"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="productName">
+              <el-form-item label="商品名称">
                 <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="quantity">
+              <el-form-item label="数量">
                 <el-input v-model="v.quantity"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="4">
-              <el-form-item label="trackingNumber">
+              <el-form-item label="物流單號">
                 <el-input v-model="v.trackingNumber"></el-input>
               </el-form-item>
             </el-col>
@@ -48,14 +48,9 @@
                 <el-input v-model="v.stockCondition"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4">
-              <el-form-item label="quantity">
-                <el-input v-model="v.quantity"></el-input>
-              </el-form-item>
-            </el-col>
             <el-col :span="6">
-              <el-form-item label="receivedDate">
-                  <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss"  v-model="v.receivedDate"  type="datetime" placeholder="选择日期时间"></el-date-picker>
+              <el-form-item label="入庫時間">
+                <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss" v-model="v.receivedDate" type="datetime" placeholder="选择日期时间"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
@@ -79,9 +74,50 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <table cellspacing="0" cellpadding="0">
+              <colgroup>
+                <col width="40">
+                <col width="100">
+                <col width="250">
+                <col width="80">
+                <col width="80">
+                <col width="80">
+                <col width="80">
+                <col width="70">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>序號</th>
+                  <th>SKU </th>
+                  <th>產品名稱</th>
+                  <th>單品金額</th>
+                  <th>採購數量</th>
+                  <th>該品總運費</th>
+                  <th>總金額</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(v,i) in formData.data" :key="i">
+                  <td>{{i+1}}</td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </el-row>
         </el-card>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">添加</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
       </el-form>
     </div>
   </div>
@@ -97,7 +133,6 @@ export default {
                     {
                         sku: "",
                         agent: "",
-                        addBy: "",
                         productName: "",
                         quantity: "",
                         trackingNumber: "",
@@ -199,6 +234,54 @@ export default {
 /deep/ .el-form-item__label {
     padding: 0px;
 }
+table {
+        table-layout: fixed;
+        width: 100%;
+        border-top: 1px solid #ebeef5;
+        border-bottom: 1px solid #ebeef5;
+        border-left: 1px solid #ebeef5;
+        .btnh {
+            padding: 4px 0px;
+            color: #62717e;
+        }
+        .cell {
+            padding: 0px;
+        }
+       /deep/ .el-form-item {
+            overflow: hidden;
+            margin: 0px;
+        }
+       /deep/ .el-form-item__content {
+            line-height: 0px;
+        }
+        /deep/ .is-error input {
+            background: #f56c6c;
+            border-radius: 0%;
+        }
+       /deep/ .el-input__inner {
+            border: none;
+            height: 35px;
+            text-align: center;
+            color: #62717e;
+            font-size: 14px;
+        }
+        th {
+            padding: 4px;
+            background: #edf1f5;
+            text-align: center;
+            color: #62717e;
+            // border-right: 1px solid #ebeef5;
+        }
+        td {
+            padding: 0px;
+            border-top: 1px solid #ebeef5;
+            border-right: 1px solid #ebeef5;
+            text-align: center;
+            background: white;
+            color: #62717e;
+            font-size: 14px;
+        }
+    }
 </style>
 
 

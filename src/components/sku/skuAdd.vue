@@ -281,6 +281,39 @@ export default {
         }).then(res => {
             this.costCurrency = _.cloneDeep(res.data);
         });
+
+        this.isCopy = this.$route.query.copy;
+        if(!this.isCopy) return; 
+        let data = JSON.parse(this.$route.query.data);
+        this.form.image = data.imageURL;
+        this.base64 = data.imageURL;
+        this.form.productName = data.productName;
+        this.form.newSku = data.newSku;
+        this.form.sku = data.sku;
+
+        this.form.amazonWidthCM = data.amazonWidthCM;
+        this.form.amazonHeightCM = data.amazonHeightCM;
+        this.form.amazonWeightKG = data.amazonWeightKG;
+        this.form.amazonLengthCM = data.amazonLengthCM;
+
+        this.form.parcelWidthCM = data.parcelWidthCM;
+        this.form.parcelHeightCM = data.parcelHeightCM;
+        this.form.parcelWeightKG = data.parcelWeightKG;
+        this.form.parcelLengthCM = data.parcelLengthCM;
+        this.form.productWidthCM = data.productWidthCM;
+        this.form.productHeightCM = data.productHeightCM;
+        this.form.productWeightKG = data.productWeightKG;
+        this.form.productLengthCM = data.productLengthCM;
+        this.form.lastUpdatedTime = data.lastUpdatedTime;
+        this.form.lastModifiedBy = data.lastModifiedBy;
+        this.form.addedTime = data.addedTime;
+        this.form.addedBy = data.addedBy;
+        this.form.productCostCurrency = data.productCostCurrency;
+        this.form.productNameChinese = data.productNameChinese;
+        this.form.declareNameChinese = data.declareNameChinese;
+        this.form.declareNameEnglish = data.declareNameEnglish;
+        this.form.deprecatedSKU = data.deprecatedSKU;
+        this.form.productCost = data.productCost;    
     },
     watch: {
         "form.autoSku"(newVal, oldVal) {

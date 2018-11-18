@@ -232,6 +232,9 @@ export default {
 /deep/ .el-form-item__label {
     padding: 0px;
 }
+/deep/ .el-card__body{
+    padding: 5px;
+}
 </style>
 
 

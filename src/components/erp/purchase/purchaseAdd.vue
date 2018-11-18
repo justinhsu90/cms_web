@@ -448,15 +448,18 @@ export default {
             this.$refs["form"].validate(action => {
                 if (action) {
                     this.popoverVisible = false;
-                    this.getValue();
                     this.submitLoading = true;
+                    let data = {
+                       value: this.getValue(),
+                       token: this.token 
+                    }
+                    if(!!this.isTransfer){
+                        data.purchaseQueryId = this.purchaseQueryId;
+                    }
                     axios({
                         url: "/purchase/add",
                         method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
+                        data
                     }).then(res => {
                         this.submitLoading = true;
                         this.Bus.$emit("refresh");
