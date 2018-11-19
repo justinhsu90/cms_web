@@ -20,22 +20,22 @@
       </el-col>
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-            <el-table-column min-width="60" label="商品名稱"    prop="productName" ></el-table-column>
-            <el-table-column min-width="60" label="商品ID"    prop="purchaseId" ></el-table-column>
-            <el-table-column min-width="60" label="數量"    prop="quantity" ></el-table-column>
-            <el-table-column min-width="90" label="接收時間"    prop="receivedDate" :formatter="formatToTime" ></el-table-column>
-            <el-table-column min-width="60" label="sku"    prop="sku" ></el-table-column>
-            <el-table-column min-width="60" label="代理商"       prop="agent" > </el-table-column>
-            <el-table-column min-width="60" label="添加人"    prop="addedBy" ></el-table-column>
+            <el-table-column min-width="50" label="入庫單號"    prop="warehouseReceiveId" ></el-table-column>
+            <el-table-column min-width="70" label="入庫時間"    prop="receivedDate" :formatter="formatToTime" ></el-table-column>
+            <el-table-column min-width="60" label="SKU"    prop="sku" ></el-table-column>
+            <el-table-column min-width="60" label="庫存狀態"    prop="stockCondition" ></el-table-column>
+            <el-table-column min-width="130" label="商品名稱"    prop="productName" ></el-table-column>
+            <el-table-column min-width="50" label="對應採購單號"    prop="purchaseId" ></el-table-column>
+            <el-table-column min-width="40" label="入庫數量"    prop="quantity" ></el-table-column>
+            <el-table-column min-width="40" label="物流/快遞"       prop="agent" > </el-table-column>
+            <!-- <el-table-column min-width="60" label="添加人"    prop="addedBy" ></el-table-column> -->
             <!-- <el-table-column min-width="80" label="添加時間"  prop="addedTime" :formatter="formatToTime" > </el-table-column> -->
             <!-- <el-table-column min-width="60" label="inspectionBy"    prop="inspectionBy" ></el-table-column> -->
             <!-- <el-table-column min-width="60" label="lastModifiedBy"    prop="lastModifiedBy" ></el-table-column> -->
             <!-- <el-table-column min-width="60" label="lastUpdatedTime"    prop="lastUpdatedTime" :formatter="formatToTime"></el-table-column> -->
-            <el-table-column min-width="60" label="運單號"    prop="trackingNumber" ></el-table-column>
-            <el-table-column min-width="60" label="備註"    prop="note" ></el-table-column>
-            <!-- <el-table-column min-width="60" label="stockCondition"    prop="stockCondition" ></el-table-column> -->
-            <!-- <el-table-column min-width="60" label="warehouseReceiveId"    prop="warehouseReceiveId" ></el-table-column> -->
-          <el-table-column width="80" label="動作" align="center">
+            <el-table-column min-width="50" label="快遞單號"    prop="trackingNumber" ></el-table-column>
+            <!-- <el-table-column min-width="60" label="備註"    prop="note" ></el-table-column> -->
+          <el-table-column width="50" label="動作" align="center">
             <template slot-scope="scope">
               <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
             </template>
