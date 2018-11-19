@@ -264,6 +264,7 @@ export default {
             let data = JSON.parse(this.$route.query.data);
             this.formData.purchaseType = data.purchaseType;
             this.formData.data[0].productName = data.productName;
+            this.formData.purchaseType = data.purchaseType;
             this.purchaseQueryId = data.purchaseQueryId;
             this.formData.data[0].sku = data.sku;
         }

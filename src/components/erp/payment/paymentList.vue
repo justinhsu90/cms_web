@@ -11,17 +11,17 @@
       </el-col>
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-          <el-table-column min-width="75" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column>
-          <el-table-column min-width="60" label="paymentId" prop="paymentId" sortable="custom"></el-table-column>
-          <el-table-column min-width="65" label="purchaseId" prop="purchaseId" sortable="custom"></el-table-column>
-          <el-table-column min-width="65" label="paymentTime" prop="paymentTime" sortable="custom"></el-table-column>
-          <el-table-column min-width="60" label="paymentAccount" prop="paymentAccount" sortable="custom"></el-table-column>
-          <el-table-column min-width="60" label="paymentMethod" prop="paymentMethod"></el-table-column>
-          <el-table-column min-width="60" label="paymentPlatformId" prop="paymentPlatformId"></el-table-column>
-          <el-table-column min-width="60" label="paymentTotalAmount" prop="paymentTotalAmount"></el-table-column>
-          <el-table-column min-width="60" label="note" prop="note"></el-table-column>
-          <el-table-column min-width="60" label="lastModifiedBy" prop="lastModifiedBy"></el-table-column>
-          <el-table-column min-width="60" label="paidBy" prop="paidBy"></el-table-column>
+          <!-- <el-table-column min-width="75" label="lastUpdatedTime" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
+          <el-table-column min-width="60" label="付款Id" prop="paymentId" sortable="custom"></el-table-column>
+          <el-table-column min-width="65" label="採購Id" prop="purchaseId" sortable="custom"></el-table-column>
+          <el-table-column min-width="65" label="付款時間" prop="paymentTime" sortable="custom" :formatter="formatToTime"></el-table-column>
+          <el-table-column min-width="60" label="付款賬戶" prop="paymentAccount" sortable="custom"></el-table-column>
+          <el-table-column min-width="60" label="付款方式" prop="paymentMethod"></el-table-column>
+          <!-- <el-table-column min-width="60" label="paymentPlatformId" prop="paymentPlatformId"></el-table-column> -->
+          <el-table-column min-width="60" label="付款金額" prop="paymentTotalAmount"></el-table-column>
+          <el-table-column min-width="60" label="備註" prop="note"></el-table-column>
+          <!-- <el-table-column min-width="60" label="lastModifiedBy" prop="lastModifiedBy"></el-table-column> -->
+          <!-- <el-table-column min-width="60" label="paidBy" prop="paidBy"></el-table-column> -->
           <el-table-column width="80" label="動作" align="center">
             <template slot-scope="scope">
               <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>

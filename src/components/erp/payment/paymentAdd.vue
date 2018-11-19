@@ -1,5 +1,5 @@
 <template>
-  <div id="edit">
+  <div>
     <div style="padding:20px">
       <div class="heade">
         <i class="el-icon-arrow-left"></i>
@@ -156,17 +156,65 @@ export default {
     }
 };
 </script>
-<style lang="scss">
-#edit .heade {
+<style lang="scss" scoped>
+.heade {
     font-size: 16px;
     color: #45a2ff;
 }
-#edit .heade a {
+.heade a {
     color: #45a2ff;
 }
-#edit {
-    .el-button--text {
-        color: #606266;
+
+/deep/ .el-button--text {
+    color: #606266;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
+    .btnh {
+        padding: 4px 0px;
+        color: #62717e;
+    }
+    .cell {
+        padding: 0px;
+    }
+    /deep/ .el-form-item {
+        overflow: hidden;
+        margin: 0px;
+    }
+    /deep/ .el-form-item__content {
+        line-height: 0px;
+    }
+    /deep/ .is-error input {
+        background: #f56c6c;
+        border-radius: 0%;
+    }
+    /deep/ .el-input__inner {
+        border: none;
+        height: 35px;
+        text-align: center;
+        color: #62717e;
+        font-size: 14px;
+    }
+    th {
+        padding: 4px;
+        background: #edf1f5;
+        text-align: center;
+        color: #62717e;
+        // border-right: 1px solid #ebeef5;
+    }
+    td {
+        padding: 0px;
+        border-top: 1px solid #ebeef5;
+        border-right: 1px solid #ebeef5;
+        text-align: center;
+        background: white;
+        color: #62717e;
+        font-size: 14px;
     }
 }
 </style>
