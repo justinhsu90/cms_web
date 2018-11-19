@@ -8,11 +8,11 @@
       <br>
       <h2>
         新增入库單
-        <el-button style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
+        <el-button :disabled="disabled" style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
-         <el-row :gutter="20">
+        <el-row :gutter="20">
           <el-col :span="4">
             <el-form-item label="物流單號">
               <el-input v-model="formData.trackingNumber"></el-input>
@@ -34,80 +34,87 @@
             </el-form-item>
           </el-col>
         </el-row>
-          <el-row class="pr6 pl6">
-            <table cellspacing="0" cellpadding="0">
-              <colgroup>
-                <col width="30">
-                <col width="80">
-                <col width="100">
-                <col width="250">
-                <col width="80">
-                <col width="80">
-                <col width="80">
-                <col width="30">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>序號</th>
-                  <th>採購ID </th>
-                  <th>SKU </th>
-                  <th>產品名稱</th>
-                  <th>數量</th>
-                  <th>庫存狀態</th>
-                  <th>入庫單號</th>
-                  <th>操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(v,i) in formData.data" :key="i">
-                  <td>
-                    {{i+1}}
-                  </td>
-                  <td>
-                    <el-form-item>
-                      <el-input v-model="v.purchaseId"></el-input>
-                    </el-form-item>
-                  </td>
-                  <td>
-                    <el-form-item>
-                      <el-input v-model="v.sku"></el-input>
-                    </el-form-item>
-                  </td>
-                  <td>
-                    <el-form-item>
-                      <el-input v-model="v.productName"></el-input>
-                    </el-form-item>
-                  </td>
-                  <td>
-                    <el-form-item>
-                      <el-input v-model="v.quantity"></el-input>
-                    </el-form-item>
-                  </td>
-                  <td>
-                    <el-form-item>
-                      <el-input v-model="v.stockCondition"></el-input>
-                    </el-form-item>
-                  </td>
-                  <td>
-                    <el-form-item>
-                      <el-input v-model="v.warehouseReceiveId"></el-input>
-                    </el-form-item>
-                  </td>
-                  <td>
-                    <el-button type="text" title="刪除" icon="el-icon-won-22" @click="handleDelete(i)"></el-button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </el-row>
+        <el-row class="pr6 pl6">
+          <table cellspacing="0" cellpadding="0">
+            <colgroup>
+              <col width="30">
+              <col width="80">
+              <col width="100">
+              <col width="250">
+              <col width="80">
+              <col width="80">
+              <col width="80">
+              <col width="60">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>序號</th>
+                <th>採購ID </th>
+                <th>SKU </th>
+                <th>產品名稱</th>
+                <th>數量</th>
+                <th>庫存狀態</th>
+                <th>入庫單號</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(v,i) in formData.data" :key="i">
+                <td>
+                  {{i+1}}
+                </td>
+                <td>
+                  <el-form-item>
+                    <el-input v-model="v.purchaseId"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item>
+                    <el-input v-model="v.sku"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item>
+                    <el-input v-model="v.productName"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item>
+                    <el-input v-model="v.quantity"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item>
+                    <el-input v-model="v.stockCondition"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item>
+                    <el-input v-model="v.warehouseReceiveId"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleDelete(i)">删除</el-button>
+                  <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查詢</el-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </el-row>
         <br>
         <el-button @click="submit" :loading="submitLoading" type="primary" size="large">添加</el-button>
       </el-form>
     </div>
+    <querySku name="put-storage-add" ref="querySku"></querySku>
   </div>
 </template>
 <script>
+import querySku from "@/common/querySku";
 export default {
+  name:'put-storage-add',
+  components:{
+    querySku
+  },
     data() {
         return {
             submitLoading: false,
@@ -131,13 +138,33 @@ export default {
         };
     },
     computed:{
-          disabled() {
-            return this.formData.data.length <= 1;
+        disabled() {
+            let disabled = false;
+            _.each(this.formData.data, v => {
+                if (!v.sku) {
+                    disabled = true;
+                }
+            });
+            return disabled;
         },
+    },
+    created(){
+      this.$on('selectSku', this.handleSku);
     },
     methods: {
         goBack() {
             this.$router.push("/put-storage");
+        },
+        handleQuerySku(index) {
+            this.$refs["querySku"].$findChild("wonDialog", "visible", index);
+        },
+        handleSku(val) {
+            _.each(this.formData.data, (v, i) => {
+                if (i == val[1]) {
+                    v.sku = val[0].sku;
+                    v.productName = val[0].productName;
+                }
+            });
         },
         handleAdd() {
             let obj = {
