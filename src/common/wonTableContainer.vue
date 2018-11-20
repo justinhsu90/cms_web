@@ -3,8 +3,11 @@
 <script>
 import moment from "moment";
 import U from "@/common/until/U";
-
+import wonPagination from './wonPagination'
 export default {
+    components:{
+        wonPagination
+    },
     data() {
         return {
             pickerOptions: {
@@ -60,7 +63,13 @@ export default {
             },
             isTableLoading: true,
             pageSizes: [15, 30, 45, 100, 200],
-            layout: "total, sizes, prev, pager, next, jumper"
+            layout: "total, sizes, prev, pager, next, jumper",
+            paginationProps:{
+                total:15,
+                currentPage:1,
+                pageSizes:[15, 30, 45, 100, 200],
+                layout:"total, sizes, prev, pager, next, jumper",
+            }
         };
     },
     watch: {
@@ -73,8 +82,20 @@ export default {
                 this.fetchCondition.skip = 0;
                 this.handleSearch();
             }
+        },
+        'paginationProps.total'(n, o) {
+            if (_.isEmpty(this.tableData) && n > 0) {
+                this.fetchCondition.skip = 0;
+                this.handleSearch();
+            }
         }
     },
+    created(){
+        this.paginationListeners = {
+            'size-change':this.handleSizeChange,
+            'current-change':this.handleCurrentChange
+        }
+    },  
     mounted() {
         if (this.setMaxHeight) {
             this.$nextTick(() => {

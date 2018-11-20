@@ -42,18 +42,17 @@
               <el-tag v-else type="info">false</el-tag>
             </template>
           </el-table-column>
-          <el-table-column width="70" label="動作" align="center">
+          <el-table-column width="100" label="動作" align="center">
             <template slot-scope="scope">
               <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+              <el-button class="btnh" type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
               <el-button class="btnh" type="text" title="轉採購單" icon="el-icon-won-139" @click="handleTransfer(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
-      </el-col>
-      <div style="float:right;margin-top:5px">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-        </el-pagination>
-      </div>
+      </el-col>      
+        <won-pagination v-bind="paginationProps" v-on="paginationListeners">
+        </won-pagination>
     </el-row>
 
   </div>
@@ -128,7 +127,7 @@ export default {
             }).then(({ data, count }) => {
                 this.isTableLoading = false;
                 this.tableData = _.cloneDeep(data);
-                this.total = count;
+                this.paginationProps.total = count;
             });
         }, 500),
         handleEdit(val) {
@@ -145,6 +144,12 @@ export default {
         },
         handleAdd() {
             this.$router.push("/purchaAdd");
+        },
+        handleCopy(row){
+            this.$router.push({
+                path: "/purchaAdd",
+                query: { data: JSON.stringify(row), copy:'copy'}
+            });
         },
         handleCondition(sign) {
             if (sign == "acc") {

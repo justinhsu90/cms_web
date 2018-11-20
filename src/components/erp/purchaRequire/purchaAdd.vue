@@ -112,7 +112,7 @@ export default {
             loading: false,
             purchaseOption: [],
             curreny: [],
-            purchaseAccount:[],
+            purchaseAccount: [],
             formData: {
                 queryAccount: "",
                 purchaseLink: "",
@@ -135,6 +135,23 @@ export default {
         };
     },
     created() {
+        if (this.$route.query.copy == "copy") {
+            let data = JSON.parse(this.$route.query.data);
+            this.formData.queryAccount = data.queryAccount;
+            this.formData.purchaseLink = data.purchaseLink;
+            this.formData.purchaseType = data.purchaseType;
+            this.formData.isPurchased = data.isPurchased;
+            this.formData.data[0].sku = data.sku;
+            this.formData.data[0].productName = data.productName;
+            this.formData.data[0].productSpec = data.productSpec;
+            this.formData.data[0].queryQuantity = data.queryQuantity;
+            this.formData.data[0].note = data.note;
+            this.formData.data[0].targetPrice = data.targetPrice;
+            this.formData.data[0].targetPriceCurrency =
+                data.targetPriceCurrency;
+            this.formData.data[0].merchantModel = data.merchantModel;
+            this.formData.data[0].purchaseId = data.purchaseId;
+        }
         let purchasetype = axios({
             url: "/purchasequery/value/purchasetype",
             method: "post",
@@ -150,7 +167,7 @@ export default {
             data: {
                 token: this.token
             }
-        }).then((res)=>{
+        }).then(res => {
             this.purchaseAccount = _.cloneDeep(res);
         });
         let currency = axios({
@@ -186,12 +203,12 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
-            _.each(data,(v)=>{
+            _.each(data, v => {
                 v.queryAccount = this.formData.queryAccount;
                 v.purchaseLink = this.formData.purchaseLink;
                 v.purchaseType = this.formData.purchaseType;
                 v.isPurchased = this.formData.isPurchased;
-            })
+            });
             let obj = {
                 data
             };

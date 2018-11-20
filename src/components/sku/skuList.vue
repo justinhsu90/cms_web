@@ -69,8 +69,8 @@
       </el-col>
       <el-col>
         <div style="float:right;margin-top:5px">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-          </el-pagination>
+          <won-pagination v-bind="paginationProps" v-on="paginationListeners">
+        </won-pagination>
         </div>
       </el-col>
     </el-row>
@@ -139,6 +139,7 @@ export default {
                 });
                 this.tableData = _.cloneDeep(data);
                 this.total = count;
+                this.paginationProps.total = count;
             });
         }, 500),
         handleAdd() {
