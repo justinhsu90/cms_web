@@ -71,7 +71,7 @@ export default {
             isTableLoading: false,
             searchAccount: "",
             searchAccountOption: [],
-            searchLanguage: 1,
+            searchLanguage: 2,
             searchLanguageOption: [
                 { countryCode: "是", countryNameChinese: 1 },
                 { countryCode: "否", countryNameChinese: 2 }

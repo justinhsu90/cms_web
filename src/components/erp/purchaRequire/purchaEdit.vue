@@ -49,7 +49,7 @@
             </el-col>
 
             <el-col :span="3">
-              <el-form-item label="買家型號">
+              <el-form-item label="賣家型號">
               <el-input v-model="v.merchantModel"></el-input>
               </el-form-item>
             </el-col>
