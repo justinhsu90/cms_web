@@ -7,7 +7,7 @@
       </div>
       <br>
       <h2>
-        新增入库單
+        新增入庫單
         <el-button :disabled="disabled" style="float:right" type="success" size="small" @click="handleAdd">新增產品</el-button>
       </h2>
       <br>
@@ -40,21 +40,21 @@
               <col width="30">
               <col width="80">
               <col width="100">
-              <col width="250">
+              <!-- <col width="250"> -->
               <col width="80">
               <col width="80">
-              <col width="80">
+              <!-- <col width="80"> -->
               <col width="60">
             </colgroup>
             <thead>
               <tr>
                 <th>序號</th>
-                <th>採購ID </th>
-                <th>SKU </th>
-                <th>產品名稱</th>
+                <th>對應採購單號</th>
+                <th>SKU</th>
+                <!-- <th>產品名稱</th> -->
                 <th>數量</th>
                 <th>庫存狀態</th>
-                <th>入庫單號</th>
+                <!-- <th>入庫單號</th> -->
                 <th>操作</th>
               </tr>
             </thead>
@@ -73,11 +73,11 @@
                     <el-input v-model="v.sku"></el-input>
                   </el-form-item>
                 </td>
-                <td>
+                <!-- <td>
                   <el-form-item>
                     <el-input v-model="v.productName"></el-input>
                   </el-form-item>
-                </td>
+                </td> -->
                 <td>
                   <el-form-item>
                     <el-input v-model="v.quantity"></el-input>
@@ -88,11 +88,11 @@
                     <el-input v-model="v.stockCondition"></el-input>
                   </el-form-item>
                 </td>
-                <td>
+                <!-- <td>
                   <el-form-item>
                     <el-input v-model="v.warehouseReceiveId"></el-input>
                   </el-form-item>
-                </td>
+                </td> -->
                 <td>
                   <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleDelete(i)">删除</el-button>
                   <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查詢</el-button>
@@ -141,7 +141,7 @@ export default {
                         quantity: "",
                         stockCondition: "",
                         purchaseId: "",
-                        warehouseReceiveId: "",
+                        // warehouseReceiveId: "",
                     }
                 ]
             }
@@ -183,7 +183,7 @@ export default {
               quantity: "",
               stockCondition: "",
               purchaseId: "",
-              warehouseReceiveId: "",
+              // warehouseReceiveId: "",
             };
             this.formData.data.push(obj);
         },

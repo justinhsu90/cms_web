@@ -57,11 +57,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="4">
-              <el-form-item label="賣家型號">
-              <el-input v-model="v.merchantModel"></el-input>
-              </el-form-item>
-            </el-col>
+           
             <el-col :span="2">
               <el-form-item label="目標價格">
               <el-input v-model="v.targetPrice"></el-input>
@@ -75,6 +71,11 @@
               </el-form-item>
             </el-col>
         </el-row>
+             <el-col :span="4">
+              <el-form-item label="賣家型號">
+              <el-input v-model="v.merchantModel"></el-input>
+              </el-form-item>
+            </el-col>
                 <el-row :gutter="10">
             <el-col :span="5">
               <el-form-item label="SKU">
@@ -86,14 +87,7 @@
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-            
-            <el-col :span="4">
-              <el-form-item label="產品規格">
-              <el-input v-model="v.productSpec"></el-input>
-              </el-form-item>
-            </el-col>
-           
-            <el-col :span="7">
+            <el-col :span="5">
               <el-form-item label="備註">
               <el-input v-model="v.note" type="textarea" rows="2"></el-input>
               </el-form-item>
