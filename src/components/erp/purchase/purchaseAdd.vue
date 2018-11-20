@@ -191,7 +191,7 @@ export default {
                 message: "此項目必填"
             },
             formData: {
-                purchasedTime: "",
+                purchasedTime: Date.now(),
                 purchaseType: "",
                 purchasedPlatform: "",
                 purchasedAccount: "",
@@ -222,6 +222,7 @@ export default {
             this.purchaseQueryId = data.purchaseQueryId;
             this.formData.data[0].sku = data.sku;
             this.formData.purchasedTime = data.queryTime;
+            this.formData.data[0].purchasedQuantity = data.queryQuantity;
         }
         let purchasePlatform = axios({
             url: "/erp/value/purchasePlatform",
