@@ -25,7 +25,7 @@
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <!-- <el-table-column min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
-          <el-table-column min-width="75" label="新增時間" prop="queryTime"></el-table-column>
+          <el-table-column min-width="75" label="新增時間" prop="queryTime" :formatter="formatToTime"></el-table-column>
           <el-table-column min-width="80" label="採購需求單號" prop="purchaseQueryId"></el-table-column>
           <el-table-column min-width="75" label="對應採購單號" prop="purchaseId"></el-table-column>
           <el-table-column min-width="60" label="採購類型" prop="purchaseType"></el-table-column>

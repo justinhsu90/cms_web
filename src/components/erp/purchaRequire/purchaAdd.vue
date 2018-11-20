@@ -1,106 +1,108 @@
 <template>
-<div id="edit">
-    <div style="padding:20px"> 
-    <div class="heade">
-      <i class="el-icon-arrow-left"></i>
-      <a href="javascript:void(0)" @click="goBack">返回</a>
-    </div>
-    <br>
-    <h2 class="clearfix">
-        <div class="f-l"> 新增採購需求單 </div>
-        <el-button class="f-r" type="success" size="small" @click="handleAdd" >新增產品</el-button>
-    </h2>      
-    <br> 
-    <el-form ref="form" :model="formData"   v-loading="loading" label-position="top">
-        <el-row :gutter="20">
-             <el-col :span="2">
-                <el-form-item label="已購買">
-                    <el-switch v-model="formData.isPurchased"></el-switch>
-                </el-form-item>
-            </el-col>
-            <el-col :span="4">
-                <el-form-item label="採購類型">
-                        <el-select v-model="formData.purchaseType" placeholder="類型"  clearable>
-                            <el-option v-for="(v,i) in purchaseOption" :key="i" :label="v" :value="v"></el-option>
-                        </el-select>
-                </el-form-item>
-            </el-col>
-            <el-col :span="4">
-                <el-form-item label="詢價帳號">
-                    <el-input v-model="formData.queryAccount"></el-input>
-                </el-form-item>
-            </el-col>
-            <el-col :span="13">
-                <el-form-item label="購買連結">
-                    <el-input v-model="formData.purchaseLink"></el-input>
-                </el-form-item>
-            </el-col> 
-        </el-row>   
-        <br> 
-      <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
+    <div id="edit">
+        <div style="padding:20px">
+            <div class="heade">
+                <i class="el-icon-arrow-left"></i>
+                <a href="javascript:void(0)" @click="goBack">返回</a>
+            </div>
+            <br>
+            <h2 class="clearfix">
+                <div class="f-l"> 新增採購需求單 </div>
+                <el-button class="f-r" type="success" size="small" @click="handleAdd">新增產品</el-button>
+            </h2>
+            <br>
+            <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
+                <el-row :gutter="20">
+                    <el-col :span="2">
+                        <el-form-item label="已購買">
+                            <el-switch v-model="formData.isPurchased"></el-switch>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item label="採購類型">
+                            <el-select v-model="formData.purchaseType" placeholder="類型" clearable>
+                                <el-option v-for="(v,i) in purchaseOption" :key="i" :label="v" :value="v"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item label="詢價帳號">
+                            <el-select v-model="formData.queryAccount">
+                                <el-option v-for="(value,i) in purchaseAccount" :label="value" :value="value" :key="i"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="13">
+                        <el-form-item label="購買連結">
+                            <el-input v-model="formData.purchaseLink"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <br>
+                <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:10px">
 
-        <el-row :gutter="10">
-            <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 0px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-           <el-col :span="1">
-              <el-form-item label="序號">
-                <span>{{i+1}}</span>
-              </el-form-item>
-            </el-col>
-             <el-col :span="2">
-              <el-form-item label="數量">
-              <el-input v-model="v.queryQuantity"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="3">
-              <el-form-item label="賣家型號">
-              <el-input v-model="v.merchantModel"></el-input>
-              </el-form-item>
-            </el-col>
-             <el-col :span="2">
-              <el-form-item label="目標價格">
-              <el-input v-model="v.targetPrice"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="3">
-              <el-form-item label="幣別">
-                <el-select v-model="v.targetPriceCurrency">
-                    <el-option v-for="(v,i) in curreny"  :key="i" :label="v" :value="v"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-             <!-- <el-col :span="3">
+                    <el-row :gutter="10">
+                        <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 0px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
+                        <el-col :span="1">
+                            <el-form-item label="序號">
+                                <span>{{i+1}}</span>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-form-item label="數量">
+                                <el-input v-model="v.queryQuantity"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="3">
+                            <el-form-item label="賣家型號">
+                                <el-input v-model="v.merchantModel"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-form-item label="目標價格">
+                                <el-input v-model="v.targetPrice"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="3">
+                            <el-form-item label="幣別">
+                                <el-select v-model="v.targetPriceCurrency">
+                                    <el-option v-for="(v,i) in curreny" :key="i" :label="v" :value="v"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <!-- <el-col :span="3">
               <el-form-item label="對應採購單號">
               <el-input v-model="v.purchaseId"></el-input>
               </el-form-item>
             </el-col> -->
-             <el-col :span="3">
-              <el-form-item label="SKU">
-              <el-input v-model="v.sku"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="產品名稱">
-              <el-input v-model="v.productName"></el-input>
-              </el-form-item>
-            </el-col>
-        </el-row>
-        <el-row :gutter="22">
-            <el-col :span="4">
-              <el-form-item label="產品規格">
-              <el-input v-model="v.productSpec"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="4">
-              <el-form-item label="備註">
-              <el-input v-model="v.note" type="textarea" rows="2"></el-input>
-              </el-form-item>
-            </el-col>
-        </el-row>
-      </el-card>
-       <el-button @click="submit"  size="large" :loading="submitLoading" type="primary" >新增</el-button> 
-    </el-form> 
-    </div>         
- </div>     
+                        <el-col :span="3">
+                            <el-form-item label="SKU">
+                                <el-input v-model="v.sku"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-form-item label="產品名稱">
+                                <el-input v-model="v.productName"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="22">
+                        <el-col :span="4">
+                            <el-form-item label="產品規格">
+                                <el-input v-model="v.productSpec"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="4">
+                            <el-form-item label="備註">
+                                <el-input v-model="v.note" type="textarea" rows="2"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-card>
+                <el-button @click="submit" size="large" :loading="submitLoading" type="primary">新增</el-button>
+            </el-form>
+        </div>
+    </div>
 </template>
 <script>
 export default {
@@ -110,6 +112,7 @@ export default {
             loading: false,
             purchaseOption: [],
             curreny: [],
+            purchaseAccount:[],
             formData: {
                 queryAccount: "",
                 purchaseLink: "",
@@ -140,6 +143,15 @@ export default {
             }
         }).then(res => {
             this.purchaseOption = res.data;
+        });
+        let purchaseAccount = axios({
+            url: "/erp/value/purchaseAccount",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        }).then((res)=>{
+            this.purchaseAccount = _.cloneDeep(res);
         });
         let currency = axios({
             url: "/erp/value/currency",
@@ -225,7 +237,7 @@ export default {
 /deep/ .el-form-item__label {
     padding: 0px;
 }
-/deep/ .el-card__body{
+/deep/ .el-card__body {
     padding: 5px;
 }
 </style>

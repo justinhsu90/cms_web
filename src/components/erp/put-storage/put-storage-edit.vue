@@ -77,8 +77,10 @@
                   </td>
                   <td>
                     <el-form-item>
-                      <el-input v-model="v.stockCondition"></el-input>
-                    </el-form-item>
+                    <el-select v-model="v.stockCondition">
+                        <el-option v-for="(v,i) in stockCondition" :label="v" :value="v" :key="i"></el-option>
+                    </el-select>
+                  </el-form-item>
                   </td>
                   <td>
                     <el-form-item>
@@ -101,6 +103,7 @@ export default {
         return {
             submitLoading: false,
             loading: false,
+            stockCondition:[],
             formData: {
                 receivedDate:'',
                 inspectionBy:'',
@@ -132,7 +135,16 @@ export default {
         this.formData.agent = data.agent;
         this.formData.inspectionBy = data.inspectionBy;
         this.formData.receivedDate = data.receivedDate;  
-        this.formData.trackingNumber = data.trackingNumber;      
+        this.formData.trackingNumber = data.trackingNumber;  
+        let stockCondition = axios({
+            url: "/erp/warehouse/receive/value/stockCondition",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        }).then(res => {
+            this.stockCondition = res;
+        });    
     },
     methods: {
         goBack() {

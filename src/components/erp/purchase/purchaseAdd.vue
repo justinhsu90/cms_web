@@ -57,52 +57,6 @@
                     </el-col>
                 </el-row>
                 <br>
-                <!-- <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
-                    <el-row :gutter="5">
-                        <el-button :disabled="formData.data.length <= 1" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-                        <el-col :span="1">
-                            <el-form-item label="序號">
-                                <span>{{i+1}}</span>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="2">
-                            <el-form-item label="採購數量" :prop="'data.'+i+'.purchasedQuantity'" :rules="rules">
-                                <el-input v-model.number="v.purchasedQuantity"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="5">
-                            <el-form-item label="SKU" :prop="'data.'+i+'.sku'" :rules="rules">
-                                <template slot="label">
-                                    <span>SKU</span>
-                                    <el-button type="text" @click="handleCheckSku(v.sku,v)">檢查</el-button>
-                                    <el-button class="ml0" type="text" @click="handleQuerySku(i)">查詢SKU</el-button>
-                                </template>
-                                <el-input @blur="handleCheckSku(v.sku,v)" v-model.trim="v.sku"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="6">
-                            <el-form-item label="產品名稱">
-                                <el-input v-model="v.productName"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="該品金額" :prop="'data.'+i+'.purchasedAmount'" :rules="rules">
-                                <el-input v-model="v.purchasedAmount"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="該品運費" :prop="'data.'+i+'.shippingCost'" :rules="rules">
-                                <el-input v-model.number="v.shippingCost"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="3">
-                            <el-form-item label="該品總金額">
-                                <el-input :disabled="true" :value="(Number(v.shippingCost) + Number(v.purchasedAmount)) ? (Number(v.shippingCost) + Number(v.purchasedAmount)).toFixed(2) : ''"></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                </el-card>
-                <br> -->
                 <div id="table">
                     <table cellspacing="0" cellpadding="0">
                         <colgroup>
@@ -263,10 +217,11 @@ export default {
         if (this.isTransfer) {
             let data = JSON.parse(this.$route.query.data);
             this.formData.purchaseType = data.purchaseType;
+            this.formData.currency = data.targetPriceCurrency;
             this.formData.data[0].productName = data.productName;
-            this.formData.purchaseType = data.purchaseType;
             this.purchaseQueryId = data.purchaseQueryId;
             this.formData.data[0].sku = data.sku;
+            this.formData.purchasedTime = data.queryTime;
         }
         let purchasePlatform = axios({
             url: "/erp/value/purchasePlatform",

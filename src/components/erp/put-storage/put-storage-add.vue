@@ -85,7 +85,9 @@
                 </td>
                 <td>
                   <el-form-item>
-                    <el-input v-model="v.stockCondition"></el-input>
+                    <el-select v-model="v.stockCondition">
+                        <el-option v-for="(v,i) in stockCondition" :label="v" :value="v" :key="i"></el-option>
+                    </el-select>
                   </el-form-item>
                 </td>
                 <td>
@@ -110,18 +112,18 @@
 </template>
 <script>
 import querySku from "@/common/querySku";
-import moment from 'moment';
+import moment from "moment";
 export default {
-  name:'put-storage-add',
-  components:{
-    querySku
-  },
+    name: "put-storage-add",
+    components: {
+        querySku
+    },
     data() {
-      let username;
-      document.cookie.split(";").forEach((v, i) => {
+        let username;
+        document.cookie.split(";").forEach((v, i) => {
             let str = v.split("=")[0].trim();
             if (str == "username") {
-                 username = v.split("=")[1];
+                username = v.split("=")[1];
             }
         });
         let getTime = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
@@ -129,10 +131,11 @@ export default {
         return {
             submitLoading: false,
             loading: false,
-               formData: {
+            stockCondition: [],
+            formData: {
                 receivedDate: getTime,
                 inspectionBy: username,
-                trackingNumber:'',
+                trackingNumber: "",
                 agent: "",
                 data: [
                     {
@@ -141,13 +144,13 @@ export default {
                         quantity: "",
                         stockCondition: "",
                         purchaseId: "",
-                        warehouseReceiveId: "",
+                        warehouseReceiveId: ""
                     }
                 ]
             }
         };
     },
-    computed:{
+    computed: {
         disabled() {
             let disabled = false;
             _.each(this.formData.data, v => {
@@ -156,10 +159,19 @@ export default {
                 }
             });
             return disabled;
-        },
+        }
     },
-    created(){
-      this.$on('selectSku', this.handleSku);
+    created() {
+        let stockCondition = axios({
+            url: "/erp/warehouse/receive/value/stockCondition",
+            method: "post",
+            data: {
+                token: this.token
+            }
+        }).then(res => {
+            this.stockCondition = res;
+        });
+        this.$on("selectSku", this.handleSku);
     },
     methods: {
         goBack() {
@@ -178,12 +190,12 @@ export default {
         },
         handleAdd() {
             let obj = {
-              sku: "",
-              productName: "",
-              quantity: "",
-              stockCondition: "",
-              purchaseId: "",
-              warehouseReceiveId: "",
+                sku: "",
+                productName: "",
+                quantity: "",
+                stockCondition: "",
+                purchaseId: "",
+                warehouseReceiveId: ""
             };
             this.formData.data.push(obj);
         },
@@ -192,12 +204,12 @@ export default {
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
-            _.each(data,(v)=>{
+            _.each(data, v => {
                 v.agent = this.formData.agent;
                 v.inspectionBy = this.formData.inspectionBy;
-                v.receivedDate = this.formData.receivedDate;  
+                v.receivedDate = this.formData.receivedDate;
                 v.trackingNumber = this.formData.trackingNumber;
-            })
+            });
             let obj = {
                 data
             };
