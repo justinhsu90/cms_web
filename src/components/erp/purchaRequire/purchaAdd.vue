@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="4">
                 <el-form-item label="採購類型">
-                        <el-select v-model="formData.purchasetype" placeholder="類型"  clearable>
+                        <el-select v-model="formData.purchaseType" placeholder="類型"  clearable>
                             <el-option v-for="(v,i) in purchaseOption" :key="i" :label="v" :value="v"></el-option>
                         </el-select>
                 </el-form-item>
@@ -83,14 +83,13 @@
               <el-input v-model="v.productName"></el-input>
               </el-form-item>
             </el-col>
-        <!-- </el-row>
-        <el-row :gutter="22"> -->
-           
-            <!-- <el-col :span="4">
+        </el-row>
+        <el-row :gutter="22">
+            <el-col :span="4">
               <el-form-item label="產品規格">
               <el-input v-model="v.productSpec"></el-input>
               </el-form-item>
-            </el-col> -->
+            </el-col>
             <el-col :span="4">
               <el-form-item label="備註">
               <el-input v-model="v.note" type="textarea" rows="2"></el-input>
