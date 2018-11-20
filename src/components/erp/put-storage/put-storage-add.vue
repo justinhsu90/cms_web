@@ -110,18 +110,28 @@
 </template>
 <script>
 import querySku from "@/common/querySku";
+import moment from 'moment';
 export default {
   name:'put-storage-add',
   components:{
     querySku
   },
     data() {
+      let username;
+      document.cookie.split(";").forEach((v, i) => {
+            let str = v.split("=")[0].trim();
+            if (str == "username") {
+                 username = v.split("=")[1];
+            }
+        });
+        let getTime = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
+
         return {
             submitLoading: false,
             loading: false,
                formData: {
-                receivedDate:'',
-                inspectionBy:'',
+                receivedDate: getTime,
+                inspectionBy: username,
                 trackingNumber:'',
                 agent: "",
                 data: [

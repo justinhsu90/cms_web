@@ -61,6 +61,7 @@ export default {
             }
         }).then(res => {
             this.selectOption = _.cloneDeep(res);
+            this.Bus.$emit("refresh");    
         });
     }
 };
