@@ -25,24 +25,24 @@
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
           <!-- <el-table-column min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
-          <el-table-column min-width="75" label="新增時間" prop="queryTime" :formatter="formatToTime"></el-table-column>
-          <el-table-column min-width="80" label="採購需求單號" prop="purchaseQueryId"></el-table-column>
-          <el-table-column min-width="75" label="對應採購單號" prop="purchaseId"></el-table-column>
-          <el-table-column min-width="60" label="採購類型" prop="purchaseType"></el-table-column>
-          <el-table-column min-width="75" label="需採購數量" prop="queryQuantity"></el-table-column>
-          <el-table-column min-width="75" label="SKU" prop="sku"></el-table-column>
-          <el-table-column min-width="75" label="產品名稱" prop="productName"></el-table-column>
-          <el-table-column min-width="75" label="產品規格" prop="productSpec"></el-table-column>
+          <el-table-column min-width="90" label="新增時間" prop="queryTime"></el-table-column>
+          <el-table-column min-width="70" label="採購需求單號" prop="purchaseQueryId"></el-table-column>
+          <!-- <el-table-column min-width="75" label="對應採購單號" prop="purchaseId"></el-table-column> -->
+          <el-table-column min-width="50" label="採購類型" prop="purchaseType"></el-table-column>
+          <el-table-column min-width="50" label="採購數量" prop="queryQuantity"></el-table-column>
+          <el-table-column min-width="90" label="SKU" prop="sku"></el-table-column>
+          <el-table-column min-width="150" label="產品名稱" prop="productName"></el-table-column>
+          <!-- <el-table-column min-width="" label="產品規格" prop="productSpec"></el-table-column> -->
           <!-- <el-table-column min-width="75" label="新增人" prop="addedBy"></el-table-column> -->
           <!-- <el-table-column min-width="75" label="最後編輯" prop="lastModifiedBy"></el-table-column> -->
-          <!-- <el-table-column min-width="60" label="備註" prop="note"></el-table-column> -->
-          <el-table-column min-width="60" label="已購買" prop="enable">
+          <el-table-column min-width="60" label="備註" prop="note"></el-table-column>
+          <el-table-column min-width="50" label="已購買" prop="enable">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.isPurchased" type="success">true</el-tag>
               <el-tag v-else type="info">false</el-tag>
             </template>
           </el-table-column>
-          <el-table-column width="90" label="動作" align="center">
+          <el-table-column width="70" label="動作" align="center">
             <template slot-scope="scope">
               <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
               <el-button class="btnh" type="text" title="轉採購單" icon="el-icon-won-139" @click="handleTransfer(scope.row)"></el-button>
