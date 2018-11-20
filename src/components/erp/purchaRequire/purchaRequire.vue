@@ -27,7 +27,7 @@
           <!-- <el-table-column min-width="75" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
           <el-table-column min-width="75" label="新增時間" prop="queryTime"></el-table-column>
           <el-table-column min-width="80" label="採購需求單號" prop="purchaseQueryId"></el-table-column>
-          <el-table-column min-width="75" label="採購單號" prop="purchaseId"></el-table-column>
+          <el-table-column min-width="75" label="對應採購單號" prop="purchaseId"></el-table-column>
           <el-table-column min-width="60" label="採購類型" prop="purchaseType"></el-table-column>
           <el-table-column min-width="75" label="需採購數量" prop="queryQuantity"></el-table-column>
           <el-table-column min-width="75" label="SKU" prop="sku"></el-table-column>
@@ -71,7 +71,7 @@ export default {
             isTableLoading: false,
             searchAccount: "",
             searchAccountOption: [],
-            searchLanguage: 1,
+            searchLanguage: 2,
             searchLanguageOption: [
                 { countryCode: "是", countryNameChinese: 1 },
                 { countryCode: "否", countryNameChinese: 2 }
