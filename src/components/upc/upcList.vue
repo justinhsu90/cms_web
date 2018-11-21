@@ -1,39 +1,41 @@
 <template>
-  <div id="upc">
-    <el-row>
-      <el-col :span="24">
-        <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
-          <el-button  icon="el-icon-search" slot="append" type="text"></el-button>
-        </el-input>
-        <el-popover ref="popover" placement="top-start"  width="200" trigger="hover" content="剩餘UPC 數量:">
-          <el-button slot="reference" style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666">?</el-button>
-        </el-popover>
-        <el-button style="float:right" @click="handleAdd" type="primary">指派 UPC</el-button>
-      </el-col>
-      <el-col class="mt5">
-        <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-          <!-- <el-table-column min-width="90" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
-          <el-table-column min-width="80" label="EAN (UPC)" prop="ean" sortable="custom"></el-table-column>
-          <el-table-column min-width="180" label="對應SKU" prop="subSku" sortable="custom"></el-table-column>
-          <!-- <el-table-column min-width="100" label="對應ASIN" prop="asin" sortable="custom"></el-table-column> -->
-          <el-table-column min-width="200" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
-          <el-table-column min-width="70" label="平台" prop="platform" sortable="custom"></el-table-column>
-          <el-table-column min-width="50" label="國家" prop="country" sortable="custom"></el-table-column>
-          <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
-          <!-- <el-table-column min-width="60" label="備註" prop="note"></el-table-column> -->
-          <el-table-column width="70" label="動作" fixed="right">
-            <template slot-scope="scope">
-              <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
-      <div style="float:right">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-        </el-pagination>
-      </div>
-    </el-row>
-  </div>
+    <div id="upc">
+        <el-row>
+            <el-col :span="24">
+                <el-input class="w-max200" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
+                </el-input>
+                <div @click="handleSearch" class="el-input-group__append search ml0">
+                    <i class="el-icon-search"></i>
+                </div>
+                <el-popover ref="popover" placement="top-start" width="200" trigger="hover" content="剩餘UPC 數量:">
+                    <el-button slot="reference" style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666">?</el-button>
+                </el-popover>
+                <el-button style="float:right" @click="handleAdd" type="primary">指派 UPC</el-button>
+            </el-col>
+            <el-col class="mt5">
+                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
+                    <!-- <el-table-column min-width="90" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
+                    <el-table-column min-width="80" label="EAN (UPC)" prop="ean" sortable="custom"></el-table-column>
+                    <el-table-column min-width="180" label="對應SKU" prop="subSku" sortable="custom"></el-table-column>
+                    <!-- <el-table-column min-width="100" label="對應ASIN" prop="asin" sortable="custom"></el-table-column> -->
+                    <el-table-column min-width="200" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
+                    <el-table-column min-width="70" label="平台" prop="platform" sortable="custom"></el-table-column>
+                    <el-table-column min-width="50" label="國家" prop="country" sortable="custom"></el-table-column>
+                    <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
+                    <!-- <el-table-column min-width="60" label="備註" prop="note"></el-table-column> -->
+                    <el-table-column width="70" label="動作" fixed="right">
+                        <template slot-scope="scope">
+                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-col>
+            <div style="float:right">
+                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
+                </el-pagination>
+            </div>
+        </el-row>
+    </div>
 </template>
       <script>
 import wonTableContainer from "@/common/wonTableContainer";
@@ -67,7 +69,7 @@ export default {
         };
     },
     created() {
-        this.Bus.$on("refresh",this.handleSearch);
+        this.Bus.$on("refresh", this.handleSearch);
         this.handleSearch();
     },
     methods: {

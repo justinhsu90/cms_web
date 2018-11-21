@@ -2,32 +2,24 @@
     <div id="shipment">
         <el-row>
             <el-col :span="24">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:15%;float:left">
+                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <div style="margin-left:5px;display:inline-block;width:140px">
-                    <el-select placeholder="顯示類型" v-model="searchAccount" @change="handleCondition('display')" clearable>
-                        <el-option v-for="(v,i) in searchAccountOption" :key="'display'+i" :label="v.account" :value="v.account"></el-option>
-                    </el-select>
-                </div>
-                <div style="display:inline-block;width:140px">
-                    <el-select placeholder="合併做單" v-model="searchMerge" @change="handleCondition('merge')" clearable>
-                        <el-option v-for="(v,i) in searchMergeOption" :key="'merge'+i" :label="v.label" :value="v.value"></el-option>
-                    </el-select>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:140px">
-                    <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                        <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
-                    </el-select>
-                </div>
-                
-                <div style="display:inline-block;width:140px">
-                    <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
-                        <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese">
-                            <span style="float: left">{{ v.countryCode }}</span>
-                            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                        </el-option>
-                    </el-select>
-                </div>
+                <el-select class="w-max150" placeholder="顯示類型" v-model="searchAccount" @change="handleCondition('display')" clearable>
+                    <el-option v-for="(v,i) in searchAccountOption" :key="'display'+i" :label="v.account" :value="v.account"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="合併做單" v-model="searchMerge" @change="handleCondition('merge')" clearable>
+                    <el-option v-for="(v,i) in searchMergeOption" :key="'merge'+i" :label="v.label" :value="v.value"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+                </el-select>
+
+                <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+                    <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese">
+                        <span style="float: left">{{ v.countryCode }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                    </el-option>
+                </el-select>
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
@@ -39,55 +31,55 @@
                         <template slot-scope="scope">
                             <!-- <h5 style="margin-bottom:3px;margin-top:3px;">訂單</h5> -->
                             <el-row type="flex" justify="space-around" style="padding:5px;margin-left:50px">
-                                <el-col :span="6"> 
+                                <el-col :span="6">
                                     <div>
-                                      <span class="infol">收件人:</span>    
-                                      <span class="infoR"> {{scope.row.customerName}}</span>    
+                                        <span class="infol">收件人:</span>
+                                        <span class="infoR"> {{scope.row.customerName}}</span>
                                     </div>
                                     <div>
-                                      <span class="infol">電話:</span>    
-                                      <span class="infoR"> {{scope.row.phone}}</span>    
+                                        <span class="infol">電話:</span>
+                                        <span class="infoR"> {{scope.row.phone}}</span>
                                     </div>
                                 </el-col>
                                 <el-col :span="6">
                                     <div style="margin-bottom:4px">
-                                        <span class="infol">地址1:</span>    
-                                        <span class="infoR"> {{scope.row.address1}}</span>    
+                                        <span class="infol">地址1:</span>
+                                        <span class="infoR"> {{scope.row.address1}}</span>
                                     </div>
                                     <div style="margin-bottom:4px">
-                                        <span class="infol">省/州:</span>    
-                                        <span class="infoR"> {{scope.row.county}}</span>    
-                                    </div> 
-                                </el-col>
-                                <el-col :span="6">
-                                     <div>
-                                        <span class="infol">地址2:</span>    
-                                        <span class="infoR"> {{scope.row.address2}}</span>    
-                                     </div>
-                                     <div style="margin-bottom:4px">
-                                        <span class="infol">郵編:</span>    
-                                        <span class="infoR"> {{scope.row.postcode}}</span>    
-                                     </div> 
+                                        <span class="infol">省/州:</span>
+                                        <span class="infoR"> {{scope.row.county}}</span>
+                                    </div>
                                 </el-col>
                                 <el-col :span="6">
                                     <div>
-                                        <span class="infol">城市:</span>    
-                                        <span class="infoR"> {{scope.row.city}}</span>    
+                                        <span class="infol">地址2:</span>
+                                        <span class="infoR"> {{scope.row.address2}}</span>
                                     </div>
                                     <div style="margin-bottom:4px">
-                                        <span class="infol">國家:</span>    
-                                        <span class="infoR"> {{scope.row.country}}</span>    
-                                    </div> 
+                                        <span class="infol">郵編:</span>
+                                        <span class="infoR"> {{scope.row.postcode}}</span>
+                                    </div>
+                                </el-col>
+                                <el-col :span="6">
+                                    <div>
+                                        <span class="infol">城市:</span>
+                                        <span class="infoR"> {{scope.row.city}}</span>
+                                    </div>
+                                    <div style="margin-bottom:4px">
+                                        <span class="infol">國家:</span>
+                                        <span class="infoR"> {{scope.row.country}}</span>
+                                    </div>
                                 </el-col>
                             </el-row>
-                            <table class="wonTable" cellspacing="0" cellpadding="0" border="0" >
+                            <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
-                                <th>平台訂單號</th>
-                                <th>數量</th>
-                                <th>顏色</th>
-                                <th class="w30">產品名稱</th>
-                                <th>申報中文名稱</th>
-                                <th>申報英文名稱</th>
+                                    <th>平台訂單號</th>
+                                    <th>數量</th>
+                                    <th>顏色</th>
+                                    <th class="w30">產品名稱</th>
+                                    <th>申報中文名稱</th>
+                                    <th>申報英文名稱</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(v,i) in scope.row.list" :key="i">
@@ -107,7 +99,7 @@
                             <span @click="handleToggle(scope.row)" style="color:#45a2ff;cursor:pointer">{{scope.row.platformOrderId}}</span>
                         </template>
                     </el-table-column>
-                    
+
                     <el-table-column min-width="60" label="狀態" prop="status">
                         <template slot-scope="scope">
                             <span class="line2">{{scope.row.title}}</span>
@@ -116,7 +108,7 @@
                     <el-table-column min-width="100" label="物流單號" prop="trackingNumber" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="發貨方式" prop="shippingMethod" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="貨代" prop="hippingAgent" sortable="hippingAgent"></el-table-column>
-                    
+
                     <el-table-column width="60" label="動作" align="center">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
@@ -250,9 +242,9 @@ export default {
                 })
                 .catch(() => {});
         },
-        handleToggle(row){
+        handleToggle(row) {
             row.toggle = !row.toggle;
-            this.$refs['wonTable'].toggleRowExpansion(row,row.toggle);
+            this.$refs["wonTable"].toggleRowExpansion(row, row.toggle);
         },
         handleCopy(val) {
             this.$router.push({
@@ -275,8 +267,8 @@ export default {
                 if (!this.searchAccount) {
                     _.pull(this.condition, "1");
                 } else {
-                    if(!this.condition.includes('1')){
-                       this.condition.push("1");
+                    if (!this.condition.includes("1")) {
+                        this.condition.push("1");
                     }
                 }
             }
@@ -285,8 +277,8 @@ export default {
                 if (!this.searchMerge) {
                     _.pull(this.condition, "2");
                 } else {
-                    if(!this.condition.includes('2')){
-                       this.condition.push("2");
+                    if (!this.condition.includes("2")) {
+                        this.condition.push("2");
                     }
                 }
             }
@@ -295,8 +287,8 @@ export default {
                 if (!this.searchCountry) {
                     _.pull(this.condition, "3");
                 } else {
-                    if(!this.condition.includes('3')){
-                       this.condition.push("3");
+                    if (!this.condition.includes("3")) {
+                        this.condition.push("3");
                     }
                 }
             }
@@ -308,14 +300,14 @@ export default {
 
 <style lang="scss">
 #shipment {
-    .tc{
-        text-align:center;
+    .tc {
+        text-align: center;
     }
-    .infol{
-        color:#99a9bf;
+    .infol {
+        color: #99a9bf;
         font-size: 15px;
     }
-    .infoR{
+    .infoR {
         font-size: 15px;
     }
     .el-table th {
@@ -325,16 +317,16 @@ export default {
     .wonTable {
         width: 85%;
         table-layout: fixed;
-        margin:0 auto;
-        margin-left:4%;
+        margin: 0 auto;
+        margin-left: 4%;
         th {
             border-bottom: 1px solid #ebeef5;
-            padding:4px;
+            padding: 4px;
             background: oldlace !important;
             text-align: center;
         }
         td {
-            padding:4px;
+            padding: 4px;
             border-bottom: 1px solid #ebeef5;
             text-align: center;
             background: #f0f9eb;
@@ -344,9 +336,9 @@ export default {
         }
     }
     .el-table__expand-icon {
-        color:#45a2ff;
+        color: #45a2ff;
     }
-    .btnh{
+    .btnh {
         padding: 6px 0;
     }
 }

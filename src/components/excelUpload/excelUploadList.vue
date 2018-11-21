@@ -2,14 +2,12 @@
     <div>
         <el-row>
             <el-col :span="22">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <div style="margin-left:5px;display:inline-block;width:140px">
-                    <el-select placeholder="文件類型" v-model="searchFileType" @change="handleCondition('file')" clearable>
-                        <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                    </el-select>
-                </div>
-                <div  @click="handleSearch" class="el-input-group__append search">
+                <el-select class="w-max150" placeholder="文件類型" v-model="searchFileType" @change="handleCondition('file')" clearable>
+                    <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
+                </el-select>
+                <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
             </el-col>
@@ -128,7 +126,7 @@ export default {
             });
         },
         handleDown(row) {
-           this.saveFile(row.fileUrl,row.fileName)
+            this.saveFile(row.fileUrl, row.fileName);
         }
     }
 };

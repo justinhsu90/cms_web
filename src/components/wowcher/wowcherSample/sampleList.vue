@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="22">
-        <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:20%;float:left">
+        <el-input  placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" class="w-max200">
           <el-button slot="append" @click="handleSearch" icon="el-icon-search"></el-button>
         </el-input>
       </el-col>

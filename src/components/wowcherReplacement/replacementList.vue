@@ -1,19 +1,15 @@
 <template>
     <div>
         <el-row>
-            <el-col :span="24">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
-                </el-input>
-                <div style="margin-left:5px;display:inline-block;width:140px">
-                    <el-select placeholder="狀態" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                        <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
-                    </el-select>
-                </div>  
-                <div  @click="handleSearch" class="el-input-group__append search">
-                    <i class="el-icon-search"></i>
-                </div>
-                <el-button style="float:right" @click="handleAdd" type="primary">新增補/重發</el-button>
-            </el-col>
+            <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
+            </el-input>
+            <el-select class="w-max150" placeholder="狀態" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+            </el-select>
+            <div @click="handleSearch" class="el-input-group__append search">
+                <i class="el-icon-search"></i>
+            </div>
+            <el-button style="float:right" @click="handleAdd" type="primary">新增補/重發</el-button>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column min-width="130" label="Platform Order ID" prop="platformOrderId"></el-table-column>
@@ -54,7 +50,7 @@ export default {
             searchAccount: "",
             searchAccountOption: [
                 {
-                    account: "已補發",
+                    account: "已補發"
                 }
             ],
             fetchCondition: {
@@ -97,7 +93,7 @@ export default {
                 order: this.fetchCondition.order
             };
             if (this.condition.includes("1")) {
-                data.status = 'Y';
+                data.status = "Y";
             } else {
                 data.status = "N";
             }

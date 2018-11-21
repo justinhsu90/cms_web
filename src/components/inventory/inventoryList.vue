@@ -2,23 +2,17 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                <el-input class="ibbox w-max200" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                      <div style="margin-left:5px;display:inline-block;width:140px">
-                    <el-select placeholder="類型" v-model="inventoryType" @change="handleCondition('type')" clearable>
-                        <el-option v-for="(v,i) in inventoryTypeOption" :key="i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
-                    </el-select>
-                </div>
-                <div style="display:inline-block;width:140px">
-                    <el-select placeholder="商品" v-model="warehouse" @change="handleCondition('warehouse')" clearable>
-                        <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
-                    </el-select>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:230px">
-                    <el-date-picker clearable style="width:100%" @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
-                    </el-date-picker>
-                </div>
-                <div  @click="handleSearch" class="el-input-group__append search">
+                <el-select class="w-max150" placeholder="類型" v-model="inventoryType" @change="handleCondition('type')" clearable>
+                    <el-option v-for="(v,i) in inventoryTypeOption" :key="i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="商品" v-model="warehouse" @change="handleCondition('warehouse')" clearable>
+                    <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
+                </el-select>
+                <el-date-picker class="w-max180" clearable style="width:100%" @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                </el-date-picker>
+                <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
                 <el-button style="float:right" @click="handleAdd" type="primary">新增異動</el-button>
@@ -37,8 +31,8 @@
                     <!-- <el-table-column width="80" label="新增時間" prop="addedTime" sortable="custom" :formatter="formatToTime" ></el-table-column> -->
                     <el-table-column width="90" label="異動時間" prop="datetime" :formatter="formatToDate"></el-table-column>
                     <!-- <el-table-column width="80" label="最後更新" prop="lastModifiedBy" sortable="custom"></el-table-column> -->
-                    <el-table-column width="80" label="轉出倉庫" prop="moveFrom" ></el-table-column>
-                    <el-table-column width="80" label="轉入倉庫" prop="moveTo" ></el-table-column>
+                    <el-table-column width="80" label="轉出倉庫" prop="moveFrom"></el-table-column>
+                    <el-table-column width="80" label="轉入倉庫" prop="moveTo"></el-table-column>
                     <!-- <el-table-column min-width="130" label="snapshotUrl" prop="snapshotUrl"></el-table-column> -->
                     <el-table-column width="50" label="動作" fixed="right">
                         <template slot-scope="scope">
@@ -60,7 +54,7 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
-             pickerOptions: {
+            pickerOptions: {
                 shortcuts: [
                     {
                         text: "最近一周",
@@ -97,7 +91,7 @@ export default {
                     }
                 ]
             },
-            date:[],
+            date: [],
             tableData: [],
             maxHeight: 450,
             condition: [],

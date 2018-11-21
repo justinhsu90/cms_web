@@ -1,84 +1,85 @@
 <template>
-  <div id="sku">
-    <el-row>
-      <el-col :span="10">
-        <el-input  v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:50%;float:left">
-          <el-button style="width:100%;margin:0" @click="handleSearch" slot="append" type="text" icon="el-icon-search"></el-button>
-        </el-input>
-        <el-popover ref="popover" placement="top-start" title="搜索" width="200" trigger="hover" content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段">
-          <el-button slot="reference" style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666">?</el-button>
-        </el-popover>
-      </el-col>
-      <el-col :span="14">
-        <el-button style="float:right" @click="handleAdd" type="primary">新增SKU</el-button>
-        <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
-          <el-checkbox-button label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
-          <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
-        </el-checkbox-group>
-      </el-col>
-      <el-col class="mt5">
-        <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-          <el-table-column sortable="custom" label="產品名稱" prop="productName" min-width="180"></el-table-column>
-          <el-table-column sortable="custom" min-width="80" label="SKU" prop="sku"></el-table-column>
-          <!-- <el-table-column sortable="custom" min-width="80" label="New SKU" prop="newSKU"></el-table-column> -->
-          <!-- ama   -->
-          <!-- <template v-if="amaShow"> -->
-            <el-table-column min-width="100" key="4" label="Amazon(長x寬x高/重)" prop="Amazon" >
-              <template slot-scope="scope">
-                <span>{{scope.row.amazonLengthCM}}</span>x<span>{{scope.row.amazonWidthCM}}</span>x<span>{{scope.row.amazonHeightCM}}cm</span>/<span>{{scope.row.amazonWeightKG}}kg</span>
-              </template>
-            </el-table-column>
-            <el-table-column min-width="80" key="7" label="小包(長x寬x高/重)" prop="parcel">
-              <template slot-scope="scope">
-                <span>{{scope.row.parcelLengthCM}}</span>x<span>{{scope.row.parcelWidthCM}}</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
-              </template>
-            </el-table-column>
-            <!-- <el-table-column min-width="80"  label="產品(長x寬x高/重)" prop="productLengthCM">
+    <div id="sku">
+        <el-row>
+            <el-col :span="10">
+                <el-input class="w-max200 fl" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
+                </el-input>
+                <div @click="handleSearch" class="el-input-group__append search">
+                    <i class="el-icon-search"></i>
+                </div>
+                <el-popover ref="popover" placement="top-start" title="搜索" width="200" trigger="hover" content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段">
+                    <el-button slot="reference" style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666">?</el-button>
+                </el-popover>
+            </el-col>
+            <el-col :span="14">
+                <el-button style="float:right" @click="handleAdd" type="primary">新增SKU</el-button>
+                <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
+                    <el-checkbox-button label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
+                    <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
+                </el-checkbox-group>
+            </el-col>
+            <el-col class="mt5">
+                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
+                    <el-table-column sortable="custom" label="產品名稱" prop="productName" min-width="180"></el-table-column>
+                    <el-table-column sortable="custom" min-width="80" label="SKU" prop="sku"></el-table-column>
+                    <!-- <el-table-column sortable="custom" min-width="80" label="New SKU" prop="newSKU"></el-table-column> -->
+                    <!-- ama   -->
+                    <!-- <template v-if="amaShow"> -->
+                    <el-table-column min-width="100" key="4" label="Amazon(長x寬x高/重)" prop="Amazon">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.amazonLengthCM}}</span>x<span>{{scope.row.amazonWidthCM}}</span>x<span>{{scope.row.amazonHeightCM}}cm</span>/<span>{{scope.row.amazonWeightKG}}kg</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="80" key="7" label="小包(長x寬x高/重)" prop="parcel">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.parcelLengthCM}}</span>x<span>{{scope.row.parcelWidthCM}}</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column min-width="80"  label="產品(長x寬x高/重)" prop="productLengthCM">
               <template slot-scope="scope">
                 <span>{{scope.row.productLengthCM}}</span>x<span>{{scope.row.productWidthCM}}</span>x<span>{{scope.row.productHeightCM}}cm</span>/<span>{{scope.row.productWeightKG}}kg</span>
               </template>
             </el-table-column> -->
-          <template v-if="deprecatedSkuShow">
-            <el-table-column min-width="100" label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
-          </template>
-          <template v-if="priceShow">
-            <el-table-column min-width="70" label="成本" prop="productCost" key="10">
-                 <template slot-scope="scope">
-              {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.productCostCurrency}}
-            </template>
-              <!-- <template slot-scope="scope">
+                    <template v-if="deprecatedSkuShow">
+                        <el-table-column min-width="100" label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
+                    </template>
+                    <template v-if="priceShow">
+                        <el-table-column min-width="70" label="成本" prop="productCost" key="10">
+                            <template slot-scope="scope">
+                                {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.productCostCurrency}}
+                            </template>
+                            <!-- <template slot-scope="scope">
                 <span>{{scope.row.productCost}}</span>
               </template> -->
-            </el-table-column>
-          </template>
-          <el-table-column class-name="tableColumn" label="圖片" width="70" align="center">
-            <template slot-scope="scope">
-              <img width="50" height="50" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">
-              <el-dialog title="圖片" :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
-                <img width="100%" :src="scope.row.imageURL">
-              </el-dialog>
-            </template>
-          </el-table-column>
-          <el-table-column min-width="50" label="動作" fixed="right">
-            <template slot-scope="scope">
-              <el-button class="btnh"  type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
-              <el-button class="btnh"  type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
-      <el-col>
-        <div style="float:right;margin-top:5px">
-          <won-pagination v-bind="paginationProps" v-on="paginationListeners">
-        </won-pagination>
-        </div>
-      </el-col>
-    </el-row>
-    <directiveDialog :title="title" :row="row" v-if="showDialog" @showDailog="handleShow"></directiveDialog>
-  </div>
+                        </el-table-column>
+                    </template>
+                    <el-table-column class-name="tableColumn" label="圖片" width="70" align="center">
+                        <template slot-scope="scope">
+                            <img width="50" height="50" style="cursor:pointer" :src="scope.row.snapshotURL" @click="scope.row.dialogTableVisible = true">
+                            <el-dialog title="圖片" :modal="false" :visible.sync="scope.row.dialogTableVisible" width="30%">
+                                <img width="100%" :src="scope.row.imageURL">
+                            </el-dialog>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="50" label="動作" fixed="right">
+                        <template slot-scope="scope">
+                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                            <el-button class="btnh" type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-col>
+            <el-col>
+                <div style="float:right;margin-top:5px">
+                    <won-pagination v-bind="paginationProps" v-on="paginationListeners">
+                    </won-pagination>
+                </div>
+            </el-col>
+        </el-row>
+        <directiveDialog :title="title" :row="row" v-if="showDialog" @showDailog="handleShow"></directiveDialog>
+    </div>
 </template>
 <script>
-
 import wonTableContainer from "../../common/wonTableContainer";
 export default {
     extends: wonTableContainer,
@@ -114,13 +115,13 @@ export default {
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
     },
-    methods: {  
+    methods: {
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
-            if(this.fetchOption.where){
-                this.fetchCondition.order = "sku"
-            }else{
-                this.fetchCondition.order = "-AddedTime"
+            if (this.fetchOption.where) {
+                this.fetchCondition.order = "sku";
+            } else {
+                this.fetchCondition.order = "-AddedTime";
             }
             axios({
                 url: this.fetchOption.url,
@@ -143,20 +144,20 @@ export default {
             });
         }, 500),
         handleAdd() {
-            this.$router.push('/skuAdd');
+            this.$router.push("/skuAdd");
         },
-        handleCopy(row){
+        handleCopy(row) {
             this.$router.push({
-                name:'skuAdd',
-                query: { data: JSON.stringify(row), copy:1}
-            });     
+                name: "skuAdd",
+                query: { data: JSON.stringify(row), copy: 1 }
+            });
         },
         handleShow() {
             this.showDialog = false;
         },
         handleEdit(row) {
             this.$router.push({
-                name:'skuEdit',
+                name: "skuEdit",
                 query: { data: JSON.stringify(row) }
             });
         },
@@ -197,7 +198,7 @@ export default {
 
 <style lang="scss">
 #sku {
-    img{
+    img {
         display: block;
     }
 }

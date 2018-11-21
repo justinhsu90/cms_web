@@ -2,34 +2,26 @@
   <div>
     <el-row>
       <el-col :span="24">
-        <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+        <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
         </el-input>
-        <div style="margin-left:5px;display:inline-block;width:140px">
-          <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+          <el-select class="w-max150"  placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
             <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
           </el-select>
-        </div>
-        <div style="display:inline-block;width:140px">
-          <el-select placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
+          <el-select class="w-max150" placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
             <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
           </el-select>
-        </div>
-        <div style="display:inline-block;width:140px">
-          <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+          <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
             <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese">
               <span style="float: left">{{ v.countryCode }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
             </el-option>
           </el-select>
-        </div>
-        <div style="display:inline-block;width:140px">
-          <el-select placeholder="語言" v-model="searchLanguage" @change="handleCondition('lang')" clearable>
+          <el-select class="w-max150" placeholder="語言" v-model="searchLanguage" @change="handleCondition('lang')" clearable>
             <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
               <span style="float: left">{{ v.languageCode }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ v.languageName }}</span>
             </el-option>
           </el-select>
-        </div>
         <div @click="handleSearch" class="el-input-group__append search">
           <i class="el-icon-search"></i>
         </div>

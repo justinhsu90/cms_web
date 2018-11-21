@@ -2,33 +2,23 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:10%;float:left">
+                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="貨代" v-model="searchAgent" @change="handleCondition('agent')" clearable>
-                        <el-option v-for="(v,i) in searchAgentOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                    </el-select>
-                </div>
-                <div style="display:inline-block;width:120px">
-                    <el-select placeholder="運輸方式" v-model="searchShippingMethod" @change="handleCondition('shipping')" clearable>
-                        <el-option v-for="(v,i) in searchShippingMethodOption" :key="'country'+i" :label="v" :value="v">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div style="display:inline-block;width:120px">
-                    <el-select placeholder="訂單狀態" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
-                        <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v" :value="v"></el-option>
-                    </el-select>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:220px">
-                    <el-date-picker clearable style="width:100%"   @change="handleCondition" value-format="yyyy-MM-dd" v-model="orderDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="做單日期" end-placeholder="結束日期" :picker-options="pickerOptions">
-                    </el-date-picker>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:220px">
-                    <el-date-picker clearable style="width:100%"   @change="handleCondition" value-format="yyyy-MM-dd" v-model="shipoutDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="出貨日期" end-placeholder="結束日期" :picker-options="pickerOptions">
-                    </el-date-picker>
-                </div>
-                <div  @click="handleSearch" class="el-input-group__append search">
+                <el-select class="w-max150" placeholder="貨代" v-model="searchAgent" @change="handleCondition('agent')" clearable>
+                    <el-option v-for="(v,i) in searchAgentOption" :key="'acc'+i" :label="v" :value="v"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="運輸方式" v-model="searchShippingMethod" @change="handleCondition('shipping')" clearable>
+                    <el-option v-for="(v,i) in searchShippingMethodOption" :key="'country'+i" :label="v" :value="v">
+                    </el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="訂單狀態" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
+                    <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v" :value="v"></el-option>
+                </el-select>
+                <el-date-picker class="w-max180" clearable  @change="handleCondition" value-format="yyyy-MM-dd" v-model="orderDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="做單日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                </el-date-picker>
+                <el-date-picker class="w-max180"  clearable  @change="handleCondition" value-format="yyyy-MM-dd" v-model="shipoutDate" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="出貨日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                </el-date-picker>
+                <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
             </el-col>
@@ -39,7 +29,7 @@
                     </el-table-column>
                     <el-table-column min-width="100" label="貨代單號" prop="orderId"></el-table-column>
                     <el-table-column min-width="100" label="平台訂單號" prop="platformOrderId"></el-table-column>
-                     <el-table-column min-width="70" label="訂單狀態" prop="orderStatus">
+                    <el-table-column min-width="70" label="訂單狀態" prop="orderStatus">
                         <template slot-scope="scope">
                             <el-tag type="success">{{scope.row.orderStatus}}</el-tag>
                         </template>
@@ -56,7 +46,6 @@
                     <el-table-column min-width="80" label="運輸方式" prop="shippingMethod"></el-table-column>
                     <el-table-column min-width="100" label="物流單號" prop="trackingNumber"></el-table-column>
 
-                   
                     <el-table-column min-width="130" label="最後更新時間" prop="lastUpdatedTime" sortable="custom" :formatter="formatToTime">
                     </el-table-column>
                     <el-table-column width="50" label="動作" fixed="right">
@@ -79,7 +68,7 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
-             pickerOptions: {
+            pickerOptions: {
                 shortcuts: [
                     {
                         text: "最近一周",
@@ -117,8 +106,8 @@ export default {
                 ]
             },
             tableData: [],
-            orderDate:[],
-            shipoutDate:[],
+            orderDate: [],
+            shipoutDate: [],
             condition: [],
             searchAgent: "",
             searchAgentOption: [],
@@ -220,11 +209,11 @@ export default {
             if (this.condition.includes("3")) {
                 data.shippingMethod = this.searchShippingMethod;
             }
-            if(!_.isEmpty(this.orderDate)){
+            if (!_.isEmpty(this.orderDate)) {
                 data.orderStartDate = this.orderDate[0];
                 data.orderEndDate = this.orderDate[1];
             }
-            if(!_.isEmpty(this.shipoutDate)){
+            if (!_.isEmpty(this.shipoutDate)) {
                 data.shipoutStartDate = this.shipoutDate[0];
                 data.shipoutEndDate = this.shipoutDate[1];
             }

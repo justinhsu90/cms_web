@@ -2,20 +2,14 @@
     <div>
         <el-row>
             <el-col :span="22">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:15%;float:left">
+                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-date-picker clearable style="width:100%;" v-model="year" type="year" placeholder="选择年" @change="handleChange" value-format="yyyy">
-                    </el-date-picker>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-date-picker clearable style="width:100%;" v-model="month" type="month" placeholder="选择月" @change="handleChange" value-format="MM">
-                    </el-date-picker>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:250px">
-                    <el-date-picker clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
-                    </el-date-picker>
-                </div>
+                <el-date-picker class="w-max180" clearable v-model="year" type="year" placeholder="选择年" @change="handleChange" value-format="yyyy">
+                </el-date-picker>
+                <el-date-picker class="w-max180" clearable v-model="month" type="month" placeholder="选择月" @change="handleChange" value-format="MM">
+                </el-date-picker>
+                <el-date-picker class="w-max180" clearable @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                </el-date-picker>
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>

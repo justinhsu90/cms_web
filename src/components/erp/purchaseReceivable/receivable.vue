@@ -2,36 +2,26 @@
     <div>
         <el-row>
             <el-col :span="22">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:15%;float:left">
+                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="費用類型" v-model="searchType" @change="handleCondition('type')" clearable>
-                        <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
-                    </el-select>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
-                        <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i"  :value="v.countryNameChinese">
-                            <span style="float: left">{{ v.countryCode }}</span>
-                            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                        </el-option>
-                    </el-select>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
-                        <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
-                    </el-select>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:120px">
-                    <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                        <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                    </el-select>
-                </div>
-                <div style="margin-left:5px;display:inline-block;width:230px">
-                    <el-date-picker clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
-                    </el-date-picker>
-                </div>
-                <div  @click="handleSearch" class="el-input-group__append search">
+                <el-select class="w-max150" placeholder="費用類型" v-model="searchType" @change="handleCondition('type')" clearable>
+                    <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v.financialSpendType" :value="v.financialSpendType"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+                    <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :value="v.countryNameChinese">
+                        <span style="float: left">{{ v.countryCode }}</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                    </el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
+                    <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
+                </el-select>
+                <el-date-picker class="w-max180" clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                </el-date-picker>
+                <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
             </el-col>
@@ -46,13 +36,13 @@
                     <el-table-column min-width="50" label="帳號" prop="account"></el-table-column>
                     <el-table-column min-width="50" label="平台" prop="platform"></el-table-column>
                     <el-table-column min-width="60" label="金額" prop="amount">
-                        <template slot-scope="scope"> 
-                           {{scope.row.amount | formatToYuan}}&nbsp;{{scope.row.currency.toUpperCase()}}
+                        <template slot-scope="scope">
+                            {{scope.row.amount | formatToYuan}}&nbsp;{{scope.row.currency.toUpperCase()}}
                         </template>
                     </el-table-column>
                     <el-table-column min-width="80" label="日期" prop="periodEndDate">
                         <template slot-scope="scope">
-                           {{scope.row.periodStartDate}}&nbsp;{{"~"}}&nbsp;{{scope.row.periodEndDate}}
+                            {{scope.row.periodStartDate}}&nbsp;{{"~"}}&nbsp;{{scope.row.periodEndDate}}
                         </template>
                     </el-table-column>
                     <el-table-column width="50" label="動作" align="center">
@@ -195,7 +185,7 @@ export default {
                 data.platform = this.searchPlatform;
             }
             if (this.condition.includes("2")) {
-                data.financialSpendType  = this.searchType;
+                data.financialSpendType = this.searchType;
             }
             if (this.condition.includes("3")) {
                 data.account = this.searchAccount;

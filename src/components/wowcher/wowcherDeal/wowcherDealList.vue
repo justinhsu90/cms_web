@@ -2,27 +2,21 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-input placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" style="width:22%;float:left">
+                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch" >
                 </el-input>
-                <div style="margin-left:5px;display:inline-block;width:140px">
-                    <el-select placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                    <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
                         <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                     </el-select>
-                </div>
-                <div style="display:inline-block;width:140px">
-                    <el-select placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
-                        <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
+                    <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+                        <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryNameChinese"  :value="v.countryCode">
                             <span style="float: left">{{ v.countryCode }}</span>
-                            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryName }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
                         </el-option>
                     </el-select>
-                </div>
-                <div style="display:inline-block;width:140px">
-                    <el-select placeholder="更新状态" v-model="searchStatus" @change="handleCondition('status')" clearable>
+                    <el-select class="w-max150" placeholder="更新状态" v-model="searchStatus" @change="handleCondition('status')" clearable>
                         <el-option v-for="(v,i) in searchStatusOption" :key="'status'+i" :label="v" :value="v">
                         </el-option>
                     </el-select>
-                </div>
                 <div  @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
