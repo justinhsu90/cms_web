@@ -161,6 +161,9 @@ export default {
                 return row.toFixed(2);
             }
         },
+        rowKey(row){
+            return row.sku;
+        },
         handleSizeChange(size) {
             this.fetchCondition.limit = size;
             this.handleSearch();

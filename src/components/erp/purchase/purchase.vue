@@ -31,13 +31,6 @@
                     <el-table-column min-width="50" label="SKU" prop="sku"></el-table-column>
                     <el-table-column min-width="120" label="產品名稱" prop="productName"></el-table-column>
                     <el-table-column min-width="40" label="採購平台" prop="purchasedPlatform"></el-table-column>
-
-                    <!-- <el-table-column min-width="60" label="採購帳號" prop="purchasedAccount"></el-table-column> -->
-                    <!-- <el-table-column min-width="50" label="單價" prop="productCost">
-                <template slot-scope="scope">
-              {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.currency}}
-            </template>
-          </el-table-column> -->
                     <el-table-column min-width="50" label="總金額" prop="purchasedTotalAmount">
                         <template slot-scope="scope">
                             {{scope.row.purchasedTotalAmount | formatToMoney}}&nbsp;{{scope.row.currency}}

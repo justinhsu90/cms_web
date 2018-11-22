@@ -31,3 +31,7 @@
 .label-tips {
   color: #bbbbbb;
 }
+.pic-text{
+  color:$blue;
+  @extend .fz16;
+}

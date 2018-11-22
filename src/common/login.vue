@@ -2,7 +2,7 @@
     <div class="login-wrap">
         <div class="ms-title">後台管理系统</div>
         <div class="ms-login">
-            <el-form  :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+            <el-form   @keyup.native.13="handleClick" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item prop="username">
                     <el-input v-model="ruleForm.username" placeholder="username"></el-input>
                 </el-form-item>
@@ -38,6 +38,9 @@
         created(){
         },
         methods: {
+            handleClick(){
+                this.submitForm()
+            },
             submitForm() {
                 this.$refs['ruleForm'].validate((valid) => {
                     if (valid) {    

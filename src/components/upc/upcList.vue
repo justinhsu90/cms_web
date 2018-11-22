@@ -14,15 +14,12 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <!-- <el-table-column min-width="90" label="更新時間" prop="lastUpdatedTime" sortable="custom"></el-table-column> -->
                     <el-table-column min-width="80" label="EAN (UPC)" prop="ean" sortable="custom"></el-table-column>
                     <el-table-column min-width="180" label="對應SKU" prop="subSku" sortable="custom"></el-table-column>
-                    <!-- <el-table-column min-width="100" label="對應ASIN" prop="asin" sortable="custom"></el-table-column> -->
                     <el-table-column min-width="200" label="產品名稱" prop="productName" sortable="custom"></el-table-column>
                     <el-table-column min-width="70" label="平台" prop="platform" sortable="custom"></el-table-column>
                     <el-table-column min-width="50" label="國家" prop="country" sortable="custom"></el-table-column>
                     <el-table-column min-width="90" label="帳號" prop="account" sortable="custom"></el-table-column>
-                    <!-- <el-table-column min-width="60" label="備註" prop="note"></el-table-column> -->
                     <el-table-column width="70" label="動作" fixed="right">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>

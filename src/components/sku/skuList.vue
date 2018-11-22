@@ -12,19 +12,19 @@
                 </el-popover>
             </el-col>
             <el-col :span="14">
-                <el-button style="float:right" @click="handleAdd" type="primary">新增SKU</el-button>
+                <el-button class="fr" @click="handleAdd" type="primary">新增SKU</el-button>
+                <el-button class="fr mr10 mt5" @click="handleExport"  size="small">导出SKU</el-button>
                 <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
                     <el-checkbox-button label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
                     <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
                 </el-checkbox-group>
             </el-col>
             <el-col class="mt5">
-                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
+                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange" :row-key="rowKey">
+                    <el-table-column type="selection" width="55" reserve-selection>
+                    </el-table-column>
                     <el-table-column sortable="custom" label="產品名稱" prop="productName" min-width="180"></el-table-column>
                     <el-table-column sortable="custom" min-width="80" label="SKU" prop="sku"></el-table-column>
-                    <!-- <el-table-column sortable="custom" min-width="80" label="New SKU" prop="newSKU"></el-table-column> -->
-                    <!-- ama   -->
-                    <!-- <template v-if="amaShow"> -->
                     <el-table-column min-width="100" key="4" label="Amazon(長x寬x高/重)" prop="Amazon">
                         <template slot-scope="scope">
                             <span>{{scope.row.amazonLengthCM}}</span>x<span>{{scope.row.amazonWidthCM}}</span>x<span>{{scope.row.amazonHeightCM}}cm</span>/<span>{{scope.row.amazonWeightKG}}kg</span>
@@ -35,11 +35,6 @@
                             <span>{{scope.row.parcelLengthCM}}</span>x<span>{{scope.row.parcelWidthCM}}</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
                         </template>
                     </el-table-column>
-                    <!-- <el-table-column min-width="80"  label="產品(長x寬x高/重)" prop="productLengthCM">
-              <template slot-scope="scope">
-                <span>{{scope.row.productLengthCM}}</span>x<span>{{scope.row.productWidthCM}}</span>x<span>{{scope.row.productHeightCM}}cm</span>/<span>{{scope.row.productWeightKG}}kg</span>
-              </template>
-            </el-table-column> -->
                     <template v-if="deprecatedSkuShow">
                         <el-table-column min-width="100" label="已停用 SKU" prop="deprecatedSKU" algin="center" key="11"> </el-table-column>
                     </template>
@@ -48,9 +43,6 @@
                             <template slot-scope="scope">
                                 {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.productCostCurrency}}
                             </template>
-                            <!-- <template slot-scope="scope">
-                <span>{{scope.row.productCost}}</span>
-              </template> -->
                         </el-table-column>
                     </template>
                     <el-table-column class-name="tableColumn" label="圖片" width="70" align="center">
@@ -76,14 +68,22 @@
                 </div>
             </el-col>
         </el-row>
-        <directiveDialog :title="title" :row="row" v-if="showDialog" @showDailog="handleShow"></directiveDialog>
+        <wonDialog name="sku" ref="dialog" size="35%" title="sku导出" :showConfirm="false">
+            <div slot="content" class="t_a-c">
+                <a class="pic-text" href="javascript:void(0)">点击下载</a>
+            </div>
+        </wonDialog>
     </div>
 </template>
 <script>
 import wonTableContainer from "../../common/wonTableContainer";
+import wonDialog from '@/common/wonDialog';
 export default {
     extends: wonTableContainer,
     name: "sku",
+    components:{
+        wonDialog
+    },
     data() {
         return {
             record: [],
@@ -116,6 +116,10 @@ export default {
         this.Bus.$on("refresh", this.handleSearch);
     },
     methods: {
+        handleExport(){
+            this.$refs['dialog'].dialogVisible = true;
+            console.log(this.$refs['wonTable'].store.states.data)
+        },
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
             if (this.fetchOption.where) {
