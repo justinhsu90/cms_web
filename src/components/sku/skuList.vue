@@ -13,7 +13,7 @@
             </el-col>
             <el-col :span="14">
                 <el-button class="fr" @click="handleAdd" type="primary">新增SKU</el-button>
-                <el-button class="fr mr10 mt5" @click="handleExport"  size="small">导出SKU</el-button>
+                <el-button :loding="exportLoading" class="fr mr10 mt5" @click="handleExport" size="small">导出SKU</el-button>
                 <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
                     <el-checkbox-button label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
                     <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
@@ -61,31 +61,30 @@
                     </el-table-column>
                 </el-table>
             </el-col>
-            <el-col>
-                <div style="float:right;margin-top:5px">
-                    <won-pagination v-bind="paginationProps" v-on="paginationListeners">
-                    </won-pagination>
-                </div>
-            </el-col>
+            <won-pagination v-bind="paginationProps" v-on="paginationListeners">
+                <span class="fz13 c-gray5 lh33">共選擇 {{selection.length}} 條 </span>
+            </won-pagination>
         </el-row>
         <wonDialog name="sku" ref="dialog" size="35%" title="sku导出" :showConfirm="false">
             <div slot="content" class="t_a-c">
-                <a class="pic-text" href="javascript:void(0)">点击下载</a>
+                <a class="pic-text" href="url">点击下载</a>
             </div>
         </wonDialog>
     </div>
 </template>
 <script>
 import wonTableContainer from "../../common/wonTableContainer";
-import wonDialog from '@/common/wonDialog';
+import wonDialog from "@/common/wonDialog";
 export default {
     extends: wonTableContainer,
     name: "sku",
-    components:{
+    components: {
         wonDialog
     },
     data() {
         return {
+            url: "javascript:void(0)",
+            exportLoading: false,
             record: [],
             maxHeight: 450,
             amaShow: false,
@@ -93,6 +92,7 @@ export default {
             deprecatedSkuShow: false,
             priceShow: false,
             productShow: false,
+            selection: [],
             value: "",
             tableData: [],
             isTableLoading: false,
@@ -115,10 +115,29 @@ export default {
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
     },
+    mounted() {
+        this.$refs["wonTable"].$watch("store.states.selection", v => {
+            this.selection = v;
+        });
+    },
     methods: {
-        handleExport(){
-            this.$refs['dialog'].dialogVisible = true;
-            console.log(this.$refs['wonTable'].store.states.data)
+        handleExport() {
+            this.$refs["dialog"].dialogVisible = true;
+            this.exportLoading = true;
+            let data = [];
+            _.each(this.selection, v => {
+                data.push(v.sku);
+            });
+            axios({
+                url:"sku/generate/excel",
+                method: "post",
+                data: {
+                    token: this.token,
+                    value:JSON.stringify(data)
+                }
+            }).then(() => {
+                this.exportLoading = false;
+            });
         },
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;

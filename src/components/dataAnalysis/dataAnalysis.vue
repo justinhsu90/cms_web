@@ -1,5 +1,5 @@
 <template>
-    <div  v-loading="loading" class="dataAnaly">
+    <div v-loading="loading">
         <!-- <el-row :gutter="10" style="padding:0px">
             <el-col :span="5"  >
                 <el-card  style="height:130px"> 
@@ -98,112 +98,112 @@
         </el-row>
         <br> -->
         <el-row class="dataAnaly" :gutter="5" style="padding:0px">
-            <el-card style="height:145px;background-color:#fdfdfd;">
-            <h4>各平台本日銷售表現</h4>
+            <el-card style="height:160px;background-color:#fdfdfd;">
+                <h4>各平台本日銷售表現</h4>
                 <!-- <br> -->
-            <el-col class="mt10" :span="6" v-for="(v,i) in todayPlatformPerformance" :key="i">
-                <el-card  style="height:105px"> 
-                <h5>{{v.title}}</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font tc">
-                        <span>{{v.quantity}}</span>  
-                     </div>
-                     <div class="mt10 tc" >
-                        <span class=" f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w35 fn"> 
-                     <div class="font tc">
-                        <span>{{v.revenue | formatToMoney}}</span>
-                    </div>
-                    <div  class="mt10 tc">
-                         <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font tc">
-                        <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
-                    </div>
-                    <div  class="mt10 tc">
-                         <span class="f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
+                <el-col class="mt10" :span="6" v-for="(v,i) in todayPlatformPerformance" :key="i">
+                    <el-card style="height:115px">
+                        <h5>{{v.title}}</h5>
+                        <br>
+                        <div class="w30 fl">
+                            <div class="font tc">
+                                <span>{{v.quantity}}</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class=" f13 label-tips">數量</span>
+                            </div>
+                        </div>
+                        <div class="w35 fn">
+                            <div class="font tc">
+                                <span>{{v.revenue | formatToMoney}}</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                            </div>
+                        </div>
+                        <div class="w30 fr">
+                            <div class="font tc">
+                                <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class="f13 label-tips">毛利率</span>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
             </el-card>
         </el-row>
         <el-row class="dataAnaly" :gutter="5" style="padding:0px">
-            <el-card style="height:145px;background-color:#fdfdfd;">
-            <h4>各平台前日銷售表現</h4>
+            <el-card style="height:160px;background-color:#fdfdfd;">
+                <h4>各平台前日銷售表現</h4>
                 <!-- <br> -->
-            <el-col class="mt10" :span="6" v-for="(v,i) in previousDayPlatformPerformance" :key="i">
-                <el-card  style="height:105px"> 
-                <h5>{{v.title}}</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font tc">
-                        <span>{{v.quantity}}</span>  
-                     </div>
-                     <div class="mt10 tc" >
-                        <span class=" f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w35 fn"> 
-                     <div class="font tc">
-                        <span>{{v.revenue | formatToMoney}}</span>
-                    </div>
-                    <div  class="mt10 tc">
-                         <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font tc">
-                        <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
-                    </div>
-                    <div  class="mt10 tc">
-                         <span class="f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
+                <el-col class="mt10" :span="6" v-for="(v,i) in previousDayPlatformPerformance" :key="i">
+                    <el-card style="height:115px">
+                        <h5>{{v.title}}</h5>
+                        <br>
+                        <div class="w30 fl">
+                            <div class="font tc">
+                                <span>{{v.quantity}}</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class=" f13 label-tips">數量</span>
+                            </div>
+                        </div>
+                        <div class="w35 fn">
+                            <div class="font tc">
+                                <span>{{v.revenue | formatToMoney}}</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                            </div>
+                        </div>
+                        <div class="w30 fr">
+                            <div class="font tc">
+                                <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class="f13 label-tips">毛利率</span>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
             </el-card>
         </el-row>
         <!-- <br>   -->
         <el-row class="dataAnaly" :gutter="5" style="padding:0px">
-            <el-card style="height:145px;background-color:#fdfdfd;">
-            <h4>各平台本月銷售表現</h4>
+            <el-card style="height:160px;background-color:#fdfdfd;">
+                <h4>各平台本月銷售表現</h4>
                 <!-- <br> -->
-            <el-col class="mt10" :span="6" v-for="(v,i) in platformPerformance" :key="i">
-                <el-card  style="height:105px"> 
-                <h5>{{v.title}}</h5>
-                <br>
-                <div class="w30 fl">
-                    <div class="font tc">
-                        <span>{{v.quantity}}</span>  
-                     </div>
-                     <div class="mt10 tc" >
-                        <span class=" f13 label-tips">數量</span>
-                     </div>
-                </div>               
-                <div class="w35 fn"> 
-                     <div class="font tc">
-                        <span>{{v.revenue | formatToMoney}}</span>
-                    </div>
-                    <div  class="mt10 tc">
-                         <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
-                    </div>
-                </div>
-                <div class="w30 fr"> 
-                     <div class="font tc">
-                        <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
-                    </div>
-                    <div  class="mt10 tc">
-                         <span class="f13 label-tips">毛利率</span>
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
+                <el-col class="mt10" :span="6" v-for="(v,i) in platformPerformance" :key="i">
+                    <el-card style="height:115px">
+                        <h5>{{v.title}}</h5>
+                        <br>
+                        <div class="w30 fl">
+                            <div class="font tc">
+                                <span>{{v.quantity}}</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class=" f13 label-tips">數量</span>
+                            </div>
+                        </div>
+                        <div class="w35 fn">
+                            <div class="font tc">
+                                <span>{{v.revenue | formatToMoney}}</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                            </div>
+                        </div>
+                        <div class="w30 fr">
+                            <div class="font tc">
+                                <span>{{(v.marginPercent* 100).toFixed(2)}}%</span>
+                            </div>
+                            <div class="mt10 tc">
+                                <span class="f13 label-tips">毛利率</span>
+                            </div>
+                        </div>
+                    </el-card>
+                </el-col>
             </el-card>
         </el-row>
         <!-- <br>   -->
@@ -247,94 +247,95 @@
         <el-row style="padding:0px">
             <el-col :span="24">
                 <el-card>
-                <div>
-                    <h4 style="display:inline-block;">Wowcher本月產品銷售排行</h4>
-                     <div style="display:inline-block;">
-                         <el-select v-model="account" placeholder="帳號" @change="handleSelect('account')">
-                             <el-option v-for="(v,i) in selectAccountOption" :label="v" :value="v" :key="i" ></el-option>
-                         </el-select>
-                    </div>  
-                    <div style="display:inline-block;">
-                         <el-select v-model="year" placeholder="年份"  @change="handleSelect('year')">
-                             <el-option v-for="(v,i) in selectYearOption" :label="v" :value="v" :key="i"></el-option>
-                         </el-select>
-                    </div>   
-                     <div style="display:inline-block;">
-                         <el-select v-model="month" placeholder="月份" @change="handleSelect('month')">
-                             <el-option v-for="(v,i) in selectMonthOption" :label="v.monthInEng" :value="v.monthInEng" :key="i" ></el-option>
-                         </el-select>
-                    </div>   
-                </div>   
-                <br>
-                <el-table :data="productPerformance">
-                    <el-table-column  min-width="220" label="產品名稱" prop="productName"></el-table-column>
-                    <!-- <el-table-column  min-width="60" label="Sku" prop="sku"></el-table-column> -->
-                    <!-- <el-table-column  min-width="60" label="等級" prop="ranking"></el-table-column> -->
-                    <el-table-column  min-width="60" label="銷售額" prop="revenue">
-                         <template slot-scope="scope">
-                          {{scope.row.revenue | formatToMoney}}&nbsp;GBP
-                        </template>
-                    </el-table-column>
-                    <el-table-column  min-width="60" label="毛利" prop="margin">
-                        <template slot-scope="scope">
-                          {{scope.row.margin | formatToMoney}}&nbsp;GBP
-                        </template>
-                    </el-table-column>
-                    <el-table-column  min-width="50" label="毛利%" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="60" label="毛利佔比%" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
-                    <!-- <el-table-column  min-width="60" label="商品成本" prop="productCost">
+                    <div>
+                        <h4 style="display:inline-block;">Wowcher本月產品銷售排行</h4>
+                        <div style="display:inline-block;">
+                            <el-select v-model="account" placeholder="帳號" @change="handleSelect('account')">
+                                <el-option v-for="(v,i) in selectAccountOption" :label="v" :value="v" :key="i"></el-option>
+                            </el-select>
+                        </div>
+                        <div style="display:inline-block;">
+                            <el-select v-model="year" placeholder="年份" @change="handleSelect('year')">
+                                <el-option v-for="(v,i) in selectYearOption" :label="v" :value="v" :key="i"></el-option>
+                            </el-select>
+                        </div>
+                        <div style="display:inline-block;">
+                            <el-select v-model="month" placeholder="月份" @change="handleSelect('month')">
+                                <el-option v-for="(v,i) in selectMonthOption" :label="v.monthInEng" :value="v.monthInEng" :key="i"></el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <br>
+                    <el-table :data="productPerformance">
+                        <el-table-column min-width="220" label="產品名稱" prop="productName"></el-table-column>
+                        <!-- <el-table-column  min-width="60" label="Sku" prop="sku"></el-table-column> -->
+                        <!-- <el-table-column  min-width="60" label="等級" prop="ranking"></el-table-column> -->
+                        <el-table-column min-width="60" label="銷售額" prop="revenue">
+                            <template slot-scope="scope">
+                                {{scope.row.revenue | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="60" label="毛利" prop="margin">
+                            <template slot-scope="scope">
+                                {{scope.row.margin | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="50" label="毛利%" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
+                        <el-table-column min-width="60" label="毛利佔比%" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
+                        <!-- <el-table-column  min-width="60" label="商品成本" prop="productCost">
                         <template slot-scope="scope">
                           {{scope.row.productCost | formatToMoney}}&nbsp;GBP
                         </template>
                     </el-table-column> -->
-                    <el-table-column  min-width="50" label="成本%" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
-                    <!-- <el-table-column  min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
-                    <el-table-column  min-width="50" label="運費%" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="50" label="營業額%" prop="percentageOfTotalRevenue" :formatter="formatToPercent"></el-table-column>
+                        <el-table-column min-width="50" label="成本%" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
+                        <!-- <el-table-column  min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
+                        <el-table-column min-width="50" label="運費%" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
+                        <el-table-column min-width="50" label="營業額%" prop="percentageOfTotalRevenue" :formatter="formatToPercent"></el-table-column>
 
-                </el-table>
+                    </el-table>
                 </el-card>
             </el-col>
         </el-row>
         <el-row style="padding-top:20px">
             <el-col :span="24">
                 <el-card>
-                <h4>Wowcher月度銷售表現</h4>
-                <br>
-                <el-table :data="monthlyPerformance">
-                    <el-table-column width="80" label="月份" prop="title"></el-table-column>
-                    <el-table-column  min-width="60" label="售出數量" prop="quantity"></el-table-column>
-                    <el-table-column  min-width="80" label="營業額" prop="revenue">
-                         <template slot-scope="scope">
-                          {{scope.row.revenue | formatToMoney}}&nbsp;GBP
-                        </template>
-                    </el-table-column>
-                     <el-table-column  min-width="80" label="毛利" prop="margin">
-                        <template slot-scope="scope">
-                          {{scope.row.margin | formatToMoney}}&nbsp;GBP
-                        </template>
-                    </el-table-column>
-                    <el-table-column  min-width="80" label="毛利率" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="80" label="採購成本" prop="productCost">
-                         <template slot-scope="scope">
-                          {{scope.row.productCost | formatToMoney}}&nbsp;GBP
-                        </template>
-                    </el-table-column>
-                    <el-table-column  min-width="80" label="採購成本率" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
-                    <el-table-column  min-width="80" label="運輸成本" prop="shippingCost">
-                         <template slot-scope="scope">
-                          {{scope.row.shippingCost | formatToMoney}}&nbsp;GBP
-                        </template>
-                    </el-table-column>
-                    <el-table-column  min-width="80" label="運輸成本率" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
-                   
-                    <!-- <el-table-column  min-width="80" label="退貨數量" prop="refundQuantity"></el-table-column> -->
-                    <!-- <el-table-column  min-width="80" label="退貨總金額" prop="refundAmount"></el-table-column> -->
-                    <el-table-column  min-width="80" label="退貨率" prop="refundPercent" :formatter="formatToPercent"></el-table-column>
-                </el-table>
+                    <h4>Wowcher月度銷售表現</h4>
+                    <br>
+                    <el-table :data="monthlyPerformance">
+                        <el-table-column width="80" label="月份" prop="title"></el-table-column>
+                        <el-table-column min-width="60" label="售出數量" prop="quantity"></el-table-column>
+                        <el-table-column min-width="80" label="營業額" prop="revenue">
+                            <template slot-scope="scope">
+                                {{scope.row.revenue | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="80" label="毛利" prop="margin">
+                            <template slot-scope="scope">
+                                {{scope.row.margin | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="80" label="毛利率" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
+                        <el-table-column min-width="80" label="採購成本" prop="productCost">
+                            <template slot-scope="scope">
+                                {{scope.row.productCost | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="80" label="採購成本率" prop="productCostPercent" :formatter="formatToPercent"></el-table-column>
+                        <el-table-column min-width="80" label="運輸成本" prop="shippingCost">
+                            <template slot-scope="scope">
+                                {{scope.row.shippingCost | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="80" label="運輸成本率" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
+
+                        <!-- <el-table-column  min-width="80" label="退貨數量" prop="refundQuantity"></el-table-column> -->
+                        <!-- <el-table-column  min-width="80" label="退貨總金額" prop="refundAmount"></el-table-column> -->
+                        <el-table-column min-width="80" label="退貨率" prop="refundPercent" :formatter="formatToPercent"></el-table-column>
+                    </el-table>
                 </el-card>
             </el-col>
         </el-row>
+        <el-button class="fixed refresh" @click="refresh" size="small" icon="el-icon-won-30"></el-button>
     </div>
 </template>
 <script>
@@ -349,102 +350,100 @@ export default {
         productPerformance: [],
         monthlyPerformance: [],
         platformPerformance: [],
-        loading: 1,
-        account:'',
-        month:'',
-        year:'',
-        selectAccountOption:[],
-        selectMonthOption:[],
-        selectYearOption:[],
-        condition:{
-
-        }
+        loading: true,
+        account: "",
+        month: "",
+        year: "",
+        selectAccountOption: [],
+        selectMonthOption: [],
+        selectYearOption: [],
+        condition: {}
     }),
     created() {
-        let account = axios({
-            url:'dashboard/value/productPerformance/account',
-            method:'post',
-             data: {
+        this.refresh();
+    },
+    methods: {
+        ...format,
+        refresh(){
+            this.loading = true;
+             let account = axios({
+            url: "dashboard/value/productPerformance/account",
+            method: "post",
+            data: {
                 token: this.token
             }
         });
         let month = axios({
-            url:'dashboard/value/productPerformance/month',
-            method:'post',
-             data: {
+            url: "dashboard/value/productPerformance/month",
+            method: "post",
+            data: {
                 token: this.token
             }
-        })
+        });
 
-       let all = axios({
+        let all = axios({
             url: "/dashboard/all",
             method: "post",
             data: {
                 token: this.token
             }
         });
-         Promise.all([account,month,all]).then(([account,month,res])=>{
-                this.selectAccountOption = _.cloneDeep(account);
-                this.selectMonthOption = _.cloneDeep(month);
-                let data = [];
-                 _.each(this.selectMonthOption,(v)=>{
-                    if(!data.includes(v.year)){
-                        data.push(v.year);    
-                    }
-                })
-                this.selectYearOption = data;
-                this.parcelCount = _.cloneDeep(res.parcelCount) || {};
-                this.MarginTarget = _.cloneDeep(res.marginTarget) || {};
-                this.performance = _.cloneDeep(res.performance) || [];
-                this.productPerformance =
-                    _.cloneDeep(res.productPerformance) || [];
-                this.originProductPerformance =  _.cloneDeep(res.productPerformance) || [];   
-                this.monthlyPerformance =
-                    _.cloneDeep(res.monthlyPerformance) || [];
-                this.platformPerformance =
-                    _.cloneDeep(res.platformPerformance) || [];
-                this.previousDayPlatformPerformance =
-                    _.cloneDeep(res.previousDayPlatformPerformance) || [];
-                this.todayPlatformPerformance =
-                    _.cloneDeep(res.todayPlatformPerformance) || [];
+        Promise.all([account, month, all]).then(([account, month, res]) => {
+            this.selectAccountOption = _.cloneDeep(account);
+            this.selectMonthOption = _.cloneDeep(month);
+            let data = [];
+            _.each(this.selectMonthOption, v => {
+                if (!data.includes(v.year)) {
+                    data.push(v.year);
+                }
+            });
+            this.selectYearOption = data;
+            this.parcelCount = _.cloneDeep(res.parcelCount) || {};
+            this.MarginTarget = _.cloneDeep(res.marginTarget) || {};
+            this.performance = _.cloneDeep(res.performance) || [];
+            this.productPerformance = _.cloneDeep(res.productPerformance) || [];
+            this.originProductPerformance =
+                _.cloneDeep(res.productPerformance) || [];
+            this.monthlyPerformance = _.cloneDeep(res.monthlyPerformance) || [];
+            this.platformPerformance =
+                _.cloneDeep(res.platformPerformance) || [];
+            this.previousDayPlatformPerformance =
+                _.cloneDeep(res.previousDayPlatformPerformance) || [];
+            this.todayPlatformPerformance =
+                _.cloneDeep(res.todayPlatformPerformance) || [];
 
-                    
-                this.loading--;
-         })   
-
-
-    },
-    methods: {
-        ...format,
-        handleSelect(v){
-            if(v == 'account'){
-               this.condition.productPerformanceAccount = this.account;        
+            this.loading = false;
+        }); 
+        },
+        handleSelect(v) {
+            if (v == "account") {
+                this.condition.productPerformanceAccount = this.account;
             }
 
-            if(v == 'year'){
-               this.condition.productPerformanceYear = this.year;     
+            if (v == "year") {
+                this.condition.productPerformanceYear = this.year;
             }
 
-            if(v == 'month'){
+            if (v == "month") {
                 this.condition.productPerformanceMonth = this.month;
             }
             this.fetchTableData();
         },
-        fetchTableData(){
-            if(!this.account && !this.year && !this.month){
+        fetchTableData() {
+            if (!this.account && !this.year && !this.month) {
                 this.productPerformance = this.originProductPerformance;
                 return;
             }
             axios({
-                url:'dashboard/productPerformace',
-                method:'post',
-                data:{
+                url: "dashboard/productPerformace",
+                method: "post",
+                data: {
                     ...this.condition,
-                    token:this.token
+                    token: this.token
                 }
-            }).then((res)=>{
+            }).then(res => {
                 this.productPerformance = res || [];
-            })
+            });
         }
     },
     filters: {
@@ -452,81 +451,83 @@ export default {
     }
 };
 </script>
-<style lang="scss" >
-.dataAnaly {
-    .fl {
-        float: left;
-    }
-    .fr {
-        float: right;
-    }
-    .fn {
-        display: inline-block;
-        margin: 0 auto;
-        // width:100px;
-    }
-    .ft {
-        float: top;
-    }
-    .fb {
-        float: bottom;
-    }
-    .font {
-        font-size: 20px;
-        color: rgb(122, 113, 202);
-    }
-    .font2 {
-        font-size: 20px;
-        color: rgb(0, 0, 0);
-    }
-    .f20 {
-        font-size: 20px;
-        color: rgb(122, 113, 202);
-    }
-    .f13 {
-        font-size: 13px;
-    }
-    .w100 {
-        width: 100%;
-    }
-    .w20 {
-        width: 20%;
-    }
-    .w35 {
-        width: 35%;
-    }
-    .p10 {
-        padding: 10px;
-    }
-    .clear::after {
-        content: "";
-        display: block;
-        clear: both;
-    }
-    .w50 {
-        width: 50%;
-    }
-    .w30 {
-        width: 30%;
-    }
-    .w20 {
-        width: 20%;
-    }
-    .mt10 {
-        margin-top: 5px;
-    }
-    .ta {
-        text-align: center;
-    }
-    .tr {
-        text-align: right;
-    }
-    .label-tips {
-        color: #bbbbbb;
-    }
-    .dataAnaly .el-card__body {
-        padding: 10px !important;
-    }
+<style lang="scss" scoped>
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.fn {
+    display: inline-block;
+    margin: 0 auto;
+}
+.ft {
+    float: top;
+}
+.fb {
+    float: bottom;
+}
+.font {
+    font-size: 20px;
+    color: rgb(122, 113, 202);
+}
+.font2 {
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+}
+.f20 {
+    font-size: 20px;
+    color: rgb(122, 113, 202);
+}
+.f13 {
+    font-size: 13px;
+}
+.w100 {
+    width: 100%;
+}
+.w20 {
+    width: 20%;
+}
+.w35 {
+    width: 35%;
+}
+.p10 {
+    padding: 10px;
+}
+.clear::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.w50 {
+    width: 50%;
+}
+.w30 {
+    width: 30%;
+}
+.w20 {
+    width: 20%;
+}
+.mt10 {
+    margin-top: 5px;
+}
+.ta {
+    text-align: center;
+}
+.tr {
+    text-align: right;
+}
+.refresh{
+    bottom:10px;
+    right:15px;
+    z-index: 999;
+}
+.label-tips {
+    color: #bbbbbb;
+}
+/deep/ .el-card__body {
+    padding: 10px !important;
 }
 </style>
 
