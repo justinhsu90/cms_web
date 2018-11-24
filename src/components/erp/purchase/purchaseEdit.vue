@@ -18,38 +18,38 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="3">
             <el-form-item label="採購平台" prop="purchasedPlatform" :rules="rules">
               <el-select v-model="formData.purchasedPlatform">
                 <el-option v-for="(value,i) in purchasePlatform" :label="value" :value="value" :key="i"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="4">
             <el-form-item label="採購帳號" prop="purchasedAccount" :rules="rules">
               <el-select v-model="formData.purchasedAccount">
                 <el-option v-for="(value,i) in purchaseAccount" :label="value" :value="value" :key="i"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="3">
             <el-form-item label="幣別" prop="currency" :rules="rules">
               <el-select v-model="formData.currency">
                 <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="3">
             <el-form-item label="購買人員">
               <el-input v-model="formData.purchasedBy"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="5">
             <el-form-item label="採購平台單號" prop="purchaseOrderId" :rules="rules">
               <el-input v-model="formData.purchaseOrderId"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <el-form-item label="採購時間" prop="purchasedTime" :rules="rules">
               <el-date-picker style="width:100%" v-model="formData.purchasedTime" type="date" placeholder="選擇日期時間"> </el-date-picker>
             </el-form-item>
