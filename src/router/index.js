@@ -68,17 +68,17 @@ let router = new VueRouter({
       }
     },
     {
-      path: '/404',
-      component: asyncComponent('404/404'),
-      meta: {
-        name: '404'
-      }
-    },
-    {
       path: '/nav',
       component: nav,
       redirect: '/sku',
-      children: [{
+      children: [
+        {
+          path: '/404',
+          component: asyncComponent('404/404'),
+          meta: {
+            name: '404'
+          }
+        },{
           path: '/sku',
           component: skuList,
           meta: {

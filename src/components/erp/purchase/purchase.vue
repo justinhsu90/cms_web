@@ -31,9 +31,9 @@
                     <el-table-column min-width="50" label="SKU" prop="sku"></el-table-column>
                     <el-table-column min-width="120" label="產品名稱" prop="productName"></el-table-column>
                     <el-table-column min-width="40" label="採購平台" prop="purchasedPlatform"></el-table-column>
-                    <el-table-column min-width="40" label="单个成本" prop="unitPrice">
+                    <el-table-column min-width="40" label="单个成本" prop="productCost">
                         <template slot-scope="scope">
-                            {{scope.row.unitPrice | formatToMoney}}&nbsp;{{scope.row.currency}}
+                            {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.currency}}
                         </template>
                     </el-table-column>
                     <el-table-column min-width="50" label="總金額" prop="purchasedTotalAmount">

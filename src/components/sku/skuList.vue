@@ -135,8 +135,9 @@ export default {
                     token: this.token,
                     value:JSON.stringify(data)
                 }
-            }).then(() => {
+            }).then((res) => {
                 this.exportLoading = false;
+                this.url = res;
             });
         },
         handleSearch: _.debounce(function() {
