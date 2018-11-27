@@ -8,9 +8,7 @@ import skuList from '@/components/sku/skuList'
 import skuAdd from '@/components/sku/skuAdd'
 import skuEdit from '@/components/sku/skuEdit'
 
-import wowcherDealList from '@/components/wowcher/wowcherDeal/wowcherDealList'
-import wowcherDealEdit from '@/components/wowcher/wowcherDeal/wowcherDealEdit'
-import wowcherDealAdd from '@/components/wowcher/wowcherDeal/wowcherDealAdd'
+
 
 import upcAdd from '@/components/upc/upcAdd'
 import upcEdit from '@/components/upc/upcEdit'
@@ -143,7 +141,7 @@ let router = new VueRouter({
         {
           name: 'wowcherDealList',
           path: '/wowcherDealList',
-          component: wowcherDealList,
+          component: asyncComponent('wowcher/wowcherDeal/wowcherDealList'),
           meta: {
             keepAlive: true
           }
@@ -151,7 +149,7 @@ let router = new VueRouter({
         {
           name: 'wowcherDealEdit',
           path: '/wowcherDealEdit',
-          component: wowcherDealEdit,
+          component: asyncComponent('wowcher/wowcherDeal/wowcherDealEdit'),
           meta: {
             sign: 'wowcherDealList'
           }
@@ -159,10 +157,15 @@ let router = new VueRouter({
         {
           name: 'wowcherDealAdd',
           path: '/wowcherDealAdd',
-          component: wowcherDealAdd,
+          component: asyncComponent('wowcher/wowcherDeal/wowcherDealAdd'),
           meta: {
             sign: 'wowcherDealList'
           }
+        },
+        {
+          name: 'wowcherReplenish',
+          path: '/wowcherReplenish',
+          component: asyncComponent('wowcher/wowcherReplenish/wowcherReplenishList'),          
         },
         {
           name: 'orderList',
@@ -523,9 +526,11 @@ let router = new VueRouter({
           name: 'generateFile',
           path: '/generateFile',          
           component: asyncComponent('generateFile/generateFileList'),
-          meta: {
-            sign: 'generateFile'
-          }
+        },
+        {
+          name: 'setship',
+          path: '/setship',          
+          component: asyncComponent('set-ship/setship-list'),
         },
       ]
     },

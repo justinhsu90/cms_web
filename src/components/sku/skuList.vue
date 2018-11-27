@@ -13,7 +13,7 @@
             </el-col>
             <el-col :span="14">
                 <el-button class="fr" @click="handleAdd" type="primary">新增SKU</el-button>
-                <el-button :loding="exportLoading" class="fr mr10 mt5" @click="handleExport" size="small">导出SKU</el-button>
+                <el-button :loading="exportLoading" class="fr mr10 mt5" @click="handleExport" size="small">导出SKU</el-button>
                 <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
                     <el-checkbox-button label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
                     <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
@@ -60,9 +60,12 @@
                         </template>
                     </el-table-column>
                 </el-table>
-            </el-col>
+            </el-col> 
             <won-pagination v-bind="paginationProps" v-on="paginationListeners">
-                <span class="fz13 c-gray5 lh33">共選擇 {{selection.length}} 條 </span>
+                <div class="ibbox">
+                    <span class="fz13 c-gray5">共選擇 {{selection.length}} 條 </span>
+                    <el-button type="text" class="pt9" @click="clearSelect">取消選擇</el-button>
+                </div>
             </won-pagination>
         </el-row>
         <wonDialog name="sku" ref="dialog" size="35%" title="sku导出" :showConfirm="false">
@@ -121,6 +124,9 @@ export default {
         });
     },
     methods: {
+        clearSelect(){
+            this.$refs["wonTable"].clearSelection();
+        },
         handleExport() {            
             this.exportLoading = true;
             let data = [];
@@ -163,7 +169,6 @@ export default {
                     v.dialogTableVisible = false;
                 });
                 this.tableData = _.cloneDeep(data);
-                this.total = count;
                 this.paginationProps.total = count;
             });
         }, 500),

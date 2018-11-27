@@ -208,26 +208,20 @@ export default {
                 null
             );
             save_link.dispatchEvent(event);
+        },
+        fetchTableData(data) {
+        this.isTableLoading = true;
+          axios({
+                url: this.fetchOption.url,
+                method: this.fetchOption.method,
+                data
+            }).then(({ data, count }) => {
+                this.isTableLoading = false;
+                this.tableData = _.cloneDeep(data);
+                this.paginationProps.total = count;
+                this.fetchEnd && this.fetchEnd();
+            });
         }
-        // fetchTableData() {
-        //   this.isTableLoading = true;
-        //   axios({
-        //     url: this.fetchOption.url,
-        //     method:this.fetchOption.method,
-        //     data: {
-        //       where: this.fetchOption.where,
-        //       token: this.token,
-        //       skip:  this.fetchCondition.skip,
-        //       limit: this.fetchCondition.limit,
-        //       order: this.fetchCondition.order
-        //     }
-        //   }).then((res) => {
-        //     this.isTableLoading = false;
-        //     this.tableData = this.loadsh.cloneDeep(res.data);
-        //     this.total = res.count;
-
-        //   });
-        // }
     }
 };
 </script>

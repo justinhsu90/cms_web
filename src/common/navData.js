@@ -42,7 +42,11 @@ export default [
             {
                 index: "generateFile",
                 label: "生成做單文件"
-            }
+            },
+            {
+                index: "setship",
+                label: "設定出貨方式"
+            },
         ]
     },
     {
@@ -69,6 +73,10 @@ export default [
             {
                 index: "wowcherSample",
                 label: "樣品清單"
+            },
+            {
+                index: "wowcherReplenish",
+                label: "補貨計算"
             }
         ]
     },
