@@ -67,7 +67,7 @@
         </el-row>
         <wonDialog name="sku" ref="dialog" size="35%" title="sku导出" :showConfirm="false">
             <div slot="content" class="t_a-c">
-                <a class="pic-text" href="url">点击下载</a>
+                <a class="pic-text" :href="url">点击下载</a>
             </div>
         </wonDialog>
     </div>
@@ -121,8 +121,7 @@ export default {
         });
     },
     methods: {
-        handleExport() {
-            this.$refs["dialog"].dialogVisible = true;
+        handleExport() {            
             this.exportLoading = true;
             let data = [];
             _.each(this.selection, v => {
@@ -136,6 +135,7 @@ export default {
                     value:JSON.stringify(data)
                 }
             }).then((res) => {
+                this.$refs["dialog"].dialogVisible = true;
                 this.exportLoading = false;
                 this.url = res;
             });
