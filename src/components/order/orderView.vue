@@ -243,7 +243,7 @@ export default {
         },
         handleChange(v) {
           let that= this;
-            this.$confirm("是否修改订单状态", "提示", {
+            this.$confirm("是否修改訂單狀態", "提示", {
                 type: "info",
                 beforeClose(action,instantce, done) {
                     if (action == "confirm") {

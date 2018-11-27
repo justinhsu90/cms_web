@@ -65,9 +65,9 @@
                 <span class="fz13 c-gray5 lh33">共選擇 {{selection.length}} 條 </span>
             </won-pagination>
         </el-row>
-        <wonDialog name="sku" ref="dialog" size="35%" title="sku导出" :showConfirm="false">
+        <wonDialog name="sku" ref="dialog" size="35%" title="sku導出" :showConfirm="false">
             <div slot="content" class="t_a-c">
-                <a class="pic-text" :href="url">点击下载</a>
+                <a class="pic-text" :href="url">點擊下載</a>
             </div>
         </wonDialog>
     </div>
