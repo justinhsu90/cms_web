@@ -66,7 +66,7 @@
                             <col width="80">
                             <col width="80">
                             <col width="80">
-                            <col width="80">
+                            <col width="150">
                             <col width="70">
                         </colgroup>
                         <thead>
@@ -77,7 +77,7 @@
                                 <th>單品金額</th>
                                 <th>採購數量</th>
                                 <th>該品總運費</th>
-                                <th>總金額</th>
+                                <th>總金額（包含運費）</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -95,7 +95,7 @@
                                     </el-form-item>
                                 </td>
                                 <td>
-                                    <el-form-item label="" :prop="'data.'+i+'.purchasedAmount'" :rules="requredRule">
+                                    <el-form-item label="" :prop="'data.'+i+'.purchasedAmount'" :rules="requredRuleFloat">
                                         <el-input v-model.number="v.purchasedAmount"></el-input>
                                     </el-form-item>
                                 </td>
@@ -158,6 +158,7 @@
 import querySku from "@/common/querySku";
 import { format } from "@/common/until/format";
 import U from "@/common/until/U";
+import { float } from '@/common/validate'  
 export default {
     name: "purchaseAdd",
     components: {
@@ -186,6 +187,7 @@ export default {
             requredRule: {
                 required: true
             },
+            requredRuleFloat:_.extend({},float),
             rules: {
                 required: true,
                 message: "此項目必填"
@@ -278,7 +280,7 @@ export default {
             let total = 0;
             _.each(this.formData.data, v => {
                 total +=
-                    Number(v.purchasedAmount) * Number(v.purchasedQuantity);
+                    Number(v.purchasedAmount) * Number(v.purchasedQuantity) + Number(v.shippingCost);
             });
             if (total == 0) {
                 return "";
