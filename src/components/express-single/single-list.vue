@@ -23,103 +23,90 @@
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
-                <el-button style="float:right" @click="handleAdd" type="primary">shipment</el-button>
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column type="expand">
                         <template slot-scope="scope">
-                            <!-- <h5 style="margin-bottom:3px;margin-top:3px;">訂單</h5> -->
                             <el-row type="flex" justify="space-around" style="padding:5px;margin-left:50px">
                                 <el-col :span="6">
                                     <div>
                                         <span class="infol">收件人:</span>
-                                        <span class="infoR"> {{scope.row.customerName}}</span>
+                                        <span class="infoR"> {{scope.row.shipToAddress.contact}}</span>
                                     </div>
                                     <div>
                                         <span class="infol">電話:</span>
-                                        <span class="infoR"> {{scope.row.phone}}</span>
+                                        <span class="infoR"> {{scope.row.shipToAddress.phone}}</span>
                                     </div>
                                 </el-col>
                                 <el-col :span="6">
                                     <div style="margin-bottom:4px">
                                         <span class="infol">地址1:</span>
-                                        <span class="infoR"> {{scope.row.address1}}</span>
+                                        <span class="infoR"> {{scope.row.shipToAddress.street1}}</span>
                                     </div>
                                     <div style="margin-bottom:4px">
                                         <span class="infol">省/州:</span>
-                                        <span class="infoR"> {{scope.row.county}}</span>
-                                    </div>
-                                </el-col>
-                                <el-col :span="6">
-                                    <div>
-                                        <span class="infol">地址2:</span>
-                                        <span class="infoR"> {{scope.row.address2}}</span>
-                                    </div>
-                                    <div style="margin-bottom:4px">
-                                        <span class="infol">郵編:</span>
-                                        <span class="infoR"> {{scope.row.postcode}}</span>
+                                        <span class="infoR"> {{scope.row.shipToAddress.province}}</span>
                                     </div>
                                 </el-col>
                                 <el-col :span="6">
                                     <div>
                                         <span class="infol">城市:</span>
-                                        <span class="infoR"> {{scope.row.city}}</span>
+                                        <span class="infoR"> {{scope.row.shipToAddress.city}}</span>
                                     </div>
                                     <div style="margin-bottom:4px">
                                         <span class="infol">國家:</span>
-                                        <span class="infoR"> {{scope.row.country}}</span>
+                                        <span class="infoR"> {{scope.row.shipToAddress.country}}</span>
+                                    </div>
+                                </el-col>
+                                <el-col :span="6">
+                                    <div style="margin-bottom:4px">
+                                        <span class="infol">郵編:</span>
+                                        <span class="infoR"> {{scope.row.shipToAddress.postcode}}</span>
                                     </div>
                                 </el-col>
                             </el-row>
                             <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
-                                    <th>平台訂單號</th>
+                                    <th>sku</th>
                                     <th>數量</th>
-                                    <th>顏色</th>
                                     <th class="w30">產品名稱</th>
+                                    <th>申報價值</th>
                                     <th>申報中文名稱</th>
                                     <th>申報英文名稱</th>
+                                    <th>重量</th>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(v,i) in scope.row.list" :key="i">
-                                        <td>{{v.orderId}}</td>
+                                    <tr v-for="(v,i) in scope.row.skus" :key="i">
+                                        <td>{{v.sku}}</td>
                                         <td>{{v.quantity}}</td>
-                                        <td>{{v.colour}}</td>
                                         <td>{{v.productName}}</td>
-                                        <td>{{v.declareNameChinese}}</td>
-                                        <td>{{v.declareNameEnglish}}</td>
+                                        <td>{{v.declareValue}}</td>
+                                        <td>{{v.declareNameCn}}</td>
+                                        <td>{{v.declareNameEn}}</td>
+                                        <td>{{v.weight}}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label="Platform Order ID" prop="platformOrderId" align="left">
+                    <el-table-column min-width="100" label="packageId" prop="packageId" align="left">
                         <template slot-scope="scope">
-                            <span @click="handleToggle(scope.row)" style="color:#45a2ff;cursor:pointer">{{scope.row.platformOrderId}}</span>
+                            <span @click="handleToggle(scope.row)" style="color:#45a2ff;cursor:pointer">{{scope.row.packageId}}</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column min-width="60" label="狀態" prop="status">
-                        <template slot-scope="scope">
-                            <span class="line2">{{scope.row.title}}</span>
-                        </template>
+                    <el-table-column min-width="60" label="serviceCode" prop="serviceCode">
                     </el-table-column>
-                    <el-table-column min-width="100" label="物流單號" prop="trackingNumber" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="發貨方式" prop="shippingMethod" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="貨代" prop="hippingAgent" sortable="hippingAgent"></el-table-column>
-
-                    <!-- <el-table-column width="60" label="動作" align="center">
+                    <el-table-column min-width="100" label="remark" prop="remark"></el-table-column>
+                    <el-table-column min-width="100" label="custom" prop="custom"></el-table-column>
+                    <el-table-column width="60" label="動作" align="center">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                         </template>
-                    </el-table-column> -->
+                    </el-table-column>
                 </el-table>
             </el-col>
-            <!-- <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div> -->
         </el-row>
     </div>
 </template>
@@ -159,7 +146,7 @@ export default {
                 limit: 10000
             },
             fetchOption: {
-                url: "/shipment/unship/search",
+                url: "/cke/shipment/unshiplist",
                 method: "post",
                 where: ""
             }
@@ -209,15 +196,14 @@ export default {
                 url: this.fetchOption.url,
                 method: this.fetchOption.method,
                 data
-            }).then(({ data, count }) => {
+            }).then(({ packages }) => {
                 this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
+                this.tableData = _.cloneDeep(packages);
             });
         }, 500),
-        handleEdit(val) {
+        handleEdit(val) { 
             this.$router.push({
-                name: "shipmentEdit",
+                name: "single-edit",
                 query: { data: JSON.stringify(val) }
             });
         },
@@ -248,12 +234,12 @@ export default {
         },
         handleCopy(val) {
             this.$router.push({
-                name: "shipmentEdit",
+                name: "single-edit",
                 query: { data: JSON.stringify(val), type: "copy" }
             });
         },
         handleAdd() {
-            this.$router.push("/shipmentAdd");
+            this.$router.push("/single-add");
         },
         handleCondition(sign) {
             if (sign == "acc") {

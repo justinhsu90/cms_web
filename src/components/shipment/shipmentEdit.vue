@@ -124,7 +124,7 @@
              <el-form-item class="label" label="產品標題">
               <template slot="label">
                   <span>產品標題</span>
-                  <span style="float:right">{{data.Title.length}}字符</span>
+                  <span style="float:right">{{data.Title&&data.Title.length}}字符</span>
               </template>
               <el-input v-model="data.Title"> </el-input>
               </el-form-item>
@@ -133,7 +133,7 @@
              <el-form-item class="label" label="購物車短標題">
               <template slot="label">
                   <span>購物車短標題</span>
-                  <span style="float:right">{{data.cartShortTitle.length}}字符</span>
+                  <span style="float:right">{{data.cartShortTitle&&data.cartShortTitle.length}}字符</span>
               </template>
               <el-input v-model="data.cartShortTitle"> </el-input>
               </el-form-item>
@@ -157,7 +157,7 @@
              <el-form-item class="label" label="Bullet Point 1">
               <template slot="label">
                   <span>Bullet Point 1</span>
-                  <span style="float:right">{{data.BulletPoint1.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint1&&data.BulletPoint1.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint1"> </el-input>
               </el-form-item>
@@ -166,7 +166,7 @@
              <el-form-item class="label" label="Bullet Point 2">
               <template slot="label">
                   <span>Bullet Point 2</span>
-                  <span style="float:right">{{data.BulletPoint2.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint2&&data.BulletPoint2.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint2"> </el-input>
               </el-form-item>
@@ -175,7 +175,7 @@
              <el-form-item class="label" label="Bullet Point 3">
               <template slot="label">
                   <span>Bullet Point 3</span>
-                  <span style="float:right">{{data.BulletPoint3.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint3&&data.BulletPoint3.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint3"> </el-input>
               </el-form-item>
@@ -184,7 +184,7 @@
              <el-form-item class="label" label="Bullet Point 4">
               <template slot="label">
                   <span>Bullet Point 4</span>
-                  <span style="float:right">{{data.BulletPoint4.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint4&&data.BulletPoint4.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint4"> </el-input>
               </el-form-item>
@@ -193,7 +193,7 @@
              <el-form-item class="label" label="Bullet Point 5">
               <template slot="label">
                   <span>Bullet Point 5</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                  <span style="float:right">{{data.BulletPoint5&&data.BulletPoint5.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint5"> </el-input>
               </el-form-item>
@@ -214,7 +214,7 @@
             <el-form-item  class="label" label="Short Description">
               <template slot="label">
                   <span>Short Description</span>
-                  <span style="float:right">{{data.shortDescription.length}}字符</span>
+                  <span style="float:right">{{data.shortDescription&&data.shortDescription.length}}字符</span>
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.shortDescription"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.shortDescription"></minTinymce>
@@ -225,7 +225,7 @@
             <el-form-item class="label" label="Description 1">
               <template slot="label">
                   <span>Description 1</span>
-                  <span style="float:right">{{data.Description1.length}}字符</span>
+                  <span style="float:right">{{data.Description1&&data.Description1.length}}字符</span>
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description1"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description1"></minTinymce>
@@ -236,7 +236,7 @@
             <el-form-item class="label" label="Description 2">
               <template slot="label">
                   <span>Description 2</span>
-                  <span style="float:right">{{data.Description2.length}}字符</span>
+                  <span style="float:right">{{data.Description2&&data.Description2.length}}字符</span>
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description2"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description2"></minTinymce>
@@ -247,7 +247,7 @@
             <el-form-item class="label" label="Description 3">
               <template slot="label">
                   <span>Description 3</span>
-                  <span style="float:right">{{data.Description3.length}}字符</span>
+                  <span style="float:right">{{data.Description3&&data.Description3.length}}字符</span>
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description3"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description3"></minTinymce>
@@ -258,7 +258,7 @@
             <el-form-item class="label" label="Description 4">
               <template slot="label">
                   <span>Description 4</span>
-                  <span style="float:right">{{data.Description4.length}}字符</span>
+                  <span style="float:right">{{data.Description4&&data.Description4.length}}字符</span>
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description4"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description4"></minTinymce>
@@ -269,7 +269,7 @@
             <el-form-item class="label" label="Description 5">
               <template slot="label">
                   <span>Description 5</span>
-                  <span style="float:right">{{data.Description5.length}}字符</span>
+                  <span style="float:right">{{data.Description5&&data.Description5.length}}字符</span>
               </template>
                 <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description5"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description5"></minTinymce>
@@ -280,7 +280,7 @@
             <el-form-item class="label" label="Description 6">
               <template slot="label">
                   <span>Description 6</span>
-                  <span style="float:right">{{data.Description6.length}}字符</span>
+                  <span style="float:right">{{data.Description6&&data.Description6.length}}字符</span>
               </template>
                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description6"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description6"></minTinymce>
@@ -291,7 +291,7 @@
             <el-form-item class="label" label="Description 7">
               <template slot="label">
                   <span>Description 7</span>
-                  <span style="float:right">{{data.Description7.length}}字符</span>
+                  <span style="float:right">{{data.Description7&&data.Description7.length}}字符</span>
               </template>
                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description7"></tinymce>
                 <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description7"></minTinymce>

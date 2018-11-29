@@ -32,6 +32,10 @@ export default [
                 label: "小包做單"
             },
             {
+                index: "single",
+                label: "快遞單做單"
+            },
+            {
                 index: "excelUpload",
                 label: "表格匯入"
             },

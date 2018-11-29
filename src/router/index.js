@@ -275,7 +275,7 @@ let router = new VueRouter({
         {
           name: 'shipment',
           path: '/shipment',
-          component: shipment,
+          component: asyncComponent('shipment/shipment'),
           meta: {
             keepAlive: true
           }
@@ -283,7 +283,7 @@ let router = new VueRouter({
         {
           name: 'shipmentEdit',
           path: '/shipmentEdit',
-          component: shipmentEdit,
+          component: asyncComponent('shipment/shipmentEdit'),
           meta: {
             sign: 'shipment'
           }
@@ -291,9 +291,25 @@ let router = new VueRouter({
         {
           name: 'shipmentAdd',
           path: '/shipmentAdd',
-          component: shipmentAdd,
+          component: asyncComponent('shipment/shipmentAdd'),
           meta: {
             sign: 'shipment'
+          }
+        },
+        {
+          name: 'express-single',
+          path: '/single',
+          component: asyncComponent('express-single/single-list'),
+          meta: {
+            keepAlive: true
+          }
+        },
+        {
+          name: 'single-edit',
+          path: '/singleEdit',
+          component: asyncComponent('express-single/single-edit'),
+          meta: {
+            sign: 'single'
           }
         },
         {
