@@ -54,27 +54,23 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            min-width="110"
-            label="currentStock"
-            prop="currentStock"
-            sortable="custom"
-          ></el-table-column>
+            min-width="100"
+            label="流水號"
+          >  
+          <template slot-scope="scope">
+              {{scope.$index++}}
+          </template>
+          </el-table-column>
           <el-table-column
-            min-width="120"
-            label="restockQuantity"
-            prop="restockQuantity"
+            min-width="100"
+            label="國家"
+            prop="country"
             sortable="custom"
           ></el-table-column>
           <el-table-column
             min-width="100"
-            label="sold7days"
-            prop="sold7days"
-            sortable="custom"
-          ></el-table-column>
-          <el-table-column
-            min-width="80"
-            label="sold15days"
-            prop="sold15days"
+            label="帳號"
+            prop="account"
             sortable="custom"
           ></el-table-column>
           <el-table-column
@@ -85,7 +81,37 @@
           ></el-table-column>
           <el-table-column
             min-width="100"
-            label="sold30days"
+            label="品名"
+            prop="productName"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="120"
+            label="目前可售庫存"
+            prop="currentStock"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="120"
+            label="建議補貨數量"
+            prop="restockQuantity"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="100"
+            label="7天銷量"
+            prop="sold7days"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="100"
+            label="15天銷量"
+            prop="sold15days"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="100"
+            label="30天銷量"
             prop="sold30days"
             sortable="custom"
           ></el-table-column>
@@ -124,26 +150,25 @@ export default {
     };
   },
   created() {
-    // let account = axios({
-    //     url: "/wowcher/deal/value/account",
-    //     method: "post",
-    //     data: {
-    //         token: this.token
-    //     }
-    // });
-    // let country = axios({
-    //     url: "/wowcher/deal/value/country",
-    //     method: "post",
-    //     data: {
-    //         token: this.token
-    //     }
-    // });
+    let account = axios({
+        url: "/amazon/value/account",
+        method: "post",
+        data: {
+            token: this.token
+        }
+    });
+    let country = axios({
+        url: "/amazon/value/country",
+        method: "post",
+        data: {
+            token: this.token
+        }
+    });
 
-    // Promise.all([account, country]).then(([account, country]) => {
-    //     this.searchAccountOption = _.cloneDeep(account);
-    //     this.searchCountryOption = _.cloneDeep(country.data);
-    // });
-    this.handleSearch();
+    Promise.all([account, country]).then(([account, country]) => {
+        this.searchAccountOption = account;
+        this.searchCountryOption = country;
+    });
   },
   methods: {
     handleCondition(sign) {

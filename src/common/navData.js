@@ -54,6 +54,10 @@ export default [
         ]
     },
     {
+        index: "reportList",
+        label: "各平台銷售表"
+    },
+    {
         index: "orderList",
         label: "訂單查詢"
     },

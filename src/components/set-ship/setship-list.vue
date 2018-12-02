@@ -9,47 +9,52 @@
                     </span>
                 </div>
                 <div class="ibbox">
-                    <el-button size="small" type="primary" :loading="pullLoading" @click="handleClick">抓取未發貨清單</el-button>
-                    <el-button size="small" type="primary" :loading="fileLoading" @click="submit">生成文件</el-button>
+                    <el-button size="small" type="primary" :loading="pullLoading" @click="handleClick">抓取小包清單</el-button>
+                    <el-button size="small" type="primary" :loading="fileLoading" @click="submit">設定小包出貨方式</el-button>
                 </div>
             </h3>
         </el-row>
         <el-row class="mb5" :gutter="10">
-                <el-select class="w15"  placeholder="合併貨代" v-model="searchAgent" @change="handleChange('agent')">
+                <!-- <el-select class="w15"  placeholder="合併貨代" v-model="searchAgent" @change="handleChange('agent')">
                     <el-option v-for="(v,i) in shippingMethodAgent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
                 <el-select class="w15" placeholder="合併發貨渠道" v-model="searchShippingMethod">
                     <el-option v-for="(v,i) in serachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
-                </el-select>
-                <el-select class="w15" placeholder="愛爾蘭貨代" v-model="isearchAgent" @change="handleAgentChange('iagent')">
+                </el-select> -->
+                <el-select class="w10" placeholder="多個愛爾蘭貨代" v-model="imoresearchAgent" @change="handleAgentChange('imoreagent')">
                     <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-select  class="w15" placeholder="愛爾蘭發貨渠道" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
+                <el-select  class="w10" placeholder="多個愛爾蘭發貨渠道" v-model="imoresearchShippingMethod">
+                    <el-option v-for="(v,i) in imoreSerachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
+                    </el-option>
+                </el-select>  
+                <el-select class="w10" placeholder="愛爾蘭貨代" v-model="isearchAgent" @change="handleAgentChange('iagent')">
+                    <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
+                </el-select>
+                <el-select  class="w10" placeholder="愛爾蘭發貨渠道" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
                     <el-option v-for="(v,i) in iserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
                 </el-select>   
-                <el-select class="w15" placeholder="英國貨代" v-model="ysearchAgent" @change="handleAgentChange('yagent')">
+                <el-select class="w10" placeholder="多個英國貨代" v-model="ymoresearchAgent" @change="handleAgentChange('ymoreagent')">
                     <el-option v-for="(v,i) in yagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-select class="w15" placeholder="英國發貨渠道" v-model="ysearchShippingMethod" @change="handleChangeShippingMethod('yagent')">
+                <el-select class="w10" placeholder="多個英國發貨渠道" v-model="ymoresearchShippingMethod">
+                    <el-option v-for="(v,i) in ymoreserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
+                    </el-option>
+                </el-select>
+                <el-select class="w10" placeholder="英國貨代" v-model="ysearchAgent" @change="handleAgentChange('yagent')">
+                    <el-option v-for="(v,i) in yagent" :key="i" :label="v" :value="v"></el-option>
+                </el-select>
+                <el-select class="w10" placeholder="英國發貨渠道" v-model="ysearchShippingMethod" @change="handleChangeShippingMethod('yagent')">
                     <el-option v-for="(v,i) in yserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
                 </el-select>
         </el-row>
-        <el-row class="mb5">
-            <span>平台：</span>
-            <el-checkbox-group v-model="platform" class="ibbox">
-                <el-checkbox :label="1">Wowcher</el-checkbox>
-                <el-checkbox :label="2">MightyDeals</el-checkbox>
-                <el-checkbox :label="3">Gogroopie</el-checkbox>
-                <el-checkbox :label="4">Replacement</el-checkbox>
-            </el-checkbox-group>
-        </el-row>
         <el-row>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column type="selection" width="55"> </el-table-column>
+                    <!-- <el-table-column type="selection" width="55"> </el-table-column> -->
                     <el-table-column width="50" label="國家" prop="country"></el-table-column>
                     <el-table-column width="70" label="重量" prop="parcelWeight">
                            <template slot-scope="scope">
@@ -106,7 +111,7 @@ export default {
                 limit: 15
             },
             fetchOption: {
-                url: "/shipment/productList",
+                url: "shipment/productList",
                 where: "",
                 method: "post"
             },
@@ -114,9 +119,15 @@ export default {
             shippingMethodAgent: [],
             shippingMethodData: [],
             serachShippingMethodData: [],
+            imoresearchAgent:'',
+            imoresearchShippingMethod:'',
+            imoreSerachShippingMethodData:[],
             isearchAgent: "",
             iserachShippingMethodData: [],
             isearchShippingMethod: "",
+            ymoresearchAgent:'',
+            ymoreserachShippingMethodData:[],
+            ymoresearchShippingMethod:'',
             ysearchAgent: "",
             yserachShippingMethodData: [],
             ysearchShippingMethod: "",
@@ -161,9 +172,6 @@ export default {
             this.yagent = yagent;
             this.handleChange('agent');
         });
-    },
-    mounted(){
-        
     },
     methods: {
         methodAgent(row) {
@@ -232,6 +240,14 @@ export default {
             }
         },
         handleAgentChange(val) {
+            if (val == "imoreagent") {
+                let data = _.filter(this.shippingMethodData, value => {
+                    return value.shippingMethodAgent == this.imoresearchAgent;
+                });
+                this.imoreSerachShippingMethodData = data;
+                this.imoresearchShippingMethod = "";
+            }
+
             if (val == "iagent") {
                 let data = _.filter(this.shippingMethodData, value => {
                     return value.shippingMethodAgent == this.isearchAgent;
@@ -245,6 +261,15 @@ export default {
                     }
                 });
             }
+
+             if (val == "ymoreagent") {
+                let data = _.filter(this.shippingMethodData, value => {
+                    return value.shippingMethodAgent == this.ymoresearchAgent;
+                });
+                this.ymoreserachShippingMethodData = data;
+                this.ymoresearchShippingMethod = "";
+            }    
+
             if (val == "yagent") {
                 let data = _.filter(this.shippingMethodData, value => {
                     return value.shippingMethodAgent == this.ysearchAgent;
@@ -290,11 +315,7 @@ export default {
             }
         },
         getValue() {
-            let data = _.cloneDeep(this.$refs['wonTable'].store.states.selection);
-            if (_.isEmpty(data)) {
-                this.$message.warning("請抓取未發貨清單");
-                return false;
-            }
+            let data = this.tableData;
             let init = false;
             _.each(data, v => {
                 if (init) return;

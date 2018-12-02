@@ -548,6 +548,11 @@ let router = new VueRouter({
           path: '/setship',          
           component: asyncComponent('set-ship/setship-list'),
         },
+        {
+          name: 'sale-report',
+          path: '/reportList',
+          component: asyncComponent('sale-report/report-list'),
+        },
       ]
     },
     {
