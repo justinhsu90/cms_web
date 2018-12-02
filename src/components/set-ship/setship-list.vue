@@ -10,18 +10,11 @@
                 </div>
                 <div class="ibbox">
                     <el-button size="small" type="primary" :loading="pullLoading" @click="handleClick">抓取小包清單</el-button>
-                    <el-button size="small" type="primary" :loading="fileLoading" @click="submit">設定小包出貨方式</el-button>
+                    <el-button size="small" type="primary" :loading="fileLoading" @click="submit">保存設定</el-button>
                 </div>
             </h3>
         </el-row>
-        <el-row class="mb5" :gutter="10">
-                <!-- <el-select class="w15"  placeholder="合併貨代" v-model="searchAgent" @change="handleChange('agent')">
-                    <el-option v-for="(v,i) in shippingMethodAgent" :key="i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w15" placeholder="合併發貨渠道" v-model="searchShippingMethod">
-                    <el-option v-for="(v,i) in serachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
-                    </el-option>
-                </el-select> -->
+        <el-row class="mb5" :gutter="10">            
                 <el-select class="w10" placeholder="多個愛爾蘭貨代" v-model="imoresearchAgent" @change="handleAgentChange('imoreagent')">
                     <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
@@ -320,6 +313,7 @@ export default {
             _.each(data, v => {
                 if (init) return;
                 if (!v.agent || !v.shippingMethod) {
+                    return;
                     init = true;
                     this.$message.warning("選擇下貨代或運輸方式必須全部填寫");
                 }
@@ -347,7 +341,7 @@ export default {
             if (this.getValue()) {
                 this.fileLoading = true;
                 axios({
-                    url: "/shipment/generate",
+                    url: "shipment/setshipingmethod",
                     method: "post",
                     data: this.getValue()
                 }).then(res => {

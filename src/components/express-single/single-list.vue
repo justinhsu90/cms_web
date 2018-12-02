@@ -101,22 +101,32 @@
                     <el-table-column min-width="100" label="remark" prop="remark"></el-table-column>
                     <el-table-column min-width="100" label="custom" prop="custom"></el-table-column>
                     <el-table-column width="60" label="動作" align="center">
-                        <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
+                        <template slot-scope="{row,$index}">
+                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(row,$index)"></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </el-col>
         </el-row>
+        <wonDialog ref="dialogVisible" title="编辑"  name="single">
+            <singleEdit ref="singleEdit" :row="row" slot="content"></singleEdit>
+        </wonDialog>
     </div>
 </template>
 <script>
-import wonTableContainer from "../../common/wonTableContainer";
-
+import wonTableContainer from "@/common/wonTableContainer";
+import wonDialog from "@/common/wonDialog"
+import singleEdit from "./single-edit"
 export default {
+    name:'single',
     extends: wonTableContainer,
+    components:{
+      wonDialog,
+      singleEdit 
+    },
     data() {
         return {
+            row:{},
             tableData: [],
             searchMerge: "",
             searchMergeOption: [
@@ -174,6 +184,17 @@ export default {
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
     },
+    mounted(){
+        this.$on('selectSku',(v)=>{
+            let data = this.tableData;
+            _.each(data,(v,i)=>{
+                if(i == this.$index){
+                    data[i] = _.cloneDeep(this.$refs['singleEdit'].form);
+                }
+            })
+            this.tableData = _.cloneDeep(data);
+        })
+    },
     methods: {
         handleSearch: _.debounce(function() {
             this.isTableLoading = true;
@@ -201,11 +222,10 @@ export default {
                 this.tableData = _.cloneDeep(packages);
             });
         }, 500),
-        handleEdit(val) { 
-            this.$router.push({
-                name: "single-edit",
-                query: { data: JSON.stringify(val) }
-            });
+        handleEdit(row,index) { 
+            this.$refs['dialogVisible'].dialogVisible = true;
+            this.row = row;
+            this.$index = index;
         },
         handleDelete(val) {
             this.$confirm("是否删除", "提示", {
@@ -237,9 +257,6 @@ export default {
                 name: "single-edit",
                 query: { data: JSON.stringify(val), type: "copy" }
             });
-        },
-        handleAdd() {
-            this.$router.push("/single-add");
         },
         handleCondition(sign) {
             if (sign == "acc") {

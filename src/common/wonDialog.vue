@@ -1,9 +1,23 @@
 <template>
-    <el-dialog :title="title" :visible.sync="dialogVisible"  :width="size">
+    <el-dialog
+        :title="title"
+        :visible.sync="dialogVisible"
+        :width="size"
+    >
         <slot name="content"></slot>
-        <div slot="footer" class="dialog-footer">
-            <el-button v-if="showCancel" @click="dialogVisible = false">{{cancelButtonText}}</el-button>
-            <el-button v-if="showConfirm" type="primary" @click="confirm">{{confirmButtonText}}</el-button>
+        <div
+            slot="footer"
+            class="dialog-footer"
+        >
+            <el-button
+                v-if="showCancel"
+                @click="dialogVisible = false"
+            >{{cancelButtonText}}</el-button>
+            <el-button
+                v-if="showConfirm"
+                type="primary"
+                @click="confirm"
+            >{{confirmButtonText}}</el-button>
         </div>
     </el-dialog>
 </template>   
@@ -15,9 +29,9 @@ export default {
             type: String,
             default: "添加"
         },
-        size:{
+        size: {
             type: String,
-            default:'60%'
+            default: "60%"
         },
         showConfirm: {
             type: Boolean,
@@ -36,8 +50,8 @@ export default {
             default: "取消"
         },
         row: {},
-        name:{},
-        type:{}
+        name: {},
+        type: {}
     },
     data() {
         return {
@@ -59,7 +73,7 @@ export default {
     },
     methods: {
         confirm() {
-            if(this.type != 'form'){
+            if (this.type != "form") {
                 this.dialogVisible = false;
             }
             let father = this.$findFather(this.name);
@@ -68,8 +82,11 @@ export default {
     }
 };
 </script>
-<style lang="sass">
-
+<style lang="scss" scoped>
+/deep/ .el-dialog__body {
+    padding: 10px 20px !important;
+}
 </style>
+
 
 
