@@ -29,6 +29,7 @@ module.exports = {
       '@': resolve('src'),
       'U': resolve('src/common/until/U'),
       'format': resolve('src/common/until/format'),
+      'won-service': resolve('src/won-service'),
     }
   },
   module: {
