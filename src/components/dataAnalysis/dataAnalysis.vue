@@ -280,8 +280,8 @@
                                 {{scope.row.margin | formatToMoney}}&nbsp;GBP
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="50" label="毛利%" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
-                        <el-table-column min-width="60" label="毛利佔比%" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
+                        <el-table-column min-width="50" label="毛利%" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column>
+                        <!-- <el-table-column min-width="60" label="毛利佔比%" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column> -->
                         <!-- <el-table-column  min-width="60" label="商品成本" prop="productCost">
                         <template slot-scope="scope">
                           {{scope.row.productCost | formatToMoney}}&nbsp;GBP
