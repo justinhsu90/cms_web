@@ -151,10 +151,11 @@ export default {
                 queryAccount: "",
                 purchaseLink: "",
                 purchaseType: "",
-                isPurchased: false,
+                // isPurchased: false,
                 data: [
                     {
                         sku: "",
+                        isPurchased : false,
                         purchaseId: "",
                         purchaseQueryId: "",
                         productName: "",
@@ -189,7 +190,7 @@ export default {
         this.formData.purchaseType = data.purchaseType;
         this.formData.queryAccount = data.queryAccount;
         this.formData.purchaseLink = data.purchaseLink;
-        this.formData.isPurchased = data.isPurchased;
+        this.forformData.data[0].isPurchased = data.isPurchased;
         let purchasetype = axios({
             url: "/purchasequery/value/purchasetype",
             method: "post",
@@ -230,7 +231,7 @@ export default {
             data.purchaseType = this.formData.purchaseType;
             data.queryAccount = this.formData.queryAccount;
             data.purchaseLink = this.formData.purchaseLink;
-            data.isPurchased = this.formData.isPurchased;
+            // data.isPurchased = this.formData.isPurchased;
             let obj = {
                 data
             };
