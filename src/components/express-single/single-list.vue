@@ -1,34 +1,96 @@
 <template>
-    <div id="shipment">
+    <div>
         <el-row>
             <el-col :span="24">
-                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
+                <el-input
+                    class="w-max200 ibbox"
+                    placeholder="搜索"
+                    v-model="fetchOption.where"
+                    @keyup.enter.native="handleSearch"
+                >
                 </el-input>
-                <el-select class="w-max150" placeholder="顯示類型" v-model="searchAccount" @change="handleCondition('display')" clearable>
-                    <el-option v-for="(v,i) in searchAccountOption" :key="'display'+i" :label="v.account" :value="v.account"></el-option>
+                <el-select
+                    class="w-max150"
+                    placeholder="顯示類型"
+                    v-model="searchAccount"
+                    @change="handleCondition('display')"
+                    clearable
+                >
+                    <el-option
+                        v-for="(v,i) in searchAccountOption"
+                        :key="'display'+i"
+                        :label="v.account"
+                        :value="v.account"
+                    ></el-option>
                 </el-select>
-                <el-select class="w-max150" placeholder="合併做單" v-model="searchMerge" @change="handleCondition('merge')" clearable>
-                    <el-option v-for="(v,i) in searchMergeOption" :key="'merge'+i" :label="v.label" :value="v.value"></el-option>
+                <el-select
+                    class="w-max150"
+                    placeholder="合併做單"
+                    v-model="searchMerge"
+                    @change="handleCondition('merge')"
+                    clearable
+                >
+                    <el-option
+                        v-for="(v,i) in searchMergeOption"
+                        :key="'merge'+i"
+                        :label="v.label"
+                        :value="v.value"
+                    ></el-option>
                 </el-select>
-                <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+                <el-select
+                    class="w-max150"
+                    placeholder="帳號"
+                    v-model="searchAccount"
+                    @change="handleCondition('acc')"
+                    clearable
+                >
+                    <el-option
+                        v-for="(v,i) in searchAccountOption"
+                        :key="'acc'+i"
+                        :label="v.account"
+                        :value="v.account"
+                    ></el-option>
                 </el-select>
 
-                <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
-                    <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese">
+                <el-select
+                    class="w-max150"
+                    placeholder="國家"
+                    v-model="searchCountry"
+                    @change="handleCondition('cou')"
+                    clearable
+                >
+                    <el-option
+                        v-for="(v,i) in searchCountryOption"
+                        :key="'country'+i"
+                        :label="v.countryCode"
+                        :value="v.countryNameChinese"
+                    >
                         <span style="float: left">{{ v.countryCode }}</span>
                         <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
                     </el-option>
                 </el-select>
-                <div @click="handleSearch" class="el-input-group__append search">
+                <div
+                    @click="handleSearch"
+                    class="el-input-group__append search"
+                >
                     <i class="el-icon-search"></i>
                 </div>
             </el-col>
             <el-col class="mt5">
-                <el-table ref="wonTable" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
+                <el-table
+                    ref="wonTable"
+                    :data="tableData"
+                    v-loading="isTableLoading"
+                    :max-height="maxHeight"
+                    @sort-change="handleSortChange"
+                >
                     <el-table-column type="expand">
                         <template slot-scope="scope">
-                            <el-row type="flex" justify="space-around" style="padding:5px;margin-left:50px">
+                            <el-row
+                                type="flex"
+                                justify="space-around"
+                                style="padding:5px;margin-left:50px"
+                            >
                                 <el-col :span="6">
                                     <div>
                                         <span class="infol">收件人:</span>
@@ -66,7 +128,12 @@
                                     </div>
                                 </el-col>
                             </el-row>
-                            <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
+                            <table
+                                class="wonTable"
+                                cellspacing="0"
+                                cellpadding="0"
+                                border="0"
+                            >
                                 <thead>
                                     <th>sku</th>
                                     <th>數量</th>
@@ -77,7 +144,10 @@
                                     <th>重量</th>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(v,i) in scope.row.skus" :key="i">
+                                    <tr
+                                        v-for="(v,i) in scope.row.skus"
+                                        :key="i"
+                                    >
                                         <td>{{v.sku}}</td>
                                         <td>{{v.quantity}}</td>
                                         <td>{{v.productName}}</td>
@@ -90,43 +160,81 @@
                             </table>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="100" label="packageId" prop="packageId" align="left">
+                    <el-table-column
+                        min-width="100"
+                        label="packageId"
+                        prop="packageId"
+                        align="left"
+                    >
                         <template slot-scope="scope">
-                            <span @click="handleToggle(scope.row)" style="color:#45a2ff;cursor:pointer">{{scope.row.packageId}}</span>
+                            <span
+                                @click="handleToggle(scope.row)"
+                                style="color:#45a2ff;cursor:pointer"
+                            >{{scope.row.packageId}}</span>
                         </template>
                     </el-table-column>
 
-                    <el-table-column min-width="60" label="serviceCode" prop="serviceCode">
+                    <el-table-column
+                        min-width="60"
+                        label="serviceCode"
+                        prop="serviceCode"
+                    >
                     </el-table-column>
-                    <el-table-column min-width="100" label="remark" prop="remark"></el-table-column>
-                    <el-table-column min-width="100" label="custom" prop="custom"></el-table-column>
-                    <el-table-column width="60" label="動作" align="center">
+                    <el-table-column
+                        min-width="100"
+                        label="remark"
+                        prop="remark"
+                    ></el-table-column>
+                    <el-table-column
+                        min-width="100"
+                        label="custom"
+                        prop="custom"
+                    ></el-table-column>
+                    <el-table-column
+                        width="60"
+                        label="動作"
+                        align="center"
+                    >
                         <template slot-scope="{row,$index}">
-                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(row,$index)"></el-button>
+                            <el-button
+                                class="btnh"
+                                type="text"
+                                title="編輯"
+                                icon="el-icon-won-1"
+                                @click="handleEdit(row,$index)"
+                            ></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </el-col>
         </el-row>
-        <wonDialog ref="dialogVisible" title="编辑"  name="single">
-            <singleEdit ref="singleEdit" :row="row" slot="content"></singleEdit>
+        <wonDialog
+            ref="dialogVisible"
+            title="编辑"
+            name="single"
+        >
+            <singleEdit
+                ref="singleEdit"
+                :row="row"
+                slot="content"
+            ></singleEdit>
         </wonDialog>
     </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
-import wonDialog from "@/common/wonDialog"
-import singleEdit from "./single-edit"
+import wonDialog from "@/common/wonDialog";
+import singleEdit from "./single-edit";
 export default {
-    name:'single',
+    name: "single",
     extends: wonTableContainer,
-    components:{
-      wonDialog,
-      singleEdit 
+    components: {
+        wonDialog,
+        singleEdit
     },
     data() {
         return {
-            row:{},
+            row: {},
             tableData: [],
             searchMerge: "",
             searchMergeOption: [
@@ -184,16 +292,16 @@ export default {
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
     },
-    mounted(){
-        this.$on('selectSku',(v)=>{
+    mounted() {
+        this.$on("selectSku", v => {
             let data = this.tableData;
-            _.each(data,(v,i)=>{
-                if(i == this.$index){
-                    data[i] = _.cloneDeep(this.$refs['singleEdit'].form);
+            _.each(data, (v, i) => {
+                if (i == this.$index) {
+                    data[i] = _.cloneDeep(this.$refs["singleEdit"].form);
                 }
-            })
+            });
             this.tableData = _.cloneDeep(data);
-        })
+        });
     },
     methods: {
         handleSearch: _.debounce(function() {
@@ -222,8 +330,8 @@ export default {
                 this.tableData = _.cloneDeep(packages);
             });
         }, 500),
-        handleEdit(row,index) { 
-            this.$refs['dialogVisible'].dialogVisible = true;
+        handleEdit(row, index) {
+            this.$refs["dialogVisible"].dialogVisible = true;
             this.row = row;
             this.$index = index;
         },
@@ -301,48 +409,41 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#shipment {
-    .tc {
+<style lang="scss" scoped>
+.tc {
+    text-align: center;
+}
+.infol {
+    color: #99a9bf;
+    font-size: 15px;
+}
+.infoR {
+    font-size: 15px;
+}
+.el-table th {
+    color: #62717e;
+    background: rgb(237, 241, 245);
+}
+.wonTable {
+    width: 85%;
+    table-layout: fixed;
+    margin: 0 auto;
+    margin-left: 4%;
+    th {
+        border-bottom: 1px solid #ebeef5;
+        padding: 4px;
+        background: oldlace !important;
         text-align: center;
     }
-    .infol {
-        color: #99a9bf;
-        font-size: 15px;
-    }
-    .infoR {
-        font-size: 15px;
-    }
-    .el-table th {
-        color: #62717e;
-        background: rgb(237, 241, 245);
-    }
-    .wonTable {
-        width: 85%;
-        table-layout: fixed;
-        margin: 0 auto;
-        margin-left: 4%;
-        th {
-            border-bottom: 1px solid #ebeef5;
-            padding: 4px;
-            background: oldlace !important;
-            text-align: center;
-        }
-        td {
-            padding: 4px;
-            border-bottom: 1px solid #ebeef5;
-            text-align: center;
-            background: #f0f9eb;
-        }
-        .w30 {
-            width: 30%;
-        }
-    }
-    .el-table__expand-icon {
-        color: #45a2ff;
-    }
-    .btnh {
-        padding: 6px 0;
+    td {
+        padding: 4px;
+        border-bottom: 1px solid #ebeef5;
+        text-align: center;
+        background: #f0f9eb;
     }
 }
+/deep/ .el-table__expand-icon {
+    color: #45a2ff;
+}
+
 </style>

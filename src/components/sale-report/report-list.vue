@@ -25,7 +25,9 @@
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column min-width="50" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="120" label="總數">
+                    <el-table-column min-width="120" label="productName" prop="productName">
+                    </el-table-column>
+                    <el-table-column min-width="40" label="總數">
                         <template slot-scope="{row}">
                             {{row.wowcher + row.amazon + row.cdiscount + row.other}}
                         </template>
