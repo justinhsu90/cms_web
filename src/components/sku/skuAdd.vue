@@ -516,12 +516,14 @@ export default {
     methods: {
         disposeCopy(){
             let canvas = document.createElement("canvas");
+            this.$refs['img'].setAttribute('crossOrigin', 'anonymous');
             this.$refs['img'].addEventListener("load", () => {
                 canvas.width = this.$refs['img'].width;
                 canvas.height = this.$refs['img'].height;
                 let cas = canvas.getContext("2d");
                 cas.drawImage(this.$refs['img'], 0, 0);
                 let base64 = canvas.toDataURL('image/png');
+                this.dataURLtoBlob(base64); 
             });
         },
         dataURLtoBlob(dataurl) {
@@ -533,15 +535,14 @@ export default {
             while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            return new Blob([u8arr], { type: mime });
+            let blob = new Blob([u8arr], { type: mime });
+            this.blobToFile(blob,'图片');
         },
         blobToFile(theBlob, fileName) {
             theBlob.lastModifiedDate = new Date();
             theBlob.name = fileName;
-            return theBlob;
-        },
-    //     var blob = dataURLtoBlob(base64Data);
-    // var file = blobToFile(blob, imgName)
+            this.blob = theBlob;
+        },    
         handleInspect() {},
         handleImageDelete() {
             this.base64 = "";
@@ -644,10 +645,13 @@ export default {
                         formData.append("value", value);
                         formData.append("token", this.token);
                         if (
-                            this.form.image &&
-                            !this.form.image.includes("http")
+                            this.form.image 
                         ) {
-                            formData.append("uploadfile", this.form.image);
+                            if(this.form.image.includes("http")){
+                                formData.append("uploadfile", this.blob);
+                            }else{
+                                formData.append("uploadfile", this.form.image);
+                            }                            
                         }
                         this.isLoading = true;
                         let url =
