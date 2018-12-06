@@ -140,7 +140,7 @@
                 </template>
                 <el-input type="textarea" rows='4' v-model="form.deprecatedSKU" style="width:70%"></el-input>
             </el-form-item>
-            <el-row :gutter="20" v-if="!isCopy">
+            <el-row :gutter="20">
                 <el-col :span="7">
                     <el-form-item label="最後更新時間" prop="lastUpdatedTime">
                         <el-date-picker style="width:100%" v-model="form.lastUpdatedTime" disabled></el-date-picker>

@@ -52,10 +52,8 @@
                     </el-table-column>
                 </el-table>
             </el-col>
-            <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div>
+            <won-pagination v-bind="paginationProps" v-on="paginationListeners">
+            </won-pagination>
         </el-row>
     </div>
 </template>
@@ -160,13 +158,14 @@ export default {
         Promise.all([
             receivablePlatform,
             receivableAccount,
-            receivableCountry,
+            receivableCountry, 
             receivableType
         ]).then(([platform, account, country, type]) => {
             this.searchAccountOption = _.cloneDeep(account);
             this.searchPlatformOption = _.cloneDeep(platform);
             this.searchTypeOption = _.cloneDeep(type.data);
             this.searchCountryOption = _.cloneDeep(country.data);
+            
         });
         this.handleSearch();
         this.Bus.$on("refresh", this.handleSearch);
@@ -197,15 +196,7 @@ export default {
                 data.periodStartDate = this.date[0];
                 data.periodEndDate = this.date[1];
             }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
+            this.fetchTableData(data);
         }, 500),
         handleChange(n) {
             this.handleSearch();
