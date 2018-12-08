@@ -70,7 +70,10 @@ let router = new VueRouter({
         ...scriptExecution,
         ...generateFile,
         ...setship,
-        ...saleReport
+        ...saleReport,{
+          path:'/try',
+          component:asyncComponent('trya/try')
+        }
       ]
     },
     {
