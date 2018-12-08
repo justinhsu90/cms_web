@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import showDialog from 'won-service/won-dialog/dialog'
 export default {
 
 }
