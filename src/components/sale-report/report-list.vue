@@ -53,14 +53,18 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 import { format } from "@/common/until/format";
+import moment from 'moment';
 export default {
     extends: wonTableContainer,
     data() {
+        let end = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+        let start = moment(Date.now() - 7 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD HH:mm:ss');
+        console.log(end,start)
         return {
             showImg:false, 
             dialogVisible:false,
             imageURL:'',
-            date: [],
+            date: [start,end],
             pickerOptions: {
                 shortcuts: [
                     {
