@@ -2,6 +2,9 @@
     height: 45px !important;
     line-height: 45px !important;
 }
+.el-menu-item.is-active{
+    color: #31aff9 !important;
+}
 .el-select-dropdown__wrap{
     max-height: 600px;
 }

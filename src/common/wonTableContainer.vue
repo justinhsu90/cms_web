@@ -141,7 +141,7 @@ export default {
         fetchTableData(data) {
             this.isTableLoading = true;
             axios({
-                url: this.fetchOption.url,
+                url: this.fetchOption.url, 
                 method: this.fetchOption.method,
                 data
             }).then(res => {

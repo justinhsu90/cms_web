@@ -24,21 +24,18 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="50" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="120" label="productName" prop="productName">
+                    <el-table-column min-width="50" label="SKU" prop="sku" sortable="custom"></el-table-column>
+                    <el-table-column min-width="120" label="productName" prop="productName" sortable="custom">
                     </el-table-column>
-                    <el-table-column min-width="40" label="總數">
-                        <template slot-scope="{row}">
-                            {{row.wowcher + row.amazon + row.cdiscount + row.other}}
-                        </template>
+                    <el-table-column min-width="40" label="總數" prop="total" sortable="custom">
                     </el-table-column>
-                    <el-table-column min-width="40" label="Wowcher" prop="wowcher">
+                    <el-table-column min-width="40" label="Wowcher" prop="wowcher" sortable="custom">
                     </el-table-column>
-                    <el-table-column min-width="40" label="Amazon" prop="amazon">                             
+                    <el-table-column min-width="40" label="Amazon" prop="amazon" sortable="custom">                             
                     </el-table-column>
-                    <el-table-column min-width="50" label="Cdiscount" prop="cdiscount">
+                    <el-table-column min-width="50" label="Cdiscount" prop="cdiscount" sortable="custom">
                     </el-table-column>
-                    <el-table-column min-width="30" label="other" prop="other"> 
+                    <el-table-column min-width="30" label="other" prop="other" sortable="custom"> 
                     </el-table-column>
                     <el-table-column width="80" label="圖片" v-if="showImg">
                         <template slot-scope="{row}">
@@ -60,7 +57,7 @@ export default {
     extends: wonTableContainer,
     data() {
         return {
-            showImg:false,
+            showImg:false, 
             dialogVisible:false,
             imageURL:'',
             date: [],
@@ -158,6 +155,14 @@ export default {
         ...format
     },
     methods: {
+        handleSortChange(row) {
+            if(row.order == 'ascending'){
+             this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ['asc']);    
+            }
+            if(row.order == 'descending'){
+                this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ['desc']);   
+            }
+        },
         handleShowDialog(url){
             this.dialogVisible = true
             this.imageURL = url;
@@ -188,17 +193,7 @@ export default {
         fetchEnd(){
             let data = [];
             _.each(this.originRes, (v)=>{
-
-                let obj = {
-                    sku:'',
-                    total:'',
-                    wowher:'',
-                    amazon:'',
-                    cdiscount:'',
-                    other:'',
-                    imageURL:''
-                };
-
+                v.total = v.wowcher + v.amazon + v.cdiscount + v.other;
             })
             this.tableData = this.originRes;
         },

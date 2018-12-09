@@ -70,6 +70,12 @@ export default [
         label: "執行清單"
     },
     {
+        index: "Amazon",
+        label: "Amazon",
+        isLevel: true,
+        child: []
+    },
+    {
         index: "wowcher",
         label: "Wowcher",
         isLevel: true,
