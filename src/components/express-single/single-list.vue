@@ -247,10 +247,8 @@ export default {
                     value: "N"
                 }
             ],
-            maxHeight: 450,
             condition: [],
             isTableLoading: false,
-            pageSizes: [20, 40, 60, 100, 200],
             searchAccount: "",
             searchAccountOption: [],
             searchPlatform: "",
@@ -321,15 +319,11 @@ export default {
             if (this.condition.includes("3")) {
                 data.country = this.searchCountry;
             }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ packages }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(packages);
-            });
+            this.fetchTableData(data);
         }, 500),
+        fetchEnd(){
+            this.tableData = _.cloneDeep(this.originRes);
+        },
         handleEdit(row, index) {
             this.$refs["dialogVisible"].dialogVisible = true;
             this.row = row;

@@ -205,15 +205,7 @@ export default {
             if (this.condition.includes("3")) {
                 data.country = this.searchCountry;
             }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
+         this.fetchTableData(data);
         }, 500),
         handleEdit(val) {
             this.$router.push({

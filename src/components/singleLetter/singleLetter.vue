@@ -151,15 +151,7 @@ export default {
             } else {
                 data.type = "N";
             }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
+            this,fetchTableData(data);
         }, 500),
         handleAdd() {
             this.$refs["wonDialog"].dialogVisible = true;
