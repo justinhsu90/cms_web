@@ -314,6 +314,16 @@
                                 {{scope.row.margin | formatToMoney}}&nbsp;GBP
                             </template>
                         </el-table-column>
+                        <el-table-column min-width="80" label="日均毛利" prop="dailyAverageMargin">
+                            <template slot-scope="scope">
+                                {{scope.row.dailyAverageMargin | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="80" label="日均營業額" prop="dailyAverageRevenue">
+                            <template slot-scope="scope">
+                                {{scope.row.dailyAverageRevenue | formatToMoney}}&nbsp;GBP
+                            </template>
+                        </el-table-column>
                         <el-table-column min-width="80" label="毛利率" prop="marginPercent" :formatter="formatToPercent"></el-table-column>
                         <el-table-column min-width="80" label="採購成本" prop="productCost">
                             <template slot-scope="scope">
@@ -327,9 +337,6 @@
                             </template>
                         </el-table-column>
                         <el-table-column min-width="80" label="運輸成本率" prop="shippingCostPercent" :formatter="formatToPercent"></el-table-column>
-
-                        <!-- <el-table-column  min-width="80" label="退貨數量" prop="refundQuantity"></el-table-column> -->
-                        <!-- <el-table-column  min-width="80" label="退貨總金額" prop="refundAmount"></el-table-column> -->
                         <el-table-column min-width="80" label="退貨率" prop="refundPercent" :formatter="formatToPercent"></el-table-column>
                     </el-table>
                 </el-card>

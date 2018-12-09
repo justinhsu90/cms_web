@@ -3,7 +3,7 @@
         <el-row class="mb5">
             <h3>
                 <div class="ibbox">
-                    <span>生成做單上傳文件</span>
+                    <span>設定出貨方式</span>
                     <span class="label-tips fz14">
                     請先選擇貨代,在選擇運輸方式
                     </span>
