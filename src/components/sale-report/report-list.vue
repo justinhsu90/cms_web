@@ -25,17 +25,17 @@
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                     <el-table-column min-width="50" label="SKU" prop="sku" sortable="custom"></el-table-column>
-                    <el-table-column min-width="120" label="productName" prop="productName" sortable="custom">
+                    <el-table-column min-width="120" label="產品名稱" prop="productName" sortable="custom">
                     </el-table-column>
-                    <el-table-column min-width="40" label="總數" prop="total" sortable="custom">
+                    <el-table-column min-width="30" label="總數" prop="total" sortable="custom">
                     </el-table-column>
                     <el-table-column min-width="40" label="Wowcher" prop="wowcher" sortable="custom">
                     </el-table-column>
                     <el-table-column min-width="40" label="Amazon" prop="amazon" sortable="custom">                             
                     </el-table-column>
-                    <el-table-column min-width="50" label="Cdiscount" prop="cdiscount" sortable="custom">
+                    <el-table-column min-width="40" label="Cdiscount" prop="cdiscount" sortable="custom">
                     </el-table-column>
-                    <el-table-column min-width="30" label="other" prop="other" sortable="custom"> 
+                    <el-table-column min-width="30" label="其他" prop="other" sortable="custom"> 
                     </el-table-column>
                     <el-table-column width="80" label="圖片" v-if="showImg">
                         <template slot-scope="{row}">
