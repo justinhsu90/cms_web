@@ -89,7 +89,6 @@ export default {
             url: "javascript:void(0)",
             exportLoading: false,
             record: [],
-            maxHeight: 450,
             amaShow: false,
             parcelShow: false,
             deprecatedSkuShow: false,

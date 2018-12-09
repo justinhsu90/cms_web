@@ -15,8 +15,8 @@
             </h3>
         </el-row>
         <el-row class="mb5" :gutter="10">            
-                <el-select class="w10" placeholder="多個愛爾蘭貨代" v-model="imoresearchAgent" @change="handleAgentChange('imoreagent')">
-                    <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
+                <el-select class="w10" placeholder="多個愛爾蘭貨代" v-model="imoresearchAgent">
+                    <el-option v-for="(v,i) in imoreagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
                 <el-select  class="w10" placeholder="多個愛爾蘭發貨渠道" v-model="imoresearchShippingMethod">
                     <el-option v-for="(v,i) in imoreSerachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
@@ -29,8 +29,8 @@
                     <el-option v-for="(v,i) in iserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
                 </el-select>   
-                <el-select class="w10" placeholder="多個英國貨代" v-model="ymoresearchAgent" @change="handleAgentChange('ymoreagent')">
-                    <el-option v-for="(v,i) in yagent" :key="i" :label="v" :value="v"></el-option>
+                <el-select class="w10" placeholder="多個英國貨代" v-model="ymoresearchAgent">
+                    <el-option v-for="(v,i) in ymoreagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
                 <el-select class="w10" placeholder="多個英國發貨渠道" v-model="ymoresearchShippingMethod">
                     <el-option v-for="(v,i) in ymoreserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
@@ -128,7 +128,9 @@ export default {
             searchAgent: "YD",
             agent: [],
             iagent: [],
-            yagent: []
+            yagent: [],
+            imoreagent:[],
+            ymoreagent:[]
         };
     },
     created() {
@@ -158,6 +160,21 @@ export default {
                         yagent.push(v.shippingMethodAgent);
                     }
                 }
+                
+                if (v.shippingMethodCountry == "Batch_IE") {
+                    this.imoreagent.push(v.shippingMethodAgent)
+                    this.imoresearchAgent = v.shippingMethodAgent;
+                    this.imoresearchShippingMethod = v.shippingMethodCode;
+                    this.imoreSerachShippingMethodData.push(v);
+                }
+
+                if (v.shippingMethodCountry == "Batch_GB") {
+                    this.ymoreagent.push(v.shippingMethodAgent)
+                    this.ymoresearchAgent = v.shippingMethodAgent;
+                    this.ymoresearchShippingMethod = v.shippingMethodCode;
+                    this.ymoreserachShippingMethodData.push(v);
+                }
+
             });
             this.shippingMethodAgent = shippingMethodAgent;
             this.shippingMethodData = shippingMethodData;
