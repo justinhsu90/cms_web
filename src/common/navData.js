@@ -27,13 +27,13 @@ export default [
         label: "做單及出貨",
         isLevel: true,
         child: [
-            {
-                index: "shipment",
-                label: "小包做單"
-            },
+            // {
+            //     index: "shipment",
+            //     label: "舊小包做單"
+            // },
             {
                 index: "single",
-                label: "快遞單做單"
+                label: "小包做單 (CKE only)"
             },
             {
                 index: "excelUpload",
