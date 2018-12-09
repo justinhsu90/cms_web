@@ -264,7 +264,7 @@ export default {
                 limit: 10000
             },
             fetchOption: {
-                url: "/cke/shipment/unshiplist",
+                url: "/cke/shipment/parcelList",
                 method: "post",
                 where: ""
             }
