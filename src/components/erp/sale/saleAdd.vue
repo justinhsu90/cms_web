@@ -7,7 +7,6 @@
             </div>
             <br>
             <h2>新增銷貨單
-                <el-button :disabled="disabled" style="float:right" type="success" size="medium" @click="handleAdd">加入產品</el-button>
             </h2>
             <br>
             <el-form ref="form" :model="formData" :rules="rules">
@@ -74,7 +73,7 @@
                                 <td>{{i+1}}</td>
                                 <td>
                                     <el-form-item label="" :prop="'data.'+i+'.sku'" :rules="requredRule">
-                                        <el-input v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
+                                        <el-input ref="input" v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
                                     </el-form-item>
                                 </td>
                                 <td>
@@ -129,6 +128,7 @@
                 </div>
                 <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" size="large">添加</el-button>
             </el-popover>
+            <el-button :disabled="disabled" class="fr" type="success" size="small" @click="handleAdd">加入產品</el-button>
             </el-form>
         </div>
         <querySku name="slaeAdd" ref="querySku"></querySku>
@@ -320,6 +320,9 @@ export default {
                 productSpec: ""
             };
             this.formData.data.push(obj);
+            this.$nextTick(()=>{
+                this.$refs['input'].slice(-1)[0].$el.querySelector('input').focus()
+            })
         },
         handleDelete(index) {
             this.formData.data.splice(index, 1);

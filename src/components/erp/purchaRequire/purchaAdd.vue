@@ -8,7 +8,6 @@
             <br>
             <h2 class="clearfix">
                 <div class="f-l"> 新增採購需求單 </div>
-                <el-button class="f-r" type="success" size="small" @click="handleAdd">新增產品</el-button>
             </h2>
             <br>
             <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -100,6 +99,7 @@
                     </el-row>
                 </el-card>
                 <el-button @click="submit" size="large" :loading="submitLoading" type="primary">新增</el-button>
+                <el-button class="f-r" type="success" size="small" @click="handleAdd">新增產品</el-button>
             </el-form>
         </div>
     </div>

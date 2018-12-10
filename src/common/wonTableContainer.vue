@@ -102,6 +102,7 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
+            if (!this.$refs.wonTable) return;
             this.maxHeight =
                 document.scrollingElement.clientHeight -
                 this.$refs.wonTable.$el.getBoundingClientRect().top -

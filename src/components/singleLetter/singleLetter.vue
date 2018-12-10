@@ -151,7 +151,7 @@ export default {
             } else {
                 data.type = "N";
             }
-            this,fetchTableData(data);
+            this.fetchTableData(data);
         }, 500),
         handleAdd() {
             this.$refs["wonDialog"].dialogVisible = true;

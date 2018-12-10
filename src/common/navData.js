@@ -112,7 +112,7 @@ export default [
             //     label: "(3-1) 付款單"
             // },
             {
-                index: "put-storage",
+                index: "putStorage",
                 label: "(3-1) 入庫單"
             },
             {

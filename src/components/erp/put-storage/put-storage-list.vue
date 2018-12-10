@@ -110,7 +110,7 @@ export default {
             });
         },
         handleAdd() {
-            this.$router.push("/put-storage-add");
+            this.$router.push("/putStorageAdd");
         }
     }
 };

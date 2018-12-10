@@ -148,7 +148,7 @@ export default {
     },
     methods: {
         goBack() {
-            this.$router.push("/put-storage");
+            this.$router.push("/putStorage");
         },
         getValue() {
             let data = _.cloneDeep(this.formData.data);
