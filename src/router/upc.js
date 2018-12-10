@@ -13,7 +13,7 @@ export default [
         path: '/upcAdd',
         component: asyncComponent('upc/upcAdd'),
         meta: {
-          sign: 'upcList'
+          sign: 'upc'
         }
       },
       {
@@ -21,7 +21,7 @@ export default [
         path: '/upcEdit',
         component: asyncComponent('upc/upcEdit'),
         meta: {
-          sign: 'upcList'
+          sign: 'upc'
         }
     }
 ]
