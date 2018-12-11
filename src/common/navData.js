@@ -73,7 +73,12 @@ export default [
         index: "Amazon",
         label: "Amazon",
         isLevel: true,
-        child: []
+        child: [
+            {
+                index: "wowcherReplenish",
+                label: "補貨計算"
+            }
+        ]
     },
     {
         index: "wowcher",
@@ -87,10 +92,6 @@ export default [
             {
                 index: "wowcherSample",
                 label: "樣品清單"
-            },
-            {
-                index: "wowcherReplenish",
-                label: "補貨計算"
             }
         ]
     },
