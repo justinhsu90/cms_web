@@ -75,7 +75,7 @@ export default [
         isLevel: true,
         child: [
             {
-                index: "wowcherReplenish",
+                index: "restockCount",
                 label: "補貨計算"
             }
         ]
@@ -135,7 +135,7 @@ export default [
         ]
     },
     {
-        index: "singleLetter",
+        index: "wowcherInformCustomerParcelArrival",
         label: "補發信單"
     }
 ]

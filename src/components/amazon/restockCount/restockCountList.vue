@@ -4,7 +4,7 @@
       <el-col :span="24">
         <el-input
           class="w-max200 ibbox"
-          placeholder="搜索"
+          placeholder="搜索" 
           v-model="fetchOption.where"
           @keyup.enter.native="handleSearch"
         >

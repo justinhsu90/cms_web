@@ -141,7 +141,7 @@ export default {
                 message: "此項目必填"
             },
             formData: {
-                date: "",
+                date: [],
                 country: "",
                 account: "",
                 platform: "",

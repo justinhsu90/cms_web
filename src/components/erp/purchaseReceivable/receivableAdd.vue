@@ -133,6 +133,19 @@ import { format } from "@/common/until/format";
 export default {
     name: "receivableAdd",
     data() {
+        let month = new Date().getMonth();
+        let year = new Date().getFullYear();
+        let arr = [1,3,5,7,8,10,12];
+        let start = new Date(year,month-1,1,0,0,0);
+        let end;
+        if(month == 0){
+            month = 12;   
+        }
+        if(arr.includes(month)){
+            end = new Date(year,month-1,31,0,0,0)
+        }else{
+            end = new Date(year,month-1,30,0,0,0)
+        }
         return {
             popoverVisible: false,
             pickerOptions: {
@@ -190,7 +203,7 @@ export default {
             Income: [],
             speed: [],
             formData: {
-                date: "",
+                date: [start,end],
                 country: "",
                 account: "",
                 platform: "",

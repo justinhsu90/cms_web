@@ -7,9 +7,9 @@ import four from './404'
 import sku from './sku'
 import dataAnalysis from './dataAnalysis'
 import upc from './upc';
-import singleLetter from './singleLetter'
+import wowcherInformCustomerParcelArrival from './wowcherInformCustomerParcelArrival'
 import wowcherDeal from './wowcher-deal'
-import wowcherReplenish from './wowcherReplenish'
+import restockCount from './restockCount'
 import order from './order'
 import replacement from './replacement'
 import wowcherSample from './wowcher-sample';
@@ -48,9 +48,9 @@ let router = new VueRouter({
         ...sku,
         ...dataAnalysis,
         ...upc,
-        ...singleLetter,
+        ...wowcherInformCustomerParcelArrival,
         ...wowcherDeal,
-        ...wowcherReplenish,
+        ...restockCount,
         ...order,
         ...replacement,
         ...wowcherSample,
