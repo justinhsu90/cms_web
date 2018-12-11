@@ -109,7 +109,7 @@ export default {
         },
         handleSearch(val) {
             let that = this;
-            this.$confirm('是否跳转到指定菜单','提示',{
+            this.$confirm('是否跳轉到指定菜單','提示',{
                 type:'info',
                 beforeClose(action,instance,done){
                     if(action == 'confirm'){

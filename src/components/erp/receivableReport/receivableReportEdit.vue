@@ -6,16 +6,16 @@
                 <a href="javascript:void(0)" @click="goBack">返回</a>
             </div>
             <br>
-            <h2>查看费用帳款
+            <h2>查看費用帳款
             </h2>
             <br>
             <table cellspacing="0" cellpadding="0" v-loading="loading">
                 <caption>
                     <h3 class="mt">
-                        {{year}}年{{month}}月费用应收帳款表
+                        {{year}}年{{month}}月費用應收帳款表
                     </h3>
                     <h5 class="tr">
-                        生成时间 {{generatedTime | formatToTime}}
+                        生成時就 {{generatedTime | formatToTime}}
                     </h5>
                 </caption>
                 <thead>

@@ -61,7 +61,7 @@
               {{scope.$index++}}
           </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             min-width="100"
             label="國家"
             prop="country"
@@ -72,7 +72,7 @@
             label="帳號"
             prop="account"
             sortable="custom"
-          ></el-table-column>
+          ></el-table-column> -->
           <el-table-column
             min-width="100"
             label="SKU"
