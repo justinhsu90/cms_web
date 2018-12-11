@@ -92,14 +92,16 @@ export default {
         wonDialog
     },
     data() {
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
         return {
             export: false,
             searchAccountOption: [],
             searchPlatformOption: [],
             searchCountryOption: [],
             form: {
-                year: "",
-                month: "",
+                year: new Date(),
+                month: start,
                 country: "",
                 account: "",
                 platform: ""

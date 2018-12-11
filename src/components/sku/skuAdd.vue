@@ -56,16 +56,28 @@
             label-position="left"
             label-width="150px"
         >
+            <el-alert
+                type="warning"
+                show-icon
+                title=""
+                class="mb10 w50"
+                v-if="isCopy"
+            >
+                <small>修改sku，才能进行保存。</small>
+            </el-alert>
             <div style="position:relative">
                 <el-form-item
                     ref="formItemTwo"
                     label="SKU"
                     prop="sku"
                     :rules="skuValidate"
-                >
+                >   
+                <template slot='label'>
+                    <span>SKU</span>
+                </template>
                     <el-input
                         v-model.trim="form.sku"
-                        style="width:50%;"
+                        class="w50"
                         @blur="handleInspect"
                     ></el-input>
                 </el-form-item>
@@ -88,7 +100,7 @@
             >
                 <el-input
                     v-model="form.newSku"
-                    style="width:50%"
+                    class="w50"
                 ></el-input>
             </el-form-item>
             <el-form-item
@@ -98,7 +110,7 @@
             >
                 <el-input
                     v-model="form.productName"
-                    style="width:50%"
+                    class="w50"
                 ></el-input>
             </el-form-item>
             <el-form-item
@@ -108,7 +120,7 @@
             >
                 <el-input
                     v-model="form.productNameChinese"
-                    style="width:50%"
+                    class="w50"
                 ></el-input>
             </el-form-item>
             <el-form-item
@@ -117,7 +129,7 @@
             >
                 <el-input
                     v-model="form.declareNameChinese"
-                    style="width:50%"
+                    class="w50"
                 ></el-input>
             </el-form-item>
             <el-form-item
@@ -126,7 +138,7 @@
             >
                 <el-input
                     v-model="form.declareNameEnglish"
-                    style="width:50%"
+                    class="w50"
                 ></el-input>
             </el-form-item>
             <el-form-item
@@ -146,7 +158,10 @@
                         v-if="base64 || form.imageUrl"
                         class="avatar"
                     >
-                        <img ref="img" :src="base64 ? base64 : form.imageUrl">
+                        <img
+                            ref="img"
+                            :src="base64 ? base64 : form.imageUrl"
+                        >
                         <div class="delete">
                             <i @click.stop="handleImageDelete"> 删除</i>
                         </div>
@@ -323,6 +338,7 @@
                 :loading="submitLoading"
                 type="primary"
                 size="large"
+                :disabled="formModified"
             >新增</el-button>
         </el-form>
 
@@ -346,6 +362,7 @@ export default {
             searchOptions: [],
             costCurrency: [],
             submitLoading: false,
+            isCopy:false,
             form: {
                 imageUrl: "",
                 autoSku: "",
@@ -371,7 +388,7 @@ export default {
                 declareNameEnglish: "",
                 deprecatedSKU: "",
                 productCost: "",
-                productCostCurrency: ""
+                productCostCurrency: "RMB"
             },
             skuValidate: {
                 required: true,
@@ -428,7 +445,8 @@ export default {
             priceShow: false,
             trueSku: true,
             image: "",
-            base64: ""
+            base64: "",
+            formModified:false,
         };
     },
     mounted() {
@@ -457,9 +475,9 @@ export default {
         let data = JSON.parse(this.$route.query.data);
         this.form.image = data.imageURL;
         this.base64 = data.imageURL;
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
             this.disposeCopy();
-        })
+        });
 
         this.form.productName = data.productName;
         this.form.newSku = data.newSku;
@@ -488,6 +506,10 @@ export default {
         this.form.declareNameEnglish = data.declareNameEnglish;
         this.form.deprecatedSKU = data.deprecatedSKU;
         this.form.productCost = data.productCost;
+        this.formModified = true;
+        this.$watch('form.sku',()=>{
+            this.formModified = false;
+        })
     },
     watch: {
         "form.autoSku"(newVal, oldVal) {
@@ -514,16 +536,16 @@ export default {
         }
     },
     methods: {
-        disposeCopy(){
+        disposeCopy() {
             let canvas = document.createElement("canvas");
-            this.$refs['img'].setAttribute('crossOrigin', 'anonymous');
-            this.$refs['img'].addEventListener("load", () => {
-                canvas.width = this.$refs['img'].width;
-                canvas.height = this.$refs['img'].height;
+            this.$refs["img"].setAttribute("crossOrigin", "anonymous");
+            this.$refs["img"].addEventListener("load", () => {
+                canvas.width = this.$refs["img"].width;
+                canvas.height = this.$refs["img"].height;
                 let cas = canvas.getContext("2d");
-                cas.drawImage(this.$refs['img'], 0, 0);
-                let base64 = canvas.toDataURL('image/png');
-                this.dataURLtoBlob(base64); 
+                cas.drawImage(this.$refs["img"], 0, 0);
+                let base64 = canvas.toDataURL("image/png");
+                this.dataURLtoBlob(base64);
             });
         },
         dataURLtoBlob(dataurl) {
@@ -536,13 +558,13 @@ export default {
                 u8arr[n] = bstr.charCodeAt(n);
             }
             let blob = new Blob([u8arr], { type: mime });
-            this.blobToFile(blob,'图片');
+            this.blobToFile(blob, "图片");
         },
         blobToFile(theBlob, fileName) {
             theBlob.lastModifiedDate = new Date();
             theBlob.name = fileName;
             this.blob = theBlob;
-        },    
+        },
         handleInspect() {},
         handleImageDelete() {
             this.base64 = "";
@@ -644,14 +666,15 @@ export default {
                         this.submitLoading = true;
                         formData.append("value", value);
                         formData.append("token", this.token);
-                        if (
-                            this.form.image 
-                        ) {
-                            if(this.blob && typeof this.form.image == 'string'){
+                        if (this.form.image) {
+                            if (
+                                this.blob &&
+                                typeof this.form.image == "string"
+                            ) {
                                 formData.append("uploadfile", this.blob);
-                            }else{
+                            } else {
                                 formData.append("uploadfile", this.form.image);
-                            }                            
+                            }
                         }
                         this.isLoading = true;
                         let url =

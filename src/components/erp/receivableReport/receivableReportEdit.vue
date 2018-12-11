@@ -86,7 +86,7 @@ export default {
             return moment(val).format("YYYY-MM-DD HH:mm:ss");
         },
         formToEmpty(val) {
-            return val ? val : "-";
+            return val ? val : "0";
         }
     },
     created() {
