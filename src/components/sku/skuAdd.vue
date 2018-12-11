@@ -647,7 +647,7 @@ export default {
                         if (
                             this.form.image 
                         ) {
-                            if(this.form.image.includes("http")){
+                            if(this.blob && typeof this.form.image == 'string'){
                                 formData.append("uploadfile", this.blob);
                             }else{
                                 formData.append("uploadfile", this.form.image);
