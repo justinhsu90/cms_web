@@ -19,12 +19,12 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="30" label="Report ID" prop="reportId"></el-table-column>
+                    <el-table-column min-width="30" label="報告號" prop="reportId"></el-table-column>
                     <el-table-column min-width="50" label="年" prop="year"></el-table-column>
                     <el-table-column min-width="50" label="月" prop="month"></el-table-column>
                     <el-table-column min-width="50" label="生成時間" prop="generatedTime" :formatter="formatToTime"></el-table-column>
                     <el-table-column min-width="50" label="生成人" prop="generatedBy"></el-table-column>
-                    <el-table-column width="100" label="动作" align="center">
+                    <el-table-column width="100" label="動作" align="center">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="查看" icon="el-icon-won-40" @click="handleEdit(scope.row)"></el-button>
                         </template>
