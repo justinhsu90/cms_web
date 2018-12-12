@@ -54,7 +54,7 @@ export default [
         ]
     },
     {
-        index: "reportList",
+        index: "platformSales",
         label: "各平台銷售表"
     },
     {

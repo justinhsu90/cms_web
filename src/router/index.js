@@ -29,7 +29,7 @@ import inventory from './inventory'
 import scriptExecution from './scriptExecution'
 import generateFile from './generateFile'
 import setship from './setship'
-import saleReport from './sale-report'
+import platformSales from './platform-sales'
 Vue.use(VueRouter);
 let router = new VueRouter({
   routes: [{
@@ -70,7 +70,7 @@ let router = new VueRouter({
         ...scriptExecution,
         ...generateFile,
         ...setship,
-        ...saleReport,{
+        ...platformSales,{
           path:'/try',
           component:asyncComponent('trya/try')
         }
