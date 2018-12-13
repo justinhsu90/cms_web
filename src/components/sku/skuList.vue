@@ -76,7 +76,7 @@
     </div>
 </template>
 <script>
-import wonTableContainer from "../../common/wonTableContainer";
+import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
 export default {
     extends: wonTableContainer,
