@@ -3,12 +3,8 @@ import Vue from "vue";
 import nav from "@/common/nav";
 import login from "@/common/login";
 import asyncComponent from "@/common/until/asyncComponent";
-import C from "js-cookie";
 let configRouters = [];
 const excludeRouters = ["./index.js"];
-if (C.get("privilege") == "admin") {
-  excludeRouters.push("./dataAnalysis.js");
-}
 const routers = require.context("./", true, /\.js$/);
 routers.keys().forEach(key => {
   if (excludeRouters.includes(key)) return;
