@@ -3,33 +3,18 @@ import Vue from 'vue'
 import nav from '@/common/nav'
 import login from '@/common/login'
 import asyncComponent from '@/common/until/asyncComponent'
+import C from 'js-cookie';
 import four from './404'
-import sku from './sku'
-import dataAnalysis from './dataAnalysis'
-import upc from './upc';
-import wowcherInformCustomerParcelArrival from './wowcherInformCustomerParcelArrival'
-import wowcherDeal from './wowcher-deal'
-import restockCount from './restockCount'
-import order from './order'
-import replacement from './replacement'
-import wowcherSample from './wowcher-sample';
-import documentManage from './document';
-import shipment from './shipment';
-import expressSingle from './express-single';
-import purcha from './purcha';
-import receivable from './receivable'
-import receivableReport from './receivable-report'
-import erpPurchase from './erp-purchase'
-import erpSale from './erp-sale';
-import payment from './payment';
-import putStorage from './put-storage'
-import excelUpload from './excel-upload';
-import shipping from './shipping'
-import inventory from './inventory'
-import scriptExecution from './scriptExecution'
-import generateFile from './generateFile'
-import setship from './setship'
-import platformSales from './platform-sales'
+let configRouters = [];
+const excludeRouters = ['./index.js','./404.js'];
+if(C.get('privilege') == 'admin'){
+  excludeRouters.push('./dataAnalysis.js');
+}
+const routers = require.context('./',true, /\.js$/); 
+routers.keys().forEach(key => {
+  if (excludeRouters.includes(key)) return;
+  configRouters = configRouters.concat(routers(key).default);
+});
 Vue.use(VueRouter);
 let router = new VueRouter({
   routes: [{
@@ -44,33 +29,8 @@ let router = new VueRouter({
       component: nav,
       redirect: '/sku',
       children: [
-        ...four,
-        ...sku,
-        ...dataAnalysis,
-        ...upc,
-        ...wowcherInformCustomerParcelArrival,
-        ...wowcherDeal,
-        ...restockCount,
-        ...order,
-        ...replacement,
-        ...wowcherSample,
-        ...documentManage,
-        ...shipment,
-        ...expressSingle,
-        ...purcha,
-        ...receivable,
-        ...receivableReport,
-        ...erpPurchase,
-        ...erpSale,
-        ...payment,
-        ...putStorage,
-        ...excelUpload,
-        ...shipping,
-        ...inventory,
-        ...scriptExecution,
-        ...generateFile,
-        ...setship,
-        ...platformSales,{
+        ...configRouters,
+        {
           path:'/try',
           component:asyncComponent('trya/try')
         }

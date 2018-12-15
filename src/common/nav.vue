@@ -8,19 +8,43 @@
                     <i class="clearmid"></i>
                 </h2>
                 <h2 class="f-r">
-                    <el-popover placement="bottom" width="200" trigger="click">
+                    <el-popover
+                        placement="bottom"
+                        width="200"
+                        trigger="click"
+                    >
                         <div>
                             <span>帳號資訊：</span>
                             <span>{{username}}</span>
                         </div>
-                        <i type="text" slot="reference" class="el-icon-won-50 va-m co-p"></i>
+                        <i
+                            type="text"
+                            slot="reference"
+                            class="el-icon-won-50 va-m co-p"
+                        ></i>
                     </el-popover>
-                    <i type="text" class="el-icon-setting va-m co-p" @click="handleQuit"></i>
+                    <i
+                        type="text"
+                        class="el-icon-setting va-m co-p"
+                        @click="handleQuit"
+                    ></i>
                     <i class="clearmid"></i>
                 </h2>
                 <div class="f-r pt10">
-                    <el-autocomplete ref="input" size="small" class="mr15 autocomplete" v-model="autoAutocomplete" :fetch-suggestions="querySearch" placeholder="搜索菜單" :trigger-on-focus="false" @select="handleSearch">
-                        <i class="el-icon-won-40" slot="suffix">
+                    <el-autocomplete
+                        ref="input"
+                        size="small"
+                        class="mr15 autocomplete"
+                        v-model="autoAutocomplete"
+                        :fetch-suggestions="querySearch"
+                        placeholder="搜索菜單"
+                        :trigger-on-focus="false"
+                        @select="handleSearch"
+                    >
+                        <i
+                            class="el-icon-won-40"
+                            slot="suffix"
+                        >
                         </i>
                     </el-autocomplete>
                 </div>
@@ -28,22 +52,46 @@
             <el-container>
                 <div class="aside">
                     <div class="lh50 t_a-c">
-                        <i class="el-icon-won-28 co-po fz20 c-white" @click="handleClick"></i>
+                        <i
+                            class="el-icon-won-28 co-po fz20 c-white"
+                            @click="handleClick"
+                        ></i>
                     </div>
                     <div>
-                        <el-menu :unique-opened="true" :collapse="isCollapse" :default-active="defaultNav" class="el-menu-vertical-demo" background-color="rgb(50, 65, 87)" text-color="white" active-text-color="#409eff" @select="handleSelect">
+                        <el-menu
+                            :unique-opened="true"
+                            :collapse="isCollapse"
+                            :default-active="defaultNav"
+                            class="el-menu-vertical-demo"
+                            background-color="rgb(50, 65, 87)"
+                            text-color="white"
+                            active-text-color="#409eff"
+                            @select="handleSelect"
+                        >
                             <template v-for="(v,i) in navData">
-                                <el-submenu v-if="v.isLevel" :index="v.index" :key="i">
+                                <el-submenu
+                                    v-if="v.isLevel"
+                                    :index="v.index"
+                                    :key="i"
+                                >
                                     <template slot="title">
                                         <i class="el-icon-menu"></i>
                                         <span slot="title">{{v.label}}</span>
                                     </template>
                                     <el-menu-item-group>
                                         <div slot="title"></div>
-                                        <el-menu-item v-for="(value,index) in v.child" :key="index+'child'" :index="value.index">{{value.label}}</el-menu-item>
+                                        <el-menu-item
+                                            v-for="(value,index) in v.child"
+                                            :key="index+'child'"
+                                            :index="value.index"
+                                        >{{value.label}}</el-menu-item>
                                     </el-menu-item-group>
                                 </el-submenu>
-                                <el-menu-item :index="v.index" v-else :key="i">
+                                <el-menu-item
+                                    :index="v.index"
+                                    v-else
+                                    :key="i"
+                                >
                                     <i class="el-icon-menu"></i>
                                     <span slot="title">{{v.label}}</span>
                                 </el-menu-item>
@@ -109,17 +157,17 @@ export default {
         },
         handleSearch(val) {
             let that = this;
-            this.$confirm('是否跳轉到指定菜單','提示',{
-                type:'info',
-                beforeClose(action,instance,done){
-                    if(action == 'confirm'){
+            this.$confirm("是否跳轉到指定菜單", "提示", {
+                type: "info",
+                beforeClose(action, instance, done) {
+                    if (action == "confirm") {
                         that.$router.push(`/${val.index}`);
-                        done()
-                    }else{
-                        done()
+                        done();
+                    } else {
+                        done();
                     }
                 }
-            }).catch(()=>{})         
+            }).catch(() => {});
         },
         handleSelect(index, router) {
             this.$router.push(`/${index}`);
@@ -133,12 +181,16 @@ export default {
                 type: "info",
                 beforeClose(action, instance, done) {
                     if (action == "confirm") {
-                        let d = new Date();
-                        d.setTime(d.getTime() + -1 * 24 * 60 * 60 * 1000);
-                        let expires = "expires=" + d.toUTCString();
-                        document.cookie = `token="";path="/";expires=${expires}`;
-                        document.cookie = `username="";path="/";expires=${expires}`;
-                        document.cookie = `name="";path="/";expires=${expires}`;
+                        C.set("name", res.name, { expires: -1, path: "/" });
+                        C.set("username", res.username, {
+                            expires: -1,
+                            path: "/"
+                        });
+                        C.set("privilege", res.privilege, {
+                            expires: -1,
+                            path: "/"
+                        });
+                        C.set("token", res.token, { expires: -1, path: "/" });
                         that.$router.push("/");
                         done();
                     } else {
@@ -230,7 +282,7 @@ export default {
 }
 .autocomplete {
     width: 150px;
-    .el-input__suffix{
+    .el-input__suffix {
         line-height: 34px;
     }
     input {

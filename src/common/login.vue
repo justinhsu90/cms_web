@@ -17,6 +17,7 @@
     </div>
 </template>
 <script>
+import C from 'js-cookie';
     export default {
         data: function(){
             return {
@@ -54,12 +55,10 @@
                             if(!res.success){    
                                 this.$message.error('密碼錯誤');
                             }else{
-                                let date = new Date();
-                                let getTime = date.getTime()+3*(864e+5);
-                                date.setTime(getTime);
-                                document.cookie=`token=${res.token};path=/;expires=${date.toUTCString()}`;
-                                document.cookie=`username=${res.userName};path=/;expires=${date.toUTCString()}`;
-                                document.cookie=`name=${res.name};path=/;expires=${date.toUTCString()}`;
+                                C.set('name',res.name,{ expires: 7, path: '/' });
+                                C.set('username',res.username,{ expires: 7, path: '/' })
+                                C.set('privilege',res.privilege,{ expires: 7, path: '/' })
+                                C.set('token',res.token,{ expires: 7, path: '/' })
                                 this.$router.push('/sku');
                             }   
                         }).catch((res)=>{

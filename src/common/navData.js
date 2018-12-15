@@ -101,6 +101,10 @@ export default [
         isLevel: true,
         child: [
             {
+                index: "inventoryList",
+                label: "(0) 庫存異動單"
+            },
+            {
                 index: "purchaRequire",
                 label: "(1) 採購需求單"
             },
@@ -128,10 +132,6 @@ export default [
                 index: "receivableReport",
                 label: "(5-2) 費用應收表"
             },
-            {
-                index: "inventoryList",
-                label: "庫存異動表"
-            }
         ]
     },
     {

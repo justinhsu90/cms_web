@@ -13,7 +13,7 @@
             </el-col>
             <el-col :span="14">
                 <el-button class="fr" @click="handleAdd" type="primary">新增SKU</el-button>
-                <el-button :loading="exportLoading" class="fr mr10 mt5" @click="handleExport" size="small">导出SKU</el-button>
+                <el-button v-if="privilege" :loading="exportLoading" class="fr mr10 mt5" @click="handleExport" size="small">导出SKU</el-button>
                 <el-checkbox-group v-model="record" @change="handleSize" size="small" style="display:inline-block;padding:5px;float:right">
                     <el-checkbox-button label="deprecatedSku" :key="4">已停用SKU</el-checkbox-button>
                     <el-checkbox-button label="price" :key="5">成本</el-checkbox-button>
@@ -21,7 +21,7 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange" :row-key="rowKey">
-                    <el-table-column type="selection" width="55" reserve-selection>
+                    <el-table-column v-if="privilege" type="selection" width="55" reserve-selection>
                     </el-table-column>
                     <el-table-column sortable="custom" label="產品名稱" prop="productName" min-width="180"></el-table-column>
                     <el-table-column sortable="custom" min-width="80" label="SKU" prop="sku"></el-table-column>
@@ -78,6 +78,7 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
+import C from 'js-cookie';
 export default {
     extends: wonTableContainer,
     name: "sku",
@@ -85,7 +86,9 @@ export default {
         wonDialog
     },
     data() {
+        let privilege = C.get('privilege') == 'admin';
         return {
+            privilege,
             url: "javascript:void(0)",
             exportLoading: false,
             record: [],
