@@ -119,13 +119,6 @@ export default {
     querySku
   },
   data() {
-    let username;
-    document.cookie.split(";").forEach(v => {
-      let str = v.split("=")[0].trim();
-      if (str == "username") {
-        username = v.split("=")[1];
-      }
-    });
     let getTime = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
 
     return {
@@ -134,7 +127,7 @@ export default {
       stockCondition: [],
       formData: {
         receivedDate: getTime,
-        inspectionBy: username,
+        inspectionBy: C.get("userName"),
         trackingNumber: "",
         agent: "",
         data: [

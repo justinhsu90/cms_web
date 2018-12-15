@@ -1,8 +1,11 @@
-export default [
+import C from "js-cookie";
+let exclude = [
   {
     index: "dataAnalysis",
     label: "儀表板"
-  },
+  }
+];
+const nav = [
   {
     index: "sku",
     label: "產品相關",
@@ -139,3 +142,7 @@ export default [
     label: "補發信單"
   }
 ];
+if (C.get("privilege") == "admin") {
+  nav.unshift(...exclude);
+}
+export default nav;

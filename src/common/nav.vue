@@ -111,24 +111,17 @@
 </template>
 <script>
 import navData from "./navData";
+import C from "js-cookie";
 export default {
   data() {
     return {
       defaultNav: "",
       asideShow: true,
-      username: "",
+      username: C.get("userName"),
       isCollapse: false,
       navData,
       autoAutocomplete: ""
     };
-  },
-  created() {
-    document.cookie.split(";").forEach(v => {
-      let str = v.split("=")[0].trim();
-      if (str == "username") {
-        this.username = v.split("=")[1];
-      }
-    });
   },
   methods: {
     querySearch(queryString, cb) {
@@ -182,7 +175,7 @@ export default {
         beforeClose(action, instance, done) {
           if (action == "confirm") {
             C.remove("name");
-            C.remove("username");
+            C.remove("userName");
             C.remove("privilege");
             C.remove("token");
             that.$router.push("/");
