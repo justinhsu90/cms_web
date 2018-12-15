@@ -81,133 +81,127 @@
 
 <script>
 export default {
-    methods: {
-        goBack() {
-            this.$router.push("inventoryList");
-        },
-        submit() {
-            this.$refs["form"].validate(valid => {
-                if (valid) {
-                    this.submitLoading = true;
-                    axios({
-                        url: "inventory/change/add",
-                        method: "post",
-                        data: {
-                            token: this.token,
-                            ...this.form
-                        }
-                    }).then(res => {
-                        this.submitLoading = false;
-                        this.$message.success("添加成功");
-                        this.goBack();
-                    });
-                }
-            });
+  methods: {
+    goBack() {
+      this.$router.push("inventoryList");
+    },
+    submit() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          this.submitLoading = true;
+          axios({
+            url: "inventory/change/add",
+            method: "post",
+            data: {
+              token: this.token,
+              ...this.form
+            }
+          }).then(() => {
+            this.submitLoading = false;
+            this.$message.success("添加成功");
+            this.goBack();
+          });
         }
-    },
-    mounted(){
-         let type = axios({
-            url: "/inventory/change/value/inventoryType",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let warehouse = axios({
-            url: "/inventory/change/value/warehouse",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([type, warehouse]).then(([type, warehouse]) => {
-            this.warehouseOption = _.cloneDeep(warehouse);
-            this.inventoryTypeOption = _.cloneDeep(type);
-        });
-    },
-    data() {
-        return {
-            rules: {
-                required: true,
-                message: "此項必填"
-            },
-            inventoryTypeOption:[],
-            warehouseOption:[],
-            selectOption: [],
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            form: {
-                sku: "",
-                quantity: "",
-                inventoryType: "",
-                datetime: "",
-                moveTo: "",
-                moveFrom: "",
-                platform: "",
-                account: "",
-                warehouse: ""
-            },
-            submitLoading: false
-        };
-    },
-   
-    created(){
-        axios({
-            url:'/script/value/scriptList',
-            method:'post',
-            data:{
-                token:this.token
-            }
-        }).then((res)=>{
-            this.selectOption = _.cloneDeep(res);
-        })
+      });
     }
+  },
+  mounted() {
+    let type = axios({
+      url: "/inventory/change/value/inventoryType",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let warehouse = axios({
+      url: "/inventory/change/value/warehouse",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([type, warehouse]).then(([type, warehouse]) => {
+      this.warehouseOption = _.cloneDeep(warehouse);
+      this.inventoryTypeOption = _.cloneDeep(type);
+    });
+  },
+  data() {
+    return {
+      rules: {
+        required: true,
+        message: "此項必填"
+      },
+      inventoryTypeOption: [],
+      warehouseOption: [],
+      selectOption: [],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      form: {
+        sku: "",
+        quantity: "",
+        inventoryType: "",
+        datetime: "",
+        moveTo: "",
+        moveFrom: "",
+        platform: "",
+        account: "",
+        warehouse: ""
+      },
+      submitLoading: false
+    };
+  },
+
+  created() {
+    axios({
+      url: "/script/value/scriptList",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.selectOption = _.cloneDeep(res);
+    });
+  }
 };
 </script>
 
 <style scoped lang="scss">
 a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-icon-arrow-left {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-form-item {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 </style>

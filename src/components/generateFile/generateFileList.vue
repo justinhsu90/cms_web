@@ -86,262 +86,258 @@
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
 export default {
-    components: {
-        wonDialog
-    },
-    extends: wonTableContainer,
-    data() {
-        return {
-            fileLoading: false,
-            pullLoading: false,
-            url: "",
-            tableData: [],
-            condition: [],
-            searchShippingMethodOption: [],
-            maxHeight: 450,
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                order: "",
-                limit: 15
-            },
-            fetchOption: {
-                url: "/shipment/productList",
-                where: "",
-                method: "post"
-            },
-            platform: [],
-            shippingMethodAgent: [],
-            shippingMethodData: [],
-            serachShippingMethodData: [],
-            isearchAgent: "",
-            iserachShippingMethodData: [],
-            isearchShippingMethod: "",
-            ysearchAgent: "",
-            yserachShippingMethodData: [],
-            ysearchShippingMethod: "",
-            searchShippingMethod: "YTYGB",
-            searchAgent: "YD",
-            agent: [],
-            iagent: [],
-            yagent: []
-        };
-    },
-    created() {
-        let shippingMethod = axios({
-            url: "shipment/shippingMethod",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(shippingMethod => {
-            let shippingMethodAgent = [];
-            let iagent = [];
-            let yagent = [];
-            let shippingMethodData = _.cloneDeep(shippingMethod);
-            this.agent = _.cloneDeep(shippingMethod);
-            _.each(shippingMethod, v => {
-                if (!shippingMethodAgent.includes(v.shippingMethodAgent)) {
-                    shippingMethodAgent.push(v.shippingMethodAgent);
-                }
-                if (v.shippingMethodCountry == "IE") {
-                    if (!iagent.includes(v.shippingMethodAgent)) {
-                        iagent.push(v.shippingMethodAgent);
-                    }
-                }
-                if (v.shippingMethodCountry == "GB") {
-                    if (!yagent.includes(v.shippingMethodAgent)) {
-                        yagent.push(v.shippingMethodAgent);
-                    }
-                }
-            });
-            this.shippingMethodAgent = shippingMethodAgent;
-            this.shippingMethodData = shippingMethodData;
-            this.iagent = iagent;
-            this.yagent = yagent;
-            this.handleChange('agent');
-        });
-    },
-    mounted(){
-        
-    },
-    methods: {
-        methodAgent(row) {
-            let data = _.filter(this.agent, v => {
-                return v.shippingMethodCountry == row.country;
-            });
-            let agent = [];
-            _.each(data, v => {
-                if (!agent.includes(v.shippingMethodAgent)) {
-                    agent.push(v.shippingMethodAgent);
-                }
-                return;
-            });
-            return agent;
-        },
-        handleClick() {
-            this.pullLoading = true;
-            this.handleSearch();
-        },
-        handleCondition(sign) {
-            this.handleSearch();
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(res => {
-                this.isTableLoading = false;
-                this.pullLoading = false;
-                this.tableData = _.cloneDeep(res);
-                _.each(this.tableData, v => {
-                    if (v.agent) {
-                        let data = _.filter(this.shippingMethodData, value => {
-                            return value.shippingMethodAgent == v.agent;
-                        });
-                        this.$set(v, "shippingMethodData", data);
-                    } else {
-                        this.$set(v, "shippingMethodData", []);
-                    }
-                });
-            });
-        }, 500),
-        handleChangeShippingMethod(val) {
-            if (val == "iagent") {
-                _.each(this.tableData, v => {
-                    if (v.country == "IE") {
-                        v.shippingMethod = this.isearchShippingMethod;
-                    }
-                });
-            }
-            if (val == "yagent") {
-                _.each(this.tableData, v => {
-                    if (v.country == "GB") {
-                        v.shippingMethod = this.ysearchShippingMethod;
-                    }
-                });
-            }
-        },
-        handleAgentChange(val) {
-            if (val == "iagent") {
-                let data = _.filter(this.shippingMethodData, value => {
-                    return value.shippingMethodAgent == this.isearchAgent;
-                });
-                this.iserachShippingMethodData = data;
-                this.isearchShippingMethod = "";
-                _.each(this.tableData, v => {
-                    if (v.country == "IE") {
-                        v.agent = this.isearchAgent;
-                        this.handleChange(v);
-                    }
-                });
-            }
-            if (val == "yagent") {
-                let data = _.filter(this.shippingMethodData, value => {
-                    return value.shippingMethodAgent == this.ysearchAgent;
-                });
-                this.yserachShippingMethodData = data;
-                this.ysearchShippingMethod = "";
-                _.each(this.tableData, v => {
-                    if (v.country == "GB") {
-                        v.agent = this.ysearchAgent;
-                        this.handleChange(v);
-                    }
-                });
-            }
-        },
-        handleChange(row) {
-            if (row == "agent") {
-                let data = _.filter(this.shippingMethodData, value => {
-                    return value.shippingMethodAgent == this.searchAgent;
-                });
-                this.serachShippingMethodData = data;
-                return;
-            }
-            if (row == "iagent") {
-                let data = _.filter(this.shippingMethodData, value => {
-                    return value.shippingMethodAgent == this.isearchAgent;
-                });
-                this.iserachShippingMethodData = data;
-                return;
-            }
-            if (row == "yagent") {
-                let data = _.filter(this.shippingMethodData, value => {
-                    return value.shippingMethodAgent == this.ysearchAgent;
-                });
-                this.yserachShippingMethodData = data;
-                return;
-            }
-            if (row != "agent" && row != "iagent") {
-                let data = _.filter(this.shippingMethodData, value => {
-                    return value.shippingMethodAgent == row.agent;
-                });
-                row.shippingMethodData = data;
-                row.shippingMethod = "";
-            }
-        },
-        getValue() {
-            let data = _.cloneDeep(this.$refs['wonTable'].store.states.selection);
-            if (_.isEmpty(data)) {
-                this.$message.warning("請抓取未發貨清單");
-                return false;
-            }
-            let init = false;
-            _.each(data, v => {
-                if (init) return;
-                if (!v.agent || !v.shippingMethod) {
-                    init = true;
-                    this.$message.warning("選擇下貨代或運輸方式必須全部填寫");
-                }
-                delete v.shippingMethodData;
-            });
-            if (init) {
-                return false;
-            }
-            if (this.searchAgent && this.searchShippingMethod) {
-                data.push({
-                    productName: "batch",
-                    country: "GB",
-                    shippingMethod: this.searchShippingMethod,
-                    agent: this.searchAgent,
-                    parcelWeight: 0
-                });
-            }
-            let obj = {
-                token: this.token,
-                value: JSON.stringify({ data })
-            };
-            return obj;
-        },
-        submit() {
-            if (this.getValue()) {
-                this.fileLoading = true;
-                axios({
-                    url: "/shipment/generate",
-                    method: "post",
-                    data: this.getValue()
-                }).then(res => {
-                    if (res.includes("http")) {
-                        this.url = res;
-                        this.$refs["wonDialog"].$emit("visible", res);
-                    } else {
-                        this.$message.error("生成失敗");
-                    }
-                    this.fileLoading = false;
-                });
-            }
+  components: {
+    wonDialog
+  },
+  extends: wonTableContainer,
+  data() {
+    return {
+      fileLoading: false,
+      pullLoading: false,
+      url: "",
+      tableData: [],
+      condition: [],
+      searchShippingMethodOption: [],
+      maxHeight: 450,
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        order: "",
+        limit: 15
+      },
+      fetchOption: {
+        url: "/shipment/productList",
+        where: "",
+        method: "post"
+      },
+      platform: [],
+      shippingMethodAgent: [],
+      shippingMethodData: [],
+      serachShippingMethodData: [],
+      isearchAgent: "",
+      iserachShippingMethodData: [],
+      isearchShippingMethod: "",
+      ysearchAgent: "",
+      yserachShippingMethodData: [],
+      ysearchShippingMethod: "",
+      searchShippingMethod: "YTYGB",
+      searchAgent: "YD",
+      agent: [],
+      iagent: [],
+      yagent: []
+    };
+  },
+  created() {
+    axios({
+      url: "shipment/shippingMethod",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(shippingMethod => {
+      let shippingMethodAgent = [];
+      let iagent = [];
+      let yagent = [];
+      let shippingMethodData = _.cloneDeep(shippingMethod);
+      this.agent = _.cloneDeep(shippingMethod);
+      _.each(shippingMethod, v => {
+        if (!shippingMethodAgent.includes(v.shippingMethodAgent)) {
+          shippingMethodAgent.push(v.shippingMethodAgent);
         }
+        if (v.shippingMethodCountry == "IE") {
+          if (!iagent.includes(v.shippingMethodAgent)) {
+            iagent.push(v.shippingMethodAgent);
+          }
+        }
+        if (v.shippingMethodCountry == "GB") {
+          if (!yagent.includes(v.shippingMethodAgent)) {
+            yagent.push(v.shippingMethodAgent);
+          }
+        }
+      });
+      this.shippingMethodAgent = shippingMethodAgent;
+      this.shippingMethodData = shippingMethodData;
+      this.iagent = iagent;
+      this.yagent = yagent;
+      this.handleChange("agent");
+    });
+  },
+  mounted() {},
+  methods: {
+    methodAgent(row) {
+      let data = _.filter(this.agent, v => {
+        return v.shippingMethodCountry == row.country;
+      });
+      let agent = [];
+      _.each(data, v => {
+        if (!agent.includes(v.shippingMethodAgent)) {
+          agent.push(v.shippingMethodAgent);
+        }
+        return;
+      });
+      return agent;
+    },
+    handleClick() {
+      this.pullLoading = true;
+      this.handleSearch();
+    },
+    handleCondition() {
+      this.handleSearch();
+    },
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(res => {
+        this.isTableLoading = false;
+        this.pullLoading = false;
+        this.tableData = _.cloneDeep(res);
+        _.each(this.tableData, v => {
+          if (v.agent) {
+            let data = _.filter(this.shippingMethodData, value => {
+              return value.shippingMethodAgent == v.agent;
+            });
+            this.$set(v, "shippingMethodData", data);
+          } else {
+            this.$set(v, "shippingMethodData", []);
+          }
+        });
+      });
+    }, 500),
+    handleChangeShippingMethod(val) {
+      if (val == "iagent") {
+        _.each(this.tableData, v => {
+          if (v.country == "IE") {
+            v.shippingMethod = this.isearchShippingMethod;
+          }
+        });
+      }
+      if (val == "yagent") {
+        _.each(this.tableData, v => {
+          if (v.country == "GB") {
+            v.shippingMethod = this.ysearchShippingMethod;
+          }
+        });
+      }
+    },
+    handleAgentChange(val) {
+      if (val == "iagent") {
+        let data = _.filter(this.shippingMethodData, value => {
+          return value.shippingMethodAgent == this.isearchAgent;
+        });
+        this.iserachShippingMethodData = data;
+        this.isearchShippingMethod = "";
+        _.each(this.tableData, v => {
+          if (v.country == "IE") {
+            v.agent = this.isearchAgent;
+            this.handleChange(v);
+          }
+        });
+      }
+      if (val == "yagent") {
+        let data = _.filter(this.shippingMethodData, value => {
+          return value.shippingMethodAgent == this.ysearchAgent;
+        });
+        this.yserachShippingMethodData = data;
+        this.ysearchShippingMethod = "";
+        _.each(this.tableData, v => {
+          if (v.country == "GB") {
+            v.agent = this.ysearchAgent;
+            this.handleChange(v);
+          }
+        });
+      }
+    },
+    handleChange(row) {
+      if (row == "agent") {
+        let data = _.filter(this.shippingMethodData, value => {
+          return value.shippingMethodAgent == this.searchAgent;
+        });
+        this.serachShippingMethodData = data;
+        return;
+      }
+      if (row == "iagent") {
+        let data = _.filter(this.shippingMethodData, value => {
+          return value.shippingMethodAgent == this.isearchAgent;
+        });
+        this.iserachShippingMethodData = data;
+        return;
+      }
+      if (row == "yagent") {
+        let data = _.filter(this.shippingMethodData, value => {
+          return value.shippingMethodAgent == this.ysearchAgent;
+        });
+        this.yserachShippingMethodData = data;
+        return;
+      }
+      if (row != "agent" && row != "iagent") {
+        let data = _.filter(this.shippingMethodData, value => {
+          return value.shippingMethodAgent == row.agent;
+        });
+        row.shippingMethodData = data;
+        row.shippingMethod = "";
+      }
+    },
+    getValue() {
+      let data = _.cloneDeep(this.$refs["wonTable"].store.states.selection);
+      if (_.isEmpty(data)) {
+        this.$message.warning("請抓取未發貨清單");
+        return false;
+      }
+      let init = false;
+      _.each(data, v => {
+        if (init) return;
+        if (!v.agent || !v.shippingMethod) {
+          init = true;
+          this.$message.warning("選擇下貨代或運輸方式必須全部填寫");
+        }
+        delete v.shippingMethodData;
+      });
+      if (init) {
+        return false;
+      }
+      if (this.searchAgent && this.searchShippingMethod) {
+        data.push({
+          productName: "batch",
+          country: "GB",
+          shippingMethod: this.searchShippingMethod,
+          agent: this.searchAgent,
+          parcelWeight: 0
+        });
+      }
+      let obj = {
+        token: this.token,
+        value: JSON.stringify({ data })
+      };
+      return obj;
+    },
+    submit() {
+      if (this.getValue()) {
+        this.fileLoading = true;
+        axios({
+          url: "/shipment/generate",
+          method: "post",
+          data: this.getValue()
+        }).then(res => {
+          if (res.includes("http")) {
+            this.url = res;
+            this.$refs["wonDialog"].$emit("visible", res);
+          } else {
+            this.$message.error("生成失敗");
+          }
+          this.fileLoading = false;
+        });
+      }
     }
+  }
 };
 </script>
-
-

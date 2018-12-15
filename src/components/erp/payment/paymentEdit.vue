@@ -77,111 +77,109 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            formData: {
-                data: [
-                    {
-                        purchaseId: "",
-                        currency: "",
-                        paymentTime: "",
-                        paidBy: "",
-                        paymentMethod: "",
-                        paymentAccount: "",
-                        purchasedBy: "",
-                        shippingCost: "",
-                        paymentPlatformId: "",
-                        note: ""
-                    }
-                ]
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      formData: {
+        data: [
+          {
+            purchaseId: "",
+            currency: "",
+            paymentTime: "",
+            paidBy: "",
+            paymentMethod: "",
+            paymentAccount: "",
+            purchasedBy: "",
+            shippingCost: "",
+            paymentPlatformId: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let data = JSON.parse(this.$route.query.data);
+    this.formData.data[0].purchaseId = data.purchaseId;
+    this.formData.data[0].currenc = data.currenc;
+    this.formData.data[0].paymentTime = data.paymentTime;
+    this.formData.data[0].paidBy = data.paidBy;
+    this.formData.data[0].paymentMethod = data.paymentMethod;
+    this.formData.data[0].paymentAccount = data.paymentAccount;
+    this.formData.data[0].currency = data.agentOrderId;
+    this.formData.data[0].purchasedBy = data.purchasedBy;
+    this.formData.data[0].shippingCost = data.shippingCost;
+    this.formData.data[0].note = data.note;
+    this.formData.data[0].paymentPlatformId = data.paymentPlatformId;
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/payment");
+    },
+    handleAdd() {
+      let obj = {
+        purchaseId: "",
+        currency: "",
+        paymentTime: "",
+        paidBy: "",
+        paymentMethod: "",
+        paymentAccount: "",
+        purchasedBy: "",
+        shippingCost: "",
+        paymentPlatformId: "",
+        note: ""
+      };
+      this.formData.data.push(obj);
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      data.paymentTime = this.moment(data.paymentTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "payment/update",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
             }
-        };
-    },
-    created() {
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].purchaseId = data.purchaseId;
-        this.formData.data[0].currenc = data.currenc;
-        this.formData.data[0].paymentTime = data.paymentTime;
-        this.formData.data[0].paidBy = data.paidBy;
-        this.formData.data[0].paymentMethod = data.paymentMethod;
-        this.formData.data[0].paymentAccount = data.paymentAccount;
-        this.formData.data[0].currency = data.agentOrderId;
-        this.formData.data[0].purchasedBy = data.purchasedBy;
-        this.formData.data[0].shippingCost = data.shippingCost;
-        this.formData.data[0].note = data.note;
-        this.formData.data[0].paymentPlatformId = data.paymentPlatformId;
-    },
-    methods: {
-        goBack() {
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/payment");
-        },
-        handleAdd() {
-            let obj = {
-                purchaseId: "",
-                currency: "",
-                paymentTime: "",
-                paidBy: "",
-                paymentMethod: "",
-                paymentAccount: "",
-                purchasedBy: "",
-                shippingCost: "",
-                paymentPlatformId: "",
-                note: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.paymentTime = this.moment(data.paymentTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "payment/update",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/payment");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

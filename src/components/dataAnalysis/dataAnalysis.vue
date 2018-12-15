@@ -348,195 +348,191 @@
 <script>
 import { format } from "@/common/until/format";
 export default {
-    data: () => ({
-        parcelCount: {},
-        MarginTarget: {},
-        performance: [],
-        previousDayPlatformPerformance: [],
-        todayPlatformPerformance: [],
-        productPerformance: [],
-        monthlyPerformance: [],
-        platformPerformance: [],
-        loading: true,
-        account: "",
-        month: "",
-        year: "",
-        selectAccountOption: [],
-        selectMonthOption: [],
-        selectYearOption: [],
-        condition: {}
-    }),
-    created() {
-        this.refresh();
-    },
-    methods: {
-        ...format,
-        refresh(){
-            this.loading = true;
-             let account = axios({
-            url: "dashboard/value/productPerformance/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let month = axios({
-            url: "dashboard/value/productPerformance/month",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-
-        let all = axios({
-            url: "/dashboard/all",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([account, month, all]).then(([account, month, res]) => {
-            this.selectAccountOption = _.cloneDeep(account);
-            this.selectMonthOption = _.cloneDeep(month);
-            let data = [];
-            _.each(this.selectMonthOption, v => {
-                if (!data.includes(v.year)) {
-                    data.push(v.year);
-                }
-            });
-            this.selectYearOption = data;
-            this.parcelCount = _.cloneDeep(res.parcelCount) || {};
-            this.MarginTarget = _.cloneDeep(res.marginTarget) || {};
-            this.performance = _.cloneDeep(res.performance) || [];
-            this.productPerformance = _.cloneDeep(res.productPerformance) || [];
-            this.originProductPerformance =
-                _.cloneDeep(res.productPerformance) || [];
-            this.monthlyPerformance = _.cloneDeep(res.monthlyPerformance) || [];
-            this.platformPerformance =
-                _.cloneDeep(res.platformPerformance) || [];
-            this.previousDayPlatformPerformance =
-                _.cloneDeep(res.previousDayPlatformPerformance) || [];
-            this.todayPlatformPerformance =
-                _.cloneDeep(res.todayPlatformPerformance) || [];
-
-            this.loading = false;
-        }); 
-        },
-        handleSelect(v) {
-            if (v == "account") {
-                this.condition.productPerformanceAccount = this.account;
-            }
-
-            if (v == "year") {
-                this.condition.productPerformanceYear = this.year;
-            }
-
-            if (v == "month") {
-                this.condition.productPerformanceMonth = this.month;
-            }
-            this.fetchTableData();
-        },
-        fetchTableData() {
-            if (!this.account && !this.year && !this.month) {
-                this.productPerformance = this.originProductPerformance;
-                return;
-            }
-            axios({
-                url: "dashboard/productPerformace",
-                method: "post",
-                data: {
-                    ...this.condition,
-                    token: this.token
-                }
-            }).then(res => {
-                this.productPerformance = res || [];
-            });
+  data: () => ({
+    parcelCount: {},
+    MarginTarget: {},
+    performance: [],
+    previousDayPlatformPerformance: [],
+    todayPlatformPerformance: [],
+    productPerformance: [],
+    monthlyPerformance: [],
+    platformPerformance: [],
+    loading: true,
+    account: "",
+    month: "",
+    year: "",
+    selectAccountOption: [],
+    selectMonthOption: [],
+    selectYearOption: [],
+    condition: {}
+  }),
+  created() {
+    this.refresh();
+  },
+  methods: {
+    ...format,
+    refresh() {
+      this.loading = true;
+      let account = axios({
+        url: "dashboard/value/productPerformance/account",
+        method: "post",
+        data: {
+          token: this.token
         }
+      });
+      let month = axios({
+        url: "dashboard/value/productPerformance/month",
+        method: "post",
+        data: {
+          token: this.token
+        }
+      });
+
+      let all = axios({
+        url: "/dashboard/all",
+        method: "post",
+        data: {
+          token: this.token
+        }
+      });
+      Promise.all([account, month, all]).then(([account, month, res]) => {
+        this.selectAccountOption = _.cloneDeep(account);
+        this.selectMonthOption = _.cloneDeep(month);
+        let data = [];
+        _.each(this.selectMonthOption, v => {
+          if (!data.includes(v.year)) {
+            data.push(v.year);
+          }
+        });
+        this.selectYearOption = data;
+        this.parcelCount = _.cloneDeep(res.parcelCount) || {};
+        this.MarginTarget = _.cloneDeep(res.marginTarget) || {};
+        this.performance = _.cloneDeep(res.performance) || [];
+        this.productPerformance = _.cloneDeep(res.productPerformance) || [];
+        this.originProductPerformance =
+          _.cloneDeep(res.productPerformance) || [];
+        this.monthlyPerformance = _.cloneDeep(res.monthlyPerformance) || [];
+        this.platformPerformance = _.cloneDeep(res.platformPerformance) || [];
+        this.previousDayPlatformPerformance =
+          _.cloneDeep(res.previousDayPlatformPerformance) || [];
+        this.todayPlatformPerformance =
+          _.cloneDeep(res.todayPlatformPerformance) || [];
+
+        this.loading = false;
+      });
     },
-    filters: {
-        ...format
+    handleSelect(v) {
+      if (v == "account") {
+        this.condition.productPerformanceAccount = this.account;
+      }
+
+      if (v == "year") {
+        this.condition.productPerformanceYear = this.year;
+      }
+
+      if (v == "month") {
+        this.condition.productPerformanceMonth = this.month;
+      }
+      this.fetchTableData();
+    },
+    fetchTableData() {
+      if (!this.account && !this.year && !this.month) {
+        this.productPerformance = this.originProductPerformance;
+        return;
+      }
+      axios({
+        url: "dashboard/productPerformace",
+        method: "post",
+        data: {
+          ...this.condition,
+          token: this.token
+        }
+      }).then(res => {
+        this.productPerformance = res || [];
+      });
     }
+  },
+  filters: {
+    ...format
+  }
 };
 </script>
 <style lang="scss" scoped>
 .fl {
-    float: left;
+  float: left;
 }
 .fr {
-    float: right;
+  float: right;
 }
 .fn {
-    display: inline-block;
-    margin: 0 auto;
+  display: inline-block;
+  margin: 0 auto;
 }
 .ft {
-    float: top;
+  float: top;
 }
 .fb {
-    float: bottom;
+  float: bottom;
 }
 .font {
-    font-size: 20px;
-    color: rgb(122, 113, 202);
+  font-size: 20px;
+  color: rgb(122, 113, 202);
 }
 .font2 {
-    font-size: 20px;
-    color: rgb(0, 0, 0);
+  font-size: 20px;
+  color: rgb(0, 0, 0);
 }
 .f20 {
-    font-size: 20px;
-    color: rgb(122, 113, 202);
+  font-size: 20px;
+  color: rgb(122, 113, 202);
 }
 .f13 {
-    font-size: 13px;
+  font-size: 13px;
 }
 .w100 {
-    width: 100%;
+  width: 100%;
 }
 .w20 {
-    width: 20%;
+  width: 20%;
 }
 .w35 {
-    width: 35%;
+  width: 35%;
 }
 .p10 {
-    padding: 10px;
+  padding: 10px;
 }
 .clear::after {
-    content: "";
-    display: block;
-    clear: both;
+  content: "";
+  display: block;
+  clear: both;
 }
 .w50 {
-    width: 50%;
+  width: 50%;
 }
 .w30 {
-    width: 30%;
+  width: 30%;
 }
 .w20 {
-    width: 20%;
+  width: 20%;
 }
 .mt10 {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 .ta {
-    text-align: center;
+  text-align: center;
 }
 .tr {
-    text-align: right;
+  text-align: right;
 }
-.refresh{
-    bottom:10px;
-    right:15px;
-    z-index: 999;
+.refresh {
+  bottom: 10px;
+  right: 15px;
+  z-index: 999;
 }
 .label-tips {
-    color: #bbbbbb;
+  color: #bbbbbb;
 }
 /deep/ .el-card__body {
-    padding: 10px !important;
+  padding: 10px !important;
 }
 </style>
-
-
-

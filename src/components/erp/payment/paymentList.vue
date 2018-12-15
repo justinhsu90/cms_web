@@ -40,66 +40,66 @@
 import wonTableContainer from "@/common/wonTableContainer";
 
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/payment/search",
-                method: "post",
-                where: ""
-            }
-        };
+  extends: wonTableContainer,
+  data() {
+    return {
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/payment/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleEdit(val) {
+      this.$router.push({
+        name: "paymentEdit",
+        query: { data: JSON.stringify(val) }
+      });
     },
-    created() {
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleEdit(val) {
-            this.$router.push({
-                name: "paymentEdit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/paymentAdd");
-        }
+    handleAdd() {
+      this.$router.push("/paymentAdd");
     }
+  }
 };
 </script>
 
 <style scoped>
 .el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
+  color: #62717e;
+  background: rgb(237, 241, 245);
+  text-align: center;
 }
 </style>

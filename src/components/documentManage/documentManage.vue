@@ -61,189 +61,189 @@
 import wonTableContainer from "../../common/wonTableContainer";
 
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            pageSizes: [20, 40, 60, 100, 200],
-            searchAccount: "",
-            searchAccountOption: [],
-            searchPlatform: "",
-            searchPlatformOption: [],
-            searchCountry: "",
-            searchCountryOption: [],
-            searchLanguage: "",
-            searchLanguageOption: [],
-            fetchCondition: {
-                skip: 0,
-                limit: 20,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/content/search",
-                method: "post",
-                where: ""
-            }
-        };
+  extends: wonTableContainer,
+  data() {
+    return {
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      pageSizes: [20, 40, 60, 100, 200],
+      searchAccount: "",
+      searchAccountOption: [],
+      searchPlatform: "",
+      searchPlatformOption: [],
+      searchCountry: "",
+      searchCountryOption: [],
+      searchLanguage: "",
+      searchLanguageOption: [],
+      fetchCondition: {
+        skip: 0,
+        limit: 20,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/content/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    let account = axios({
+      url: "/content/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let platform = axios({
+      url: "/content/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let country = axios({
+      url: "/content/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let language = axios({
+      url: "/content/value/language",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([account, platform, country, language]).then(
+      ([account, platform, country, language]) => {
+        this.searchAccountOption = _.cloneDeep(account.data);
+        this.searchPlatformOption = _.cloneDeep(platform.data);
+        this.searchCountryOption = _.cloneDeep(country.data);
+        this.searchLanguageOption = _.cloneDeep(language.data);
+      }
+    );
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
+        data.account = this.searchAccount;
+      }
+      if (this.condition.includes("2")) {
+        data.platform = this.searchPlatform;
+      }
+      if (this.condition.includes("3")) {
+        data.country = this.searchCountry;
+      }
+      if (this.condition.includes("4")) {
+        data.language = this.searchLanguage;
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleEdit(val) {
+      this.$router.push({
+        name: "documentEdit",
+        query: { data: JSON.stringify(val) }
+      });
     },
-    created() {
-        let account = axios({
-            url: "/content/value/account",
+    handleDelete(val) {
+      this.$confirm("是否删除", "提示", {
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          axios({
+            url: "/content/remove",
             method: "post",
             data: {
-                token: this.token
+              value: val.contentId,
+              token: this.token
             }
-        });
-        let platform = axios({
-            url: "/content/value/platform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let country = axios({
-            url: "/content/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let language = axios({
-            url: "/content/value/language",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([account, platform, country, language]).then(
-            ([account, platform, country, language]) => {
-                this.searchAccountOption = _.cloneDeep(account.data);
-                this.searchPlatformOption = _.cloneDeep(platform.data);
-                this.searchCountryOption = _.cloneDeep(country.data);
-                this.searchLanguageOption = _.cloneDeep(language.data);
-            }
-        );
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (this.condition.includes("1")) {
-                data.account = this.searchAccount;
-            }
-            if (this.condition.includes("2")) {
-                data.platform = this.searchPlatform;
-            }
-            if (this.condition.includes("3")) {
-                data.country = this.searchCountry;
-            }
-            if (this.condition.includes("4")) {
-                data.language = this.searchLanguage;
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleEdit(val) {
-            this.$router.push({
-                name: "documentEdit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleDelete(val) {
-            this.$confirm("是否删除", "提示", {
-                confirmButtonText: "確定",
-                cancelButtonText: "取消",
-                type: "warning"
-            })
-                .then(() => {
-                    axios({
-                        url: "/content/remove",
-                        method: "post",
-                        data: {
-                            value: val.contentId,
-                            token: this.token
-                        }
-                    }).then(() => {
-                        this.handleSearch();
-                        this.$message.success("删除成功");
-                    });
-                })
-                .catch(() => {});
-        },
-        handleCopy(val) {
-            this.$router.push({
-                name: "documentEdit",
-                query: { data: JSON.stringify(val), type: "copy" }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/documentAdd");
-        },
-        handleCondition(sign) {
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if(!this.condition.includes('1')){
-                       this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "plat") {
-                if (!this.searchPlatform) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if(!this.condition.includes('2')){
-                       this.condition.push("2");
-                    }
-                }
-            }
-            if (sign == "cou") {
-                if (!this.searchCountry) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if(!this.condition.includes('3')){
-                       this.condition.push("3");
-                    }
-                }
-            }
-            if (sign == "lang") {
-                if (!this.searchLanguage) {
-                    _.pull(this.condition, "4");
-                } else {
-                    if(!this.condition.includes('4')){
-                       this.condition.push("4");
-                    }
-                }
-            }
+          }).then(() => {
             this.handleSearch();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(() => {});
+    },
+    handleCopy(val) {
+      this.$router.push({
+        name: "documentEdit",
+        query: { data: JSON.stringify(val), type: "copy" }
+      });
+    },
+    handleAdd() {
+      this.$router.push("/documentAdd");
+    },
+    handleCondition(sign) {
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
+      }
+      if (sign == "plat") {
+        if (!this.searchPlatform) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      if (sign == "cou") {
+        if (!this.searchCountry) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      if (sign == "lang") {
+        if (!this.searchLanguage) {
+          _.pull(this.condition, "4");
+        } else {
+          if (!this.condition.includes("4")) {
+            this.condition.push("4");
+          }
+        }
+      }
+      this.handleSearch();
     }
+  }
 };
 </script>
 
 <style scoped>
 .el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
+  color: #62717e;
+  background: rgb(237, 241, 245);
+  text-align: center;
 }
 </style>

@@ -36,62 +36,61 @@
 import wonTableContainer from "@/common/wonTableContainer";
 
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "wowcher/sample/search",
-                method: "post",
-                where: ""
-            }
-        };
+  extends: wonTableContainer,
+  data() {
+    return {
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "wowcher/sample/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleEdit(val) {
+      this.$router.push({
+        name: "wowcherSampleEdit",
+        query: { data: JSON.stringify(val) }
+      });
     },
-    created() {
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order:this.fetchCondition.order
-            };
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleEdit(val) {
-            this.$router.push({
-                name: "wowcherSampleEdit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/wowcherSampleAdd");
-        }
+    handleAdd() {
+      this.$router.push("/wowcherSampleAdd");
     }
+  }
 };
 </script>
 
 <style scoped>
-
 </style>

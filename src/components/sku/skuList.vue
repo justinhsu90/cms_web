@@ -78,159 +78,159 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
-import C from 'js-cookie';
+import C from "js-cookie";
 export default {
-    extends: wonTableContainer,
-    name: "sku",
-    components: {
-        wonDialog
+  extends: wonTableContainer,
+  name: "sku",
+  components: {
+    wonDialog
+  },
+  data() {
+    let privilege = C.get("privilege") == "admin";
+    return {
+      privilege,
+      url: "javascript:void(0)",
+      exportLoading: false,
+      record: [],
+      amaShow: false,
+      parcelShow: false,
+      deprecatedSkuShow: false,
+      priceShow: false,
+      productShow: false,
+      selection: [],
+      value: "",
+      tableData: [],
+      isTableLoading: false,
+      showDialog: false,
+      row: [],
+      dialogTableVisible: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-AddedTime"
+      },
+      fetchOption: {
+        url: "sku/search",
+        where: "",
+        method: "post"
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  mounted() {
+    this.$refs["wonTable"].$watch("store.states.selection", v => {
+      this.selection = v;
+    });
+  },
+  methods: {
+    clearSelect() {
+      this.$refs["wonTable"].clearSelection();
     },
-    data() {
-        let privilege = C.get('privilege') == 'admin';
-        return {
-            privilege,
-            url: "javascript:void(0)",
-            exportLoading: false,
-            record: [],
-            amaShow: false,
-            parcelShow: false,
-            deprecatedSkuShow: false,
-            priceShow: false,
-            productShow: false,
-            selection: [],
-            value: "",
-            tableData: [],
-            isTableLoading: false,
-            showDialog: false,
-            row: [],
-            dialogTableVisible: false,
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-AddedTime"
-            },
-            fetchOption: {
-                url: "sku/search",
-                where: "",
-                method: "post"
-            }
-        };
-    },
-    created() {
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    mounted() {
-        this.$refs["wonTable"].$watch("store.states.selection", v => {
-            this.selection = v;
-        });
-    },
-    methods: {
-        clearSelect(){
-            this.$refs["wonTable"].clearSelection();
-        },
-        handleExport() {            
-            this.exportLoading = true;
-            let data = [];
-            _.each(this.selection, v => {
-                data.push(v.sku);
-            });
-            axios({
-                url:"sku/generate/excel",
-                method: "post",
-                data: {
-                    token: this.token,
-                    value:JSON.stringify(data)
-                }
-            }).then((res) => {
-                this.$refs["dialog"].dialogVisible = true;
-                this.exportLoading = false;
-                this.url = res;
-            });
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            if (this.fetchOption.where) {
-                this.fetchCondition.order = "sku";
-            } else {
-                this.fetchCondition.order = "-AddedTime";
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data: {
-                    where: this.fetchOption.where,
-                    token: this.token,
-                    skip: this.fetchCondition.skip,
-                    limit: this.fetchCondition.limit,
-                    order: this.fetchCondition.order
-                }
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                _.each(data, v => {
-                    v.dialogTableVisible = false;
-                });
-                this.tableData = _.cloneDeep(data);
-                this.paginationProps.total = count;
-            });
-        }, 500),
-        handleAdd() {
-            this.$router.push("/skuAdd");
-        },
-        handleCopy(row) {
-            this.$router.push({
-                name: "skuAdd",
-                query: { data: JSON.stringify(row), copy: 1 }
-            });
-        },
-        handleShow() {
-            this.showDialog = false;
-        },
-        handleEdit(row) {
-            this.$router.push({
-                name: "skuEdit",
-                query: { data: JSON.stringify(row) }
-            });
-        },
-        handleSize(val) {
-            if (val.includes("ama")) {
-                this.amaShow = true;
-            } else {
-                this.amaShow = false;
-            }
-
-            if (val.includes("parcel")) {
-                this.parcelShow = true;
-            } else {
-                this.parcelShow = false;
-            }
-
-            if (val.includes("product")) {
-                this.productShow = true;
-            } else {
-                this.productShow = false;
-            }
-
-            if (val.includes("deprecatedSku")) {
-                this.deprecatedSkuShow = true;
-            } else {
-                this.deprecatedSkuShow = false;
-            }
-
-            if (val.includes("price")) {
-                this.priceShow = true;
-            } else {
-                this.priceShow = false;
-            }
+    handleExport() {
+      this.exportLoading = true;
+      let data = [];
+      _.each(this.selection, v => {
+        data.push(v.sku);
+      });
+      axios({
+        url: "sku/generate/excel",
+        method: "post",
+        data: {
+          token: this.token,
+          value: JSON.stringify(data)
         }
+      }).then(res => {
+        this.$refs["dialog"].dialogVisible = true;
+        this.exportLoading = false;
+        this.url = res;
+      });
+    },
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      if (this.fetchOption.where) {
+        this.fetchCondition.order = "sku";
+      } else {
+        this.fetchCondition.order = "-AddedTime";
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data: {
+          where: this.fetchOption.where,
+          token: this.token,
+          skip: this.fetchCondition.skip,
+          limit: this.fetchCondition.limit,
+          order: this.fetchCondition.order
+        }
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        _.each(data, v => {
+          v.dialogTableVisible = false;
+        });
+        this.tableData = _.cloneDeep(data);
+        this.paginationProps.total = count;
+      });
+    }, 500),
+    handleAdd() {
+      this.$router.push("/skuAdd");
+    },
+    handleCopy(row) {
+      this.$router.push({
+        name: "skuAdd",
+        query: { data: JSON.stringify(row), copy: 1 }
+      });
+    },
+    handleShow() {
+      this.showDialog = false;
+    },
+    handleEdit(row) {
+      this.$router.push({
+        name: "skuEdit",
+        query: { data: JSON.stringify(row) }
+      });
+    },
+    handleSize(val) {
+      if (val.includes("ama")) {
+        this.amaShow = true;
+      } else {
+        this.amaShow = false;
+      }
+
+      if (val.includes("parcel")) {
+        this.parcelShow = true;
+      } else {
+        this.parcelShow = false;
+      }
+
+      if (val.includes("product")) {
+        this.productShow = true;
+      } else {
+        this.productShow = false;
+      }
+
+      if (val.includes("deprecatedSku")) {
+        this.deprecatedSkuShow = true;
+      } else {
+        this.deprecatedSkuShow = false;
+      }
+
+      if (val.includes("price")) {
+        this.priceShow = true;
+      } else {
+        this.priceShow = false;
+      }
     }
+  }
 };
 </script>
 
 <style lang="scss">
 #sku {
-    img {
-        display: block;
-    }
+  img {
+    display: block;
+  }
 }
 </style>

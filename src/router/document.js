@@ -1,26 +1,27 @@
-import asyncComponent from '@/common/until/asyncComponent'
-export default [{
-    name: 'documentManage',
-    path: '/documentManage',
-    component: asyncComponent('documentManage/documentManage'),
+import asyncComponent from "@/common/until/asyncComponent";
+export default [
+  {
+    name: "documentManage",
+    path: "/documentManage",
+    component: asyncComponent("documentManage/documentManage"),
     meta: {
       keepAlive: true
     }
   },
   {
-    name: 'documentEdit',
-    path: '/documentEdit',
-    component: asyncComponent('documentManage/documentEdit'),
+    name: "documentEdit",
+    path: "/documentEdit",
+    component: asyncComponent("documentManage/documentEdit"),
     meta: {
-      sign: 'documentManage'
+      sign: "documentManage"
     }
   },
   {
-    name: 'documentAdd',
-    path: '/documentAdd',
-    component: asyncComponent('documentManage/documentAdd'),
+    name: "documentAdd",
+    path: "/documentAdd",
+    component: asyncComponent("documentManage/documentAdd"),
     meta: {
-      sign: 'documentManage'
+      sign: "documentManage"
     }
-  },
-]
+  }
+];

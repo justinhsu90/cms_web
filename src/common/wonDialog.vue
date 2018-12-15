@@ -23,70 +23,67 @@
 </template>   
 <script>
 export default {
-    name: "wonDialog",
-    props: {
-        title: {
-            type: String,
-            default: "添加"
-        },
-        size: {
-            type: String,
-            default: "60%"
-        },
-        showConfirm: {
-            type: Boolean,
-            default: true
-        },
-        showCancel: {
-            type: Boolean,
-            default: true
-        },
-        confirmButtonText: {
-            type: String,
-            default: "确定"
-        },
-        cancelButtonText: {
-            type: String,
-            default: "取消"
-        },
-        row: {},
-        name: {},
-        type: {}
+  name: "wonDialog",
+  props: {
+    title: {
+      type: String,
+      default: "添加"
     },
-    data() {
-        return {
-            dialogVisible: false
-        };
+    size: {
+      type: String,
+      default: "60%"
     },
-    created() {
-        this.$on("visible", value => {
-            this.value = value;
-            if (typeof value == "number") {
-                value += "";
-            }
-            if (value) {
-                this.dialogVisible = true;
-            } else {
-                this.dialogVisible = false;
-            }
-        });
+    showConfirm: {
+      type: Boolean,
+      default: true
     },
-    methods: {
-        confirm() {
-            if (this.type != "form") {
-                this.dialogVisible = false;
-            }
-            let father = this.$findFather(this.name);
-            father.$emit("selectSku", [this.row, this.value]);
-        }
+    showCancel: {
+      type: Boolean,
+      default: true
+    },
+    confirmButtonText: {
+      type: String,
+      default: "确定"
+    },
+    cancelButtonText: {
+      type: String,
+      default: "取消"
+    },
+    row: {},
+    name: {},
+    type: {}
+  },
+  data() {
+    return {
+      dialogVisible: false
+    };
+  },
+  created() {
+    this.$on("visible", value => {
+      this.value = value;
+      if (typeof value == "number") {
+        value += "";
+      }
+      if (value) {
+        this.dialogVisible = true;
+      } else {
+        this.dialogVisible = false;
+      }
+    });
+  },
+  methods: {
+    confirm() {
+      if (this.type != "form") {
+        this.dialogVisible = false;
+      }
+      let father = this.$findFather(this.name);
+      father.$emit("selectSku", [this.row, this.value]);
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
 /deep/ .el-dialog__body {
-    padding: 10px 20px !important;
+  padding: 10px 20px !important;
 }
 </style>
-
-
-

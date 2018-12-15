@@ -50,68 +50,68 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            date: [],
-            stockCondition: [],
-            searchStock: "",
-            tableData: [],
-            condition: [],
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/erp/warehouse/receive/search",
-                method: "post",
-                where: ""
-            }
-        };
+  extends: wonTableContainer,
+  data() {
+    return {
+      date: [],
+      stockCondition: [],
+      searchStock: "",
+      tableData: [],
+      condition: [],
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/erp/warehouse/receive/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleChange() {
+      this.handleSearch();
     },
-    created() {
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
+    handleCondition() {},
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (!_.isEmpty(this.date)) {
+        data.startDate = this.date[0];
+        data.endDate = this.date[1];
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleEdit(val) {
+      this.$router.push({
+        name: "put-storage-edit",
+        query: { data: JSON.stringify(val) }
+      });
     },
-    methods: {
-        handleChange() {
-            this.handleSearch();
-        },
-        handleCondition() {},
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (!_.isEmpty(this.date)) {
-                data.startDate = this.date[0];
-                data.endDate = this.date[1];
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleEdit(val) {
-            this.$router.push({
-                name: "put-storage-edit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/putStorageAdd");
-        }
+    handleAdd() {
+      this.$router.push("/putStorageAdd");
     }
+  }
 };
 </script>

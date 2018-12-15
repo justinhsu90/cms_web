@@ -30,4 +30,4 @@ export default {
       save_link.dispatchEvent(event);
     }
   }
-}
+};

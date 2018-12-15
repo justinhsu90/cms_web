@@ -126,138 +126,136 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            searchAccountOption: [],
-            searchCountryOption: [],
-            searchCurrencyOption: [],
-            formData: {
-                data: [
-                    {
-                        dealId: "",
-                        productId: "",
-                        sku: "",
-                        productName: "",
-                        productSpec: "",
-                        currency: "",
-                        productCostCurrency: "",
-                        productCost: "",
-                        finalPrice: "",
-                        salePrice: "",
-                        country: "",
-                        account: "",
-                        startDate: "",
-                        note: ""
-                    }
-                ]
-            }
-        };
-    },
-    created() {
-        let account = axios({
-            url: "/wowcher/deal/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let country = axios({
-            url: "/wowcher/deal/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let currency = axios({
-            url: "/wowcher/deal/value/currency",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      searchAccountOption: [],
+      searchCountryOption: [],
+      searchCurrencyOption: [],
+      formData: {
+        data: [
+          {
+            dealId: "",
+            productId: "",
+            sku: "",
+            productName: "",
+            productSpec: "",
+            currency: "",
+            productCostCurrency: "",
+            productCost: "",
+            finalPrice: "",
+            salePrice: "",
+            country: "",
+            account: "",
+            startDate: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let account = axios({
+      url: "/wowcher/deal/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let country = axios({
+      url: "/wowcher/deal/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let currency = axios({
+      url: "/wowcher/deal/value/currency",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
 
-        Promise.all([account, country, currency]).then(
-            ([account, country, currency]) => {
-                this.searchAccountOption = _.cloneDeep(account);
-                this.searchCountryOption = _.cloneDeep(country.data);
-                this.searchCurrencyOption = _.cloneDeep(currency);
-            }
-        );
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].country = data.country;
-        this.formData.data[0].account = data.account;
-        this.formData.data[0].productId = data.productId;
-        this.formData.data[0].sku = data.sku;
-        this.formData.data[0].dealId = data.dealId;
-        this.formData.data[0].productName = data.productName;
-        this.formData.data[0].productSpec = data.productSpec;
-        this.formData.data[0].startDate = data.startDate;
-        this.formData.data[0].shippingCost = data.shippingCost;
-        this.formData.data[0].finalPrice = data.finalPrice;
-        this.formData.data[0].shippingCost = data.shippingCost;
-        this.formData.data[0].salePrice = data.salePrice;
-        this.formData.data[0].productCost = data.productCost;
-        this.formData.data[0].productCostCurrency = data.productCostCurrency;
-        this.formData.data[0].currency = data.currency;
-        this.formData.data[0].note = data.note;
-        this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
-        this.formData.data[0].addedBy = data.addedBy;
-        this.formData.data[0].addedTime = data.addedTime;
-        this.formData.data[0].lastUpdatedTime = data.lastUpdatedTime;
+    Promise.all([account, country, currency]).then(
+      ([account, country, currency]) => {
+        this.searchAccountOption = _.cloneDeep(account);
+        this.searchCountryOption = _.cloneDeep(country.data);
+        this.searchCurrencyOption = _.cloneDeep(currency);
+      }
+    );
+    let data = JSON.parse(this.$route.query.data);
+    this.formData.data[0].country = data.country;
+    this.formData.data[0].account = data.account;
+    this.formData.data[0].productId = data.productId;
+    this.formData.data[0].sku = data.sku;
+    this.formData.data[0].dealId = data.dealId;
+    this.formData.data[0].productName = data.productName;
+    this.formData.data[0].productSpec = data.productSpec;
+    this.formData.data[0].startDate = data.startDate;
+    this.formData.data[0].shippingCost = data.shippingCost;
+    this.formData.data[0].finalPrice = data.finalPrice;
+    this.formData.data[0].shippingCost = data.shippingCost;
+    this.formData.data[0].salePrice = data.salePrice;
+    this.formData.data[0].productCost = data.productCost;
+    this.formData.data[0].productCostCurrency = data.productCostCurrency;
+    this.formData.data[0].currency = data.currency;
+    this.formData.data[0].note = data.note;
+    this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
+    this.formData.data[0].addedBy = data.addedBy;
+    this.formData.data[0].addedTime = data.addedTime;
+    this.formData.data[0].lastUpdatedTime = data.lastUpdatedTime;
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/wowcherDealList");
     },
-    methods: {
-        goBack() {
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      _.each(data, v => {
+        v.startDate = this.moment(v.startDate).format("YYYY-MM-DD");
+      });
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/wowcher/deal/update",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/wowcherDealList");
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            _.each(data,(v)=>{
-              v.startDate = this.moment(v.startDate).format('YYYY-MM-DD')
-            })
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/wowcher/deal/update",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/wowcherDealList");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

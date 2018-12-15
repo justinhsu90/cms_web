@@ -65,182 +65,176 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            tableData: [],
-            orderDate: [],
-            shipoutDate: [],
-            condition: [],
-            searchAgent: "",
-            searchAgentOption: [],
-            searchShippingMethod: "",
-            searchShippingMethodOption: [],
-            searchOrderstatus: "",
-            searchOrderstatusOption: [],
-            maxHeight: 450,
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                order: "",
-                limit: 15
-            },
-            fetchOption: {
-                url: "/shippingagent/search",
-                where: "",
-                method: "post"
+  extends: wonTableContainer,
+  data() {
+    return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-        };
-    },
-    created() {
-        let agent = axios({
-            url: "/shippingagent/value/agent",
-            method: "post",
-            data: {
-                token: this.token
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
             }
-        });
-        let shippingMethod = axios({
-            url: "/shippingagent/value/shippingMethod",
-            method: "post",
-            data: {
-                token: this.token
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
             }
-        });
-        let orderstatus = axios({
-            url: "/shippingagent/value/orderStatus",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([agent, shippingMethod, orderstatus]).then(
-            ([agent, shippingMethod, orderstatus]) => {
-                this.searchAgentOption = _.cloneDeep(agent);
-                this.searchShippingMethodOption = _.cloneDeep(shippingMethod);
-                this.searchOrderstatusOption = _.cloneDeep(orderstatus);
-            }
-        );
-        this.handleSearch();
-    },
-    methods: {
-        handleCondition(sign) {
-            if (sign == "agent") {
-                if (!this.searchAgent) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "status") {
-                if (!this.searchOrderstatus) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-            if (sign == "shipping") {
-                if (!this.searchShippingMethod) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if (!this.condition.includes("3")) {
-                        this.condition.push("3");
-                    }
-                }
-            }
-            this.handleSearch();
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (this.condition.includes("1")) {
-                data.agent = this.searchAgent;
-            }
-            if (this.condition.includes("2")) {
-                data.orderStatus = this.searchOrderstatus;
-            }
-            if (this.condition.includes("3")) {
-                data.shippingMethod = this.searchShippingMethod;
-            }
-            if (!_.isEmpty(this.orderDate)) {
-                data.orderStartDate = this.orderDate[0];
-                data.orderEndDate = this.orderDate[1];
-            }
-            if (!_.isEmpty(this.shipoutDate)) {
-                data.shipoutStartDate = this.shipoutDate[0];
-                data.shipoutEndDate = this.shipoutDate[1];
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleCheck(val) {
-            this.$router.push({
-                name: "shippingView",
-                query: { data: JSON.stringify(val) }
-            });
+          }
+        ]
+      },
+      tableData: [],
+      orderDate: [],
+      shipoutDate: [],
+      condition: [],
+      searchAgent: "",
+      searchAgentOption: [],
+      searchShippingMethod: "",
+      searchShippingMethodOption: [],
+      searchOrderstatus: "",
+      searchOrderstatusOption: [],
+      maxHeight: 450,
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        order: "",
+        limit: 15
+      },
+      fetchOption: {
+        url: "/shippingagent/search",
+        where: "",
+        method: "post"
+      }
+    };
+  },
+  created() {
+    let agent = axios({
+      url: "/shippingagent/value/agent",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let shippingMethod = axios({
+      url: "/shippingagent/value/shippingMethod",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let orderstatus = axios({
+      url: "/shippingagent/value/orderStatus",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([agent, shippingMethod, orderstatus]).then(
+      ([agent, shippingMethod, orderstatus]) => {
+        this.searchAgentOption = _.cloneDeep(agent);
+        this.searchShippingMethodOption = _.cloneDeep(shippingMethod);
+        this.searchOrderstatusOption = _.cloneDeep(orderstatus);
+      }
+    );
+    this.handleSearch();
+  },
+  methods: {
+    handleCondition(sign) {
+      if (sign == "agent") {
+        if (!this.searchAgent) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
+      }
+      if (sign == "status") {
+        if (!this.searchOrderstatus) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      if (sign == "shipping") {
+        if (!this.searchShippingMethod) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      this.handleSearch();
+    },
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
+        data.agent = this.searchAgent;
+      }
+      if (this.condition.includes("2")) {
+        data.orderStatus = this.searchOrderstatus;
+      }
+      if (this.condition.includes("3")) {
+        data.shippingMethod = this.searchShippingMethod;
+      }
+      if (!_.isEmpty(this.orderDate)) {
+        data.orderStartDate = this.orderDate[0];
+        data.orderEndDate = this.orderDate[1];
+      }
+      if (!_.isEmpty(this.shipoutDate)) {
+        data.shipoutStartDate = this.shipoutDate[0];
+        data.shipoutEndDate = this.shipoutDate[1];
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleCheck(val) {
+      this.$router.push({
+        name: "shippingView",
+        query: { data: JSON.stringify(val) }
+      });
     }
+  }
 };
 </script>
 
 <style scoped>
 .el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
+  color: #62717e;
+  background: rgb(237, 241, 245);
+  text-align: center;
 }
 </style>

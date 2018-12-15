@@ -23,55 +23,55 @@
 
 <script>
 export default {
-    methods: {
-        goBack() {
-            this.$router.push("scriptExecutionList");
-        },
-        submit(){
-            this.submitLoading = true;
-            axios({
-                url:'script/run',
-                method:'post',
-                data:{
-                    token:this.token,
-                    scriptCode:this.form.scriptCode    
-                }
-            }).then((res)=>{
-                this.submitLoading = false;
-                this.$message.success('添加成功');
-                this.goBack();
-            })
-        }   
+  methods: {
+    goBack() {
+      this.$router.push("scriptExecutionList");
     },
-    data(){
-        return {
-            selectOption:[],
-            form:{
-                scriptCode:''
-            },
-            submitLoading:false
+    submit() {
+      this.submitLoading = true;
+      axios({
+        url: "script/run",
+        method: "post",
+        data: {
+          token: this.token,
+          scriptCode: this.form.scriptCode
         }
-    },
-     created() {
-        axios({
-            url: "/script/value/scriptList",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.selectOption = _.cloneDeep(res);
-            this.Bus.$emit("refresh");    
-        });
+      }).then(() => {
+        this.submitLoading = false;
+        this.$message.success("添加成功");
+        this.goBack();
+      });
     }
+  },
+  data() {
+    return {
+      selectOption: [],
+      form: {
+        scriptCode: ""
+      },
+      submitLoading: false
+    };
+  },
+  created() {
+    axios({
+      url: "/script/value/scriptList",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.selectOption = _.cloneDeep(res);
+      this.Bus.$emit("refresh");
+    });
+  }
 };
 </script>
 
 <style scoped lang="scss">
 a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-icon-arrow-left {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 </style>

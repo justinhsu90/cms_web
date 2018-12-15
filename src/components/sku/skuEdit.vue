@@ -168,434 +168,431 @@
 </template>
 <script>
 export default {
-    data() {
-        var that = this;
-        return {
-            centerDialogVisible: true,
-            popoverVisible: false,
-            searchValue: "IT",
-            base64: "",
-            showDetector: false,
-            detectorURL: "../../static/img/1.png",
-            searchOptions: [],
-            costCurrency: [],
-            submitLoading: false,
-            form: {
-                autoSku: "",
-                sku: "",
-                newSku: "",
-                productName: "",
-                status: "",
-                image: "",
-                imageUrl:"",
-                amazonWidthCM: "",
-                amazonHeightCM: "",
-                amazonWeightKG: "",
-                amazonLengthCM: "",
-                parcelWidthCM: "",
-                parcelHeightCM: "",
-                parcelWeightKG: "",
-                parcelLengthCM: "",
-                productWidthCM: "",
-                productHeightCM: "",
-                productWeightKG: "",
-                productLengthCM: "",
-                deprecatedSKU: "",
-                productCost: "",
-                productCostCurrency: ""
-            },
-            imageUrlValidate: {
-                validator(rule, value, callback) {
-                    let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
-                    if(value){
-                        if(rules.test(value)){
-                            callback()
-                        }else{
-                            callback(new Error('输入网址不合法'))
-                        }
-                    }else{
-                        callback()
-                    }
-                }
-            },
-            skuValidate: {
-                required: true,
-                token: this.token,
-                validator(rule, value, callback) {
-                    // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
-                    let rules = /^[A-Za-z]{2}[0-9]{4}/;
-                    if (!rule.required) {
-                        callback();
-                    }
-                    if (!rules.test(value)) {
-                        callback(new Error("SKU結構有誤"));
-                    } else {
-                        axios({
-                            url: "sku/similarimg",
-                            method: "post",
-                            data: {
-                                sku: value,
-                                token: rule.token
-                            }
-                        }).then(res => {
-                            that.showDetector = true;
-                            if (!_.isEmpty(res)) {
-                                that.detectorURL = res[0];
-                            }
-                            callback();
-                        });
-                    }
-                }
-            },
-            autoSkuValidate: {
-                required: true
-            },
-            showMessage: true,
-            autoShowMessage: true,
-            skuShowMessage: true,
-            trueSku: true,
-            image: "",
-            base64: ""
-        };
-    },
-    mounted() {
-        axios({
-            url: "sku/cat",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.searchOptions = _.cloneDeep(res);
-        });
-        axios({
-            url: "sku/value/currency",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.costCurrency = _.cloneDeep(res.data);
-        });
-        let data = JSON.parse(this.$route.query.data);
-        
-        this.form.image = data.imageURL;
-        this.base64 = data.imageURL;
-        this.form.productName = data.productName;
-        this.form.newSku = data.newSku;
-        this.form.sku = data.sku;
-
-        this.form.amazonWidthCM = data.amazonWidthCM;
-        this.form.amazonHeightCM = data.amazonHeightCM;
-        this.form.amazonWeightKG = data.amazonWeightKG;
-        this.form.amazonLengthCM = data.amazonLengthCM;
-
-        this.form.parcelWidthCM = data.parcelWidthCM;
-        this.form.parcelHeightCM = data.parcelHeightCM;
-        this.form.parcelWeightKG = data.parcelWeightKG;
-        this.form.parcelLengthCM = data.parcelLengthCM;
-        this.form.productWidthCM = data.productWidthCM;
-        this.form.productHeightCM = data.productHeightCM;
-        this.form.productWeightKG = data.productWeightKG;
-        this.form.productLengthCM = data.productLengthCM;
-        this.form.lastUpdatedTime = data.lastUpdatedTime;
-        this.form.lastModifiedBy = data.lastModifiedBy;
-        this.form.addedTime = data.addedTime;
-        this.form.addedBy = data.addedBy;
-        this.form.productCostCurrency = data.productCostCurrency;
-        this.form.productNameChinese = data.productNameChinese;
-        this.form.declareNameChinese = data.declareNameChinese;
-        this.form.declareNameEnglish = data.declareNameEnglish;
-        this.form.deprecatedSKU = data.deprecatedSKU;
-        this.form.productCost = data.productCost;
-    },
-    watch: {
-        "form.autoSku"(newVal, oldVal) {
-            if (!!newVal) {
-                this.skuValidate.required = false;
-                this.form.sku = "";
+  data() {
+    var that = this;
+    return {
+      centerDialogVisible: true,
+      popoverVisible: false,
+      searchValue: "IT",
+      base64: "",
+      showDetector: false,
+      detectorURL: "../../static/img/1.png",
+      searchOptions: [],
+      costCurrency: [],
+      submitLoading: false,
+      form: {
+        autoSku: "",
+        sku: "",
+        newSku: "",
+        productName: "",
+        status: "",
+        image: "",
+        imageUrl: "",
+        amazonWidthCM: "",
+        amazonHeightCM: "",
+        amazonWeightKG: "",
+        amazonLengthCM: "",
+        parcelWidthCM: "",
+        parcelHeightCM: "",
+        parcelWeightKG: "",
+        parcelLengthCM: "",
+        productWidthCM: "",
+        productHeightCM: "",
+        productWeightKG: "",
+        productLengthCM: "",
+        deprecatedSKU: "",
+        productCost: "",
+        productCostCurrency: ""
+      },
+      imageUrlValidate: {
+        validator(rule, value, callback) {
+          let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/;
+          if (value) {
+            if (rules.test(value)) {
+              callback();
             } else {
-                this.skuValidate.required = true;
+              callback(new Error("输入网址不合法"));
             }
-        },
-        "form.sku"(newVal, oldVal) {
-            if (!!newVal) {
-                this.autoSkuValidate.required = false;
-                this.form.autoSku = "";
-            } else {
-                this.autoSkuValidate.required = true;
-            }
+          } else {
+            callback();
+          }
         }
-    },
-    methods: {
-        handleImageDelete() {
-            this.base64 = "";
-            this.form.imageUrl = "";
-        },
-        handleInspect() {},
-        goBack() {
-            this.$router.push("/sku");
-        },
-        beforeAvatarUpload(file) {
-            let isJPG = file.type === "image/jpeg";
-            let isPNG = file.type === "image/png";
-            if (!isJPG && !isPNG) {
-                this.$message.error("上傳頭像圖片只能是 JPG PNG 格式!");
-            } else {
-                return isJPG;
-            }
-        },
-        handleAvatarSuccess(file, fileList) {
-            let url = URL || webkitURL;
-            this.form.image = file.raw;
-            let blob = url.createObjectURL(file.raw);
-            let canvas = document.createElement("canvas");
-            let image = document.createElement("img");
-            image.src = blob;
-            this.image = file.raw;
-            image.addEventListener("load", () => {
-                canvas.width = image.width;
-                canvas.height = image.height;
-                let cas = canvas.getContext("2d");
-                cas.drawImage(image, 0, 0);
-                let base64 = canvas.toDataURL(file.raw.type);
-                this.base64 = base64;
-            });
-        },
-        handleAuto() {
+      },
+      skuValidate: {
+        required: true,
+        token: this.token,
+        validator(rule, value, callback) {
+          // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
+          let rules = /^[A-Za-z]{2}[0-9]{4}/;
+          if (!rule.required) {
+            callback();
+          }
+          if (!rules.test(value)) {
+            callback(new Error("SKU結構有誤"));
+          } else {
             axios({
-                url: "sku/newindex",
-                method: "post",
-                data: {
-                    category: this.searchValue,
-                    token: this.token
-                }
+              url: "sku/similarimg",
+              method: "post",
+              data: {
+                sku: value,
+                token: rule.token
+              }
             }).then(res => {
-                this.form.autoSku = res.index;
+              that.showDetector = true;
+              if (!_.isEmpty(res)) {
+                that.detectorURL = res[0];
+              }
+              callback();
             });
-        },
-        handleUpload() {
-            this.input = document.createElement("input");
-            this.input.type = "file";
-            this.input.addEventListener("change", () => {
-                this.form.photoTotal = this.input.files.length;
-                this.showMessage = false;
-            });
-            this.input.click();
-        },
-        handleConfirm() {
-            this.$refs["form2"].validate((action, dom) => {
-                if (!action) return;
-                this.$refs["form3"].validate((action, dom) => {
-                    if (action) {
-                        this.submitLoading = true;
-                        let obj = {};
-                        let value = {
-                            data: []
-                        };
-                        if (this.form.autoSku) {
-                            obj.sku = this.searchValue + this.form.autoSku;
-                        } else {
-                            obj.sku = this.form.sku;
-                        }
-                        obj.amazonWidthCM = this.form.amazonWidthCM;
-                        obj.amazonHeightCM = this.form.amazonHeightCM;
-                        obj.amazonWeightKG = this.form.amazonWeightKG;
-                        obj.amazonLengthCM = this.form.amazonLengthCM;
-
-                        obj.parcelWidthCM = this.form.parcelWidthCM;
-                        obj.parcelHeightCM = this.form.parcelHeightCM;
-                        obj.parcelWeightKG = this.form.parcelWeightKG;
-                        obj.parcelLengthCM = this.form.parcelLengthCM;
-
-                        obj.productWidthCM = this.form.productWidthCM;
-                        obj.productHeightCM = this.form.productHeightCM;
-                        obj.productWeightKG = this.form.productWeightKG;
-                        obj.productLengthCM = this.form.productLengthCM;
-                        obj.productCost = this.form.productCost;
-                        obj.productCostCurrency = this.form.productCostCurrency;
-                        obj.productNameChinese = this.form.productNameChinese;
-                        obj.declareNameChinese = this.form.declareNameChinese;
-                        obj.declareNameEnglish = this.form.declareNameEnglish;
-                        obj.deprecatedSKU = this.form.deprecatedSKU;
-                        obj.productName = this.form.productName;
-                        obj.imageUrl = this.form.imageUrl;
-
-                        obj.status = this.form.status;
-                        obj.newSku = this.form.newSku;
-                        var formData = new FormData();
-                        value.data.push(obj);
-                        value = JSON.stringify(value);
-                        formData.append("value", value);
-                        formData.append("token", this.token);
-                        if (this.form.image) {
-                            formData.append("uploadfile", this.form.image);
-                        }
-                        // axios({
-                        //     url:this.url,
-                        //     method:'put',
-                        //     data:formData,
-                        //     headers: {
-                        //         'Content-type': 'multipart/form-data'
-                        //     },
-                        // }).then((res)=>{
-                        //         this.submitLoading = false;
-                        //         this.$message.success("編輯成功");
-                        //         this.goBack();
-                        //         this.Bus.$emit('refresh')
-                        // })
-                      let url = "http://60.251.57.138:8000/data-server/sku/update";
-                    //   let url = "http://127.0.0.1:8080/data-server/sku/update";
-                       axios({
-                            url,
-                            method: "post",
-                            data: formData,
-                            headers: {
-                                "Content-type": "multipart/form-data"
-                            },
-                            isFormData:true
-                        })
-                            .then(res => {
-                                this.submitLoading = false;
-                                this.$message.success("編輯成功");
-                                this.goBack();
-                                this.Bus.$emit("refresh");
-                            })
-                            .catch(() => {
-                                this.submitLoading = false;
-                                this.$message.warning("編輯失敗");
-                            });
-                        // var request = new XMLHttpRequest();    
-                        // request.open("POST", url);
-                        // request.onreadystatechange = () => {
-                        //     if (
-                        //         request.readyState == 4 &&
-                        //         request.status == 200
-                        //     ) {
-                        //         this.submitLoading = false;
-                        //         this.$message.success("編輯成功");
-                        //         this.goBack();
-                        //         this.Bus.$emit("refresh");
-                        //     }
-                        //     if (request.status != 200) {
-                        //         this.$message.warning("編輯失敗");
-                        //     }
-                        // };
-                        // request.send(formData);
-                    }
-                });
-            });
+          }
         }
+      },
+      autoSkuValidate: {
+        required: true
+      },
+      showMessage: true,
+      autoShowMessage: true,
+      skuShowMessage: true,
+      trueSku: true,
+      image: ""
+    };
+  },
+  mounted() {
+    axios({
+      url: "sku/cat",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.searchOptions = _.cloneDeep(res);
+    });
+    axios({
+      url: "sku/value/currency",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.costCurrency = _.cloneDeep(res.data);
+    });
+    let data = JSON.parse(this.$route.query.data);
+
+    this.form.image = data.imageURL;
+    this.base64 = data.imageURL;
+    this.form.productName = data.productName;
+    this.form.newSku = data.newSku;
+    this.form.sku = data.sku;
+
+    this.form.amazonWidthCM = data.amazonWidthCM;
+    this.form.amazonHeightCM = data.amazonHeightCM;
+    this.form.amazonWeightKG = data.amazonWeightKG;
+    this.form.amazonLengthCM = data.amazonLengthCM;
+
+    this.form.parcelWidthCM = data.parcelWidthCM;
+    this.form.parcelHeightCM = data.parcelHeightCM;
+    this.form.parcelWeightKG = data.parcelWeightKG;
+    this.form.parcelLengthCM = data.parcelLengthCM;
+    this.form.productWidthCM = data.productWidthCM;
+    this.form.productHeightCM = data.productHeightCM;
+    this.form.productWeightKG = data.productWeightKG;
+    this.form.productLengthCM = data.productLengthCM;
+    this.form.lastUpdatedTime = data.lastUpdatedTime;
+    this.form.lastModifiedBy = data.lastModifiedBy;
+    this.form.addedTime = data.addedTime;
+    this.form.addedBy = data.addedBy;
+    this.form.productCostCurrency = data.productCostCurrency;
+    this.form.productNameChinese = data.productNameChinese;
+    this.form.declareNameChinese = data.declareNameChinese;
+    this.form.declareNameEnglish = data.declareNameEnglish;
+    this.form.deprecatedSKU = data.deprecatedSKU;
+    this.form.productCost = data.productCost;
+  },
+  watch: {
+    "form.autoSku"(newVal) {
+      if (newVal) {
+        this.skuValidate.required = false;
+        this.form.sku = "";
+      } else {
+        this.skuValidate.required = true;
+      }
+    },
+    "form.sku"(newVal) {
+      if (newVal) {
+        this.autoSkuValidate.required = false;
+        this.form.autoSku = "";
+      } else {
+        this.autoSkuValidate.required = true;
+      }
     }
+  },
+  methods: {
+    handleImageDelete() {
+      this.base64 = "";
+      this.form.imageUrl = "";
+    },
+    handleInspect() {},
+    goBack() {
+      this.$router.push("/sku");
+    },
+    beforeAvatarUpload(file) {
+      let isJPG = file.type === "image/jpeg";
+      let isPNG = file.type === "image/png";
+      if (!isJPG && !isPNG) {
+        this.$message.error("上傳頭像圖片只能是 JPG PNG 格式!");
+      } else {
+        return isJPG;
+      }
+    },
+    handleAvatarSuccess(file) {
+      let url = URL || Window.webkitURL;
+      this.form.image = file.raw;
+      let blob = url.createObjectURL(file.raw);
+      let canvas = document.createElement("canvas");
+      let image = document.createElement("img");
+      image.src = blob;
+      this.image = file.raw;
+      image.addEventListener("load", () => {
+        canvas.width = image.width;
+        canvas.height = image.height;
+        let cas = canvas.getContext("2d");
+        cas.drawImage(image, 0, 0);
+        let base64 = canvas.toDataURL(file.raw.type);
+        this.base64 = base64;
+      });
+    },
+    handleAuto() {
+      axios({
+        url: "sku/newindex",
+        method: "post",
+        data: {
+          category: this.searchValue,
+          token: this.token
+        }
+      }).then(res => {
+        this.form.autoSku = res.index;
+      });
+    },
+    handleUpload() {
+      this.input = document.createElement("input");
+      this.input.type = "file";
+      this.input.addEventListener("change", () => {
+        this.form.photoTotal = this.input.files.length;
+        this.showMessage = false;
+      });
+      this.input.click();
+    },
+    handleConfirm() {
+      this.$refs["form2"].validate(action => {
+        if (!action) return;
+        this.$refs["form3"].validate(action => {
+          if (action) {
+            this.submitLoading = true;
+            let obj = {};
+            let value = {
+              data: []
+            };
+            if (this.form.autoSku) {
+              obj.sku = this.searchValue + this.form.autoSku;
+            } else {
+              obj.sku = this.form.sku;
+            }
+            obj.amazonWidthCM = this.form.amazonWidthCM;
+            obj.amazonHeightCM = this.form.amazonHeightCM;
+            obj.amazonWeightKG = this.form.amazonWeightKG;
+            obj.amazonLengthCM = this.form.amazonLengthCM;
+
+            obj.parcelWidthCM = this.form.parcelWidthCM;
+            obj.parcelHeightCM = this.form.parcelHeightCM;
+            obj.parcelWeightKG = this.form.parcelWeightKG;
+            obj.parcelLengthCM = this.form.parcelLengthCM;
+
+            obj.productWidthCM = this.form.productWidthCM;
+            obj.productHeightCM = this.form.productHeightCM;
+            obj.productWeightKG = this.form.productWeightKG;
+            obj.productLengthCM = this.form.productLengthCM;
+            obj.productCost = this.form.productCost;
+            obj.productCostCurrency = this.form.productCostCurrency;
+            obj.productNameChinese = this.form.productNameChinese;
+            obj.declareNameChinese = this.form.declareNameChinese;
+            obj.declareNameEnglish = this.form.declareNameEnglish;
+            obj.deprecatedSKU = this.form.deprecatedSKU;
+            obj.productName = this.form.productName;
+            obj.imageUrl = this.form.imageUrl;
+
+            obj.status = this.form.status;
+            obj.newSku = this.form.newSku;
+            var formData = new FormData();
+            value.data.push(obj);
+            value = JSON.stringify(value);
+            formData.append("value", value);
+            formData.append("token", this.token);
+            if (this.form.image) {
+              formData.append("uploadfile", this.form.image);
+            }
+            // axios({
+            //     url:this.url,
+            //     method:'put',
+            //     data:formData,
+            //     headers: {
+            //         'Content-type': 'multipart/form-data'
+            //     },
+            // }).then((res)=>{
+            //         this.submitLoading = false;
+            //         this.$message.success("編輯成功");
+            //         this.goBack();
+            //         this.Bus.$emit('refresh')
+            // })
+            let url = "http://60.251.57.138:8000/data-server/sku/update";
+            //   let url = "http://127.0.0.1:8080/data-server/sku/update";
+            axios({
+              url,
+              method: "post",
+              data: formData,
+              headers: {
+                "Content-type": "multipart/form-data"
+              },
+              isFormData: true
+            })
+              .then(() => {
+                this.submitLoading = false;
+                this.$message.success("編輯成功");
+                this.goBack();
+                this.Bus.$emit("refresh");
+              })
+              .catch(() => {
+                this.submitLoading = false;
+                this.$message.warning("編輯失敗");
+              });
+            // var request = new XMLHttpRequest();
+            // request.open("POST", url);
+            // request.onreadystatechange = () => {
+            //     if (
+            //         request.readyState == 4 &&
+            //         request.status == 200
+            //     ) {
+            //         this.submitLoading = false;
+            //         this.$message.success("編輯成功");
+            //         this.goBack();
+            //         this.Bus.$emit("refresh");
+            //     }
+            //     if (request.status != 200) {
+            //         this.$message.warning("編輯失敗");
+            //     }
+            // };
+            // request.send(formData);
+          }
+        });
+      });
+    }
+  }
 };
 </script>
 <style lang="scss">
 #skuEdit {
-       .imageUrl {
-        width: 150px;
-        position: absolute;
-        top: -40px;
-        right: 27%;
-        border: 1px dashed #d9d9d9;
-        box-sizing: border-box;
-        p {
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 5px;
-        }
+  .imageUrl {
+    width: 150px;
+    position: absolute;
+    top: -40px;
+    right: 27%;
+    border: 1px dashed #d9d9d9;
+    box-sizing: border-box;
+    p {
+      font-size: 12px;
+      text-align: center;
+      margin-bottom: 5px;
     }
-    .reference {
-        width: 150px;
-        position: absolute;
-        top: 0px;
-        right: 25%;
-        border:1px dashed #d9d9d9;
-        padding:5px;
-        box-sizing: border-box;
-        p{
-            font-size: 12px;
-            text-align: center;
-            margin-bottom: 5px;
-        }
+  }
+  .reference {
+    width: 150px;
+    position: absolute;
+    top: 0px;
+    right: 25%;
+    border: 1px dashed #d9d9d9;
+    padding: 5px;
+    box-sizing: border-box;
+    p {
+      font-size: 12px;
+      text-align: center;
+      margin-bottom: 5px;
     }
-    .el-form-item {
-        margin-bottom: 18px;
+  }
+  .el-form-item {
+    margin-bottom: 18px;
+  }
+  .heade {
+    font-size: 16px;
+    color: #45a2ff;
+  }
+  .heade a {
+    color: #45a2ff;
+  }
+  .el-switch__input:focus ~ .el-switch__core {
+    outline: none !important;
+  }
+  h3 {
+    text-align: left;
+  }
+  .tip {
+    margin-left: 5px;
+    line-height: 1.2;
+    color: #bbbbbb;
+    font-size: 12px;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    position: relative;
+    &:hover .delete {
+      display: block;
     }
-    .heade {
-        font-size: 16px;
-        color: #45a2ff;
+    .delete {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      position: absolute;
+      top: 0px;
+      display: none;
     }
-    .heade a {
-        color: #45a2ff;
+    .delete i {
+      position: absolute;
+      top: 50% !important;
+      left: 50%;
+      color: #62717e;
+      transform: translate(-50%, -50%);
+      font-style: normal;
     }
-    .el-switch__input:focus ~ .el-switch__core {
-        outline: none !important;
+    .delete i:hover {
+      background-color: #45a2ff;
+      color: #fff !important;
+      width: 60px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 5px;
     }
-    h3 {
-        text-align: left;
-    }
-    .tip {
-        margin-left: 5px;
-        line-height: 1.2;
-        color: #bbbbbb;
-        font-size: 12px;
-    }
-    .avatar-uploader .el-upload {
-        border: 1px dashed #d9d9d9;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
-    .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 178px;
-        height: 178px;
-        line-height: 178px;
-        text-align: center;
-    }
-    .avatar {
-        width: 178px;
-        height: 178px;
-        position: relative;
-        &:hover .delete {
-            display: block;
-        }
-         .delete {
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            position: absolute;
-            top: 0px;
-            display: none;
-        }
-        .delete i{
-            position: absolute;
-            top: 50% !important;
-            left: 50%;
-            color: #62717E;
-            transform: translate(-50%, -50%);
-            font-style: normal;
-        }
-        .delete i:hover{
-            background-color: #45A2FF;
-            color: #FFF !important;
-            width:60px;
-            height: 30px;
-            line-height: 30px;
-            border-radius: 5px;
-        }
-    }
+  }
 
-    img {
-        width: 100%;
-        height: 100%;
-    }
-    #dialog ml18 {
-        margin-left: 18px !important;
-    }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  #dialog ml18 {
+    margin-left: 18px !important;
+  }
 }
 </style>
-
-

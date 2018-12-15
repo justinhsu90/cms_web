@@ -59,197 +59,189 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
-import { format } from "@/common/until/format";
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            date: [],
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            searchAccount: "",
-            searchPlatform: "",
-            searchType: "",
-            searchCountry: "",
-            searchAccountOption: [],
-            searchPlatformOption: [],
-            searchTypeOption: [],
-            searchCountryOption: [],
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/accountreceivable/search",
-                method: "post",
-                where: ""
+  extends: wonTableContainer,
+  data() {
+    return {
+      date: [],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-        };
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      searchAccount: "",
+      searchPlatform: "",
+      searchType: "",
+      searchCountry: "",
+      searchAccountOption: [],
+      searchPlatformOption: [],
+      searchTypeOption: [],
+      searchCountryOption: [],
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/accountreceivable/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    let receivablePlatform = axios({
+      url: "/accountreceivable/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let receivableType = axios({
+      url: "/accountreceivable/value/financialSpendType ",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let receivableAccount = axios({
+      url: "/accountreceivable/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let receivableCountry = axios({
+      url: "/accountreceivable/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([
+      receivablePlatform,
+      receivableAccount,
+      receivableCountry,
+      receivableType
+    ]).then(([platform, account, country, type]) => {
+      this.searchAccountOption = _.cloneDeep(account);
+      this.searchPlatformOption = _.cloneDeep(platform);
+      this.searchTypeOption = _.cloneDeep(type.data);
+      this.searchCountryOption = _.cloneDeep(country.data);
+    });
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
+        data.platform = this.searchPlatform;
+      }
+      if (this.condition.includes("2")) {
+        data.financialSpendType = this.searchType;
+      }
+      if (this.condition.includes("3")) {
+        data.account = this.searchAccount;
+      }
+      if (this.condition.includes("4")) {
+        data.country = this.searchCountry;
+      }
+      if (!_.isEmpty(this.date)) {
+        data.periodStartDate = this.date[0];
+        data.periodEndDate = this.date[1];
+      }
+      this.fetchTableData(data);
+    }, 500),
+    handleChange() {
+      this.handleSearch();
     },
-    created() {
-        let receivablePlatform = axios({
-            url: "/accountreceivable/value/platform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let receivableType = axios({
-            url: "/accountreceivable/value/financialSpendType ",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let receivableAccount = axios({
-            url: "/accountreceivable/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let receivableCountry = axios({
-            url: "/accountreceivable/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([
-            receivablePlatform,
-            receivableAccount,
-            receivableCountry, 
-            receivableType
-        ]).then(([platform, account, country, type]) => {
-            this.searchAccountOption = _.cloneDeep(account);
-            this.searchPlatformOption = _.cloneDeep(platform);
-            this.searchTypeOption = _.cloneDeep(type.data);
-            this.searchCountryOption = _.cloneDeep(country.data);
-            
-        });
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
+    handleEdit(val) {
+      this.$router.push({
+        name: "receivableEdit",
+        query: { data: JSON.stringify(val) }
+      });
     },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (this.condition.includes("1")) {
-                data.platform = this.searchPlatform;
-            }
-            if (this.condition.includes("2")) {
-                data.financialSpendType = this.searchType;
-            }
-            if (this.condition.includes("3")) {
-                data.account = this.searchAccount;
-            }
-            if (this.condition.includes("4")) {
-                data.country = this.searchCountry;
-            }
-            if (!_.isEmpty(this.date)) {
-                data.periodStartDate = this.date[0];
-                data.periodEndDate = this.date[1];
-            }
-            this.fetchTableData(data);
-        }, 500),
-        handleChange(n) {
-            this.handleSearch();
-        },
-        handleEdit(val) {
-            this.$router.push({
-                name: "receivableEdit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/receivableAdd");
-        },
-        handleCondition(sign) {
-            if (sign == "plat") {
-                if (!this.searchPlatform) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "type") {
-                if (!this.searchType) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if (!this.condition.includes("3")) {
-                        this.condition.push("3");
-                    }
-                }
-            }
-            if (sign == "cou") {
-                if (!this.searchCountry) {
-                    _.pull(this.condition, "4");
-                } else {
-                    if (!this.condition.includes("4")) {
-                        this.condition.push("4");
-                    }
-                }
-            }
-            this.handleSearch();
+    handleAdd() {
+      this.$router.push("/receivableAdd");
+    },
+    handleCondition(sign) {
+      if (sign == "plat") {
+        if (!this.searchPlatform) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
+      }
+      if (sign == "type") {
+        if (!this.searchType) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      if (sign == "cou") {
+        if (!this.searchCountry) {
+          _.pull(this.condition, "4");
+        } else {
+          if (!this.condition.includes("4")) {
+            this.condition.push("4");
+          }
+        }
+      }
+      this.handleSearch();
     }
+  }
 };
 </script>
 

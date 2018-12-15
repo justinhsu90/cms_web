@@ -81,99 +81,97 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            formData: {
-                data: [
-                    {
-                        shipoutTime: "",
-                        shippingMethod: "",
-                        trackingNumber: "",
-                        agent: "",
-                        toWhom: "",
-                        shipmentCreatedTime: "",
-                        agentOrderId: "",
-                        sampleName: "",
-                        note: ""
-                    }
-                ]
-            }
-        };
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      formData: {
+        data: [
+          {
+            shipoutTime: "",
+            shippingMethod: "",
+            trackingNumber: "",
+            agent: "",
+            toWhom: "",
+            shipmentCreatedTime: "",
+            agentOrderId: "",
+            sampleName: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {},
+  methods: {
+    goBack() {
+      this.$router.push("/wowcherSample");
     },
-    created() {},
-    methods: {
-        goBack() {
+    handleAdd() {
+      let obj = {
+        shipoutTime: "",
+        shippingMethod: "",
+        trackingNumber: "",
+        agent: "",
+        toWhom: "",
+        shipmentCreatedTime: "",
+        agentOrderId: "",
+        sampleName: "",
+        note: ""
+      };
+      this.formData.data.push(obj);
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      data.shipmentCreatedTime = this.moment(data.ShipmentCreatedTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
+      data.shipoutTime = this.moment(data.shipoutTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "wowcher/sample/add",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/wowcherSample");
-        },
-        handleAdd() {
-            let obj = {
-                shipoutTime: "",
-                shippingMethod: "",
-                trackingNumber: "",
-                agent: "",
-                toWhom: "",
-                shipmentCreatedTime: "",
-                agentOrderId: "",
-                sampleName: "",
-                note: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.shipmentCreatedTime = this.moment(
-                data.ShipmentCreatedTime
-            ).format('"YYYY-MM-DD HH:mm:ss"');
-            data.shipoutTime = this.moment(
-                data.shipoutTime
-            ).format('"YYYY-MM-DD HH:mm:ss"');
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "wowcher/sample/add",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/wowcherSample");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

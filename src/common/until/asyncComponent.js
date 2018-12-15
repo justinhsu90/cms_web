@@ -1,3 +1,4 @@
-export default (chunkPath) => {
-    return ()=>import( /* webpackChunkName: '[request]' */ `@/components/${chunkPath}`);
+export default chunkPath => {
+  return () =>
+    import(/* webpackChunkName: '[request]' */ `@/components/${chunkPath}`);
 };

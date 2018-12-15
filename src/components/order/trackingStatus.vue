@@ -30,22 +30,22 @@ export default {
     this.handleSearch();
   },
   methods: {
-    goBack(){
+    goBack() {
       this.$router.go(-1);
     },
-    handleSearch(){
-     this.isTableLoading = true, 
-      axios({
-         url: this.fetchOption.url,
-         method: this.fetchOption.method,
-         data:{
-           token:this.token,
-           trackingnumber:this.$route.query.id
-         }
-        }).then(({data:{trackList}})=>{
+    handleSearch() {
+      (this.isTableLoading = true),
+        axios({
+          url: this.fetchOption.url,
+          method: this.fetchOption.method,
+          data: {
+            token: this.token,
+            trackingnumber: this.$route.query.id
+          }
+        }).then(({ data: { trackList } }) => {
           this.tableData = _.cloneDeep(trackList);
           this.isTableLoading = false;
-        })
+        });
     }
   }
 };

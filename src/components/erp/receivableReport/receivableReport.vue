@@ -86,195 +86,189 @@
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
 export default {
-    name: "receivableReport",
-    extends: wonTableContainer,
-    components: {
-        wonDialog
+  name: "receivableReport",
+  extends: wonTableContainer,
+  components: {
+    wonDialog
+  },
+  data() {
+    const start = new Date();
+    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+    return {
+      export: false,
+      searchAccountOption: [],
+      searchPlatformOption: [],
+      searchCountryOption: [],
+      form: {
+        year: new Date(),
+        month: start,
+        country: "",
+        account: "",
+        platform: ""
+      },
+      year: "",
+      month: "",
+      date: [],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/accountreceivable/report/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+    this.$on("selectSku", this.submit);
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (!_.isEmpty(this.date)) {
+        data.generatedStartDate = this.date[0];
+        data.generatedEndDate = this.date[1];
+      }
+      if (this.year) {
+        data.year = this.year;
+      }
+      if (this.month) {
+        data.month = Number(this.month);
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleChange() {
+      this.handleSearch();
     },
-    data() {
-        const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-        return {
-            export: false,
-            searchAccountOption: [],
-            searchPlatformOption: [],
-            searchCountryOption: [],
-            form: {
-                year: new Date(),
-                month: start,
-                country: "",
-                account: "",
-                platform: ""
-            },
-            year: "",
-            month: "",
-            date: [],
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/accountreceivable/report/search",
-                method: "post",
-                where: ""
-            }
-        };
-    },
-    created() {
-        this.handleSearch();
-        this.$on("selectSku", this.submit);
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (!_.isEmpty(this.date)) {
-                data.generatedStartDate = this.date[0];
-                data.generatedEndDate = this.date[1];
-            }
-            if (this.year) {
-                data.year = this.year;
-            }
-            if (this.month) {
-                data.month = Number(this.month);
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleChange() {
-            this.handleSearch();
-        },
-        handleEdit(val) {
-            this.$router.push({
-                name: "receivableReportEdit",
-                query: {
-                    id: val.reportId,
-                    year: val.year,
-                    month: val.month,
-                    generatedTime: val.generatedTime
-                }
-            });
-        },
-        handleExport() {
-            this.$refs["dialog"].dialogVisible = true;
-            if (this.export) return;
-            this.export = true;
-            let platform = axios({
-                url: "/accountreceivable/report/value/platform",
-                method: "post",
-                data: {
-                    token: this.token
-                }
-            });
-            let country = axios({
-                url: "/accountreceivable/report/value/country",
-                method: "post",
-                data: {
-                    token: this.token
-                }
-            });
-            let account = axios({
-                url: "/accountreceivable/report/value/account",
-                method: "post",
-                data: {
-                    token: this.token
-                }
-            });
-            Promise.all([platform, country, account]).then(
-                ([platform, { data: country }, account]) => {
-                    this.searchAccountOption = _.cloneDeep(account);
-                    this.searchPlatformOption = _.cloneDeep(platform);
-                    this.searchCountryOption = _.cloneDeep(country);
-                }
-            );
-        },
-        getValue() {
-            let data = {};
-            if (this.form.country) {
-                data.country = this.form.country;
-            }
-            if (this.form.account) {
-                data.account = this.form.account;
-            }
-            if (this.form.platform) {
-                data.platform = this.form.platform;
-            }
-            data.year = this.form.year;
-            data.month = Number(this.form.month);
-            data.token = this.token;
-            return data;
-        },
-        submit() {
-            this.$refs["form"].validate(valid => {
-                if (valid) {
-                    this.$refs["dialog"].dialogVisible = false;
-                    axios({
-                        url: "/accountreceivable/report/generate",
-                        method: "post",
-                        data: this.getValue()
-                    }).then(() => {
-                        this.handleSearch();
-                    });
-                }
-            });
+    handleEdit(val) {
+      this.$router.push({
+        name: "receivableReportEdit",
+        query: {
+          id: val.reportId,
+          year: val.year,
+          month: val.month,
+          generatedTime: val.generatedTime
         }
+      });
+    },
+    handleExport() {
+      this.$refs["dialog"].dialogVisible = true;
+      if (this.export) return;
+      this.export = true;
+      let platform = axios({
+        url: "/accountreceivable/report/value/platform",
+        method: "post",
+        data: {
+          token: this.token
+        }
+      });
+      let country = axios({
+        url: "/accountreceivable/report/value/country",
+        method: "post",
+        data: {
+          token: this.token
+        }
+      });
+      let account = axios({
+        url: "/accountreceivable/report/value/account",
+        method: "post",
+        data: {
+          token: this.token
+        }
+      });
+      Promise.all([platform, country, account]).then(
+        ([platform, { data: country }, account]) => {
+          this.searchAccountOption = _.cloneDeep(account);
+          this.searchPlatformOption = _.cloneDeep(platform);
+          this.searchCountryOption = _.cloneDeep(country);
+        }
+      );
+    },
+    getValue() {
+      let data = {};
+      if (this.form.country) {
+        data.country = this.form.country;
+      }
+      if (this.form.account) {
+        data.account = this.form.account;
+      }
+      if (this.form.platform) {
+        data.platform = this.form.platform;
+      }
+      data.year = this.form.year;
+      data.month = Number(this.form.month);
+      data.token = this.token;
+      return data;
+    },
+    submit() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          this.$refs["dialog"].dialogVisible = false;
+          axios({
+            url: "/accountreceivable/report/generate",
+            method: "post",
+            data: this.getValue()
+          }).then(() => {
+            this.handleSearch();
+          });
+        }
+      });
     }
+  }
 };
 </script>
 

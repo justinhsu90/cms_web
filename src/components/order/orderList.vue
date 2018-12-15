@@ -59,165 +59,165 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            tableData: [],
-            condition: [],
-            searchAccount: "",
-            searchAccountOption: [],
-            searchCountry: "",
-            searchCountryOption: [],
-            searchOrderstatus: "",
-            searchOrderstatusOption: [],
-            searchOrdertype: "",
-            searchOrdertypeOption: [],
-            maxHeight: 450,
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                order: "-redeemedAt",
-                limit: 15
-            },
-            fetchOption: {
-                url: "/wowcher/order/search",
-                where: "",
-                method: "post"
-            }
-        };
-    },
-    created() {
-        let account = axios({
-            url: "/wowcher/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let country = axios({
-            url: "/wowcher/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let orderstatus = axios({
-            url: "/wowcher/value/orderstatus",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let ordertype = axios({
-            url: "/wowcher/value/ordertype",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([account, country, orderstatus, ordertype]).then(
-            ([account, country, orderstatus, ordertype]) => {
-                this.searchAccountOption = _.cloneDeep(account.data);
-                this.searchCountryOption = _.cloneDeep(country.data);
-                this.searchOrderstatusOption = _.cloneDeep(orderstatus.data);
-                this.searchOrdertypeOption = _.cloneDeep(ordertype.data);
-            }
-        );
-        this.handleSearch();
-    },
-    methods: {
-        handleLook(val) {
-            this.$router.push({
-                name: "trackingStatus",
-                query: {
-                    id: val
-                }
-            });
-        },
-        handleCondition(sign) {
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if(!this.condition.includes('1')){
-                       this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "status") {
-                if (!this.searchOrderstatus) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if(!this.condition.includes('2')){
-                       this.condition.push("2");
-                    }
-                }
-            }
-            if (sign == "cou") {
-                if (!this.searchCountry) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if(!this.condition.includes('3')){
-                       this.condition.push("3");
-                    }
-                }
-            }
-            if (sign == "type") {
-                if (!this.searchOrdertype) {
-                    _.pull(this.condition, "4");
-                } else {
-                    if(!this.condition.includes('4')){
-                       this.condition.push("4");
-                    }
-                }
-            }
-            this.handleSearch();
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (this.condition.includes("1")) {
-                data.account = this.searchAccount;
-            }
-            if (this.condition.includes("2")) {
-                data.orderstatus = this.searchOrderstatus;
-            }
-            if (this.condition.includes("3")) {
-                data.country = this.searchCountry;
-            }
-            if (this.condition.includes("4")) {
-                data.ordertype = this.searchOrdertype;
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleCheck(val) {
-            this.$router.push({
-                name: "orderView",
-                query: { data: JSON.stringify(val) }
-            });
+  extends: wonTableContainer,
+  data() {
+    return {
+      tableData: [],
+      condition: [],
+      searchAccount: "",
+      searchAccountOption: [],
+      searchCountry: "",
+      searchCountryOption: [],
+      searchOrderstatus: "",
+      searchOrderstatusOption: [],
+      searchOrdertype: "",
+      searchOrdertypeOption: [],
+      maxHeight: 450,
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        order: "-redeemedAt",
+        limit: 15
+      },
+      fetchOption: {
+        url: "/wowcher/order/search",
+        where: "",
+        method: "post"
+      }
+    };
+  },
+  created() {
+    let account = axios({
+      url: "/wowcher/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let country = axios({
+      url: "/wowcher/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let orderstatus = axios({
+      url: "/wowcher/value/orderstatus",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let ordertype = axios({
+      url: "/wowcher/value/ordertype",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([account, country, orderstatus, ordertype]).then(
+      ([account, country, orderstatus, ordertype]) => {
+        this.searchAccountOption = _.cloneDeep(account.data);
+        this.searchCountryOption = _.cloneDeep(country.data);
+        this.searchOrderstatusOption = _.cloneDeep(orderstatus.data);
+        this.searchOrdertypeOption = _.cloneDeep(ordertype.data);
+      }
+    );
+    this.handleSearch();
+  },
+  methods: {
+    handleLook(val) {
+      this.$router.push({
+        name: "trackingStatus",
+        query: {
+          id: val
         }
+      });
+    },
+    handleCondition(sign) {
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
+        }
+      }
+      if (sign == "status") {
+        if (!this.searchOrderstatus) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      if (sign == "cou") {
+        if (!this.searchCountry) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      if (sign == "type") {
+        if (!this.searchOrdertype) {
+          _.pull(this.condition, "4");
+        } else {
+          if (!this.condition.includes("4")) {
+            this.condition.push("4");
+          }
+        }
+      }
+      this.handleSearch();
+    },
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
+        data.account = this.searchAccount;
+      }
+      if (this.condition.includes("2")) {
+        data.orderstatus = this.searchOrderstatus;
+      }
+      if (this.condition.includes("3")) {
+        data.country = this.searchCountry;
+      }
+      if (this.condition.includes("4")) {
+        data.ordertype = this.searchOrdertype;
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleCheck(val) {
+      this.$router.push({
+        name: "orderView",
+        query: { data: JSON.stringify(val) }
+      });
     }
+  }
 };
 </script>
 
 <style scoped>
 .el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
+  color: #62717e;
+  background: rgb(237, 241, 245);
+  text-align: center;
 }
 </style>

@@ -96,121 +96,119 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            upcCountry: [],
-            upcPlatform: [],
-            upcAccount: [],
-            formData: {
-                data: [
-                    {
-                        subSku: "",
-                        ean: "",
-                        productName: "",
-                        asin: "",
-                        country: "",
-                        account: "",
-                        platform: "",
-                        note: ""
-                    }
-                ]
-            }
-        };
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      upcCountry: [],
+      upcPlatform: [],
+      upcAccount: [],
+      formData: {
+        data: [
+          {
+            subSku: "",
+            ean: "",
+            productName: "",
+            asin: "",
+            country: "",
+            account: "",
+            platform: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let upcCountry = axios({
+      url: "/upc/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let upcPlatform = axios({
+      url: "/upc/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let upcAccount = axios({
+      url: "/upc/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([upcPlatform, upcCountry, upcAccount]).then(
+      ([resOne, resTwo, resThree]) => {
+        this.upcCountry = _.cloneDeep(resTwo.data);
+        this.upcAccount = _.cloneDeep(resThree.data);
+        this.upcPlatform = _.cloneDeep(resOne.data);
+      }
+    );
+    let data = JSON.parse(this.$route.query.data);
+    this.formData.data[0].country = data.country;
+    this.formData.data[0].account = data.account;
+    this.formData.data[0].ean = data.ean;
+    this.formData.data[0].subSku = data.subSku;
+    this.formData.data[0].productName = data.productName;
+    this.formData.data[0].asin = data.asin;
+    this.formData.data[0].platform = data.platform;
+    this.formData.data[0].note = data.note;
+    this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
+    this.formData.data[0].addedBy = data.addedBy;
+    this.formData.data[0].addedTime = data.addedTime;
+    this.formData.data[0].lastUpdatedTime = data.lastUpdatedTime;
+    this.formData.data[0].id = data.id;
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/upc");
     },
-    created() {
-        let upcCountry = axios({
-            url: "/upc/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let upcPlatform = axios({
-            url: "/upc/value/platform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let upcAccount = axios({
-            url: "/upc/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([upcPlatform, upcCountry, upcAccount]).then(
-            ([resOne, resTwo, resThree]) => {
-                this.upcCountry = _.cloneDeep(resTwo.data);
-                this.upcAccount = _.cloneDeep(resThree.data);
-                this.upcPlatform = _.cloneDeep(resOne.data);
-            }
-        );
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].country = data.country;
-        this.formData.data[0].account = data.account;
-        this.formData.data[0].ean = data.ean;
-        this.formData.data[0].subSku = data.subSku;
-        this.formData.data[0].productName = data.productName;
-        this.formData.data[0].asin = data.asin;
-        this.formData.data[0].platform = data.platform;
-        this.formData.data[0].note = data.note;
-        this.formData.data[0].lastModifiedBy = data.lastModifiedBy;
-        this.formData.data[0].addedBy = data.addedBy;
-        this.formData.data[0].addedTime = data.addedTime;
-        this.formData.data[0].lastUpdatedTime = data.lastUpdatedTime;
-        this.formData.data[0].id = data.id;
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
     },
-    methods: {
-        goBack() {
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/upc/update",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/upc");
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/upc/update",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/upc");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

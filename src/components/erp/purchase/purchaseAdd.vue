@@ -158,352 +158,354 @@
 import querySku from "@/common/querySku";
 import { format } from "@/common/until/format";
 import U from "@/common/until/U";
-import { float } from '@/common/validate'  
+import { float } from "@/common/validate";
 export default {
-    name: "purchaseAdd",
-    components: {
-        querySku
-    },
-    data() {
-        let purchasedBy;
-        document.cookie.split(";").forEach((v, i) => {
-            let str = v.split("=")[0].trim();
-            if (str == "name") {
-                purchasedBy = v.split("=")[1];
-            }
-        });
+  name: "purchaseAdd",
+  components: {
+    querySku
+  },
+  data() {
+    let purchasedBy;
+    document.cookie.split(";").forEach(v => {
+      let str = v.split("=")[0].trim();
+      if (str == "name") {
+        purchasedBy = v.split("=")[1];
+      }
+    });
 
-        return {
-            popoverVisible: false,
-            Mul: U.Math.Mul,
-            showQuerySku: false,
-            submitLoading: false,
-            loading: false,
-            purchasePlatform: [],
-            purchaseType: [],
-            purchaseAccount: [],
-            currency: [],
-            purchasedBy,
-            requredRule: {
-                required: true
-            },
-            requredRuleFloat:_.extend({},float),
-            rules: {
-                required: true,
-                message: "此項目必填"
-            },
-            formData: {
-                purchasedTime: Date.now(),
-                purchaseType: "",
-                purchasedPlatform: "",
-                purchasedAccount: "",
-                purchaseOrderId: "",
-                purchasedBy,
-                currency: "",
-                data: [
-                    {
-                        sku: "",
-                        productName: "",
-                        productSpec: "",
-                        purchasedQuantity: "",
-                        purchasedAmount: "",
-                        note: "",
-                        shippingCost: ""
-                    }
-                ]
-            }
-        };
-    },
-    created() {
-        this.isTransfer = !!this.$route.query.transfer;
-        if (this.isTransfer) {
-            let data = JSON.parse(this.$route.query.data);
-            this.formData.purchaseType = data.purchaseType;
-            this.formData.currency = data.targetPriceCurrency;
-            this.formData.data[0].productName = data.productName;
-            this.purchaseQueryId = data.purchaseQueryId;
-            this.formData.data[0].sku = data.sku;
-            this.formData.purchasedTime = data.queryTime;
-            this.formData.data[0].purchasedQuantity = data.queryQuantity;
-        }
-        let purchasePlatform = axios({
-            url: "/erp/value/purchasePlatform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let purchaseType = axios({
-            url: "/erp/value/purchaseType",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let purchaseAccount = axios({
-            url: "/erp/value/purchaseAccount",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let currency = axios({
-            url: "/erp/value/currency",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([
-            purchasePlatform,
-            purchaseType,
-            purchaseAccount,
-            currency
-        ]).then(([resOne, resTwo, resThree, resFour]) => {
-            this.purchaseType = _.cloneDeep(resTwo);
-            this.purchaseAccount = _.cloneDeep(resThree);
-            this.currency = _.cloneDeep(resFour);
-            this.purchasePlatform = _.cloneDeep(resOne);
-        });
-    },
-    computed: {
-        disabled() {
-            let disabled = false;
-            _.each(this.formData.data, v => {
-                if (!v.sku) {
-                    disabled = true;
-                }
-            });
-            return disabled;
-        },
-        totalMoney() {
-            let total = 0;
-            _.each(this.formData.data, v => {
-                total +=
-                    Number(v.purchasedAmount) * Number(v.purchasedQuantity) + Number(v.shippingCost);
-            });
-            if (total == 0) {
-                return "";
-            } else {
-                return total;
-            }
-        },
-        totalShippingCost() {
-            let total = 0;
-            _.each(this.formData.data, v => {
-                total += Number(v.shippingCost);
-            });
-            if (total == 0) {
-                return "";
-            } else {
-                return total;
-            }
-        },
-        totalPurchasedAmount() {
-            let total = 0;
-            _.each(this.formData.data, v => {
-                total += Number(v.purchasedAmount);
-            });
-            if (total == 0) {
-                return "";
-            } else {
-                return total;
-            }
-        },
-        totalPurchasedQuantity() {
-            let total = 0;
-            _.each(this.formData.data, v => {
-                total += Number(v.purchasedQuantity);
-            });
-            if (total == 0) {
-                return "";
-            } else {
-                return total;
-            }
-        }
-    },
-    mounted() {
-        this.$on("selectSku", this.handleSku);
-    },
-    filters: {
-        ...format
-    },
-    methods: {
-        goBack() {
-            this.$router.push("/erpPurchase");
-        },
-        handleSku(val) {
-            _.each(this.formData.data, (v, i) => {
-                if (i == val[1]) {
-                    v.sku = val[0].sku;
-                    v.productName = val[0].productName;
-                }
-            });
-        },
-        handleQuerySku(index) {
-            this.$refs["querySku"].$findChild("wonDialog", "visible", index);
-        },
-        handleCheckSku(value, row) {
-            if (!value) {
-                return;
-            }
-            axios({
-                url: "/erp/check/sku",
-                method: "post",
-                data: {
-                    token: this.token,
-                    sku: value
-                }
-            }).then(res => {
-                if (!res.message) {
-                    this.$message.success("SKU檢查成功");
-                    row.productName = res.productName;
-                } else {
-                    this.$message.error("SKU不存在");
-                    row.sku = "";
-                    row.productName = "";
-                }
-            });
-        },
-        handleAdd() {
-            let obj = {
-                sku: "",
-                productName: "",
-                productSpec: "",
-                purchasedQuantity: "",
-                purchasedAmount: "",
-                note: "",
-                shippingCost: ""
-            };            
-            this.formData.data.push(obj);
-            this.$nextTick(()=>{
-                this.$refs['input'].slice(-1)[0].$el.querySelector('input').focus()
-            })
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            _.each(data, v => {
-                v.purchasedTime = this.moment(
-                    this.formData.purchasedTime
-                ).format("YYYY-MM-DD");
-                v.purchaseType = this.formData.purchaseType;
-                v.purchasedPlatform = this.formData.purchasedPlatform;
-                v.purchasedAccount = this.formData.purchasedAccount;
-                v.purchasedTotalAmount = this.Mul(
-                    v.purchasedAmount,
-                    v.purchasedQuantity
-                );
-                v.purchaseOrderId = this.formData.purchaseOrderId;
-                v.purchasedBy = this.formData.purchasedBy;
-                v.currency = this.formData.currency;
-                delete v.purchasedAmount;
-            });
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.popoverVisible = false;
-                    this.submitLoading = true;
-                    let data = {
-                       value: this.getValue(),
-                       token: this.token 
-                    }
-                    if(!!this.isTransfer){
-                        data.purchaseQueryId = this.purchaseQueryId;
-                    }
-                    axios({
-                        url: "/purchase/add",
-                        method: "post",
-                        data
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/erpPurchase");
-                    });
-                }
-            });
-        }
+    return {
+      popoverVisible: false,
+      Mul: U.Math.Mul,
+      showQuerySku: false,
+      submitLoading: false,
+      loading: false,
+      purchasePlatform: [],
+      purchaseType: [],
+      purchaseAccount: [],
+      currency: [],
+      purchasedBy,
+      requredRule: {
+        required: true
+      },
+      requredRuleFloat: _.extend({}, float),
+      rules: {
+        required: true,
+        message: "此項目必填"
+      },
+      formData: {
+        purchasedTime: Date.now(),
+        purchaseType: "",
+        purchasedPlatform: "",
+        purchasedAccount: "",
+        purchaseOrderId: "",
+        purchasedBy,
+        currency: "",
+        data: [
+          {
+            sku: "",
+            productName: "",
+            productSpec: "",
+            purchasedQuantity: "",
+            purchasedAmount: "",
+            note: "",
+            shippingCost: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    this.isTransfer = !!this.$route.query.transfer;
+    if (this.isTransfer) {
+      let data = JSON.parse(this.$route.query.data);
+      this.formData.purchaseType = data.purchaseType;
+      this.formData.currency = data.targetPriceCurrency;
+      this.formData.data[0].productName = data.productName;
+      this.purchaseQueryId = data.purchaseQueryId;
+      this.formData.data[0].sku = data.sku;
+      this.formData.purchasedTime = data.queryTime;
+      this.formData.data[0].purchasedQuantity = data.queryQuantity;
     }
+    let purchasePlatform = axios({
+      url: "/erp/value/purchasePlatform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let purchaseType = axios({
+      url: "/erp/value/purchaseType",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let purchaseAccount = axios({
+      url: "/erp/value/purchaseAccount",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let currency = axios({
+      url: "/erp/value/currency",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([
+      purchasePlatform,
+      purchaseType,
+      purchaseAccount,
+      currency
+    ]).then(([resOne, resTwo, resThree, resFour]) => {
+      this.purchaseType = _.cloneDeep(resTwo);
+      this.purchaseAccount = _.cloneDeep(resThree);
+      this.currency = _.cloneDeep(resFour);
+      this.purchasePlatform = _.cloneDeep(resOne);
+    });
+  },
+  computed: {
+    disabled() {
+      let disabled = false;
+      _.each(this.formData.data, v => {
+        if (!v.sku) {
+          disabled = true;
+        }
+      });
+      return disabled;
+    },
+    totalMoney() {
+      let total = 0;
+      _.each(this.formData.data, v => {
+        total +=
+          Number(v.purchasedAmount) * Number(v.purchasedQuantity) +
+          Number(v.shippingCost);
+      });
+      if (total == 0) {
+        return "";
+      } else {
+        return total;
+      }
+    },
+    totalShippingCost() {
+      let total = 0;
+      _.each(this.formData.data, v => {
+        total += Number(v.shippingCost);
+      });
+      if (total == 0) {
+        return "";
+      } else {
+        return total;
+      }
+    },
+    totalPurchasedAmount() {
+      let total = 0;
+      _.each(this.formData.data, v => {
+        total += Number(v.purchasedAmount);
+      });
+      if (total == 0) {
+        return "";
+      } else {
+        return total;
+      }
+    },
+    totalPurchasedQuantity() {
+      let total = 0;
+      _.each(this.formData.data, v => {
+        total += Number(v.purchasedQuantity);
+      });
+      if (total == 0) {
+        return "";
+      } else {
+        return total;
+      }
+    }
+  },
+  mounted() {
+    this.$on("selectSku", this.handleSku);
+  },
+  filters: {
+    ...format
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/erpPurchase");
+    },
+    handleSku(val) {
+      _.each(this.formData.data, (v, i) => {
+        if (i == val[1]) {
+          v.sku = val[0].sku;
+          v.productName = val[0].productName;
+        }
+      });
+    },
+    handleQuerySku(index) {
+      this.$refs["querySku"].$findChild("wonDialog", "visible", index);
+    },
+    handleCheckSku(value, row) {
+      if (!value) {
+        return;
+      }
+      axios({
+        url: "/erp/check/sku",
+        method: "post",
+        data: {
+          token: this.token,
+          sku: value
+        }
+      }).then(res => {
+        if (!res.message) {
+          this.$message.success("SKU檢查成功");
+          row.productName = res.productName;
+        } else {
+          this.$message.error("SKU不存在");
+          row.sku = "";
+          row.productName = "";
+        }
+      });
+    },
+    handleAdd() {
+      let obj = {
+        sku: "",
+        productName: "",
+        productSpec: "",
+        purchasedQuantity: "",
+        purchasedAmount: "",
+        note: "",
+        shippingCost: ""
+      };
+      this.formData.data.push(obj);
+      this.$nextTick(() => {
+        this.$refs["input"]
+          .slice(-1)[0]
+          .$el.querySelector("input")
+          .focus();
+      });
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      _.each(data, v => {
+        v.purchasedTime = this.moment(this.formData.purchasedTime).format(
+          "YYYY-MM-DD"
+        );
+        v.purchaseType = this.formData.purchaseType;
+        v.purchasedPlatform = this.formData.purchasedPlatform;
+        v.purchasedAccount = this.formData.purchasedAccount;
+        v.purchasedTotalAmount = this.Mul(
+          v.purchasedAmount,
+          v.purchasedQuantity
+        );
+        v.purchaseOrderId = this.formData.purchaseOrderId;
+        v.purchasedBy = this.formData.purchasedBy;
+        v.currency = this.formData.currency;
+        delete v.purchasedAmount;
+      });
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.popoverVisible = false;
+          this.submitLoading = true;
+          let data = {
+            value: this.getValue(),
+            token: this.token
+          };
+          if (this.isTransfer) {
+            data.purchaseQueryId = this.purchaseQueryId;
+          }
+          axios({
+            url: "/purchase/add",
+            method: "post",
+            data
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
+            this.$router.push("/erpPurchase");
+          });
+        }
+      });
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 /deep/ .el-form-item {
-    margin-bottom: 6px;
+  margin-bottom: 6px;
 }
 /deep/ .el-form-item__label {
-    padding: 0px !important;
+  padding: 0px !important;
 }
 .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 .total {
-    height: 35px;
-    background: #f0f9eb;
-    td {
-        background: transparent !important;
-    }
+  height: 35px;
+  background: #f0f9eb;
+  td {
+    background: transparent !important;
+  }
 }
 #table {
-    table {
-        table-layout: fixed;
-        width: 100%;
-        border-top: 1px solid #ebeef5;
-        border-bottom: 1px solid #ebeef5;
-        border-left: 1px solid #ebeef5;
-        .btnh {
-            padding: 4px 0px;
-            color: #62717e;
-        }
-        .cell {
-            padding: 0px;
-        }
-       /deep/ .el-form-item {
-            overflow: hidden;
-            margin: 0px;
-        }
-       /deep/ .el-form-item__content {
-            line-height: 0px;
-        }
-        /deep/ .is-error input {
-            background: #f56c6c;
-            border-radius: 0%;
-        }
-       /deep/ .el-input__inner {
-            border: none;
-            height: 35px;
-            text-align: center;
-            color: #62717e;
-            font-size: 14px;
-        }
-        th {
-            padding: 4px;
-            background: #edf1f5;
-            text-align: center;
-            color: #62717e;
-            // border-right: 1px solid #ebeef5;
-        }
-        td {
-            padding: 0px;
-            border-top: 1px solid #ebeef5;
-            border-right: 1px solid #ebeef5;
-            text-align: center;
-            background: white;
-            color: #62717e;
-            font-size: 14px;
-        }
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
+    .btnh {
+      padding: 4px 0px;
+      color: #62717e;
     }
+    .cell {
+      padding: 0px;
+    }
+    /deep/ .el-form-item {
+      overflow: hidden;
+      margin: 0px;
+    }
+    /deep/ .el-form-item__content {
+      line-height: 0px;
+    }
+    /deep/ .is-error input {
+      background: #f56c6c;
+      border-radius: 0%;
+    }
+    /deep/ .el-input__inner {
+      border: none;
+      height: 35px;
+      text-align: center;
+      color: #62717e;
+      font-size: 14px;
+    }
+    th {
+      padding: 4px;
+      background: #edf1f5;
+      text-align: center;
+      color: #62717e;
+      // border-right: 1px solid #ebeef5;
+    }
+    td {
+      padding: 0px;
+      border-top: 1px solid #ebeef5;
+      border-right: 1px solid #ebeef5;
+      text-align: center;
+      background: white;
+      color: #62717e;
+      font-size: 14px;
+    }
+  }
 }
 </style>
-
-

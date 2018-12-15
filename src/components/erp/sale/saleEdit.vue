@@ -125,258 +125,253 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            popoverVisible:false,
-            submitLoading: false,
-            loading: false,
-            searchAccountOption: [],
-            searchPlatformOption: [],
-            searchCountryOption: [],
-            searchCurrecyOption: [],
-            requredRule: {
-                required: true
-            },
-            rules: {
-                currency: {
-                    required: true,
-                    message:'此项必填'
-                }
-            },
-            formData: {
-                saleId:"",
-                currency: "",
-                saleTime: "",
-                salePlatform: "",
-                saleAccount: "",
-                saleCountry: "",
-                note:"",
-                data: [
-                    {
-                        sku: "",
-                        productName: "",
-                        saleTotalAmount: "",
-                        saleQuantity: "",
-                        productSpec:""
-                    }
-                ]
-            }
-        };
-    },
-    created() {
-        let saleCurrency = axios({
-            url: "/erp/value/currency",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let salePlatform = axios({
-            url: "/erp/value/salePlatform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let saleCountry = axios({
-            url: "/erp/value/saleCountry",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let saleAccount = axios({
-            url: "/erp/value/saleAccount",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([
-            salePlatform,
-            saleCountry,
-            saleAccount,
-            saleCurrency
-        ]).then(([platform, country, account, currency]) => {
-            let data = JSON.parse(this.$route.query.data);
-            this.formData.currency = data.currency;
-            this.formData.saleTime = data.saleTime;
-            this.formData.salePlatform = data.salePlatform;
-            this.formData.saleAccount = data.saleAccount;
-            this.formData.saleCountry = data.saleCountry;
-            this.formData.saleId = data.saleId;
-            this.formData.data[0].sku = data.sku;
-            this.formData.data[0].productName = data.productName;
-            this.formData.data[0].saleTotalAmount = data.saleTotalAmount;
-            this.formData.data[0].saleQuantity = data.saleQuantity;
-            this.formData.data[0].productSpec = data.productSpec;
-            this.searchAccountOption = _.cloneDeep(account);
-            this.searchPlatformOption = _.cloneDeep(platform);
-            this.searchCountryOption = _.cloneDeep(country);
-            this.searchCurrecyOption = _.cloneDeep(currency);
-        });
-    },
-    computed:{
-        totalMoney(){
-              let total = 0;
-            _.each(this.formData.data, v => {
-                total += Number(v.saleQuantity) * Number(v.saleTotalAmount);
-            });
-            if (total == 0) {
-                return '';
-            } else {
-                return total;
-            }
-        },
-        totalQuantity(){
-             let total = 0;
-            _.each(this.formData.data,(v)=>{
-                 total += Number(v.saleQuantity);
-            })
-            if(total == 0){
-                return "";
-            }else{
-                return total.toFixed(2);
-            }
-        },
-        totalAmount(){
-            let total = 0;
-            _.each(this.formData.data,(v)=>{
-                 total += Number(v.saleTotalAmount);
-            })
-            if(total == 0){
-                return "";
-            }else{
-                return total.toFixed(2);
-            }
+  data() {
+    return {
+      popoverVisible: false,
+      submitLoading: false,
+      loading: false,
+      searchAccountOption: [],
+      searchPlatformOption: [],
+      searchCountryOption: [],
+      searchCurrecyOption: [],
+      requredRule: {
+        required: true
+      },
+      rules: {
+        currency: {
+          required: true,
+          message: "此项必填"
         }
+      },
+      formData: {
+        saleId: "",
+        currency: "",
+        saleTime: "",
+        salePlatform: "",
+        saleAccount: "",
+        saleCountry: "",
+        note: "",
+        data: [
+          {
+            sku: "",
+            productName: "",
+            saleTotalAmount: "",
+            saleQuantity: "",
+            productSpec: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let saleCurrency = axios({
+      url: "/erp/value/currency",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let salePlatform = axios({
+      url: "/erp/value/salePlatform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let saleCountry = axios({
+      url: "/erp/value/saleCountry",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let saleAccount = axios({
+      url: "/erp/value/saleAccount",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([salePlatform, saleCountry, saleAccount, saleCurrency]).then(
+      ([platform, country, account, currency]) => {
+        let data = JSON.parse(this.$route.query.data);
+        this.formData.currency = data.currency;
+        this.formData.saleTime = data.saleTime;
+        this.formData.salePlatform = data.salePlatform;
+        this.formData.saleAccount = data.saleAccount;
+        this.formData.saleCountry = data.saleCountry;
+        this.formData.saleId = data.saleId;
+        this.formData.data[0].sku = data.sku;
+        this.formData.data[0].productName = data.productName;
+        this.formData.data[0].saleTotalAmount = data.saleTotalAmount;
+        this.formData.data[0].saleQuantity = data.saleQuantity;
+        this.formData.data[0].productSpec = data.productSpec;
+        this.searchAccountOption = _.cloneDeep(account);
+        this.searchPlatformOption = _.cloneDeep(platform);
+        this.searchCountryOption = _.cloneDeep(country);
+        this.searchCurrecyOption = _.cloneDeep(currency);
+      }
+    );
+  },
+  computed: {
+    totalMoney() {
+      let total = 0;
+      _.each(this.formData.data, v => {
+        total += Number(v.saleQuantity) * Number(v.saleTotalAmount);
+      });
+      if (total == 0) {
+        return "";
+      } else {
+        return total;
+      }
     },
-    methods: {
-        goBack() {
-            this.$router.push("/erpSale");
-        },
-        handleCheckSku(value, row) {
-            if (!value) {
-                return;
-            }
-            axios({
-                url: "/erp/check/sku",
-                method: "post",
-                data: {
-                    token: this.token,
-                    sku: value
-                }
-            }).then(res => {
-                if (!res.message) {
-                    this.$message.success("SKU檢查成功");
-                    row.productName = res.productName;
-                } else {
-                    this.$message.error("SKU不存在");
-                    row.sku = "";
-                    row.productName = "";
-                }
-            });
-        },
-        getValue() {
-            let data = [];
-            _.each(this.formData.data, (v) => {
-                let obj = _.cloneDeep(v);
-                obj.currency = this.formData.currency;
-                obj.saleTime = this.formData.saleTime;
-                obj.salePlatform = this.formData.salePlatform;
-                obj.saleAccount = this.formData.saleAccount;
-                obj.saleCountry = this.formData.saleCountry;
-                data.push(obj);
-            });
-            return JSON.stringify(data);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.popoverVisible = false;
-                    this.submitLoading = true;
-                    axios({
-                        url: "/sale/update",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/erpSale");
-                    });
-                }
-            });
-        }
+    totalQuantity() {
+      let total = 0;
+      _.each(this.formData.data, v => {
+        total += Number(v.saleQuantity);
+      });
+      if (total == 0) {
+        return "";
+      } else {
+        return total.toFixed(2);
+      }
+    },
+    totalAmount() {
+      let total = 0;
+      _.each(this.formData.data, v => {
+        total += Number(v.saleTotalAmount);
+      });
+      if (total == 0) {
+        return "";
+      } else {
+        return total.toFixed(2);
+      }
     }
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/erpSale");
+    },
+    handleCheckSku(value, row) {
+      if (!value) {
+        return;
+      }
+      axios({
+        url: "/erp/check/sku",
+        method: "post",
+        data: {
+          token: this.token,
+          sku: value
+        }
+      }).then(res => {
+        if (!res.message) {
+          this.$message.success("SKU檢查成功");
+          row.productName = res.productName;
+        } else {
+          this.$message.error("SKU不存在");
+          row.sku = "";
+          row.productName = "";
+        }
+      });
+    },
+    getValue() {
+      let data = [];
+      _.each(this.formData.data, v => {
+        let obj = _.cloneDeep(v);
+        obj.currency = this.formData.currency;
+        obj.saleTime = this.formData.saleTime;
+        obj.salePlatform = this.formData.salePlatform;
+        obj.saleAccount = this.formData.saleAccount;
+        obj.saleCountry = this.formData.saleCountry;
+        data.push(obj);
+      });
+      return JSON.stringify(data);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.popoverVisible = false;
+          this.submitLoading = true;
+          axios({
+            url: "/sale/update",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
+            this.$router.push("/erpSale");
+          });
+        }
+      });
+    }
+  }
 };
 </script>
 <style lang="scss">
 #sale {
-    .heade {
-        font-size: 16px;
-        color: #45a2ff;
+  .heade {
+    font-size: 16px;
+    color: #45a2ff;
+  }
+  .el-form-item {
+    margin-bottom: 6px;
+  }
+  .el-form-item__label {
+    padding: 0px !important;
+  }
+  .heade a {
+    color: #45a2ff;
+  }
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
+    .btnh {
+      padding: 4px 0px;
+      color: #62717e;
+    }
+    .cell {
+      padding: 0px;
     }
     .el-form-item {
-        margin-bottom: 6px;
+      overflow: hidden;
+      margin: 0px;
     }
-    .el-form-item__label {
-        padding: 0px !important;
+    .el-form-item__content {
+      line-height: 0px;
     }
-    .heade a {
-        color: #45a2ff;
+    .is-error input {
+      background: #f56c6c;
+      border-radius: 0%;
     }
-    table {
-        table-layout: fixed;
-        width: 100%;
-        border-top: 1px solid #ebeef5;
-        border-bottom: 1px solid #ebeef5;
-        border-left: 1px solid #ebeef5;
-        .btnh {
-            padding: 4px 0px;
-            color: #62717e;
-        }
-        .cell {
-            padding: 0px;
-        }
-        .el-form-item {
-            overflow: hidden;
-            margin: 0px;
-        }
-        .el-form-item__content {
-            line-height: 0px;
-        }
-        .is-error input {
-            background: #f56c6c;
-            border-radius: 0%;
-        }
-        .el-input__inner {
-            border: none;
-            height: 35px;
-            text-align: center;
-            color: #62717e;
-            font-size: 14px;
-        }
-        th {
-            padding: 4px;
-            background: #edf1f5;
-            text-align: center;
-            color: #62717e;
-            // border-right: 1px solid #ebeef5;
-        }
-        td {
-            padding: 0px;
-            border-top: 1px solid #ebeef5;
-            border-right: 1px solid #ebeef5;
-            text-align: center;
-            background: white;
-            color: #62717e;
-            font-size: 14px;
-        }
+    .el-input__inner {
+      border: none;
+      height: 35px;
+      text-align: center;
+      color: #62717e;
+      font-size: 14px;
     }
+    th {
+      padding: 4px;
+      background: #edf1f5;
+      text-align: center;
+      color: #62717e;
+      // border-right: 1px solid #ebeef5;
+    }
+    td {
+      padding: 0px;
+      border-top: 1px solid #ebeef5;
+      border-right: 1px solid #ebeef5;
+      text-align: center;
+      background: white;
+      color: #62717e;
+      font-size: 14px;
+    }
+  }
 }
 </style>
-
-

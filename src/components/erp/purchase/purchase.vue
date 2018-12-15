@@ -60,180 +60,174 @@
 import wonTableContainer from "@/common/wonTableContainer";
 import { format } from "@/common/until/format";
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            date: [],
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            searchAccount: "",
-            searchPlatform: "",
-            searchType: "",
-            searchAccountOption: [],
-            searchPlatformOption: [],
-            searchTypeOption: [],
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/purchase/search",
-                method: "post",
-                where: ""
+  extends: wonTableContainer,
+  data() {
+    return {
+      date: [],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-        };
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      searchAccount: "",
+      searchPlatform: "",
+      searchType: "",
+      searchAccountOption: [],
+      searchPlatformOption: [],
+      searchTypeOption: [],
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/purchase/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    let purchasePlatform = axios({
+      url: "/erp/value/purchasePlatform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let purchaseType = axios({
+      url: "/erp/value/purchaseType",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let purchaseAccount = axios({
+      url: "/erp/value/purchaseAccount",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([purchasePlatform, purchaseType, purchaseAccount]).then(
+      ([platform, type, account]) => {
+        this.searchAccountOption = _.cloneDeep(account);
+        this.searchPlatformOption = _.cloneDeep(platform);
+        this.searchTypeOption = _.cloneDeep(type);
+      }
+    );
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  filters: {
+    ...format
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
+        data.purchasePlatform = this.searchPlatform;
+      }
+      if (this.condition.includes("2")) {
+        data.purchaseType = this.searchType;
+      }
+      if (this.condition.includes("3")) {
+        data.purchaseAccount = this.searchAccount;
+      }
+      if (!_.isEmpty(this.date)) {
+        data.startDate = this.date[0];
+        data.endDate = this.date[1];
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleChange() {
+      this.handleSearch();
     },
-    created() {
-        let purchasePlatform = axios({
-            url: "/erp/value/purchasePlatform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let purchaseType = axios({
-            url: "/erp/value/purchaseType",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let purchaseAccount = axios({
-            url: "/erp/value/purchaseAccount",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([purchasePlatform, purchaseType, purchaseAccount]).then(
-            ([platform, type, account]) => {
-                this.searchAccountOption = _.cloneDeep(account);
-                this.searchPlatformOption = _.cloneDeep(platform);
-                this.searchTypeOption = _.cloneDeep(type);
-            }
-        );
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
+    handleEdit(val) {
+      this.$router.push({
+        name: "erpPurchaseEdit",
+        query: { data: JSON.stringify(val) }
+      });
     },
-    filters: {
-        ...format
+    handleAdd() {
+      this.$router.push("/erpPurchaseAdd");
     },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (this.condition.includes("1")) {
-                data.purchasePlatform = this.searchPlatform;
-            }
-            if (this.condition.includes("2")) {
-                data.purchaseType = this.searchType;
-            }
-            if (this.condition.includes("3")) {
-                data.purchaseAccount = this.searchAccount;
-            }
-            if (!_.isEmpty(this.date)) {
-                data.startDate = this.date[0];
-                data.endDate = this.date[1];
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleChange(n) {
-            this.handleSearch();
-        },
-        handleEdit(val) {
-            this.$router.push({
-                name: "erpPurchaseEdit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/erpPurchaseAdd");
-        },
-        handleCondition(sign) {
-            if (sign == "plat") {
-                if (!this.searchPlatform) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "type") {
-                if (!this.searchType) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if (!this.condition.includes("3")) {
-                        this.condition.push("3");
-                    }
-                }
-            }
-            this.handleSearch();
+    handleCondition(sign) {
+      if (sign == "plat") {
+        if (!this.searchPlatform) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
+      }
+      if (sign == "type") {
+        if (!this.searchType) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      this.handleSearch();
     }
+  }
 };
 </script>
 

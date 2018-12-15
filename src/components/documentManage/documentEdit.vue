@@ -399,12 +399,12 @@
  </div>  
 </template>
 <script>
-import tinymce from '@/common/tinymce'
+import tinymce from "@/common/tinymce";
 import minTinymce from "@/common/minTinymce";
 import smallTinymce from "@/common/smallTinymce";
 import wonDialog from "@/common/wonDialog";
 export default {
-  name:'documentEdit',
+  name: "documentEdit",
   components: {
     tinymce,
     minTinymce,
@@ -413,21 +413,23 @@ export default {
   },
   data() {
     return {
-      selectTinymce:1,
-      selectTinymceOption:[{
-        label:'Amazon',
-        value:1
-      },
-      {
-        label:'Cdiscount',
-        value:3
-      },
-      {
-        label:'完整版',
-        value:2
-      }],
-      titleHtml:'',
-      bulletPointHtml:'',
+      selectTinymce: 1,
+      selectTinymceOption: [
+        {
+          label: "Amazon",
+          value: 1
+        },
+        {
+          label: "Cdiscount",
+          value: 3
+        },
+        {
+          label: "完整版",
+          value: 2
+        }
+      ],
+      titleHtml: "",
+      bulletPointHtml: "",
       submitLoading: false,
       searchAccountOption: [],
       searchPlatformOption: [],
@@ -436,8 +438,8 @@ export default {
       searchBrandOption: [],
       searchManufacturerOption: [],
       fileList: [],
-      loading:false,
-      type:true,
+      loading: false,
+      type: true,
       data: {
         ContentId: "",
         SKU: "",
@@ -486,12 +488,12 @@ export default {
         ReplaceWordValue2: "",
         ReplaceWordValue3: "",
         version: "",
-        note:""
+        note: ""
       }
     };
   },
   created() {
-    if(this.$route.query.type == "copy"){
+    if (this.$route.query.type == "copy") {
       this.type = false;
     }
     let account = axios({
@@ -551,7 +553,7 @@ export default {
       this.searchBrandOption = _.cloneDeep(brand.data);
       this.searchManufacturerOption = _.cloneDeep(manufacturer.data);
       let oldData = JSON.parse(this.$route.query.data);
-      console.log(this.data)
+      console.log(this.data);
       this.data.Account = oldData.account;
       this.data.Brand = oldData.brand;
       this.data.Language = oldData.language;
@@ -574,33 +576,33 @@ export default {
       this.data.BulletPoint5 = oldData.bulletPoint5 || "";
       this.data.cartLongTitle = oldData.cartLongTitle || "";
       this.data.cartShortTitle = oldData.cartShortTitle || "";
-      this.data.Country = oldData.country; 
-      this.data.Description1 = oldData.description1 || ""; 
-      this.data.Description2 = oldData.description2 || ""; 
-      this.data.Description3 = oldData.description3 || ""; 
-      this.data.Description4 = oldData.description4 || ""; 
-      this.data.Description5 = oldData.description5 || ""; 
-      this.data.Description6 = oldData.description6 || ""; 
-      this.data.Description7 = oldData.description7 || "";  
-      this.data.Keyword1 = oldData.keyword1 || "";  
-      this.data.Keyword2 = oldData.keyword2 || ""; 
-      this.data.Keyword3 = oldData.keyword3 || ""; 
-      this.data.Keyword4 = oldData.keyword4 || ""; 
-      this.data.Keyword5 = oldData.keyword5 || ""; 
-      this.data.ContentId = oldData.contentId; 
-      this.data.Enable = oldData.enable; 
+      this.data.Country = oldData.country;
+      this.data.Description1 = oldData.description1 || "";
+      this.data.Description2 = oldData.description2 || "";
+      this.data.Description3 = oldData.description3 || "";
+      this.data.Description4 = oldData.description4 || "";
+      this.data.Description5 = oldData.description5 || "";
+      this.data.Description6 = oldData.description6 || "";
+      this.data.Description7 = oldData.description7 || "";
+      this.data.Keyword1 = oldData.keyword1 || "";
+      this.data.Keyword2 = oldData.keyword2 || "";
+      this.data.Keyword3 = oldData.keyword3 || "";
+      this.data.Keyword4 = oldData.keyword4 || "";
+      this.data.Keyword5 = oldData.keyword5 || "";
+      this.data.ContentId = oldData.contentId;
+      this.data.Enable = oldData.enable;
       this.data.lastUpdatedTime = oldData.lastUpdatedTime;
       this.data.note = oldData.note;
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.loading = true;
-      })
+      });
     });
   },
   methods: {
-     goBack() {
+    goBack() {
       this.$router.push("/documentManage");
     },
-    handleTitlePreview(){
+    handleTitlePreview() {
       let title1 = this.data.Title;
       let title2 = this.data.cartLongTitle;
       let title3 = this.data.cartShortTitle;
@@ -609,30 +611,30 @@ export default {
       let ReplaceWordValue2 = this.data.ReplaceWordValue2;
       let ReplaceWordValue3 = this.data.ReplaceWordValue3;
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
-      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
-      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+      // let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      // let ReplaceWordKey3 = this.data.ReplaceWordKey3;
 
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]');
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g, "\\[");
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g, "\\]");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g, "\\[");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g, "\\]");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g, "\\[");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g, "\\]");
 
-      if(!!ReplaceWordValue1){
-        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
-        totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue2){
-        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
-        totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue3){
-        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
-        totalTitle = totalTitle.replace(reg,ReplaceWordKey1);
+      if (ReplaceWordValue1) {
+        let reg = new RegExp(`${ReplaceWordValue1}`, "g");
+        totalTitle = totalTitle.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue2) {
+        let reg = new RegExp(`${ReplaceWordValue2}`, "g");
+        totalTitle = totalTitle.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue3) {
+        let reg = new RegExp(`${ReplaceWordValue3}`, "g");
+        totalTitle = totalTitle.replace(reg, ReplaceWordKey1);
       }
       this.titleHtml = totalTitle;
-      this.$refs['title'].$emit('visible',true);
+      this.$refs["title"].$emit("visible", true);
     },
-    handleBulletPointPreview(){
+    handleBulletPointPreview() {
       let title1 = this.data.BulletPoint1;
       let title2 = this.data.BulletPoint2;
       let title3 = this.data.BulletPoint3;
@@ -643,128 +645,140 @@ export default {
       let ReplaceWordValue2 = this.data.ReplaceWordValue2;
       let ReplaceWordValue3 = this.data.ReplaceWordValue3;
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
-      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
-      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
-      
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]');
+      // let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      // let ReplaceWordKey3 = this.data.ReplaceWordKey3;
 
-      if(!!ReplaceWordValue1){
-        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
-        totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue2){
-        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
-        totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue3){
-        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
-        totalBullet = totalBullet.replace(reg,ReplaceWordKey1);
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g, "\\[");
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g, "\\]");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g, "\\[");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g, "\\]");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g, "\\[");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g, "\\]");
+
+      if (ReplaceWordValue1) {
+        let reg = new RegExp(`${ReplaceWordValue1}`, "g");
+        totalBullet = totalBullet.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue2) {
+        let reg = new RegExp(`${ReplaceWordValue2}`, "g");
+        totalBullet = totalBullet.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue3) {
+        let reg = new RegExp(`${ReplaceWordValue3}`, "g");
+        totalBullet = totalBullet.replace(reg, ReplaceWordKey1);
       }
       this.bulletPointHtml = totalBullet;
-      this.$refs['bulletPoint'].$emit('visible',true);
+      this.$refs["bulletPoint"].$emit("visible", true);
     },
-    handlePreview(){
+    handlePreview() {
       let Description = this.data.shortDescription;
       let Description1 = this.data.Description1;
       let Description2 = this.data.Description2;
       let Description3 = this.data.Description3;
       let Description4 = this.data.Description4;
       let Description5 = this.data.Description5;
-      let totalDescription = Description + Description1 + Description2 + Description3 + Description4 + Description5;
+      let totalDescription =
+        Description +
+        Description1 +
+        Description2 +
+        Description3 +
+        Description4 +
+        Description5;
       let ReplaceWordValue1 = this.data.ReplaceWordValue1;
       let ReplaceWordValue2 = this.data.ReplaceWordValue2;
       let ReplaceWordValue3 = this.data.ReplaceWordValue3;
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
-      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
-      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+      // let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      // let ReplaceWordKey3 = this.data.ReplaceWordKey3;
 
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]'); 
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g, "\\[");
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g, "\\]");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g, "\\[");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g, "\\]");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g, "\\[");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g, "\\]");
 
-       if(!!ReplaceWordValue1){
-        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
-        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue2){
-        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
-        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue3){
-        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
-        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      if (ReplaceWordValue1) {
+        let reg = new RegExp(`${ReplaceWordValue1}`, "g");
+        totalDescription = totalDescription.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue2) {
+        let reg = new RegExp(`${ReplaceWordValue2}`, "g");
+        totalDescription = totalDescription.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue3) {
+        let reg = new RegExp(`${ReplaceWordValue3}`, "g");
+        totalDescription = totalDescription.replace(reg, ReplaceWordKey1);
       }
-      let previewWindow = window.open('', '_blank');
+      let previewWindow = window.open("", "_blank");
       previewWindow.document.write(totalDescription);
     },
-    handleCheck(){
+    handleCheck() {
       let Description = this.data.shortDescription;
       let Description1 = this.data.Description1;
       let Description2 = this.data.Description2;
       let Description3 = this.data.Description3;
       let Description4 = this.data.Description4;
       let Description5 = this.data.Description5;
-      let totalDescription = Description + Description1 + Description2 + Description3 + Description4 + Description5;
+      let totalDescription =
+        Description +
+        Description1 +
+        Description2 +
+        Description3 +
+        Description4 +
+        Description5;
       let ReplaceWordValue1 = this.data.ReplaceWordValue1;
       let ReplaceWordValue2 = this.data.ReplaceWordValue2;
       let ReplaceWordValue3 = this.data.ReplaceWordValue3;
       let ReplaceWordKey1 = this.data.ReplaceWordKey1;
-      let ReplaceWordKey2 = this.data.ReplaceWordKey2;
-      let ReplaceWordKey3 = this.data.ReplaceWordKey3;
+      // let ReplaceWordKey2 = this.data.ReplaceWordKey2;
+      // let ReplaceWordKey3 = this.data.ReplaceWordKey3;
 
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g,'\\[');
-      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g,'\\]');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g,'\\[');
-      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g,'\\]');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g,'\\[');
-      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g,'\\]'); 
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\[/g, "\\[");
+      ReplaceWordValue1 = ReplaceWordValue1.replace(/\]/g, "\\]");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\[/g, "\\[");
+      ReplaceWordValue2 = ReplaceWordValue2.replace(/\]/g, "\\]");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\[/g, "\\[");
+      ReplaceWordValue3 = ReplaceWordValue3.replace(/\]/g, "\\]");
 
-       if(!!ReplaceWordValue1){
-        let reg = new RegExp(`${ReplaceWordValue1}`,'g');
-        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue2){
-        let reg = new RegExp(`${ReplaceWordValue2}`,'g');
-        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
-      }else if(!!ReplaceWordValue3){
-        let reg = new RegExp(`${ReplaceWordValue3}`,'g');
-        totalDescription = totalDescription.replace(reg,ReplaceWordKey1);
+      if (ReplaceWordValue1) {
+        let reg = new RegExp(`${ReplaceWordValue1}`, "g");
+        totalDescription = totalDescription.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue2) {
+        let reg = new RegExp(`${ReplaceWordValue2}`, "g");
+        totalDescription = totalDescription.replace(reg, ReplaceWordKey1);
+      } else if (ReplaceWordValue3) {
+        let reg = new RegExp(`${ReplaceWordValue3}`, "g");
+        totalDescription = totalDescription.replace(reg, ReplaceWordKey1);
       }
-      let previewWindow = window.open('', '_blank');
+      let previewWindow = window.open("", "_blank");
       previewWindow.document.body.innerText = totalDescription;
     },
-    handleClose(index){
-      this.fileList.splice(index,1);
+    handleClose(index) {
+      this.fileList.splice(index, 1);
     },
-    handleUpload(){
-      if(this.fileList.length>=10){
-        this.$message.warning('最多上传10张')
-        return
+    handleUpload() {
+      if (this.fileList.length >= 10) {
+        this.$message.warning("最多上传10张");
+        return;
       }
-      let input = document.createElement('input');
+      let input = document.createElement("input");
       input.type = "file";
-      input.click()
-      input.addEventListener('change',()=>{
+      input.click();
+      input.addEventListener("change", () => {
         let URL = window.URL || window.webkitURL;
         var base64 = URL.createObjectURL(input.files[0]);
         let obj = {
-          name:input.files[0].name+'',
+          name: input.files[0].name + "",
           base64
-        }
+        };
         this.fileList.push(obj);
-      })
+      });
     },
     submit() {
       this.$refs["form"].validate(action => {
         if (action) {
           this.submitLoading = true;
           let info = [];
-          _.each(this.fileList,(v,i)=>{
-            this.data['imageName'+(i+1)] = v.name;
-          })
+          _.each(this.fileList, (v, i) => {
+            this.data["imageName" + (i + 1)] = v.name;
+          });
           info.push(_.cloneDeep(this.data));
           let obj = {
             data: info
@@ -776,10 +790,10 @@ export default {
               value: JSON.stringify(obj),
               token: this.token
             }
-          }).then(res => {
+          }).then(() => {
             this.submitLoading = true;
-            this.Bus.$emit('refresh');
-            this.$router.push('/documentManage');
+            this.Bus.$emit("refresh");
+            this.$router.push("/documentManage");
           });
         }
       });
@@ -795,8 +809,8 @@ export default {
 #edit .heade a {
   color: #45a2ff;
 }
-#edit{
- .w50 {
+#edit {
+  .w50 {
     width: 50%;
   }
   .w20 {
@@ -815,25 +829,25 @@ export default {
     position: relative;
     text-align: center;
     height: 240px;
-    & div{
-      margin-top: 15px; 
+    & div {
+      margin-top: 15px;
     }
-    & div:after{
-      content: '';
+    & div:after {
+      content: "";
       display: block;
       clear: both;
     }
   }
   .icon {
-    float: right;;
+    float: right;
     cursor: pointer;
   }
   .name {
     float: left;
     font-size: 14px;
   }
-  .label{
-    .el-form-item__label{
+  .label {
+    .el-form-item__label {
       width: 100%;
     }
   }
@@ -846,7 +860,5 @@ export default {
       overflow: hidden;
     }
   }
- }
+}
 </style>
-
-

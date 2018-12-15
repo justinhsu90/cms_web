@@ -151,23 +151,23 @@ export default {
   },
   created() {
     let account = axios({
-        url: "/amazon/value/account",
-        method: "post",
-        data: {
-            token: this.token
-        }
+      url: "/amazon/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
     });
     let country = axios({
-        url: "/amazon/value/country",
-        method: "post",
-        data: {
-            token: this.token
-        }
+      url: "/amazon/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
     });
 
     Promise.all([account, country]).then(([account, country]) => {
-        this.searchAccountOption = account;
-        this.searchCountryOption = country;
+      this.searchAccountOption = account;
+      this.searchCountryOption = country;
     });
   },
   methods: {

@@ -72,123 +72,121 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            upcCountry: [],
-            upcPlatform: [],
-            upcAccount: [],
-            formData: {
-                data: [
-                    {
-                        subSku: "",
-                        ean: "",
-                        productName: "",
-                        asin: "",
-                        country: "",
-                        account: "",
-                        platform: "",
-                        note: ""
-                    }
-                ]
-            }
-        };
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      upcCountry: [],
+      upcPlatform: [],
+      upcAccount: [],
+      formData: {
+        data: [
+          {
+            subSku: "",
+            ean: "",
+            productName: "",
+            asin: "",
+            country: "",
+            account: "",
+            platform: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let upcCountry = axios({
+      url: "/upc/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let upcPlatform = axios({
+      url: "/upc/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let upcAccount = axios({
+      url: "/upc/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([upcPlatform, upcCountry, upcAccount]).then(
+      ([resOne, resTwo, resThree]) => {
+        this.upcCountry = _.cloneDeep(resTwo.data);
+        this.upcAccount = _.cloneDeep(resThree.data);
+        this.upcPlatform = _.cloneDeep(resOne.data);
+      }
+    );
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/upc");
     },
-    created() {
-        let upcCountry = axios({
-            url: "/upc/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let upcPlatform = axios({
-            url: "/upc/value/platform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let upcAccount = axios({
-            url: "/upc/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([upcPlatform, upcCountry, upcAccount]).then(
-            ([resOne, resTwo, resThree]) => {
-                this.upcCountry = _.cloneDeep(resTwo.data);
-                this.upcAccount = _.cloneDeep(resThree.data);
-                this.upcPlatform = _.cloneDeep(resOne.data);
-            }
-        );
+    handleAdd() {
+      let obj = {
+        subSku: "",
+        ean: "",
+        productName: "",
+        asin: "",
+        country: "",
+        account: "",
+        platform: "",
+        note: ""
+      };
+      this.formData.data.push(obj);
     },
-    methods: {
-        goBack() {
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/upc/add",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/upc");
-        },
-        handleAdd() {
-            let obj = {
-                subSku: "",
-                ean: "",
-                productName: "",
-                asin: "",
-                country: "",
-                account: "",
-                platform: "",
-                note: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/upc/add",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/upc");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

@@ -40,111 +40,111 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            searchAccount: "",
-            searchAccountOption: [
-                {
-                    account: "已補發"
-                }
-            ],
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "wowcher/rpm/search",
-                method: "post",
-                where: "",
-                order: "-lastUpdatedTime"
-            }
-        };
-    },
-    created() {
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    methods: {
-        handleCondition(sign) {
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-            this.handleSearch();
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (this.condition.includes("1")) {
-                data.status = "Y";
-            } else {
-                data.status = "N";
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleDelete(val) {
-            this.$confirm("是否删除", "提示", {
-                confirmButtonText: "確定",
-                cancelButtonText: "取消",
-                type: "warning"
-            })
-                .then(() => {
-                    axios({
-                        url: "wowcher/rpm/delete",
-                        method: "post",
-                        data: {
-                            value: val.platformOrderId,
-                            token: this.token
-                        }
-                    }).then(() => {
-                        this.handleSearch();
-                        this.$message.success("删除成功");
-                    });
-                })
-                .catch(() => {});
-        },
-        handleAdd() {
-            this.$router.push("/replacementAdd");
-        },
-        handleCheck(val) {
-            this.$router.push({
-                name: "replacementCheck",
-                query: { data: JSON.stringify(val) }
-            });
+  extends: wonTableContainer,
+  data() {
+    return {
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      searchAccount: "",
+      searchAccountOption: [
+        {
+          account: "已補發"
         }
+      ],
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "wowcher/rpm/search",
+        method: "post",
+        where: "",
+        order: "-lastUpdatedTime"
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleCondition(sign) {
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
+        }
+      }
+      this.handleSearch();
+    },
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
+        data.status = "Y";
+      } else {
+        data.status = "N";
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleDelete(val) {
+      this.$confirm("是否删除", "提示", {
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          axios({
+            url: "wowcher/rpm/delete",
+            method: "post",
+            data: {
+              value: val.platformOrderId,
+              token: this.token
+            }
+          }).then(() => {
+            this.handleSearch();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(() => {});
+    },
+    handleAdd() {
+      this.$router.push("/replacementAdd");
+    },
+    handleCheck(val) {
+      this.$router.push({
+        name: "replacementCheck",
+        query: { data: JSON.stringify(val) }
+      });
     }
+  }
 };
 </script>
 
 <style scoped>
 .el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
+  color: #62717e;
+  background: rgb(237, 241, 245);
+  text-align: center;
 }
 </style>

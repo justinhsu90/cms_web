@@ -99,156 +99,154 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            stockCondition:[],
-            formData: {
-                receivedDate:'',
-                inspectionBy:'',
-                trackingNumber:'',
-                agent: "",
-                data: [
-                    {
-                        sku: "",
-                        productName: "",
-                        quantity: "",
-                        stockCondition: "",
-                        purchaseId: "",
-                        warehouseReceiveId: "",
-                    }
-                ]
-            }
-        };
-    },
-    created() {
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].sku = data.sku;
-        this.formData.data[0].productName = data.productName;
-        this.formData.data[0].quantity = data.quantity;
-        this.formData.data[0].stockCondition = data.stockCondition;
-        this.formData.data[0].purchaseId = data.purchaseId;
-        this.formData.data[0].warehouseReceiveId = data.warehouseReceiveId;
-        this.formData.data[0].note = data.note;
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      stockCondition: [],
+      formData: {
+        receivedDate: "",
+        inspectionBy: "",
+        trackingNumber: "",
+        agent: "",
+        data: [
+          {
+            sku: "",
+            productName: "",
+            quantity: "",
+            stockCondition: "",
+            purchaseId: "",
+            warehouseReceiveId: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let data = JSON.parse(this.$route.query.data);
+    this.formData.data[0].sku = data.sku;
+    this.formData.data[0].productName = data.productName;
+    this.formData.data[0].quantity = data.quantity;
+    this.formData.data[0].stockCondition = data.stockCondition;
+    this.formData.data[0].purchaseId = data.purchaseId;
+    this.formData.data[0].warehouseReceiveId = data.warehouseReceiveId;
+    this.formData.data[0].note = data.note;
 
-        this.formData.agent = data.agent;
-        this.formData.inspectionBy = data.inspectionBy;
-        this.formData.receivedDate = data.receivedDate;  
-        this.formData.trackingNumber = data.trackingNumber;  
-        let stockCondition = axios({
-            url: "/erp/warehouse/receive/value/stockCondition",
+    this.formData.agent = data.agent;
+    this.formData.inspectionBy = data.inspectionBy;
+    this.formData.receivedDate = data.receivedDate;
+    this.formData.trackingNumber = data.trackingNumber;
+    axios({
+      url: "/erp/warehouse/receive/value/stockCondition",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.stockCondition = res;
+    });
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/putStorage");
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      data.agent = this.formData.agent;
+      data.inspectionBy = this.formData.inspectionBy;
+      data.receivedDate = this.formData.receivedDate;
+      data.trackingNumber = this.formData.trackingNumber;
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/erp/warehouse/receive/edit",
             method: "post",
             data: {
-                token: this.token
+              value: this.getValue(),
+              token: this.token
             }
-        }).then(res => {
-            this.stockCondition = res;
-        });    
-    },
-    methods: {
-        goBack() {
-            this.$router.push("/putStorage");
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.agent = this.formData.agent;
-            data.inspectionBy = this.formData.inspectionBy;
-            data.receivedDate = this.formData.receivedDate;  
-            data.trackingNumber = this.formData.trackingNumber;
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/erp/warehouse/receive/edit",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.goBack();
-                    });
-                }
-            });
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
+            this.goBack();
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-button--text {
-    color: #606266;
+  color: #606266;
 }
 /deep/ .el-form-item {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 /deep/ .el-form-item__label {
-    padding: 0px;
+  padding: 0px;
 }
 table {
-    table-layout: fixed;
-    width: 100%;
+  table-layout: fixed;
+  width: 100%;
+  border-top: 1px solid #ebeef5;
+  border-bottom: 1px solid #ebeef5;
+  border-left: 1px solid #ebeef5;
+  .btnh {
+    padding: 4px 0px;
+    color: #62717e;
+  }
+  .cell {
+    padding: 0px;
+  }
+  /deep/ .el-form-item {
+    overflow: hidden;
+    margin: 0px;
+  }
+  /deep/ .el-form-item__content {
+    line-height: 0px;
+  }
+  /deep/ .is-error input {
+    background: #f56c6c;
+    border-radius: 0%;
+  }
+  /deep/ .el-input__inner {
+    border: none;
+    height: 35px;
+    text-align: center;
+    color: #62717e;
+    font-size: 14px;
+  }
+  th {
+    padding: 4px;
+    background: #edf1f5;
+    text-align: center;
+    color: #62717e;
+    // border-right: 1px solid #ebeef5;
+  }
+  td {
+    padding: 0px;
     border-top: 1px solid #ebeef5;
-    border-bottom: 1px solid #ebeef5;
-    border-left: 1px solid #ebeef5;
-    .btnh {
-        padding: 4px 0px;
-        color: #62717e;
-    }
-    .cell {
-        padding: 0px;
-    }
-    /deep/ .el-form-item {
-        overflow: hidden;
-        margin: 0px;
-    }
-    /deep/ .el-form-item__content {
-        line-height: 0px;
-    }
-    /deep/ .is-error input {
-        background: #f56c6c;
-        border-radius: 0%;
-    }
-    /deep/ .el-input__inner {
-        border: none;
-        height: 35px;
-        text-align: center;
-        color: #62717e;
-        font-size: 14px;
-    }
-    th {
-        padding: 4px;
-        background: #edf1f5;
-        text-align: center;
-        color: #62717e;
-        // border-right: 1px solid #ebeef5;
-    }
-    td {
-        padding: 0px;
-        border-top: 1px solid #ebeef5;
-        border-right: 1px solid #ebeef5;
-        text-align: center;
-        background: white;
-        color: #62717e;
-        font-size: 14px;
-    }
+    border-right: 1px solid #ebeef5;
+    text-align: center;
+    background: white;
+    color: #62717e;
+    font-size: 14px;
+  }
 }
 </style>
-
-

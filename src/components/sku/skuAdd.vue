@@ -346,467 +346,460 @@
 </template>
 <script>
 export default {
-    data() {
-        var that = this;
-        return {
-            centerDialogVisible: true,
-            popoverVisible: false,
-            searchValue: "IT",
-            base64: "",
-            showDetector: false,
-            trueStatus: false,
-            trueProductName: false,
-            imageStatus: false,
-            detectorURL: "../../static/img/1.png",
-            trueNewSku: false,
-            searchOptions: [],
-            costCurrency: [],
-            submitLoading: false,
-            isCopy:false,
-            form: {
-                imageUrl: "",
-                autoSku: "",
-                sku: "",
-                newSku: "",
-                productName: "",
-                status: "",
-                image: "",
-                amazonWidthCM: "",
-                amazonHeightCM: "",
-                amazonWeightKG: "",
-                amazonLengthCM: "",
-                parcelWidthCM: "",
-                parcelHeightCM: "",
-                parcelWeightKG: "",
-                parcelLengthCM: "",
-                productWidthCM: "",
-                productHeightCM: "",
-                productWeightKG: "",
-                productLengthCM: "",
-                productNameChinese: "",
-                declareNameChinese: "",
-                declareNameEnglish: "",
-                deprecatedSKU: "",
-                productCost: "",
-                productCostCurrency: "RMB"
-            },
-            skuValidate: {
-                required: true,
-                token: this.token,
-                validator(rule, value, callback) {
-                    // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
-                    let rules = /^[A-Za-z]{2}[0-9]{4}/;
-                    if (!rule.required) {
-                        callback();
-                    }
-                    if (!rules.test(value)) {
-                        callback(new Error("SKU結構有誤"));
-                    } else {
-                        axios({
-                            url: "sku/similarimg",
-                            method: "post",
-                            data: {
-                                sku: value,
-                                token: rule.token
-                            }
-                        }).then(res => {
-                            that.showDetector = true;
-                            if (!_.isEmpty(res)) {
-                                that.detectorURL = res[0];
-                            }
-                            callback();
-                        });
-                    }
-                }
-            },
-            imageUrlValidate: {
-                validator(rule, value, callback) {
-                    let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/;
-                    if (value) {
-                        if (rules.test(value)) {
-                            callback();
-                        } else {
-                            callback(new Error("输入网址不合法"));
-                        }
-                    } else {
-                        callback();
-                    }
-                }
-            },
-            autoSkuValidate: {
-                required: true
-            },
-            showMessage: true,
-            autoShowMessage: true,
-            skuShowMessage: true,
-            amaShow: false,
-            pricalShow: false,
-            deprecatedSkuShow: false,
-            priceShow: false,
-            trueSku: true,
-            image: "",
-            base64: "",
-            formModified:false,
-        };
-    },
-    mounted() {
-        axios({
-            url: "sku/cat",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.searchOptions = _.cloneDeep(res);
-        });
-
-        axios({
-            url: "sku/value/currency",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.costCurrency = _.cloneDeep(res.data);
-        });
-
-        this.isCopy = this.$route.query.copy;
-        if (!this.isCopy) return;
-        let data = JSON.parse(this.$route.query.data);
-        this.form.image = data.imageURL;
-        this.base64 = data.imageURL;
-        this.$nextTick(() => {
-            this.disposeCopy();
-        });
-
-        this.form.productName = data.productName;
-        this.form.newSku = data.newSku;
-        this.form.sku = data.sku;
-
-        this.form.amazonWidthCM = data.amazonWidthCM;
-        this.form.amazonHeightCM = data.amazonHeightCM;
-        this.form.amazonWeightKG = data.amazonWeightKG;
-        this.form.amazonLengthCM = data.amazonLengthCM;
-
-        this.form.parcelWidthCM = data.parcelWidthCM;
-        this.form.parcelHeightCM = data.parcelHeightCM;
-        this.form.parcelWeightKG = data.parcelWeightKG;
-        this.form.parcelLengthCM = data.parcelLengthCM;
-        this.form.productWidthCM = data.productWidthCM;
-        this.form.productHeightCM = data.productHeightCM;
-        this.form.productWeightKG = data.productWeightKG;
-        this.form.productLengthCM = data.productLengthCM;
-        this.form.lastUpdatedTime = data.lastUpdatedTime;
-        this.form.lastModifiedBy = data.lastModifiedBy;
-        this.form.addedTime = data.addedTime;
-        this.form.addedBy = data.addedBy;
-        this.form.productCostCurrency = data.productCostCurrency;
-        this.form.productNameChinese = data.productNameChinese;
-        this.form.declareNameChinese = data.declareNameChinese;
-        this.form.declareNameEnglish = data.declareNameEnglish;
-        this.form.deprecatedSKU = data.deprecatedSKU;
-        this.form.productCost = data.productCost;
-        this.formModified = true;
-        this.$watch('form.sku',()=>{
-            this.formModified = false;
-        })
-    },
-    watch: {
-        "form.autoSku"(newVal, oldVal) {
-            if (!!newVal) {
-                this.skuValidate.required = false;
-                this.form.sku = "";
-            } else {
-                this.skuValidate.required = true;
-            }
-            this.$nextTick(() => {
-                this.$refs["formItemTwo"].clearValidate();
-            });
-        },
-        "form.sku"(newVal, oldVal) {
-            if (!!newVal) {
-                this.autoSkuValidate.required = false;
-                this.form.autoSku = "";
-            } else {
-                this.autoSkuValidate.required = true;
-            }
-            this.$nextTick(() => {
-                this.$refs["formItem"].clearValidate();
-            });
-        }
-    },
-    methods: {
-        disposeCopy() {
-            let canvas = document.createElement("canvas");
-            this.$refs["img"].setAttribute("crossOrigin", "anonymous");
-            this.$refs["img"].addEventListener("load", () => {
-                canvas.width = this.$refs["img"].width;
-                canvas.height = this.$refs["img"].height;
-                let cas = canvas.getContext("2d");
-                cas.drawImage(this.$refs["img"], 0, 0);
-                let base64 = canvas.toDataURL("image/png");
-                this.dataURLtoBlob(base64);
-            });
-        },
-        dataURLtoBlob(dataurl) {
-            var arr = dataurl.split(","),
-                mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]),
-                n = bstr.length,
-                u8arr = new Uint8Array(n);
-            while (n--) {
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            let blob = new Blob([u8arr], { type: mime });
-            this.blobToFile(blob, "图片");
-        },
-        blobToFile(theBlob, fileName) {
-            theBlob.lastModifiedDate = new Date();
-            theBlob.name = fileName;
-            this.blob = theBlob;
-        },
-        handleInspect() {},
-        handleImageDelete() {
-            this.base64 = "";
-            this.form.imageUrl = "";
-        },
-        goBack() {
-            this.$router.push("/sku");
-        },
-        beforeAvatarUpload(file) {
-            let isJPG = file.type === "image/jpeg";
-            let isPNG = file.type === "image/png";
-            if (!isJPG && !isPNG) {
-                this.$message.error("上傳頭像圖片只能是 JPG PNG 格式!");
-            } else {
-                return isJPG;
-            }
-        },
-        handleAvatarSuccess(file, fileList) {
-            let url = URL || webkitURL;
-            this.form.image = file.raw;
-            let blob = url.createObjectURL(file.raw);
-            let canvas = document.createElement("canvas");
-            let image = document.createElement("img");
-            image.src = blob;
-            this.image = file.raw;
-            image.addEventListener("load", () => {
-                canvas.width = image.width;
-                canvas.height = image.height;
-                let cas = canvas.getContext("2d");
-                cas.drawImage(image, 0, 0);
-                let base64 = canvas.toDataURL(file.raw.type);
-                this.base64 = base64;
-            });
-        },
-        handleAuto() {
+  data() {
+    var that = this;
+    return {
+      centerDialogVisible: true,
+      popoverVisible: false,
+      searchValue: "IT",
+      base64: "",
+      showDetector: false,
+      trueStatus: false,
+      trueProductName: false,
+      imageStatus: false,
+      detectorURL: "../../static/img/1.png",
+      trueNewSku: false,
+      searchOptions: [],
+      costCurrency: [],
+      submitLoading: false,
+      isCopy: false,
+      form: {
+        imageUrl: "",
+        autoSku: "",
+        sku: "",
+        newSku: "",
+        productName: "",
+        status: "",
+        image: "",
+        amazonWidthCM: "",
+        amazonHeightCM: "",
+        amazonWeightKG: "",
+        amazonLengthCM: "",
+        parcelWidthCM: "",
+        parcelHeightCM: "",
+        parcelWeightKG: "",
+        parcelLengthCM: "",
+        productWidthCM: "",
+        productHeightCM: "",
+        productWeightKG: "",
+        productLengthCM: "",
+        productNameChinese: "",
+        declareNameChinese: "",
+        declareNameEnglish: "",
+        deprecatedSKU: "",
+        productCost: "",
+        productCostCurrency: "RMB"
+      },
+      skuValidate: {
+        required: true,
+        token: this.token,
+        validator(rule, value, callback) {
+          // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
+          let rules = /^[A-Za-z]{2}[0-9]{4}/;
+          if (!rule.required) {
+            callback();
+          }
+          if (!rules.test(value)) {
+            callback(new Error("SKU結構有誤"));
+          } else {
             axios({
-                url: "sku/newindex",
-                method: "post",
-                data: {
-                    category: this.searchValue,
-                    token: this.token
-                }
+              url: "sku/similarimg",
+              method: "post",
+              data: {
+                sku: value,
+                token: rule.token
+              }
             }).then(res => {
-                this.form.autoSku = res.index;
+              that.showDetector = true;
+              if (!_.isEmpty(res)) {
+                that.detectorURL = res[0];
+              }
+              callback();
             });
-        },
-        handleUpload() {
-            this.input = document.createElement("input");
-            this.input.type = "file";
-            this.input.addEventListener("change", () => {
-                this.form.photoTotal = this.input.files.length;
-                this.showMessage = false;
-            });
-            this.input.click();
-        },
-        handleConfirm() {
-            this.$refs["form1"].validate((action, dom) => {
-                if (!action) return;
-                this.$refs["form2"].validate((action, dom) => {
-                    if (!action) return;
-                    this.$refs["form3"].validate((action, dom) => {
-                        var formData = new FormData();
-                        let obj = {};
-                        let value = {
-                            data: []
-                        };
-                        if (this.form.autoSku) {
-                            obj.sku = this.searchValue + this.form.autoSku;
-                        } else {
-                            obj.sku = this.form.sku;
-                        }
-
-                        obj.productName = this.form.productName;
-                        obj.status = this.form.status;
-                        obj.newSku = this.form.newSku;
-                        obj.amazonWidthCM = this.form.amazonWidthCM;
-                        obj.amazonHeightCM = this.form.amazonHeightCM;
-                        obj.amazonWeightKG = this.form.amazonWeightKG;
-                        obj.amazonLengthCM = this.form.amazonLengthCM;
-
-                        obj.parcelWidthCM = this.form.parcelWidthCM;
-                        obj.parcelHeightCM = this.form.parcelHeightCM;
-                        obj.parcelWeightKG = this.form.parcelWeightKG;
-                        obj.parcelLengthCM = this.form.parcelLengthCM;
-
-                        obj.productWidthCM = this.form.productWidthCM;
-                        obj.productHeightCM = this.form.productHeightCM;
-                        obj.productWeightKG = this.form.productWeightKG;
-                        obj.productLengthCM = this.form.productLengthCM;
-                        obj.productCost = this.form.productCost;
-                        obj.productCostCurrency = this.form.productCostCurrency;
-                        obj.productNameChinese = this.form.productNameChinese;
-                        obj.declareNameChinese = this.form.declareNameChinese;
-                        obj.declareNameEnglish = this.form.declareNameEnglish;
-                        obj.deprecatedSKU = this.form.deprecatedSKU;
-                        obj.imageUrl = this.form.imageUrl;
-                        value.data.push(obj);
-                        value = JSON.stringify(value);
-                        this.submitLoading = true;
-                        formData.append("value", value);
-                        formData.append("token", this.token);
-                        if (this.form.image) {
-                            if (
-                                this.blob &&
-                                typeof this.form.image == "string"
-                            ) {
-                                formData.append("uploadfile", this.blob);
-                            } else {
-                                formData.append("uploadfile", this.form.image);
-                            }
-                        }
-                        this.isLoading = true;
-                        let url =
-                            "http://60.251.57.138:8000/data-server/sku/add";
-                        axios({
-                            url,
-                            method: "post",
-                            data: formData,
-                            headers: {
-                                "Content-type": "multipart/form-data"
-                            },
-                            isFormData: true
-                        })
-                            .then(res => {
-                                this.submitLoading = false;
-                                this.$message.success("新增成功");
-                                this.Bus.$emit("refresh");
-                                this.goBack();
-                            })
-                            .catch(() => {
-                                this.submitLoading = false;
-                                this.$message.warning("新增失敗");
-                            });
-                    });
-                });
-            });
+          }
         }
+      },
+      imageUrlValidate: {
+        validator(rule, value, callback) {
+          let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/;
+          if (value) {
+            if (rules.test(value)) {
+              callback();
+            } else {
+              callback(new Error("输入网址不合法"));
+            }
+          } else {
+            callback();
+          }
+        }
+      },
+      autoSkuValidate: {
+        required: true
+      },
+      showMessage: true,
+      autoShowMessage: true,
+      skuShowMessage: true,
+      amaShow: false,
+      pricalShow: false,
+      deprecatedSkuShow: false,
+      priceShow: false,
+      trueSku: true,
+      image: "",
+      formModified: false
+    };
+  },
+  mounted() {
+    axios({
+      url: "sku/cat",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.searchOptions = _.cloneDeep(res);
+    });
+
+    axios({
+      url: "sku/value/currency",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.costCurrency = _.cloneDeep(res.data);
+    });
+
+    this.isCopy = this.$route.query.copy;
+    if (!this.isCopy) return;
+    let data = JSON.parse(this.$route.query.data);
+    this.form.image = data.imageURL;
+    this.base64 = data.imageURL;
+    this.$nextTick(() => {
+      this.disposeCopy();
+    });
+
+    this.form.productName = data.productName;
+    this.form.newSku = data.newSku;
+    this.form.sku = data.sku;
+
+    this.form.amazonWidthCM = data.amazonWidthCM;
+    this.form.amazonHeightCM = data.amazonHeightCM;
+    this.form.amazonWeightKG = data.amazonWeightKG;
+    this.form.amazonLengthCM = data.amazonLengthCM;
+
+    this.form.parcelWidthCM = data.parcelWidthCM;
+    this.form.parcelHeightCM = data.parcelHeightCM;
+    this.form.parcelWeightKG = data.parcelWeightKG;
+    this.form.parcelLengthCM = data.parcelLengthCM;
+    this.form.productWidthCM = data.productWidthCM;
+    this.form.productHeightCM = data.productHeightCM;
+    this.form.productWeightKG = data.productWeightKG;
+    this.form.productLengthCM = data.productLengthCM;
+    this.form.lastUpdatedTime = data.lastUpdatedTime;
+    this.form.lastModifiedBy = data.lastModifiedBy;
+    this.form.addedTime = data.addedTime;
+    this.form.addedBy = data.addedBy;
+    this.form.productCostCurrency = data.productCostCurrency;
+    this.form.productNameChinese = data.productNameChinese;
+    this.form.declareNameChinese = data.declareNameChinese;
+    this.form.declareNameEnglish = data.declareNameEnglish;
+    this.form.deprecatedSKU = data.deprecatedSKU;
+    this.form.productCost = data.productCost;
+    this.formModified = true;
+    this.$watch("form.sku", () => {
+      this.formModified = false;
+    });
+  },
+  watch: {
+    "form.autoSku"(newVal) {
+      if (newVal) {
+        this.skuValidate.required = false;
+        this.form.sku = "";
+      } else {
+        this.skuValidate.required = true;
+      }
+      this.$nextTick(() => {
+        this.$refs["formItemTwo"].clearValidate();
+      });
+    },
+    "form.sku"(newVal) {
+      if (newVal) {
+        this.autoSkuValidate.required = false;
+        this.form.autoSku = "";
+      } else {
+        this.autoSkuValidate.required = true;
+      }
+      this.$nextTick(() => {
+        this.$refs["formItem"].clearValidate();
+      });
     }
+  },
+  methods: {
+    disposeCopy() {
+      let canvas = document.createElement("canvas");
+      this.$refs["img"].setAttribute("crossOrigin", "anonymous");
+      this.$refs["img"].addEventListener("load", () => {
+        canvas.width = this.$refs["img"].width;
+        canvas.height = this.$refs["img"].height;
+        let cas = canvas.getContext("2d");
+        cas.drawImage(this.$refs["img"], 0, 0);
+        let base64 = canvas.toDataURL("image/png");
+        this.dataURLtoBlob(base64);
+      });
+    },
+    dataURLtoBlob(dataurl) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      let blob = new Blob([u8arr], { type: mime });
+      this.blobToFile(blob, "图片");
+    },
+    blobToFile(theBlob, fileName) {
+      theBlob.lastModifiedDate = new Date();
+      theBlob.name = fileName;
+      this.blob = theBlob;
+    },
+    handleInspect() {},
+    handleImageDelete() {
+      this.base64 = "";
+      this.form.imageUrl = "";
+    },
+    goBack() {
+      this.$router.push("/sku");
+    },
+    beforeAvatarUpload(file) {
+      let isJPG = file.type === "image/jpeg";
+      let isPNG = file.type === "image/png";
+      if (!isJPG && !isPNG) {
+        this.$message.error("上傳頭像圖片只能是 JPG PNG 格式!");
+      } else {
+        return isJPG;
+      }
+    },
+    handleAvatarSuccess(file) {
+      let url = URL || Window.webkitURL;
+      this.form.image = file.raw;
+      let blob = url.createObjectURL(file.raw);
+      let canvas = document.createElement("canvas");
+      let image = document.createElement("img");
+      image.src = blob;
+      this.image = file.raw;
+      image.addEventListener("load", () => {
+        canvas.width = image.width;
+        canvas.height = image.height;
+        let cas = canvas.getContext("2d");
+        cas.drawImage(image, 0, 0);
+        let base64 = canvas.toDataURL(file.raw.type);
+        this.base64 = base64;
+      });
+    },
+    handleAuto() {
+      axios({
+        url: "sku/newindex",
+        method: "post",
+        data: {
+          category: this.searchValue,
+          token: this.token
+        }
+      }).then(res => {
+        this.form.autoSku = res.index;
+      });
+    },
+    handleUpload() {
+      this.input = document.createElement("input");
+      this.input.type = "file";
+      this.input.addEventListener("change", () => {
+        this.form.photoTotal = this.input.files.length;
+        this.showMessage = false;
+      });
+      this.input.click();
+    },
+    handleConfirm() {
+      this.$refs["form1"].validate(action => {
+        if (!action) return;
+        this.$refs["form2"].validate(action => {
+          if (!action) return;
+          this.$refs["form3"].validate(() => {
+            var formData = new FormData();
+            let obj = {};
+            let value = {
+              data: []
+            };
+            if (this.form.autoSku) {
+              obj.sku = this.searchValue + this.form.autoSku;
+            } else {
+              obj.sku = this.form.sku;
+            }
+
+            obj.productName = this.form.productName;
+            obj.status = this.form.status;
+            obj.newSku = this.form.newSku;
+            obj.amazonWidthCM = this.form.amazonWidthCM;
+            obj.amazonHeightCM = this.form.amazonHeightCM;
+            obj.amazonWeightKG = this.form.amazonWeightKG;
+            obj.amazonLengthCM = this.form.amazonLengthCM;
+
+            obj.parcelWidthCM = this.form.parcelWidthCM;
+            obj.parcelHeightCM = this.form.parcelHeightCM;
+            obj.parcelWeightKG = this.form.parcelWeightKG;
+            obj.parcelLengthCM = this.form.parcelLengthCM;
+
+            obj.productWidthCM = this.form.productWidthCM;
+            obj.productHeightCM = this.form.productHeightCM;
+            obj.productWeightKG = this.form.productWeightKG;
+            obj.productLengthCM = this.form.productLengthCM;
+            obj.productCost = this.form.productCost;
+            obj.productCostCurrency = this.form.productCostCurrency;
+            obj.productNameChinese = this.form.productNameChinese;
+            obj.declareNameChinese = this.form.declareNameChinese;
+            obj.declareNameEnglish = this.form.declareNameEnglish;
+            obj.deprecatedSKU = this.form.deprecatedSKU;
+            obj.imageUrl = this.form.imageUrl;
+            value.data.push(obj);
+            value = JSON.stringify(value);
+            this.submitLoading = true;
+            formData.append("value", value);
+            formData.append("token", this.token);
+            if (this.form.image) {
+              if (this.blob && typeof this.form.image == "string") {
+                formData.append("uploadfile", this.blob);
+              } else {
+                formData.append("uploadfile", this.form.image);
+              }
+            }
+            this.isLoading = true;
+            let url = "http://60.251.57.138:8000/data-server/sku/add";
+            axios({
+              url,
+              method: "post",
+              data: formData,
+              headers: {
+                "Content-type": "multipart/form-data"
+              },
+              isFormData: true
+            })
+              .then(() => {
+                this.submitLoading = false;
+                this.$message.success("新增成功");
+                this.Bus.$emit("refresh");
+                this.goBack();
+              })
+              .catch(() => {
+                this.submitLoading = false;
+                this.$message.warning("新增失敗");
+              });
+          });
+        });
+      });
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .imageUrl {
-    width: 150px;
-    position: absolute;
-    top: -40px;
-    right: 27%;
-    border: 1px dashed #d9d9d9;
-    box-sizing: border-box;
-    p {
-        font-size: 12px;
-        text-align: center;
-        margin-bottom: 5px;
-    }
+  width: 150px;
+  position: absolute;
+  top: -40px;
+  right: 27%;
+  border: 1px dashed #d9d9d9;
+  box-sizing: border-box;
+  p {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
 }
 .reference {
-    width: 150px;
-    position: absolute;
-    top: 0px;
-    right: 25%;
-    border: 1px dashed #d9d9d9;
-    padding: 5px;
-    box-sizing: border-box;
-    p {
-        font-size: 12px;
-        text-align: center;
-        margin-bottom: 5px;
-    }
+  width: 150px;
+  position: absolute;
+  top: 0px;
+  right: 25%;
+  border: 1px dashed #d9d9d9;
+  padding: 5px;
+  box-sizing: border-box;
+  p {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
 }
 /deep/ .el-form-item {
-    margin-bottom: 18px;
+  margin-bottom: 18px;
 }
 .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-switch__input:focus ~ .el-switch__core {
-    outline: none !important;
+  outline: none !important;
 }
 h3 {
-    text-align: left;
+  text-align: left;
 }
 .tip {
-    margin-left: 5px;
-    line-height: 1.2;
-    color: #bbbbbb;
-    font-size: 12px;
+  margin-left: 5px;
+  line-height: 1.2;
+  color: #bbbbbb;
+  font-size: 12px;
 }
 /deep/ .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 /deep/ .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
 }
 /deep/ .avatar {
-    width: 178px;
-    height: 178px;
-    position: relative;
-    &:hover .delete {
-        display: block;
-    }
-    .delete {
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        position: absolute;
-        top: 0px;
-        display: none;
-    }
-    .delete i {
-        position: absolute;
-        top: 50% !important;
-        left: 50%;
-        color: #62717e;
-        transform: translate(-50%, -50%);
-        font-style: normal;
-    }
-    .delete i:hover {
-        background-color: #45a2ff;
-        color: #fff !important;
-        width: 60px;
-        height: 30px;
-        line-height: 30px;
-        border-radius: 5px;
-    }
+  width: 178px;
+  height: 178px;
+  position: relative;
+  &:hover .delete {
+    display: block;
+  }
+  .delete {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    top: 0px;
+    display: none;
+  }
+  .delete i {
+    position: absolute;
+    top: 50% !important;
+    left: 50%;
+    color: #62717e;
+    transform: translate(-50%, -50%);
+    font-style: normal;
+  }
+  .delete i:hover {
+    background-color: #45a2ff;
+    color: #fff !important;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+  }
 }
 
 img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 </style>
-
-

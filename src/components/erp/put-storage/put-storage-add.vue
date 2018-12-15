@@ -114,197 +114,198 @@
 import querySku from "@/common/querySku";
 import moment from "moment";
 export default {
-    name: "put-storage-add",
-    components: {
-        querySku
-    },
-    data() {
-        let username;
-        document.cookie.split(";").forEach((v, i) => {
-            let str = v.split("=")[0].trim();
-            if (str == "username") {
-                username = v.split("=")[1];
-            }
-        });
-        let getTime = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
+  name: "put-storage-add",
+  components: {
+    querySku
+  },
+  data() {
+    let username;
+    document.cookie.split(";").forEach(v => {
+      let str = v.split("=")[0].trim();
+      if (str == "username") {
+        username = v.split("=")[1];
+      }
+    });
+    let getTime = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
 
-        return {
-            submitLoading: false,
-            loading: false,
-            stockCondition: [],
-            formData: {
-                receivedDate: getTime,
-                inspectionBy: username,
-                trackingNumber: "",
-                agent: "",
-                data: [
-                    {
-                        sku: "",
-                        productName: "",
-                        quantity: "",
-                        stockCondition: "",
-                        purchaseId: "",
-                        // warehouseReceiveId: "",
-                    }
-                ]
-            }
-        };
-    },
-    computed: {
-        disabled() {
-            let disabled = false;
-            _.each(this.formData.data, v => {
-                if (!v.sku) {
-                    disabled = true;
-                }
-            });
-            return disabled;
+    return {
+      submitLoading: false,
+      loading: false,
+      stockCondition: [],
+      formData: {
+        receivedDate: getTime,
+        inspectionBy: username,
+        trackingNumber: "",
+        agent: "",
+        data: [
+          {
+            sku: "",
+            productName: "",
+            quantity: "",
+            stockCondition: "",
+            purchaseId: ""
+            // warehouseReceiveId: "",
+          }
+        ]
+      }
+    };
+  },
+  computed: {
+    disabled() {
+      let disabled = false;
+      _.each(this.formData.data, v => {
+        if (!v.sku) {
+          disabled = true;
         }
+      });
+      return disabled;
+    }
+  },
+  created() {
+    axios({
+      url: "/erp/warehouse/receive/value/stockCondition",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.stockCondition = res;
+    });
+    this.$on("selectSku", this.handleSku);
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/putStorage");
     },
-    created() {
-        let stockCondition = axios({
-            url: "/erp/warehouse/receive/value/stockCondition",
+    handleQuerySku(index) {
+      this.$refs["querySku"].$findChild("wonDialog", "visible", index);
+    },
+    handleSku(val) {
+      _.each(this.formData.data, (v, i) => {
+        if (i == val[1]) {
+          v.sku = val[0].sku;
+          v.productName = val[0].productName;
+        }
+      });
+    },
+    handleAdd() {
+      let obj = {
+        sku: "",
+        productName: "",
+        quantity: "",
+        stockCondition: "",
+        purchaseId: ""
+      };
+      this.formData.data.push(obj);
+      this.$nextTick(() => {
+        this.$refs["input"]
+          .slice(-1)[0]
+          .$el.querySelector("input")
+          .focus();
+      });
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      _.each(data, v => {
+        v.agent = this.formData.agent;
+        v.inspectionBy = this.formData.inspectionBy;
+        v.receivedDate = this.formData.receivedDate;
+        v.trackingNumber = this.formData.trackingNumber;
+      });
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/erp/warehouse/receive/add",
             method: "post",
             data: {
-                token: this.token
+              value: this.getValue(),
+              token: this.token
             }
-        }).then(res => {
-            this.stockCondition = res;
-        });
-        this.$on("selectSku", this.handleSku);
-    },
-    methods: {
-        goBack() {
-            this.$router.push("/putStorage");
-        },
-        handleQuerySku(index) {
-            this.$refs["querySku"].$findChild("wonDialog", "visible", index);
-        },
-        handleSku(val) {
-            _.each(this.formData.data, (v, i) => {
-                if (i == val[1]) {
-                    v.sku = val[0].sku;
-                    v.productName = val[0].productName;
-                }
-            });
-        },
-        handleAdd() {
-            let obj = {
-              sku: "",
-              productName: "",
-              quantity: "",
-              stockCondition: "",
-              purchaseId: "",
-            };
-            this.formData.data.push(obj);
-            this.$nextTick(()=>{
-                this.$refs['input'].slice(-1)[0].$el.querySelector('input').focus()
-            })
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            _.each(data, v => {
-                v.agent = this.formData.agent;
-                v.inspectionBy = this.formData.inspectionBy;
-                v.receivedDate = this.formData.receivedDate;
-                v.trackingNumber = this.formData.trackingNumber;
-            });
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/erp/warehouse/receive/add",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.goBack();
-                    });
-                }
-            });
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
+            this.goBack();
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-button--text {
-    color: #606266;
+  color: #606266;
 }
 /deep/ .el-form-item {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 /deep/ .el-form-item__label {
-    padding: 0px;
+  padding: 0px;
 }
 table {
-    table-layout: fixed;
-    width: 100%;
+  table-layout: fixed;
+  width: 100%;
+  border-top: 1px solid #ebeef5;
+  border-bottom: 1px solid #ebeef5;
+  border-left: 1px solid #ebeef5;
+  .btnh {
+    padding: 4px 0px;
+    color: #62717e;
+  }
+  .cell {
+    padding: 0px;
+  }
+  /deep/ .el-form-item {
+    overflow: hidden;
+    margin: 0px;
+  }
+  /deep/ .el-form-item__content {
+    line-height: 0px;
+  }
+  /deep/ .is-error input {
+    background: #f56c6c;
+    border-radius: 0%;
+  }
+  /deep/ .el-input__inner {
+    border: none;
+    height: 35px;
+    text-align: center;
+    color: #62717e;
+    font-size: 14px;
+  }
+  th {
+    padding: 4px;
+    background: #edf1f5;
+    text-align: center;
+    color: #62717e;
+    // border-right: 1px solid #ebeef5;
+  }
+  td {
+    padding: 0px;
     border-top: 1px solid #ebeef5;
-    border-bottom: 1px solid #ebeef5;
-    border-left: 1px solid #ebeef5;
-    .btnh {
-        padding: 4px 0px;
-        color: #62717e;
-    }
-    .cell {
-        padding: 0px;
-    }
-    /deep/ .el-form-item {
-        overflow: hidden;
-        margin: 0px;
-    }
-    /deep/ .el-form-item__content {
-        line-height: 0px;
-    }
-    /deep/ .is-error input {
-        background: #f56c6c;
-        border-radius: 0%;
-    }
-    /deep/ .el-input__inner {
-        border: none;
-        height: 35px;
-        text-align: center;
-        color: #62717e;
-        font-size: 14px;
-    }
-    th {
-        padding: 4px;
-        background: #edf1f5;
-        text-align: center;
-        color: #62717e;
-        // border-right: 1px solid #ebeef5;
-    }
-    td {
-        padding: 0px;
-        border-top: 1px solid #ebeef5;
-        border-right: 1px solid #ebeef5;
-        text-align: center;
-        background: white;
-        color: #62717e;
-        font-size: 14px;
-    }
+    border-right: 1px solid #ebeef5;
+    text-align: center;
+    background: white;
+    color: #62717e;
+    font-size: 14px;
+  }
 }
 </style>
-
-

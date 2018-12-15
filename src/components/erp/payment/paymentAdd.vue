@@ -77,146 +77,144 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            formData: {
-                data: [
-                    {
-                        purchaseId: "",
-                        currency: "",
-                        paymentTime: "",
-                        paidBy: "",
-                        paymentMethod: "",
-                        paymentAccount: "",
-                        purchasedBy: "",
-                        shippingCost: "",
-                        paymentPlatformId: "",
-                        note: ""
-                    }
-                ]
-            }
-        };
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      formData: {
+        data: [
+          {
+            purchaseId: "",
+            currency: "",
+            paymentTime: "",
+            paidBy: "",
+            paymentMethod: "",
+            paymentAccount: "",
+            purchasedBy: "",
+            shippingCost: "",
+            paymentPlatformId: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {},
+  methods: {
+    goBack() {
+      this.$router.push("/payment");
     },
-    created() {},
-    methods: {
-        goBack() {
+    handleAdd() {
+      let obj = {
+        purchaseId: "",
+        currency: "",
+        paymentTime: "",
+        paidBy: "",
+        paymentMethod: "",
+        paymentAccount: "",
+        purchasedBy: "",
+        shippingCost: "",
+        paymentPlatformId: "",
+        note: ""
+      };
+      this.formData.data.push(obj);
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      data.paymentTime = this.moment(data.paymentTime).format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "payment/add",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/payment");
-        },
-        handleAdd() {
-            let obj = {
-                purchaseId: "",
-                currency: "",
-                paymentTime: "",
-                paidBy: "",
-                paymentMethod: "",
-                paymentAccount: "",
-                purchasedBy: "",
-                shippingCost: "",
-                paymentPlatformId: "",
-                note: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.paymentTime = this.moment(data.paymentTime).format(
-                "YYYY-MM-DD HH:mm:ss"
-            );
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "payment/add",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/payment");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 
 /deep/ .el-button--text {
-    color: #606266;
+  color: #606266;
 }
 
 table {
-    table-layout: fixed;
-    width: 100%;
+  table-layout: fixed;
+  width: 100%;
+  border-top: 1px solid #ebeef5;
+  border-bottom: 1px solid #ebeef5;
+  border-left: 1px solid #ebeef5;
+  .btnh {
+    padding: 4px 0px;
+    color: #62717e;
+  }
+  .cell {
+    padding: 0px;
+  }
+  /deep/ .el-form-item {
+    overflow: hidden;
+    margin: 0px;
+  }
+  /deep/ .el-form-item__content {
+    line-height: 0px;
+  }
+  /deep/ .is-error input {
+    background: #f56c6c;
+    border-radius: 0%;
+  }
+  /deep/ .el-input__inner {
+    border: none;
+    height: 35px;
+    text-align: center;
+    color: #62717e;
+    font-size: 14px;
+  }
+  th {
+    padding: 4px;
+    background: #edf1f5;
+    text-align: center;
+    color: #62717e;
+    // border-right: 1px solid #ebeef5;
+  }
+  td {
+    padding: 0px;
     border-top: 1px solid #ebeef5;
-    border-bottom: 1px solid #ebeef5;
-    border-left: 1px solid #ebeef5;
-    .btnh {
-        padding: 4px 0px;
-        color: #62717e;
-    }
-    .cell {
-        padding: 0px;
-    }
-    /deep/ .el-form-item {
-        overflow: hidden;
-        margin: 0px;
-    }
-    /deep/ .el-form-item__content {
-        line-height: 0px;
-    }
-    /deep/ .is-error input {
-        background: #f56c6c;
-        border-radius: 0%;
-    }
-    /deep/ .el-input__inner {
-        border: none;
-        height: 35px;
-        text-align: center;
-        color: #62717e;
-        font-size: 14px;
-    }
-    th {
-        padding: 4px;
-        background: #edf1f5;
-        text-align: center;
-        color: #62717e;
-        // border-right: 1px solid #ebeef5;
-    }
-    td {
-        padding: 0px;
-        border-top: 1px solid #ebeef5;
-        border-right: 1px solid #ebeef5;
-        text-align: center;
-        background: white;
-        color: #62717e;
-        font-size: 14px;
-    }
+    border-right: 1px solid #ebeef5;
+    text-align: center;
+    background: white;
+    color: #62717e;
+    font-size: 14px;
+  }
 }
 </style>
-
-

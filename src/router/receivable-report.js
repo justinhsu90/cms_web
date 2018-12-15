@@ -1,26 +1,27 @@
-import asyncComponent from '@/common/until/asyncComponent'
-export default [{
-    name: 'receivableReport',
-    path: '/receivableReport',
-    component: asyncComponent('erp/receivableReport/receivableReport'),
+import asyncComponent from "@/common/until/asyncComponent";
+export default [
+  {
+    name: "receivableReport",
+    path: "/receivableReport",
+    component: asyncComponent("erp/receivableReport/receivableReport"),
     meta: {
       keepAlive: true
     }
   },
   {
-    name: 'receivableReportAdd',
-    path: '/receivableReportAdd',
-    component: asyncComponent('erp/receivableReport/receivableReportAdd'),
+    name: "receivableReportAdd",
+    path: "/receivableReportAdd",
+    component: asyncComponent("erp/receivableReport/receivableReportAdd"),
     meta: {
-      sign: 'receivableReport'
+      sign: "receivableReport"
     }
   },
   {
-    name: 'receivableReportEdit',
-    path: '/receivableReportEdit',
-    component: asyncComponent('erp/receivableReport/receivableReportEdit'),
+    name: "receivableReportEdit",
+    path: "/receivableReportEdit",
+    component: asyncComponent("erp/receivableReport/receivableReportEdit"),
     meta: {
-      sign: 'receivableReport'
+      sign: "receivableReport"
     }
-  },
-]
+  }
+];

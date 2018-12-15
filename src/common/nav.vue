@@ -112,189 +112,183 @@
 <script>
 import navData from "./navData";
 export default {
-    data() {
-        return {
-            defaultNav: "",
-            asideShow: true,
-            username: "",
-            isCollapse: false,
-            navData,
-            autoAutocomplete: ""
-        };
-    },
-    created() {
-        document.cookie.split(";").forEach((v, i) => {
-            let str = v.split("=")[0].trim();
-            if (str == "username") {
-                this.username = v.split("=")[1];
+  data() {
+    return {
+      defaultNav: "",
+      asideShow: true,
+      username: "",
+      isCollapse: false,
+      navData,
+      autoAutocomplete: ""
+    };
+  },
+  created() {
+    document.cookie.split(";").forEach(v => {
+      let str = v.split("=")[0].trim();
+      if (str == "username") {
+        this.username = v.split("=")[1];
+      }
+    });
+  },
+  methods: {
+    querySearch(queryString, cb) {
+      let data = [];
+      _.each(this.navData, v => {
+        if ("child" in v) {
+          _.each(v.child, value => {
+            if (value.label.includes(queryString)) {
+              let obj = {
+                index: value.index,
+                value: value.label
+              };
+              data.push(obj);
             }
-        });
-    },
-    methods: {
-        querySearch(queryString, cb) {
-            let data = [];
-            _.each(this.navData, v => {
-                if ("child" in v) {
-                    _.each(v.child, value => {
-                        if (value.label.includes(queryString)) {
-                            let obj = {
-                                index: value.index,
-                                value: value.label
-                            };
-                            data.push(obj);
-                        }
-                    });
-                }
-                if (v.label.includes(queryString)) {
-                    let obj = {
-                        index: v.index,
-                        value: v.label
-                    };
-                    data.push(obj);
-                }
-            });
-            cb(data);
-        },
-        handleSearch(val) {
-            let that = this;
-            this.$confirm("是否跳轉到指定菜單", "提示", {
-                type: "info",
-                beforeClose(action, instance, done) {
-                    if (action == "confirm") {
-                        that.$router.push(`/${val.index}`);
-                        done();
-                    } else {
-                        done();
-                    }
-                }
-            }).catch(() => {});
-        },
-        handleSelect(index, router) {
-            this.$router.push(`/${index}`);
-        },
-        handleClick() {
-            this.isCollapse = !this.isCollapse;
-        },
-        handleQuit() {
-            let that = this;
-            this.$confirm("是否要退出", "提示", {
-                type: "info",
-                beforeClose(action, instance, done) {
-                    if (action == "confirm") {
-                        C.set("name", res.name, { expires: -1, path: "/" });
-                        C.set("username", res.username, {
-                            expires: -1,
-                            path: "/"
-                        });
-                        C.set("privilege", res.privilege, {
-                            expires: -1,
-                            path: "/"
-                        });
-                        C.set("token", res.token, { expires: -1, path: "/" });
-                        that.$router.push("/");
-                        done();
-                    } else {
-                        done();
-                    }
-                }
-            }).catch(() => {});
+          });
         }
-    },
-    watch: {
-        $route: {
-            handler(newRouter) {
-                if (newRouter.meta.sign) {
-                    this.defaultNav = newRouter.meta.sign;
-                } else {
-                    this.defaultNav = newRouter.path.slice(1);
-                }
-            },
-            immediate: true
+        if (v.label.includes(queryString)) {
+          let obj = {
+            index: v.index,
+            value: v.label
+          };
+          data.push(obj);
         }
+      });
+      cb(data);
+    },
+    handleSearch(val) {
+      let that = this;
+      this.$confirm("是否跳轉到指定菜單", "提示", {
+        type: "info",
+        beforeClose(action, instance, done) {
+          if (action == "confirm") {
+            that.$router.push(`/${val.index}`);
+            done();
+          } else {
+            done();
+          }
+        }
+      }).catch(() => {});
+    },
+    handleSelect(index) {
+      this.$router.push(`/${index}`);
+    },
+    handleClick() {
+      this.isCollapse = !this.isCollapse;
+    },
+    handleQuit() {
+      let that = this;
+      this.$confirm("是否要退出", "提示", {
+        type: "info",
+        beforeClose(action, instance, done) {
+          if (action == "confirm") {
+            C.remove("name");
+            C.remove("username");
+            C.remove("privilege");
+            C.remove("token");
+            that.$router.push("/");
+            done();
+          } else {
+            done();
+          }
+        }
+      }).catch(() => {});
     }
+  },
+  watch: {
+    $route: {
+      handler(newRouter) {
+        if (newRouter.meta.sign) {
+          this.defaultNav = newRouter.meta.sign;
+        } else {
+          this.defaultNav = newRouter.path.slice(1);
+        }
+      },
+      immediate: true
+    }
+  }
 };
 </script>  
 <style lang="scss">
 #nav {
+  width: 100%;
+  height: 100%;
+  .el-container {
     width: 100%;
     height: 100%;
-    .el-container {
-        width: 100%;
-        height: 100%;
-    }
-    .aside {
-        background: rgb(50, 65, 87);
-        overflow: auto;
-    }
-    .el-main {
-        padding: 10px 15px;
-        flex-basis: initial;
-        flex: 12;
-    }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 180px;
-        height: 100%;
-    }
-    .el-submenu .el-menu-item {
-        height: 50px;
-        line-height: 50px;
-        padding: 0 45px;
-        min-width: 180px;
-    }
-    .el-header {
-        background-color: rgb(83, 90, 107);
-        color: white;
-        height: 50px !important;
-        line-height: 50px;
-    }
-    .el-menu {
-        border: none;
-    }
-    .el-menu-item {
-        color: white;
-        border: none;
-    }
-    .el-menu-item-group__title {
-        display: none !important;
-    }
-    .el-table th {
-        color: #62717e;
-        background: rgb(237, 241, 245);
-    }
-    .el-table:before {
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 2px;
-        z-index: 99;
-    }
-    .el-table td,
-    .el-table th {
-        padding: 0px 0;
-        min-width: 0;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        text-overflow: ellipsis;
-        vertical-align: middle;
-        position: relative;
-        height: 20px;
-    }
+  }
+  .aside {
+    background: rgb(50, 65, 87);
+    overflow: auto;
+  }
+  .el-main {
+    padding: 10px 15px;
+    flex-basis: initial;
+    flex: 12;
+  }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 180px;
+    height: 100%;
+  }
+  .el-submenu .el-menu-item {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 45px;
+    min-width: 180px;
+  }
+  .el-header {
+    background-color: rgb(83, 90, 107);
+    color: white;
+    height: 50px !important;
+    line-height: 50px;
+  }
+  .el-menu {
+    border: none;
+  }
+  .el-menu-item {
+    color: white;
+    border: none;
+  }
+  .el-menu-item-group__title {
+    display: none !important;
+  }
+  .el-table th {
+    color: #62717e;
+    background: rgb(237, 241, 245);
+  }
+  .el-table:before {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 99;
+  }
+  .el-table td,
+  .el-table th {
+    padding: 0px 0;
+    min-width: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    position: relative;
+    height: 20px;
+  }
 }
 .autocomplete {
+  width: 150px;
+  .el-input__suffix {
+    line-height: 34px;
+  }
+  input {
+    width: 100px;
+    float: right;
+    background: #3f4350;
+    color: white;
+  }
+  input:focus {
     width: 150px;
-    .el-input__suffix {
-        line-height: 34px;
-    }
-    input {
-        width: 100px;
-        float: right;
-        background: #3f4350;
-        color: white;
-    }
-    input:focus {
-        width: 150px;
-        transition: all 0.5s cubic-bezier(0.56, -0.33, 0.01, 1.01);
-        border: 1px solid #dcdfe6 !important;
-    }
+    transition: all 0.5s cubic-bezier(0.56, -0.33, 0.01, 1.01);
+    border: 1px solid #dcdfe6 !important;
+  }
 }
 </style>

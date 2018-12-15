@@ -59,136 +59,135 @@
 <script>
 import U from "@/common/until/U";
 export default {
-    data() {
-        return {
-            Div: U.Math.Div,
-            Mul: U.Math.Mul,
-            form: {},
-            formChild: {},
-            files: [],
-            isLoading: false,
-            isEmpty: _.isEmpty,
-            searchFiletypeOption: [],
-            type: {},
-            typeAll: ""
-        };
+  data() {
+    return {
+      Div: U.Math.Div,
+      Mul: U.Math.Mul,
+      form: {},
+      formChild: {},
+      files: [],
+      isLoading: false,
+      isEmpty: _.isEmpty,
+      searchFiletypeOption: [],
+      type: {},
+      typeAll: ""
+    };
+  },
+  created() {
+    let filetype = axios({
+      url: "/excel/upload/value/filetype",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([filetype]).then(([filetype]) => {
+      this.searchFiletypeOption = _.cloneDeep(filetype);
+    });
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1);
     },
-    created() {
-        let filetype = axios({
-            url: "/excel/upload/value/filetype",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([filetype]).then(([filetype]) => {
-            this.searchFiletypeOption = _.cloneDeep(filetype);
-        });
+    handleSelectAll(value) {
+      _.each(this.type, (v, k) => {
+        this.type[k] = value;
+      });
     },
-    methods: {
-        goBack() {
-            this.$router.go(-1);
-        },
-        handleSelectAll(value) {
-            _.each(this.type, (v, k) => {
-                this.type[k] = value;
-            });
-        },
-        handleUpload() {
-            let input = document.createElement("input");
-            input.type = "file";
-            input.multiple = "multiple";
-            input.click();
-            input.addEventListener("change", () => {
-                _.each(input.files, (v, i) => {
-                    this.files.push(v);
-                });
-                _.each(this.files, (value, index) => {
-                    if (!this.type[index]) {
-                        this.$set(this.type, index, "");
-                    }
-                });
-            });
-        },
-        handleDelete(scope) {
-            this.files.splice(scope.$index, 1);
+    handleUpload() {
+      let input = document.createElement("input");
+      input.type = "file";
+      input.multiple = "multiple";
+      input.click();
+      input.addEventListener("change", () => {
+        _.each(input.files, v => {
+          this.files.push(v);
+        });
+        _.each(this.files, (value, index) => {
+          if (!this.type[index]) {
+            this.$set(this.type, index, "");
+          }
+        });
+      });
+    },
+    handleDelete(scope) {
+      this.files.splice(scope.$index, 1);
 
-            delete this.type[scope.$index];
-            let index = 0;
-            let obj = {};
-            _.each(this.type, (v, k) => {
-                obj[index] = v;
-                index++;
-            });
-            this.type = obj;
-        },
-        submit() {
-            let validate = true;
-            _.each(this.$refs["formChild"], v => {
-                if(!validate)return;
-                v.validate(valid => {
-                    if (!valid) {
-                        validate = false;  
-                    }
-                });
-            });
+      delete this.type[scope.$index];
+      let index = 0;
+      let obj = {};
+      _.each(this.type, v => {
+        obj[index] = v;
+        index++;
+      });
+      this.type = obj;
+    },
+    submit() {
+      let validate = true;
+      _.each(this.$refs["formChild"], v => {
+        if (!validate) return;
+        v.validate(valid => {
+          if (!valid) {
+            validate = false;
+          }
+        });
+      });
 
-            if(!validate)return;
+      if (!validate) return;
 
-            let totalAjax = [];
-            _.each(this.files, (v, i) => {
-                let formData = new FormData();
-                formData.append("token", this.token);
-                formData.append("uploadfile", v);
-                formData.append("filetype", this.type[i]);
-                let ajax = axios({
-                    url: "/excel/upload/add",
-                    method: "post",
-                    data: formData,
-                    headers: {
-                        "Content-type": "multipart/form-data"
-                    },
-                    isFormData: true
-                });
-                totalAjax.push(ajax);
-            });
-            this.isLoading = true;
-            if (_.isEmpty(totalAjax)) {
-                this.goBack();
-                return;
-            }
-            Promise.all(totalAjax)
-                .then(() => {
-                    this.$router.push("excelUpload");
-                    this.$message.success("保存成功");
-                })
-                .catch(() => {
-                    this.$message.error("保存失敗");
-                });
-        }
+      let totalAjax = [];
+      _.each(this.files, (v, i) => {
+        let formData = new FormData();
+        formData.append("token", this.token);
+        formData.append("uploadfile", v);
+        formData.append("filetype", this.type[i]);
+        let ajax = axios({
+          url: "/excel/upload/add",
+          method: "post",
+          data: formData,
+          headers: {
+            "Content-type": "multipart/form-data"
+          },
+          isFormData: true
+        });
+        totalAjax.push(ajax);
+      });
+      this.isLoading = true;
+      if (_.isEmpty(totalAjax)) {
+        this.goBack();
+        return;
+      }
+      Promise.all(totalAjax)
+        .then(() => {
+          this.$router.push("excelUpload");
+          this.$message.success("保存成功");
+        })
+        .catch(() => {
+          this.$message.error("保存失敗");
+        });
     }
+  }
 };
 </script>
 
 <style scoped lang="scss">
 #excelUpload .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #excelUpload .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #excelUpload {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 .f-12 {
-    font-size: 12px;
+  font-size: 12px;
 }
 /deep/ .el-form-item .el-form-item {
-    margin-bottom: 18px;
-    margin-top: 16px;
+  margin-bottom: 18px;
+  margin-top: 16px;
 }
 </style>
-

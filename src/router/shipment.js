@@ -1,26 +1,27 @@
-import asyncComponent from '@/common/until/asyncComponent'
-export default [{
-    name: 'shipment',
-    path: '/shipment',
-    component: asyncComponent('shipment/shipment'),
+import asyncComponent from "@/common/until/asyncComponent";
+export default [
+  {
+    name: "shipment",
+    path: "/shipment",
+    component: asyncComponent("shipment/shipment"),
     meta: {
       keepAlive: true
     }
   },
   {
-    name: 'shipmentEdit',
-    path: '/shipmentEdit',
-    component: asyncComponent('shipment/shipmentEdit'),
+    name: "shipmentEdit",
+    path: "/shipmentEdit",
+    component: asyncComponent("shipment/shipmentEdit"),
     meta: {
-      sign: 'shipment'
+      sign: "shipment"
     }
   },
   {
-    name: 'shipmentAdd',
-    path: '/shipmentAdd',
-    component: asyncComponent('shipment/shipmentAdd'),
+    name: "shipmentAdd",
+    path: "/shipmentAdd",
+    component: asyncComponent("shipment/shipmentAdd"),
     meta: {
-      sign: 'shipment'
+      sign: "shipment"
     }
-  },
-]
+  }
+];

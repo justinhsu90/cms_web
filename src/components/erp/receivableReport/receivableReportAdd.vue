@@ -85,213 +85,202 @@
 <script>
 import { format } from "@/common/until/format";
 export default {
-    name: "receivableAdd",
-    data() {
-        return {
-            popoverVisible: false,
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            submitLoading: false,
-            loading: false,
-            searchAccountOption: [],
-            searchPlatformOption: [],
-            searchTypeOption: [],
-            searchCountryOption: [],
-            searchCurrencyOption: [],
-            requredRule: {
-                required: true
-            },
-            rules: {
-                required: true,
-                message: "此項目必填"
-            },
-            formData: {
-                date: [],
-                country: "",
-                account: "",
-                platform: "",
-                periodStartDate: "",
-                periodEndDate: "",
-                data: [
-                    {
-                        financialSpendType: "",
-                        currency: "",
-                        amount: ""
-                    }
-                ]
+  name: "receivableAdd",
+  data() {
+    return {
+      popoverVisible: false,
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-        };
-    },
-    created() {
-        let receivablePlatform = axios({
-            url: "/accountreceivable/value/platform",
-            method: "post",
-            data: {
-                token: this.token
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
             }
-        });
-        let receivableType = axios({
-            url: "/accountreceivable/value/financialSpendType ",
-            method: "post",
-            data: {
-                token: this.token
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
             }
-        });
-        let receivableAccount = axios({
-            url: "/accountreceivable/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
+          }
+        ]
+      },
+      submitLoading: false,
+      loading: false,
+      searchAccountOption: [],
+      searchPlatformOption: [],
+      searchTypeOption: [],
+      searchCountryOption: [],
+      searchCurrencyOption: [],
+      requredRule: {
+        required: true
+      },
+      rules: {
+        required: true,
+        message: "此項目必填"
+      },
+      formData: {
+        date: [],
+        country: "",
+        account: "",
+        platform: "",
+        periodStartDate: "",
+        periodEndDate: "",
+        data: [
+          {
+            financialSpendType: "",
+            currency: "",
+            amount: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let receivablePlatform = axios({
+      url: "/accountreceivable/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let receivableType = axios({
+      url: "/accountreceivable/value/financialSpendType ",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let receivableAccount = axios({
+      url: "/accountreceivable/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
 
-        let receivableCurrencies = axios({
-            url: "/accountreceivable/value/currencies",
+    let receivableCurrencies = axios({
+      url: "/accountreceivable/value/currencies",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let receivableCountry = axios({
+      url: "/accountreceivable/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([
+      receivablePlatform,
+      receivableAccount,
+      receivableCountry,
+      receivableCurrencies,
+      receivableType
+    ]).then(([platform, account, country, currencies, type]) => {
+      this.searchAccountOption = _.cloneDeep(account);
+      this.searchPlatformOption = _.cloneDeep(platform);
+      this.searchTypeOption = _.cloneDeep(type.data);
+      this.searchCountryOption = _.cloneDeep(country.data);
+      this.searchCurrencyOption = _.cloneDeep(currencies);
+    });
+  },
+  filters: {
+    ...format
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/receivable");
+    },
+    handleAdd() {
+      let obj = {
+        financialSpendType: "",
+        currency: "",
+        amount: ""
+      };
+      this.formData.data.push(obj);
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      _.each(data, v => {
+        v.country = this.formData.country;
+        v.account = this.formData.account;
+        v.platform = this.formData.platform;
+        v.currency = this.formData.currency;
+        v.periodStartDate = this.moment(this.formData.date[0]).format(
+          "YYYY-MM-DD"
+        );
+        v.periodEndDate = this.moment(this.formData.date[1]).format(
+          "YYYY-MM-DD"
+        );
+      });
+      delete data.date;
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/accountreceivable/add",
             method: "post",
             data: {
-                token: this.token
+              value: this.getValue(),
+              token: this.token
             }
-        });
-        let receivableCountry = axios({
-            url: "/accountreceivable/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([
-            receivablePlatform,
-            receivableAccount,
-            receivableCountry,
-            receivableCurrencies,
-            receivableType
-        ]).then(([platform, account, country, currencies, type]) => {
-            this.searchAccountOption = _.cloneDeep(account);
-            this.searchPlatformOption = _.cloneDeep(platform);
-            this.searchTypeOption = _.cloneDeep(type.data);
-            this.searchCountryOption = _.cloneDeep(country.data);
-            this.searchCurrencyOption = _.cloneDeep(currencies);
-        });
-    },
-    filters: {
-        ...format
-    },
-    methods: {
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        goBack() {
+          }).then(() => {
+            this.submitLoading = true;
+            this.popoverVisible = false;
+            this.Bus.$emit("refresh");
             this.$router.push("/receivable");
-        },
-        handleAdd() {
-            let obj = {
-                financialSpendType: "",
-                currency: "",
-                amount: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            _.each(data, v => {
-                v.country = this.formData.country;
-                v.account = this.formData.account;
-                v.platform = this.formData.platform;
-                v.currency = this.formData.currency;
-                v.periodStartDate = this.moment(this.formData.date[0]).format(
-                    "YYYY-MM-DD"
-                );
-                v.periodEndDate = this.moment(this.formData.date[1]).format(
-                    "YYYY-MM-DD"
-                );
-            });
-            delete data.date;
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/accountreceivable/add",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.popoverVisible = false;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/receivable");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
 #receivableAdd {
-    .heade {
-        font-size: 16px;
-        color: #45a2ff;
-    }
+  .heade {
+    font-size: 16px;
+    color: #45a2ff;
+  }
 }
 /deep/ .el-form-item {
-    margin-bottom: 6px;
+  margin-bottom: 6px;
 }
 /deep/ .el-form-item__label {
-    padding: 0px !important;
+  padding: 0px !important;
 }
 .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-card__body {
-    padding: 10px;
+  padding: 10px;
 }
 </style>
-
-

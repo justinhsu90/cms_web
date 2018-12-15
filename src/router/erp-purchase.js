@@ -1,26 +1,27 @@
-import asyncComponent from '@/common/until/asyncComponent'
-export default [{
-    name: 'erpPurchase',
-    path: '/erpPurchase',
-    component: asyncComponent('erp/purchase/purchase'),
+import asyncComponent from "@/common/until/asyncComponent";
+export default [
+  {
+    name: "erpPurchase",
+    path: "/erpPurchase",
+    component: asyncComponent("erp/purchase/purchase"),
     meta: {
       keepAlive: true
     }
   },
   {
-    name: 'erpPurchaseAdd',
-    path: '/erpPurchaseAdd',
-    component: asyncComponent('erp/purchase/purchaseAdd'),
+    name: "erpPurchaseAdd",
+    path: "/erpPurchaseAdd",
+    component: asyncComponent("erp/purchase/purchaseAdd"),
     meta: {
-      sign: 'erpPurchase'
+      sign: "erpPurchase"
     }
   },
   {
-    name: 'erpPurchaseEdit',
-    path: '/erpPurchaseEdit',
-    component: asyncComponent('erp/purchase/purchaseEdit'),
+    name: "erpPurchaseEdit",
+    path: "/erpPurchaseEdit",
+    component: asyncComponent("erp/purchase/purchaseEdit"),
     meta: {
-      sign: 'erpPurchase'
+      sign: "erpPurchase"
     }
-  },
-]
+  }
+];

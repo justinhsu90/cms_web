@@ -51,187 +51,181 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            date: [],
-            tableData: [],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            warehouse: "",
-            warehouseOption: [],
-            inventoryType: "",
-            inventoryTypeOption: [],
-            fetchCondition: {
-                skip: 0,
-                limit: 15
-            },
-            fetchOption: {
-                url: "/inventory/change/search",
-                method: "post",
-                where: ""
+  extends: wonTableContainer,
+  data() {
+    return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-        };
-    },
-    created() {
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
-        let type = axios({
-            url: "/inventory/change/value/inventoryType",
-            method: "post",
-            data: {
-                token: this.token
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
             }
-        });
-        let warehouse = axios({
-            url: "/inventory/change/value/warehouse",
-            method: "post",
-            data: {
-                token: this.token
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
             }
-        });
-        Promise.all([type, warehouse]).then(([type, warehouse]) => {
-            this.warehouseOption = _.cloneDeep(warehouse);
-            this.inventoryTypeOption = _.cloneDeep(type);
-        });
-    },
-    methods: {
-        handleCondition(sign) {
-            if (sign == "type") {
-                if (!this.inventoryType) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-
-            if (sign == "warehouse") {
-                if (!this.warehouse) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-            if (sign == "date") {
-                if (_.isEmpty(this.date)) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if (!this.condition.includes("3")) {
-                        this.condition.push("3");
-                    }
-                }
-            }
-            this.handleSearch();
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit
-            };
-            if (this.condition.includes("1")) {
-                data.inventoryType = this.inventoryType;
-            }
-            if (this.condition.includes("2")) {
-                data.warehouse = this.warehouse;
-            }
-            if (this.condition.includes("3")) {
-                data.startDate = this.date[0];
-                data.endDate = this.date[1];
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500),
-        handleAdd() {
-            this.$router.push("/inventoryAdd");
-        },
-        handleDelete(row) {
-            this.$confirm("確定要刪除", "提示", {
-                type: "warning",
-                beforeClose(action, instance, done) {
-                    if (action == "confirm") {
-                        axios({
-                            url: "/inventory/change/remove",
-                            method: "post",
-                            data: {
-                                token: this.token,
-                                inventoryChangeId: row.inventoryChangeId
-                            }
-                        })
-                            .then(() => {
-                                this.$message.success("刪除成功");
-                                this.handleSearch();
-                                done();
-                            })
-                            .catch(() => {
-                                this.$message.success("刪除成功");
-                                done();
-                            });
-                    } else {
-                        done();
-                    }
-                }
-            });
+          }
+        ]
+      },
+      date: [],
+      tableData: [],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      warehouse: "",
+      warehouseOption: [],
+      inventoryType: "",
+      inventoryTypeOption: [],
+      fetchCondition: {
+        skip: 0,
+        limit: 15
+      },
+      fetchOption: {
+        url: "/inventory/change/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+    let type = axios({
+      url: "/inventory/change/value/inventoryType",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let warehouse = axios({
+      url: "/inventory/change/value/warehouse",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([type, warehouse]).then(([type, warehouse]) => {
+      this.warehouseOption = _.cloneDeep(warehouse);
+      this.inventoryTypeOption = _.cloneDeep(type);
+    });
+  },
+  methods: {
+    handleCondition(sign) {
+      if (sign == "type") {
+        if (!this.inventoryType) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
+      }
+
+      if (sign == "warehouse") {
+        if (!this.warehouse) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      if (sign == "date") {
+        if (_.isEmpty(this.date)) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      this.handleSearch();
+    },
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit
+      };
+      if (this.condition.includes("1")) {
+        data.inventoryType = this.inventoryType;
+      }
+      if (this.condition.includes("2")) {
+        data.warehouse = this.warehouse;
+      }
+      if (this.condition.includes("3")) {
+        data.startDate = this.date[0];
+        data.endDate = this.date[1];
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500),
+    handleAdd() {
+      this.$router.push("/inventoryAdd");
+    },
+    handleDelete(row) {
+      this.$confirm("確定要刪除", "提示", {
+        type: "warning",
+        beforeClose(action, instance, done) {
+          if (action == "confirm") {
+            axios({
+              url: "/inventory/change/remove",
+              method: "post",
+              data: {
+                token: this.token,
+                inventoryChangeId: row.inventoryChangeId
+              }
+            })
+              .then(() => {
+                this.$message.success("刪除成功");
+                this.handleSearch();
+                done();
+              })
+              .catch(() => {
+                this.$message.success("刪除成功");
+                done();
+              });
+          } else {
+            done();
+          }
+        }
+      });
     }
+  }
 };
 </script>
 
 <style scoped>
 .el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
+  color: #62717e;
+  background: rgb(237, 241, 245);
+  text-align: center;
 }
 </style>

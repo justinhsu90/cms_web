@@ -42,127 +42,127 @@
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
 export default {
-    name: "single",
-    extends: wonTableContainer,
-    components: {
-        wonDialog
-    },
-    data() {
-        return {
-            valueAdd: "",
-            tableData: [],
-            pageSizes: [20, 40, 60, 100, 200],
-            condition: [],
-            singleLetterAccountOption: [],
-            searchAccount: "",
-            searchType: "",
-            singleLetterTypeOption: [],
-            maxHeight: 450,
-            isTableLoading: false,
-            fetchCondition: {
-                skip: 0,
-                limit: 20,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/wowcher/informcustomer/search",
-                where: "",
-                method: "post"
-            }
-        };
-    },
-    created() {
-        this.$on("selectSku", this.handleAddData);
-        this.handleSearch();
-        let singleLetterAccount = axios({
-            url: "/wowcher/informcustomer/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let singleLetterType = axios({
-            url: "/wowcher/informcustomer/value/type",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([singleLetterAccount, singleLetterType]).then(
-            ([account, type]) => {
-                this.singleLetterAccountOption = _.cloneDeep(account.data);
-                this.singleLetterTypeOption = _.cloneDeep(type.data);
-            }
-        );
-    },
-    methods: {
-        handleCondition(sign) {
-            if (sign == "account") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "type") {
-                if (!this.searchType) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-            this.handleSearch();
-        },
-        handleAddData(v1, v2) {
-            if (!v1) return;
-
-            axios({
-                url: "wowcher/informcustomer/add",
-                method: "post",
-                data: {
-                    value: v1[0],
-                    token: this.token
-                }
-            }).then(res => {
-                this.valueAdd = "";
-                this.handleSearch();
-            });
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-                order: this.fetchCondition.order
-            };
-            if (this.condition.includes("1")) {
-                data.account = this.searchAccount;
-            } else {
-                data.account = "";
-            }
-            if (this.condition.includes("2")) {
-                data.type = "Y";
-            } else {
-                data.type = "N";
-            }
-            this.fetchTableData(data);
-        }, 500),
-        handleAdd() {
-            this.$refs["wonDialog"].dialogVisible = true;
+  name: "single",
+  extends: wonTableContainer,
+  components: {
+    wonDialog
+  },
+  data() {
+    return {
+      valueAdd: "",
+      tableData: [],
+      pageSizes: [20, 40, 60, 100, 200],
+      condition: [],
+      singleLetterAccountOption: [],
+      searchAccount: "",
+      searchType: "",
+      singleLetterTypeOption: [],
+      maxHeight: 450,
+      isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 20,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/wowcher/informcustomer/search",
+        where: "",
+        method: "post"
+      }
+    };
+  },
+  created() {
+    this.$on("selectSku", this.handleAddData);
+    this.handleSearch();
+    let singleLetterAccount = axios({
+      url: "/wowcher/informcustomer/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let singleLetterType = axios({
+      url: "/wowcher/informcustomer/value/type",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([singleLetterAccount, singleLetterType]).then(
+      ([account, type]) => {
+        this.singleLetterAccountOption = _.cloneDeep(account.data);
+        this.singleLetterTypeOption = _.cloneDeep(type.data);
+      }
+    );
+  },
+  methods: {
+    handleCondition(sign) {
+      if (sign == "account") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
+      }
+      if (sign == "type") {
+        if (!this.searchType) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      this.handleSearch();
+    },
+    handleAddData(v1) {
+      if (!v1) return;
+
+      axios({
+        url: "wowcher/informcustomer/add",
+        method: "post",
+        data: {
+          value: v1[0],
+          token: this.token
+        }
+      }).then(() => {
+        this.valueAdd = "";
+        this.handleSearch();
+      });
+    },
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      if (this.condition.includes("1")) {
+        data.account = this.searchAccount;
+      } else {
+        data.account = "";
+      }
+      if (this.condition.includes("2")) {
+        data.type = "Y";
+      } else {
+        data.type = "N";
+      }
+      this.fetchTableData(data);
+    }, 500),
+    handleAdd() {
+      this.$refs["wonDialog"].dialogVisible = true;
     }
+  }
 };
 </script>
 <style lang="scss">
 #singleLetter {
-    .el-input-group__append {
-        text-align: center;
-    }
+  .el-input-group__append {
+    text-align: center;
+  }
 }
 </style>

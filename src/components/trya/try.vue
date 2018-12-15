@@ -9,19 +9,16 @@
 <script>
 // import dialog from 'won-service/component/won-dialog/dialog';
 // import b from './bb';
-import tryb from './tryb'
-export default {   
-    components:{
-        tryb
-    },  
-    methods:{
-        hanlde(){
-            
-        }
-    }
-}
+import tryb from "./tryb";
+export default {
+  components: {
+    tryb
+  },
+  methods: {
+    hanlde() {}
+  }
+};
 </script>
 
 <style>
-
 </style>

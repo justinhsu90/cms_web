@@ -143,77 +143,77 @@
 
 <script>
 export default {
-    props:['row'],
-    data() {
-        let form = _.cloneDeep(this.row);
-        return {
-            form
-        };
-    },
-    methods: {
-        goBack() {
-            this.$router.push("single");
-        }
+  props: ["row"],
+  data() {
+    let form = _.cloneDeep(this.row);
+    return {
+      form
+    };
+  },
+  methods: {
+    goBack() {
+      this.$router.push("single");
     }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 /deep/ .el-button--text {
-    color: #606266;
+  color: #606266;
 }
 /deep/ .el-form-item {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 /deep/ .el-form-item__label {
-    padding: 0px;
+  padding: 0px;
 }
 table {
-    table-layout: fixed;
-    width: 100%;
+  table-layout: fixed;
+  width: 100%;
+  border-top: 1px solid #ebeef5;
+  border-bottom: 1px solid #ebeef5;
+  border-left: 1px solid #ebeef5;
+  .btnh {
+    padding: 4px 0px;
+    color: #62717e;
+  }
+  .cell {
+    padding: 0px;
+  }
+  /deep/ .el-form-item {
+    overflow: hidden;
+    margin: 0px;
+  }
+  /deep/ .el-form-item__content {
+    line-height: 0px;
+  }
+  /deep/ .is-error input {
+    background: #f56c6c;
+    border-radius: 0%;
+  }
+  /deep/ .el-input__inner {
+    border: none;
+    height: 35px;
+    text-align: center;
+    color: #62717e;
+    font-size: 14px;
+  }
+  th {
+    padding: 4px;
+    background: #edf1f5;
+    text-align: center;
+    color: #62717e;
+    // border-right: 1px solid #ebeef5;
+  }
+  td {
+    padding: 0px;
     border-top: 1px solid #ebeef5;
-    border-bottom: 1px solid #ebeef5;
-    border-left: 1px solid #ebeef5;
-    .btnh {
-        padding: 4px 0px;
-        color: #62717e;
-    }
-    .cell {
-        padding: 0px;
-    }
-    /deep/ .el-form-item {
-        overflow: hidden;
-        margin: 0px;
-    }
-    /deep/ .el-form-item__content {
-        line-height: 0px;
-    }
-    /deep/ .is-error input {
-        background: #f56c6c;
-        border-radius: 0%;
-    }
-    /deep/ .el-input__inner {
-        border: none;
-        height: 35px;
-        text-align: center;
-        color: #62717e;
-        font-size: 14px;
-    }
-    th {
-        padding: 4px;
-        background: #edf1f5;
-        text-align: center;
-        color: #62717e;
-        // border-right: 1px solid #ebeef5;
-    }
-    td {
-        padding: 0px;
-        border-top: 1px solid #ebeef5;
-        border-right: 1px solid #ebeef5;
-        text-align: center;
-        background: white;
-        color: #62717e;
-        font-size: 14px;
-    }
+    border-right: 1px solid #ebeef5;
+    text-align: center;
+    background: white;
+    color: #62717e;
+    font-size: 14px;
+  }
 }
 </style>

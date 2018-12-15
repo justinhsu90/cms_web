@@ -140,146 +140,143 @@
 <script>
 import { format } from "@/common/until/format";
 export default {
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            curreny: [],
-            purchaseOption: [],
-            purchaseAccount: [],
-            formData: {
-                queryAccount: "",
-                purchaseLink: "",
-                purchaseType: "",
-                // isPurchased: false,
-                data: [
-                    {
-                        sku: "",
-                        isPurchased : false,
-                        purchaseId: "",
-                        purchaseQueryId: "",
-                        productName: "",
-                        productSpec: "",
-                        queryQuantity: "",
-                        note: "",
-                        queryTime: "",
-                        targetPrice: "",
-                        targetPriceCurrency: "",
-                        queryAccount: "",
-                        merchantModel: "",
-                        purchaseId: ""
-                    }
-                ]
-            }
-        };
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      curreny: [],
+      purchaseOption: [],
+      purchaseAccount: [],
+      formData: {
+        queryAccount: "",
+        purchaseLink: "",
+        purchaseType: "",
+        // isPurchased: false,
+        data: [
+          {
+            sku: "",
+            isPurchased: false,
+            purchaseId: "",
+            purchaseQueryId: "",
+            productName: "",
+            productSpec: "",
+            queryQuantity: "",
+            note: "",
+            queryTime: "",
+            targetPrice: "",
+            targetPriceCurrency: "",
+            queryAccount: "",
+            merchantModel: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let data = JSON.parse(this.$route.query.data);
+    this.formData.data[0].sku = data.sku;
+    this.formData.data[0].productName = data.productName;
+    this.formData.data[0].productSpec = data.productSpec;
+    this.formData.data[0].queryQuantity = data.queryQuantity;
+    this.formData.data[0].note = data.note;
+    this.formData.data[0].purchaseId = data.purchaseId;
+    this.formData.data[0].purchaseQueryId = data.purchaseQueryId;
+    this.formData.data[0].queryTime = data.queryTime;
+    this.formData.data[0].targetPrice = data.targetPrice;
+    this.formData.data[0].targetPriceCurrency = data.targetPriceCurrency;
+    this.formData.data[0].merchantModel == data.merchantModel;
+    this.formData.data[0].purchaseId = data.purchaseId;
+    this.formData.purchaseType = data.purchaseType;
+    this.formData.queryAccount = data.queryAccount;
+    this.formData.purchaseLink = data.purchaseLink;
+    this.forformData.data[0].isPurchased = data.isPurchased;
+    axios({
+      url: "/purchasequery/value/purchasetype",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.purchaseOption = res.data;
+    });
+    axios({
+      url: "/erp/value/currency",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.curreny = res;
+    });
+    axios({
+      url: "/erp/value/purchaseAccount",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.purchaseAccount = _.cloneDeep(res);
+    });
+  },
+  filters: {
+    ...format
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/purchaRequire");
     },
-    created() {
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].sku = data.sku;
-        this.formData.data[0].productName = data.productName;
-        this.formData.data[0].productSpec = data.productSpec;
-        this.formData.data[0].queryQuantity = data.queryQuantity;
-        this.formData.data[0].note = data.note;
-        this.formData.data[0].purchaseId = data.purchaseId;
-        this.formData.data[0].purchaseQueryId = data.purchaseQueryId;
-        this.formData.data[0].queryTime = data.queryTime;
-        this.formData.data[0].targetPrice = data.targetPrice;
-        this.formData.data[0].targetPriceCurrency = data.targetPriceCurrency;
-        this.formData.data[0].merchantModel == data.merchantModel;
-        this.formData.data[0].purchaseId = data.purchaseId;
-        this.formData.purchaseType = data.purchaseType;
-        this.formData.queryAccount = data.queryAccount;
-        this.formData.purchaseLink = data.purchaseLink;
-        this.forformData.data[0].isPurchased = data.isPurchased;
-        let purchasetype = axios({
-            url: "/purchasequery/value/purchasetype",
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      data.purchaseType = this.formData.purchaseType;
+      data.queryAccount = this.formData.queryAccount;
+      data.purchaseLink = this.formData.purchaseLink;
+      // data.isPurchased = this.formData.isPurchased;
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/purchasequery/edit",
             method: "post",
             data: {
-                token: this.token
+              value: this.getValue(),
+              token: this.token
             }
-        }).then(res => {
-            this.purchaseOption = res.data;
-        });
-        let currency = axios({
-            url: "/erp/value/currency",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.curreny = res;
-        });
-        let purchaseAccount = axios({
-            url: "/erp/value/purchaseAccount",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.purchaseAccount = _.cloneDeep(res);
-        });
-    },
-    filters: {
-        ...format
-    },
-    methods: {
-        goBack() {
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/purchaRequire");
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.purchaseType = this.formData.purchaseType;
-            data.queryAccount = this.formData.queryAccount;
-            data.purchaseLink = this.formData.purchaseLink;
-            // data.isPurchased = this.formData.isPurchased;
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/purchasequery/edit",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/purchaRequire");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 /deep/ .el-button--text {
-    color: #606266;
+  color: #606266;
 }
 /deep/ .el-form-item {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 /deep/ .el-form-item__label {
-    padding: 0px;
+  padding: 0px;
 }
 /deep/ .el-card__body {
-    padding: 5px;
+  padding: 5px;
 }
 </style>
-
-

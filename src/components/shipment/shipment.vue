@@ -127,211 +127,211 @@
 import wonTableContainer from "../../common/wonTableContainer";
 
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            tableData: [],
-            searchMerge: "",
-            searchMergeOption: [
-                {
-                    label: "Y",
-                    value: "Y"
-                },
-                {
-                    label: "N",
-                    value: "N"
-                }
-            ],
-            maxHeight: 450,
-            condition: [],
-            isTableLoading: false,
-            pageSizes: [20, 40, 60, 100, 200],
-            searchAccount: "",
-            searchAccountOption: [],
-            searchPlatform: "",
-            searchPlatformOption: [],
-            searchCountry: "",
-            searchCountryOption: [],
-            searchLanguage: "",
-            searchLanguageOption: [],
-            fetchCondition: {
-                skip: 0,
-                limit: 10000
-            },
-            fetchOption: {
-                url: "/shipment/unship/search",
-                method: "post",
-                where: ""
-            }
-        };
-    },
-    created() {
-        let account = axios({
-            url: "/content/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let country = axios({
-            url: "/content/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([account, country]).then(([account, country]) => {
-            this.searchAccountOption = _.cloneDeep(account.data);
-            this.searchCountryOption = _.cloneDeep(country.data);
-        });
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit
-            };
-            if (this.condition.includes("1")) {
-                data.account = this.searchAccount;
-            }
-            if (this.condition.includes("2")) {
-                data.merge = this.searchMerge;
-            }
-            if (this.condition.includes("3")) {
-                data.country = this.searchCountry;
-            }
-         this.fetchTableData(data);
-        }, 500),
-        handleEdit(val) {
-            this.$router.push({
-                name: "shipmentEdit",
-                query: { data: JSON.stringify(val) }
-            });
+  extends: wonTableContainer,
+  data() {
+    return {
+      tableData: [],
+      searchMerge: "",
+      searchMergeOption: [
+        {
+          label: "Y",
+          value: "Y"
         },
-        handleDelete(val) {
-            this.$confirm("是否删除", "提示", {
-                confirmButtonText: "確定",
-                cancelButtonText: "取消",
-                type: "warning"
-            })
-                .then(() => {
-                    axios({
-                        url: "/content/remove",
-                        method: "post",
-                        data: {
-                            value: val.contentId,
-                            token: this.token
-                        }
-                    }).then(() => {
-                        this.handleSearch();
-                        this.$message.success("删除成功");
-                    });
-                })
-                .catch(() => {});
-        },
-        handleToggle(row) {
-            row.toggle = !row.toggle;
-            this.$refs["wonTable"].toggleRowExpansion(row, row.toggle);
-        },
-        handleCopy(val) {
-            this.$router.push({
-                name: "shipmentEdit",
-                query: { data: JSON.stringify(val), type: "copy" }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/shipmentAdd");
-        },
-        handleCondition(sign) {
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "1");
-                } else {
-                    this.condition.push("1");
-                }
-            }
-            if (sign == "display") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-
-            if (sign == "merge") {
-                if (!this.searchMerge) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-
-            if (sign == "cou") {
-                if (!this.searchCountry) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if (!this.condition.includes("3")) {
-                        this.condition.push("3");
-                    }
-                }
-            }
-            this.handleSearch();
+        {
+          label: "N",
+          value: "N"
         }
+      ],
+      maxHeight: 450,
+      condition: [],
+      isTableLoading: false,
+      pageSizes: [20, 40, 60, 100, 200],
+      searchAccount: "",
+      searchAccountOption: [],
+      searchPlatform: "",
+      searchPlatformOption: [],
+      searchCountry: "",
+      searchCountryOption: [],
+      searchLanguage: "",
+      searchLanguageOption: [],
+      fetchCondition: {
+        skip: 0,
+        limit: 10000
+      },
+      fetchOption: {
+        url: "/shipment/unship/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    let account = axios({
+      url: "/content/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let country = axios({
+      url: "/content/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([account, country]).then(([account, country]) => {
+      this.searchAccountOption = _.cloneDeep(account.data);
+      this.searchCountryOption = _.cloneDeep(country.data);
+    });
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit
+      };
+      if (this.condition.includes("1")) {
+        data.account = this.searchAccount;
+      }
+      if (this.condition.includes("2")) {
+        data.merge = this.searchMerge;
+      }
+      if (this.condition.includes("3")) {
+        data.country = this.searchCountry;
+      }
+      this.fetchTableData(data);
+    }, 500),
+    handleEdit(val) {
+      this.$router.push({
+        name: "shipmentEdit",
+        query: { data: JSON.stringify(val) }
+      });
+    },
+    handleDelete(val) {
+      this.$confirm("是否删除", "提示", {
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          axios({
+            url: "/content/remove",
+            method: "post",
+            data: {
+              value: val.contentId,
+              token: this.token
+            }
+          }).then(() => {
+            this.handleSearch();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(() => {});
+    },
+    handleToggle(row) {
+      row.toggle = !row.toggle;
+      this.$refs["wonTable"].toggleRowExpansion(row, row.toggle);
+    },
+    handleCopy(val) {
+      this.$router.push({
+        name: "shipmentEdit",
+        query: { data: JSON.stringify(val), type: "copy" }
+      });
+    },
+    handleAdd() {
+      this.$router.push("/shipmentAdd");
+    },
+    handleCondition(sign) {
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          this.condition.push("1");
+        }
+      }
+      if (sign == "display") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
+        }
+      }
+
+      if (sign == "merge") {
+        if (!this.searchMerge) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+
+      if (sign == "cou") {
+        if (!this.searchCountry) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      this.handleSearch();
     }
+  }
 };
 </script>
 
 <style lang="scss">
 #shipment {
-    .tc {
-        text-align: center;
+  .tc {
+    text-align: center;
+  }
+  .infol {
+    color: #99a9bf;
+    font-size: 15px;
+  }
+  .infoR {
+    font-size: 15px;
+  }
+  .el-table th {
+    color: #62717e;
+    background: rgb(237, 241, 245);
+  }
+  .wonTable {
+    width: 85%;
+    table-layout: fixed;
+    margin: 0 auto;
+    margin-left: 4%;
+    th {
+      border-bottom: 1px solid #ebeef5;
+      padding: 4px;
+      background: oldlace !important;
+      text-align: center;
     }
-    .infol {
-        color: #99a9bf;
-        font-size: 15px;
+    td {
+      padding: 4px;
+      border-bottom: 1px solid #ebeef5;
+      text-align: center;
+      background: #f0f9eb;
     }
-    .infoR {
-        font-size: 15px;
+    .w30 {
+      width: 30%;
     }
-    .el-table th {
-        color: #62717e;
-        background: rgb(237, 241, 245);
-    }
-    .wonTable {
-        width: 85%;
-        table-layout: fixed;
-        margin: 0 auto;
-        margin-left: 4%;
-        th {
-            border-bottom: 1px solid #ebeef5;
-            padding: 4px;
-            background: oldlace !important;
-            text-align: center;
-        }
-        td {
-            padding: 4px;
-            border-bottom: 1px solid #ebeef5;
-            text-align: center;
-            background: #f0f9eb;
-        }
-        .w30 {
-            width: 30%;
-        }
-    }
-    .el-table__expand-icon {
-        color: #45a2ff;
-    }
-    .btnh {
-        padding: 6px 0;
-    }
+  }
+  .el-table__expand-icon {
+    color: #45a2ff;
+  }
+  .btnh {
+    padding: 6px 0;
+  }
 }
 </style>

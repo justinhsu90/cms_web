@@ -92,126 +92,124 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            formData: {
-                data: [
-                    {
-                        OriginProductName: "",
-                        ShipmentProductName: "",
-                        AgentOrderId: "",
-                        trackingNumber: "",
-                        ShippingMethod: "",
-                        currency: "",
-                        ShipmentCreatedTime: "",
-                        shipoutTime: "",
-                        AddedTime: "",
-                        Agent: "",
-                        Note: "",
-                        isManual: "",
-                        wowcherCode: ""
-                    }
-                ]
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      formData: {
+        data: [
+          {
+            OriginProductName: "",
+            ShipmentProductName: "",
+            AgentOrderId: "",
+            trackingNumber: "",
+            ShippingMethod: "",
+            currency: "",
+            ShipmentCreatedTime: "",
+            shipoutTime: "",
+            AddedTime: "",
+            Agent: "",
+            Note: "",
+            isManual: "",
+            wowcherCode: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let data = JSON.parse(this.$route.query.data);
+    this.formData.data[0].OriginProductName = data.originProductName;
+    this.formData.data[0].ShipmentProductName = data.shipmentProductName;
+    this.formData.data[0].AgentOrderId = data.agentOrderId;
+    this.formData.data[0].trackingNumber = data.trackingNumber;
+    this.formData.data[0].ShippingMethod = data.shippingMethod;
+    this.formData.data[0].currency = data.currency;
+    this.formData.data[0].ShipmentCreatedTime = data.shipmentCreatedTime;
+    this.formData.data[0].shipoutTime = data.shipoutTime;
+    this.formData.data[0].AddedTime = data.addedTime;
+    this.formData.data[0].Agent = data.agent;
+    this.formData.data[0].Note = data.note;
+    this.formData.data[0].isManual = data.isManual;
+    this.formData.data[0].wowcherCode = data.wowcherCode;
+    this.formData.data[0].purchasedQuantity = data.purchasedQuantity;
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/replacement");
+    },
+    handleAdd() {
+      let obj = {
+        OriginProductName: "",
+        ShipmentProductName: "",
+        AgentOrderId: "",
+        trackingNumber: "",
+        ShippingMethod: "",
+        currency: "",
+        ShipmentCreatedTime: "",
+        shipoutTime: "",
+        AddedTime: "",
+        Agent: "",
+        Note: "",
+        isManual: "",
+        wowcherCode: ""
+      };
+      this.formData.data.push(obj);
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      data.ShipmentCreatedTime = this.moment(data.ShipmentCreatedTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
+      data.shipoutTime = this.moment(data.shipoutTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
+      data.AddedTime = this.moment(data.AddedTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "wowcher/rpm/update",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
             }
-        };
-    },
-    created() {
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].OriginProductName = data.originProductName;
-        this.formData.data[0].ShipmentProductName = data.shipmentProductName;
-        this.formData.data[0].AgentOrderId = data.agentOrderId;
-        this.formData.data[0].trackingNumber = data.trackingNumber;
-        this.formData.data[0].ShippingMethod = data.shippingMethod;
-        this.formData.data[0].currency = data.currency;
-        this.formData.data[0].ShipmentCreatedTime = data.shipmentCreatedTime;
-        this.formData.data[0].shipoutTime = data.shipoutTime;
-        this.formData.data[0].AddedTime = data.addedTime;
-        this.formData.data[0].Agent = data.agent;
-        this.formData.data[0].Note = data.note;
-        this.formData.data[0].isManual = data.isManual;
-        this.formData.data[0].wowcherCode = data.wowcherCode;
-        this.formData.data[0].purchasedQuantity = data.purchasedQuantity;
-    },
-    methods: {
-        goBack() {
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/replacement");
-        },
-        handleAdd() {
-            let obj = {
-                OriginProductName: "",
-                ShipmentProductName: "",
-                AgentOrderId: "",
-                trackingNumber: "",
-                ShippingMethod: "",
-                currency: "",
-                ShipmentCreatedTime: "",
-                shipoutTime: "",
-                AddedTime: "",
-                Agent: "",
-                Note: "",
-                isManual: "",
-                wowcherCode: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.ShipmentCreatedTime = this.moment(
-                data.ShipmentCreatedTime
-            ).format('"YYYY-MM-DD HH:mm:ss"');
-            data.shipoutTime = this.moment(data.shipoutTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
-            data.AddedTime = this.moment(data.AddedTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "wowcher/rpm/update",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/replacement");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

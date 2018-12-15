@@ -186,159 +186,157 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            loading: false,
-            searchStatusOption: [],
-            data: {
-                wowcherCode: "",
-                redeemedAt: "",
-                orderStatus: "",
-                orderType: "",
-                productName: "",
-                customerName: "",
-                shipoutTime: "",
-                trackingNo: "",
-                agent: "",
-                birthday: "",
-                city: "",
-                colour: "",
-                size: "",
-                country: "",
-                currency: "",
-                customField: "",
-                dealId: "",
-                dealTitle: "",
-                email: "",
-                houseNumber: "",
-                logistic: "",
-                phone: "",
-                platformOrderId: "",
-                postcode: "",
-                price: "",
-                productOptoins: "",
-                quantity: "",
-                shippingMethod: "",
-                sku: "",
-                spec: ""
-            }
-        };
+  data() {
+    return {
+      loading: false,
+      searchStatusOption: [],
+      data: {
+        wowcherCode: "",
+        redeemedAt: "",
+        orderStatus: "",
+        orderType: "",
+        productName: "",
+        customerName: "",
+        shipoutTime: "",
+        trackingNo: "",
+        agent: "",
+        birthday: "",
+        city: "",
+        colour: "",
+        size: "",
+        country: "",
+        currency: "",
+        customField: "",
+        dealId: "",
+        dealTitle: "",
+        email: "",
+        houseNumber: "",
+        logistic: "",
+        phone: "",
+        platformOrderId: "",
+        postcode: "",
+        price: "",
+        productOptoins: "",
+        quantity: "",
+        shippingMethod: "",
+        sku: "",
+        spec: ""
+      }
+    };
+  },
+  created() {
+    let oldData = JSON.parse(this.$route.query.data);
+    this.data = _.extend({}, this.data, oldData);
+    axios({
+      url: "wowcher/value/orderType",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.searchStatusOption = _.cloneDeep(res);
+    });
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/orderList");
     },
-    created() {
-        let oldData = JSON.parse(this.$route.query.data);
-        this.data = _.extend({}, this.data, oldData);
-        axios({
-            url: "wowcher/value/orderType",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        }).then(res => {
-            this.searchStatusOption = _.cloneDeep(res);
-        });
-    },
-    methods: {
-        goBack() {
-            this.$router.push("/orderList");
-        },
-        handleChange(v) {
-          let that= this;
-            this.$confirm("是否修改訂單狀態", "提示", {
-                type: "info",
-                beforeClose(action,instantce, done) {
-                    if (action == "confirm") {
-                       that.data.orderType = v;
-                       axios({
-                         url:'/wowcher/update',
-                         method:'post',
-                         data:{
-                           token:this.token,
-                           wowchercode:that.data.wowcherCode,
-                           orderType:v
-                         }
-                       })
-                        done();
-                    } else {
-                        done();
-                    }
-                }
-            })
-                .then(() => {})
-                .catch(() => {});
+    handleChange(v) {
+      let that = this;
+      this.$confirm("是否修改訂單狀態", "提示", {
+        type: "info",
+        beforeClose(action, instantce, done) {
+          if (action == "confirm") {
+            that.data.orderType = v;
+            axios({
+              url: "/wowcher/update",
+              method: "post",
+              data: {
+                token: this.token,
+                wowchercode: that.data.wowcherCode,
+                orderType: v
+              }
+            });
+            done();
+          } else {
+            done();
+          }
         }
+      })
+        .then(() => {})
+        .catch(() => {});
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-  h3{
+  h3 {
     position: relative;
   }
-    .title-img{
+  .title-img {
     position: absolute;
     right: 15%;
-    top:10%;
+    top: 10%;
     z-index: 999;
-    width:250px;
+    width: 250px;
+  }
+  .w50 {
+    width: 50%;
+  }
+  .w20 {
+    width: 20%;
+  }
+  .p10 {
+    padding: 10px !important;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #dfe4ec;
+  }
+  .imgcontainer {
+    padding: 5px 5px 5px 5px;
+    border: 1px dashed #dfe4ec;
+    position: relative;
+    text-align: center;
+    height: 240px;
+    & div {
+      margin-top: 15px;
     }
-    .w50 {
-        width: 50%;
+    & div:after {
+      content: "";
+      display: block;
+      clear: both;
     }
-    .w20 {
-        width: 20%;
+  }
+  .icon {
+    float: right;
+    cursor: pointer;
+  }
+  .name {
+    float: left;
+    font-size: 14px;
+  }
+  .label {
+    .el-form-item__label {
+      width: 100%;
     }
-    .p10 {
-        padding: 10px !important;
+  }
+  .el-form-left {
+    & div:nth-child(1) {
+      float: left;
+      margin-right: 10px;
     }
-    hr {
-        border: none;
-        border-top: 1px solid #dfe4ec;
+    .el-form-item__content {
+      overflow: hidden;
     }
-    .imgcontainer {
-        padding: 5px 5px 5px 5px;
-        border: 1px dashed #dfe4ec;
-        position: relative;
-        text-align: center;
-        height: 240px;
-        & div {
-            margin-top: 15px;
-        }
-        & div:after {
-            content: "";
-            display: block;
-            clear: both;
-        }
-    }
-    .icon {
-        float: right;
-        cursor: pointer;
-    }
-    .name {
-        float: left;
-        font-size: 14px;
-    }
-    .label {
-        .el-form-item__label {
-            width: 100%;
-        }
-    }
-    .el-form-left {
-        & div:nth-child(1) {
-            float: left;
-            margin-right: 10px;
-        }
-        .el-form-item__content {
-            overflow: hidden;
-        }
-    }
+  }
 }
 </style>
-
-

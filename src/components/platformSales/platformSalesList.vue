@@ -53,194 +53,189 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 import { format } from "@/common/until/format";
-import moment from 'moment';
+import moment from "moment";
 export default {
-    extends: wonTableContainer,
-    data() {
-        let end = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-        let start = moment(Date.now() - 7 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD HH:mm:ss');
-        console.log(end,start)
-        return {
-            showImg:false, 
-            dialogVisible:false,
-            imageURL:'',
-            date: [start,end],
-            pickerOptions: {
-                shortcuts: [
-                    {
-                        text: "最近一周",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近一个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 30
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    },
-                    {
-                        text: "最近三个月",
-                        onClick(picker) {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 90
-                            );
-                            picker.$emit("pick", [start, end]);
-                        }
-                    }
-                ]
-            },
-            tableData: [],
-            condition: [],
-            isTableLoading: false,
-            searchAccount: "",
-            searchPlatform: "",
-            searchCountry: "",
-            searchAccountOption: [],
-            searchPlatformOption: [],
-            searchCountryOption: [],
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/sold/search",
-                method: "post",
-                where: ""
+  extends: wonTableContainer,
+  data() {
+    let end = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
+    let start = moment(Date.now() - 7 * 24 * 60 * 60 * 1000).format(
+      "YYYY-MM-DD HH:mm:ss"
+    );
+    console.log(end, start);
+    return {
+      showImg: false,
+      dialogVisible: false,
+      imageURL: "",
+      date: [start, end],
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
             }
-        };
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      tableData: [],
+      condition: [],
+      isTableLoading: false,
+      searchAccount: "",
+      searchPlatform: "",
+      searchCountry: "",
+      searchAccountOption: [],
+      searchPlatformOption: [],
+      searchCountryOption: [],
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/sold/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    let purchasePlatform = axios({
+      url: "/sold/value/platform",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let purchaseCountry = axios({
+      url: "/sold/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let purchaseAccount = axios({
+      url: "/sold/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([purchasePlatform, purchaseCountry, purchaseAccount]).then(
+      ([platform, type, account]) => {
+        this.searchAccountOption = _.cloneDeep(account);
+        this.searchPlatformOption = _.cloneDeep(platform);
+        this.searchCountryOption = _.cloneDeep(type);
+      }
+    );
+    this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  filters: {
+    ...format
+  },
+  methods: {
+    handleSortChange(row) {
+      if (row.order == "ascending") {
+        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["asc"]);
+      }
+      if (row.order == "descending") {
+        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["desc"]);
+      }
     },
-    created() {
-        let purchasePlatform = axios({
-            url: "/sold/value/platform",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let purchaseCountry = axios({
-            url: "/sold/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let purchaseAccount = axios({
-            url: "/sold/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([purchasePlatform, purchaseCountry, purchaseAccount]).then(
-            ([platform, type, account]) => {
-                this.searchAccountOption = _.cloneDeep(account);
-                this.searchPlatformOption = _.cloneDeep(platform);
-                this.searchCountryOption = _.cloneDeep(type);
-            }
-        );
-        this.handleSearch();
-        this.Bus.$on("refresh", this.handleSearch);
+    handleShowDialog(url) {
+      this.dialogVisible = true;
+      this.imageURL = url;
     },
-    filters: {
-        ...format
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let where = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit
+      };
+      if (this.condition.includes("1")) {
+        where.platform = this.searchPlatform;
+      }
+      if (this.condition.includes("2")) {
+        where.country = this.searchCountry;
+      }
+      if (this.condition.includes("3")) {
+        where.account = this.searchAccount;
+      }
+      if (!_.isEmpty(this.date)) {
+        where.startDate = this.date[0];
+        where.endDate = this.date[1];
+      }
+      this.fetchTableData(where);
+    }, 500),
+    fetchEnd() {
+      _.each(this.originRes, v => {
+        v.total = v.wowcher + v.amazon + v.cdiscount + v.other;
+      });
+      this.tableData = this.originRes;
     },
-    methods: {
-        handleSortChange(row) {
-            if(row.order == 'ascending'){
-             this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ['asc']);    
-            }
-            if(row.order == 'descending'){
-                this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ['desc']);   
-            }
-        },
-        handleShowDialog(url){
-            this.dialogVisible = true
-            this.imageURL = url;
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let where = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit,
-            };
-            if (this.condition.includes("1")) {
-                where.platform = this.searchPlatform;
-            }
-            if (this.condition.includes("2")) {
-                where.country = this.searchCountry;
-            }
-            if (this.condition.includes("3")) {
-                where.account = this.searchAccount;
-            }
-            if (!_.isEmpty(this.date)) {
-                where.startDate = this.date[0];
-                where.endDate = this.date[1];
-            }
-            this.fetchTableData(where)
-        }, 500),
-        fetchEnd(){
-            let data = [];
-            _.each(this.originRes, (v)=>{
-                v.total = v.wowcher + v.amazon + v.cdiscount + v.other;
-            })
-            this.tableData = this.originRes;
-        },
-        handleChange(n) {
-            this.handleSearch();
-        },
-        handleEdit(val) {
-            this.$router.push({
-                name: "erpPurchaseEdit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleCondition(sign) {
-            if (sign == "plat") {
-                if (!this.searchPlatform) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "type") {
-                if (!this.searchCountry) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "3");
-                } else {
-                    if (!this.condition.includes("3")) {
-                        this.condition.push("3");
-                    }
-                }
-            }
-            this.handleSearch();
+    handleChange() {
+      this.handleSearch();
+    },
+    handleEdit(val) {
+      this.$router.push({
+        name: "erpPurchaseEdit",
+        query: { data: JSON.stringify(val) }
+      });
+    },
+    handleCondition(sign) {
+      if (sign == "plat") {
+        if (!this.searchPlatform) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
+      }
+      if (sign == "type") {
+        if (!this.searchCountry) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "3");
+        } else {
+          if (!this.condition.includes("3")) {
+            this.condition.push("3");
+          }
+        }
+      }
+      this.handleSearch();
     }
+  }
 };
 </script>
 

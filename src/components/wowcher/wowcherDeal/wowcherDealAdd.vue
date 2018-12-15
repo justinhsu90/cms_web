@@ -107,140 +107,138 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            searchAccountOption:[],
-            searchCountryOption:[],
-            searchCurrencyOption:[],
-            formData: {
-                data: [
-                    {
-                        dealId: "",
-                        productId: "",
-                        sku: "",
-                        productName: "",
-                        productSpec: "",
-                        currency: "",
-                        productCostCurrency: "",
-                        productCost: "",
-                        finalPrice: "",
-                        salePrice: "",
-                        country: "",
-                        account: "",
-                        startDate: "",
-                        note: ""
-                    }
-                ]
-            }
-        };
-    },
-    created() {
-        let account = axios({
-            url: "/wowcher/deal/value/account",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let country = axios({
-            url: "/wowcher/deal/value/country",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        let currency = axios({
-            url: "/wowcher/deal/value/currency",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      searchAccountOption: [],
+      searchCountryOption: [],
+      searchCurrencyOption: [],
+      formData: {
+        data: [
+          {
+            dealId: "",
+            productId: "",
+            sku: "",
+            productName: "",
+            productSpec: "",
+            currency: "",
+            productCostCurrency: "",
+            productCost: "",
+            finalPrice: "",
+            salePrice: "",
+            country: "",
+            account: "",
+            startDate: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let account = axios({
+      url: "/wowcher/deal/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let country = axios({
+      url: "/wowcher/deal/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    let currency = axios({
+      url: "/wowcher/deal/value/currency",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
 
-        Promise.all([account, country, currency]).then(
-            ([account, country, currency]) => {
-                this.searchAccountOption = _.cloneDeep(account);
-                this.searchCountryOption = _.cloneDeep(country.data);
-                this.searchCurrencyOption = _.cloneDeep(currency);
-            }
-        );
+    Promise.all([account, country, currency]).then(
+      ([account, country, currency]) => {
+        this.searchAccountOption = _.cloneDeep(account);
+        this.searchCountryOption = _.cloneDeep(country.data);
+        this.searchCurrencyOption = _.cloneDeep(currency);
+      }
+    );
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/wowcherDealList");
     },
-    methods: {
-        goBack() {
+    handleAdd() {
+      let obj = {
+        dealId: "",
+        sku: "",
+        productId: "",
+        productName: "",
+        productSpec: "",
+        currency: "",
+        productCostCurrency: "",
+        productCost: "",
+        finalPrice: "",
+        salePrice: "",
+        country: "",
+        account: "",
+        startDate: "",
+        note: ""
+      };
+      this.formData.data.push(obj);
+    },
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      _.each(data, v => {
+        v.startDate = this.moment(v.startDate).format("YYYY-MM-DD");
+      });
+      let obj = {
+        data
+      };
+
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "/wowcher/deal/add",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
             this.$router.push("/wowcherDealList");
-        },
-        handleAdd() {
-            let obj = {
-                dealId: "",
-                sku: "",
-                productId: "",
-                productName: "",
-                productSpec: "",
-                currency: "",
-                productCostCurrency: "",
-                productCost: "",
-                finalPrice: "",
-                salePrice: "",
-                country: "",
-                account: "",
-                startDate: "",
-                note: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            _.each(data,(v)=>{
-              v.startDate = this.moment(v.startDate).format('YYYY-MM-DD')
-            })
-            let obj = {
-                data
-            };
-            
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "/wowcher/deal/add",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/wowcherDealList");
-                    });
-                }
-            });
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

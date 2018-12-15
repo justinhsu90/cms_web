@@ -77,112 +77,109 @@
 </template>
 <script>
 export default {
-    watch: {},
-    data() {
-        return {
-            submitLoading: false,
-            loading: false,
-            formData: {
-                data: [
-                    {
-                        shipoutTime: "",
-                        shippingMethod: "",
-                        trackingNumber: "",
-                        agent: "",
-                        toWhom: "",
-                        shipmentCreatedTime: "",
-                        agentOrderId: "",
-                        sampleName: "",
-                        note: ""
-                    }
-                ]
-            }
-        };
+  watch: {},
+  data() {
+    return {
+      submitLoading: false,
+      loading: false,
+      formData: {
+        data: [
+          {
+            shipoutTime: "",
+            shippingMethod: "",
+            trackingNumber: "",
+            agent: "",
+            toWhom: "",
+            shipmentCreatedTime: "",
+            agentOrderId: "",
+            sampleName: "",
+            note: ""
+          }
+        ]
+      }
+    };
+  },
+  created() {
+    let data = JSON.parse(this.$route.query.data);
+    this.formData.data[0].shipoutTime = data.shipoutTime;
+    this.formData.data[0].shippingMethod = data.shippingMethod;
+    this.formData.data[0].trackingNumber = data.trackingNumber;
+    this.formData.data[0].agent = data.agent;
+    this.formData.data[0].toWhom = data.toWhom;
+    this.formData.data[0].shipmentCreatedTime = data.shipmentCreatedTime;
+    this.formData.data[0].agentOrderId = data.agentOrderId;
+    this.formData.data[0].sampleName = data.sampleName;
+    this.formData.data[0].note = data.note;
+  },
+  methods: {
+    goBack() {
+      this.$router.push("/wowcherSample");
     },
-    created() {
-        let data = JSON.parse(this.$route.query.data);
-        this.formData.data[0].shipoutTime = data.shipoutTime;
-        this.formData.data[0].shippingMethod = data.shippingMethod;
-        this.formData.data[0].trackingNumber = data.trackingNumber;
-        this.formData.data[0].agent = data.agent;
-        this.formData.data[0].toWhom = data.toWhom;
-        this.formData.data[0].shipmentCreatedTime = data.shipmentCreatedTime;
-        this.formData.data[0].agentOrderId = data.agentOrderId;
-        this.formData.data[0].sampleName = data.sampleName;
-        this.formData.data[0].note = data.note;
-       
+    handleAdd() {
+      let obj = {
+        shipoutTime: "",
+        shippingMethod: "",
+        trackingNumber: "",
+        agent: "",
+        toWhom: "",
+        shipmentCreatedTime: "",
+        agentOrderId: "",
+        sampleName: "",
+        note: ""
+      };
+      this.formData.data.push(obj);
     },
-    methods: {
-        goBack() {
-            this.$router.push("/wowcherSample");
-        },
-        handleAdd() {
-            let obj = {
-                shipoutTime: "",
-                shippingMethod: "",
-                trackingNumber: "",
-                agent: "",
-                toWhom: "",
-                shipmentCreatedTime: "",
-                agentOrderId: "",
-                sampleName: "",
-                note: ""
-            };
-            this.formData.data.push(obj);
-        },
-        handleDelete(index) {
-            this.formData.data.splice(index, 1);
-        },
-        getValue() {
-            let data = _.cloneDeep(this.formData.data);
-            data.ShipmentCreatedTime = this.moment(
-                data.ShipmentCreatedTime
-            ).format('"YYYY-MM-DD HH:mm:ss"');
-            data.shipoutTime = this.moment(data.shipoutTime).format(
-                '"YYYY-MM-DD HH:mm:ss"'
-            );
+    handleDelete(index) {
+      this.formData.data.splice(index, 1);
+    },
+    getValue() {
+      let data = _.cloneDeep(this.formData.data);
+      data.ShipmentCreatedTime = this.moment(data.ShipmentCreatedTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
+      data.shipoutTime = this.moment(data.shipoutTime).format(
+        '"YYYY-MM-DD HH:mm:ss"'
+      );
 
-            let obj = {
-                data
-            };
-            return JSON.stringify(obj);
-        },
-        submit() {
-            this.$refs["form"].validate(action => {
-                if (action) {
-                    this.getValue();
-                    this.submitLoading = true;
-                    axios({
-                        url: "wowcher/sample/update",
-                        method: "post",
-                        data: {
-                            value: this.getValue(),
-                            token: this.token
-                        }
-                    }).then(res => {
-                        this.submitLoading = true;
-                        this.Bus.$emit("refresh");
-                        this.$router.push("/wowcherSample");
-                    });
-                }
-            });
+      let obj = {
+        data
+      };
+      return JSON.stringify(obj);
+    },
+    submit() {
+      this.$refs["form"].validate(action => {
+        if (action) {
+          this.getValue();
+          this.submitLoading = true;
+          axios({
+            url: "wowcher/sample/update",
+            method: "post",
+            data: {
+              value: this.getValue(),
+              token: this.token
+            }
+          }).then(() => {
+            this.submitLoading = true;
+            this.Bus.$emit("refresh");
+            this.$router.push("/wowcherSample");
+          });
         }
+      });
     }
+  }
 };
 </script>
 <style lang="scss">
 #edit .heade {
-    font-size: 16px;
-    color: #45a2ff;
+  font-size: 16px;
+  color: #45a2ff;
 }
 #edit .heade a {
-    color: #45a2ff;
+  color: #45a2ff;
 }
 #edit {
-    .el-button--text {
-        color: #606266;
-    }
+  .el-button--text {
+    color: #606266;
+  }
 }
 </style>
-
-

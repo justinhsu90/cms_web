@@ -57,125 +57,125 @@
 import wonTableContainer from "@/common/wonTableContainer";
 
 export default {
-    extends: wonTableContainer,
-    data() {
-        return {
-            tableData: [],
-            maxHeight: 450,
-            condition: ["2"],
-            isTableLoading: false,
-            searchAccount: "",
-            searchAccountOption: [],
-            searchLanguage: 2,
-            searchLanguageOption: [
-                { countryCode: "是", countryNameChinese: 1 },
-                { countryCode: "否", countryNameChinese: 2 }
-            ],
-            fetchCondition: {
-                skip: 0,
-                limit: 15,
-                order: "-lastUpdatedTime"
-            },
-            fetchOption: {
-                url: "/purchasequery/search",
-                method: "post",
-                where: ""
-            }
-        };
-    },
-    created() {
-        let account = axios({
-            url: "/purchasequery/value/purchasetype",
-            method: "post",
-            data: {
-                token: this.token
-            }
-        });
-        Promise.all([account]).then(([account]) => {
-            this.searchAccountOption = _.cloneDeep(account.data);
-            this.handleSearch();
-        });
-        this.Bus.$on("refresh", this.handleSearch);
-    },
-    methods: {
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit
-            };
-            if (this.condition.includes("1")) {
-                data.purchaseType = this.searchAccount;
-            }
-            if (this.condition.includes("2")) {
-                if (this.searchLanguage == 2) {
-                    data.isPurchased = 0;
-                } else {
-                    data.isPurchased = this.searchLanguage;
-                }
-            }
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.paginationProps.total = count;
-            });
-        }, 500),
-        handleEdit(val) {
-            this.$router.push({
-                name: "purchaEdit",
-                query: { data: JSON.stringify(val) }
-            });
-        },
-        handleTransfer(val) {
-            this.$router.push({
-                path: "/erpPurchaseAdd",
-                query: { data: JSON.stringify(val), transfer: "transfer" }
-            });
-        },
-        handleAdd() {
-            this.$router.push("/purchaAdd");
-        },
-        handleCopy(row) {
-            this.$router.push({
-                path: "/purchaAdd",
-                query: { data: JSON.stringify(row), copy: "copy" }
-            });
-        },
-        handleCondition(sign) {
-            if (sign == "acc") {
-                if (!this.searchAccount) {
-                    _.pull(this.condition, "1");
-                } else {
-                    if (!this.condition.includes("1")) {
-                        this.condition.push("1");
-                    }
-                }
-            }
-            if (sign == "lang") {
-                if (!this.searchLanguage) {
-                    _.pull(this.condition, "2");
-                } else {
-                    if (!this.condition.includes("2")) {
-                        this.condition.push("2");
-                    }
-                }
-            }
-            this.handleSearch();
+  extends: wonTableContainer,
+  data() {
+    return {
+      tableData: [],
+      maxHeight: 450,
+      condition: ["2"],
+      isTableLoading: false,
+      searchAccount: "",
+      searchAccountOption: [],
+      searchLanguage: 2,
+      searchLanguageOption: [
+        { countryCode: "是", countryNameChinese: 1 },
+        { countryCode: "否", countryNameChinese: 2 }
+      ],
+      fetchCondition: {
+        skip: 0,
+        limit: 15,
+        order: "-lastUpdatedTime"
+      },
+      fetchOption: {
+        url: "/purchasequery/search",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    let account = axios({
+      url: "/purchasequery/value/purchasetype",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([account]).then(([account]) => {
+      this.searchAccountOption = _.cloneDeep(account.data);
+      this.handleSearch();
+    });
+    this.Bus.$on("refresh", this.handleSearch);
+  },
+  methods: {
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit
+      };
+      if (this.condition.includes("1")) {
+        data.purchaseType = this.searchAccount;
+      }
+      if (this.condition.includes("2")) {
+        if (this.searchLanguage == 2) {
+          data.isPurchased = 0;
+        } else {
+          data.isPurchased = this.searchLanguage;
         }
+      }
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.paginationProps.total = count;
+      });
+    }, 500),
+    handleEdit(val) {
+      this.$router.push({
+        name: "purchaEdit",
+        query: { data: JSON.stringify(val) }
+      });
+    },
+    handleTransfer(val) {
+      this.$router.push({
+        path: "/erpPurchaseAdd",
+        query: { data: JSON.stringify(val), transfer: "transfer" }
+      });
+    },
+    handleAdd() {
+      this.$router.push("/purchaAdd");
+    },
+    handleCopy(row) {
+      this.$router.push({
+        path: "/purchaAdd",
+        query: { data: JSON.stringify(row), copy: "copy" }
+      });
+    },
+    handleCondition(sign) {
+      if (sign == "acc") {
+        if (!this.searchAccount) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
+        }
+      }
+      if (sign == "lang") {
+        if (!this.searchLanguage) {
+          _.pull(this.condition, "2");
+        } else {
+          if (!this.condition.includes("2")) {
+            this.condition.push("2");
+          }
+        }
+      }
+      this.handleSearch();
     }
+  }
 };
 </script>
 
 <style scoped>
 .el-table th {
-    color: #62717e;
-    background: rgb(237, 241, 245);
-    text-align: center;
+  color: #62717e;
+  background: rgb(237, 241, 245);
+  text-align: center;
 }
 </style>

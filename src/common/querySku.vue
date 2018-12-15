@@ -30,80 +30,78 @@
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "./wonDialog";
 export default {
-    name: "querySku",
-    extends: wonTableContainer,
-    components: {
-        wonDialog
+  name: "querySku",
+  extends: wonTableContainer,
+  components: {
+    wonDialog
+  },
+  props: ["name"],
+  data() {
+    return {
+      showConfirm: false,
+      showCancel: true,
+      tableData: [],
+      maxHeight: 450,
+      setMaxHeight: false,
+      condition: [],
+      isTableLoading: false,
+      row: {},
+      pageSizes: [10, 30, 50, 100, 200],
+      fetchCondition: {
+        skip: 0,
+        limit: 10
+      },
+      fetchOption: {
+        url: "/erp/search/sku",
+        method: "post",
+        where: ""
+      }
+    };
+  },
+  created() {
+    this.handleSearch();
+  },
+  methods: {
+    currentChange(row) {
+      this.row = _.cloneDeep(row);
+      if (!_.isEmpty(this.row)) {
+        this.showConfirm = true;
+        this.showCancel = false;
+      } else {
+        this.showConfirm = false;
+        this.showCancel = true;
+      }
     },
-    props: ["name"],
-    data() {
-        return {
-            showConfirm: false,
-            showCancel: true,
-            tableData: [],
-            maxHeight: 450,
-            setMaxHeight: false,
-            condition: [],
-            isTableLoading: false,
-            row: {},
-            pageSizes: [10, 30, 50, 100, 200],
-            fetchCondition: {
-                skip: 0,
-                limit: 10
-            },
-            fetchOption: {
-                url: "/erp/search/sku",
-                method: "post",
-                where: ""
-            }
-        };
-    },
-    created() {
-        this.handleSearch();
-    },
-    methods: {
-        currentChange(row) {
-            this.row = _.cloneDeep(row);
-            if (!_.isEmpty(this.row)) {
-                this.showConfirm = true;
-                this.showCancel = false;
-            } else {
-                this.showConfirm = false;
-                this.showCancel = true;
-            }
-        },
-        handleSearch: _.debounce(function() {
-            this.isTableLoading = true;
-            let data = {
-                where: this.fetchOption.where,
-                token: this.token,
-                skip: this.fetchCondition.skip,
-                limit: this.fetchCondition.limit
-            };
-            axios({
-                url: this.fetchOption.url,
-                method: this.fetchOption.method,
-                data
-            }).then(({ data, count }) => {
-                this.isTableLoading = false;
-                this.tableData = _.cloneDeep(data);
-                this.total = count;
-            });
-        }, 500)
-    }
+    handleSearch: _.debounce(function() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit
+      };
+      axios({
+        url: this.fetchOption.url,
+        method: this.fetchOption.method,
+        data
+      }).then(({ data, count }) => {
+        this.isTableLoading = false;
+        this.tableData = _.cloneDeep(data);
+        this.total = count;
+      });
+    }, 500)
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 /deep/ .el-table th {
-    height: 30px;
+  height: 30px;
 }
 .mt5 {
-    margin-top: 0;
+  margin-top: 0;
 }
-/deep/ .el-table__row.current-row td{
-    background-color: #f0f9eb !important;
+/deep/ .el-table__row.current-row td {
+  background-color: #f0f9eb !important;
 }
 </style>
-
-

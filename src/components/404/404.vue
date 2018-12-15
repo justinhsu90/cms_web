@@ -19,34 +19,34 @@
 
 <script>
 export default {
-    methods: {
-        goBack() {
-            this.$router.go(-1);
-        }
+  methods: {
+    goBack() {
+      this.$router.go(-1);
     }
+  }
 };
 </script>
 
 <style scoped lang="scss">
 .container {
-    width: 60%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-42%, -50%);
-    display: flex;
-    justify-content: space-around;
-    .tip-p1 {
-        color: #222;
-        font-size: 20px;
-    }
-    .tip-p2 {
-        color: grey;
-        font-size: 13px;
-    }
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-42%, -50%);
+  display: flex;
+  justify-content: space-around;
+  .tip-p1 {
+    color: #222;
+    font-size: 20px;
+  }
+  .tip-p2 {
+    color: grey;
+    font-size: 13px;
+  }
 }
 img {
-    width: 600px;
-    height: 308px;
+  width: 600px;
+  height: 308px;
 }
 </style>
