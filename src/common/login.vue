@@ -18,6 +18,7 @@
 </template>
 <script>
 import C from "js-cookie";
+
 export default {
   data: function() {
     return {
@@ -52,7 +53,7 @@ export default {
                 this.$message.error("密碼錯誤");
               } else {
                 C.set("name", res.name, { expires: 7, path: "/" });
-                C.set("username", res.userName, { expires: 7, path: "/" });
+                C.set("userName", res.userName, { expires: 7, path: "/" });
                 C.set("privilege", res.privilege, { expires: 7, path: "/" });
                 C.set("token", res.token, { expires: 7, path: "/" });
                 this.$router.push("/sku");
