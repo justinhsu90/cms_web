@@ -343,7 +343,7 @@ export default {
           this.popoverVisible = false;
           this.submitLoading = true;
           axios({
-            url: "/sale/add",
+            url: "/erp/sale/add",
             method: "post",
             data: {
               value: this.getValue(),

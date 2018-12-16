@@ -222,21 +222,21 @@ export default {
   },
   created() {
     let receivablePlatform = axios({
-      url: "/accountreceivable/value/platform",
+      url: "/erp/accountreceivable/value/platform",
       method: "post",
       data: {
         token: this.token
       }
     });
     let receivableType = axios({
-      url: "/accountreceivable/value/financialSpendType ",
+      url: "/erp/accountreceivable/value/financialSpendType ",
       method: "post",
       data: {
         token: this.token
       }
     });
     let receivableAccount = axios({
-      url: "/accountreceivable/value/account",
+      url: "/erp/accountreceivable/value/account",
       method: "post",
       data: {
         token: this.token
@@ -244,14 +244,14 @@ export default {
     });
 
     let receivableCurrencies = axios({
-      url: "/accountreceivable/value/currencies",
+      url: "/erp/accountreceivable/value/currencies",
       method: "post",
       data: {
         token: this.token
       }
     });
     let receivableCountry = axios({
-      url: "/accountreceivable/value/country",
+      url: "/erp/accountreceivable/value/country",
       method: "post",
       data: {
         token: this.token
@@ -331,7 +331,7 @@ export default {
   methods: {
     handleSelect(val) {
       axios({
-        url: "/accountreceivable/value/platorm/requiredFinancialType",
+        url: "/erp/accountreceivable/value/platorm/requiredFinancialType",
         method: "post",
         data: {
           platform: val,
@@ -440,7 +440,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/accountreceivable/add",
+            url: "/erp/accountreceivable/add",
             method: "post",
             data: {
               value: this.getValue(),

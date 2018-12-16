@@ -150,7 +150,7 @@ export default {
         order: "-lastUpdatedTime"
       },
       fetchOption: {
-        url: "/accountreceivable/report/search",
+        url: "/erp/accountreceivable/report/search",
         method: "post",
         where: ""
       }
@@ -210,21 +210,21 @@ export default {
       if (this.export) return;
       this.export = true;
       let platform = axios({
-        url: "/accountreceivable/report/value/platform",
+        url: "/erp/accountreceivable/report/value/platform",
         method: "post",
         data: {
           token: this.token
         }
       });
       let country = axios({
-        url: "/accountreceivable/report/value/country",
+        url: "/erp/accountreceivable/report/value/country",
         method: "post",
         data: {
           token: this.token
         }
       });
       let account = axios({
-        url: "/accountreceivable/report/value/account",
+        url: "/erp/accountreceivable/report/value/account",
         method: "post",
         data: {
           token: this.token
@@ -259,7 +259,7 @@ export default {
         if (valid) {
           this.$refs["dialog"].dialogVisible = false;
           axios({
-            url: "/accountreceivable/report/generate",
+            url: "/erp/accountreceivable/report/generate",
             method: "post",
             data: this.getValue()
           }).then(() => {

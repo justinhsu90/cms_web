@@ -423,7 +423,7 @@ export default {
             data.purchaseQueryId = this.purchaseQueryId;
           }
           axios({
-            url: "/purchase/add",
+            url: "/erp/purchase/add",
             method: "post",
             data
           }).then(() => {

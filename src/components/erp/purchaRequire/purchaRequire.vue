@@ -77,7 +77,7 @@ export default {
         order: "-lastUpdatedTime"
       },
       fetchOption: {
-        url: "/purchasequery/search",
+        url: "/erp/purchasequery/search",
         method: "post",
         where: ""
       }
@@ -85,7 +85,7 @@ export default {
   },
   created() {
     let account = axios({
-      url: "/purchasequery/value/purchasetype",
+      url: "/erp/purchasequery/value/purchasetype",
       method: "post",
       data: {
         token: this.token
@@ -171,11 +171,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.el-table th {
-  color: #62717e;
-  background: rgb(237, 241, 245);
-  text-align: center;
-}
-</style>

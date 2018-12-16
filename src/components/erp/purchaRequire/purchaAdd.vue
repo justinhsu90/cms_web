@@ -152,7 +152,7 @@ export default {
       this.formData.data[0].purchaseId = data.purchaseId;
     }
     axios({
-      url: "/purchasequery/value/purchasetype",
+      url: "/erp/purchasequery/value/purchasetype",
       method: "post",
       data: {
         token: this.token
@@ -219,7 +219,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/purchasequery/add",
+            url: "/erp/purchasequery/add",
             method: "post",
             data: {
               value: this.getValue(),
