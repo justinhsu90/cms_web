@@ -131,7 +131,7 @@
             <el-button :disabled="disabled" class="fr" type="success" size="small" @click="handleAdd">加入產品</el-button>
             </el-form>
         </div>
-        <querySku name="slaeAdd" ref="querySku"></querySku>
+        <querySku name="saleAdd" ref="querySku"></querySku>
     </div>
 
 </template>
@@ -139,7 +139,7 @@
 import querySku from "@/common/querySku";
 import { format } from "@/common/until/format";
 export default {
-  name: "slaeAdd",
+  name: "saleAdd",
   components: {
     querySku
   },
@@ -343,7 +343,7 @@ export default {
           this.popoverVisible = false;
           this.submitLoading = true;
           axios({
-            url: "/sale/add",
+            url: "/erp/sale/add",
             method: "post",
             data: {
               value: this.getValue(),

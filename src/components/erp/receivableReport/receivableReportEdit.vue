@@ -95,7 +95,7 @@ export default {
     this.month = this.$route.query.month;
     this.generatedTime = this.$route.query.generatedTime;
     axios({
-      url: "/accountreceivable/report",
+      url: "/erp/accountreceivable/report",
       method: "post",
       data: {
         token: this.token,

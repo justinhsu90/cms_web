@@ -113,7 +113,7 @@ export default {
         order: "-lastUpdatedTime"
       },
       fetchOption: {
-        url: "/accountreceivable/search",
+        url: "/erp/accountreceivable/search",
         method: "post",
         where: ""
       }
@@ -121,28 +121,28 @@ export default {
   },
   created() {
     let receivablePlatform = axios({
-      url: "/accountreceivable/value/platform",
+      url: "/erp/accountreceivable/value/platform",
       method: "post",
       data: {
         token: this.token
       }
     });
     let receivableType = axios({
-      url: "/accountreceivable/value/financialSpendType ",
+      url: "/erp/accountreceivable/value/financialSpendType ",
       method: "post",
       data: {
         token: this.token
       }
     });
     let receivableAccount = axios({
-      url: "/accountreceivable/value/account",
+      url: "/erp/accountreceivable/value/account",
       method: "post",
       data: {
         token: this.token
       }
     });
     let receivableCountry = axios({
-      url: "/accountreceivable/value/country",
+      url: "/erp/accountreceivable/value/country",
       method: "post",
       data: {
         token: this.token

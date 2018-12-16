@@ -107,7 +107,7 @@ export default {
         order: "-lastUpdatedTime"
       },
       fetchOption: {
-        url: "/sale/search",
+        url: "/erp/sale/search",
         method: "post",
         where: ""
       }

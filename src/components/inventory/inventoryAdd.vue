@@ -5,37 +5,37 @@
       <a href="javascript:void(0)" @click="goBack">返回</a>
     </div>
     <br>
-    <h2>新增清單</h2>
+    <h2>新增庫存異動</h2>
     <br> 
      <el-form ref="form" :model="form">
          <el-row :gutter="20">
              <el-col :span="6">
-        <el-form-item label="sku" :rules='rules'>
+        <el-form-item label="SKU" :rules='rules'>
               <el-input v-model="form.sku">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="quantity" :rules='rules'>
+        <el-form-item label="數量" :rules='rules'>
               <el-input v-model="form.quantity">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="inventoryType" :rules='rules'>
+        <el-form-item label="異類類型" :rules='rules'>
               <el-select placeholder="類型" v-model="form.inventoryType"  clearable>
                         <el-option v-for="(v,i) in inventoryTypeOption" :key="i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
                     </el-select>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="datetime" :rules='rules'>
+        <el-form-item label="時間" :rules='rules'>
                       <el-date-picker
                       clearable
       v-model="form.datetime"
       type="date"
       value-format="yyyy-MM-dd" 
-      placeholder="选择日期">
+      placeholder="選擇日期">
     </el-date-picker>
         </el-form-item>       
         </el-col>

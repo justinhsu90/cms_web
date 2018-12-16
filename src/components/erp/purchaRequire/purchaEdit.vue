@@ -191,7 +191,7 @@ export default {
     this.formData.purchaseLink = data.purchaseLink;
     this.forformData.data[0].isPurchased = data.isPurchased;
     axios({
-      url: "/purchasequery/value/purchasetype",
+      url: "/erp/purchasequery/value/purchasetype",
       method: "post",
       data: {
         token: this.token
@@ -242,7 +242,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/purchasequery/edit",
+            url: "/erp/purchasequery/edit",
             method: "post",
             data: {
               value: this.getValue(),

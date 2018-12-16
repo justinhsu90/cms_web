@@ -77,7 +77,7 @@ export default {
         order: "-lastUpdatedTime"
       },
       fetchOption: {
-        url: "/purchasequery/search",
+        url: "/erp/purchasequery/search",
         method: "post",
         where: ""
       }
@@ -85,7 +85,7 @@ export default {
   },
   created() {
     let account = axios({
-      url: "/purchasequery/value/purchasetype",
+      url: "/erp/purchasequery/value/purchasetype",
       method: "post",
       data: {
         token: this.token
@@ -134,7 +134,7 @@ export default {
     },
     handleTransfer(val) {
       this.$router.push({
-        path: "/erpPurchaseAdd",
+        path: "/erp/PurchaseAdd",
         query: { data: JSON.stringify(val), transfer: "transfer" }
       });
     },

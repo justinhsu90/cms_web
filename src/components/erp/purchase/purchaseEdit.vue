@@ -404,7 +404,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/purchase/update",
+            url: "/erp/purchase/update",
 
             method: "post",
             data: {
