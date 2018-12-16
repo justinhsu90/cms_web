@@ -134,7 +134,7 @@ export default {
     },
     handleTransfer(val) {
       this.$router.push({
-        path: "/erpPurchaseAdd",
+        path: "/erp/PurchaseAdd",
         query: { data: JSON.stringify(val), transfer: "transfer" }
       });
     },
