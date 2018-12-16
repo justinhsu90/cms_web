@@ -19,8 +19,8 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column width="50" label="單號" prop="inventoryChangeId"></el-table-column>
-                    <el-table-column width="70" label="類型" prop="inventoryType"></el-table-column>
+                    <el-table-column width="60" label="單號" prop="inventoryChangeId"></el-table-column>
+                    <el-table-column width="70" label="類型" prop="inventoryTypeName"></el-table-column>
                     <el-table-column min-width="60" label="SKU" prop="sku"></el-table-column>
                     <el-table-column min-width="70" max-width="100" label=" 所屬倉庫" prop="warehouse"></el-table-column>
                     <el-table-column width="60" label="數量" prop="quantity"></el-table-column>
@@ -34,17 +34,15 @@
                     <el-table-column width="80" label="轉出倉庫" prop="moveFrom"></el-table-column>
                     <el-table-column width="80" label="轉入倉庫" prop="moveTo"></el-table-column>
                     <!-- <el-table-column min-width="130" label="snapshotUrl" prop="snapshotUrl"></el-table-column> -->
-                    <el-table-column width="50" label="動作" fixed="right">
+                    <el-table-column width="80" label="動作" fixed="right">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="刪除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </el-col>
-            <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div>
+            <won-pagination v-bind="paginationProps" v-on="paginationListeners">
+            </won-pagination>
         </el-row>
     </div>
 </template>
@@ -86,8 +84,6 @@ export default {
         ]
       },
       date: [],
-      tableData: [],
-      maxHeight: 450,
       condition: [],
       isTableLoading: false,
       warehouse: "",
@@ -106,7 +102,6 @@ export default {
     };
   },
   created() {
-    this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
     let type = axios({
       url: "/erp/inventoryChange/value/inventoryType",
@@ -177,20 +172,21 @@ export default {
         data.startDate = this.date[0];
         data.endDate = this.date[1];
       }
-      axios({
-        url: this.fetchOption.url,
-        method: this.fetchOption.method,
-        data
-      }).then(({ data, count }) => {
-        this.isTableLoading = false;
-        this.tableData = _.cloneDeep(data);
-        this.total = count;
-      });
+      this.fetchTableData(data);
     }, 500),
     handleAdd() {
       this.$router.push("/inventoryAdd");
     },
+    handleEdit(row) {
+      this.$router.push({
+        name: "inventoryEdit",
+        query: {
+          value: JSON.stringify(row)
+        }
+      });
+    },
     handleDelete(row) {
+      let _this = this;
       this.$confirm("確定要刪除", "提示", {
         type: "warning",
         beforeClose(action, instance, done) {
@@ -204,19 +200,19 @@ export default {
               }
             })
               .then(() => {
-                this.$message.success("刪除成功");
-                this.handleSearch();
+                _this.$message.success("刪除成功");
+                _this.handleSearch();
                 done();
               })
               .catch(() => {
-                this.$message.success("刪除成功");
+                _this.$message.success("刪除失敗");
                 done();
               });
           } else {
             done();
           }
         }
-      });
+      }).catch(() => {});
     }
   }
 };

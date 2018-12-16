@@ -24,7 +24,8 @@ export default (dialogContent, prop) => {
     render(h) {
       let props = {
         ...prop,
-        visible: this.visible
+        visible: this.visible,
+        showClose: false
       };
       return h(
         "elDialog",

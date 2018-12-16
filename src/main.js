@@ -9,7 +9,6 @@ import App from "./App";
 import moment from "moment";
 import axios from "@/common/until/Ajax";
 import qs from "qs";
-
 const Bus = new Vue();
 Vue.use(ElementUI);
 Vue.config.productionTip = false;

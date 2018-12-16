@@ -1,7 +1,6 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
 import nav from "@/common/nav";
-import login from "@/common/login";
 import asyncComponent from "@/common/until/asyncComponent";
 let configRouters = [];
 const excludeRouters = ["./index.js"];
@@ -11,27 +10,30 @@ routers.keys().forEach(key => {
   configRouters = configRouters.concat(routers(key).default);
 });
 Vue.use(VueRouter);
+export const routerManage = [
+  {
+    path: "/nav",
+    component: nav,
+    redirect: "/sku",
+    children: [
+      ...configRouters,
+      {
+        path: "/try",
+        component: asyncComponent("trya/try")
+      }
+    ]
+  }
+];
 let router = new VueRouter({
   routes: [
     {
       path: "/",
-      component: login,
+      component: () => import(/* webpackChunkName: 'login' */ "@/common/login"),
       meta: {
         name: "login"
       }
     },
-    {
-      path: "/nav",
-      component: nav,
-      redirect: "/sku",
-      children: [
-        ...configRouters,
-        {
-          path: "/try",
-          component: asyncComponent("trya/try")
-        }
-      ]
-    },
+    ...routerManage,
     {
       path: "*",
       redirect: "/404"

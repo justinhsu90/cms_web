@@ -8,7 +8,7 @@
             >返回</a>
         </div>
         <br>
-        <h2>新增清單</h2>
+        <h2>編輯清單</h2>
         <br>
         <el-form
             ref="form"
@@ -149,16 +149,13 @@
                 </el-row>
             </el-card>
         </template>   
-        <el-form-item>
-            <el-button @click="handleAdd" size="small" class="f-r" type="success">新增產品</el-button> 
-        </el-form-item>
             <el-form-item>
                 <el-button
                     @click="submit"
                     :loading="submitLoading"
                     type="primary"
                     size="mediumn"
-                >新增</el-button>
+                >編輯</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -199,12 +196,12 @@ export default {
         if (valid) {
           this.submitLoading = true;
           axios({
-            url: "erp/inventoryChange/add",
+            url: "erp/inventoryChange/update",
             method: "post",
             data: this.getValue()
           }).then(() => {
             this.submitLoading = false;
-            this.$message.success("添加成功");
+            this.$message.success("編輯成功");
             this.goBack();
           });
         }
@@ -241,6 +238,19 @@ export default {
         let inventoryData = this.inventoryTypeOption.slice(0, 3);
         inventoryData.push(this.inventoryTypeOption.slice(-1)[0]);
         this.inventoryTypeOption = inventoryData;
+        let value = JSON.parse(this.$route.query.value);
+        this.form.data[0] = _.cloneDeep(value);
+        this.form.data[0].sku = value.sku;
+        this.form.data[0].quantity = value.quantity;
+        this.form.data[0].inventoryType = value.inventoryType;
+        this.form.data[0].datetime = value.datetime;
+        this.form.data[0].moveTo = value.moveTo;
+        this.form.data[0].moveFrom = value.moveFrom;
+        this.form.data[0].platform = value.platform;
+        this.form.data[0].account = value.account;
+        this.form.data[0].warehouse = value.warehouse;
+        this.form.data[0].sampleTo = value.sampleTo;
+        this.form.data[0].inventoryChangeId = value.inventoryChangeId;
       }
     );
   },

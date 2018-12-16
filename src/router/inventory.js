@@ -12,5 +12,13 @@ export default [
     meta: {
       sign: "inventoryList"
     }
+  },
+  {
+    name: "inventoryEdit",
+    path: "/inventoryEdit",
+    component: asyncComponent("erp/inventory/inventoryEdit"),
+    meta: {
+      sign: "inventoryList"
+    }
   }
 ];

@@ -1,7 +1,7 @@
 <template>
   <div id="edit">
-    <div style="padding:20px">
-      <div class="heade">
+    <div class="p10">
+      <div class="goBack">
         <i class="el-icon-arrow-left"></i>
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
@@ -228,17 +228,8 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#edit .heade {
-  font-size: 16px;
-  color: #45a2ff;
-}
-#edit .heade a {
-  color: #45a2ff;
-}
-#edit {
-  .el-button--text {
-    color: #606266;
-  }
+<style  scoped lang="scss">
+/deep/ .el-form-item {
+  margin-bottom: 5px;
 }
 </style>
