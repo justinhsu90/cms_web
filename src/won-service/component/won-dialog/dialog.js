@@ -19,18 +19,23 @@ export default (dialogContent, prop) => {
         this.$refs["dialog-content"].submit().then(() => {
           this.visible = false;
         });
+      },
+      update(e) {
+        this.visible = e;
       }
     },
     render(h) {
       let props = {
         ...prop,
-        visible: this.visible,
-        showClose: false
+        visible: this.visible
       };
       return h(
         "elDialog",
         {
-          props
+          props,
+          on: {
+            "update:visible": this.update
+          }
         },
         [
           h(dialogContent, {

@@ -20,11 +20,11 @@
                     placement="top-start"
                     width="200"
                     trigger="hover"
-                    content="剩餘UPC 數量:"
+                    content="剩餘UPC 數量"
                 >
                     <el-button
                         slot="reference"
-                        style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666"
+                        class="radius"
                     >?</el-button>
                 </el-popover>
                 <el-button

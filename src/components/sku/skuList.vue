@@ -8,7 +8,7 @@
                     <i class="el-icon-search"></i>
                 </div>
                 <el-popover ref="popover" placement="top-start" title="搜索" width="200" trigger="hover" content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段">
-                    <el-button slot="reference" style="width:20px;height:20px;margin:10px 0px 0px 10px;padding:0px;border-radius:50%;color:#666">?</el-button>
+                    <el-button slot="reference" class="radius">?</el-button>
                 </el-popover>
             </el-col>
             <el-col :span="14">

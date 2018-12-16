@@ -1,7 +1,6 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
 import nav from "@/common/nav";
-import asyncComponent from "@/common/until/asyncComponent";
 let configRouters = [];
 const excludeRouters = ["./index.js"];
 const routers = require.context("./", true, /\.js$/);
@@ -15,13 +14,7 @@ export const routerManage = [
     path: "/nav",
     component: nav,
     redirect: "/sku",
-    children: [
-      ...configRouters,
-      {
-        path: "/try",
-        component: asyncComponent("trya/try")
-      }
-    ]
+    children: [...configRouters]
   }
 ];
 let router = new VueRouter({
