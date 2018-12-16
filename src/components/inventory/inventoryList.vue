@@ -99,7 +99,7 @@ export default {
         limit: 15
       },
       fetchOption: {
-        url: "/inventory/change/search",
+        url: "/erp/inventoryChange/search",
         method: "post",
         where: ""
       }
@@ -109,14 +109,14 @@ export default {
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
     let type = axios({
-      url: "/inventory/change/value/inventoryType",
+      url: "/erp/inventoryChange/value/inventoryType",
       method: "post",
       data: {
         token: this.token
       }
     });
     let warehouse = axios({
-      url: "/inventory/change/value/warehouse",
+      url: "/erp/inventoryChange/value/warehouse",
       method: "post",
       data: {
         token: this.token
@@ -196,7 +196,7 @@ export default {
         beforeClose(action, instance, done) {
           if (action == "confirm") {
             axios({
-              url: "/inventory/change/remove",
+              url: "/erp/inventoryChange/remove",
               method: "post",
               data: {
                 token: this.token,

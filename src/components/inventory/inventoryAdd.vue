@@ -90,7 +90,7 @@ export default {
         if (valid) {
           this.submitLoading = true;
           axios({
-            url: "inventory/change/add",
+            url: "/erp/inventoryChange/add",
             method: "post",
             data: {
               token: this.token,
@@ -107,14 +107,14 @@ export default {
   },
   mounted() {
     let type = axios({
-      url: "/inventory/change/value/inventoryType",
+      url: "/erp/inventoryChange/value/inventoryType",
       method: "post",
       data: {
         token: this.token
       }
     });
     let warehouse = axios({
-      url: "/inventory/change/value/warehouse",
+      url: "/erp/inventoryChange/value/warehouse",
       method: "post",
       data: {
         token: this.token
