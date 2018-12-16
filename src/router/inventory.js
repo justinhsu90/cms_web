@@ -3,12 +3,12 @@ export default [
   {
     name: "inventory",
     path: "/inventoryList",
-    component: asyncComponent("inventory/inventoryList")
+    component: asyncComponent("erp/inventory/inventoryList")
   },
   {
     name: "inventoryAdd",
     path: "/inventoryAdd",
-    component: asyncComponent("inventory/inventoryAdd"),
+    component: asyncComponent("erp/inventory/inventoryAdd"),
     meta: {
       sign: "inventoryList"
     }
