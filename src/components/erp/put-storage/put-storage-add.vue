@@ -113,6 +113,7 @@
 <script>
 import querySku from "@/common/querySku";
 import moment from "moment";
+import C from "js-cookie";
 export default {
   name: "put-storage-add",
   components: {
