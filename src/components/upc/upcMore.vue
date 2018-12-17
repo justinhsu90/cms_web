@@ -7,26 +7,26 @@
           <el-row :gutter="20">
             <el-col :span="8">
               <el-form-item label="平台" prop="platform">
-                <el-select v-model="form.platform">
-                  <el-option v-for="(v,i) in upcPlatform" :key="i" :label="v.platform" :value="v.platform"></el-option>
-                </el-select>
+                  <el-select v-model="form.platform">
+                    <el-option v-for="(v,i) in upcPlatform" :key="i" :label="v.platform" :value="v.platform"></el-option>
+                  </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="帳號" prop="account">
-                <el-select v-model="form.account">
-                  <el-option v-for="(v,i) in upcAccount" :key="i" :label="v.account" :value="v.account"></el-option>
-                </el-select>
+                  <el-select v-model="form.account">
+                    <el-option v-for="(v,i) in upcAccount" :key="i" :label="v.account" :value="v.account"></el-option>
+                  </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="國家" prop="country">
-                <el-select v-model="form.country">
-                  <el-option v-for="(v,i) in upcCountry" :key="i"  :value="v.countryNameChinese">
-                    <span style="float: left">{{ v.countryCode }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                  </el-option>
-                </el-select>
+                  <el-select v-model="form.country">
+                    <el-option v-for="(v,i) in upcCountry" :key="i"  :value="v.countryNameChinese">
+                      <span style="float: left">{{ v.countryCode }}</span>
+                      <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                    </el-option>
+                  </el-select>
               </el-form-item>
             </el-col>
           </el-row>
