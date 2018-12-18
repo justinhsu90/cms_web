@@ -161,6 +161,7 @@
                         <img
                             ref="img"
                             :src="base64 ? base64 : form.imageUrl"
+                            crossOrigin="anonymous"
                         >
                         <div class="delete">
                             <i @click.stop="handleImageDelete"> 删除</i>
@@ -338,7 +339,7 @@
                 :loading="submitLoading"
                 type="primary"
                 size="large"
-                :disabled="formModified"
+                :disabled="formModified || imgLoad"
             >新增</el-button>
         </el-form>
 
@@ -349,6 +350,7 @@ export default {
   data() {
     var that = this;
     return {
+      imgLoad: false,
       centerDialogVisible: true,
       popoverVisible: false,
       searchValue: "IT",
@@ -471,6 +473,7 @@ export default {
 
     this.isCopy = this.$route.query.copy;
     if (!this.isCopy) return;
+    this.imgLoad = true;
     let data = JSON.parse(this.$route.query.data);
     this.form.image = data.imageURL;
     this.base64 = data.imageURL;
@@ -536,15 +539,19 @@ export default {
   },
   methods: {
     disposeCopy() {
+      let _that = this;
       let canvas = document.createElement("canvas");
-      this.$refs["img"].setAttribute("crossOrigin", "anonymous");
-      this.$refs["img"].addEventListener("load", () => {
-        canvas.width = this.$refs["img"].width;
-        canvas.height = this.$refs["img"].height;
-        let cas = canvas.getContext("2d");
-        cas.drawImage(this.$refs["img"], 0, 0);
+      let ctx = canvas.getContext("2d");
+      var img = new Image();
+      img.src = this.base64;
+      img.setAttribute("crossOrigin", "Anonymous");
+      img.addEventListener("load", function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(this, 0, 0);
+        document.body.appendChild(canvas);
         let base64 = canvas.toDataURL("image/png");
-        this.dataURLtoBlob(base64);
+        _that.dataURLtoBlob(base64);
       });
     },
     dataURLtoBlob(dataurl) {
@@ -563,6 +570,7 @@ export default {
       theBlob.lastModifiedDate = new Date();
       theBlob.name = fileName;
       this.blob = theBlob;
+      this.imgLoad = false;
     },
     handleInspect() {},
     handleImageDelete() {
