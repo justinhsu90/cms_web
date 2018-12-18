@@ -20,7 +20,7 @@
                     placement="top-start"
                     width="200"
                     trigger="hover"
-                    content="剩餘UPC 數量"
+                    content="剩餘 UPC 數量"
                 >
                     <el-button
                         slot="reference"
