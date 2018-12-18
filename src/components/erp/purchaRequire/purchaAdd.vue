@@ -52,7 +52,7 @@
                                 <el-input v-model="v.queryQuantity"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="3">
+                        <el-col :span="2">
                             <el-form-item label="賣家型號">
                                 <el-input v-model="v.merchantModel"></el-input>
                             </el-form-item>
@@ -69,11 +69,6 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <!-- <el-col :span="3">
-              <el-form-item label="對應採購單號">
-              <el-input v-model="v.purchaseId"></el-input>
-              </el-form-item>
-            </el-col> -->
                         <el-col :span="3">
                             <el-form-item label="SKU">
                                 <el-input v-model="v.sku"></el-input>
@@ -84,8 +79,6 @@
                                 <el-input v-model="v.productName"></el-input>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row :gutter="22">
                         <el-col :span="4">
                             <el-form-item label="產品規格">
                                 <el-input v-model="v.productSpec"></el-input>

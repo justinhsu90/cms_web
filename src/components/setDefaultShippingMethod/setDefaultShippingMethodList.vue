@@ -73,26 +73,17 @@
                 </el-table>
             </el-col>
         </el-row>
-        <wonDialog size="30%" title="下載" :showConfirm="false" ref="wonDialog">
-            <div class="t_a-c" slot="content">
-                <a :href="url" class="c-a">點擊下載生成文檔</a>
-            </div>
-        </wonDialog>
+        
     </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
-import wonDialog from "@/common/wonDialog";
 export default {
-  components: {
-    wonDialog
-  },
   extends: wonTableContainer,
   data() {
     return {
       fileLoading: false,
       pullLoading: false,
-      url: "",
       tableData: [],
       condition: [],
       searchShippingMethodOption: [],
@@ -360,15 +351,14 @@ export default {
           url: "shipment/setshipingmethod",
           method: "post",
           data: this.getValue()
-        }).then(res => {
-          if (res.includes("http")) {
-            this.url = res;
-            this.$refs["wonDialog"].$emit("visible", res);
-          } else {
-            this.$message.error("生成失敗");
-          }
-          this.fileLoading = false;
-        });
+        })
+          .then(() => {
+            this.$message.success("保存成功");
+            this.fileLoading = false;
+          })
+          .catch(() => {
+            this.$message.error("保存失敗");
+          });
       }
     }
   }

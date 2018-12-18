@@ -38,57 +38,31 @@
                 <br>
                 <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
                     <el-row :gutter="15">
-                        <el-col :span="5">
+                        <el-col :span="3">
                             <el-form-item label="新增時間">
                                 <el-input :value="v.queryTime | formatToTime" disabled></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="4">
+                        <el-col :span="3">
                             <el-form-item label="採購需求單號">
                                 <el-input disabeld v-model="v.purchaseQueryId" disabled></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="4">
+                        <el-col :span="3">
                             <el-form-item label="對應採購單號">
                                 <el-input v-model="v.purchaseId" disabled></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="2">
+                        <el-col :span="3">
                             <el-form-item label="採購數量">
                                 <el-input v-model="v.queryQuantity"></el-input>
                             </el-form-item>
                         </el-col>
-
-                        <el-col :span="4">
-                            <el-form-item label="賣家型號">
-                                <el-input v-model="v.merchantModel"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="2">
-                            <el-form-item label="目標價格">
-                                <el-input v-model="v.targetPrice"></el-input>
-                            </el-form-item>
-                        </el-col>
                         <el-col :span="3">
-                            <el-form-item label="幣別">
-                                <el-select v-model="v.targetPriceCurrency">
-                                    <el-option v-for="(v,i) in curreny" :key="i" :label="v" :value="v"></el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="10">
-                        <el-col :span="5">
                             <el-form-item label="SKU">
                                 <el-input v-model="v.sku"></el-input>
                             </el-form-item>
                         </el-col>
-                        <el-col :span="8">
-                            <el-form-item label="產品名稱">
-                                <el-input v-model="v.productName"></el-input>
-                            </el-form-item>
-                        </el-col>
-
                         <el-col :span="4">
                             <el-form-item label="產品規格">
                                 <el-input v-model="v.productSpec"></el-input>
@@ -107,18 +81,11 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                    </el-row>
                     <el-col :span="4">
                         <el-form-item label="賣家型號">
                             <el-input v-model="v.merchantModel"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-row :gutter="10">
-                        <el-col :span="5">
-                            <el-form-item label="SKU">
-                                <el-input v-model="v.sku"></el-input>
-                            </el-form-item>
-                        </el-col>
                         <el-col :span="8">
                             <el-form-item label="產品名稱">
                                 <el-input v-model="v.productName"></el-input>
@@ -189,7 +156,7 @@ export default {
     this.formData.purchaseType = data.purchaseType;
     this.formData.queryAccount = data.queryAccount;
     this.formData.purchaseLink = data.purchaseLink;
-    this.forformData.data[0].isPurchased = data.isPurchased;
+    this.formData.data[0].isPurchased = data.isPurchased;
     axios({
       url: "/erp/purchasequery/value/purchasetype",
       method: "post",

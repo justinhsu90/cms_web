@@ -61,7 +61,6 @@ export default {
     let start = moment(Date.now() - 7 * 24 * 60 * 60 * 1000).format(
       "YYYY-MM-DD HH:mm:ss"
     );
-    console.log(end, start);
     return {
       showImg: false,
       dialogVisible: false,
