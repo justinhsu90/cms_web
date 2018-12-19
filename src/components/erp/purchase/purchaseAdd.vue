@@ -176,7 +176,6 @@ export default {
     return {
       popoverVisible: false,
       Mul: U.Math.Mul,
-      showQuerySku: false,
       submitLoading: false,
       loading: false,
       purchasePlatform: [],

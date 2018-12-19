@@ -17,7 +17,7 @@
                     </el-col>
                     <el-col :span="4">
                         <el-form-item label="採購類型">
-                            <el-select v-model="formData.purchasetype" placeholder="類型" clearable>
+                            <el-select v-model="formData.purchaseType" placeholder="類型" clearable>
                                 <el-option v-for="(v,i) in purchaseOption" :key="i" :label="v" :value="v"></el-option>
                             </el-select>
                         </el-form-item>

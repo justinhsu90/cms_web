@@ -171,7 +171,6 @@ export default {
       Div: U.Math.Div,
       Mul: U.Math.Mul,
       purchaseOrderId: "",
-      showQuerySku: false,
       submitLoading: false,
       popoverVisible: false,
       loading: false,
@@ -422,76 +421,74 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#purchaseAdd {
-  .heade {
-    font-size: 16px;
-    color: #45a2ff;
+<style scoped lang="scss">
+.heade {
+  font-size: 16px;
+  color: #45a2ff;
+}
+/deep/ .el-form-item {
+  margin-bottom: 6px;
+}
+/deep/ .el-form-item__label {
+  padding: 0px !important;
+}
+.heade a {
+  color: #45a2ff;
+}
+.total {
+  height: 35px;
+  background: #f0f9eb;
+  td {
+    background: transparent !important;
   }
-  .el-form-item {
-    margin-bottom: 6px;
-  }
-  .el-form-item__label {
-    padding: 0px !important;
-  }
-  .heade a {
-    color: #45a2ff;
-  }
-  .total {
-    height: 35px;
-    background: #f0f9eb;
-    td {
-      background: transparent !important;
+}
+#table {
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-top: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
+    .btnh {
+      padding: 4px 0px;
+      color: #62717e;
     }
-  }
-  #table {
-    table {
-      table-layout: fixed;
-      width: 100%;
+    .cell {
+      padding: 0px;
+    }
+    /deep/ .el-form-item {
+      overflow: hidden;
+      margin: 0px;
+    }
+    /deep/ .el-form-item__content {
+      line-height: 0px;
+    }
+    /deep/ .is-error input {
+      background: #f56c6c;
+      border-radius: 0%;
+    }
+    /deep/ .el-input__inner {
+      border: none;
+      height: 35px;
+      text-align: center;
+      color: #62717e;
+      font-size: 14px;
+    }
+    th {
+      padding: 4px;
+      background: #edf1f5;
+      text-align: center;
+      color: #62717e;
+      // border-right: 1px solid #ebeef5;
+    }
+    td {
+      padding: 0px;
       border-top: 1px solid #ebeef5;
-      border-bottom: 1px solid #ebeef5;
-      border-left: 1px solid #ebeef5;
-      .btnh {
-        padding: 4px 0px;
-        color: #62717e;
-      }
-      .cell {
-        padding: 0px;
-      }
-      .el-form-item {
-        overflow: hidden;
-        margin: 0px;
-      }
-      .el-form-item__content {
-        line-height: 0px;
-      }
-      .is-error input {
-        background: #f56c6c;
-        border-radius: 0%;
-      }
-      .el-input__inner {
-        border: none;
-        height: 35px;
-        text-align: center;
-        color: #62717e;
-        font-size: 14px;
-      }
-      th {
-        padding: 4px;
-        background: #edf1f5;
-        text-align: center;
-        color: #62717e;
-        // border-right: 1px solid #ebeef5;
-      }
-      td {
-        padding: 0px;
-        border-top: 1px solid #ebeef5;
-        border-right: 1px solid #ebeef5;
-        text-align: center;
-        background: white;
-        color: #62717e;
-        font-size: 14px;
-      }
+      border-right: 1px solid #ebeef5;
+      text-align: center;
+      background: white;
+      color: #62717e;
+      font-size: 14px;
     }
   }
 }

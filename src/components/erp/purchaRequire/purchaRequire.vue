@@ -99,7 +99,6 @@ export default {
   },
   methods: {
     handleSearch: _.debounce(function() {
-      this.isTableLoading = true;
       let data = {
         where: this.fetchOption.where,
         token: this.token,
@@ -116,15 +115,7 @@ export default {
           data.isPurchased = this.searchLanguage;
         }
       }
-      axios({
-        url: this.fetchOption.url,
-        method: this.fetchOption.method,
-        data
-      }).then(({ data, count }) => {
-        this.isTableLoading = false;
-        this.tableData = _.cloneDeep(data);
-        this.paginationProps.total = count;
-      });
+      this.fetchTableData(data);
     }, 500),
     handleEdit(val) {
       this.$router.push({
