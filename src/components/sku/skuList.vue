@@ -55,7 +55,7 @@
                     </el-table-column>
                     <el-table-column min-width="50" label="動作" fixed="right">
                         <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-edit" @click="handleEdit(scope.row)"></el-button>
+                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                             <el-button class="btnh" type="text" title="複製" icon="el-icon-won-124" @click="handleCopy(scope.row)"></el-button>
                         </template>
                     </el-table-column>

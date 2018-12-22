@@ -1,360 +1,360 @@
 <template>
-    <div style="padding:20px">
-        <div class="heade">
-            <i class="el-icon-arrow-left"></i>
-            <a
-                href="javascript:void(0)"
-                @click="goBack"
-            >返回</a>
-        </div>
-        <br>
-        <h2>添加SKU</h2>
-        <br>
-        <el-form
-            ref="form1"
-            label-position="top"
-            :model="form"
-        >
-            <el-form-item
-                ref="formItem"
-                label="自動生成SKU"
-                :rules="autoSkuValidate"
-                prop="autoSku"
-            >
-                <template slot="label">
-                    <span>自動生成SKU流水號</span>
-                    <span class="tip">手動填寫SKU, 自動生成SKU將無效</span>
-                </template>
-                <el-select
-                    v-model.trim="searchValue"
-                    placeholder="請選擇"
-                    style="width:25%"
-                >
-                    <el-option
-                        v-for="item in searchOptions"
-                        :key="item.header"
-                        :label="item.header"
-                        :value="item.header"
-                    >
-                        <span style="float: left">{{ item.header }}</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
-                    </el-option>
-                </el-select>
-                <el-input
-                    v-model="form.autoSku"
-                    style="width:40%"
-                ></el-input>
-                <el-button
-                    @click="handleAuto"
-                    type="primary"
-                >生成流水號</el-button>
-            </el-form-item>
-        </el-form>
-        <el-form
-            ref="form2"
-            :model="form"
-            label-position="left"
-            label-width="150px"
-        >
-            <el-alert
-                type="warning"
-                show-icon
-                title=""
-                class="mb10 w50"
-                v-if="isCopy"
-            >
-                <small>修改sku，才能进行保存。</small>
-            </el-alert>
-            <div style="position:relative">
-                <el-form-item
-                    ref="formItemTwo"
-                    label="SKU"
-                    prop="sku"
-                    :rules="skuValidate"
-                >   
-                <template slot='label'>
-                    <span>SKU</span>
-                </template>
-                    <el-input
-                        v-model.trim="form.sku"
-                        class="w50"
-                        @blur="handleInspect"
-                    ></el-input>
-                </el-form-item>
-                <div
-                    class="reference"
-                    v-if="showDetector"
-                >
-                    <p>同SKU产品参考图</p>
-                    <img
-                        height="100%"
-                        width="100%"
-                        :src="detectorURL"
-                        alt=""
-                    >
-                </div>
-            </div>
-            <el-form-item
-                label="New SKU"
-                prop="newSku"
-            >
-                <el-input
-                    v-model="form.newSku"
-                    class="w50"
-                ></el-input>
-            </el-form-item>
-            <el-form-item
-                label="英文名稱"
-                prop="productName"
-                :rules="{required:true}"
-            >
-                <el-input
-                    v-model="form.productName"
-                    class="w50"
-                ></el-input>
-            </el-form-item>
-            <el-form-item
-                label="中文名稱"
-                prop="productNameChinese"
-                :rules="{required:true}"
-            >
-                <el-input
-                    v-model="form.productNameChinese"
-                    class="w50"
-                ></el-input>
-            </el-form-item>
-            <el-form-item
-                label="中文申報名"
-                prop="declareNameChinese"
-            >
-                <el-input
-                    v-model="form.declareNameChinese"
-                    class="w50"
-                ></el-input>
-            </el-form-item>
-            <el-form-item
-                label="英文申報名"
-                prop="declareNameEnglish"
-            >
-                <el-input
-                    v-model="form.declareNameEnglish"
-                    class="w50"
-                ></el-input>
-            </el-form-item>
-            <el-form-item
-                label="圖片"
-                prop="image"
-                :show-message="showMessage"
-            >
-                <el-upload
-                    class="avatar-uploader"
-                    :auto-upload="false"
-                    action=''
-                    :before-upload="beforeAvatarUpload"
-                    :on-change="handleAvatarSuccess"
-                    :show-file-list="false"
-                >
-                    <div
-                        v-if="base64 || form.imageUrl"
-                        class="avatar"
-                    >
-                        <img
-                            ref="img"
-                            :src="base64 ? base64 : form.imageUrl"
-                            crossOrigin="anonymous"
-                        >
-                        <div class="delete">
-                            <i @click.stop="handleImageDelete"> 删除</i>
-                        </div>
-                    </div>
-                    <i
-                        v-else
-                        class="el-icon-plus avatar-uploader-icon"
-                    ></i>
-                </el-upload>
-            </el-form-item>
-            <el-form-item
-                label="圖片url"
-                prop="imageUrl"
-                :rules="imageUrlValidate"
-            >
-                <el-input
-                    class="w50"
-                    v-model="form.imageUrl"
-                >
-                    <el-button slot="prepend">http(s)://</el-button>
-                </el-input>
-            </el-form-item>
-
-            <el-row :gutter="20">
-                <el-col :span="6">
-                    <el-form-item
-                        label="採購成本："
-                        prop="productCost"
-                    >
-                        <el-input v-model="form.productCost"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="採購幣別："
-                        prop="productCostCurrency"
-                    >
-                        <el-select v-model="form.productCostCurrency">
-                            <el-option
-                                v-for="(v,i) in costCurrency"
-                                :key="i"
-                                :label="v"
-                                :value="v"
-                            ></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-        </el-form>
-        <el-form
-            ref="form3"
-            :model="form"
-            label-position="left"
-            label-width="150px"
-        >
-            <el-row :gutter="20">
-                <el-col :span="6">
-                    <el-form-item
-                        label="Amazon 長(CM)"
-                        prop="amazonLengthCM"
-                    >
-                        <el-input v-model="form.amazonLengthCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="Amazon 寬(CM)"
-                        prop="amazonWidthCM"
-                    >
-                        <el-input v-model="form.amazonWidthCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="Amazon 高(CM))"
-                        prop="amazonHeightCM"
-                    >
-                        <el-input v-model="form.amazonHeightCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="Amazon 重(kg)"
-                        prop="amazonWeightKG"
-                    >
-                        <el-input v-model="form.amazonWeightKG"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="6">
-                    <el-form-item
-                        label="小包 長(CM)"
-                        prop="parcelLengthCM"
-                    >
-                        <el-input v-model="form.parcelLengthCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="小包 寬(CM)"
-                        prop="parcelWidthCM"
-                    >
-                        <el-input v-model="form.parcelWidthCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="小包 高(CM)"
-                        prop="parcelHeightCM"
-                    >
-                        <el-input v-model="form.parcelHeightCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="小包 重(kg)"
-                        prop="parcelWeightKG"
-                    >
-                        <el-input v-model="form.parcelWeightKG"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="6">
-                    <el-form-item
-                        label="商品 長(CM)"
-                        prop="productLengthCM"
-                    >
-                        <el-input v-model="form.productLengthCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="商品 寬(CM)"
-                        prop="productWidthCM"
-                    >
-                        <el-input v-model="form.productWidthCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="商品 高(CM)"
-                        prop="productHeightCM"
-                    >
-                        <el-input v-model="form.productHeightCM"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="商品 重(kg)"
-                        prop="productWeightKG"
-                    >
-                        <el-input v-model="form.productWeightKG"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-form-item
-                label="已停用 SKU："
-                prop="deprecatedSKU"
-            >
-                <template slot="label">
-                    <span>已停用 SKU：</span>
-                </template>
-                <el-input
-                    type="textarea"
-                    rows='4'
-                    v-model="form.deprecatedSKU"
-                    style="width:70%"
-                ></el-input>
-            </el-form-item>
-            <el-button
-                @click="handleConfirm"
-                :loading="submitLoading"
-                type="primary"
-                size="large"
-                :disabled="formModified || imgLoad"
-            >新增</el-button>
-        </el-form>
-
+  <div style="padding:20px">
+    <div class="heade">
+      <i class="el-icon-arrow-left"></i>
+      <a
+        href="javascript:void(0)"
+        @click="goBack"
+      >返回</a>
     </div>
+    <br>
+    <h2>添加SKU</h2>
+    <br>
+    <el-form
+      ref="form1"
+      label-position="top"
+      :model="form"
+    >
+      <el-form-item
+        ref="formItem"
+        label="自動生成SKU"
+        :rules="autoSkuValidate"
+        prop="autoSku"
+      >
+        <template slot="label">
+          <span>自動生成SKU流水號</span>
+          <span class="tip">手動填寫SKU, 自動生成SKU將無效</span>
+        </template>
+        <el-select
+          v-model.trim="searchValue"
+          placeholder="請選擇"
+          style="width:25%"
+        >
+          <el-option
+            v-for="item in searchOptions"
+            :key="item.header"
+            :label="item.header"
+            :value="item.header"
+          >
+            <span style="float: left">{{ item.header }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+          </el-option>
+        </el-select>
+        <el-input
+          v-model="form.autoSku"
+          style="width:40%"
+        ></el-input>
+        <el-button
+          @click="handleAuto"
+          type="primary"
+        >生成流水號</el-button>
+      </el-form-item>
+    </el-form>
+    <el-form
+      ref="form2"
+      :model="form"
+      label-position="left"
+      label-width="150px"
+    >
+      <el-alert
+        type="warning"
+        show-icon
+        title=""
+        class="mb10 w50"
+        v-if="isCopy"
+      >
+        <small>修改sku，才能进行保存。</small>
+      </el-alert>
+      <div style="position:relative">
+        <el-form-item
+          ref="formItemTwo"
+          label="SKU"
+          prop="sku"
+          :rules="skuValidate"
+        >
+          <template slot='label'>
+            <span>SKU</span>
+          </template>
+          <el-input
+            v-model.trim="form.sku"
+            class="w50"
+          ></el-input>
+        </el-form-item>
+        <div
+          class="reference"
+          v-if="showDetector"
+        >
+          <p>同SKU产品参考图</p>
+          <img
+            height="100%"
+            width="100%"
+            :src="detectorURL"
+            alt=""
+          >
+        </div>
+      </div>
+      <el-form-item
+        label="New SKU"
+        prop="newSku"
+      >
+        <el-input
+          v-model="form.newSku"
+          class="w50"
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+        label="英文名稱"
+        prop="productName"
+        :rules="{required:true}"
+      >
+        <el-input
+          v-model="form.productName"
+          class="w50"
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+        label="中文名稱"
+        prop="productNameChinese"
+        :rules="{required:true}"
+      >
+        <el-input
+          v-model="form.productNameChinese"
+          class="w50"
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+        label="中文申報名"
+        prop="declareNameChinese"
+      >
+        <el-input
+          v-model="form.declareNameChinese"
+          class="w50"
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+        label="英文申報名"
+        prop="declareNameEnglish"
+      >
+        <el-input
+          v-model="form.declareNameEnglish"
+          class="w50"
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+        label="圖片"
+        prop="image"
+        :show-message="showMessage"
+      >
+        <el-upload
+          class="avatar-uploader"
+          :auto-upload="false"
+          action=''
+          :before-upload="beforeAvatarUpload"
+          :on-change="handleAvatarSuccess"
+          :show-file-list="false"
+        >
+          <div
+            v-if="form.base64 || imageUrlLoad"
+            class="avatar"
+          >
+            <img
+              ref="img"
+              :src="form.base64"
+              crossOrigin="anonymous"
+            >
+            <div class="delete">
+              <i @click.stop="handleImageDelete"> 删除</i>
+            </div>
+          </div>
+          <i
+            v-else
+            class="el-icon-plus avatar-uploader-icon"
+          ></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item
+        label="圖片url"
+        prop="imageUrl"
+        :rules="imageUrlValidate"
+      >
+        <el-input
+          class="w50"
+          :value="form.imageUrl"
+          @input="form.imageUrl = $event;" 
+          @blur="handleBlur" 
+        >
+        </el-input>
+      </el-form-item>
+
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item
+            label="採購成本："
+            prop="productCost"
+          >
+            <el-input v-model="form.productCost"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="採購幣別："
+            prop="productCostCurrency"
+          >
+            <el-select v-model="form.productCostCurrency">
+              <el-option
+                v-for="(v,i) in costCurrency"
+                :key="i"
+                :label="v"
+                :value="v"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-form
+      ref="form3"
+      :model="form"
+      label-position="left"
+      label-width="150px"
+    >
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item
+            label="Amazon 長(CM)"
+            prop="amazonLengthCM"
+          >
+            <el-input v-model="form.amazonLengthCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="Amazon 寬(CM)"
+            prop="amazonWidthCM"
+          >
+            <el-input v-model="form.amazonWidthCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="Amazon 高(CM))"
+            prop="amazonHeightCM"
+          >
+            <el-input v-model="form.amazonHeightCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="Amazon 重(kg)"
+            prop="amazonWeightKG"
+          >
+            <el-input v-model="form.amazonWeightKG"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item
+            label="小包 長(CM)"
+            prop="parcelLengthCM"
+          >
+            <el-input v-model="form.parcelLengthCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="小包 寬(CM)"
+            prop="parcelWidthCM"
+          >
+            <el-input v-model="form.parcelWidthCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="小包 高(CM)"
+            prop="parcelHeightCM"
+          >
+            <el-input v-model="form.parcelHeightCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="小包 重(kg)"
+            prop="parcelWeightKG"
+          >
+            <el-input v-model="form.parcelWeightKG"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item
+            label="商品 長(CM)"
+            prop="productLengthCM"
+          >
+            <el-input v-model="form.productLengthCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="商品 寬(CM)"
+            prop="productWidthCM"
+          >
+            <el-input v-model="form.productWidthCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="商品 高(CM)"
+            prop="productHeightCM"
+          >
+            <el-input v-model="form.productHeightCM"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="商品 重(kg)"
+            prop="productWeightKG"
+          >
+            <el-input v-model="form.productWeightKG"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-form-item
+        label="已停用 SKU："
+        prop="deprecatedSKU"
+      >
+        <template slot="label">
+          <span>已停用 SKU：</span>
+        </template>
+        <el-input
+          type="textarea"
+          rows='4'
+          v-model="form.deprecatedSKU"
+          style="width:70%"
+        ></el-input>
+      </el-form-item>
+      <el-button
+        @click="handleConfirm"
+        :loading="submitLoading"
+        type="primary"
+        size="large"
+        :disabled="formModified || imgLoad"
+      >新增</el-button>
+    </el-form>
+
+  </div>
 </template>
 <script>
 export default {
   data() {
     var that = this;
     return {
+      imageUrlLoad: false,
       imgLoad: false,
       centerDialogVisible: true,
       popoverVisible: false,
       searchValue: "IT",
-      base64: "",
       showDetector: false,
       trueStatus: false,
       trueProductName: false,
@@ -366,6 +366,7 @@ export default {
       submitLoading: false,
       isCopy: false,
       form: {
+        base64: "",
         imageUrl: "",
         autoSku: "",
         sku: "",
@@ -475,8 +476,7 @@ export default {
     if (!this.isCopy) return;
     this.imgLoad = true;
     let data = JSON.parse(this.$route.query.data);
-    this.form.image = data.imageURL;
-    this.base64 = data.imageURL;
+    this.form.base64 = data.imageURL;
     this.$nextTick(() => {
       this.disposeCopy();
     });
@@ -538,12 +538,26 @@ export default {
     }
   },
   methods: {
+    handleBlur() {
+      this.imageUrlLoad = true;
+      this.$nextTick(() => {
+        this.$refs["img"].src = this.form.imageUrl;
+        this.$refs["img"].onload = () => {
+          this.blob = "";
+          this.form.base64 = "";
+        };
+        this.$refs["img"].onerror = () => {
+          this.imageUrlLoad = false;
+          this.$message.error("url地址获取不到图片");
+        };
+      });
+    },
     disposeCopy() {
       let _that = this;
       let canvas = document.createElement("canvas");
       let ctx = canvas.getContext("2d");
       var img = new Image();
-      img.src = this.base64;
+      img.src = this.form.base64;
       img.setAttribute("crossOrigin", "Anonymous");
       img.addEventListener("load", function() {
         canvas.width = img.width;
@@ -572,10 +586,10 @@ export default {
       this.blob = theBlob;
       this.imgLoad = false;
     },
-    handleInspect() {},
     handleImageDelete() {
-      this.base64 = "";
+      this.form.base64 = "";
       this.form.imageUrl = "";
+      this.blob = "";
     },
     goBack() {
       this.$router.push("/sku");
@@ -591,7 +605,6 @@ export default {
     },
     handleAvatarSuccess(file) {
       let url = URL || Window.webkitURL;
-      this.form.image = file.raw;
       let blob = url.createObjectURL(file.raw);
       let canvas = document.createElement("canvas");
       let image = document.createElement("img");
@@ -603,7 +616,9 @@ export default {
         let cas = canvas.getContext("2d");
         cas.drawImage(image, 0, 0);
         let base64 = canvas.toDataURL(file.raw.type);
-        this.base64 = base64;
+        this.form.base64 = base64;
+        this.form.imageUrl = "";
+        this.blob = "";
       });
     },
     handleAuto() {
@@ -667,19 +682,22 @@ export default {
             obj.declareNameChinese = this.form.declareNameChinese;
             obj.declareNameEnglish = this.form.declareNameEnglish;
             obj.deprecatedSKU = this.form.deprecatedSKU;
-            obj.imageUrl = this.form.imageUrl;
+            if (this.form.imageUrl) {
+              obj.imageUrl = this.form.imageUrl;
+            } else {
+              if (this.blob) {
+                formData.append("uploadfile", this.blob);
+              } else {
+                if (this.form.base64) {
+                  formData.append("uploadfile", this.image);
+                }
+              }
+            }
             value.data.push(obj);
             value = JSON.stringify(value);
             this.submitLoading = true;
             formData.append("value", value);
             formData.append("token", this.token);
-            if (this.form.image) {
-              if (this.blob && typeof this.form.image == "string") {
-                formData.append("uploadfile", this.blob);
-              } else {
-                formData.append("uploadfile", this.form.image);
-              }
-            }
             this.isLoading = true;
             let url = "http://60.251.57.138:8000/data-server/sku/add";
             axios({
