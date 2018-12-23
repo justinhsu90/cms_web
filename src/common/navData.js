@@ -73,6 +73,10 @@ const nav = [
     label: "執行清單"
   },
   {
+    index: "gzwarehouseList",
+    label: "快遞簽收訊息"
+  },
+  {
     index: "Amazon",
     label: "Amazon",
     isLevel: true,
