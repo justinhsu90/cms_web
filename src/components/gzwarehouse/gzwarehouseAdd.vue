@@ -8,27 +8,27 @@
      <el-form :model="form" >
        <el-row :gutter="20">
           <el-col :span="6">
-            <el-form-item label="ID：">
+            <el-form-item label="簽收單號：">
                   <el-input :value="form.id" disabled></el-input>  
             </el-form-item>       
           </el-col>
           <el-col :span="6">
-            <el-form-item label="數量：">
+            <el-form-item label="簽收箱數：">
                   <el-input :value="form.quan" disabled></el-input>  
             </el-form-item>       
           </el-col>
           <el-col :span="6">
-            <el-form-item label="訂單號：">
+            <el-form-item label="快遞單號：">
                   <el-input :value="form.trackingNumber" disabled></el-input>  
             </el-form-item>       
           </el-col>
           <el-col :span="6">
-            <el-form-item label="添加時間：">
+            <el-form-item label="簽收時間：">
                   <el-input :value="form.addedTime" disabled></el-input>  
             </el-form-item>       
           </el-col>
           <el-col :span="6" v-if="form.imageUrl">
-            <el-form-item label="图片：">
+            <el-form-item label="圖片：">
                   <img :src="form.imageUrl" width="100" alt="">
             </el-form-item>       
           </el-col>

@@ -40,31 +40,31 @@
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="moveTo">
+        <el-form-item label="轉入倉庫">
               <el-input v-model="form.moveTo">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="moveFrom">
+        <el-form-item label="轉出倉庫">
               <el-input v-model="form.moveFrom">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="platform">
+        <el-form-item label="平台">
               <el-input v-model="form.platform">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="account">
+        <el-form-item label="帳號">
               <el-input v-model="form.account">
               </el-input>
         </el-form-item>       
         </el-col>
              <el-col :span="6">
-        <el-form-item label="warehouse">
+        <el-form-item label="倉庫">
               <el-select placeholder="商品" v-model="form.warehouse"  clearable>
                         <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
                 </el-select>
