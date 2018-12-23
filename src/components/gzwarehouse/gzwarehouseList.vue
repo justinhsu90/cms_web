@@ -10,16 +10,18 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="120" label="addedTime" prop="addedTime" :formatter="formatToTime"></el-table-column>
-                    <el-table-column min-width="110" label="ID" prop="id" ></el-table-column>
-                    <el-table-column min-width="110" label="數量" prop="quan" ></el-table-column>
-                    <el-table-column min-width="150" label="訂單號" prop="trackingNumber"></el-table-column>
-                    <el-table-column width="120" label="圖片" prop="imageUrl" algin="center">
+                    <el-table-column min-width="110" label="簽收流水號" prop="id" ></el-table-column>
+                    <el-table-column min-width="120" label="簽收時間" prop="addedTime" :formatter="formatToTime"></el-table-column>
+                    <el-table-column min-width="150" label="物流單號" prop="trackingNumber"></el-table-column>
+                    <el-table-column min-width="110" label="簽收箱數" prop="quan" ></el-table-column>
+                    <el-table-column min-width="150" label="物流單號" prop="trackingNumber"></el-table-column>
+                    <el-table-column min-width="150" label="快遞/物流" prop="logistic"></el-table-column>
+                    <!-- <el-table-column width="120" label="圖片" prop="imageUrl" algin="center">
                       <template slot-scope="{row}">
                           <img :src="row.imageUrl" width="100" alt="">
                       </template>  
-                    </el-table-column>
-                    <el-table-column width="80" algin="center" label="操作">
+                    </el-table-column> -->
+                    <el-table-column width="80" algin="center" label="詳情">
                       <template slot-scope="{row}">
                           <el-button icon="el-icon-won-40" @click="handleClick(row)" type="text" title="查看"></el-button>
                       </template>  

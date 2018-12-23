@@ -17,7 +17,7 @@
             <el-row :gutter="20" class="mb10">
                 <el-col :span="6">
                     <el-form-item
-                        label="inventoryType"
+                        label="庫存異動類型"
                         :rules='rules'
                         prop="inventoryType"
                     >
@@ -47,7 +47,7 @@
                             v-model="form.datetime"
                             type="date"
                             value-format="yyyy-MM-dd"
-                            placeholder="选择日期"
+                            placeholder="選擇日期"
                             class="w100"
                         >
                         </el-date-picker>
@@ -74,8 +74,8 @@
                         <tr>
                             <th>SKU </th>
                             <th>數量 </th>
-                            <th v-if="showColumnTwo.includes(form.inventoryType)">moveTo</th>
-                            <th v-if="showColumnTwo.includes(form.inventoryType)">moveFrom</th>
+                            <th v-if="showColumnTwo.includes(form.inventoryType)">轉入倉庫</th>
+                            <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
                             <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">平台</th>
                             <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">賬號</th>
                             <th v-if="showColumnThree.includes(form.inventoryType)">收樣方</th>
