@@ -2,7 +2,7 @@ import VueRouter from "vue-router";
 import Vue from "vue";
 import nav from "@/common/nav";
 let configRouters = [];
-const excludeRouters = ["./index.js"];
+const excludeRouters = ["./index.js", "./dataAnalysis.js"];
 const routers = require.context("./", true, /\.js$/);
 routers.keys().forEach(key => {
   if (excludeRouters.includes(key)) return;
