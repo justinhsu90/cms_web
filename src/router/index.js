@@ -1,6 +1,8 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
 import nav from "@/common/nav";
+import C from "js-cookie";
+import dataAnalysiz from "../router/dataAnalysis";
 let configRouters = [];
 const excludeRouters = ["./index.js", "./dataAnalysis.js"];
 const routers = require.context("./", true, /\.js$/);
@@ -17,6 +19,12 @@ export const routerManage = [
     children: [...configRouters]
   }
 ];
+if (C.get("privilege") == "admin" && C.get("token")) {
+  routerManage[0].children.push(...dataAnalysiz, {
+    path: "*",
+    redirect: "/404"
+  });
+}
 let router = new VueRouter({
   routes: [
     {
@@ -26,11 +34,7 @@ let router = new VueRouter({
         name: "login"
       }
     },
-    ...routerManage,
-    {
-      path: "*",
-      redirect: "/404"
-    }
+    ...routerManage
   ]
 });
 

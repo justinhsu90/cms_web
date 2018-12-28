@@ -10,11 +10,19 @@ const routerManage = [
     component: nav,
     redirect: "/sku",
     children: [...dataAnalysiz]
+  },
+  {
+    path: "*",
+    redirect: "/404"
   }
 ];
 router.beforeEach((to, form, next) => {
   let token = C.get("token");
-  if (form.meta.name == "login") {
+  if (
+    C.get("privilege") == "admin" &&
+    C.get("token") &&
+    form.meta.name == "login"
+  ) {
     router.addRoutes(routerManage);
   }
   if (to.meta.name == "login") {

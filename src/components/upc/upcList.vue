@@ -175,12 +175,6 @@ export default {
         limit: this.fetchCondition.limit,
         order: this.fetchCondition.order
       };
-      // if (this.condition.includes("1")) {
-      //   data.account = this.searchAccount;
-      // }
-      // if (this.condition.includes("3")) {
-      //   data.country = this.searchCountry;
-      // }
       this.fetchTableData(data);
     }, 500),
     handleEdit(val) {

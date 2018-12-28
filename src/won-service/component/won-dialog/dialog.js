@@ -1,8 +1,8 @@
 import Vue from "vue";
 import { Dialog, Button } from "element-ui";
-let ele = document.createElement("div");
-document.scrollingElement.appendChild(ele);
 export default (dialogContent, prop) => {
+  let ele = document.createElement("div");
+  document.scrollingElement.appendChild(ele);
   const extend = Vue.extend({
     components: {
       [Dialog.name]: Dialog,
@@ -22,6 +22,11 @@ export default (dialogContent, prop) => {
       },
       update(e) {
         this.visible = e;
+      },
+      close() {
+        setTimeout(() => {
+          this.$el.remove();
+        }, 0);
       }
     },
     render(h) {
@@ -34,7 +39,8 @@ export default (dialogContent, prop) => {
         {
           props,
           on: {
-            "update:visible": this.update
+            "update:visible": this.update,
+            close: this.close
           }
         },
         [
@@ -72,7 +78,5 @@ export default (dialogContent, prop) => {
       );
     }
   });
-
-  new extend().$mount(ele);
-  ele = document.querySelector(".el-dialog__wrapper");
+  new extend({ el: ele });
 };
