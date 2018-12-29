@@ -10,10 +10,6 @@ const routerManage = [
     component: nav,
     redirect: "/sku",
     children: [...dataAnalysiz]
-  },
-  {
-    path: "*",
-    redirect: "/404"
   }
 ];
 router.beforeEach((to, form, next) => {
@@ -35,6 +31,10 @@ router.beforeEach((to, form, next) => {
   } else {
     if (token) {
       Vue.prototype.token = token;
+      if (C.get("privilege") != "admin" && to.path == "/dataAnalysis") {
+        next("/404");
+        return;
+      }
       next();
     } else {
       next("/");

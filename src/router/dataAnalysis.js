@@ -4,7 +4,7 @@ export default [
     component: asyncComponent("dataAnalysis/dataAnalysis"),
     path: "/dataAnalysis",
     meta: {
-      keepAlive: true
+      name: "dataAnalysis"
     }
   }
 ];

@@ -68,7 +68,7 @@
                             active-text-color="#409eff"
                             @select="handleSelect"
                         >
-                            <template v-for="(v,i) in navData">
+                            <template v-for="(v,i) in nav">
                                 <el-submenu
                                     v-if="v.isLevel"
                                     :index="v.index"
@@ -114,19 +114,29 @@ import navData from "./navData";
 import C from "js-cookie";
 export default {
   data() {
+    let nav = _.cloneDeep(navData);
+    let exclude = [
+      {
+        index: "dataAnalysis",
+        label: "儀表板"
+      }
+    ];
+    if (C.get("privilege") == "admin") {
+      nav.unshift(...exclude);
+    }
     return {
       defaultNav: "",
       asideShow: true,
       username: C.get("userName"),
       isCollapse: false,
-      navData,
+      nav,
       autoAutocomplete: ""
     };
   },
   methods: {
     querySearch(queryString, cb) {
       let data = [];
-      _.each(this.navData, v => {
+      _.each(this.nav, v => {
         if ("child" in v) {
           _.each(v.child, value => {
             if (value.label.includes(queryString)) {

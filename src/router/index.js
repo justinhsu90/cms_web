@@ -17,13 +17,14 @@ export const routerManage = [
     component: nav,
     redirect: "/sku",
     children: [...configRouters]
+  },
+  {
+    path: "*",
+    redirect: "/404"
   }
 ];
 if (C.get("privilege") == "admin" && C.get("token")) {
-  routerManage[0].children.push(...dataAnalysiz, {
-    path: "*",
-    redirect: "/404"
-  });
+  routerManage[0].children.push(...dataAnalysiz);
 }
 let router = new VueRouter({
   routes: [
