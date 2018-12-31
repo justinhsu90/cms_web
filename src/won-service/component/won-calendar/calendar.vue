@@ -44,15 +44,15 @@
               <p class="day-number">{{ day.monthDay }}</p>
               <p
                 v-if="day.data && isShowData.includes(1)"
-                class="fz12"
+                class="fz13"
               > &nbsp;&nbsp;&nbsp;数量：<span class=" dataColor">{{day.data.quantity}}</span></p>
               <p
                 v-if="day.data && isShowData.includes(2)"
-                class="fz12"
+                class="fz13"
               >毛利率：<span class=" dataColor">{{(day.data.marginPercent * 100).toFixed(2)}}%</span></p>
               <p
                 v-if="day.data && isShowData.includes(3)"
-                class="fz12"
+                class="fz13"
               >销售额：<span class=" dataColor">{{day.data.revenue}} {{day.data.currency}}</span></p>
               <slot name="body"></slot>
             </div>
@@ -141,7 +141,7 @@ export default {
 
         for (let perDay = 0; perDay < 7; perDay++) {
           week.push({
-            monthDay: monthViewStartDate.date(),
+            monthDay: moment(monthViewStartDate).format("MM/DD"),
             isToday: monthViewStartDate.isSame(moment(), "day"),
             isCurMonth: monthViewStartDate.isSame(this.currentMonth, "month"),
             weekDay: perDay,

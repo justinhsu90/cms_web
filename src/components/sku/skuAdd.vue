@@ -15,40 +15,71 @@
       label-position="top"
       :model="form"
     >
-      <el-form-item
-        ref="formItem"
-        label="自動生成SKU"
-        :rules="autoSkuValidate"
-        prop="autoSku"
-      >
-        <template slot="label">
-          <span>自動生成SKU流水號</span>
-          <span class="tip">手動填寫SKU, 自動生成SKU將無效</span>
-        </template>
-        <el-select
-          v-model.trim="searchValue"
-          placeholder="請選擇"
-          style="width:25%"
-        >
-          <el-option
-            v-for="item in searchOptions"
-            :key="item.header"
-            :label="item.header"
-            :value="item.header"
+    <el-row :gutter="20">
+      <el-col class="w-max200">
+        <el-form-item prop="searchValue" :rules="rules">
+          <el-select
+            v-model.trim="form.searchValue"
+            placeholder="請選擇"
+            @change="handleAddSku"
           >
-            <span style="float: left">{{ item.header }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
-          </el-option>
-        </el-select>
-        <el-input
-          v-model="form.autoSku"
-          style="width:40%"
-        ></el-input>
-        <el-button
+            <el-option
+              v-for="item in searchOptions"
+              :key="item.header"
+              :label="item.header"
+              :value="item.header"
+            >
+              <span style="float: left">{{ item.header }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+            </el-option>
+          </el-select>  
+        </el-form-item>
+      </el-col>
+        <el-col style="max-width:130px">
+          <el-button
           @click="handleAuto"
           type="primary"
         >生成流水號</el-button>
-      </el-form-item>
+        </el-col>
+        <el-col class="w-max200">
+          <el-form-item prop="colorValue" :rules="rules">
+            <el-select
+              v-model="form.colorValue"
+              placeholder="請選擇"
+              @change="handleAddSku"
+            >
+              <el-option
+                v-for="(item,i) in searchColor"
+                :key="i"
+                :label="item.colourNameChinese"
+                :value="item.colourNameEnglish"
+              >
+                <span style="float: left">{{ item.colourNameChinese }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.colourCode }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col class="w-max200">
+          <el-form-item prop="quantityValue" :rules="rules">
+            <el-select
+              v-model="form.quantityValue"
+              placeholder="請選擇"
+              @change="handleAddSku"
+            >
+              <el-option
+                v-for="(item,i) in searchQuantity"
+                :key="i"
+                :label="item.quantityNameChinese"
+                :value="item.quantity"
+              >
+                <span style="float: left">{{ item.quantityNameChinese }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.quantityNameEnglish }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+    </el-row>
     </el-form>
     <el-form
       ref="form2"
@@ -56,6 +87,20 @@
       label-position="left"
       label-width="150px"
     >
+     <el-form-item
+        ref="formItem"
+        :rules="rules"
+        prop="autoSku"
+      >
+        <template slot="label">
+          <span>自動生成SKU流水號</span>
+          <!-- <span class="tip">手動填寫SKU, 自動生成SKU將無效</span> -->
+        </template>
+        <el-input
+          v-model="form.autoSku"
+          style="width:40%"
+        ></el-input>
+      </el-form-item>
       <el-alert
         type="warning"
         show-icon
@@ -354,7 +399,6 @@ export default {
       imgLoad: false,
       centerDialogVisible: true,
       popoverVisible: false,
-      searchValue: "IT",
       showDetector: false,
       trueStatus: false,
       trueProductName: false,
@@ -362,10 +406,16 @@ export default {
       detectorURL: "../../static/img/1.png",
       trueNewSku: false,
       searchOptions: [],
+      searchColor: [],
+      searchQuantity: [],
       costCurrency: [],
       submitLoading: false,
       isCopy: false,
+      captureSku: "",
       form: {
+        searchValue: "IT",
+        colorValue: "",
+        quantityValue: "",
         base64: "",
         imageUrl: "",
         autoSku: "",
@@ -436,8 +486,13 @@ export default {
           }
         }
       },
+      rules: {
+        required: true,
+        message: "此項必填"
+      },
       autoSkuValidate: {
-        required: true
+        required: true,
+        message: "此項必填"
       },
       showMessage: true,
       autoShowMessage: true,
@@ -452,6 +507,25 @@ export default {
     };
   },
   mounted() {
+    axios({
+      url: "sku/value/colour",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(({ data }) => {
+      this.searchColor = _.cloneDeep(data);
+    });
+    axios({
+      url: "sku/value/quantity",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(({ data }) => {
+      this.searchQuantity = _.cloneDeep(data);
+    });
+
     axios({
       url: "sku/cat",
       method: "post",
@@ -538,6 +612,12 @@ export default {
     }
   },
   methods: {
+    handleAddSku() {
+      if (this.form.captureSku) {
+        this.form.autoSku =
+          this.form.captureSku + this.form.colorValue + this.form.quantityValue;
+      }
+    },
     handleBlur() {
       this.imageUrlLoad = true;
       this.$nextTick(() => {
@@ -626,11 +706,13 @@ export default {
         url: "sku/newindex",
         method: "post",
         data: {
-          category: this.searchValue,
+          category: this.form.searchValue,
           token: this.token
         }
       }).then(res => {
-        this.form.autoSku = res.index;
+        this.form.captureSku = res.index;
+        this.form.autoSku =
+          this.form.captureSku + this.form.colorValue + this.form.quantityValue;
       });
     },
     handleUpload() {
@@ -654,7 +736,7 @@ export default {
               data: []
             };
             if (this.form.autoSku) {
-              obj.sku = this.searchValue + this.form.autoSku;
+              obj.sku = this.form.searchValue + this.form.autoSku;
             } else {
               obj.sku = this.form.sku;
             }
