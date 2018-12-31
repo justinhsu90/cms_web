@@ -54,8 +54,9 @@
                 :label="item.colourNameChinese"
                 :value="item.colourNameEnglish"
               >
-                <span style="float: left">{{ item.colourNameChinese }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.colourNameEnglish }}</span>
+                <span style="float: left">{{ item.colourNameChinese }}({{ item.colourNameEnglish }})</span>
+                <span  :style="{'float':'right','background':`#${item.colourCode}`,width:'20px',height:'20px','marginTop':'5px'}">
+                </span>
               </el-option>
             </el-select>
           </el-form-item>
