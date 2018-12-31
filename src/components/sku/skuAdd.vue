@@ -55,7 +55,7 @@
                 :value="item.colourNameEnglish"
               >
                 <span style="float: left">{{ item.colourNameChinese }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.colourCode }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.colourNameEnglish }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -615,7 +615,10 @@ export default {
     handleAddSku() {
       if (this.form.captureSku) {
         this.form.autoSku =
-          this.form.captureSku + this.form.colorValue + this.form.quantityValue;
+          this.form.searchValue +
+          this.form.captureSku +
+          this.form.colorValue +
+          this.form.quantityValue;
       }
     },
     handleBlur() {
@@ -712,7 +715,10 @@ export default {
       }).then(res => {
         this.form.captureSku = res.index;
         this.form.autoSku =
-          this.form.captureSku + this.form.colorValue + this.form.quantityValue;
+          this.form.searchValue +
+          this.form.captureSku +
+          this.form.colorValue +
+          this.form.quantityValue;
       });
     },
     handleUpload() {
@@ -736,7 +742,7 @@ export default {
               data: []
             };
             if (this.form.autoSku) {
-              obj.sku = this.form.searchValue + this.form.autoSku;
+              obj.sku = this.form.autoSku;
             } else {
               obj.sku = this.form.sku;
             }
