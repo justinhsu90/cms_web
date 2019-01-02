@@ -743,7 +743,7 @@ export default {
             formData.append("value", value);
             formData.append("token", this.token);
             this.isLoading = true;
-            let url = "http://60.251.57.138:8000/data-server/sku/add";
+            let url = "/sku/add";
             axios({
               url,
               method: "post",

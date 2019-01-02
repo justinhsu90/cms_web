@@ -601,7 +601,7 @@ export default {
           formData.append("value", value);
           formData.append("token", this.token);
           this.isLoading = true;
-          let url = "http://60.251.57.138:8000/data-server/sku/update";
+          let url = "/sku/update";
           axios({
             url,
             method: "post",
