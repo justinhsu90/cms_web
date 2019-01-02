@@ -108,7 +108,9 @@
             <span>SKU</span>
           </template>
           <el-input
-            v-model.trim="form.sku"
+            :value="form.sku"
+            @input="form.sku = $event"
+            @blur="form.sku = form.sku.toUpperCase()"
             class="w50"
           ></el-input>
         </el-form-item>

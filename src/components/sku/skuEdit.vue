@@ -365,7 +365,6 @@ export default {
       form: {
         base64: "",
         imageUrl: "",
-        autoSku: "",
         sku: "",
         newSku: "",
         productName: "",
@@ -433,9 +432,6 @@ export default {
           }
         }
       },
-      autoSkuValidate: {
-        required: true
-      },
       showMessage: true,
       autoShowMessage: true,
       skuShowMessage: true,
@@ -474,7 +470,6 @@ export default {
     this.form.productName = data.productName;
     this.form.newSku = data.newSku;
     this.form.sku = data.sku;
-
     this.form.amazonWidthCM = data.amazonWidthCM;
     this.form.amazonHeightCM = data.amazonHeightCM;
     this.form.amazonWeightKG = data.amazonWeightKG;
@@ -502,27 +497,6 @@ export default {
     this.$watch("form.sku", () => {
       this.formModified = false;
     });
-  },
-  watch: {
-    "form.autoSku"(newVal) {
-      if (newVal) {
-        this.skuValidate.required = false;
-        this.form.sku = "";
-      } else {
-        this.skuValidate.required = true;
-      }
-      this.$nextTick(() => {
-        this.$refs["formItemTwo"].clearValidate();
-      });
-    },
-    "form.sku"(newVal) {
-      if (newVal) {
-        this.autoSkuValidate.required = false;
-        this.form.autoSku = "";
-      } else {
-        this.autoSkuValidate.required = true;
-      }
-    }
   },
   methods: {
     handleBlur() {
@@ -573,18 +547,6 @@ export default {
         this.blob = "";
       });
     },
-    handleAuto() {
-      axios({
-        url: "sku/newindex",
-        method: "post",
-        data: {
-          category: this.searchValue,
-          token: this.token
-        }
-      }).then(res => {
-        this.form.autoSku = res.index;
-      });
-    },
     handleUpload() {
       this.input = document.createElement("input");
       this.input.type = "file";
@@ -603,12 +565,8 @@ export default {
           let value = {
             data: []
           };
-          if (this.form.autoSku) {
-            obj.sku = this.searchValue + this.form.autoSku;
-          } else {
-            obj.sku = this.form.sku;
-          }
 
+          obj.sku = this.form.sku;
           obj.productName = this.form.productName;
           obj.status = this.form.status;
           obj.newSku = this.form.newSku;
@@ -632,7 +590,6 @@ export default {
           obj.declareNameChinese = this.form.declareNameChinese;
           obj.declareNameEnglish = this.form.declareNameEnglish;
           obj.deprecatedSKU = this.form.deprecatedSKU;
-          console.log(this.form.imageUrl);
           if (this.form.imageUrl) {
             obj.imageUrl = this.form.imageUrl;
           } else {
