@@ -17,7 +17,7 @@
     >
     <el-row :gutter="20">
       <el-col class="w-max200">
-        <el-form-item prop="searchValue" :rules="rules">
+        <el-form-item prop="searchValue">
           <el-select
             v-model.trim="form.searchValue"
             placeholder="請選擇"
@@ -42,7 +42,7 @@
         >生成流水號</el-button>
         </el-col>
         <el-col class="w-max200">
-          <el-form-item prop="colorValue" :rules="rules">
+          <el-form-item prop="colorValue">
             <el-select
               v-model="form.colorValue"
               placeholder="請選擇"
@@ -62,7 +62,7 @@
           </el-form-item>
         </el-col>
         <el-col class="w-max200">
-          <el-form-item prop="quantityValue" :rules="rules">
+          <el-form-item prop="quantityValue">
             <el-select
               v-model="form.quantityValue"
               placeholder="請選擇"
@@ -88,20 +88,6 @@
       label-position="left"
       label-width="150px"
     >
-     <el-form-item
-        ref="formItem"
-        :rules="rules"
-        prop="autoSku"
-      >
-        <template slot="label">
-          <span>自動生成SKU流水號</span>
-          <!-- <span class="tip">手動填寫SKU, 自動生成SKU將無效</span> -->
-        </template>
-        <el-input
-          v-model="form.autoSku"
-          style="width:40%"
-        ></el-input>
-      </el-form-item>
       <el-alert
         type="warning"
         show-icon
@@ -151,7 +137,7 @@
       <el-form-item
         label="英文名稱"
         prop="productName"
-        :rules="{required:true}"
+        :rules="{required:true,message:'此項必填'}"
       >
         <el-input
           v-model="form.productName"
@@ -161,7 +147,7 @@
       <el-form-item
         label="中文名稱"
         prop="productNameChinese"
-        :rules="{required:true}"
+        :rules="{required:true,message:'此項必填'}"
       >
         <el-input
           v-model="form.productNameChinese"
@@ -419,7 +405,6 @@ export default {
         quantityValue: "",
         base64: "",
         imageUrl: "",
-        autoSku: "",
         sku: "",
         newSku: "",
         productName: "",
@@ -488,10 +473,6 @@ export default {
         }
       },
       rules: {
-        required: true,
-        message: "此項必填"
-      },
-      autoSkuValidate: {
         required: true,
         message: "此項必填"
       },
@@ -588,34 +569,10 @@ export default {
       this.formModified = false;
     });
   },
-  watch: {
-    "form.autoSku"(newVal) {
-      if (newVal) {
-        this.skuValidate.required = false;
-        this.form.sku = "";
-      } else {
-        this.skuValidate.required = true;
-      }
-      this.$nextTick(() => {
-        this.$refs["formItemTwo"].clearValidate();
-      });
-    },
-    "form.sku"(newVal) {
-      if (newVal) {
-        this.autoSkuValidate.required = false;
-        this.form.autoSku = "";
-      } else {
-        this.autoSkuValidate.required = true;
-      }
-      this.$nextTick(() => {
-        this.$refs["formItem"].clearValidate();
-      });
-    }
-  },
   methods: {
     handleAddSku() {
       if (this.form.captureSku) {
-        this.form.autoSku =
+        this.form.sku =
           this.form.searchValue +
           this.form.captureSku +
           this.form.colorValue +
@@ -715,7 +672,7 @@ export default {
         }
       }).then(res => {
         this.form.captureSku = res.index;
-        this.form.autoSku =
+        this.form.sku =
           this.form.searchValue +
           this.form.captureSku +
           this.form.colorValue +
@@ -742,12 +699,8 @@ export default {
             let value = {
               data: []
             };
-            if (this.form.autoSku) {
-              obj.sku = this.form.autoSku;
-            } else {
-              obj.sku = this.form.sku;
-            }
 
+            obj.sku = this.form.sku;
             obj.productName = this.form.productName;
             obj.status = this.form.status;
             obj.newSku = this.form.newSku;

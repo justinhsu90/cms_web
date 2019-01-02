@@ -632,6 +632,7 @@ export default {
           obj.declareNameChinese = this.form.declareNameChinese;
           obj.declareNameEnglish = this.form.declareNameEnglish;
           obj.deprecatedSKU = this.form.deprecatedSKU;
+          console.log(this.form.imageUrl);
           if (this.form.imageUrl) {
             obj.imageUrl = this.form.imageUrl;
           } else {

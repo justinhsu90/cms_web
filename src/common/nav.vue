@@ -115,15 +115,15 @@ import C from "js-cookie";
 export default {
   data() {
     let nav = _.cloneDeep(navData);
-    let exclude = [
-      {
-        index: "dataAnalysis",
-        label: "儀表板"
-      }
-    ];
-    if (C.get("privilege") == "admin") {
-      nav.unshift(...exclude);
-    }
+    // let exclude = [
+    //   {
+    //     index: "dataAnalysis",
+    //     label: "儀表板"
+    //   }
+    // ];
+    // if (C.get("privilege") == "admin") {
+    //   nav.unshift(...exclude);
+    // }
     return {
       defaultNav: "",
       asideShow: true,

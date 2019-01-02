@@ -585,8 +585,10 @@ export default {
         }
       });
       Promise.all([account, month, all]).then(([account, month, res]) => {
-        this.selectAccountOption = _.cloneDeep(account);
-        this.selectMonthOption = _.cloneDeep(month);
+        this.selectAccountOption = Array.isArray(account)
+          ? _.cloneDeep(account)
+          : [];
+        this.selectMonthOption = Array.isArray(month) ? _.cloneDeep(month) : [];
         let data = [];
         _.each(this.selectMonthOption, v => {
           if (!data.includes(v.year)) {

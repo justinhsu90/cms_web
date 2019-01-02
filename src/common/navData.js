@@ -1,5 +1,9 @@
 const nav = [
   {
+    index: "dataAnalysis",
+    label: "儀表板"
+  },
+  {
     index: "sku",
     label: "產品相關",
     isLevel: true,

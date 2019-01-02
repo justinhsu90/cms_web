@@ -4,7 +4,8 @@ import nav from "@/common/nav";
 import C from "js-cookie";
 import dataAnalysiz from "../router/dataAnalysis";
 let configRouters = [];
-const excludeRouters = ["./index.js", "./dataAnalysis.js"];
+// "./dataAnalysis.js"
+const excludeRouters = ["./index.js"];
 const routers = require.context("./", true, /\.js$/);
 routers.keys().forEach(key => {
   if (excludeRouters.includes(key)) return;
