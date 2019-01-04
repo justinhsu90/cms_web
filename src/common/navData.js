@@ -141,6 +141,10 @@ const nav = [
   {
     index: "wowcherInformCustomerParcelArrival",
     label: "補發信單"
+  },
+  {
+    index: "email",
+    label: "發送郵件"
   }
 ];
 export default nav;
