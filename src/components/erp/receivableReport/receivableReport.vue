@@ -85,6 +85,7 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
+import moment from "moment";
 export default {
   name: "receivableReport",
   extends: wonTableContainer,
@@ -249,8 +250,8 @@ export default {
       if (this.form.platform) {
         data.platform = this.form.platform;
       }
-      data.year = this.form.year;
-      data.month = Number(this.form.month);
+      data.year = moment(this.form.year).format("YYYY");
+      data.month = moment(this.form.month).format("MM");
       data.token = this.token;
       return data;
     },

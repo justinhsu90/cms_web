@@ -5,7 +5,7 @@
         <div class="email-receive__name ibbox">
             <span>收件人：</span> 
         </div>
-        <input class="email-receive__text" type="text">
+        <input class="email-receive__text" type="text" placeholder="輸入對方手機號">
       </div>
       <div class="email-style mt20">
         <div class="email-style__name ibbox">
