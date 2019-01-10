@@ -95,7 +95,7 @@
         class="mb10 w50"
         v-if="isCopy"
       >
-        <small>修改sku，才能进行保存。</small>
+        <small>修改sku，才能保存。</small>
       </el-alert>
       <div style="position:relative">
         <el-form-item
@@ -467,7 +467,7 @@ export default {
             if (rules.test(value)) {
               callback();
             } else {
-              callback(new Error("输入网址不合法"));
+              callback(new Error("輸入網址不合法"));
             }
           } else {
             callback();
@@ -591,7 +591,7 @@ export default {
         };
         this.$refs["img"].onerror = () => {
           this.imageUrlLoad = false;
-          this.$message.error("url地址获取不到图片");
+          this.$message.error("url地址獲取不到圖片");
         };
       });
     },
@@ -621,7 +621,7 @@ export default {
         u8arr[n] = bstr.charCodeAt(n);
       }
       let blob = new Blob([u8arr], { type: mime });
-      this.blobToFile(blob, "图片");
+      this.blobToFile(blob, "圖片");
     },
     blobToFile(theBlob, fileName) {
       theBlob.lastModifiedDate = new Date();

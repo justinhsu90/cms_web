@@ -54,7 +54,7 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            min-width="100"
+            min-width="30"
             label="流水號"
           >  
           <template slot-scope="scope">
@@ -74,43 +74,49 @@
             sortable="custom"
           ></el-table-column> -->
           <el-table-column
-            min-width="100"
+            min-width="90"
             label="SKU"
             prop="sku"
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="100"
+            min-width="220"
             label="品名"
             prop="productName"
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="120"
-            label="目前可售庫存"
+            min-width="70"
+            label="可售庫存"
             prop="currentStock"
             sortable="custom"
           ></el-table-column>
+           <el-table-column
+            min-width="70"
+            label="銷售天數"
+            prop="estimatedSaleDays"
+            sortable="custom"
+          ></el-table-column>
           <el-table-column
-            min-width="120"
+            min-width="70"
             label="建議補貨數量"
             prop="restockQuantity"
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="100"
+            min-width="60"
             label="7天銷量"
             prop="sold7days"
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="100"
+            min-width="60"
             label="15天銷量"
             prop="sold15days"
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="100"
+            min-width="60"
             label="30天銷量"
             prop="sold30days"
             sortable="custom"

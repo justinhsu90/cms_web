@@ -49,15 +49,15 @@
         <el-row>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column type="selection" width="55"> </el-table-column>
-                    <el-table-column width="50" label="國家" prop="country"></el-table-column>
-                    <el-table-column width="70" label="重量" prop="parcelWeight">
+                    <el-table-column type="selection" width="30"> </el-table-column>
+                    <el-table-column width="60" label="國家" prop="country"></el-table-column>
+                    <el-table-column width="80" label="重量" prop="parcelWeight">
                            <template slot-scope="scope">
                            {{scope.row.parcelWeight}}kg
                           </template>
 
                     </el-table-column>
-                    <el-table-column min-width="50" label="貨代" prop="agent">
+                    <el-table-column min-width="30" label="貨代" prop="agent">
                         <template slot-scope="{row}">
                             <el-select v-model="row.agent" @change="handleChange(row)">
                                 <el-option v-for="(v,i) in methodAgent(row)" :key="i" :label="v" :value="v"></el-option>

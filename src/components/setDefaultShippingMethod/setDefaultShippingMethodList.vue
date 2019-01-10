@@ -55,7 +55,7 @@
                           </template>
 
                     </el-table-column>
-                    <el-table-column min-width="50" label="貨代" prop="agent">
+                    <el-table-column min-width="30" label="貨代" prop="agent">
                         <template slot-scope="{row}">
                             <el-select v-model="row.agent" @change="handleChange(row)">
                                 <el-option v-for="(v,i) in methodAgent(row)" :key="i" :label="v" :value="v"></el-option>

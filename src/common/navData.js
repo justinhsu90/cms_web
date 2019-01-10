@@ -4,6 +4,10 @@ const nav = [
     label: "儀表板"
   },
   {
+    index: "excelUpload",
+    label: "表格匯入"
+  },
+  {
     index: "sku",
     label: "產品相關",
     isLevel: true,
@@ -24,21 +28,21 @@ const nav = [
   },
   {
     index: "shipment",
-    label: "做單及出貨",
+    label: "做單&出貨",
     isLevel: true,
     child: [
       // {
       //     index: "shipment",
       //     label: "舊小包做單"
       // },
-      {
-        index: "single",
-        label: "小包做單 (CKE only)"
-      },
-      {
-        index: "excelUpload",
-        label: "表格匯入"
-      },
+      // {
+      //   index: "single",
+      //   label: "小包做單 (CKE only)"
+      // },
+      // {
+      //   index: "excelUpload",
+      //   label: "表格匯入"
+      // },
       {
         index: "shipping",
         label: "貨代出貨清單"
@@ -54,48 +58,17 @@ const nav = [
     ]
   },
   {
-    index: "platformSales",
-    label: "各平台銷售表"
-  },
-  {
-    index: "orderList",
-    label: "訂單查詢"
-  },
-  {
-    index: "replacement",
-    label: "補發清單"
-  },
-  {
-    index: "scriptExecutionList",
-    label: "執行清單"
-  },
-  {
-    index: "gzwarehouseList",
-    label: "快遞簽收訊息"
-  },
-  {
-    index: "Amazon",
-    label: "Amazon",
+    index: "salesAndOrder",
+    label: "訂單&銷售",
     isLevel: true,
     child: [
       {
-        index: "restockCount",
-        label: "補貨計算"
-      }
-    ]
-  },
-  {
-    index: "wowcher",
-    label: "Wowcher",
-    isLevel: true,
-    child: [
-      {
-        index: "wowcherDealList",
-        label: "上架清單"
+        index: "orderList",
+        label: "訂單查詢"
       },
-      {
-        index: "wowcherSample",
-        label: "樣品清單"
+       {
+        index: "platformSales",
+        label: "各平台銷售表"
       }
     ]
   },
@@ -122,7 +95,7 @@ const nav = [
       // },
       {
         index: "putStorage",
-        label: "(3-1) 入庫單"
+        label: "(3) 入庫單"
       },
       {
         index: "erpSale",
@@ -139,12 +112,80 @@ const nav = [
     ]
   },
   {
-    index: "wowcherInformCustomerParcelArrival",
-    label: "補發信單"
+    index: "Amazon",
+    label: "Amazon",
+    isLevel: true,
+    child: [
+      {
+        index: "restockCount",
+        label: "補貨計算"
+      },
+      {
+        index: "salesPerformance",
+        label: "銷售表現及週期"
+      }
+    ]
   },
   {
-    index: "email",
-    label: "發送郵件"
+    index: "wowcher",
+    label: "Wowcher",
+    isLevel: true,
+    child: [
+      {
+        index: "wowcherDealList",
+        label: "上架清單"
+      },
+      {
+        index: "wowcherSample",
+        label: "樣品清單"
+      }
+    ]
+  },
+  {
+    index: "gogroopie",
+    label: "Gogroopie",
+    isLevel: true,
+    child: [
+      {
+        index: "gogroopieDealList",
+        label: "上架清單"
+      }
+    ]
+  },
+  {
+    index: "scriptExecutionList",
+    label: "執行"
+  },
+  {
+    index: "guangzhouWarehouse",
+    label: "廣州相關",
+    isLevel: true,
+    child: [
+      {
+        index: "gzwarehouseList",
+        label: "快遞簽收訊息"
+      }
+    ]
+  },
+  {
+    index: "customerService",
+    label: "客服&信件",
+    isLevel: true,
+    child: [
+      {
+        index: "wowcherInformCustomerParcelArrival",
+        label: "補發信單"
+      },
+      {
+        index: "replacement",
+        label: "補發清單"
+      }
+    ]
   }
+  // ,
+  // {
+  //   index: "email",
+  //   label: "發送郵件"
+  // }
 ];
 export default nav;
