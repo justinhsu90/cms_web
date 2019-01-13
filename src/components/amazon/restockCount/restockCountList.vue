@@ -4,7 +4,7 @@
       <el-col :span="24">
         <el-input
           class="w-max200 ibbox"
-          placeholder="搜索" 
+          placeholder="搜索"
           v-model="fetchOption.where"
           @keyup.enter.native="handleSearch"
         >
@@ -38,28 +38,38 @@
                             <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span> -->
           </el-option>
         </el-select>
+        <!-- <el-checkbox></el-checkbox> -->
         <div
           @click="handleSearch"
           class="el-input-group__append search"
         >
           <i class="el-icon-search"></i>
         </div>
+        <div class="fr">
+          <el-checkbox-group
+            size="medium"
+            v-model="checkbox"
+          >
+            <el-checkbox-button :label="1">需補貨</el-checkbox-button>
+            <el-checkbox-button :label="2">圖片</el-checkbox-button>
+          </el-checkbox-group>
+        </div>
       </el-col>
       <el-col class="mt5">
+        <!-- v-loading="isTableLoading" -->
         <el-table
           ref="wonTable"
           :max-height="maxHeight"
           :data="tableData"
-          v-loading="isTableLoading"
           @sort-change="handleSortChange"
         >
           <el-table-column
             min-width="30"
             label="流水號"
-          >  
-          <template slot-scope="scope">
+          >
+            <template slot-scope="scope">
               {{scope.$index++}}
-          </template>
+            </template>
           </el-table-column>
           <!-- <el-table-column
             min-width="100"
@@ -80,7 +90,7 @@
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="220"
+            min-width="120"
             label="品名"
             prop="productName"
             sortable="custom"
@@ -91,7 +101,7 @@
             prop="currentStock"
             sortable="custom"
           ></el-table-column>
-           <el-table-column
+          <el-table-column
             min-width="70"
             label="銷售天數"
             prop="estimatedSaleDays"
@@ -121,6 +131,21 @@
             prop="sold30days"
             sortable="custom"
           ></el-table-column>
+          <el-table-column
+            width="80"
+            label="圖片"
+            v-if="checkbox.includes(2)"
+          >
+            <template slot-scope="{row}">
+              <img
+                width="50"
+                height="50"
+                style="cursor:pointer"
+                :src="row.imageUrl"
+                @click="handleShowDialog(row.imageUrl)"
+              >
+            </template>
+          </el-table-column>
         </el-table>
       </el-col>
       <won-pagination
@@ -128,6 +153,9 @@
         v-on="paginationListeners"
       >
       </won-pagination>
+      <el-dialog title="圖片" :modal="false" :visible.sync="dialogVisible" width="30%">
+                <img width="100%" :src="imageURL">
+        </el-dialog>
     </el-row>
   </div>
 </template>
@@ -137,6 +165,9 @@ export default {
   extends: wonTableContainer,
   data() {
     return {
+      dialogVisible: false,
+      imageURL: "",
+      checkbox: [1],
       tableData: [],
       condition: ["1", "3"],
       searchAccount: "DalTech",
@@ -177,6 +208,18 @@ export default {
     });
   },
   methods: {
+    handleShowDialog(url) {
+      this.dialogVisible = true;
+      this.imageURL = url;
+    },
+    handleSortChange(row) {
+      if (row.order == "ascending") {
+        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["asc"]);
+      }
+      if (row.order == "descending") {
+        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["desc"]);
+      }
+    },
     handleCondition(sign) {
       if (sign == "acc") {
         if (!this.searchAccount) {
@@ -214,6 +257,10 @@ export default {
       if (this.condition.includes("3")) {
         data.country = this.searchCountry;
       }
+
+      if (this.checkbox.includes("1")) {
+        data.restock = true;
+      }
       this.fetchTableData(data);
     }, 500),
     handleEdit(val) {
@@ -234,10 +281,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-.el-table th {
-  color: #62717e;
-  background: rgb(237, 241, 245);
-  text-align: center;
-}
-</style>
