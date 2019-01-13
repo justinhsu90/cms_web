@@ -24,7 +24,7 @@
               <el-input v-model="data.orderId"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <el-form-item label="訂單狀態">
               <el-input v-model="data.orderStatus"></el-input>
             </el-form-item>
@@ -66,6 +66,16 @@
               <el-input  v-model="data.shippingFeeCurrency"></el-input>
             </el-form-item>
           </el-col>
+           <el-col :span="3">
+            <el-form-item label="出貨重量">
+              <el-input  v-model="data.parcelWeight"></el-input>
+            </el-form-item>
+          </el-col>
+           <el-col :span="3">
+            <el-form-item label="出貨重量單位">
+              <el-input  v-model="data.parcelWeightUnit"></el-input>
+            </el-form-item>
+          </el-col>
           </el-row>
         <h3>物流訊息</h3>
         <el-row :gutter="24">
@@ -105,7 +115,8 @@ export default {
         platformOrderId: "",
         productName: "",
         shipoutTime: "",
-
+        parcelWeight: "",
+        parcelWeightUnit: "",
         shippingFee: "",
         shippingFeeCurrency: "",
         shippingMethod: "",
