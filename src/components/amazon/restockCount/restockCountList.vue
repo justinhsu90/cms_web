@@ -34,11 +34,11 @@
             :label="v"
             :value="v"
           >
-            <!-- <span style="float: left">{{ v.countryCode }}</span>
-                            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span> -->
           </el-option>
         </el-select>
-        <!-- <el-checkbox></el-checkbox> -->
+        <el-checkbox v-model="replenishment" @click="handleSearch">
+          需補貨
+        </el-checkbox>
         <div
           @click="handleSearch"
           class="el-input-group__append search"
@@ -50,7 +50,6 @@
             size="medium"
             v-model="checkbox"
           >
-            <el-checkbox-button :label="1">需補貨</el-checkbox-button>
             <el-checkbox-button :label="2">圖片</el-checkbox-button>
           </el-checkbox-group>
         </div>
@@ -153,9 +152,17 @@
         v-on="paginationListeners"
       >
       </won-pagination>
-      <el-dialog title="圖片" :modal="false" :visible.sync="dialogVisible" width="30%">
-                <img width="100%" :src="imageURL">
-        </el-dialog>
+      <el-dialog
+        title="圖片"
+        :modal="false"
+        :visible.sync="dialogVisible"
+        width="30%"
+      >
+        <img
+          width="100%"
+          :src="imageURL"
+        >
+      </el-dialog>
     </el-row>
   </div>
 </template>
@@ -166,8 +173,9 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      replenishment: true,
       imageURL: "",
-      checkbox: [1],
+      checkbox: [],
       tableData: [],
       condition: ["1", "3"],
       searchAccount: "DalTech",
@@ -258,7 +266,7 @@ export default {
         data.country = this.searchCountry;
       }
 
-      if (this.checkbox.includes("1")) {
+      if (this.replenishment) {
         data.restock = true;
       }
       this.fetchTableData(data);

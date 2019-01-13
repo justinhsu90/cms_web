@@ -485,16 +485,16 @@
     </el-row>
     <br>
     <el-row>
-    <el-card>
-      <calendar
-        v-loading="calendarLoading"
-        locale="zh-cn"
-        :value="calendarValue"
-        @changeMonth="changeMonth"
-        @dayClick="dayClick"
-      >
-        
-      </calendar>
+      <el-card>
+        <calendar
+          v-loading="calendarLoading"
+          locale="zh-cn"
+          :value="calendarValue"
+          @changeMonth="changeMonth"
+          @dayClick="dayClick"
+        >
+
+        </calendar>
       </el-card>
     </el-row>
     <el-button

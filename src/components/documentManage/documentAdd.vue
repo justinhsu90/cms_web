@@ -1,385 +1,715 @@
 <template>
-<div id="edit">
-    <div style="padding:20px"> 
-    <div class="heade">
-      <i class="el-icon-arrow-left"></i>
-      <a href="javascript:void(0)" @click="goBack">返回</a>
-    </div>
-    <br>
-    <h2>新增文案</h2>
-    <br> 
-    <el-form ref="form" :model="data" label-position="top"  v-loading="!loading">
-      <el-row :gutter="20"> 
-        <el-col :span="12">
-          <el-form-item label="SKU" class="el-form-left">
-            <el-input v-model="data.SKU"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="啟用" class="el-form-left">
-            <el-switch  style="margin-top:9px" v-model="data.Enable"></el-switch>
-          </el-form-item>
-        </el-col>
-      </el-row>
+  <div id="edit">
+    <div style="padding:20px">
+      <div class="heade">
+        <i class="el-icon-arrow-left"></i>
+        <a
+          href="javascript:void(0)"
+          @click="goBack"
+        >返回</a>
+      </div>
+      <br>
+      <h2>新增文案</h2>
+      <br>
+      <el-form
+        ref="form"
+        :model="data"
+        label-position="top"
+        v-loading="!loading"
+      >
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item
+              label="SKU"
+              class="el-form-left"
+            >
+              <el-input v-model="data.SKU"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              label="啟用"
+              class="el-form-left"
+            >
+              <el-switch
+                style="margin-top:9px"
+                v-model="data.Enable"
+              ></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="5">
-            <el-form-item label="帳號" class="el-form-left">
-               <el-select  clearable  filterable allow-create v-model="data.Account" >
-                <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
-            </el-select>
+            <el-form-item
+              label="帳號"
+              class="el-form-left"
+            >
+              <el-select
+                clearable
+                filterable
+                allow-create
+                v-model="data.Account"
+              >
+                <el-option
+                  v-for="(v,i) in searchAccountOption"
+                  :key="'acc'+i"
+                  :label="v.account"
+                  :value="v.account"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="平台" class="el-form-left">
-               <el-select clearable  filterable allow-create v-model="data.Platform">
-                <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v.platform" :value="v.platform"></el-option>
-            </el-select>
+            <el-form-item
+              label="平台"
+              class="el-form-left"
+            >
+              <el-select
+                clearable
+                filterable
+                allow-create
+                v-model="data.Platform"
+              >
+                <el-option
+                  v-for="(v,i) in searchPlatformOption"
+                  :key="'plat'+i"
+                  :label="v.platform"
+                  :value="v.platform"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="替换字 1" class="el-form-left">
-                <el-input v-model="data.ReplaceWordValue1"></el-input>
+            <el-form-item
+              label="替换字 1"
+              class="el-form-left"
+            >
+              <el-input v-model="data.ReplaceWordValue1"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="替換值 1" class="el-form-left">
-               <el-input v-model="data.ReplaceWordKey1"></el-input>
+            <el-form-item
+              label="替換值 1"
+              class="el-form-left"
+            >
+              <el-input v-model="data.ReplaceWordKey1"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="國家" class="el-form-left"> 
-               <el-select clearable  filterable allow-create v-model="data.Country">
-               <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese" >
-                   <span style="float: left">{{ v.countryCode }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+            <el-form-item
+              label="國家"
+              class="el-form-left"
+            >
+              <el-select
+                clearable
+                filterable
+                allow-create
+                v-model="data.Country"
+              >
+                <el-option
+                  v-for="(v,i) in searchCountryOption"
+                  :key="'country'+i"
+                  :label="v.countryCode"
+                  :value="v.countryNameChinese"
+                >
+                  <span style="float: left">{{ v.countryCode }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
                 </el-option>
-            </el-select>
+              </el-select>
             </el-form-item>
           </el-col>
-         <el-col :span="5">
-            <el-form-item label="語言" class="el-form-left">
-               <el-select clearable  filterable allow-create v-model="data.Language">
-                <el-option v-for="(v,i) in searchLanguageOption" :key="'languate'+i" :value="v.languageName">
+          <el-col :span="5">
+            <el-form-item
+              label="語言"
+              class="el-form-left"
+            >
+              <el-select
+                clearable
+                filterable
+                allow-create
+                v-model="data.Language"
+              >
+                <el-option
+                  v-for="(v,i) in searchLanguageOption"
+                  :key="'languate'+i"
+                  :value="v.languageName"
+                >
                   <span style="float: left">{{ v.languageCode }}</span>
-                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.languageName }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ v.languageName }}</span>
                 </el-option>
-            </el-select>
-            </el-form-item>
-          </el-col>
-           <el-col :span="5">
-              <el-form-item label="替換字 2" class="el-form-left">
-               <el-input v-model="data.ReplaceWordValue2"></el-input>
-            </el-form-item>
-          </el-col>
-           
-          <el-col :span="8">
-              <el-form-item label="替換值 2" class="el-form-left">
-               <el-input v-model="data.ReplaceWordKey2"></el-input>
-            </el-form-item>
-          </el-col>
-           <el-col :span="5">
-            <el-form-item label="品牌" class="el-form-left">
-               <el-select  clearable  filterable allow-create v-model="data.Brand">
-               <el-option v-for="(v,i) in searchBrandOption" :key="'brand'+i" :label="v.brand" :value="v.brand"></el-option>
-            </el-select>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="製造商" class="el-form-left">
-               <el-select clearable  filterable allow-create v-model="data.Manufacturer">
-                <el-option v-for="(v,i) in searchManufacturerOption" :key="'mau'+i" :label="v.manufacturer" :value="v.manufacturer"></el-option>
-            </el-select>
+            <el-form-item
+              label="替換字 2"
+              class="el-form-left"
+            >
+              <el-input v-model="data.ReplaceWordValue2"></el-input>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+            <el-form-item
+              label="替換值 2"
+              class="el-form-left"
+            >
+              <el-input v-model="data.ReplaceWordKey2"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="替換字 3" class="el-form-left">
-               <el-input v-model="data.ReplaceWordValue3"></el-input>
+            <el-form-item
+              label="品牌"
+              class="el-form-left"
+            >
+              <el-select
+                clearable
+                filterable
+                allow-create
+                v-model="data.Brand"
+              >
+                <el-option
+                  v-for="(v,i) in searchBrandOption"
+                  :key="'brand'+i"
+                  :label="v.brand"
+                  :value="v.brand"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
-          
+          <el-col :span="5">
+            <el-form-item
+              label="製造商"
+              class="el-form-left"
+            >
+              <el-select
+                clearable
+                filterable
+                allow-create
+                v-model="data.Manufacturer"
+              >
+                <el-option
+                  v-for="(v,i) in searchManufacturerOption"
+                  :key="'mau'+i"
+                  :label="v.manufacturer"
+                  :value="v.manufacturer"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item
+              label="替換字 3"
+              class="el-form-left"
+            >
+              <el-input v-model="data.ReplaceWordValue3"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="8">
-          <el-form-item label="替換值 3" class="el-form-left">
-               <el-input v-model="data.ReplaceWordKey3"></el-input>
+            <el-form-item
+              label="替換值 3"
+              class="el-form-left"
+            >
+              <el-input v-model="data.ReplaceWordKey3"></el-input>
             </el-form-item>
           </el-col>
-       </el-row>
-       <hr>
-       <br>
-       <h2>標題</h2>
-       <br>
-       <el-row :gutter="20">
-         <el-col :span="24">
-             <el-form-item class="label" label="產品標題">
+        </el-row>
+        <hr>
+        <br>
+        <h2>標題</h2>
+        <br>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="產品標題"
+            >
               <template slot="label">
-                  <span>產品標題</span>
-                  <span style="float:right">{{data.Title.length}}字符</span>
+                <span>產品標題</span>
+                <span style="float:right">{{data.Title.length}}字符</span>
               </template>
               <el-input v-model="data.Title"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-           <el-col :span="12">
-             <el-form-item class="label" label="購物車短標題">
+          <el-col :span="12">
+            <el-form-item
+              class="label"
+              label="購物車短標題"
+            >
               <template slot="label">
-                  <span>購物車短標題</span>
-                  <span style="float:right">{{data.cartShortTitle.length}}字符</span>
+                <span>購物車短標題</span>
+                <span style="float:right">{{data.cartShortTitle.length}}字符</span>
               </template>
               <el-input v-model="data.cartShortTitle"> </el-input>
-              </el-form-item>
-          </el-col>  
-       </el-row>
-       <el-row>
-        <el-button size="small" type="success" @click="handleTitlePreview">點擊預覽</el-button>
-       </el-row>
-       <br> 
-       <hr>
-       <br>
-       <h2>Bullet Point</h2>
-       <br>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-button
+            size="small"
+            type="success"
+            @click="handleTitlePreview"
+          >點擊預覽</el-button>
+        </el-row>
+        <br>
+        <hr>
+        <br>
+        <h2>Bullet Point</h2>
+        <br>
         <el-row :gutter="20">
           <el-col :span="24">
-             <el-form-item class="label" label="Bullet Point 1">
+            <el-form-item
+              class="label"
+              label="Bullet Point 1"
+            >
               <template slot="label">
-                  <span>Bullet Point 1</span>
-                  <span style="float:right">{{data.BulletPoint1.length}}字符</span>
+                <span>Bullet Point 1</span>
+                <span style="float:right">{{data.BulletPoint1.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint1"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-           <el-col :span="24">
-             <el-form-item class="label" label="Bullet Point 2">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="Bullet Point 2"
+            >
               <template slot="label">
-                  <span>Bullet Point 2</span>
-                  <span style="float:right">{{data.BulletPoint2.length}}字符</span>
+                <span>Bullet Point 2</span>
+                <span style="float:right">{{data.BulletPoint2.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint2"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-           <el-col :span="24">
-             <el-form-item class="label" label="Bullet Point 3">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="Bullet Point 3"
+            >
               <template slot="label">
-                  <span>Bullet Point 3</span>
-                  <span style="float:right">{{data.BulletPoint3.length}}字符</span>
+                <span>Bullet Point 3</span>
+                <span style="float:right">{{data.BulletPoint3.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint3"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-           <el-col :span="24">
-             <el-form-item class="label" label="Bullet Point 4">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="Bullet Point 4"
+            >
               <template slot="label">
-                  <span>Bullet Point 4</span>
-                  <span style="float:right">{{data.BulletPoint4.length}}字符</span>
+                <span>Bullet Point 4</span>
+                <span style="float:right">{{data.BulletPoint4.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint4"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
           <el-col :span="24">
-             <el-form-item class="label" label="Bullet Point 5">
+            <el-form-item
+              class="label"
+              label="Bullet Point 5"
+            >
               <template slot="label">
-                  <span>Bullet Point 5</span>
-                  <span style="float:right">{{data.BulletPoint5.length}}字符</span>
+                <span>Bullet Point 5</span>
+                <span style="float:right">{{data.BulletPoint5.length}}字符</span>
               </template>
               <el-input v-model="data.BulletPoint5"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-       </el-row>
-       <el-row>
-       <el-button  style="margin-bottom:10px" size="small" type="success" @click="handleBulletPointPreview">點擊預覽</el-button>
-       </el-row>
-       <br> 
-       <hr>
-       <br> 
-       <h2>Description</h2>
-       <br> 
-         <el-row :gutter="20"> 
-          <el-col :span="24">
-            <el-form-item  class="label" label="Short Description">
-              <template slot="label">
-                  <span>Short Description</span>
-                  <span style="float:right">{{data.shortDescription.length}}字符</span>
-              </template>
-                <tinymce v-if="loading&&selectTinymce==2" v-model="data.shortDescription"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.shortDescription"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.shortDescription"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-          <el-col :span="24" key="1">
-            <el-form-item class="label" label="Description 1">
-              <template slot="label">
-                  <span>Description 1</span>
-                  <span style="float:right">{{data.Description1.length}}字符</span>
-              </template>
-                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description1"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description1"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description1"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-          <el-col :span="24" key="2">
-            <el-form-item class="label" label="Description 2">
-              <template slot="label">
-                  <span>Description 2</span>
-                  <span style="float:right">{{data.Description2.length}}字符</span>
-              </template>
-                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description2"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description2"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description2"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-          <el-col :span="24" key="3">
-            <el-form-item class="label" label="Description 3">
-              <template slot="label">
-                  <span>Description 3</span>
-                  <span style="float:right">{{data.Description3.length}}字符</span>
-              </template>
-                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description3"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description3"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description3"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-          <el-col :span="24" key="4">
-            <el-form-item class="label" label="Description 4">
-              <template slot="label">
-                  <span>Description 4</span>
-                  <span style="float:right">{{data.Description4.length}}字符</span>
-              </template>
-                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description4"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description4"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description4"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-          <el-col :span="24" key="5">
-            <el-form-item class="label" label="Description 5">
-              <template slot="label">
-                  <span>Description 5</span>
-                  <span style="float:right">{{data.Description5.length}}字符</span>
-              </template>
-                <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description5"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description5"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description5"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-          <el-col :span="24" key="6">
-            <el-form-item class="label" label="Description 6">
-              <template slot="label">
-                  <span>Description 6</span>
-                  <span style="float:right">{{data.Description6.length}}字符</span>
-              </template>
-               <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description6"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description6"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description6"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-          <el-col :span="24" key="7">
-            <el-form-item class="label" label="Description 7">
-              <template slot="label">
-                  <span>Description 7</span>
-                  <span style="float:right">{{data.Description7.length}}字符</span>
-              </template>
-               <tinymce v-if="loading&&selectTinymce==2" v-model="data.Description7"></tinymce>
-                <minTinymce v-if="loading&&selectTinymce==1" v-model="data.Description7"></minTinymce>
-                <smallTinymce v-if="loading&&selectTinymce==3" v-model="data.Description7"></smallTinymce>
-              </el-form-item>   
-          </el-col>
-       </el-row>
-       <el-row>
-        <el-button  size="small" type="success" @click="handlePreview">點擊預覽</el-button>
-        <el-button style="margin-left:20px" size="small" type="success" @click="handleCheck">查看源码</el-button>
-        <el-select style="margin-left:16px" v-model="selectTinymce">
-            <el-option v-for="(v,i) in selectTinymceOption" :key="i" :label="v.label" :value="v.value"></el-option>
-        </el-select>
         </el-row>
-       <br>
-       <hr>
-       <br>
-       <h2>關鍵字</h2>
-       <br>
-     <el-row :gutter="24">
-          <el-col :span="24" >
-            <el-form-item class="label" label="關鍵字 1 (Search Term)">
+        <el-row>
+          <el-button
+            style="margin-bottom:10px"
+            size="small"
+            type="success"
+            @click="handleBulletPointPreview"
+          >點擊預覽</el-button>
+        </el-row>
+        <br>
+        <hr>
+        <br>
+        <h2>Description</h2>
+        <br>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="Short Description"
+            >
               <template slot="label">
-                  <span>關鍵字 1 (Search Term)</span>
-                  <span style="float:right">{{data.Keyword1.length}}字符</span>
+                <span>Short Description</span>
+                <span style="float:right">{{data.shortDescription.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.shortDescription"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.shortDescription"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.shortDescription"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="24"
+            key="1"
+          >
+            <el-form-item
+              class="label"
+              label="Description 1"
+            >
+              <template slot="label">
+                <span>Description 1</span>
+                <span style="float:right">{{data.Description1.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.Description1"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.Description1"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.Description1"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="24"
+            key="2"
+          >
+            <el-form-item
+              class="label"
+              label="Description 2"
+            >
+              <template slot="label">
+                <span>Description 2</span>
+                <span style="float:right">{{data.Description2.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.Description2"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.Description2"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.Description2"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="24"
+            key="3"
+          >
+            <el-form-item
+              class="label"
+              label="Description 3"
+            >
+              <template slot="label">
+                <span>Description 3</span>
+                <span style="float:right">{{data.Description3.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.Description3"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.Description3"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.Description3"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="24"
+            key="4"
+          >
+            <el-form-item
+              class="label"
+              label="Description 4"
+            >
+              <template slot="label">
+                <span>Description 4</span>
+                <span style="float:right">{{data.Description4.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.Description4"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.Description4"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.Description4"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="24"
+            key="5"
+          >
+            <el-form-item
+              class="label"
+              label="Description 5"
+            >
+              <template slot="label">
+                <span>Description 5</span>
+                <span style="float:right">{{data.Description5.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.Description5"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.Description5"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.Description5"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="24"
+            key="6"
+          >
+            <el-form-item
+              class="label"
+              label="Description 6"
+            >
+              <template slot="label">
+                <span>Description 6</span>
+                <span style="float:right">{{data.Description6.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.Description6"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.Description6"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.Description6"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+          <el-col
+            :span="24"
+            key="7"
+          >
+            <el-form-item
+              class="label"
+              label="Description 7"
+            >
+              <template slot="label">
+                <span>Description 7</span>
+                <span style="float:right">{{data.Description7.length}}字符</span>
+              </template>
+              <tinymce
+                v-if="loading&&selectTinymce==2"
+                v-model="data.Description7"
+              ></tinymce>
+              <minTinymce
+                v-if="loading&&selectTinymce==1"
+                v-model="data.Description7"
+              ></minTinymce>
+              <smallTinymce
+                v-if="loading&&selectTinymce==3"
+                v-model="data.Description7"
+              ></smallTinymce>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-button
+            size="small"
+            type="success"
+            @click="handlePreview"
+          >點擊預覽</el-button>
+          <el-button
+            style="margin-left:20px"
+            size="small"
+            type="success"
+            @click="handleCheck"
+          >查看源码</el-button>
+          <el-select
+            style="margin-left:16px"
+            v-model="selectTinymce"
+          >
+            <el-option
+              v-for="(v,i) in selectTinymceOption"
+              :key="i"
+              :label="v.label"
+              :value="v.value"
+            ></el-option>
+          </el-select>
+        </el-row>
+        <br>
+        <hr>
+        <br>
+        <h2>關鍵字</h2>
+        <br>
+        <el-row :gutter="24">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="關鍵字 1 (Search Term)"
+            >
+              <template slot="label">
+                <span>關鍵字 1 (Search Term)</span>
+                <span style="float:right">{{data.Keyword1.length}}字符</span>
               </template>
               <el-input v-model="data.Keyword1"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item class="label" label="關鍵字 2 (Search Term)">
+            <el-form-item
+              class="label"
+              label="關鍵字 2 (Search Term)"
+            >
               <template slot="label">
-                  <span>關鍵字 2 (Search Term)</span>
-                  <span style="float:right">{{data.Keyword2.length}}字符</span>
+                <span>關鍵字 2 (Search Term)</span>
+                <span style="float:right">{{data.Keyword2.length}}字符</span>
               </template>
               <el-input v-model="data.Keyword2"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-          <el-col :span="24" >
-            <el-form-item  class="label" label="關鍵字 3 (Search Term)">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="關鍵字 3 (Search Term)"
+            >
               <template slot="label">
-                  <span>關鍵字 3 (Search Term)</span>
-                  <span style="float:right">{{data.Keyword3.length}}字符</span>
+                <span>關鍵字 3 (Search Term)</span>
+                <span style="float:right">{{data.Keyword3.length}}字符</span>
               </template>
               <el-input v-model="data.Keyword3"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-          <el-col :span="24" >
-            <el-form-item class="label" label="關鍵字 4 (Search Term)">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="關鍵字 4 (Search Term)"
+            >
               <template slot="label">
-                  <span>關鍵字 4 (Search Term)</span>
-                  <span style="float:right">{{data.Keyword4.length}}字符</span>
+                <span>關鍵字 4 (Search Term)</span>
+                <span style="float:right">{{data.Keyword4.length}}字符</span>
               </template>
               <el-input v-model="data.Keyword4"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-          <el-col :span="24" >
-            <el-form-item class="label" label="關鍵字 5 (Search Term)">
+          <el-col :span="24">
+            <el-form-item
+              class="label"
+              label="關鍵字 5 (Search Term)"
+            >
               <template slot="label">
-                  <span>關鍵字 5 (Search Term)</span>
-                  <span style="float:right">{{data.Keyword5.length}}字符</span>
+                <span>關鍵字 5 (Search Term)</span>
+                <span style="float:right">{{data.Keyword5.length}}字符</span>
               </template>
               <el-input v-model="data.Keyword5"> </el-input>
-              </el-form-item>
+            </el-form-item>
           </el-col>
-       </el-row>
-       <hr>
-       <br>
-       <h2>圖片</h2>
-       <br>
-       <el-row>
-        <el-button size="small" type="success" @click="handleUpload">點擊上傳</el-button>
-       </el-row>
-       <br>
-       <el-row :gutter="20">
-          <el-col :span="8" v-for="(item,i) in fileList" :key="'img'+i">
-            <div class="imgcontainer"> 
+        </el-row>
+        <hr>
+        <br>
+        <h2>圖片</h2>
+        <br>
+        <el-row>
+          <el-button
+            size="small"
+            type="success"
+            @click="handleUpload"
+          >點擊上傳</el-button>
+        </el-row>
+        <br>
+        <el-row :gutter="20">
+          <el-col
+            :span="8"
+            v-for="(item,i) in fileList"
+            :key="'img'+i"
+          >
+            <div class="imgcontainer">
               <div style="height:190px">
-              <img  style="max-height:190px;" width="60%" :src="item.base64" alt="">
+                <img
+                  style="max-height:190px;"
+                  width="60%"
+                  :src="item.base64"
+                  alt=""
+                >
               </div>
               <div>
-              <i class="icon el-icon-close" @click="handleClose(i)"></i>
-              <span class="name">&nbsp;{{item.name}}</span>
+                <i
+                  class="icon el-icon-close"
+                  @click="handleClose(i)"
+                ></i>
+                <span class="name">&nbsp;{{item.name}}</span>
               </div>
             </div>
           </el-col>
-       </el-row>
-       <br>
-       <hr>
-       <br>
-       <el-row :gutter="20">
-         <el-col>
-          <el-form-item label="備註">
-            <el-input type="textarea" :rows="4" v-model="data.note"></el-input>
-        </el-form-item>
-        </el-col>
-       </el-row>
-       <el-button @click="submit"  :loading="submitLoading" type="primary" size="large">新增</el-button> 
-    </el-form> 
+        </el-row>
+        <br>
+        <hr>
+        <br>
+        <el-row :gutter="20">
+          <el-col>
+            <el-form-item label="備註">
+              <el-input
+                type="textarea"
+                :rows="4"
+                v-model="data.note"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-button
+          @click="submit"
+          :loading="submitLoading"
+          type="primary"
+          size="large"
+        >新增</el-button>
+      </el-form>
     </div>
-    <wonDialog ref="title" title="标题" :showConfirm="false">
-      <div v-html="titleHtml" slot="content"></div>
-    </wonDialog>    
-    <wonDialog ref="bulletPoint" title="Bullet Point" :showConfirm="false">
-      <div v-html="bulletPointHtml" slot="content"></div>    
-    </wonDialog>         
- </div>     
+    <wonDialog
+      ref="title"
+      title="标题"
+      :showConfirm="false"
+    >
+      <div
+        v-html="titleHtml"
+        slot="content"
+      ></div>
+    </wonDialog>
+    <wonDialog
+      ref="bulletPoint"
+      title="Bullet Point"
+      :showConfirm="false"
+    >
+      <div
+        v-html="bulletPointHtml"
+        slot="content"
+      ></div>
+    </wonDialog>
+  </div>
 </template>
 <script>
 import tinymce from "@/common/tinymce";
