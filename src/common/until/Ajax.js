@@ -18,7 +18,7 @@ axios.interceptors.response.use(response => {
     C.remove("userName");
     C.remove("privilege");
     C.remove("token");
-    window.location = "/";
+    location.href = "/";
   }
   return response.data;
 });
