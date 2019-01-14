@@ -51,12 +51,14 @@
             width="70"
             label="ID"
             prop="id"
+            sortable="custom"
           ></el-table-column>
           <el-table-column
             min-width="70"
             max-width="100"
             label="Sku"
             prop="sku"
+            sortable="custom"
           ></el-table-column>
           <el-table-column
             width="70"
@@ -64,14 +66,16 @@
             prop="addedBy"
           ></el-table-column>
           <el-table-column
-            width="60"
+            width="80"
             label="數量"
             prop="quantity"
+            sortable="custom"
           ></el-table-column>
           <el-table-column
             width="190"
             label="時間"
             prop="takeTime"
+            sortable="custom"
             :formatter="formatToDate"
           ></el-table-column>
           <el-table-column
@@ -179,7 +183,8 @@ export default {
       fetchOption: {
         url: "erp/inventoryTakeStock/search",
         method: "post",
-        where: ""
+        where: "",
+        order: "-takeTime"
       }
     };
   },

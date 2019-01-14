@@ -3,14 +3,14 @@
     <el-row>
       <el-col :span="24">
         <el-input
-          class="w-max200 ibbox"
+          class="w-max200 fl ml5"
           placeholder="搜索"
           v-model="fetchOption.where"
           @keyup.enter.native="handleSearch"
         >
         </el-input>
         <el-select
-          class="w-max150"
+          class="w-max150 fl ml5"
           placeholder="帳號"
           v-model="searchAccount"
           @change="handleCondition('acc')"
@@ -23,7 +23,7 @@
           ></el-option>
         </el-select>
         <el-select
-          class="w-max150"
+          class="w-max150 fl ml5"
           placeholder="國家"
           v-model="searchCountry"
           @change="handleCondition('cou')"
@@ -36,12 +36,14 @@
           >
           </el-option>
         </el-select>
-        <el-checkbox
-          :value="replenishment"
-          @input="replenishment = $event ,handleSearch()"
-        >
-          需補貨
-        </el-checkbox>
+        <el-checkbox-group
+            class="fl ml5"
+            size="medium"
+            :value="checkbox1"
+            @input="checkbox1 = $event ,handleSearch()"
+          >
+          <el-checkbox-button :label="1">需補貨</el-checkbox-button>
+          </el-checkbox-group>
         <div
           @click="handleSearch"
           class="el-input-group__append search"
@@ -50,7 +52,7 @@
         </div>
         <div class="fr">
           <el-checkbox-group
-            size="medium"
+            size="small"
             v-model="checkbox"
           >
             <el-checkbox-button :label="2">圖片</el-checkbox-button>
@@ -185,7 +187,7 @@ export default {
       replenishment: true,
       imageURL: "",
       checkbox: [],
-      tableData: [],
+      checkbox1: [],
       condition: ["1", "3"],
       searchAccount: "DalTech",
       searchAccountOption: ["DalTech"],
