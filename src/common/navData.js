@@ -66,7 +66,7 @@ const nav = [
         index: "orderList",
         label: "訂單查詢"
       },
-       {
+      {
         index: "platformSales",
         label: "各平台銷售表"
       }
@@ -108,6 +108,10 @@ const nav = [
       {
         index: "receivableReport",
         label: "(5-2) 費用應收表"
+      },
+      {
+        index: "erptakestock",
+        label: "(6) 盤點紀錄"
       }
     ]
   },

@@ -10,7 +10,7 @@
                 <el-select class="w-max150" placeholder="商品" v-model="warehouse" @change="handleCondition('warehouse')" clearable>
                     <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
                 </el-select>
-                <el-date-picker class="w-max180" clearable style="width:100%" @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                <el-date-picker class="w-max180" clearable  @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                 </el-date-picker>
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
@@ -217,11 +217,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.el-table th {
-  color: #62717e;
-  background: rgb(237, 241, 245);
-  text-align: center;
-}
-</style>

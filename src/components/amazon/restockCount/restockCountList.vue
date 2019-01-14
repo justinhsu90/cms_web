@@ -36,7 +36,10 @@
           >
           </el-option>
         </el-select>
-        <el-checkbox v-model="replenishment" @click="handleSearch">
+        <el-checkbox
+          :value="replenishment"
+          @input="replenishment = $event ,handleSearch()"
+        >
           需補貨
         </el-checkbox>
         <div
@@ -55,12 +58,12 @@
         </div>
       </el-col>
       <el-col class="mt5">
-        <!-- v-loading="isTableLoading" -->
         <el-table
           ref="wonTable"
           :max-height="maxHeight"
           :data="tableData"
           @sort-change="handleSortChange"
+          v-loading="isTableLoading"
         >
           <el-table-column
             min-width="30"
