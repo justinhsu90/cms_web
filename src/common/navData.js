@@ -119,10 +119,10 @@ const nav = [
       {
         index: "restockCount",
         label: "補貨計算"
-      },
-      {
-        index: "salesPerformance",
-        label: "銷售表現及週期"
+      // },
+      // {
+      //   index: "salesPerformance",
+      //   label: "銷售表現及週期"
       }
     ]
   },

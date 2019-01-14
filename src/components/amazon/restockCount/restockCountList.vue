@@ -89,9 +89,15 @@
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="120"
-            label="品名"
+            min-width="220"
+            label="產品名稱"
             prop="productName"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="150"
+            label="中文產品名稱"
+            prop="productNameChinese"
             sortable="custom"
           ></el-table-column>
           <el-table-column
@@ -103,12 +109,12 @@
           <el-table-column
             min-width="70"
             label="銷售天數"
-            prop="estimatedSaleDays"
+            prop="estimateSaleDays"
             sortable="custom"
           ></el-table-column>
           <el-table-column
             min-width="70"
-            label="建議補貨數量"
+            label="補貨數量"
             prop="restockQuantity"
             sortable="custom"
           ></el-table-column>
