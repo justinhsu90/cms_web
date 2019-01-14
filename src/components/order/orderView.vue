@@ -58,8 +58,13 @@
         </el-row>
         <h3>出貨狀態</h3>
         <el-row :gutter="24">
-          <el-col :span="6">
-            <el-form-item label="發貨時間">
+          <el-col :span="5">
+            <el-form-item label="廣州倉發貨時間">
+              <el-input v-model="data.gzWarehouseShipoutTime"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="貨代發貨時間">
               <el-input v-model="data.shipoutTime"></el-input>
             </el-form-item>
           </el-col>
@@ -68,19 +73,30 @@
               <el-input v-model="data.trackingNo"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="6">
+            <el-form-item label="貨代平台單號">
+              <el-input v-model="data.platformOrderId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
             <el-form-item label="發貨方式">
               <el-input v-model="data.shippingMethod"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <el-form-item label="貨代">
               <el-input v-model="data.agent"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="7">
-            <el-form-item label="貨代平台單號">
-              <el-input v-model="data.platformOrderId"></el-input>
+          
+           <el-col :span="5">
+            <el-form-item label="出貨重量">
+              <el-input v-model="data.parcelWeight"></el-input>
+            </el-form-item>
+          </el-col>
+           <el-col :span="5">
+            <el-form-item label="運費 (RMB)">
+              <el-input v-model="data.shippingCost"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
