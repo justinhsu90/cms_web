@@ -1,5 +1,6 @@
 import axios from "axios";
 import qs from "qs";
+import C from "js-cookie";
 //axios的配置
 // axios.defaults.baseURL = 'http://118.163.10.109:8000/data-server/';
 axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
@@ -12,6 +13,13 @@ axios.interceptors.request.use(request => {
   return request;
 });
 axios.interceptors.response.use(response => {
+  if (response.data.message == "Token is expired") {
+    C.remove("name");
+    C.remove("userName");
+    C.remove("privilege");
+    C.remove("token");
+    window.location = "/";
+  }
   return response.data;
 });
 function Ajax(config = {}) {
