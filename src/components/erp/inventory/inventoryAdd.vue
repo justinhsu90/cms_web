@@ -66,8 +66,11 @@
                         <col v-if="showColumnTwo.includes(form.inventoryType)" width="100">
                         <col v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)" width="100">
                         <col v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)" width="100">
-                        <col v-if="showColumnThree.includes(form.inventoryType)" width="200">
+                        <col v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)" width="200">
                         <col v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)" width="100">
+                        <col v-if="showColumnFour.includes(form.inventoryType)" width="200">
+                        <col v-if="showColumnFour.includes(form.inventoryType)" width="200">
+                        <col v-if="showColumnFive.includes(form.inventoryType)" width="200">
                         <col width="60">
                     </colgroup>
                     <thead>
@@ -76,10 +79,13 @@
                             <th>數量 </th>
                             <th v-if="showColumnTwo.includes(form.inventoryType)">轉入倉庫</th>
                             <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
+                            <th v-if="showColumnFive.includes(form.inventoryType)">物流單號</th>    
                             <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">平台</th>
                             <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">賬號</th>
-                            <th v-if="showColumnThree.includes(form.inventoryType)">收樣方</th>
+                            <th v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">收樣方</th>
                             <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">倉庫</th>
+                            <th v-if="showColumnFour.includes(form.inventoryType)">退貨金額</th>
+                            <th v-if="showColumnFour.includes(form.inventoryType)">採購單號</th>    
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -134,7 +140,28 @@
                                     </el-input>
                                 </el-form-item>
                             </td>
-                            <td v-if="showColumnThree.includes(form.inventoryType)">
+                            <td v-if="showColumnFour.includes(form.inventoryType)">
+                                <el-form-item
+                                >
+                                    <el-input v-model="v.amount">
+                                    </el-input>
+                                </el-form-item>
+                            </td>
+                            <td v-if="showColumnFour.includes(form.inventoryType)">
+                                <el-form-item
+                                >
+                                    <el-input v-model="v.purchaseId">
+                                    </el-input>
+                                </el-form-item>
+                            </td>
+                            <td v-if="showColumnFive.includes(form.inventoryType)">
+                                <el-form-item
+                                >
+                                    <el-input v-model="v.trackingNumber">
+                                    </el-input>
+                                </el-form-item>
+                            </td>
+                            <td v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">
                                 <el-form-item
                                 >
                                     <el-select
@@ -278,7 +305,9 @@ export default {
         platform: "",
         account: "",
         warehouse: "",
-        sampleTo: ""
+        sampleTo: "",
+        amount: "",
+        purchaseId: ""
       });
     },
     getValue() {
@@ -339,6 +368,7 @@ export default {
         this.inventoryTypeOption = _.cloneDeep(type);
         let inventoryData = this.inventoryTypeOption.slice(0, 3);
         inventoryData.push(this.inventoryTypeOption.slice(-1)[0]);
+        inventoryData.push(...this.inventoryTypeOption.slice(6, 8));
         this.inventoryTypeOption = inventoryData;
       }
     );
@@ -351,7 +381,9 @@ export default {
       },
       showColumnOne: ["INVENTORY_SHORTAGE", "INVENTORY_OVERAGE"],
       showColumnTwo: ["TRANSFER"],
-      showColumnThree: ["SAMPLE_OUT"],
+      showColumnThree: ["INVENTORY_OVERAGE"],
+      showColumnFour: ["RETURN_REFUND"],
+      showColumnFive: ["SAMPLE_OUT"],
       inventoryTypeOption: [],
       warehouseOption: [],
       sampleToOption: [],
@@ -398,7 +430,9 @@ export default {
             platform: "",
             account: "",
             warehouse: "",
-            sampleTo: ""
+            sampleTo: "",
+            amount: "",
+            purchaseId: ""
           }
         ]
       },

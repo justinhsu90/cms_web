@@ -186,12 +186,10 @@ export default {
     //     this.searchCurrencyOption = _.cloneDeep(currency);
     //   }
     // );
-     Promise.all([country, currency]).then(
-      ([country, currency]) => {
-        this.searchCountryOption = _.cloneDeep(country.data);
-        this.searchCurrencyOption = _.cloneDeep(currency);
-      }
-    );
+    Promise.all([country, currency]).then(([country, currency]) => {
+      this.searchCountryOption = _.cloneDeep(country.data);
+      this.searchCurrencyOption = _.cloneDeep(currency);
+    });
     let data = JSON.parse(this.$route.query.data);
     this.formData.data[0].country = data.country;
     this.formData.data[0].account = data.account;
