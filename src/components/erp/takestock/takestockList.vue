@@ -10,7 +10,7 @@
         >
         </el-input>
         <el-date-picker
-          class="w-max180"
+          class="w-max200"
           clearable
           @change="handleCondition('date')"
           value-format="yyyy-MM-dd"
@@ -56,13 +56,13 @@
           <el-table-column
             min-width="70"
             max-width="100"
-            label="Sku"
+            label="SKU"
             prop="sku"
             sortable="custom"
           ></el-table-column>
           <el-table-column
             width="70"
-            label="添加人"
+            label="盤點人"
             prop="addedBy"
           ></el-table-column>
           <el-table-column

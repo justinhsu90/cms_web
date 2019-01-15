@@ -148,7 +148,7 @@ export default {
             finalPrice: "",
             salePrice: "",
             country: "",
-            account: "",
+            // account: "",
             startDate: "",
             note: ""
           }
@@ -179,9 +179,15 @@ export default {
       }
     });
 
-    Promise.all([account, country, currency]).then(
-      ([account, country, currency]) => {
-        this.searchAccountOption = _.cloneDeep(account);
+    // Promise.all([account, country, currency]).then(
+    //   ([account, country, currency]) => {
+    //     this.searchAccountOption = _.cloneDeep(account);
+    //     this.searchCountryOption = _.cloneDeep(country.data);
+    //     this.searchCurrencyOption = _.cloneDeep(currency);
+    //   }
+    // );
+     Promise.all([country, currency]).then(
+      ([country, currency]) => {
         this.searchCountryOption = _.cloneDeep(country.data);
         this.searchCurrencyOption = _.cloneDeep(currency);
       }

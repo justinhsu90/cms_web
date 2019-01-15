@@ -12,35 +12,35 @@
             <el-form ref="form" :model="formData" :rules="rules">
                 <el-row :gutter="10">
                     <el-col :span="2">
-                        <el-form-item label="salePlatform" prop="salePlatform">
+                        <el-form-item label="銷貨平台" prop="salePlatform">
                             <el-select v-model="formData.salePlatform">
                                 <el-option v-for="(value,i) in searchPlatformOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="2">
-                        <el-form-item label="saleAccount" prop="saleAccount">
+                        <el-form-item label="銷貨帳號" prop="saleAccount">
                             <el-select v-model="formData.saleAccount">
                                 <el-option v-for="(value,i) in searchAccountOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="2">
-                        <el-form-item label="saleCountry" prop="saleCountry">
+                        <el-form-item label="銷貨國家" prop="saleCountry">
                             <el-select v-model="formData.saleCountry">
                                 <el-option v-for="(value,i) in searchCountryOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="2">
-                        <el-form-item label="currency" prop="currency">
+                        <el-form-item label="幣別" prop="currency">
                             <el-select v-model="formData.currency">
                                 <el-option v-for="(value,i) in searchCurrecyOption" :label="value" :value="value" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="4">
-                        <el-form-item label="saleTime" prop="saleTime">
+                        <el-form-item label="銷貨時間" prop="saleTime">
                             <el-date-picker value-format="yyyy-MM-dd" style="width:100%" v-model="formData.saleTime" type="date" placeholder="選擇日期時間"> </el-date-picker>
                         </el-form-item>
                     </el-col>

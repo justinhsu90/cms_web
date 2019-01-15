@@ -4,11 +4,11 @@
             <el-col :span="22">
                 <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <el-date-picker class="w-max180" clearable v-model="year" type="year" placeholder="选择年" @change="handleChange" value-format="yyyy">
+                <el-date-picker class="w-max180" clearable v-model="year" type="year" placeholder="選擇年" @change="handleChange" value-format="yyyy">
                 </el-date-picker>
-                <el-date-picker class="w-max180" clearable v-model="month" type="month" placeholder="选择月" @change="handleChange" value-format="MM">
+                <el-date-picker class="w-max180" clearable v-model="month" type="month" placeholder="選擇月" @change="handleChange" value-format="MM">
                 </el-date-picker>
-                <el-date-picker class="w-max180" clearable @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                <el-date-picker class="w-max200" clearable @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                 </el-date-picker>
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
@@ -61,14 +61,14 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="账号">
+                        <el-form-item label="帳號">
                             <el-select style="width:100%" v-model="form.account" clearable>
                                 <el-option v-for="(v,i) in searchAccountOption" :label="v" :value="v" :key="i"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="国家">
+                        <el-form-item label="國家">
                             <el-select style="width:100%" v-model="form.country" clearable>
                                 <el-option v-for="(v,i) in searchCountryOption" :value="v.countryNameChinese" :key="i">
                                     <span style="float: left">{{ v.countryCode }}</span>
