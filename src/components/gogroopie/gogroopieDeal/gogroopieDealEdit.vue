@@ -12,11 +12,11 @@
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
           <el-row :gutter="20">
             <el-col :span="4">
-              <el-form-item label="帳號">
+              <!-- <el-form-item label="帳號">
                 <el-select placeholder="帳號" v-model="v.account"  clearable>
                   <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
             </el-col>
             <el-col :span="4">
               <el-form-item label="國家">
@@ -46,11 +46,11 @@
                 <el-input v-model="v.productId"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="5">
+            <!-- <el-col :span="5">
               <el-form-item label="開始日期">
                 <el-date-picker style="width:100%" v-model="v.startDate" type="date" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
-            </el-col>
+            </el-col> -->
             <el-col :span="16">
               <el-form-item label="產品名稱">
                 <el-input v-model="v.productName"></el-input>
@@ -67,12 +67,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="3">
-              <el-form-item label="Wowcher 售價">
+              <el-form-item label="Gogroopie 售價">
                 <el-input v-model="v.salePrice"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="3">
-              <el-form-item label="Wowcher 運費">
+              <el-form-item label="Gogroopie 運費">
                 <el-input v-model="v.shippingCost"></el-input>
               </el-form-item>
             </el-col>
@@ -148,7 +148,7 @@ export default {
             finalPrice: "",
             salePrice: "",
             country: "",
-            account: "",
+            // account: "",
             startDate: "",
             note: ""
           }
@@ -157,13 +157,13 @@ export default {
     };
   },
   created() {
-    let account = axios({
-      url: "/wowcher/deal/value/account",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
+    // let account = axios({
+    //   url: "/gogroopie/deal/value/account",
+    //   method: "post",
+    //   data: {
+    //     token: this.token
+    //   }
+    // });
     let country = axios({
       url: "/wowcher/deal/value/country",
       method: "post",
@@ -179,9 +179,15 @@ export default {
       }
     });
 
-    Promise.all([account, country, currency]).then(
-      ([account, country, currency]) => {
-        this.searchAccountOption = _.cloneDeep(account);
+    // Promise.all([account, country, currency]).then(
+    //   ([account, country, currency]) => {
+    //     this.searchAccountOption = _.cloneDeep(account);
+    //     this.searchCountryOption = _.cloneDeep(country.data);
+    //     this.searchCurrencyOption = _.cloneDeep(currency);
+    //   }
+    // );
+     Promise.all([country, currency]).then(
+      ([country, currency]) => {
         this.searchCountryOption = _.cloneDeep(country.data);
         this.searchCurrencyOption = _.cloneDeep(currency);
       }
@@ -228,7 +234,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/wowcher/deal/update",
+            url: "/gogroopie/deal/update",
             method: "post",
             data: {
               value: this.getValue(),
