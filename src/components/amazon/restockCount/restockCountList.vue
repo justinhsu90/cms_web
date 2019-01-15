@@ -187,7 +187,7 @@ export default {
       replenishment: true,
       imageURL: "",
       checkbox: [],
-      checkbox1: [],
+      checkbox1: [1],
       condition: ["1", "3"],
       searchAccount: "DalTech",
       searchAccountOption: ["DalTech"],
