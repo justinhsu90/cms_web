@@ -1,164 +1,194 @@
 <template>
-    <div class="p20">
-        <div class="goBack">
-            <i class="el-icon-arrow-left"></i>
-            <a
-                href="javascript:void(0)"
-                @click="goBack"
-            >返回</a>
-        </div>
-        <br>
-        <h2>編輯清單</h2>
-        <br>
-        <el-form
-            ref="form"
-            :model="form"
-        >
-        <template v-for="(v,i) in form.data">
-            <el-card class="relative mb20" :key="i">
-                <span class="absolute" style="top:2px;left:10px;">{{i+1}}.</span>
-                <el-button @click="handleRemove(i)" :disabled="form.data.length == 1" type="text" icon="el-icon-close" class="absolute" style="top:0px;right:10px;"></el-button>
-                <el-row :gutter="20">
-                    <el-col :span="6">
-                        <el-form-item
-                            label="Sku"
-                            :rules='rules'
-                            :prop="'data.'+ i + '.sku'"
-                        > 
-                            <el-input v-model="v.sku">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item
-                            label="数量"
-                            :rules='rules'
-                            :prop="'data.'+ i + '.quantity'"
-                        >
-                            <el-input v-model="v.quantity">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item
-                            label="inventoryType"
-                            :rules='rules'
-                            :prop="'data.'+ i + '.inventoryType'"
-                        >
-                            <el-select
-                                placeholder="類型"
-                                v-model="v.inventoryType"
-                                clearable
-                                class="w100"
-                            >
-                                <el-option
-                                    v-for="(v,i) in inventoryTypeOption"
-                                    :key="i"
-                                    :label="v.inventoryTypeName"
-                                    :value="v.inventoryType"
-                                ></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item
-                            label="時間"
-                            :rules='rules'
-                            :prop="'data.'+ i + '.datetime'"
-                        >
-                            <el-date-picker
-                                clearable
-                                v-model="v.datetime"
-                                type="date"
-                                value-format="yyyy-MM-dd"
-                                placeholder="选择日期"
-                                class="w100"
-                            >
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="moveTo" v-if="showColumnTwo.includes(v.inventoryType)"> 
-                            <el-input v-model="v.moveTo">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="moveFrom" v-if="showColumnTwo.includes(v.inventoryType)">
-                            <el-input v-model="v.moveFrom">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6" v-if="showColumnOne.includes(v.inventoryType) || showColumnThree.includes(v.inventoryType) || showColumnTwo.includes(v.inventoryType)">
-                        <el-form-item label="平台">
-                            <el-input v-model="v.platform">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="賬號" v-if="showColumnOne.includes(v.inventoryType) || showColumnThree.includes(v.inventoryType) || showColumnTwo.includes(v.inventoryType)">
-                            <el-input v-model="v.account">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="收樣方" v-if="showColumnThree.includes(v.inventoryType)">
-                            <el-select
-                                placeholder="收樣方"
-                                v-model="v.sampleTo"
-                                clearable
-                                class="w100"
-                            >
-                                <el-option
-                                    v-for="(v,i) in sampleToOption"
-                                    :key="'smaple'+i"
-                                    :value="v.managerName"
-                                >
-                                    <div class="flex-s-a">
-                                        <div class="w33">
-                                            <span>賬號：{{ v.account }}</span>
-                                        </div>
-                                        <div class="w33">
-                                            <span>平台：{{ v.platform }}</span>
-                                        </div>
-                                        <div class="w33">
-                                            <span>管理名稱：{{v.managerName}}</span>
-                                        </div>
-                                    </div>
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6" v-if="showColumnOne.includes(v.inventoryType) || showColumnThree.includes(v.inventoryType)">
-                        <el-form-item label="倉庫">
-                            <el-select
-                                placeholder="倉庫"
-                                v-model="form.warehouse"
-                                clearable
-                                class="w100"
-                            >
-                                <el-option
-                                    v-for="(v,i) in warehouseOption"
-                                    :key="i"
-                                    :label="v"
-                                    :value="v"
-                                ></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-            </el-card>
-        </template>   
-            <el-form-item>
-                <el-button
-                    @click="submit"
-                    :loading="submitLoading"
-                    type="primary"
-                    size="mediumn"
-                >編輯</el-button>
-            </el-form-item>
-        </el-form>
+  <div class="p20">
+    <div class="goBack">
+      <i class="el-icon-arrow-left"></i>
+      <a
+        href="javascript:void(0)"
+        @click="goBack"
+      >返回</a>
     </div>
+    <br>
+    <h2>編輯清單</h2>
+    <br>
+    <el-form
+      ref="form"
+      :model="form"
+    >
+      <template v-for="(v,i) in form.data">
+        <el-card
+          class="relative mb20"
+          :key="i"
+        >
+          <span
+            class="absolute"
+            style="top:2px;left:10px;"
+          >{{i+1}}.</span>
+          <el-button
+            @click="handleRemove(i)"
+            :disabled="form.data.length == 1"
+            type="text"
+            icon="el-icon-close"
+            class="absolute"
+            style="top:0px;right:10px;"
+          ></el-button>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item
+                label="Sku"
+                :rules='rules'
+                :prop="'data.'+ i + '.sku'"
+              >
+                <el-input v-model="v.sku">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item
+                label="数量"
+                :rules='rules'
+                :prop="'data.'+ i + '.quantity'"
+              >
+                <el-input v-model="v.quantity">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item
+                label="inventoryType"
+                :rules='rules'
+                :prop="'data.'+ i + '.inventoryType'"
+              >
+                <el-select
+                  placeholder="類型"
+                  v-model="v.inventoryType"
+                  clearable
+                  class="w100"
+                >
+                  <el-option
+                    v-for="(v,i) in inventoryTypeOption"
+                    :key="i"
+                    :label="v.inventoryTypeName"
+                    :value="v.inventoryType"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item
+                label="時間"
+                :rules='rules'
+                :prop="'data.'+ i + '.datetime'"
+              >
+                <el-date-picker
+                  clearable
+                  v-model="v.datetime"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期"
+                  class="w100"
+                >
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item
+                label="moveTo"
+                v-if="showColumnTwo.includes(v.inventoryType)"
+              >
+                <el-input v-model="v.moveTo">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item
+                label="moveFrom"
+                v-if="showColumnTwo.includes(v.inventoryType)"
+              >
+                <el-input v-model="v.moveFrom">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col
+              :span="6"
+              v-if="showColumnOne.includes(v.inventoryType) || showColumnThree.includes(v.inventoryType) || showColumnTwo.includes(v.inventoryType)"
+            >
+              <el-form-item label="平台">
+                <el-input v-model="v.platform">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item
+                label="賬號"
+                v-if="showColumnOne.includes(v.inventoryType) || showColumnThree.includes(v.inventoryType) || showColumnTwo.includes(v.inventoryType)"
+              >
+                <el-input v-model="v.account">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item
+                label="收樣方"
+                v-if="showColumnThree.includes(v.inventoryType)"
+              >
+                <el-select
+                  placeholder="收樣方"
+                  v-model="v.sampleTo"
+                  clearable
+                  class="w100"
+                >
+                  <el-option
+                    v-for="(v,i) in sampleToOption"
+                    :key="'smaple'+i"
+                    :value="v.managerName"
+                    style="width:450px;"
+                  >
+                    <div class="w45 ibbox">
+                      經理名稱:{{v.managerName}}
+                    </div>
+                    <div class="w30 ibbox">
+                      平台:{{ v.platform }}
+                    </div>
+                    <div class="w15 ibbox">
+                      賬號:{{ v.account }}
+                    </div>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col
+              :span="6"
+              v-if="showColumnOne.includes(v.inventoryType) || showColumnThree.includes(v.inventoryType)"
+            >
+              <el-form-item label="倉庫">
+                <el-select
+                  placeholder="倉庫"
+                  v-model="form.warehouse"
+                  clearable
+                  class="w100"
+                >
+                  <el-option
+                    v-for="(v,i) in warehouseOption"
+                    :key="i"
+                    :label="v"
+                    :value="v"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-card>
+      </template>
+      <el-form-item>
+        <el-button
+          @click="submit"
+          :loading="submitLoading"
+          type="primary"
+          size="mediumn"
+        >編輯</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>

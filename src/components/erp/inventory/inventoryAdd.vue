@@ -1,242 +1,279 @@
 <template>
-    <div class="p20">
-        <div class="goBack">
-            <i class="el-icon-arrow-left"></i>
-            <a
-                href="javascript:void(0)"
-                @click="goBack"
-            >返回</a>
-        </div>
-        <br>
-        <h2>新增清單</h2>
-        <br>
-        <el-form
-            ref="form"
-            :model="form"
-        >
-            <el-row :gutter="20" class="mb10">
-                <el-col :span="6">
-                    <el-form-item
-                        label="庫存異動類型"
-                        :rules='rules'
-                        prop="inventoryType"
-                    >
-                        <el-select
-                            placeholder="類型"
-                            v-model="form.inventoryType"
-                            clearable
-                            class="w100"
-                        >
-                            <el-option
-                                v-for="(v,i) in inventoryTypeOption"
-                                :key="i"
-                                :label="v.inventoryTypeName"
-                                :value="v.inventoryType"
-                            ></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item
-                        label="時間"
-                        :rules='rules'
-                        prop="datetime"
-                    >
-                        <el-date-picker
-                            clearable
-                            v-model="form.datetime"
-                            type="date"
-                            value-format="yyyy-MM-dd"
-                            placeholder="選擇日期"
-                            class="w100"
-                        >
-                        </el-date-picker>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <div id="table">
-                <table
-                    cellspacing="0"
-                    cellpadding="0"
-                >
-                    <colgroup>
-                        <col width="100">
-                        <col width="100">
-                        <col v-if="showColumnTwo.includes(form.inventoryType)" width="100">
-                        <col v-if="showColumnTwo.includes(form.inventoryType)" width="100">
-                        <col v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)" width="100">
-                        <col v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)" width="100">
-                        <col v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)" width="200">
-                        <col v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)" width="100">
-                        <col v-if="showColumnFour.includes(form.inventoryType)" width="200">
-                        <col v-if="showColumnFour.includes(form.inventoryType)" width="200">
-                        <col v-if="showColumnFive.includes(form.inventoryType)" width="200">
-                        <col width="60">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>SKU </th>
-                            <th>數量 </th>
-                            <th v-if="showColumnTwo.includes(form.inventoryType)">轉入倉庫</th>
-                            <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
-                            <th v-if="showColumnFive.includes(form.inventoryType)">物流單號</th>    
-                            <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">平台</th>
-                            <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">賬號</th>
-                            <th v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">收樣方</th>
-                            <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">倉庫</th>
-                            <th v-if="showColumnFour.includes(form.inventoryType)">退貨金額</th>
-                            <th v-if="showColumnFour.includes(form.inventoryType)">採購單號</th>    
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="(v,i) in form.data"
-                            :key="i"
-                        >
-                            <td>
-                                <el-form-item
-                                    label=""
-                                    :prop="'data.'+i+'.sku'"
-                                    :rules='rules'
-                                >
-                                    <el-input v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
-                                </el-form-item>
-                            </td>
-                            <td>
-                                <el-form-item
-                                    :rules='rules'
-                                    :prop="'data.'+ i + '.quantity'"
-                                >
-                                    <el-input v-model="v.quantity">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnTwo.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-input v-model="v.moveTo">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnTwo.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-input v-model="v.moveFrom">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-input v-model="v.platform">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-input v-model="v.account">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnFour.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-input v-model="v.amount">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnFour.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-input v-model="v.purchaseId">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnFive.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-input v-model="v.trackingNumber">
-                                    </el-input>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-select
-                                        placeholder="收樣方"
-                                        v-model="v.sampleTo"
-                                        clearable
-                                        class="w100"
-                                    >
-                                        <el-option
-                                            v-for="(v,i) in sampleToOption"
-                                            :key="'smaple'+i"
-                                            :value="v.managerName"
-                                        >
-                                            <div class="flex-s-a">
-                                                <div class="w33">
-                                                    <span>賬號:{{ v.account }}</span>
-                                                </div>
-                                                <div class="w33">
-                                                    <span>平台:{{ v.platform }}</span>
-                                                </div>
-                                                <div class="w33">
-                                                    <span>管理名稱:{{v.managerName}}</span>
-                                                </div>
-                                            </div>
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </td>
-                            <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">
-                                <el-form-item
-                                >
-                                    <el-select
-                                        placeholder="倉庫"
-                                        v-model="v.warehouse"
-                                        clearable
-                                        class="w100"
-                                    >
-                                        <el-option
-                                            v-for="(v,i) in warehouseOption"
-                                            :key="i"
-                                            :label="v"
-                                            :value="v"
-                                        ></el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </td>
-                            <td>
-                                    <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleRemove(i)">删除</el-button>
-                                    <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查詢</el-button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <br>
-            <el-form-item>
-                <el-button
-                    :disabled="disabled"
-                    @click="handleAdd"
-                    size="small"
-                    class="f-r"
-                    type="success"
-                >新增產品</el-button>
-            </el-form-item>
-            <el-form-item>
-                <el-button
-                    @click="submit"
-                    :loading="submitLoading"
-                    type="primary"
-                    size="mediumn"
-                >新增</el-button>
-            </el-form-item>
-        </el-form>
-        <querySku name="inventoryAdd" ref="inventoryAdd"></querySku>
+  <div class="p20">
+    <div class="goBack">
+      <i class="el-icon-arrow-left"></i>
+      <a
+        href="javascript:void(0)"
+        @click="goBack"
+      >返回</a>
     </div>
+    <br>
+    <h2>新增清單</h2>
+    <br>
+    <el-form
+      ref="form"
+      :model="form"
+    >
+      <el-row
+        :gutter="20"
+        class="mb10"
+      >
+        <el-col :span="6">
+          <el-form-item
+            label="庫存異動類型"
+            :rules='rules'
+            prop="inventoryType"
+          >
+            <el-select
+              placeholder="類型"
+              v-model="form.inventoryType"
+              clearable
+              class="w100"
+            >
+              <el-option
+                v-for="(v,i) in inventoryTypeOption"
+                :key="i"
+                :label="v.inventoryTypeName"
+                :value="v.inventoryType"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="時間"
+            :rules='rules'
+            prop="datetime"
+          >
+            <el-date-picker
+              clearable
+              v-model="form.datetime"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="選擇日期"
+              class="w100"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <div id="table">
+        <table
+          cellspacing="0"
+          cellpadding="0"
+        >
+          <colgroup>
+            <col width="100">
+            <col width="100">
+            <col
+              v-if="showColumnTwo.includes(form.inventoryType)"
+              width="100"
+            >
+            <col
+              v-if="showColumnTwo.includes(form.inventoryType)"
+              width="100"
+            >
+            <col
+              v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)"
+              width="100"
+            >
+            <col
+              v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)"
+              width="100"
+            >
+            <col
+              v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)"
+              width="200"
+            >
+            <col
+              v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)"
+              width="100"
+            >
+            <col
+              v-if="showColumnFour.includes(form.inventoryType)"
+              width="200"
+            >
+            <col
+              v-if="showColumnFour.includes(form.inventoryType)"
+              width="200"
+            >
+            <col
+              v-if="showColumnFive.includes(form.inventoryType)"
+              width="200"
+            >
+            <col width="60">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>SKU </th>
+              <th>數量 </th>
+              <th v-if="showColumnTwo.includes(form.inventoryType)">轉入倉庫</th>
+              <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
+              <th v-if="showColumnFive.includes(form.inventoryType)">物流單號</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">平台</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">賬號</th>
+              <th v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">收樣方</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">倉庫</th>
+              <th v-if="showColumnFour.includes(form.inventoryType)">退貨金額</th>
+              <th v-if="showColumnFour.includes(form.inventoryType)">採購單號</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(v,i) in form.data"
+              :key="i"
+            >
+              <td>
+                <el-form-item
+                  label=""
+                  :prop="'data.'+i+'.sku'"
+                  :rules='rules'
+                >
+                  <el-input
+                    v-model="v.sku"
+                    @blur="handleCheckSku(v.sku,v)"
+                  ></el-input>
+                </el-form-item>
+              </td>
+              <td>
+                <el-form-item
+                  :rules='rules'
+                  :prop="'data.'+ i + '.quantity'"
+                >
+                  <el-input v-model="v.quantity">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnTwo.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-input v-model="v.moveTo">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnTwo.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-input v-model="v.moveFrom">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-input v-model="v.platform">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-input v-model="v.account">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnFour.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-input v-model="v.amount">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnFour.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-input v-model="v.purchaseId">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnFive.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-input v-model="v.trackingNumber">
+                  </el-input>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-select
+                    placeholder="收樣方"
+                    v-model="v.sampleTo"
+                    clearable
+                    class="w100"
+                  >
+                    <el-option
+                      v-for="(v,i) in sampleToOption"
+                      :key="'smaple'+i"
+                      :value="v.managerName"
+                      style="width:450px;"
+                    >
+                      <div class="w45 ibbox">
+                        經理名稱:{{v.managerName}}
+                      </div>
+                      <div class="w30 ibbox">
+                        平台:{{ v.platform }}
+                      </div>
+                      <div class="w15 ibbox">
+                        賬號:{{ v.account }}
+                      </div>
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-select
+                    placeholder="倉庫"
+                    v-model="v.warehouse"
+                    clearable
+                    class="w100"
+                  >
+                    <el-option
+                      v-for="(v,i) in warehouseOption"
+                      :key="i"
+                      :label="v"
+                      :value="v"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </td>
+              <td>
+                <el-button
+                  v-if="i!=0"
+                  class="btnh"
+                  style="color:#409EFF"
+                  type="text"
+                  @click="handleRemove(i)"
+                >删除</el-button>
+                <el-button
+                  class="btnh"
+                  style="color:#409EFF"
+                  type="text"
+                  @click="handleQuerySku(i)"
+                >查詢</el-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <el-form-item>
+        <el-button
+          :disabled="disabled"
+          @click="handleAdd"
+          size="small"
+          class="f-r"
+          type="success"
+        >新增產品</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          @click="submit"
+          :loading="submitLoading"
+          type="primary"
+          size="mediumn"
+        >新增</el-button>
+      </el-form-item>
+    </el-form>
+    <querySku
+      name="inventoryAdd"
+      ref="inventoryAdd"
+    ></querySku>
+  </div>
 </template>
 
 <script>

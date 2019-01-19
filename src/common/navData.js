@@ -54,6 +54,10 @@ const nav = [
       {
         index: "setship",
         label: "設定出貨方式"
+      },
+      {
+        index: "package-shipping",
+        label: "小包運費表"
       }
     ]
   },
