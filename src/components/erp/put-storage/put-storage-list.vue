@@ -102,7 +102,7 @@ export default {
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    }, 500),
+    }, 2000),
     handleEdit(val) {
       this.$router.push({
         name: "put-storage-edit",

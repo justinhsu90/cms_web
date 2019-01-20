@@ -188,7 +188,7 @@ export default {
         where.endDate = this.date[1];
       }
       this.fetchTableData(where);
-    }, 500),
+    }, 2000),
     fetchEnd() {
       _.each(this.originRes, v => {
         v.total = v.wowcher + v.amazon + v.cdiscount + v.other;

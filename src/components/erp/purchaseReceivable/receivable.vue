@@ -189,7 +189,7 @@ export default {
         data.periodEndDate = this.date[1];
       }
       this.fetchTableData(data);
-    }, 500),
+    }, 2000),
     handleChange() {
       this.handleSearch();
     },

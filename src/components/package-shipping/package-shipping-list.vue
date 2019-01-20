@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-row>
+        <!-- <el-row>
             <el-col :span="22">
                 <el-input class="w-max200" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
@@ -10,49 +10,46 @@
                     <i class="el-icon-search"></i>
                 </div>
             </el-col>
-            <!-- <el-col :span="2">
-                <el-button style="float:right" @click="handleAdd" type="primary">新增入庫單</el-button>
-            </el-col> -->
             <el-col :span="2">
                 <el-button type="success" size="medium" @click="showImg = !showImg">{{showImg ? '隱藏':'顯示'}}圖片</el-button>
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="150" label="商品名稱" prop="productName"></el-table-column>
-                    <el-table-column min-width="100" label="商品中文名稱" prop="productNameChinese" :formatter="formatToTime"></el-table-column>
-                    <el-table-column min-width="60" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="50" label="包裹重量" prop="parcelWeight">
+                    <el-table-column min-width="150" label="商品名稱" prop="productName" sortable="custom"></el-table-column>
+                    <el-table-column min-width="100" label="商品中文名稱" prop="productNameChinese" sortable="custom" ></el-table-column>
+                    <el-table-column min-width="60" label="SKU" prop="sku" sortable="custom"></el-table-column>
+                    <el-table-column min-width="50" label="包裹重量" prop="parcelWeight" sortable="custom">
                         <template slot-scope="{row}">
                               <span>{{row.parcelWeight}}{{row.parceWeightUnit}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="40" label="運輸費用" prop="shippingFee">
+                    <el-table-column min-width="50" label="運輸費用" prop="shippingFee" sortable="custom">
                         <template slot-scope="{row}">
                               <span>{{row.shippingFee}}{{row.shippingFeeCurrency}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="60" label="開始時間" prop="startDate" align="center" :formatter="formatToTime"></el-table-column>
-                    <el-table-column min-width="60" label="結束時間" prop="endDate" align="center" :formatter="formatToTime"></el-table-column>
+                    <el-table-column min-width="60" label="開始時間" prop="startDate" align="center" :formatter="formatToTime" sortable="custom"></el-table-column>
+                    <el-table-column min-width="60" label="結束時間" prop="endDate" align="center" :formatter="formatToTime" sortable="custom"></el-table-column>
                     <el-table-column min-width="50" label="圖片" v-if="showImg">
                         <template slot-scope="{row}">
                               <img  style="maxWidth:50px;maxHeight:50px" :src="row.imageUrl" alt="" @click="handleClick(row)">
                         </template>
                     </el-table-column>
-                    <!-- <el-table-column width="50" label="動作" align="center">
-                        <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-                        </template>
-                    </el-table-column> -->
                 </el-table>
             </el-col>
-        </el-row>
+        </el-row> -->
+        <packageChart></packageChart>
     </div>
 </template>
 <script>
+import packageChart from "./package-chart";
 import wonTableContainer from "@/common/wonTableContainer";
 import showDialog from "won-service/component/won-dialog/dialog";
 export default {
   extends: wonTableContainer,
+  components: {
+    packageChart
+  },
   data() {
     return {
       date: [],
@@ -110,7 +107,7 @@ export default {
         data.endDate = this.date[1];
       }
       this.fetchTableData(data);
-    }, 500),
+    }, 2000),
     handleEdit(val) {
       this.$router.push({
         name: "put-storage-edit",

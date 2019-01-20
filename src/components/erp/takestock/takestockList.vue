@@ -254,7 +254,7 @@ export default {
         data.endDate = this.date[1];
       }
       this.fetchTableData(data);
-    }, 500),
+    }, 2000),
     handleAdd() {
       this.$router.push("/inventoryAdd");
     },

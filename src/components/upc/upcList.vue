@@ -176,7 +176,7 @@ export default {
         order: this.fetchCondition.order
       };
       this.fetchTableData(data);
-    }, 500),
+    }, 2000),
     handleEdit(val) {
       this.$router.push({
         name: "upcEdit",

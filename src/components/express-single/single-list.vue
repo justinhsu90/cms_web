@@ -320,7 +320,7 @@ export default {
         data.country = this.searchCountry;
       }
       this.fetchTableData(data);
-    }, 500),
+    }, 2000),
     fetchEnd() {
       this.tableData = _.cloneDeep(this.originRes);
     },

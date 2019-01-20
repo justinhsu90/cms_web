@@ -206,7 +206,7 @@ export default {
         data.country = this.searchCountry;
       }
       this.fetchTableData(data);
-    }, 500),
+    }, 2000),
     handleEdit(val) {
       this.$router.push({
         name: "shipmentEdit",

@@ -212,7 +212,7 @@ export default {
           }
         });
       });
-    }, 500),
+    }, 2000),
     handleChangeShippingMethod(val) {
       if (val == "iagent") {
         _.each(this.tableData, v => {

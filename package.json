@@ -11,6 +11,8 @@
     "analyz": "NODE_Analyze=true npm run dev"
   },
   "dependencies": {
+    "echarts": "^4.2.0-rc.2",
+    "v-charts": "^1.19.0",
     "vue": "^2.5.2"
   },
   "devDependencies": {
