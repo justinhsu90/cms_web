@@ -58,6 +58,10 @@ const nav = [
       {
         index: "package-shipping",
         label: "小包運費表"
+      },
+      {
+        index: "package-search",
+        label: "包裹查詢"
       }
     ]
   },
