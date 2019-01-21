@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <el-row>
+        <el-row>
             <el-col :span="22">
                 <el-input class="w-max200" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
@@ -37,19 +37,19 @@
                     </el-table-column>
                 </el-table>
             </el-col>
-        </el-row> -->
-        <packageChart></packageChart>
+        </el-row>
+        <!-- <packageChart></packageChart> -->
     </div>
 </template>
 <script>
-import packageChart from "./package-chart";
+// import packageChart from "./package-chart";
 import wonTableContainer from "@/common/wonTableContainer";
 import showDialog from "won-service/component/won-dialog/dialog";
 export default {
   extends: wonTableContainer,
-  components: {
-    packageChart
-  },
+  // components: {
+  //   packageChart
+  // },
   data() {
     return {
       date: [],
