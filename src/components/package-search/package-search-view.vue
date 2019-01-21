@@ -10,7 +10,7 @@
         >
         </el-input>
         <div
-          @click="handleSearch"
+          @click="handleClick"
           class="el-input-group__append search"
         >
           <i class="el-icon-search"></i>
@@ -144,15 +144,23 @@ export default {
     };
   },
   methods: {
-    handleChange() {
-      this.handleSearch();
-    },
     fetchEnd() {
       this.form = _.cloneDeep(this.originRes);
       this.trackingStatusList = this.originRes.trackingStatusList;
       this.warehouseStatusList = this.originRes.warehouseStatusList;
     },
-    handleSearch: _.debounce(() => {
+    handleClick() {
+      this.isTableLoading = true;
+      let data = {
+        where: this.fetchOption.where,
+        token: this.token,
+        skip: this.fetchCondition.skip,
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
+      };
+      this.fetchTableData(data);
+    },
+    handleSearch: _.debounce(function() {
       if (!this.hasInt) {
         this.hasInt = true;
         return;
