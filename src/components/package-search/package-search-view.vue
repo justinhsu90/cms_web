@@ -132,6 +132,7 @@ export default {
         skip: 0,
         limit: 10000
       },
+      isTableLoading: false,
       fetchOption: {
         url: "/shipment/tracking",
         method: "post",
@@ -142,10 +143,6 @@ export default {
       form: {}
     };
   },
-  created() {
-    this.handleSearch();
-    this.Bus.$on("refresh", this.handleSearch);
-  },
   methods: {
     handleChange() {
       this.handleSearch();
@@ -155,7 +152,11 @@ export default {
       this.trackingStatusList = this.originRes.trackingStatusList;
       this.warehouseStatusList = this.originRes.warehouseStatusList;
     },
-    handleSearch: _.debounce(function() {
+    handleSearch: _.debounce(() => {
+      if (!this.hasInt) {
+        this.hasInt = true;
+        return;
+      }
       this.isTableLoading = true;
       let data = {
         where: this.fetchOption.where,
