@@ -9,6 +9,9 @@
           @keyup.enter.native="handleSearch"
         >
         </el-input>
+        <el-select v-model="takeBy" @change="handleChange('takeBy')">
+            <el-option v-for="(v,i) in takeByOption" :key="i" :value="v.value" :label="v.label"></el-option>
+        </el-select>
         <el-date-picker
           class="w-max200"
           clearable
@@ -29,6 +32,9 @@
           class="el-input-group__append search"
         >
           <i class="el-icon-search"></i>
+        </div>
+        <div class="fr ml10">
+          <el-button @click="handleAdd" type="primary">新增盤點</el-button>
         </div>
         <div class="fr">
           <el-checkbox-group
@@ -131,9 +137,19 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
+import C from "js-cookie";
+import showDialog from "@/won-service/component/won-dialog/dialog";
+import takeStockAdd from "./takestockAdd";
 export default {
   extends: wonTableContainer,
   data() {
+    let userName = C.get("userName");
+    let takeByOption = [
+      {
+        label: userName,
+        value: userName
+      }
+    ];
     return {
       imageURL: "",
       dialogVisible: false,
@@ -170,12 +186,10 @@ export default {
         ]
       },
       date: [],
-      condition: [],
+      condition: ["1"],
       isTableLoading: false,
-      warehouse: "",
-      warehouseOption: [],
-      inventoryType: "",
-      inventoryTypeOption: [],
+      takeBy: userName,
+      takeByOption,
       fetchCondition: {
         skip: 0,
         limit: 15
@@ -189,9 +203,14 @@ export default {
     };
   },
   created() {
-    this.Bus.$on("refresh", this.handleSearch);
+    this.Bus.$on("update:takestockList", this.handleSearch);
   },
   methods: {
+    handleAdd() {
+      showDialog(takeStockAdd, {
+        title: "新增盤點"
+      });
+    },
     handleDelete(row) {
       let _this = this;
       this.$confirm("確定要刪除", "提示", {
@@ -253,18 +272,21 @@ export default {
         data.startDate = this.date[0];
         data.endDate = this.date[1];
       }
+      if (this.condition.includes("1")) {
+        data.takeBy = this.takeBy;
+      }
       this.fetchTableData(data);
     }, 2000),
-    handleAdd() {
-      this.$router.push("/inventoryAdd");
-    },
-    handleEdit(row) {
-      this.$router.push({
-        name: "inventoryEdit",
-        query: {
-          value: JSON.stringify(row)
+    handleChange(sign) {
+      if (sign == "takeBy") {
+        if (!this.searchPlatform) {
+          _.pull(this.condition, "1");
+        } else {
+          if (!this.condition.includes("1")) {
+            this.condition.push("1");
+          }
         }
-      });
+      }
     }
   }
 };

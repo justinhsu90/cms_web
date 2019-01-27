@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Dialog, Button } from "element-ui";
 export default (dialogContent, prop) => {
   let ele = document.createElement("div");
-  document.scrollingElement.appendChild(ele);
+  document.body.appendChild(ele);
   const extend = Vue.extend({
     components: {
       [Dialog.name]: Dialog,
@@ -16,6 +16,7 @@ export default (dialogContent, prop) => {
         this.visible = false;
       },
       dialogSure() {
+        if (!this.$refs["dialog-content"].validate()) return;
         this.$refs["dialog-content"].submit().then(() => {
           this.visible = false;
         });

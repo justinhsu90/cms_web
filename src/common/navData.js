@@ -193,6 +193,10 @@ const nav = [
         label: "補發清單"
       }
     ]
+  },
+  {
+    index: "menuorder",
+    label: "菜单排序"
   }
   // ,
   // {
