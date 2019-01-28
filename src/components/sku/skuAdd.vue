@@ -32,7 +32,7 @@
               <span style="float: left">{{ item.header }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
             </el-option>
-          </el-select>  
+          </el-select>
         </el-form-item>
       </el-col>
         <el-col style="max-width:130px">
@@ -214,8 +214,8 @@
         <el-input
           class="w50"
           :value="form.imageUrl"
-          @input="form.imageUrl = $event;" 
-          @blur="handleBlur" 
+          @input="form.imageUrl = $event;"
+          @blur="handleBlur"
         >
         </el-input>
       </el-form-item>
@@ -610,6 +610,9 @@ export default {
         let base64 = canvas.toDataURL("image/png");
         _that.dataURLtoBlob(base64);
       });
+      img.addEventListener("error", function() {
+        this.imgLoad = false;
+      });
     },
     dataURLtoBlob(dataurl) {
       var arr = dataurl.split(","),
@@ -653,6 +656,7 @@ export default {
       let image = document.createElement("img");
       image.src = blob;
       this.image = file.raw;
+      this.imgLoad = false;
       image.addEventListener("load", () => {
         canvas.width = image.width;
         canvas.height = image.height;

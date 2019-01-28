@@ -6,7 +6,7 @@ import Vue from "vue";
 // axios.defaults.baseURL = 'http://118.163.10.109:8000/data-server/';
 axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
 // axios.defaults.baseURL = 'http://127.0.0.1:8080/data-server/';
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 10000;
 axios.interceptors.request.use(request => {
   if (request.isFormData) {
     return request;
