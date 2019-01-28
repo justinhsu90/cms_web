@@ -143,11 +143,11 @@ import takeStockAdd from "./takestockAdd";
 export default {
   extends: wonTableContainer,
   data() {
-    let userName = C.get("userName");
+    let name = C.get("name");
     let takeByOption = [
       {
-        label: userName,
-        value: userName
+        label: name,
+        value: name
       }
     ];
     return {
@@ -187,8 +187,7 @@ export default {
       },
       date: [],
       condition: ["1"],
-      isTableLoading: false,
-      takeBy: userName,
+      takeBy: name,
       takeByOption,
       fetchCondition: {
         skip: 0,
