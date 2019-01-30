@@ -97,10 +97,10 @@ const nav = [
         index: "erpPurchase",
         label: "(2) 採購單"
       },
-      // {
-      //     index: "payment",
-      //     label: "(3-1) 付款單"
-      // },
+      {
+        index: "payment",
+        label: "(3-1) 付款單"
+      },
       {
         index: "putStorage",
         label: "(3) 入庫單"
