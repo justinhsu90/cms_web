@@ -241,7 +241,7 @@ export default {
           }).then(() => {
             this.submitLoading = true;
             this.Bus.$emit("refresh");
-            this.$router.push("/gogroopieDeal");
+            this.goBack();
           });
         }
       });

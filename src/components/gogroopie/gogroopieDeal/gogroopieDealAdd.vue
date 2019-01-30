@@ -22,14 +22,14 @@
               <el-form-item label="國家">
                 <el-select placeholder="國家" v-model="v.country"  clearable>
                   <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i"  :value="v.countryCode">
-                        <span style="float: left">{{ v.countryCode }}</span>  
+                        <span style="float: left">{{ v.countryCode }}</span>
                         <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                  </el-option>     
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
              <el-col :span="4">
-              <el-form-item label="幣別">                
+              <el-form-item label="幣別">
                 <el-select placeholder="幣別" v-model="v.currency"  clearable>
                   <el-option v-for="(v,i) in searchCurrencyOption" :key="'country'+i" :label="v.currency" :value="v.currency">
                   </el-option>
@@ -81,7 +81,7 @@
                 <el-input v-model="v.finalPrice"></el-input>
               </el-form-item>
             </el-col>
-           
+
             <el-col :span="3">
               <el-form-item label="產品成本">
                 <el-input v-model="v.productCost"></el-input>
@@ -220,7 +220,7 @@ export default {
           }).then(() => {
             this.submitLoading = true;
             this.Bus.$emit("refresh");
-            this.$router.push("/gogroopieDeal");
+            this.$router.push("/gogroopieDealList");
           });
         }
       });
