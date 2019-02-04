@@ -30,6 +30,7 @@
                     <tr>
                         <td>客工商</td>
                         <td>平台</td>
+                        <td>ERP賬戶名稱</td>
                         <td>賬號</td>
                         <td>國家</td>
                         <td>幣別</td>
@@ -47,6 +48,7 @@
                     <tr v-for="(v,i) in data" :key="i">
                         <td>{{v.erpClientId | formToEmpty}}</td>
                         <td>{{v.platform | formToEmpty}}</td>
+                        <td>{{v.erpAccountName}}</td>
                         <td>{{v.account | formToEmpty}}</td>
                         <td>{{v.country | formToEmpty}}</td>
                         <td>{{v.currency | formToEmpty}}</td>
