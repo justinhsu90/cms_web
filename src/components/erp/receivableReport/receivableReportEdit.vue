@@ -117,7 +117,15 @@ export default {
       let data = {};
       _.each(res, v => {
         let str =
-          v.account + "-" + v.country + "-" + v.currency + "-" + v.platform;
+          v.account +
+          "-" +
+          v.country +
+          "-" +
+          v.currency +
+          "-" +
+          v.platform +
+          "-" +
+          (v.erpAccountName || "");
         if (str in data) {
           data[str].push(v);
         } else {
@@ -138,7 +146,8 @@ export default {
           freight: 0,
           storageCharge: 0,
           fees: 0,
-          advertising: 0
+          advertising: 0,
+          erpAccountName: arr[4]
         };
         let dataObj = v.reduce((accumulator, currentValue) => {
           if (
