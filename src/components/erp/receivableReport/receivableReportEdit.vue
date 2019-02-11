@@ -30,7 +30,6 @@
                     <tr>
                         <td>客工商</td>
                         <td>平台</td>
-                        <td>ERP賬戶名稱</td>
                         <td>賬號</td>
                         <td>國家</td>
                         <td>幣別</td>
@@ -46,9 +45,8 @@
                         <td>總金額</td>
                     </tr>
                     <tr v-for="(v,i) in data" :key="i">
-                        <td>{{v.erpClientId | formToEmpty}}</td>
-                        <td>{{v.platform | formToEmpty}}</td>
                         <td>{{v.erpAccountName}}</td>
+                        <td>{{v.platform | formToEmpty}}</td>
                         <td>{{v.account | formToEmpty}}</td>
                         <td>{{v.country | formToEmpty}}</td>
                         <td>{{v.currency | formToEmpty}}</td>
@@ -117,15 +115,7 @@ export default {
       let data = {};
       _.each(res, v => {
         let str =
-          v.account +
-          "-" +
-          v.country +
-          "-" +
-          v.currency +
-          "-" +
-          v.platform +
-          "-" +
-          (v.erpAccountName || "");
+          v.account + "-" + v.country + "-" + v.currency + "-" + v.platform;
         if (str in data) {
           data[str].push(v);
         } else {
@@ -147,7 +137,7 @@ export default {
           storageCharge: 0,
           fees: 0,
           advertising: 0,
-          erpAccountName: arr[4]
+          erpAccountName: v[0].erpAccountName
         };
         let dataObj = v.reduce((accumulator, currentValue) => {
           if (

@@ -35,6 +35,34 @@ export default (dialogContent, prop) => {
         ...prop,
         visible: this.visible
       };
+      let footer = [];
+      if (!prop.hideConfirm) {
+        footer.push(
+          h("elButton", {
+            domProps: {
+              innerText: "确定"
+            },
+            props: {
+              type: "primary"
+            },
+            on: {
+              click: this.dialogSure
+            }
+          })
+        );
+      }
+      if (!prop.hideCancel) {
+        footer.push(
+          h("elButton", {
+            domProps: {
+              innerText: "取消"
+            },
+            on: {
+              click: this.dialogHide
+            }
+          })
+        );
+      }
       return h(
         "elDialog",
         {
@@ -53,27 +81,7 @@ export default (dialogContent, prop) => {
             {
               slot: "footer"
             },
-            [
-              h("elButton", {
-                domProps: {
-                  innerText: "取消"
-                },
-                on: {
-                  click: this.dialogHide
-                }
-              }),
-              h("elButton", {
-                domProps: {
-                  innerText: "确定"
-                },
-                props: {
-                  type: "primary"
-                },
-                on: {
-                  click: this.dialogSure
-                }
-              })
-            ]
+            footer
           )
         ]
       );
