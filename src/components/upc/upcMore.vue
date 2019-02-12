@@ -72,6 +72,13 @@ export default {
     getValue() {
       return this.form;
     },
+    validate() {
+      let val = false;
+      this.$refs["form"].validate(valid => {
+        val = valid;
+      });
+      return val;
+    },
     submit() {
       return axios({
         url: "upc/add/batch",
