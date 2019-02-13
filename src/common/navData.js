@@ -17,10 +17,6 @@ const nav = [
         label: "SKU管理"
       },
       {
-        index: "skuAction",
-        label: "SKU異動處理"
-      },
-      {
         index: "upc",
         label: "UPC管理"
       },
