@@ -77,7 +77,7 @@ export default {
       fetchCondition: {
         skip: 0,
         order: "-redeemedAt",
-        limit: 15
+        limit: 20
       },
       fetchOption: {
         url: "/wowcher/order/search",

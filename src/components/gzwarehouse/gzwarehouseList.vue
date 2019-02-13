@@ -19,12 +19,12 @@
                     <!-- <el-table-column width="120" label="圖片" prop="imageUrl" algin="center">
                       <template slot-scope="{row}">
                           <img :src="row.imageUrl" width="100" alt="">
-                      </template>  
+                      </template>
                     </el-table-column> -->
                     <el-table-column width="80" algin="center" label="詳情">
                       <template slot-scope="{row}">
                           <el-button icon="el-icon-won-40" @click="handleClick(row)" type="text" title="查看"></el-button>
-                      </template>  
+                      </template>
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -41,7 +41,7 @@ export default {
     return {
       fetchCondition: {
         skip: 0,
-        limit: 15
+        limit: 20
       },
       fetchOption: {
         url: "/gzwarehouse/search",

@@ -114,7 +114,7 @@ export default {
       fetchCondition: {
         skip: 0,
         order: "",
-        limit: 15
+        limit: 20
       },
       fetchOption: {
         url: "/shippingagent/search",

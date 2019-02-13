@@ -119,7 +119,7 @@
           label="內容"
           prop="message"
         ></el-table-column>
-        
+
       </el-table>
     </el-card>
     <el-card class="mt5">

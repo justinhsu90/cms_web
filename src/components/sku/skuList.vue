@@ -109,7 +109,7 @@ export default {
       dialogTableVisible: false,
       fetchCondition: {
         skip: 0,
-        limit: 15,
+        limit: 20,
         order: "-AddedTime"
       },
       fetchOption: {

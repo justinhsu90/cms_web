@@ -48,7 +48,7 @@ export default {
         ]
       },
       currentPage: 1,
-      total: 15,
+      total: 20,
       maxHeight: 450,
       fetchOption: {
         url: "",
@@ -57,16 +57,16 @@ export default {
       },
       fetchCondition: {
         skip: 0,
-        limit: 10,
+        limit: 20,
         order: "created"
       },
       isTableLoading: true,
-      pageSizes: [15, 30, 45, 100, 200],
+      pageSizes: [20, 50, 100],
       layout: "total, sizes, prev, pager, next, jumper",
       paginationProps: {
-        total: 15,
+        total: 20,
         currentPage: 1,
-        pageSizes: [15, 30, 45, 100, 200],
+        pageSizes: [20, 50, 100],
         layout: "total, sizes, prev, pager, next, jumper"
       }
     };

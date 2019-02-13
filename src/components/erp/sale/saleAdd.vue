@@ -9,7 +9,7 @@
             <h2>新增銷貨單
             </h2>
             <br>
-            <el-form ref="form" :model="formData" :rules="rules">
+            <el-form ref="form" :model="formData" :rules="rules" label-position="top">
                 <el-row :gutter="10">
                     <el-col :span="4">
                         <el-form-item label="銷貨平台" prop="salePlatform">
@@ -25,7 +25,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="3">
+                    <el-col :span="4">
                         <el-form-item label="銷貨國家" prop="saleCountry">
                             <el-select v-model="formData.saleCountry">
                                 <el-option v-for="(value,i) in searchCountryOption" :label="value" :value="value" :key="i"></el-option>

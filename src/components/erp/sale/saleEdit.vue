@@ -9,7 +9,7 @@
             <h2>編輯銷貨單 <span>&nbsp;&nbsp;訂單ID:&nbsp;{{formData.saleId}}</span>
             </h2>
             <br>
-            <el-form ref="form" :model="formData" :rules="rules">
+            <el-form ref="form" :model="formData" :rules="rules" label-position="top">
                 <el-row :gutter="10">
                     <el-col :span="2">
                         <el-form-item label="銷貨平台" prop="salePlatform">
@@ -61,7 +61,7 @@
                                 <th>產品名稱</th>
                                 <th>銷貨金額/個</th>
                                 <th>銷貨數量</th>
-                                <th>銷貨總金額</th>                                
+                                <th>銷貨總金額</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -103,8 +103,8 @@
                                 </td>
                                 <td>
                                     {{totalMoney | formatToMoney}}
-                                </td>   
-                            </tr>  
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

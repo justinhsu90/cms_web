@@ -31,7 +31,7 @@
                     class="f-r ml10"
                     size="small"
                     @click="handleAdd"
-                    type="primary" 
+                    type="primary"
                 >指派 UPC</el-button>
                 <el-button
                     class="f-r"

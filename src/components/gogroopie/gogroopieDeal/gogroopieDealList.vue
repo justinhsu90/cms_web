@@ -69,7 +69,7 @@ export default {
       isTableLoading: false,
       fetchCondition: {
         skip: 0,
-        limit: 15,
+        limit: 20,
         order: "-StartDate"
       },
       fetchOption: {

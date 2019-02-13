@@ -92,7 +92,7 @@ export default {
       inventoryTypeOption: [],
       fetchCondition: {
         skip: 0,
-        limit: 15
+        limit: 20
       },
       fetchOption: {
         url: "/erp/inventoryChange/search",

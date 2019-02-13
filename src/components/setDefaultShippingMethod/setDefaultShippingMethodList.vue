@@ -14,21 +14,21 @@
                 </div>
             </h3>
         </el-row>
-        <el-row class="mb5" :gutter="10">            
+        <el-row class="mb5" :gutter="10">
                 <el-select class="w10" placeholder="多個愛爾蘭貨代" v-model="imoresearchAgent">
                     <el-option v-for="(v,i) in imoreagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
                 <el-select  class="w10" placeholder="多個愛爾蘭發貨渠道" v-model="imoresearchShippingMethod">
                     <el-option v-for="(v,i) in imoreSerachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
-                </el-select>  
+                </el-select>
                 <el-select class="w10" placeholder="愛爾蘭貨代" v-model="isearchAgent" @change="handleAgentChange('iagent')">
                     <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
                 <el-select  class="w10" placeholder="愛爾蘭發貨渠道" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
                     <el-option v-for="(v,i) in iserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
-                </el-select>   
+                </el-select>
                 <el-select class="w10" placeholder="多個英國貨代" v-model="ymoresearchAgent">
                     <el-option v-for="(v,i) in ymoreagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
@@ -73,7 +73,7 @@
                 </el-table>
             </el-col>
         </el-row>
-        
+
     </div>
 </template>
 <script>
@@ -92,7 +92,7 @@ export default {
       fetchCondition: {
         skip: 0,
         order: "",
-        limit: 15
+        limit: 20
       },
       fetchOption: {
         url: "shipment/productList",

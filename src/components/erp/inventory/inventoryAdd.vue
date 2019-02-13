@@ -13,6 +13,7 @@
     <el-form
       ref="form"
       :model="form"
+      label-position="top"
     >
       <el-row
         :gutter="20"

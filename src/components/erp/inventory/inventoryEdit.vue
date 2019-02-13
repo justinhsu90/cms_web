@@ -13,6 +13,7 @@
     <el-form
       ref="form"
       :model="form"
+      label-position="top"
     >
       <template v-for="(v,i) in form.data">
         <el-card
