@@ -31,7 +31,7 @@
                     <el-table-column min-width="100" label="平台訂單號" prop="platformOrderId"></el-table-column>
                     <el-table-column min-width="70" label="訂單狀態" prop="orderStatus">
                         <template slot-scope="scope">
-                            <el-tag type="success">{{scope.row.orderStatus}}</el-tag>
+                            <el-tag type="warning">{{scope.row.orderStatus}}</el-tag>
                         </template>
                     </el-table-column>
                     <!-- <el-table-column min-width="75" label="平台" prop="platform"></el-table-column> -->
@@ -55,10 +55,8 @@
                     </el-table-column>
                 </el-table>
             </el-col>
-            <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div>
+            <won-pagination v-bind="paginationProps" v-on="paginationListeners">
+            </won-pagination>
         </el-row>
     </div>
 </template>
@@ -211,15 +209,8 @@ export default {
         data.shipoutStartDate = this.shipoutDate[0];
         data.shipoutEndDate = this.shipoutDate[1];
       }
-      axios({
-        url: this.fetchOption.url,
-        method: this.fetchOption.method,
-        data
-      }).then(({ data, count }) => {
-        this.isTableLoading = false;
-        this.tableData = _.cloneDeep(data);
-        this.total = count;
-      });
+
+      this.fetchTableData(data);
     }, 2000),
     handleCheck(val) {
       this.$router.push({

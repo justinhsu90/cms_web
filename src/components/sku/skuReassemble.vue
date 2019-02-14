@@ -1,30 +1,33 @@
 <template>
   <el-form :model="form" class="relative" label-position="left" label-width="70px">
-    <div class="old-sku" v-if="oldImageURL">
+    <div class="old-sku"  v-if="oldImageURL">
+      <h4 class="t_a-c">舊SKU產品圖</h4>
       <img class="old-sku__img" :src="oldImageURL" alt="">
     </div>
       <el-form-item label="新SKU：" prop="newSku">
         <el-row :gutter="40">
-          <el-col :span="10">
-            <el-input v-model="form.newSku"></el-input>
+          <el-col :span="8">
+            <el-input @blur="handleNewCheck" v-model="form.newSku"></el-input>
           </el-col>
           <el-col :span="4">
-            <el-button :loading="newCheckLoading" size="small" @click="handleNewCheck">檢查</el-button>
+            <el-tag v-if="newCheckDisabled" type="success">newSku 可用</el-tag>
+            <el-tag v-else type="info">newSku 不可用</el-tag>
           </el-col>
         </el-row>
       </el-form-item>
       <el-form-item label="舊SKU：" prop="oldSku">
         <el-row :gutter="40">
-          <el-col :span="10">
-            <el-input v-model="form.oldSku"></el-input>
+          <el-col :span="8">
+            <el-input @blur="handleOldCheck" v-model="form.oldSku"></el-input>
           </el-col>
           <el-col :span="4">
-            <el-button :loading="oldCheckLoading" size="small" @click="handleOldCheck">檢查</el-button>
+            <el-tag v-if="oldCheckDisabled" type="success">oldSku 可用</el-tag>
+            <el-tag v-else type="info">oldSku 不可用</el-tag>
           </el-col>
         </el-row>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="reassembleLoading" @click="handleReassemble" type="primary" class="ml10" size="small">重編</el-button>
+        <el-button :disabled="!newCheckDisabled || !oldCheckDisabled" :loading="reassembleLoading" @click="handleReassemble" type="primary" class="ml20" size="small">重編</el-button>
       </el-form-item>
   </el-form>
 </template>
@@ -37,6 +40,8 @@ export default {
       reassembleLoading: false,
       newCheckLoading: false,
       oldCheckLoading: false,
+      newCheckDisabled: false,
+      oldCheckDisabled: false,
       form: {
         newSku: "",
         oldSku: ""
@@ -73,6 +78,8 @@ export default {
     },
     handleNewCheck() {
       this.newCheckLoading = true;
+      this.newCheckLoading = false;
+      this.oldCheckLoading = false;
       axios({
         url: "sku/exists",
         method: "post",
@@ -83,9 +90,11 @@ export default {
       }).then(
         res => {
           if (res) {
-            this.$message.error("新SKU已存在");
+            this.$message.error("新SKU不可以使用");
+            this.newCheckDisabled = false;
           } else {
             this.$message.success("新SKU可以使用");
+            this.newCheckDisabled = true;
           }
           this.newCheckLoading = false;
         },
@@ -96,6 +105,8 @@ export default {
     },
     handleOldCheck() {
       this.oldCheckLoading = true;
+      this.newCheckLoading = false;
+      this.oldCheckLoading = false;
       axios({
         url: "sku/information",
         method: "post",
@@ -106,10 +117,12 @@ export default {
       }).then(
         res => {
           if (res) {
-            this.$message.success("SKU存在");
+            this.$message.success("SKU可使用");
             this.oldImageURL = res.snapshotURL;
+            this.oldCheckDisabled = true;
           } else {
-            this.$message.error("SKU不存在");
+            this.$message.error("SKU不可使用");
+            this.oldCheckDisabled = false;
           }
           this.oldCheckLoading = false;
         },
@@ -127,9 +140,11 @@ export default {
   position: absolute;
   right: 0px;
   width: 200px;
+  border: 1px dashed #d9d9d9;
+  padding: 10px;
   &__img {
     width: 200px;
-    max-height: 200px;
+    max-height: 150px;
   }
 }
 </style>
