@@ -4,8 +4,8 @@
       <img class="old-sku__img" :src="oldImageURL" alt="">
     </div>
       <el-form-item label="新SKU：" prop="newSku">
-        <el-row :gutter="20">
-          <el-col :span="12">
+        <el-row :gutter="40">
+          <el-col :span="10">
             <el-input v-model="form.newSku"></el-input>
           </el-col>
           <el-col :span="4">
@@ -14,8 +14,8 @@
         </el-row>
       </el-form-item>
       <el-form-item label="舊SKU：" prop="oldSku">
-        <el-row :gutter="20">
-          <el-col :span="12">
+        <el-row :gutter="40">
+          <el-col :span="10">
             <el-input v-model="form.oldSku"></el-input>
           </el-col>
           <el-col :span="4">
@@ -59,9 +59,9 @@ export default {
       }).then(
         res => {
           if (!res) {
-            this.$message.error("重编失败");
+            this.$message.error("重編SKU失敗");
           } else {
-            this.$message.success("重编成功");
+            this.$message.success("重編SKU成功");
             this.$root.visible = false;
           }
           this.reassembleLoading = false;
@@ -82,10 +82,10 @@ export default {
         }
       }).then(
         res => {
-          if (!res) {
-            this.$message.error("失败");
+          if (res) {
+            this.$message.error("新SKU已存在");
           } else {
-            this.$message.success("成功");
+            this.$message.success("新SKU可以使用");
           }
           this.newCheckLoading = false;
         },
@@ -106,10 +106,10 @@ export default {
       }).then(
         res => {
           if (res) {
-            this.$message.success("成功");
+            this.$message.success("SKU存在");
             this.oldImageURL = res.snapshotURL;
           } else {
-            this.$message.error("失败");
+            this.$message.error("SKU不存在");
           }
           this.oldCheckLoading = false;
         },
@@ -129,7 +129,7 @@ export default {
   width: 200px;
   &__img {
     width: 200px;
-    max-height: 100px;
+    max-height: 200px;
   }
 }
 </style>
