@@ -105,12 +105,12 @@ export default {
         }
       }).then(
         res => {
-          if (!res) {
+          if (res) {
             this.$message.success("成功");
+            this.oldImageURL = res.snapshotURL;
           } else {
             this.$message.error("失败");
           }
-          this.oldImageURL = res.snapshotURL;
           this.oldCheckLoading = false;
         },
         () => {
@@ -125,10 +125,10 @@ export default {
 <style lang="scss" scoped>
 .old-sku {
   position: absolute;
-  right: 30px;
-  width: 150px;
+  right: 0px;
+  width: 200px;
   &__img {
-    width: 150px;
+    width: 200px;
     max-height: 100px;
   }
 }
