@@ -7,12 +7,10 @@
       </div>
       <br>
       <h2><span>訂單內容</span>
-    
       </h2>
       <br>
       <el-form ref="form" :model="data" v-loading="loading" label-position="top">
-          <h3>基本資料</h3>
-
+        <h3>基本資料</h3>
         <el-row :gutter="24">
           <el-col :span="5">
             <el-form-item label="所屬帳號">
@@ -54,7 +52,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-
+          <el-col :span="4">
+            <el-form-item label="狀態">
+              <el-select  :value="data.orderCancelledReasonNameCode"  @input="handleChangeOrder">
+                <el-option v-for="(v,i) in searchOrderCancell" :label="v.orderCancelledReasonName" :value="v.orderCancelledReasonNameCode" :key="i"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <h3>出貨狀態</h3>
         <el-row :gutter="24">
@@ -88,7 +92,7 @@
               <el-input v-model="data.agent"></el-input>
             </el-form-item>
           </el-col>
-          
+
            <el-col :span="5">
             <el-form-item label="出貨重量">
               <el-input v-model="data.parcelWeight"></el-input>
@@ -105,7 +109,7 @@
             <span>產品內容</span>
             <img class="title-img" :src="data.snapShotUrl" alt="">
           </h3>
-            
+
            <el-col :span="13">
             <el-form-item label="產品名稱">
               <el-input v-model="data.productName"></el-input>
@@ -127,9 +131,9 @@
             <el-form-item label="尺寸">
               <el-input v-model="data.size"></el-input>
             </el-form-item>
-          </el-col>    
-          </el-row> 
-          <el-row :gutter="24">     
+          </el-col>
+          </el-row>
+          <el-row :gutter="24">
           <el-col :span="13">
             <el-form-item label="Product Options">
               <el-input v-model="data.productOptions"></el-input>
@@ -186,12 +190,12 @@
             </el-form-item>
           </el-col>
           <!-- <el-col :span="8">
-          <el-form-item label="productOptoins:">    
+          <el-form-item label="productOptoins:">
                 <el-input disabled v-model="data.productOptoins"></el-input>
-          </el-form-item>  
+          </el-form-item>
           </el-col> -->
           <!-- <el-col :span="8">
-          <el-form-item label="spec:">    
+          <el-form-item label="spec:">
                 <el-input disabled v-model="data.spec"></el-input>
           </el-form-item>
           </el-col>   -->
@@ -206,7 +210,9 @@ export default {
     return {
       loading: false,
       searchStatusOption: [],
+      searchOrderCancell: [],
       data: {
+        orderCancelledReasonNameCode: "",
         wowcherCode: "",
         redeemedAt: "",
         orderStatus: "",
@@ -252,10 +258,57 @@ export default {
     }).then(res => {
       this.searchStatusOption = _.cloneDeep(res);
     });
+    axios({
+      url: "/order/value/cancelType",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      if (!res.data) {
+        return;
+      }
+      this.searchOrderCancell = _.cloneDeep(res.data);
+    });
   },
   methods: {
     goBack() {
       this.$router.push("/orderList");
+    },
+    handleChangeOrder(v) {
+      let obj = _.find(this.searchOrderCancell, item => {
+        return item.orderCancelledReasonNameCode == v;
+      });
+      let that = this;
+      this.$confirm(
+        `確定要設定退貨為 <strong style="color:red">${
+          obj.orderCancelledReasonName
+        }</strong> ？`,
+        "提示",
+        {
+          dangerouslyUseHTMLString: true,
+          type: "info",
+          beforeClose(action, instantce, done) {
+            if (action == "confirm") {
+              that.data.orderCancelledReasonNameCode = v;
+              axios({
+                url: "order/cancelReason",
+                method: "post",
+                data: {
+                  token: this.token,
+                  cancelType: v,
+                  orderId: "33S3DN-ESNX8V"
+                }
+              }).then(res => {
+                console.log(res);
+              });
+              done();
+            } else {
+              done();
+            }
+          }
+        }
+      ).catch();
     },
     handleChange(v) {
       let that = this;
