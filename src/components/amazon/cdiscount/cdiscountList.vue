@@ -11,13 +11,13 @@
         </el-input>
         <el-select
           class="w-max150"
-          placeholder="帳號"
-          v-model="searchAccount"
-          @change="handleCondition('acc')"
+          placeholder="訂單狀態"
+          v-model="searchOrderStatus"
+          @change="handleCondition('status')"
           clearable
         >
           <el-option
-            v-for="(v,i) in searchAccountOption"
+            v-for="(v,i) in searchOrderStatusOption"
             :key="'acc'+i"
             :label="v"
             :value="v"
@@ -25,13 +25,13 @@
         </el-select>
         <el-select
           class="w-max150"
-          placeholder="國家"
-          v-model="searchCountry"
-          @change="handleCondition('cou')"
+          placeholder="訂單類型"
+          v-model="searchOrderType"
+          @change="handleCondition('orderType')"
           clearable
         >
           <el-option
-            v-for="(v,i) in searchCountryOption"
+            v-for="(v,i) in searchOrderTypeOption"
             :key="'country'+i"
             :label="v"
             :value="v"
@@ -40,13 +40,13 @@
         </el-select>
         <el-select
           class="w-max150"
-          placeholder="出貨狀態"
-          v-model="searchOrderstatus"
-          @change="handleCondition('status')"
+          placeholder="出貨方式"
+          v-model="searchShippingMode"
+          @change="handleCondition('shippingMode')"
           clearable
         >
           <el-option
-            v-for="(v,i) in searchOrderstatusOption"
+            v-for="(v,i) in searchShippingModeOption"
             :key="'plat'+i"
             :label="v"
             :value="v"
@@ -69,46 +69,50 @@
         >
           <el-table-column
             min-width="60"
-            label="訂單號"
-            prop="wowcherCode"
+            label="Sku"
+            prop="sku"
           >
           </el-table-column>
           <el-table-column
-            min-width="70"
-            label="下單時間"
-            prop="redeemedAt"
-            sortable="custom"
-          ></el-table-column>
-          <el-table-column
-            min-width="50"
-            label="發貨狀態"
+            min-width="60"
+            label="orderStatus"
             prop="orderStatus"
-          ></el-table-column>
+          >
+          </el-table-column>
           <el-table-column
-            min-width="50"
-            label="訂單狀態"
+            min-width="60"
+            label="orderType"
             prop="orderType"
-          ></el-table-column>
+          >
+          </el-table-column>
           <el-table-column
-            min-width="180"
-            label="產品名稱"
-            prop="productName"
-          ></el-table-column>
+            min-width="60"
+            label="subSku"
+            prop="subSku"
+          >
+          </el-table-column>
           <el-table-column
-            min-width="120"
-            label="客戶名稱"
-            prop="customerName"
-          ></el-table-column>
+            min-width="60"
+            label="unitPrice"
+            prop="unitPrice"
+          >
+          </el-table-column>
           <el-table-column
-            min-width="120"
-            label="客戶email"
-            prop="email"
-          ></el-table-column>
+            min-width="60"
+            label="shippingFee"
+            prop="shippingFee"
+          >
+          </el-table-column>
           <el-table-column
-            min-width="120"
-            label="單號"
-            prop="trackingNo"
-            sortable="custom"
+            min-width="60"
+            label="shippingMode"
+            prop="shippingMode"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="60"
+            label="orderId"
+            prop="orderId"
           >
           </el-table-column>
           <el-table-column
@@ -145,13 +149,18 @@ export default {
     return {
       tableData: [],
       condition: [],
-      searchAccount: "",
-      searchAccountOption: [],
-      searchCountry: "",
-      searchCountryOption: [],
-      searchOrderstatus: "",
-      searchOrderstatusOption: [],
+      searchOrderStatus: "",
+      searchOrderStatusOption: [],
+      searchOrderType: "",
+      searchOrderTypeOption: [],
+      searchShippingMode: "",
+      searchShippingModeOption: [],
       isTableLoading: false,
+      fetchCondition: {
+        skip: 0,
+        limit: 20,
+        order: ""
+      },
       fetchOption: {
         url: "/cdiscount/search",
         where: "",
@@ -184,17 +193,17 @@ export default {
 
     Promise.all([orderStatus, orderType, shippingMode]).then(
       ([orderStatus, orderType, shippingMode]) => {
-        this.searchAccountOption = _.cloneDeep(orderStatus);
-        this.searchCountryOption = _.cloneDeep(orderType);
-        this.searchOrderstatusOption = _.cloneDeep(shippingMode);
+        this.searchOrderStatusOption = _.cloneDeep(orderStatus);
+        this.searchOrderTypeOption = _.cloneDeep(orderType);
+        this.searchShippingModeOption = _.cloneDeep(shippingMode);
       }
     );
     this.handleSearch();
   },
   methods: {
     handleCondition(sign) {
-      if (sign == "acc") {
-        if (!this.searchAccount) {
+      if (sign == "status") {
+        if (!this.searchOrderStatus) {
           _.pull(this.condition, "1");
         } else {
           if (!this.condition.includes("1")) {
@@ -202,8 +211,8 @@ export default {
           }
         }
       }
-      if (sign == "status") {
-        if (!this.searchOrderstatus) {
+      if (sign == "shippingMode") {
+        if (!this.searchShippingMode) {
           _.pull(this.condition, "2");
         } else {
           if (!this.condition.includes("2")) {
@@ -211,8 +220,8 @@ export default {
           }
         }
       }
-      if (sign == "cou") {
-        if (!this.searchCountry) {
+      if (sign == "orderType") {
+        if (!this.searchOrderType) {
           _.pull(this.condition, "3");
         } else {
           if (!this.condition.includes("3")) {
@@ -232,13 +241,13 @@ export default {
         order: this.fetchCondition.order
       };
       if (this.condition.includes("1")) {
-        data.account = this.searchAccount;
+        data.orderStatus = this.searchOrderStatus;
       }
       if (this.condition.includes("2")) {
-        data.orderstatus = this.searchOrderstatus;
+        data.shippingMode = this.searchShippingMode;
       }
       if (this.condition.includes("3")) {
-        data.country = this.searchCountry;
+        data.orderType = this.searchOrderType;
       }
       this.fetchTableData(data);
     }, 2000)
