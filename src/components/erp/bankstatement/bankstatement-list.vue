@@ -10,12 +10,12 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                  <el-table-column label="狀態" align="center">
+                  <!-- <el-table-column label="狀態" align="center">
                       <template slot-scope="{row}">
                             <i v-if="row.loading" class="el-icon-check"></i>
                             <i v-else class="el-icon-loading"></i>
                         </template>
-                  </el-table-column>
+                  </el-table-column> -->
                   <el-table-column width="200" label="用途"  align="center">
                         <template slot-scope="{row}">
                             <el-select v-model="row.purpose" @change="handleSelect">
