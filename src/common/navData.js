@@ -135,13 +135,21 @@ const nav = [
       {
         index: "restockCount",
         label: "補貨計算"
-      },
-      {
-        index: "cdiscount",
-        label: "Cdiscount"
       }
     ]
   },
+  {
+    index: "cdiscountParent",
+    label: "Cdiscount",
+    isLevel: true,
+    child: [
+      {
+        index: "Cdiscount",
+        label: "訂單清單"
+      }
+    ]
+  },
+
   {
     index: "wowcher",
     label: "Wowcher",
@@ -197,11 +205,12 @@ const nav = [
         label: "補發清單"
       }
     ]
-  },
-  {
-    index: "menuorder",
-    label: "菜单排序"
   }
+  // ,
+  // {
+  // index: "menuorder",
+  // label: "菜单排序"
+  // }
   // ,
   // {
   //   index: "email",

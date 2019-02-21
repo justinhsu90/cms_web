@@ -67,52 +67,54 @@
           v-loading="isTableLoading"
           @sort-change="handleSortChange"
         >
-          <el-table-column
+         <el-table-column
             min-width="60"
-            label="Sku"
-            prop="sku"
+            label="單號"
+            prop="orderId"
           >
           </el-table-column>
+         
           <el-table-column
             min-width="60"
-            label="orderStatus"
+            label="訂單狀態"
             prop="orderStatus"
           >
           </el-table-column>
           <el-table-column
             min-width="60"
-            label="orderType"
+            label="訂單類型"
             prop="orderType"
           >
           </el-table-column>
           <el-table-column
             min-width="60"
-            label="subSku"
+            label="發貨方式"
+            prop="shippingMode"
+          >
+          </el-table-column>
+
+           <el-table-column
+            min-width="150"
+            label="產品名稱"
+            prop="productName"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="60"
+            label="SKU"
             prop="subSku"
           >
           </el-table-column>
           <el-table-column
             min-width="60"
-            label="unitPrice"
+            label="售價"
             prop="unitPrice"
           >
           </el-table-column>
           <el-table-column
             min-width="60"
-            label="shippingFee"
+            label="運費"
             prop="shippingFee"
-          >
-          </el-table-column>
-          <el-table-column
-            min-width="60"
-            label="shippingMode"
-            prop="shippingMode"
-          >
-          </el-table-column>
-          <el-table-column
-            min-width="60"
-            label="orderId"
-            prop="orderId"
           >
           </el-table-column>
           <el-table-column

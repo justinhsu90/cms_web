@@ -10,8 +10,8 @@
             <el-input @blur="handleNewCheck" v-model="form.newSku"></el-input>
           </el-col>
           <el-col :span="4">
-            <el-tag v-if="newCheckDisabled" type="success">newSku 可用</el-tag>
-            <el-tag v-else type="info">newSku 不可用</el-tag>
+            <el-tag v-if="newCheckDisabled" type="success">新 SKU 可用</el-tag>
+            <el-tag v-else type="info">新 SKU 不可用</el-tag>
           </el-col>
         </el-row>
       </el-form-item>
@@ -21,8 +21,8 @@
             <el-input @blur="handleOldCheck" v-model="form.oldSku"></el-input>
           </el-col>
           <el-col :span="4">
-            <el-tag v-if="oldCheckDisabled" type="success">oldSku 可用</el-tag>
-            <el-tag v-else type="info">oldSku 不可用</el-tag>
+            <el-tag v-if="oldCheckDisabled" type="success">舊 SKU 可用</el-tag>
+            <el-tag v-else type="info">舊 SKU 不可用</el-tag>
           </el-col>
         </el-row>
       </el-form-item>
