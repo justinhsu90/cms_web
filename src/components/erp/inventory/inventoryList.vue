@@ -27,13 +27,9 @@
                     <el-table-column width="700" label="產品名稱" prop="productName"></el-table-column>
                     <el-table-column width="80" label="帳號" prop="account"></el-table-column>
                     <el-table-column width="80" label="平台" prop="platform"></el-table-column>
-                    <!-- <el-table-column width="80" label="新增" prop="addedBy"></el-table-column> -->
-                    <!-- <el-table-column width="80" label="新增時間" prop="addedTime" sortable="custom" :formatter="formatToTime" ></el-table-column> -->
                     <el-table-column width="90" label="異動時間" prop="datetime" :formatter="formatToDate"></el-table-column>
-                    <!-- <el-table-column width="80" label="最後更新" prop="lastModifiedBy" sortable="custom"></el-table-column> -->
                     <el-table-column width="80" label="轉出倉庫" prop="moveFrom"></el-table-column>
                     <el-table-column width="80" label="轉入倉庫" prop="moveTo"></el-table-column>
-                    <!-- <el-table-column min-width="130" label="snapshotUrl" prop="snapshotUrl"></el-table-column> -->
                     <el-table-column width="80" label="動作" fixed="right">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="刪除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
