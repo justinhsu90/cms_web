@@ -120,11 +120,11 @@ const nav = [
       {
         index: "erptakestock",
         label: "(6) 盤點紀錄"
-      },
-      {
-        index: "bankstatement",
-        label: "(7) 對帳單"
       }
+      // {
+      //   index: "bankstatement",
+      //   label: "(7) 對帳單"
+      // }
     ]
   },
   {

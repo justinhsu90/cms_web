@@ -16,12 +16,12 @@
                                 <img width="50" height="50" style="cursor:pointer" :src="scope.row.snapshotURL">
                             </template>
                         </el-table-column>
-                     </el-table>   
+                     </el-table>
                      <div style="float:right;margin-top:5px">
                             <el-pagination :small="true" @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
                             </el-pagination>
                         </div>
-                  </el-col>      
+                  </el-col>
             </el-row>
         </wonDialog>
     </div>
