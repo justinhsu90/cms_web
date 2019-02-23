@@ -10,17 +10,23 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                  <!-- <el-table-column label="狀態" align="center">
-                      <template slot-scope="{row}">
-                            <i v-if="row.loading" class="el-icon-check"></i>
-                            <i v-else class="el-icon-loading"></i>
-                        </template>
-                  </el-table-column> -->
                   <el-table-column width="200" label="用途"  align="center">
                         <template slot-scope="{row}">
-                            <el-select v-model="row.purpose" @change="handleSelect">
+                            <el-select :disabled="!!row.originPurpose"  v-model="row.purpose" @change="handleSelect(row)">
                                 <el-option v-for="(item,value) in purposeOption" :key="value" :label="item.purposeName" :value="item.purposeCode"></el-option>
                             </el-select>
+                        </template>
+                    </el-table-column>
+                    <el-table-column width="200" label="用途2"  align="center">
+                        <template slot-scope="{row}">
+
+                            <el-select  :disabled="!!row.originPurpose" v-model="row.toPerson"  v-if="specialData.includes(row.purpose)">
+                                <el-option v-for="(item,value) in peopleOption" :key="value" :label="item" :value="item"></el-option>
+                            </el-select>
+                            <el-select :disabled="!!row.originPurpose"  v-model="row.hedging" v-else-if="row.purpose == 'HEDGING'">
+                                <el-option v-for="(item,value) in row.hedgingOption" :key="value" :label="item" :value="item"></el-option>
+                            </el-select>
+                            <span v-else>--</span>
                         </template>
                     </el-table-column>
                     <el-table-column min-width="180" label="ID" prop="id"></el-table-column>
@@ -39,6 +45,13 @@
                     <el-table-column min-width="200" label="content" prop="content"></el-table-column>
                     <el-table-column min-width="190" label="datetime" prop="dateTime" :formatter="formatToTime"></el-table-column>
                     <el-table-column min-width="180" label="transactionType" prop="transactionType"></el-table-column>
+                    <el-table-column width="140" label="操作" align="center" fixed="right">
+                      <template slot-scope="{row}">
+                            <!-- <i v-if="row.loading" class="el-icon-check"></i>
+                            <i v-else class="el-icon-loading"></i> -->
+                            <el-button :loading="row.loading" type="success" :disabled="!!row.disabled || !!row.originPurpose " @click="handleSend(row)" size="small">发送</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </el-col>
             <won-pagination v-bind="paginationProps" v-on="paginationListeners">
@@ -48,46 +61,16 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
+import _ from "lodash";
 export default {
   extends: wonTableContainer,
   data() {
     return {
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      },
-      date: [],
-      condition: [],
-      isTableLoading: false,
+      specialData: ["SALARY", "OVERTIME_WORK_FEE", "ALLOWANCE", "LOAN"],
       purpose: "",
+      normalPurposeOption: [],
       purposeOption: [],
+      peopleOption: [],
       fetchCondition: {
         skip: 0,
         limit: 20
@@ -107,26 +90,88 @@ export default {
         token: this.token
       }
     });
-    Promise.all([purpose]).then(([res]) => {
-      this.purposeOption = _.cloneDeep(res);
+    let people = axios({
+      url: "/erp/bankstatement/value/people",
+      method: "post",
+      data: {
+        token: this.token
+      }
     });
+    Promise.all([purpose, people]).then(([res, resTwo]) => {
+      this.purposeOption = _.cloneDeep(res);
+      this.normalPurposeOption = _.filter(this.purposeOption, item => {
+        return !this.specialData.includes(item.purposeCode);
+      });
+      this.normalPurposeOption = _.map(this.normalPurposeOption, item => {
+        return item.purposeCode;
+      });
+      this.peopleOption = _.cloneDeep(resTwo);
+    });
+  },
+  watch: {
+    tableData: {
+      handler() {
+        _.each(this.tableData, res => {
+          if (this.specialData.includes(res.purpose) && res.toPerson) {
+            res.disabled = false;
+          }
+          if (res.purpose == "HEDGING" && res.hedging) {
+            res.disabled = false;
+          }
+          if (this.normalPurposeOption.includes(res.purpose)) {
+            res.disabled = false;
+          }
+        });
+      },
+      deep: true
+    }
   },
   methods: {
     fetchEnd() {
       this.tableData = _.each(this.tableData, item => {
-        item.loading = false;
+        this.$set(item, "loading", false);
+        item.hedgingOption = [];
+        item.originPurpose = item.purpose;
+        item.disabled = true;
       });
     },
-    handleSelect() {
-      // { purpose }
-      // axios({
-      //   url: "erp/bankstatement/update/purpose",
-      //   method: "post",
-      //   data: {
-      //     token: this.token,
-      //     purposeCode: purpose
-      //   }
-      // });
+    handleSelect(row) {
+      if (!this.specialData.includes(row.purpose)) {
+        let data = [];
+        _.each(this.tableData, item => {
+          if (!item.purpose) {
+            data.push(item.id);
+          }
+        });
+        row.hedgingOption = data;
+      }
+    },
+    getValue(row) {
+      let obj = {
+        transactionId: row.id,
+        purposeCode: row.purpose
+      };
+      if (this.specialData.includes(row.purpose) && row.toPerson) {
+        obj.toPerson = row.toPerson;
+      }
+      if (row.purpose == "HEDGING" && row.hedging) {
+        obj.hedgingTo = row.hedging;
+      }
+      return obj;
+    },
+    handleSend(row) {
+      row.loading = true;
+      axios({
+        url: "erp/bankstatement/update/purpose",
+        method: "post",
+        data: {
+          token: this.token,
+          ...this.getValue(row)
+        }
+      }).then(() => {
+        this.$message.success("发送成功");
+        row.loading = false;
+      });
     },
     handleSearch: _.debounce(function() {
       this.isTableLoading = true;
@@ -136,16 +181,6 @@ export default {
         skip: this.fetchCondition.skip,
         limit: this.fetchCondition.limit
       };
-      if (this.condition.includes("1")) {
-        data.inventoryType = this.inventoryType;
-      }
-      if (this.condition.includes("2")) {
-        data.warehouse = this.warehouse;
-      }
-      if (this.condition.includes("3")) {
-        data.startDate = this.date[0];
-        data.endDate = this.date[1];
-      }
       this.fetchTableData(data);
     }, 2000)
   }
