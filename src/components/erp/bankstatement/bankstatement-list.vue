@@ -30,21 +30,21 @@
                             <span v-else>--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="130" label="日期" prop="dateTime" :formatter="formatToTime"></el-table-column>
-                    <el-table-column min-width="100" label="ID" prop="id"></el-table-column>
+                    <el-table-column min-width="130" label="日期" prop="dateTime" sortable="custom" :formatter="formatToTime"></el-table-column>
+                    <el-table-column min-width="100" label="ID" prop="id" sortable="custom"></el-table-column>
                     <!-- <el-table-column min-width="160" label="帳號" prop="accountNumber"></el-table-column> -->
                     <!-- <el-table-column min-width="100" label="餘額" prop="accountBalance"> -->
                       <!-- <template slot-scope="scope"> -->
                           <!-- {{scope.row.accountBalance}} {{scope.row.currency}} -->
                       <!-- </template> -->
                     <!-- </el-table-column> -->
-                    <el-table-column min-width="100" label="交易類型" prop="transactionType"></el-table-column>
+                    <el-table-column min-width="100" label="交易類型" prop="transactionType" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="交易金額" prop="transactionAmount">
                       <template slot-scope="scope">
                           {{scope.row.transactionAmount}} {{scope.row.currency}}
                       </template>
                     </el-table-column>
-                    <el-table-column min-width="70" label="銀行" prop="bankName"></el-table-column>
+                    <el-table-column min-width="80" label="銀行" prop="bankName" sortable="custom"></el-table-column>
                     <el-table-column min-width="250" label="內容" prop="content"></el-table-column>
                     <el-table-column width="140" label="操作" align="center" fixed="right">
                       <template slot-scope="{row}">
@@ -180,7 +180,8 @@ export default {
         where: this.fetchOption.where,
         token: this.token,
         skip: this.fetchCondition.skip,
-        limit: this.fetchCondition.limit
+        limit: this.fetchCondition.limit,
+        order: this.fetchCondition.order
       };
       this.fetchTableData(data);
     }, 2000)

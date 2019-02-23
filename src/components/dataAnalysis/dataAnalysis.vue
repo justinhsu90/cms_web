@@ -2,12 +2,12 @@
   <div v-loading="loading">
     <el-row :gutter="10" style="padding:0px">
             <el-col :span="6"  >
-                <el-card  style="height:130px"> 
+                <el-card  style="height:130px">
                 <h5>今日做單訂單數量</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font ta">
-                         <span>{{shipmentCreatedParcelCountToday}}</span>  
+                         <span>{{shipmentCreatedParcelCountToday}}</span>
                      </div>
                      <div class="mt10">
                              <span class="fr f13 label-tips">單</span>
@@ -19,7 +19,7 @@
                 <br>
                 <div class="w50 fl">
                      <div class="font ta">
-                         <span>{{shipoutScanParcelCountToday}}</span>  
+                         <span>{{shipoutScanParcelCountToday}}</span>
                          <!-- <span>10</span>   -->
                      </div>
                      <div class="mt10">
@@ -29,7 +29,7 @@
                 </el-card>
             </el-col>
             <el-col :span="3" >
-                
+
             </el-col>
         </el-row>
         <br>
@@ -183,28 +183,28 @@
                 <div class="mt10">
                   <div class="fl" style="width:33.3%">
                         <div><h5 style="height:30px" class="ta">毛利</h5></div>
-                        <div class="mt10"><h5 class="ta">£{{v.margin | formatToMoney}}</h5></div>  
-                        <div class="mt10"><h5 class="ta">{{(v.marginPercent*100).toFixed(2)}}%</h5></div>  
+                        <div class="mt10"><h5 class="ta">£{{v.margin | formatToMoney}}</h5></div>
+                        <div class="mt10"><h5 class="ta">{{(v.marginPercent*100).toFixed(2)}}%</h5></div>
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.marginPercent}px;height:20px;border-radius:10px;background:rgb(241,76,108)`"></div></div>
                         </div>
                   </div>
                   <div class="fl"  style="width:33.3%">
                         <div><h5 style="height:30px" class="ta">產品成本</h5></div>
-                        <div class="mt10"><h5 class="ta">£{{v.productCost | formatToMoney}}</h5></div>  
-                        <div class="mt10"><h5 class="ta">{{(v.productCostPercent*100).toFixed(2)}}%</h5></div>  
+                        <div class="mt10"><h5 class="ta">£{{v.productCost | formatToMoney}}</h5></div>
+                        <div class="mt10"><h5 class="ta">{{(v.productCostPercent*100).toFixed(2)}}%</h5></div>
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.productCostPercent}px;height:20px;border-radius:10px;background:rgb(9,194,214)`"></div></div>
                         </div>
-                    </div>  
+                    </div>
                     <div class="fl" style="width:33.3%">
                         <div><h5 style="height:30px" class="ta">運輸成本</h5></div>
-                        <div class="mt10"><h5 class="ta">£{{v.shippingCost | formatToMoney}}</h5></div>  
-                        <div class="mt10"><h5 class="ta">{{(v.shippingCostPercent*100).toFixed(2)}}%</h5></div>  
+                        <div class="mt10"><h5 class="ta">£{{v.shippingCost | formatToMoney}}</h5></div>
+                        <div class="mt10"><h5 class="ta">{{(v.shippingCostPercent*100).toFixed(2)}}%</h5></div>
                         <div class="mt10">
                             <div style="width:80px;height:20px;border-radius:10px;background:rgb(231,235,238);margin:0 auto"><div :style="`width:${80*v.shippingCostPercent}px;height:20px;border-radius:10px;background:rgb(251,184,53)`"></div></div>
                         </div>
-                    </div>    
+                    </div>
                 </div>
                 </el-card>
             </el-col>
@@ -548,6 +548,10 @@ export default {
           _.cloneDeep(res.todayPlatformPerformance) || [];
         this.dateRangeSoldPerformance =
           _.cloneDeep(res.dateRangeSoldPerformance) || {};
+
+        this.shipoutScanParcelCountToday = res.shipoutScanParcelCountToday;
+        this.shipmentCreatedParcelCountToday =
+          res.shipmentCreatedParcelCountToday;
         this.loading = false;
       });
     },
