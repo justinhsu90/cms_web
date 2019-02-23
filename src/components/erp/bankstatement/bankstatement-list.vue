@@ -10,14 +10,14 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                  <el-table-column width="200" label="用途"  align="center">
+                  <el-table-column width="120" label="用途"  align="center">
                         <template slot-scope="{row}">
                             <el-select :disabled="!!row.originPurpose"  v-model="row.purpose" @change="handleSelect(row)">
                                 <el-option v-for="(item,value) in purposeOption" :key="value" :label="item.purposeName" :value="item.purposeCode"></el-option>
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column width="200" label="用途2"  align="center">
+                    <el-table-column width="120" label="用途2"  align="center">
                         <template slot-scope="{row}">
 
                             <el-select  :disabled="!!row.originPurpose" v-model="row.toPerson"  v-if="specialData.includes(row.purpose)">
@@ -29,22 +29,22 @@
                             <span v-else>--</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="180" label="ID" prop="id"></el-table-column>
-                    <el-table-column min-width="200" label="accountNumber" prop="accountNumber"></el-table-column>
-                    <el-table-column min-width="160" label="accountBalance" prop="accountBalance">
-                      <template slot-scope="scope">
-                          {{scope.row.accountBalance}} {{scope.row.currency}}
-                      </template>
-                    </el-table-column>
-                    <el-table-column min-width="180" label="transactionAmount" prop="transactionAmount">
+                    <el-table-column min-width="130" label="日期" prop="dateTime" :formatter="formatToTime"></el-table-column>
+                    <el-table-column min-width="100" label="ID" prop="id"></el-table-column>
+                    <el-table-column min-width="140" label="帳號" prop="accountNumber"></el-table-column>
+                    <!-- <el-table-column min-width="100" label="餘額" prop="accountBalance"> -->
+                      <!-- <template slot-scope="scope"> -->
+                          <!-- {{scope.row.accountBalance}} {{scope.row.currency}} -->
+                      <!-- </template> -->
+                    <!-- </el-table-column> -->
+                    <el-table-column min-width="100" label="交易類型" prop="transactionType"></el-table-column>
+                    <el-table-column min-width="100" label="交易金額" prop="transactionAmount">
                       <template slot-scope="scope">
                           {{scope.row.transactionAmount}} {{scope.row.currency}}
                       </template>
                     </el-table-column>
-                    <el-table-column min-width="110" label="bankName" prop="bankName"></el-table-column>
-                    <el-table-column min-width="200" label="content" prop="content"></el-table-column>
-                    <el-table-column min-width="190" label="datetime" prop="dateTime" :formatter="formatToTime"></el-table-column>
-                    <el-table-column min-width="180" label="transactionType" prop="transactionType"></el-table-column>
+                    <el-table-column min-width="70" label="銀行" prop="bankName"></el-table-column>
+                    <el-table-column min-width="250" label="內容" prop="content"></el-table-column>
                     <el-table-column width="140" label="操作" align="center" fixed="right">
                       <template slot-scope="{row}">
                             <!-- <i v-if="row.loading" class="el-icon-check"></i>
@@ -169,7 +169,7 @@ export default {
           ...this.getValue(row)
         }
       }).then(() => {
-        this.$message.success("发送成功");
+        this.$message.success("發送成功");
         row.loading = false;
       });
     },
