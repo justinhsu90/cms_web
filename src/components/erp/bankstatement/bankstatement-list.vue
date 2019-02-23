@@ -10,7 +10,8 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                  <el-table-column width="120" label="用途"  align="center">
+                <el-table-column min-width="80" label="同步狀態" prop="updateStatus" :formatter="formatToTime"></el-table-column>
+                <el-table-column width="120" label="用途"  align="center">
                         <template slot-scope="{row}">
                             <el-select :disabled="!!row.originPurpose"  v-model="row.purpose" @change="handleSelect(row)">
                                 <el-option v-for="(item,value) in purposeOption" :key="value" :label="item.purposeName" :value="item.purposeCode"></el-option>
