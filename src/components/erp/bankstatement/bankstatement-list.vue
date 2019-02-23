@@ -32,7 +32,7 @@
                     </el-table-column>
                     <el-table-column min-width="130" label="日期" prop="dateTime" :formatter="formatToTime"></el-table-column>
                     <el-table-column min-width="100" label="ID" prop="id"></el-table-column>
-                    <el-table-column min-width="140" label="帳號" prop="accountNumber"></el-table-column>
+                    <!-- <el-table-column min-width="160" label="帳號" prop="accountNumber"></el-table-column> -->
                     <!-- <el-table-column min-width="100" label="餘額" prop="accountBalance"> -->
                       <!-- <template slot-scope="scope"> -->
                           <!-- {{scope.row.accountBalance}} {{scope.row.currency}} -->
