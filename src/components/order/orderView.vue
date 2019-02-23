@@ -46,14 +46,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="訂單狀態">
+            <el-form-item label="訂單處理方式">
               <el-select  :value="data.orderType" @input="handleChange">
                 <el-option v-for="(v,i) in searchStatusOption" :label="v.orderType" :value="v.orderType" :key="i"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="狀態">
+            <el-form-item label="取消原因">
               <el-select  :value="data.orderCancelledReasonNameCode"  @input="handleChangeOrder">
                 <el-option v-for="(v,i) in searchOrderCancell" :label="v.orderCancelledReasonName" :value="v.orderCancelledReasonNameCode" :key="i"></el-option>
               </el-select>

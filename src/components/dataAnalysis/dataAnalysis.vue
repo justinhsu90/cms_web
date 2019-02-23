@@ -1,102 +1,38 @@
 <template>
   <div v-loading="loading">
-    <!-- <el-row :gutter="10" style="padding:0px">
-            <el-col :span="5"  >
+    <el-row :gutter="10" style="padding:0px">
+            <el-col :span="6"  >
                 <el-card  style="height:130px"> 
-                <h5>今日須出貨包裹數量</h5>
+                <h5>今日做單訂單數量</h5>
                 <br>
                 <div class="w50 fl">
                     <div class="font ta">
-                         <span>{{parcelCount.singleParcelCount}}</span>  
+                         <span>{{shipmentCreatedParcelCountToday}}</span>  
                      </div>
                      <div class="mt10">
-                             <span class="fr f13 label-tips">單件裝</span>
+                             <span class="fr f13 label-tips">單</span>
                      </div>
                 </div>
-                <div class="w50 fr "> 
+                <!-- </el-card> -->
+                <!-- <el-card style="height:130px"> -->
+                  <h5>已標記出貨訂單數量</h5>
+                <br>
+                <div class="w50 fl">
                      <div class="font ta">
-                        <span>{{parcelCount.multiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips">多件裝</span>
-                    </div>
+                         <span>{{shipoutScanParcelCountToday}}</span>  
+                         <!-- <span>10</span>   -->
+                     </div>
+                     <div class="mt10">
+                             <span class="fr f13 label-tips">單</span>
+                     </div>
                 </div>
                 </el-card>
             </el-col>
-            <el-col :span="5" >
-                <el-card style="height:130px">
-                  <h5>目前準備出貨包裹數量</h5>
-                <br>
-                <div class="w50 fl">
-                    <div class="font ta">
-                         <span >{{parcelCount.currectPackedSingleParcelCount}}</span>  
-                     </div>
-                     <div  class="mt10">   
-                             <span class="fr f13 label-tips">單件裝</span>
-                             <span  class="fr f13" style="color:rgb(170,52,48)">{{parcelCount.completeRateOfSingle*100}}%&nbsp;</span>   
-                     </div>
-                </div>
-                <div class="w50 fr "> 
-                     <div class="font ta">
-                        <span>{{parcelCount.currectPackedMultiParcelCount}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips" >多件裝</span>
-                         <span class="fr f13" style="color:rgb(170,52,48)">{{parcelCount.completeRateOfMulti*100}}%&nbsp;</span>   
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-              <el-col :span="7" >
-                  <el-card style="height:130px">
-                  <h5>&nbsp;&nbsp;本月日均毛利</h5>
-                <br>
-                <div class="w50 fl">
-                    <div class="font ta ">
-                         <span style="color:black">£{{MarginTarget.dailyMarginTarget | formatToMoney}}</span>  
-                     </div>
-                     <div  class="mt10">   
-                             <span class="fr f13 label-tips">目標毛利</span>
-                     </div>
-                </div>
-                <div class="w50 fr "> 
-                     <div class="font ta">
-                        <span style="color:black">£{{MarginTarget.dailyMarginActual | formatToMoney}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips" >實際毛利</span>
-                         <span class="fr f13" style="color:rgb(170,52,48)">{{MarginTarget.dailyMarginPerformancePercent*100}}%&nbsp;</span>   
-                    </div>
-                </div>
-                </el-card>
-            </el-col>
-              <el-col :span="6" >
-                  <el-card style="height:130px">
-                  <h5>&nbsp;&nbsp;本月日均毛利</h5>
-                <br>
-                <div class="w50 fl">
-                    <div class="font2 ta ">
-                         <span>£{{MarginTarget.monthlyMarginTarget | formatToMoney}}</span>  
-                     </div>
-                     <div  class="mt10">   
-                             <span class="fr f13 label-tips">目標毛利</span>
-                             <span class="fr f13 label-tips" style="color:rgb(170,52,48)">剩餘{{MarginTarget.remainDaysOfMonth}}天&nbsp;</span>
-                     </div>
-                </div>
-                <div class="w50 fr "> 
-                     <div class="font2 ta">
-                        <span>£{{MarginTarget.monthlyMarginActual | formatToMoney}}</span>
-                    </div>
-                    <div  class="mt10">
-                         <span class="fr f13 label-tips" >實際毛利</span>
-                         <span class="fr f13" style="color:rgb(170,52,48)">{{MarginTarget.monthlyMarginPerformancePercent*100}}%&nbsp;</span>   
-                          <span class="fr  f13 label-tips" style="color:rgb(170,52,48)">尚須{{MarginTarget.daysToReachTarget}}天&nbsp;</span>
-                    </div>
-                </div>
-                </el-card>
+            <el-col :span="3" >
+                
             </el-col>
         </el-row>
-        <br> -->
+        <br>
     <el-row
       v-if="todayPlatformPerformance.length"
       class="dataAnaly"
@@ -522,6 +458,8 @@ export default {
     monthlyPerformance: [],
     platformPerformance: [],
     loading: true,
+    shipoutScanParcelCountToday: 0,
+    shipmentCreatedParcelCountToday: 0,
     account: "",
     month: "",
     year: "",
