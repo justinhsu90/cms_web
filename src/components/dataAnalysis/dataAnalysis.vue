@@ -1,38 +1,73 @@
 <template>
   <div v-loading="loading">
-    <el-row :gutter="10" style="padding:0px">
-            <el-col :span="6"  >
-                <el-card  style="height:130px">
-                <h5>今日做單訂單數量</h5>
-                <br>
-                <div class="w50 fl">
-                    <div class="font ta">
-                         <span>{{shipmentCreatedParcelCountToday}}</span>
-                     </div>
-                     <div class="mt10">
-                             <span class="fr f13 label-tips">單</span>
-                     </div>
-                </div>
-                <!-- </el-card> -->
-                <!-- <el-card style="height:130px"> -->
-                  <h5>已標記出貨訂單數量</h5>
-                <br>
-                <div class="w50 fl">
-                     <div class="font ta">
-                         <span>{{shipoutScanParcelCountToday}}</span>
-                         <!-- <span>10</span>   -->
-                     </div>
-                     <div class="mt10">
-                             <span class="fr f13 label-tips">單</span>
-                     </div>
-                </div>
-                </el-card>
-            </el-col>
-            <el-col :span="3" >
+    <el-row
+      :gutter="10"
+      style="padding:0px"
+    >
+      <el-col :span="6">
 
-            </el-col>
-        </el-row>
-        <br>
+        <el-card style="height:115px">
+          <h5>今日做單訂單數量</h5>
+          <br>
+          <div class="w30 fl">
+            <div class="font tc">
+              <span>{{shipmentCreatedParcelCountToday}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">單</span>
+            </div>
+          </div>
+          <div class="w35 fn">
+            <div class="font tc">
+              <span>--</span>
+            </div>
+            <div class="mt10 tc">
+              <span class="f13 label-tips">--</span>
+            </div>
+          </div>
+          <div class="w30 fr">
+            <div class="font tc">
+              <span>--</span>
+            </div>
+            <div class="mt10 tc">
+              <span class="f13 label-tips">--</span>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+
+        <el-card style="height:115px">
+          <h5>已標記出貨訂單數量</h5>
+          <br>
+          <div class="w30 fl">
+            <div class="font tc">
+              <span>{{shipoutScanParcelCountToday}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">單</span>
+            </div>
+          </div>
+          <div class="w35 fn">
+            <div class="font tc">
+              <span>--</span>
+            </div>
+            <div class="mt10 tc">
+              <span class="f13 label-tips">--</span>
+            </div>
+          </div>
+          <div class="w30 fr">
+            <div class="font tc">
+              <span>--</span>
+            </div>
+            <div class="mt10 tc">
+              <span class="f13 label-tips">--</span>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <br>
     <el-row
       v-if="todayPlatformPerformance.length"
       class="dataAnaly"
