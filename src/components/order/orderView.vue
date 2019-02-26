@@ -48,7 +48,7 @@
           <el-col :span="4">
             <el-form-item label="訂單處理方式">
               <el-select  :value="data.orderType" @input="handleChange">
-                <el-option v-for="(v,i) in searchStatusOption" :label="v.orderType" :value="v.orderType" :key="i"></el-option>
+                <el-option v-for="(v,i) in searchStatusOption" :label="v.orderType" :value="v.orderTypeCode" :key="i"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
