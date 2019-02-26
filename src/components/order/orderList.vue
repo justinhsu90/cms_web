@@ -2,27 +2,28 @@
   <div>
     <el-row>
       <el-col :span="24">
-        <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
-        </el-input>
-          <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-            <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
-          </el-select>
-          <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
-            <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
-              <span style="float: left">{{ v.countryCode }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryName }}</span>
-            </el-option>
-          </el-select>
-          <el-select class="w-max150" placeholder="出貨狀態" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
-            <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v.name" :value="v.name"></el-option>
-          </el-select>
-          <el-select class="w-max150" placeholder="訂單狀態" v-model="searchOrdertype" @change="handleCondition('type')" clearable>
-            <el-option v-for="(v,i) in searchOrdertypeOption" :key="'languate'+i" :value="v.name">
-            </el-option>
-          </el-select>
-        <div  @click="handleSearch" class="el-input-group__append search">
-          <i class="el-icon-search"></i>
-        </div>
+              <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
+              </el-input>
+                <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
+                  <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
+                  <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryName">
+                    <span style="float: left">{{ v.countryCode }}</span>
+                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryName }}</span>
+                  </el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="出貨狀態" v-model="searchOrderstatus" @change="handleCondition('status')" clearable>
+                  <el-option v-for="(v,i) in searchOrderstatusOption" :key="'plat'+i" :label="v.name" :value="v.name"></el-option>
+                </el-select>
+                <el-select class="w-max150" placeholder="訂單狀態" v-model="searchOrdertype" @change="handleCondition('type')" clearable>
+                  <el-option v-for="(v,i) in searchOrdertypeOption" :key="'languate'+i" :value="v.name">
+                  </el-option>
+                </el-select>
+                <div  @click="handleSearch" class="el-input-group__append search">
+                  <i class="el-icon-search"></i>
+                </div>
+              <el-button type="success" class="f-r" @click="handleShow" size="medium">清除出貨紀錄</el-button>
       </el-col>
       <el-col class="mt5">
         <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
@@ -35,11 +36,6 @@
           <el-table-column min-width="120" label="客戶名稱" prop="customerName"></el-table-column>
           <el-table-column min-width="120" label="客戶email" prop="email"></el-table-column>
           <el-table-column min-width="120" label="單號" prop="trackingNo" sortable="custom">
-            <!-- <template slot-scope="scope">
-              <el-button type="text" @click="handleLook(scope.row.trackingNo)">
-                <span>{{scope.row.trackingNo}}</span>
-              </el-button>
-            </template> -->
           </el-table-column>
           <el-table-column width="50" label="動作" fixed="right">
             <template slot-scope="scope">
@@ -58,6 +54,8 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
+import showDialog from "won-service/component/won-dialog/dialog";
+import orderClear from "./orderClear";
 export default {
   extends: wonTableContainer,
   data() {
@@ -126,6 +124,12 @@ export default {
     this.handleSearch();
   },
   methods: {
+    handleShow() {
+      showDialog(orderClear, {
+        title: "清除出貨紀錄",
+        width: "40%"
+      });
+    },
     handleLook(val) {
       this.$router.push({
         name: "trackingStatus",
