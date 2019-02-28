@@ -5,7 +5,7 @@
       style="padding:0px">
       <el-col :span="6">
         <el-card style="height:115px">
-          <h5>出貨狀況</h5>
+          <h5>出貨狀況 (訂單數)</h5>
           <br>
           <div class="w30 fl">
             <div class="font tc">
@@ -462,6 +462,7 @@ export default {
     loading: true,
     shipoutScanParcelCountToday: 0,
     shipmentCreatedParcelCountToday: 0,
+    shipmentUncreatedOrderCount: 0,
     account: "",
     month: "",
     year: "",
@@ -554,6 +555,7 @@ export default {
         this.shipoutScanParcelCountToday = res.shipoutScanParcelCountToday;
         this.shipmentCreatedParcelCountToday =
           res.shipmentCreatedParcelCountToday;
+        this.shipmentUncreatedOrderCount = res.shipmentUncreatedOrderCount;
         this.loading = false;
       });
     },

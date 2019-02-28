@@ -10,15 +10,15 @@
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                <el-table-column min-width="80" label="同步狀態" prop="updateStatus" :formatter="formatToTime"></el-table-column>
-                <el-table-column width="120" label="用途"  align="center">
+                <el-table-column min-width="40" label="狀態" prop="updateStatus" :formatter="formatToTime"></el-table-column>
+                <el-table-column width="130" label="用途"  align="center">
                         <template slot-scope="{row}">
                             <el-select :disabled="!!row.originPurpose"  v-model="row.purpose" @change="handleSelect(row)">
                                 <el-option v-for="(item,value) in purposeOption" :key="value" :label="item.purposeName" :value="item.purposeCode"></el-option>
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column width="120" label="用途2"  align="center">
+                    <el-table-column width="200" label="用途2"  align="center">
                         <template slot-scope="{row}">
 
                             <el-select  :disabled="!!row.originPurpose" v-model="row.toPerson"  v-if="specialData.includes(row.purpose)">
@@ -45,8 +45,8 @@
                       </template>
                     </el-table-column>
                     <el-table-column min-width="80" label="銀行" prop="bankName" sortable="custom"></el-table-column>
-                    <el-table-column min-width="250" label="內容" prop="content"></el-table-column>
-                    <el-table-column width="140" label="操作" align="center" fixed="right">
+                    <el-table-column min-width="300" label="內容" prop="content"></el-table-column>
+                    <el-table-column width="80" label="操作" align="center" fixed="right">
                       <template slot-scope="{row}">
                             <!-- <i v-if="row.loading" class="el-icon-check"></i>
                             <i v-else class="el-icon-loading"></i> -->
