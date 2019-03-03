@@ -1,0 +1,192 @@
+<template>
+    <div v-loading="pageLoadng">
+        <h3 class="mb20">文件下載</h3>
+        <div class="ml20">
+          <el-form ref="form" :model="form" label-width="100px" label-position="right" :rules="rules">
+            <el-form-item label="文件類型：" prop="fileType">
+                <el-select v-model="form.fileType" placeholder="文件類型">
+                    <el-option v-for="(value,item) in fileTypeOption" :key="item" :value="value.fileTypeCode" :label="value.fileTypeName"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-row :span="20">
+                <el-col :span="4">
+                  <el-form-item label="賬號：" prop="account">
+                      <el-select v-model="form.account" placeholder="賬號">
+                          <el-option v-for="(value,item) in accountOption" :key="item" :value="value.account" :label="value.account"></el-option>
+                      </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4">
+                  <el-form-item label="國家：" prop="country">
+                      <el-select v-model="form.country" placeholder="國家">
+                          <el-option v-for="(value,item) in countryOption" :key="item" :value="value.countryCode" :label="value.countryName"></el-option>
+                      </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="日期：" prop="date">
+                        <el-date-picker class="w-max200" v-model="form.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="4">
+                    <el-form-item label="fullDoc：">
+                        <el-switch v-model="form.fullDoc"></el-switch>
+                    </el-form-item>
+                </el-col>
+              </el-row>
+            <el-row :gutter="20">
+              <el-col :span="4">
+                <el-form-item label="獲取文件：">
+                      <el-button type="success" :loading="loading" size="small" @click="submit">獲取</el-button>
+                </el-form-item>
+              </el-col>
+              <el-col :span="4">
+                <el-form-item label="下載文件：" v-if="url">
+                    <a :href="url">點擊下載</a>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+    </div>
+</template>
+
+<script>
+import moment from "moment";
+export default {
+  data() {
+    return {
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
+      },
+      fileTypeOption: [],
+      accountOption: [],
+      countryOption: [],
+      loading: false,
+      pageLoadng: true,
+      url: "",
+      rules: {
+        fileType: {
+          required: true,
+          message: "此項必填"
+        },
+        account: {
+          required: true,
+          message: "此項必填"
+        },
+        country: {
+          required: true,
+          message: "此項必填"
+        },
+        date: {
+          required: true,
+          message: "此項必填"
+        }
+      },
+      form: {
+        fileType: "",
+        account: "",
+        country: "",
+        date: "",
+        fullDoc: false
+      }
+    };
+  },
+  created() {
+    let filetype = axios({
+      url: "excel/download/value/filetype",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.fileTypeOption = _.cloneDeep(res);
+    });
+    let account = axios({
+      url: "wowcher/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.accountOption = _.cloneDeep(res.data);
+    });
+    let country = axios({
+      url: "wowcher/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    }).then(res => {
+      this.countryOption = _.cloneDeep(res.data);
+    });
+    Promise.all([filetype, account, country]).then(() => {
+      this.pageLoadng = false;
+    });
+  },
+  methods: {
+    getValue() {
+      let _form = _.cloneDeep(this.form);
+      _form.startDate = moment(_form.date[0]).format("YYYY-MM-DD");
+      _form.endDate = moment(_form.date[1]).format("YYYY-MM-DD");
+
+      delete _form.date;
+      return {
+        token: this.token,
+        ..._form
+      };
+    },
+    submit() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          this.loading = true;
+          axios({
+            url: "excel/download/get",
+            method: "post",
+            data: this.getValue()
+          }).then(res => {
+            this.$message.success("獲取成功");
+            this.loading = false;
+            this.url = res;
+          });
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style scoped lang="scss">
+a {
+  color: #45a2ff;
+}
+</style>

@@ -77,6 +77,10 @@ const nav = [
       {
         index: "platformSales",
         label: "各平台銷售表"
+      },
+      {
+        index: "downfileSales",
+        label: "文件下載"
       }
     ]
   },

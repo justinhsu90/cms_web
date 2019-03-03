@@ -12,20 +12,22 @@
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
                 <el-table-column min-width="80" label="同步狀態" prop="updateStatus" :formatter="formatToTime"></el-table-column>
                 <el-table-column width="120" label="用途"  align="center">
+                        :disabled="!!row.originPurpose"
                         <template slot-scope="{row}">
-                            <el-select :disabled="!!row.originPurpose"  v-model="row.purpose" @change="handleSelect(row)">
-                                <el-option v-for="(item,value) in purposeOption" :key="value" :label="item.purposeName" :value="item.purposeCode"></el-option>
+                            <el-select  v-model="row.purpose" @change="handleSelect(row)">
+                                <el-option class="option-directive" v-for="(item,value) in purposeOption" :key="value" :label="item.purposeName" :value="item.purposeCode"></el-option>
                             </el-select>
                         </template>
                     </el-table-column>
                     <el-table-column width="120" label="用途2"  align="center">
                         <template slot-scope="{row}">
-
-                            <el-select  :disabled="!!row.originPurpose" v-model="row.toPerson"  v-if="specialData.includes(row.purpose)">
-                                <el-option v-for="(item,value) in peopleOption" :key="value" :label="item" :value="item"></el-option>
+                            <!-- :disabled="!!row.originPurpose"
+                            :disabled="!!row.originPurpose" -->
+                            <el-select   v-model="row.toPerson"  v-if="specialData.includes(row.purpose)">
+                                <el-option class="option-directive" v-for="(item,value) in peopleOption" :key="value" :label="item" :value="item"></el-option>
                             </el-select>
-                            <el-select :disabled="!!row.originPurpose"  v-model="row.hedging" v-else-if="row.purpose == 'HEDGING'">
-                                <el-option v-for="(item,value) in row.hedgingOption" :key="value" :label="item" :value="item"></el-option>
+                            <el-select   v-model="row.hedging" v-else-if="row.purpose == 'HEDGING'">
+                                <el-option class="option-directive" v-for="(item,value) in row.hedgingOption" :key="value" :label="item" :value="item"></el-option>
                             </el-select>
                             <span v-else>--</span>
                         </template>
@@ -50,7 +52,8 @@
                       <template slot-scope="{row}">
                             <!-- <i v-if="row.loading" class="el-icon-check"></i>
                             <i v-else class="el-icon-loading"></i> -->
-                            <el-button :loading="row.loading" type="success" :disabled="!!row.disabled || !!row.originPurpose " @click="handleSend(row)" size="small">发送</el-button>
+                            <!-- || !!row.originPurpose -->
+                            <el-button :loading="row.loading" type="success" :disabled="!!row.disabled" @click="handleSend(row)" size="small">发送</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -74,7 +77,8 @@ export default {
       peopleOption: [],
       fetchCondition: {
         skip: 0,
-        limit: 20
+        limit: 20,
+        order: ""
       },
       fetchOption: {
         url: "/erp/bankstatement/search",
@@ -112,17 +116,17 @@ export default {
   watch: {
     tableData: {
       handler() {
-        _.each(this.tableData, res => {
-          if (this.specialData.includes(res.purpose) && res.toPerson) {
-            res.disabled = false;
-          }
-          if (res.purpose == "HEDGING" && res.hedging) {
-            res.disabled = false;
-          }
-          if (this.normalPurposeOption.includes(res.purpose)) {
-            res.disabled = false;
-          }
-        });
+        // _.each(this.tableData, res => {
+        //   if (this.specialData.includes(res.purpose) && res.toPerson) {
+        //     res.disabled = false;
+        //   }
+        //   if (res.purpose == "HEDGING" && res.hedging) {
+        //     res.disabled = false;
+        //   }
+        //   if (this.normalPurposeOption.includes(res.purpose)) {
+        //     res.disabled = false;
+        //   }
+        // });
       },
       deep: true
     }
@@ -131,9 +135,9 @@ export default {
     fetchEnd() {
       this.tableData = _.each(this.tableData, item => {
         this.$set(item, "loading", false);
+        this.$set(item, "disabled", false);
         item.hedgingOption = [];
         item.originPurpose = item.purpose;
-        item.disabled = true;
       });
     },
     handleSelect(row) {
@@ -169,9 +173,10 @@ export default {
           token: this.token,
           ...this.getValue(row)
         }
-      }).then(() => {
+      }).then(res => {
         this.$message.success("發送成功");
         row.loading = false;
+        row.disabled = res;
       });
     },
     handleSearch: _.debounce(function() {
@@ -188,3 +193,12 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.option-directive {
+  height: 25px !important;
+  line-height: 25px !important;
+}
+.option-directive.el-select-dropdown__item span {
+  line-height: 25px !important;
+}
+</style>
