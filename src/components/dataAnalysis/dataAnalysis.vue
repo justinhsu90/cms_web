@@ -2,97 +2,33 @@
   <div v-loading="loading">
     <el-row
       :gutter="10"
-      style="padding:0px"
-    >
+      style="padding:0px">
       <el-col :span="6">
-
         <el-card style="height:115px">
-          <h5>今日做單訂單數量</h5>
+          <h5>出貨狀況 (訂單數)</h5>
           <br>
           <div class="w30 fl">
             <div class="font tc">
               <span>{{shipmentCreatedParcelCountToday}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">單</span>
+              <span class=" f13 label-tips">今日做單</span>
             </div>
           </div>
           <div class="w35 fn">
-            <div class="font tc">
-              <span>--</span>
-            </div>
-            <div class="mt10 tc">
-              <span class="f13 label-tips">--</span>
-            </div>
-          </div>
-          <div class="w30 fr">
-            <div class="font tc">
-              <span>--</span>
-            </div>
-            <div class="mt10 tc">
-              <span class="f13 label-tips">--</span>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-
-        <el-card style="height:115px">
-          <h5>已標記出貨訂單數量</h5>
-          <br>
-          <div class="w30 fl">
             <div class="font tc">
               <span>{{shipoutScanParcelCountToday}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">單</span>
-            </div>
-          </div>
-          <div class="w35 fn">
-            <div class="font tc">
-              <span>--</span>
-            </div>
-            <div class="mt10 tc">
-              <span class="f13 label-tips">--</span>
+              <span class=" f13 label-tips">標記出貨單</span>
             </div>
           </div>
           <div class="w30 fr">
             <div class="font tc">
-              <span>--</span>
+              <span>{{shipmentUncreatedOrderCount}}</span>
             </div>
             <div class="mt10 tc">
-              <span class="f13 label-tips">--</span>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-
-        <el-card style="height:115px">
-          <h5>已標記出貨訂單數量</h5>
-          <br>
-          <div class="w30 fl">
-            <div class="font tc">
-              <span>{{shipoutScanParcelCountToday}}</span>
-            </div>
-            <div class="mt10 tc">
-              <span class=" f13 label-tips">單</span>
-            </div>
-          </div>
-          <div class="w35 fn">
-            <div class="font tc">
-              <span>--</span>
-            </div>
-            <div class="mt10 tc">
-              <span class="f13 label-tips">--</span>
-            </div>
-          </div>
-          <div class="w30 fr">
-            <div class="font tc">
-              <span>--</span>
-            </div>
-            <div class="mt10 tc">
-              <span class="f13 label-tips">--</span>
+              <span class=" f13 label-tips">未做單</span>
             </div>
           </div>
         </el-card>
@@ -526,6 +462,7 @@ export default {
     loading: true,
     shipoutScanParcelCountToday: 0,
     shipmentCreatedParcelCountToday: 0,
+    shipmentUncreatedOrderCount: 0,
     account: "",
     month: "",
     year: "",
@@ -618,6 +555,7 @@ export default {
         this.shipoutScanParcelCountToday = res.shipoutScanParcelCountToday;
         this.shipmentCreatedParcelCountToday =
           res.shipmentCreatedParcelCountToday;
+        this.shipmentUncreatedOrderCount = res.shipmentUncreatedOrderCount;
         this.loading = false;
       });
     },

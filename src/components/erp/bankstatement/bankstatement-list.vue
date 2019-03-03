@@ -19,7 +19,7 @@
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column width="120" label="用途2"  align="center">
+                    <el-table-column width="200" label="用途2" align="center"  >
                         <template slot-scope="{row}">
                             <!-- :disabled="!!row.originPurpose"
                             :disabled="!!row.originPurpose" -->
@@ -47,8 +47,8 @@
                       </template>
                     </el-table-column>
                     <el-table-column min-width="80" label="銀行" prop="bankName" sortable="custom"></el-table-column>
-                    <el-table-column min-width="250" label="內容" prop="content"></el-table-column>
-                    <el-table-column width="140" label="操作" align="center" fixed="right">
+                    <el-table-column min-width="300" label="內容" prop="content" sortable="custom"></el-table-column>
+                    <el-table-column width="80" label="操作" align="center" fixed="right">
                       <template slot-scope="{row}">
                             <!-- <i v-if="row.loading" class="el-icon-check"></i>
                             <i v-else class="el-icon-loading"></i> -->
@@ -78,7 +78,7 @@ export default {
       fetchCondition: {
         skip: 0,
         limit: 20,
-        order: ""
+        order: "-id"
       },
       fetchOption: {
         url: "/erp/bankstatement/search",
