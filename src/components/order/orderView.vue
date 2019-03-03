@@ -249,6 +249,7 @@ export default {
   created() {
     let oldData = JSON.parse(this.$route.query.data);
     this.data = _.extend({}, this.data, oldData);
+    this.data.orderType = oldData.orderTypeCode;
     axios({
       url: "wowcher/value/orderType",
       method: "post",
