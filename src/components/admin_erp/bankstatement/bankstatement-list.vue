@@ -7,6 +7,7 @@
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
+                <el-switch v-model="showNonPurposeOnly" @change="handleSwitch"></el-switch>
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
@@ -70,6 +71,7 @@ export default {
   extends: wonTableContainer,
   data() {
     return {
+      showNonPurposeOnly: false,
       specialData: ["SALARY", "OVERTIME_WORK_FEE", "ALLOWANCE", "LOAN"],
       purpose: "",
       normalPurposeOption: [],
@@ -132,6 +134,9 @@ export default {
     }
   },
   methods: {
+    handleSwitch() {
+      this.handleSearch();
+    },
     fetchEnd() {
       this.tableData = _.each(this.tableData, item => {
         this.$set(item, "loading", false);
@@ -188,6 +193,9 @@ export default {
         limit: this.fetchCondition.limit,
         order: this.fetchCondition.order
       };
+      if (this.showNonPurposeOnly) {
+        data.showNonPurposeOnly = true;
+      }
       this.fetchTableData(data);
     }, 2000)
   }

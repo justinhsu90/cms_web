@@ -3,7 +3,7 @@ export default [
   {
     name: "receivableReport",
     path: "/receivableReport",
-    component: asyncComponent("erp/receivableReport/receivableReport"),
+    component: asyncComponent("admin_erp/receivableReport/receivableReport"),
     meta: {
       keepAlive: true
     }
@@ -11,7 +11,7 @@ export default [
   {
     name: "receivableReportAdd",
     path: "/receivableReportAdd",
-    component: asyncComponent("erp/receivableReport/receivableReportAdd"),
+    component: asyncComponent("admin_erp/receivableReport/receivableReportAdd"),
     meta: {
       sign: "receivableReport"
     }
@@ -19,7 +19,9 @@ export default [
   {
     name: "receivableReportEdit",
     path: "/receivableReportEdit",
-    component: asyncComponent("erp/receivableReport/receivableReportEdit"),
+    component: asyncComponent(
+      "admin_erp/receivableReport/receivableReportEdit"
+    ),
     meta: {
       sign: "receivableReport"
     }

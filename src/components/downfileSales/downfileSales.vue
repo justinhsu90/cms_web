@@ -9,21 +9,21 @@
                 </el-select>
             </el-form-item>
             <el-row :span="20">
-                <el-col :span="4">
+                <el-col :span="4" v-if="!accountHide.includes(form.fileType)">
                   <el-form-item label="帳號：" prop="account">
                       <el-select v-model="form.account" placeholder="帳號">
                           <el-option v-for="(value,item) in accountOption" :key="item" :value="value.account" :label="value.account"></el-option>
                       </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="4" v-if="!accountHide.includes(form.fileType)">
                   <el-form-item label="國家：" prop="country">
                       <el-select v-model="form.country" placeholder="國家">
                           <el-option v-for="(value,item) in countryOption" :key="item" :value="value.countryCode" :label="value.countryName"></el-option>
                       </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="6"  v-if="!accountHide.includes(form.fileType)">
                     <el-form-item label="日期：" prop="date">
                         <el-date-picker class="w-max220" v-model="form.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                         </el-date-picker>
@@ -31,9 +31,10 @@
                 </el-col>
                   </el-row>
             <el-row :gutter="20">
-                <el-col :span="20">
-                    <el-form-item label="含毛利,運費,產品成本,退貨率：">
+                <el-col :span="20"  v-if="!accountHide.includes(form.fileType)">
+                    <el-form-item label="是否包括：">
                         <el-switch v-model="form.fullDoc"></el-switch>
+                        <span class="label-tips pl5">毛利,運費,產品成本,退貨率</span>
                     </el-form-item>
                 </el-col>
               </el-row>
@@ -59,6 +60,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      accountHide: ["CKE_OVERSEA_WAREHOUSE_CREATE_ORDER"],
       pickerOptions: {
         shortcuts: [
           {
@@ -162,6 +164,18 @@ export default {
       _form.endDate = moment(_form.date[1]).format("YYYY-MM-DD");
 
       delete _form.date;
+
+      if (this.accountHide.includes(_form.fileType)) {
+        _form = {
+          fileType: _form.fileType,
+          account: "",
+          country: "",
+          endDate: "",
+          fullDoc: false,
+          startDate: ""
+        };
+      }
+      console.log(_form);
       return {
         token: this.token,
         ..._form
@@ -175,11 +189,16 @@ export default {
             url: "excel/download/get",
             method: "post",
             data: this.getValue()
-          }).then(res => {
-            this.$message.success("獲取成功");
-            this.loading = false;
-            this.url = res;
-          });
+          }).then(
+            res => {
+              this.$message.success("獲取成功");
+              this.loading = false;
+              this.url = res;
+            },
+            () => {
+              this.$message.error("獲取失败");
+            }
+          );
         }
       });
     }

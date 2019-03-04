@@ -3,11 +3,11 @@
     <el-row
       :gutter="10"
       style="padding:0px">
-      <el-col :span="6">
+      <el-col :span="12">
         <el-card style="height:115px">
           <h5>出貨狀況 (訂單數)</h5>
           <br>
-          <div class="w30 fl">
+          <div class="w16 fl">
             <div class="font tc">
               <span>{{shipmentCreatedParcelCountToday}}</span>
             </div>
@@ -15,7 +15,7 @@
               <span class=" f13 label-tips">今日做單</span>
             </div>
           </div>
-          <div class="w30 fn">
+          <div class="w16 fn">
             <div class="font tc">
               <span>{{shipoutScanParcelCountToday}}</span>
             </div>
@@ -23,7 +23,7 @@
               <span class=" f13 label-tips">標記出貨單</span>
             </div>
           </div>
-          <div class="w30 fn">
+          <div class="w16 fn">
             <div class="font tc">
               <span>{{shipmentCreatedUnshipOrderCount}}</span>
             </div>
@@ -31,7 +31,7 @@
               <span class=" f13 label-tips">已做單未出貨</span>
             </div>
           </div>
-          <div class="w30 fr">
+          <div class="w16 fr">
             <div class="font tc">
               <span>{{shipmentUncreatedOrderCount}}</span>
             </div>
@@ -39,6 +39,34 @@
               <span class=" f13 label-tips">未做單</span>
             </div>
           </div>
+
+          <div class="w16 fr">
+            <div class="font tc">
+              <span>{{shipmentUncreatedOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未做單</span>
+            </div>
+          </div>
+
+          <div class="w16 fr">
+            <div class="font tc">
+              <span>{{shipmentUncreatedOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未做單</span>
+            </div>
+          </div>
+
+          <div class="w16 fr">
+            <div class="font tc">
+              <span>{{shipmentUncreatedOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未做單</span>
+            </div>
+          </div>
+
         </el-card>
       </el-col>
     </el-row>
@@ -661,8 +689,8 @@ export default {
 .w50 {
   width: 50%;
 }
-.w30 {
-  width: 30%;
+.w16 {
+  width: 16%;
 }
 .w20 {
   width: 20%;

@@ -122,11 +122,11 @@ export default {
       // },
       {
         index: "bankstatement",
-        label: "(7) 對帳單"
+        label: "(2) 對帳單"
       }
     ];
     if (C.get("privilege") == "admin") {
-      nav[5].child.push(...exclude);
+      nav[6].child.push(...exclude);
     }
     return {
       defaultNav: "",
