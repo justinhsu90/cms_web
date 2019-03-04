@@ -10,8 +10,8 @@
             </el-form-item>
             <el-row :span="20">
                 <el-col :span="4">
-                  <el-form-item label="賬號：" prop="account">
-                      <el-select v-model="form.account" placeholder="賬號">
+                  <el-form-item label="帳號：" prop="account">
+                      <el-select v-model="form.account" placeholder="帳號">
                           <el-option v-for="(value,item) in accountOption" :key="item" :value="value.account" :label="value.account"></el-option>
                       </el-select>
                   </el-form-item>
@@ -25,20 +25,22 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="日期：" prop="date">
-                        <el-date-picker class="w-max200" v-model="form.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                        <el-date-picker class="w-max220" v-model="form.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="4">
-                    <el-form-item label="fullDoc：">
+                  </el-row>
+            <el-row :gutter="20">
+                <el-col :span="20">
+                    <el-form-item label="含毛利,運費,產品成本,退貨率：">
                         <el-switch v-model="form.fullDoc"></el-switch>
                     </el-form-item>
                 </el-col>
               </el-row>
             <el-row :gutter="20">
               <el-col :span="4">
-                <el-form-item label="獲取文件：">
-                      <el-button type="success" :loading="loading" size="small" @click="submit">獲取</el-button>
+                <el-form-item label="生成文件：">
+                      <el-button type="success" :loading="loading" size="small" @click="submit">點擊生成文件</el-button>
                 </el-form-item>
               </el-col>
               <el-col :span="4">

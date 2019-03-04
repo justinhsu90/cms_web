@@ -15,12 +15,20 @@
               <span class=" f13 label-tips">今日做單</span>
             </div>
           </div>
-          <div class="w35 fn">
+          <div class="w30 fn">
             <div class="font tc">
               <span>{{shipoutScanParcelCountToday}}</span>
             </div>
             <div class="mt10 tc">
               <span class=" f13 label-tips">標記出貨單</span>
+            </div>
+          </div>
+          <div class="w30 fn">
+            <div class="font tc">
+              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">已做單未出貨</span>
             </div>
           </div>
           <div class="w30 fr">
@@ -463,6 +471,7 @@ export default {
     shipoutScanParcelCountToday: 0,
     shipmentCreatedParcelCountToday: 0,
     shipmentUncreatedOrderCount: 0,
+    shipmentCreatedUnshipOrderCount: 0,
     account: "",
     month: "",
     year: "",
@@ -556,6 +565,8 @@ export default {
         this.shipmentCreatedParcelCountToday =
           res.shipmentCreatedParcelCountToday;
         this.shipmentUncreatedOrderCount = res.shipmentUncreatedOrderCount;
+        this.shipmentCreatedUnshipOrderCount =
+          res.shipmentCreatedUnshipOrderCount;
         this.loading = false;
       });
     },
