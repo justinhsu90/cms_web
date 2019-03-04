@@ -101,10 +101,10 @@ const nav = [
         index: "erpPurchase",
         label: "(2) 採購單"
       },
-      {
-        index: "payment",
-        label: "(3-1) 付款單"
-      },
+      // {
+      //   index: "payment",
+      //   label: "(3-1) 付款單"
+      // },
       {
         index: "putStorage",
         label: "(3) 入庫單"
@@ -115,22 +115,30 @@ const nav = [
       },
       {
         index: "receivable",
-        label: "(5-1) 應收帳款單"
-      },
-      {
-        index: "receivableReport",
-        label: "(5-2) 費用應收表"
+        label: "(5) 應收帳款單"
       },
       {
         index: "erptakestock",
         label: "(6) 盤點紀錄"
       }
-      // {
-      //   index: "bankstatement",
-      //   label: "(7) 對帳單"
-      // }
     ]
   },
+  {
+    index: "admin_erp",
+    label: "管理者ERP",
+    isLevel: true,
+    child: [
+      {
+        index: "receivableReport",
+        label: "(1) 費用應收表"
+      },
+      {
+        index: "bankstatement",
+        label: "(3) 對帳單"
+      }
+    ]
+  },
+
   {
     index: "Amazon",
     label: "Amazon",
