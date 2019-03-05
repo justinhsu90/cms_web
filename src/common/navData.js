@@ -124,22 +124,6 @@ const nav = [
     ]
   },
   {
-    index: "admin_erp",
-    label: "管理者ERP",
-    isLevel: true,
-    child: [
-      {
-        index: "receivableReport",
-        label: "(1) 費用應收表"
-      }
-      // {
-      //   index: "bankstatement",
-      //   label: "(2) 對帳單"
-      // }
-    ]
-  },
-
-  {
     index: "Amazon",
     label: "Amazon",
     isLevel: true,

@@ -115,18 +115,29 @@ import C from "js-cookie";
 export default {
   data() {
     let nav = _.cloneDeep(navData);
-    let exclude = [
-      // {
-      //   index: "dataAnalysis",
-      //   label: "儀表板"
-      // },
-      {
-        index: "bankstatement",
-        label: "(2) 對帳單"
-      }
-    ];
+    // let exclude = [
+    //   // {
+    //   //   index: "dataAnalysis",
+    //   //   label: "儀表板"
+    //   // },
+    // ];
+    let adminErp = {
+      index: "admin_erp",
+      label: "管理者ERP",
+      isLevel: true,
+      child: [
+        {
+          index: "receivableReport",
+          label: "(1) 費用應收表"
+        },
+        {
+          index: "bankstatement",
+          label: "(2) 對帳單"
+        }
+      ]
+    };
     if (C.get("privilege") == "admin") {
-      nav[6].child.push(...exclude);
+      nav.splice(6, 0, adminErp);
     }
     return {
       defaultNav: "",
