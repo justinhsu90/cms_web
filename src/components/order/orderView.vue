@@ -327,12 +327,12 @@ export default {
             if (action == "confirm") {
               that.data.orderType = v;
               axios({
-                url: "/wowcher/update",
+                url: "/wowcher/update/orderType",
                 method: "post",
                 data: {
-                  token: this.token,
+                  token: that.token,
                   wowchercode: that.data.wowcherCode,
-                  orderType: v
+                  orderTypeCode: v
                 }
               });
               done();
