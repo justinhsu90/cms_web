@@ -9,10 +9,18 @@
           <br>
           <div class="w16 fl">
             <div class="font tc">
+              <span>{{shipmentCreatedOverseaWarehouseCountToday}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">今日做單(海外倉)</span>
+            </div>
+          </div>
+          <div class="w16 fl">
+            <div class="font tc">
               <span>{{shipmentCreatedParcelCountToday}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">今日做單</span>
+              <span class=" f13 label-tips">今日做單(GZ)</span>
             </div>
           </div>
           <div class="w16 fn">
@@ -20,7 +28,7 @@
               <span>{{shipoutScanParcelCountToday}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">標記出貨單</span>
+              <span class=" f13 label-tips">標記出貨(GZ)</span>
             </div>
           </div>
           <div class="w16 fn">
@@ -28,7 +36,7 @@
               <span>{{shipmentCreatedUnshipOrderCount}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">已做單未出貨</span>
+              <span class=" f13 label-tips">未出貨(GZ)</span>
             </div>
           </div>
           <div class="w16 fr">
@@ -48,25 +56,6 @@
               <span class=" f13 label-tips">未做單</span>
             </div>
           </div>
-
-          <div class="w16 fr">
-            <div class="font tc">
-              <span>{{shipmentUncreatedOrderCount}}</span>
-            </div>
-            <div class="mt10 tc">
-              <span class=" f13 label-tips">未做單</span>
-            </div>
-          </div>
-
-          <div class="w16 fr">
-            <div class="font tc">
-              <span>{{shipmentUncreatedOrderCount}}</span>
-            </div>
-            <div class="mt10 tc">
-              <span class=" f13 label-tips">未做單</span>
-            </div>
-          </div>
-
         </el-card>
       </el-col>
     </el-row>
@@ -79,7 +68,6 @@
     >
       <el-card style="height:160px;background-color:#fdfdfd;">
         <h4>各平台本日銷售表現</h4>
-        <!-- <br> -->
         <el-col
           class="mt10"
           :span="6"
@@ -102,7 +90,8 @@
                 <span>{{v.revenue | formatToMoney}}</span>
               </div>
               <div class="mt10 tc">
-                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
+                <span class="f13 label-tips">銷售額(GBP)</span>
               </div>
             </div>
             <div class="w30 fr">
@@ -148,7 +137,9 @@
                 <span>{{v.revenue | formatToMoney}}</span>
               </div>
               <div class="mt10 tc">
-                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
+                                <span class="f13 label-tips">銷售額(GBP)</span>
+
               </div>
             </div>
             <div class="w30 fr">
@@ -195,7 +186,9 @@
                 <span>{{v.revenue | formatToMoney}}</span>
               </div>
               <div class="mt10 tc">
-                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
+                                <span class="f13 label-tips">銷售額(GBP)</span>
+
               </div>
             </div>
             <div class="w30 fr">
@@ -500,6 +493,7 @@ export default {
     shipmentCreatedParcelCountToday: 0,
     shipmentUncreatedOrderCount: 0,
     shipmentCreatedUnshipOrderCount: 0,
+    shipmentCreatedOverseaWarehouseCountToday: 0,
     account: "",
     month: "",
     year: "",
@@ -595,6 +589,8 @@ export default {
         this.shipmentUncreatedOrderCount = res.shipmentUncreatedOrderCount;
         this.shipmentCreatedUnshipOrderCount =
           res.shipmentCreatedUnshipOrderCount;
+        this.shipmentCreatedOverseaWarehouseCountToday =
+          res.shipmentCreatedOverseaWarehouseCountToday;
         this.loading = false;
       });
     },

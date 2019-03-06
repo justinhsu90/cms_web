@@ -41,19 +41,19 @@ export default {
       rules: {
         country: {
           required: true,
-          message: "此项必填"
+          message: "此項必填"
         },
         skus: {
           required: true,
-          message: "此项必填"
+          message: "此項必填"
         },
         account: {
           required: true,
-          message: "此项必填"
+          message: "此項必填"
         },
         platform: {
           required: true,
-          message: "此项必填"
+          message: "此項必填"
         }
       },
       upcPlatform: [],
@@ -90,7 +90,7 @@ export default {
           this.$message.success("添加成功");
         })
         .catch(() => {
-          this.$message.error("添加失败");
+          this.$message.error("添加失敗");
         });
     }
   },

@@ -158,7 +158,7 @@ export default {
       rules: {
         currency: {
           required: true,
-          message: "此项必填"
+          message: "此項必填"
         }
       },
       formData: {

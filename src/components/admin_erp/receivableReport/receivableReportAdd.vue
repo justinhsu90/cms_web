@@ -34,7 +34,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="4">
-                        <el-form-item label="国家" prop="country" :rules="rules">
+                        <el-form-item label="國家" prop="country" :rules="rules">
                             <el-select placeholder="請選擇" v-model="formData.country" clearable>
                                 <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :value="v.countryNameChinese">
                                     <span style="float: left">{{ v.countryCode }}</span>

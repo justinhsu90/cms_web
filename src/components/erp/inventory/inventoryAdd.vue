@@ -112,7 +112,7 @@
               <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
               <th v-if="showColumnFive.includes(form.inventoryType)">物流單號</th>
               <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">平台</th>
-              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">賬號</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">帳號</th>
               <th v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">收樣方</th>
               <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">倉庫</th>
               <th v-if="showColumnFour.includes(form.inventoryType)">退貨金額</th>
@@ -209,7 +209,7 @@
                         平台:{{ v.platform }}
                       </div>
                       <div class="w15 ibbox">
-                        賬號:{{ v.account }}
+                        帳號:{{ v.account }}
                       </div>
                     </el-option>
                   </el-select>

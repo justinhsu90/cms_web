@@ -15,7 +15,7 @@
           <el-table-column min-width="60" label="付款Id" prop="paymentId" sortable="custom"></el-table-column>
           <el-table-column min-width="65" label="採購Id" prop="purchaseId" sortable="custom"></el-table-column>
           <el-table-column min-width="65" label="付款時間" prop="paymentTime" sortable="custom" :formatter="formatToTime"></el-table-column>
-          <el-table-column min-width="60" label="付款賬戶" prop="paymentAccount" sortable="custom"></el-table-column>
+          <el-table-column min-width="60" label="付款帳戶" prop="paymentAccount" sortable="custom"></el-table-column>
           <el-table-column min-width="60" label="付款方式" prop="paymentMethod"></el-table-column>
           <!-- <el-table-column min-width="60" label="paymentPlatformId" prop="paymentPlatformId"></el-table-column> -->
           <el-table-column min-width="60" label="付款金額" prop="paymentTotalAmount"></el-table-column>

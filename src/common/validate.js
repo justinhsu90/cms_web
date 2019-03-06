@@ -10,14 +10,14 @@ export const float = {
   validator: function(rule, value, callback) {
     value += "";
     if (!value) {
-      return rule.required ? callback(new Error("此项必填")) : callback();
+      return rule.required ? callback(new Error("此項必填")) : callback();
     }
 
     if (!isNaN(Number(value)) && parseFloat(value) == 0) {
       if (rule.allowZero) {
         return callback();
       } else {
-        return callback(new Error("不允许为 0"));
+        return callback(new Error("不允許为 0"));
       }
     }
     if (!isNaN(Number(value)) && parseFloat(value) < 0) {

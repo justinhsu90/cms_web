@@ -47,7 +47,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="訂單處理方式">
-              <el-select  :value="data.orderType" @input="handleChange">
+              <el-select  :value="data.orderTypeCode" @input="handleChange">
                 <el-option v-for="(v,i) in searchStatusOption" :label="v.orderType" :value="v.orderTypeCode" :key="i"></el-option>
               </el-select>
             </el-form-item>
@@ -282,7 +282,7 @@ export default {
       });
       let that = this;
       this.$confirm(
-        `確定要設定退貨為 <strong style="color:red">${
+        `確定要設定取消原因為 <strong style="color:red">${
           obj.orderCancelledReasonName
         }</strong> ？`,
         "提示",
@@ -312,27 +312,36 @@ export default {
       ).catch();
     },
     handleChange(v) {
+      let obj = _.find(this.searchStatusOption, item => {
+        return item.orderTypeCode == v;
+      });
       let that = this;
-      this.$confirm("是否修改訂單狀態", "提示", {
-        type: "info",
-        beforeClose(action, instantce, done) {
-          if (action == "confirm") {
-            that.data.orderType = v;
-            axios({
-              url: "/wowcher/update",
-              method: "post",
-              data: {
-                token: this.token,
-                wowchercode: that.data.wowcherCode,
-                orderType: v
-              }
-            });
-            done();
-          } else {
-            done();
+      this.$confirm(
+        `確定要設定處理方式為 <strong style="color:red">${
+          obj.orderType
+        }</strong> ？`,
+        "提示",
+        {
+          type: "info",
+          beforeClose(action, instantce, done) {
+            if (action == "confirm") {
+              that.data.orderType = v;
+              axios({
+                url: "/wowcher/update",
+                method: "post",
+                data: {
+                  token: this.token,
+                  wowchercode: that.data.wowcherCode,
+                  orderType: v
+                }
+              });
+              done();
+            } else {
+              done();
+            }
           }
         }
-      })
+      )
         .then(() => {})
         .catch(() => {});
     }

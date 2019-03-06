@@ -120,7 +120,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item
-                label="賬號"
+                label="帳號"
                 v-if="showColumnOne.includes(v.inventoryType) || showColumnThree.includes(v.inventoryType) || showColumnTwo.includes(v.inventoryType)"
               >
                 <el-input v-model="v.account">
@@ -151,7 +151,7 @@
                       平台:{{ v.platform }}
                     </div>
                     <div class="w15 ibbox">
-                      賬號:{{ v.account }}
+                      帳號:{{ v.account }}
                     </div>
                   </el-option>
                 </el-select>

@@ -29,11 +29,11 @@
                                         {{(scope.row.size/1024).toFixed(2)}}&nbsp;KB
                                     </template>
                                 </el-table-column>
-                                <el-table-column label="檔案类型" prop="size" width="200">
+                                <el-table-column label="檔案類型" prop="size" width="200">
                                     <template slot-scope="scope">
                                         <el-form v-for="v in [1]" ref="formChild" :model="type" :key="v">
-                                            <el-form-item :prop="scope.$index + ''" :rules="{required:true,message:'此项必填'}">
-                                                <el-select placeholder="檔案类型" v-model="type[scope.$index]" clearable>
+                                            <el-form-item :prop="scope.$index + ''" :rules="{required:true,message:'此項必填'}">
+                                                <el-select placeholder="檔案類型" v-model="type[scope.$index]" clearable>
                                                     <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
                                                 </el-select>
                                             </el-form-item>
