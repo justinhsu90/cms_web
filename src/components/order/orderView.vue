@@ -296,9 +296,9 @@ export default {
                 url: "order/cancelReason",
                 method: "post",
                 data: {
-                  token: this.token,
+                  token: that.token,
                   cancelType: v,
-                  orderId: "33S3DN-ESNX8V"
+                  orderId: that.data.wowcherCode
                 }
               }).then(res => {
                 console.log(res);
