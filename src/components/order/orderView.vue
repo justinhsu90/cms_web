@@ -322,6 +322,7 @@ export default {
         }</strong> ？`,
         "提示",
         {
+          dangerouslyUseHTMLString: true,
           type: "info",
           beforeClose(action, instantce, done) {
             if (action == "confirm") {
