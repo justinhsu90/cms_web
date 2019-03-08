@@ -275,6 +275,7 @@ export default {
   methods: {
     goBack() {
       this.$router.push("/orderList");
+      this.Bus.$emit("refresh");
     },
     handleChangeOrder(v) {
       let that = this;
