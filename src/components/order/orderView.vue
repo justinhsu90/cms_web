@@ -47,14 +47,14 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="訂單處理方式">
-              <el-select  :value="data.orderTypeCode" @input="handleChange">
+              <el-select  :value="data.orderTypeCode" @input="handleChange" clearable>
                 <el-option v-for="(v,i) in searchStatusOption" :label="v.orderType" :value="v.orderTypeCode" :key="i"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="取消原因">
-              <el-select  :value="data.orderCancelledReasonNameCode"  @input="handleChangeOrder">
+              <el-select  clearable :value="data.orderCancelledReasonNameCode"  @input="handleChangeOrder">
                 <el-option v-for="(v,i) in searchOrderCancell" :label="v.orderCancelledReasonName" :value="v.orderCancelledReasonNameCode" :key="i"></el-option>
               </el-select>
             </el-form-item>
@@ -277,10 +277,42 @@ export default {
       this.$router.push("/orderList");
     },
     handleChangeOrder(v) {
+      let that = this;
+      if (!v) {
+        this.$confirm(
+          `確定要 <strong style="color:red">取消</strong> ？`,
+          "提示",
+          {
+            dangerouslyUseHTMLString: true,
+            type: "info",
+            beforeClose(action, instantce, done) {
+              if (action == "confirm") {
+                axios({
+                  url: "/wowcher/update/orderType",
+                  method: "post",
+                  data: {
+                    token: that.token,
+                    wowchercode: that.data.wowcherCode,
+                    cancelType: ""
+                  }
+                }).then(() => {
+                  this.$message.success("修改成功");
+                  that.data.orderCancelledReasonNameCode = "";
+                });
+                done();
+              } else {
+                done();
+              }
+            }
+          }
+        )
+          .then(() => {})
+          .catch(() => {});
+        return;
+      }
       let obj = _.find(this.searchOrderCancell, item => {
         return item.orderCancelledReasonNameCode == v;
       });
-      let that = this;
       this.$confirm(
         `確定要設定取消原因為 <strong style="color:red">${
           obj.orderCancelledReasonName
@@ -291,7 +323,6 @@ export default {
           type: "info",
           beforeClose(action, instantce, done) {
             if (action == "confirm") {
-              that.data.orderCancelledReasonNameCode = v;
               axios({
                 url: "order/cancelReason",
                 method: "post",
@@ -300,8 +331,9 @@ export default {
                   cancelType: v,
                   orderId: that.data.wowcherCode
                 }
-              }).then(res => {
-                console.log(res);
+              }).then(() => {
+                this.$message.success("修改成功");
+                that.data.orderCancelledReasonNameCode = v;
               });
               done();
             } else {
@@ -312,10 +344,43 @@ export default {
       ).catch();
     },
     handleChange(v) {
+      let that = this;
+      if (!v) {
+        this.$confirm(
+          `確定要 <strong style="color:red">取消</strong> ？`,
+          "提示",
+          {
+            dangerouslyUseHTMLString: true,
+            type: "info",
+            beforeClose(action, instantce, done) {
+              if (action == "confirm") {
+                axios({
+                  url: "/wowcher/update/orderType",
+                  method: "post",
+                  data: {
+                    token: that.token,
+                    wowchercode: that.data.wowcherCode,
+                    orderTypeCode: ""
+                  }
+                }).then(() => {
+                  this.$message.success("修改成功");
+                  that.data.orderTypeCode = "";
+                });
+                done();
+              } else {
+                done();
+              }
+            }
+          }
+        )
+          .then(() => {})
+          .catch(() => {});
+        return;
+      }
       let obj = _.find(this.searchStatusOption, item => {
         return item.orderTypeCode == v;
       });
-      let that = this;
+
       this.$confirm(
         `確定要設定處理方式為 <strong style="color:red">${
           obj.orderType
@@ -326,7 +391,6 @@ export default {
           type: "info",
           beforeClose(action, instantce, done) {
             if (action == "confirm") {
-              that.data.orderType = v;
               axios({
                 url: "/wowcher/update/orderType",
                 method: "post",
@@ -335,6 +399,9 @@ export default {
                   wowchercode: that.data.wowcherCode,
                   orderTypeCode: v
                 }
+              }).then(() => {
+                this.$message.success("修改成功");
+                that.data.orderTypeCode = v;
               });
               done();
             } else {

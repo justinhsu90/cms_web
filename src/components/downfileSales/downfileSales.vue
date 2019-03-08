@@ -125,6 +125,14 @@ export default {
       }
     };
   },
+  watch: {
+    form: {
+      handler() {
+        this.url = "";
+      },
+      deep: true
+    }
+  },
   created() {
     let filetype = axios({
       url: "excel/download/value/filetype",
