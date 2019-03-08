@@ -7,7 +7,7 @@
         <el-card style="height:115px">
           <h5>出貨狀況 (訂單數)</h5>
           <br>
-          <div class="w16 fl">
+          <div class="w19 fl">
             <div class="font tc">
               <span>{{shipmentCreatedOverseaWarehouseCountToday}}</span>
             </div>
@@ -15,7 +15,7 @@
               <span class=" f13 label-tips">今日做單(海外倉)</span>
             </div>
           </div>
-          <div class="w16 fl">
+          <div class="w19 fl">
             <div class="font tc">
               <span>{{shipmentCreatedParcelCountToday}}</span>
             </div>
@@ -23,7 +23,7 @@
               <span class=" f13 label-tips">今日做單(GZ)</span>
             </div>
           </div>
-          <div class="w16 fn">
+          <div class="w19 fn">
             <div class="font tc">
               <span>{{shipoutScanParcelCountToday}}</span>
             </div>
@@ -31,7 +31,7 @@
               <span class=" f13 label-tips">標記出貨(GZ)</span>
             </div>
           </div>
-          <div class="w16 fn">
+          <div class="w19 fn">
             <div class="font tc">
               <span>{{shipmentCreatedUnshipOrderCount}}</span>
             </div>
@@ -39,16 +39,7 @@
               <span class=" f13 label-tips">未出貨(GZ)</span>
             </div>
           </div>
-          <div class="w16 fr">
-            <div class="font tc">
-              <span>{{shipmentUncreatedOrderCount}}</span>
-            </div>
-            <div class="mt10 tc">
-              <span class=" f13 label-tips">未做單</span>
-            </div>
-          </div>
-
-          <div class="w16 fr">
+          <div class="w19 fr">
             <div class="font tc">
               <span>{{shipmentUncreatedOrderCount}}</span>
             </div>
@@ -685,11 +676,11 @@ export default {
 .w50 {
   width: 50%;
 }
-.w16 {
-  width: 16%;
-}
 .w20 {
   width: 20%;
+}
+.w19 {
+  width: 19%;
 }
 .mt10 {
   margin-top: 5px;
