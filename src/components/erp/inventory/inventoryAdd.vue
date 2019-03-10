@@ -66,6 +66,7 @@
           <colgroup>
             <col width="100">
             <col width="100">
+            <col width="100">
             <col
               v-if="showColumnTwo.includes(form.inventoryType)"
               width="100"
@@ -75,11 +76,11 @@
               width="100"
             >
             <col
-              v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)"
+              v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)"
               width="100"
             >
             <col
-              v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)"
+              v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)"
               width="100"
             >
             <col
@@ -102,21 +103,28 @@
               v-if="showColumnFive.includes(form.inventoryType)"
               width="200"
             >
+
+            <col
+              v-if="showColumnTwo.includes(form.inventoryType)"
+              width="200"
+            >
             <col width="60">
           </colgroup>
           <thead>
             <tr>
+              <th>序號</th>
               <th>SKU </th>
               <th>數量 </th>
               <th v-if="showColumnTwo.includes(form.inventoryType)">轉入倉庫</th>
               <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
               <th v-if="showColumnFive.includes(form.inventoryType)">物流單號</th>
-              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">平台</th>
-              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">帳號</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">平台</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">帳號</th>
               <th v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">收樣方</th>
               <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">倉庫</th>
               <th v-if="showColumnFour.includes(form.inventoryType)">退貨金額</th>
               <th v-if="showColumnFour.includes(form.inventoryType)">採購單號</th>
+              <th v-if="showColumnTwo.includes(form.inventoryType)">庫存狀態</th>
               <th>操作</th>
             </tr>
           </thead>
@@ -125,6 +133,9 @@
               v-for="(v,i) in form.data"
               :key="i"
             >
+              <td>
+                  <span>{{i + 1}}</span>
+              </td>
               <td>
                 <el-form-item
                   label=""
@@ -148,23 +159,25 @@
               </td>
               <td v-if="showColumnTwo.includes(form.inventoryType)">
                 <el-form-item>
-                  <el-input v-model="v.moveTo">
-                  </el-input>
+                  <el-select v-model="v.moveTo">
+                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                  </el-select>
                 </el-form-item>
               </td>
               <td v-if="showColumnTwo.includes(form.inventoryType)">
                 <el-form-item>
-                  <el-input v-model="v.moveFrom">
-                  </el-input>
+                  <el-select v-model="v.moveFrom">
+                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                  </el-select>
                 </el-form-item>
               </td>
-              <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">
+              <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">
                 <el-form-item>
                   <el-input v-model="v.platform">
                   </el-input>
                 </el-form-item>
               </td>
-              <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType) || showColumnTwo.includes(form.inventoryType)">
+              <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">
                 <el-form-item>
                   <el-input v-model="v.account">
                   </el-input>
@@ -228,6 +241,23 @@
                       :key="i"
                       :label="v"
                       :value="v"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnTwo.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-select
+                    placeholder="庫存狀態"
+                    v-model="v.stockCondition"
+                    clearable
+                    class="w100"
+                  >
+                    <el-option
+                      v-for="(v,i) in stockCondition"
+                      :key="i"
+                      :label="v.stockCondition"
+                      :value="v.stockConditionCode"
                     ></el-option>
                   </el-select>
                 </el-form-item>
@@ -345,7 +375,8 @@ export default {
         warehouse: "",
         sampleTo: "",
         amount: "",
-        purchaseId: ""
+        purchaseId: "",
+        stockCondition: ""
       });
     },
     getValue() {
@@ -399,11 +430,30 @@ export default {
         token: this.token
       }
     });
-    Promise.all([type, warehouse, sampleTo]).then(
-      ([type, warehouse, sampleTo]) => {
+
+    let move = axios({
+      url: "erp/value/warehouse",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+
+    let stock = axios({
+      url: "erp/value/stockCondition",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+
+    Promise.all([type, warehouse, sampleTo, move, stock]).then(
+      ([type, warehouse, sampleTo, move, stock]) => {
         this.sampleToOption = sampleTo;
         this.warehouseOption = _.cloneDeep(warehouse);
         this.inventoryTypeOption = _.cloneDeep(type);
+        this.moveOption = _.cloneDeep(move);
+        this.stockCondition = _.cloneDeep(stock);
         let inventoryData = this.inventoryTypeOption.slice(0, 3);
         inventoryData.push(this.inventoryTypeOption.slice(-1)[0]);
         inventoryData.push(...this.inventoryTypeOption.slice(6, 8));
@@ -425,6 +475,8 @@ export default {
       inventoryTypeOption: [],
       warehouseOption: [],
       sampleToOption: [],
+      moveOption: [],
+      stockCondition: [],
       pickerOptions: {
         shortcuts: [
           {
@@ -470,7 +522,8 @@ export default {
             warehouse: "",
             sampleTo: "",
             amount: "",
-            purchaseId: ""
+            purchaseId: "",
+            stockCondition: ""
           }
         ]
       },

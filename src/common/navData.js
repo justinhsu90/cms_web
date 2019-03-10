@@ -120,6 +120,10 @@ const nav = [
       {
         index: "erptakestock",
         label: "(6) 盤點紀錄"
+      },
+      {
+        index: "erpInstantInventory",
+        label: "(7) 即時庫存頁面"
       }
     ]
   },
