@@ -57,7 +57,7 @@ export default {
       showWarehouse: "",
       select: [],
       fetchOption: {
-        url: "erp/instantInventory",
+        url: "erp/instantInventory/search",
         method: "post",
         where: ""
       }
