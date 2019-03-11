@@ -78,7 +78,7 @@
                   <td>
                     <el-form-item>
                     <el-select v-model="v.stockCondition">
-                        <el-option v-for="(v,i) in stockCondition" :label="v" :value="v" :key="i"></el-option>
+                        <el-option v-for="(v,i) in stockCondition" :label="v.stockCondition" :value="v.stockConditionCode" :key="i"></el-option>
                     </el-select>
                   </el-form-item>
                   </td>
@@ -137,7 +137,7 @@ export default {
     this.formData.receivedDate = data.receivedDate;
     this.formData.trackingNumber = data.trackingNumber;
     axios({
-      url: "/erp/warehouse/receive/value/stockCondition",
+      url: "erp/value/stockCondition",
       method: "post",
       data: {
         token: this.token

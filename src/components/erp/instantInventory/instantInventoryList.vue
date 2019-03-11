@@ -65,19 +65,24 @@ export default {
   },
   methods: {
     handleSelect(data) {
-      this.select = _.cloneDeep(
+      this.select = _.cloneDeep(data);
+      this.selectOption = _.cloneDeep(
         data.map(v => {
-          return v.warehouseCode;
+          return {
+            warehouseCode: v.warehouseCode,
+            showUnsellable: v.showUnsellable,
+            showSellable: v.showSellable
+          };
         })
       );
+      this.handleSearch();
     },
     handleSearch: _.debounce(function() {
       this.isTableLoading = true;
       let data = {
         where: this.fetchOption.where,
         token: this.token,
-        showWarehouse: this.select.join(","),
-        showNonEmpty: this.showNonEmpty
+        warehouseList: JSON.stringify(this.select)
       };
       this.fetchTableData(data);
     }, 2000)

@@ -49,11 +49,12 @@
             <el-date-picker
               clearable
               v-model="form.datetime"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="選擇日期"
+              type="datetime"
+              placeholder="选择日期时间"
+              align="right"
               class="w100"
-            >
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :picker-options="pickerOptions">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -391,20 +392,21 @@ export default {
       };
     },
     submit() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          this.submitLoading = true;
-          axios({
-            url: "erp/inventoryChange/add",
-            method: "post",
-            data: this.getValue()
-          }).then(() => {
-            this.submitLoading = false;
-            this.$message.success("添加成功");
-            this.goBack();
-          });
-        }
-      });
+      this.getValue();
+      // this.$refs["form"].validate(valid => {
+      //   if (valid) {
+      //     this.submitLoading = true;
+      //     axios({
+      //       url: "erp/inventoryChange/add",
+      //       method: "post",
+      //       data: this.getValue()
+      //     }).then(() => {
+      //       this.submitLoading = false;
+      //       this.$message.success("添加成功");
+      //       this.goBack();
+      //     });
+      //   }
+      // });
     }
   },
   mounted() {
@@ -454,10 +456,6 @@ export default {
         this.inventoryTypeOption = _.cloneDeep(type);
         this.moveOption = _.cloneDeep(move);
         this.stockCondition = _.cloneDeep(stock);
-        let inventoryData = this.inventoryTypeOption.slice(0, 3);
-        inventoryData.push(this.inventoryTypeOption.slice(-1)[0]);
-        inventoryData.push(...this.inventoryTypeOption.slice(6, 8));
-        this.inventoryTypeOption = inventoryData;
       }
     );
   },
@@ -480,36 +478,31 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: "今天",
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
+              picker.$emit("pick", new Date());
             }
           },
           {
-            text: "最近一个月",
+            text: "昨天",
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
             }
           },
           {
-            text: "最近三个月",
+            text: "一周前",
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
             }
           }
         ]
       },
       form: {
-        inventoryType: "INVENTORY_SHORTAGE",
+        inventoryType: "SAMPLE_OUT",
         datetime: "",
         data: [
           {

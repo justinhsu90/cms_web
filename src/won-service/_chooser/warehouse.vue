@@ -30,6 +30,26 @@
           <el-table-column type="selection" width="55" reserve-selection>
           </el-table-column>
           <el-table-column
+            width="70"
+            label="不可售"
+            prop="showUnsellable"
+            align="center"
+          >
+            <template slot-scope="{row}">
+                <el-checkbox v-model="row.showUnsellable"></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="70"
+            label="可售"
+            prop="showSellable"
+            align="center"
+          >
+            <template slot-scope="{row}">
+                <el-checkbox v-model="row.showSellable"></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column
             min-width="170"
             label="倉庫名稱"
             prop="warehouseName"
@@ -83,7 +103,13 @@ export default {
       this.fetchTableData(data);
     }, 2000),
     fetchEnd() {
-      this.tableData = _.cloneDeep(this.originRes);
+      let data = [];
+      _.each(this.originRes, item => {
+        this.$set(item, "showUnsellable", false);
+        this.$set(item, "showSellable", false);
+        data.push(item);
+      });
+      this.tableData = _.cloneDeep(data);
     }
   }
 };
