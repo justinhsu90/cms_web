@@ -22,14 +22,14 @@
                     <el-table-column width="60" label="單號" prop="inventoryChangeId"></el-table-column>
                     <el-table-column width="90" label="類型" prop="inventoryTypeName"></el-table-column>
                     <el-table-column min-width="110" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="50" max-width="100" label=" 所屬倉庫" prop="warehouse"></el-table-column>
+                    <el-table-column min-width="90" max-width="100" label=" 所屬倉庫" prop="warehouse"></el-table-column>
                     <el-table-column width="60" label="數量" prop="quantity"></el-table-column>
-                    <el-table-column width="700" label="產品名稱" prop="productName"></el-table-column>
+                    <el-table-column width="400" label="產品名稱" prop="productName"></el-table-column>
                     <el-table-column width="80" label="帳號" prop="account"></el-table-column>
                     <el-table-column width="80" label="平台" prop="platform"></el-table-column>
-                    <el-table-column width="90" label="異動時間" prop="datetime" :formatter="formatToDate"></el-table-column>
-                    <el-table-column width="80" label="轉出倉庫" prop="moveFrom"></el-table-column>
-                    <el-table-column width="80" label="轉入倉庫" prop="moveTo"></el-table-column>
+                    <el-table-column width="140" label="異動時間" prop="datetime" :formatter="formatToDate"></el-table-column>
+                    <el-table-column width="140" label="轉出倉庫" prop="moveFrom"></el-table-column>
+                    <el-table-column width="140" label="轉入倉庫" prop="moveTo"></el-table-column>
                     <el-table-column width="80" label="動作" fixed="right">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="刪除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
