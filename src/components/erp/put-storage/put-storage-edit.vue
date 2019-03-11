@@ -167,7 +167,7 @@ export default {
           this.getValue();
           this.submitLoading = true;
           axios({
-            url: "/erp/warehouse/receive/edit",
+            url: "/erp/warehouse/receive/update",
             method: "post",
             data: {
               value: this.getValue(),
