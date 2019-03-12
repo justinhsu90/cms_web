@@ -41,13 +41,13 @@
                 <el-row :gutter="20">
                     <el-col :span="12">
                         <el-form-item label="年" prop="year" :rules="{required:true}">
-                            <el-date-picker clearable style="width:100%;" v-model="form.year" type="year" placeholder="选择年" value-format="yyyy">
+                            <el-date-picker clearable style="width:100%;" v-model="form.year" type="year" placeholder="選擇年" value-format="yyyy">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="月" prop="month" :rules="{required:true}">
-                            <el-date-picker clearable style="width:100%;" v-model="form.month" type="month" placeholder="选择月" format="MM" value-format="MM">
+                            <el-date-picker clearable style="width:100%;" v-model="form.month" type="month" placeholder="選擇月" format="MM" value-format="MM">
                             </el-date-picker>
                         </el-form-item>
                     </el-col>

@@ -85,7 +85,7 @@
                   v-model="v.datetime"
                   type="date"
                   value-format="yyyy-MM-dd"
-                  placeholder="选择日期"
+                  placeholder="選擇日期"
                   class="w100"
                 >
                 </el-date-picker>

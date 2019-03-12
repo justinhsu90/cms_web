@@ -49,17 +49,17 @@
             </el-col>
             <el-col :span="5">
               <el-form-item label="ShipmentCreatedTime">
-                <el-date-picker v-model="v.ShipmentCreatedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker v-model="v.ShipmentCreatedTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="shipoutTime">
-                <el-date-picker v-model="v.shipoutTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker v-model="v.shipoutTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="AddedTime">
-                <el-date-picker v-model="v.AddedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker v-model="v.AddedTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
