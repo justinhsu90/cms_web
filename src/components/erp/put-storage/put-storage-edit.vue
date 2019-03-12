@@ -7,7 +7,7 @@
       </div>
       <br>
       <h2>
-        编辑入库單
+        編輯入库單
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -29,7 +29,7 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="入庫時間">
-              <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss" v-model="formData.receivedDate" type="datetime" placeholder="选择日期时间"></el-date-picker>
+              <el-date-picker clearable class="w100" value-format="yyyy-MM-dd HH:mm:ss" v-model="formData.receivedDate" type="datetime" placeholder="選擇日期時間"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -92,7 +92,7 @@
             </table>
           </el-row>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">編輯</el-button>
       </el-form>
     </div>
   </div>

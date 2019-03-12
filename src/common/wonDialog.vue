@@ -43,7 +43,7 @@ export default {
     },
     confirmButtonText: {
       type: String,
-      default: "确定"
+      default: "確定"
     },
     cancelButtonText: {
       type: String,

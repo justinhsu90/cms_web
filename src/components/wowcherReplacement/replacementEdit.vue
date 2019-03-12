@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>编辑Replacement</h2>
+      <h2>編輯備品</h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
         <el-card class="box-card" v-for="(v,i) in formData.data" :key="i" style="margin-bottom:20px">
@@ -49,17 +49,17 @@
             </el-col>
             <el-col :span="5">
               <el-form-item label="ShipmentCreatedTime">
-                <el-date-picker v-model="v.ShipmentCreatedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker v-model="v.ShipmentCreatedTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="shipoutTime">
-                <el-date-picker v-model="v.shipoutTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker v-model="v.shipoutTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="AddedTime">
-                <el-date-picker v-model="v.AddedTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker v-model="v.AddedTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
@@ -85,7 +85,7 @@
           </el-row>
         </el-card>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">編輯</el-button>
       </el-form>
     </div>
   </div>

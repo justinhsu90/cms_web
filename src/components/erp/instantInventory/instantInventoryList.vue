@@ -17,7 +17,7 @@
         </div>
         <div class="ibbox">
           <wonPopoverChooser :chooser="$options.warehouse" @select="handleSelect" :select="select">
-            <el-button name="reference" type="success" size="small">选择倉庫</el-button>
+            <el-button name="reference" type="success" size="small">選擇倉庫</el-button>
           </wonPopoverChooser>
         </div>
         <div class="fr ml10">

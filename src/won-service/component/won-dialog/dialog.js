@@ -40,7 +40,7 @@ export default (dialogContent, prop) => {
         footer.push(
           h("elButton", {
             domProps: {
-              innerText: "确定"
+              innerText: "確定"
             },
             props: {
               type: "primary"

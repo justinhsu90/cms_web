@@ -8,7 +8,7 @@
       >返回</a>
     </div>
     <br>
-    <h2>新增清單</h2>
+    <h2>新增異動單</h2>
     <br>
     <el-form
       ref="form"

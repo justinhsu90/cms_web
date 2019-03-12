@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>编辑Payment
+      <h2>編輯Payment
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -34,7 +34,7 @@
             </el-col>
             <el-col :span="5">
               <el-form-item label="paymentTime">
-                <el-date-picker v-model="v.paymentTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+                <el-date-picker v-model="v.paymentTime" type="datetime" placeholder="選擇日期時間"> </el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="3">
@@ -70,7 +70,7 @@
           </el-row>
         </el-card>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">編輯</el-button>
       </el-form>
     </div>
   </div>
