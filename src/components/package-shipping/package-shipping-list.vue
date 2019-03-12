@@ -4,7 +4,7 @@
             <el-col :span="22">
                 <el-input class="w-max200" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <el-date-picker class="w-max180" clearable @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                <el-date-picker class="w-max220" clearable @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
                 </el-date-picker>
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
@@ -18,18 +18,19 @@
                     <el-table-column min-width="150" label="商品名稱" prop="productName" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="商品中文名稱" prop="productNameChinese" sortable="custom" ></el-table-column>
                     <el-table-column min-width="60" label="SKU" prop="sku" sortable="custom"></el-table-column>
-                    <el-table-column min-width="50" label="包裹重量" prop="parcelWeight" sortable="custom">
+                    <el-table-column min-width="80" label="海外倉發貨" prop="overseaWarehouse" sortable="custom"></el-table-column>
+                    <el-table-column min-width="50" label="包裹重量" prop="parcelWeightAVG" sortable="custom">
                         <template slot-scope="{row}">
-                              <span>{{row.parcelWeight}}{{row.parceWeightUnit}}</span>
+                              <span>{{row.parcelWeightAVG}} {{row.parceWeightUnit}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="50" label="運輸費用" prop="shippingFee" sortable="custom">
+                    <el-table-column min-width="50" label="運輸費用" prop="shippingFeeAVG" sortable="custom">
                         <template slot-scope="{row}">
-                              <span>{{row.shippingFee}}{{row.shippingFeeCurrency}}</span>
+                              <span>{{row.shippingFeeAVG}} {{row.shippingFeeCurrency}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="60" label="開始時間" prop="startDate" align="center" :formatter="formatToTime" sortable="custom"></el-table-column>
-                    <el-table-column min-width="60" label="結束時間" prop="endDate" align="center" :formatter="formatToTime" sortable="custom"></el-table-column>
+                    <el-table-column min-width="60" label="開始時間" prop="startDate" align="center" :formatter="formatToDate" sortable="custom"></el-table-column>
+                    <el-table-column min-width="60" label="結束時間" prop="endDate" align="center" :formatter="formatToDate" sortable="custom"></el-table-column>
                     <el-table-column min-width="50" label="圖片" v-if="showImg">
                         <template slot-scope="{row}">
                               <img  style="maxWidth:50px;maxHeight:50px" :src="row.imageUrl" alt="" @click="handleClick(row)">
@@ -107,16 +108,7 @@ export default {
         data.endDate = this.date[1];
       }
       this.fetchTableData(data);
-    }, 2000),
-    handleEdit(val) {
-      this.$router.push({
-        name: "put-storage-edit",
-        query: { data: JSON.stringify(val) }
-      });
-    },
-    handleAdd() {
-      this.$router.push("/putStorageAdd");
-    }
+    }, 2000)
   }
 };
 </script>
