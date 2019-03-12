@@ -19,7 +19,7 @@
         :gutter="20"
         class="mb10"
       >
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
             label="庫存異動類型"
             :rules='rules'
@@ -30,6 +30,7 @@
               v-model="form.inventoryType"
               clearable
               class="w100"
+              @change="inventoryTypeChange"
             >
               <el-option
                 v-for="(v,i) in inventoryTypeOption"
@@ -40,7 +41,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
             label="時間"
             :rules='rules'
@@ -57,6 +58,81 @@
               :picker-options="pickerOptions">
             </el-date-picker>
           </el-form-item>
+        </el-col>
+         <el-col :span="5" v-if="form.inventoryType == 'SAMPLE_OUT'">
+            <el-form-item
+              label="批量修改發出貨"
+            >
+                <el-select v-model="sampleMoveTo" clearable class="w100">
+                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-col>
+        <el-col :span="5" v-if="form.inventoryType == 'SAMPLE_OUT'">
+            <el-form-item
+              label="批量修改收樣方"
+            >
+                  <el-select
+                    placeholder="收樣方"
+                    v-model="sampleSampleTo"
+                    clearable
+                    class="w100"
+                  >
+                    <el-option
+                      v-for="(v,i) in sampleToOption"
+                      :key="'smaple'+i"
+                      :value="v.managerName"
+                      style="width:450px;"
+                    >
+                      <div class="w45 ibbox">
+                        經理名稱:{{v.managerName}}
+                      </div>
+                      <div class="w30 ibbox">
+                        平台:{{ v.platform }}
+                      </div>
+                      <div class="w15 ibbox">
+                        帳號:{{ v.account }}
+                      </div>
+                    </el-option>
+                  </el-select>
+            </el-form-item>
+        </el-col>
+    <el-col :span="5" v-if="form.inventoryType == 'TRANSFER'">
+            <el-form-item
+              label="批量修改轉入倉庫"
+            >
+                <el-select v-model="sampleMoveTo" clearable class="w100">
+                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-col>
+        <el-col :span="5" v-if="form.inventoryType == 'TRANSFER'">
+            <el-form-item
+              label="批量修改轉出倉庫"
+            >
+                <el-select v-model="sampleMoveFrom" clearable class="w100">
+                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-col>
+        <el-col :span="4" v-if="form.inventoryType == 'TRANSFER'">
+            <el-form-item
+              label="批量修改庫存狀態"
+            >
+                <el-select
+                    placeholder="批量修改庫存狀態"
+                    v-model="trStockCondition"
+                    clearable
+                    class="w100"
+                  >
+                    <el-option
+                      v-for="(v,i) in stockCondition"
+                      :key="i"
+                      :label="v.stockCondition"
+                      :value="v.stockConditionCode"
+                    ></el-option>
+                  </el-select>
+            </el-form-item>
         </el-col>
       </el-row>
       <div id="table">
@@ -114,7 +190,7 @@
               v-if="showColumnTwo.includes(form.inventoryType)"
               width="200"
             >
-            <col width="60">
+            <col width="70">
           </colgroup>
           <thead>
             <tr>
@@ -323,6 +399,7 @@
 
 <script>
 import querySku from "@/common/querySku";
+import _ from "lodash";
 export default {
   name: "inventoryAdd",
   components: {
@@ -340,6 +417,17 @@ export default {
     }
   },
   methods: {
+    inventoryTypeChange() {
+      _.each(this.form.data, item => {
+        item.moveTo = "";
+        item.moveFrom = "";
+        item.sampleTo = "";
+      });
+      this.sampleMoveTo = "";
+      this.sampleMoveFrom = "";
+      this.sampleSampleTo = "";
+      this.trStockCondition = "";
+    },
     handleQuerySku(index) {
       this.$refs["inventoryAdd"].$findChild("wonDialog", "visible", index);
     },
@@ -472,6 +560,28 @@ export default {
       }
     );
   },
+  watch: {
+    sampleMoveTo(n) {
+      _.each(this.form.data, item => {
+        item.moveTo = n;
+      });
+    },
+    sampleMoveFrom(n) {
+      _.each(this.form.data, item => {
+        item.moveFrom = n;
+      });
+    },
+    sampleSampleTo(n) {
+      _.each(this.form.data, item => {
+        item.sampleTo = n;
+      });
+    },
+    trStockCondition(n) {
+      _.each(this.form.data, item => {
+        item.stockCondition = n;
+      });
+    }
+  },
   data() {
     return {
       rules: {
@@ -483,6 +593,10 @@ export default {
       showColumnThree: ["INVENTORY_OVERAGE"],
       showColumnFour: ["RETURN_REFUND"],
       showColumnFive: ["SAMPLE_OUT"],
+      sampleMoveTo: "",
+      sampleMoveFrom: "",
+      sampleSampleTo: "",
+      trStockCondition: "",
       inventoryTypeOption: [],
       warehouseOption: [],
       sampleToOption: [],

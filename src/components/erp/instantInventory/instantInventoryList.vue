@@ -17,7 +17,7 @@
         </div>
         <div class="ibbox">
           <wonPopoverChooser :chooser="$options.warehouse" @select="handleSelect" :select="select">
-            <el-button name="reference" type="success" size="small">選擇倉庫</el-button>
+              <el-button name="reference" type="success" size="small">選擇倉庫</el-button>
           </wonPopoverChooser>
         </div>
         <div class="fr ml10">
@@ -66,15 +66,18 @@ export default {
   methods: {
     handleSelect(data) {
       this.select = _.cloneDeep(data);
-      this.selectOption = _.cloneDeep(
-        data.map(v => {
+      this.selectOption = data
+        .filter(item => {
+          return item.showUnsellable || item.showSellable;
+        })
+        .map(v => {
           return {
             warehouseCode: v.warehouseCode,
             showUnsellable: v.showUnsellable,
             showSellable: v.showSellable
           };
-        })
-      );
+        });
+      console.log(this.selectOption);
       this.handleSearch();
     },
     handleSearch: _.debounce(function() {
@@ -82,7 +85,7 @@ export default {
       let data = {
         where: this.fetchOption.where,
         token: this.token,
-        warehouseList: JSON.stringify(this.select)
+        warehouseList: JSON.stringify(this.selectOption)
       };
       this.fetchTableData(data);
     }, 2000)

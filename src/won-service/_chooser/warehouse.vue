@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="24">
-          <el-input
+          <!-- <el-input
             class="ibbox w-max200"
             placeholder="搜索"
             v-model="fetchOption.where"
@@ -14,9 +14,9 @@
             class="el-input-group__append search"
           >
             <i class="el-icon-search"></i>
-          </div>
+          </div> -->
         <div class="fr ml10">
-          <el-button @click="$emit('select', selection)" type="primary" size="small" :disabled="!selection.length">確認</el-button>
+          <el-button @click="$emit('select', tableData)" type="primary" size="small">確認</el-button>
         </div>
       </el-col>
       <el-col class="mt5">
@@ -27,8 +27,6 @@
           v-loading="isTableLoading"
           @sort-change="handleSortChange"
         >
-          <el-table-column type="selection" width="55" reserve-selection>
-          </el-table-column>
           <el-table-column
             min-width="170"
             label="倉庫名稱"
@@ -36,7 +34,7 @@
             align="center"
           ></el-table-column>
            <el-table-column
-            width="70"
+            width="120"
             label="不可售"
             prop="showUnsellable"
             align="center"
@@ -46,7 +44,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="70"
+            width="120"
             label="可售"
             prop="showSellable"
             align="center"
@@ -72,9 +70,8 @@ export default {
   extends: wonTableContainer,
   props: ["select"],
   data() {
-    let selection = _.cloneDeep(this.select);
     return {
-      selection,
+      selection: [],
       fetchCondition: {
         skip: 0,
         limit: 20
@@ -87,8 +84,8 @@ export default {
     };
   },
   mounted() {
-    this.$refs["wonTable"].$watch("store.states.selection", v => {
-      this.selection = v;
+    this.$nextTick(() => {
+      this.selection = _.cloneDeep(this.select);
     });
   },
   methods: {

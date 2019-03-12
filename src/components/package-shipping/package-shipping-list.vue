@@ -18,13 +18,18 @@
                     <el-table-column min-width="150" label="商品名稱" prop="productName" sortable="custom"></el-table-column>
                     <el-table-column min-width="100" label="商品中文名稱" prop="productNameChinese" sortable="custom" ></el-table-column>
                     <el-table-column min-width="60" label="SKU" prop="sku" sortable="custom"></el-table-column>
-                    <el-table-column min-width="80" label="海外倉發貨" prop="overseaWarehouse" sortable="custom"></el-table-column>
-                    <el-table-column min-width="50" label="包裹重量" prop="parcelWeightAVG" sortable="custom">
+                    <el-table-column min-width="80" label="海外倉發貨" prop="overseaWarehouse" align="center" >
+                        <template slot-scope="{row}">
+                            <el-tag type="success" v-if="row.overseaWarehouse">true</el-tag>
+                            <el-tag type="info" v-else>false</el-tag>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="60" label="包裹重量" prop="parcelWeightAVG" sortable="custom">
                         <template slot-scope="{row}">
                               <span>{{row.parcelWeightAVG}} {{row.parceWeightUnit}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="50" label="運輸費用" prop="shippingFeeAVG" sortable="custom">
+                    <el-table-column min-width="60" label="運輸費用" prop="shippingFeeAVG" sortable="custom">
                         <template slot-scope="{row}">
                               <span>{{row.shippingFeeAVG}} {{row.shippingFeeCurrency}}</span>
                         </template>
