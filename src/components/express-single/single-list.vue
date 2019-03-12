@@ -210,7 +210,7 @@
         </el-row>
         <wonDialog
             ref="dialogVisible"
-            title="编辑"
+            title="編輯"
             name="single"
         >
             <singleEdit

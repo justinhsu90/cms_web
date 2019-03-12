@@ -6,7 +6,7 @@
         <a href="javascript:void(0)" @click="goBack">返回</a>
       </div>
       <br>
-      <h2>编辑Payment
+      <h2>編輯Payment
       </h2>
       <br>
       <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
@@ -70,7 +70,7 @@
           </el-row>
         </el-card>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">編輯</el-button>
       </el-form>
     </div>
   </div>

@@ -6,7 +6,7 @@
                 <a href="javascript:void(0)" @click="goBack">返回</a>
             </div>
             <br>
-            <h2>编辑應收帳款
+            <h2>編輯應收帳款
             </h2>
             <br>
             <el-form ref="form" :model="formData" v-loading="loading" label-position="top">

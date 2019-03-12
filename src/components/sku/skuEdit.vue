@@ -11,7 +11,7 @@
       >返回</a>
     </div>
     <br>
-    <h2>编辑SKU</h2>
+    <h2>編輯SKU</h2>
     <br>
     <el-form
       ref="form2"
@@ -613,13 +613,13 @@ export default {
           })
             .then(() => {
               this.submitLoading = false;
-              this.$message.success("编辑成功");
+              this.$message.success("編輯成功");
               this.Bus.$emit("refresh");
               this.goBack();
             })
             .catch(() => {
               this.submitLoading = false;
-              this.$message.warning("编辑失敗");
+              this.$message.warning("編輯失敗");
             });
         });
       });

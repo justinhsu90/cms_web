@@ -70,7 +70,7 @@
           </el-row>
         </el-card>
         <br>
-        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">编辑</el-button>
+        <el-button @click="submit" :loading="submitLoading" type="primary" size="large">編輯</el-button>
       </el-form>
     </div>
   </div>
