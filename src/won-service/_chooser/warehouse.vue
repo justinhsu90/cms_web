@@ -30,6 +30,12 @@
           <el-table-column type="selection" width="55" reserve-selection>
           </el-table-column>
           <el-table-column
+            min-width="170"
+            label="倉庫名稱"
+            prop="warehouseName"
+            align="center"
+          ></el-table-column>
+           <el-table-column
             width="70"
             label="不可售"
             prop="showUnsellable"
@@ -49,12 +55,6 @@
                 <el-checkbox v-model="row.showSellable"></el-checkbox>
             </template>
           </el-table-column>
-          <el-table-column
-            min-width="170"
-            label="倉庫名稱"
-            prop="warehouseName"
-            align="center"
-          ></el-table-column>
         </el-table>
       </el-col>
       <!-- <won-pagination

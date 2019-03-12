@@ -106,6 +106,11 @@
             >
 
             <col
+              v-if="showColumnFive.includes(form.inventoryType)"
+              width="200"
+            >
+
+            <col
               v-if="showColumnTwo.includes(form.inventoryType)"
               width="200"
             >
@@ -117,6 +122,7 @@
               <th>SKU </th>
               <th>數量 </th>
               <th v-if="showColumnTwo.includes(form.inventoryType)">轉入倉庫</th>
+              <th v-if="showColumnFive.includes(form.inventoryType)">發出倉</th>
               <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
               <th v-if="showColumnFive.includes(form.inventoryType)">物流單號</th>
               <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">平台</th>
@@ -159,6 +165,13 @@
                 </el-form-item>
               </td>
               <td v-if="showColumnTwo.includes(form.inventoryType)">
+                <el-form-item>
+                  <el-select v-model="v.moveTo">
+                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                  </el-select>
+                </el-form-item>
+              </td>
+              <td v-if="showColumnFive.includes(form.inventoryType)">
                 <el-form-item>
                   <el-select v-model="v.moveTo">
                     <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
