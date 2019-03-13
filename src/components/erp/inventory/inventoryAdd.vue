@@ -494,20 +494,20 @@ export default {
     },
     submit() {
       this.getValue();
-      // this.$refs["form"].validate(valid => {
-      //   if (valid) {
-      //     this.submitLoading = true;
-      //     axios({
-      //       url: "erp/inventoryChange/add",
-      //       method: "post",
-      //       data: this.getValue()
-      //     }).then(() => {
-      //       this.submitLoading = false;
-      //       this.$message.success("添加成功");
-      //       this.goBack();
-      //     });
-      //   }
-      // });
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          this.submitLoading = true;
+          axios({
+            url: "erp/inventoryChange/add",
+            method: "post",
+            data: this.getValue()
+          }).then(() => {
+            this.submitLoading = false;
+            this.$message.success("添加成功");
+            this.goBack();
+          });
+        }
+      });
     }
   },
   mounted() {

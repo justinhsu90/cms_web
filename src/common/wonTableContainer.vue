@@ -5,10 +5,11 @@ import wonPagination from "./wonPagination";
 import money from "won-service/_filters/money";
 import time from "won-service/_filters/time";
 import percent from "won-service/_filters/percent";
+import empty from "won-service/_filters/empty";
 import saveFile from "won-service/_mixins/save-file";
 import wonToolbar from "won-service/component/won-toolbar";
 export default {
-  mixins: [money, time, percent, saveFile],
+  mixins: [money, time, percent, saveFile, empty],
   components: {
     wonPagination,
     wonToolbar
