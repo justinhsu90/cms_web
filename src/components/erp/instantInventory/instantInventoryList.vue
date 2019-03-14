@@ -104,6 +104,10 @@ export default {
       this.tableData = data;
     },
     handleSearch: _.debounce(function() {
+      if (!this.init) {
+        this.init = true;
+        return;
+      }
       this.isTableLoading = true;
       let warehouseList;
       if (JSON.stringify(this.selectOption)) {
