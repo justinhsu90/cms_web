@@ -246,7 +246,7 @@ export default {
       immediate: true
     }
   }
-}</script>
+};</script>
 <style lang="scss">
 #nav {
   .el-dropdown-link {

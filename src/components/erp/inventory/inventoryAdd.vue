@@ -8,7 +8,7 @@
       >返回</a>
     </div>
     <br>
-    <h2>新增異動單</h2>
+    <h2>{{$t('inventory.form.newAddMoveOrder')}}</h2>
     <br>
     <el-form
       ref="form"
@@ -21,12 +21,12 @@
       >
         <el-col :span="5">
           <el-form-item
-            label="庫存異動類型"
+            :label="$t('inventory.form.inventoryMoveType')"
             :rules='rules'
             prop="inventoryType"
           >
             <el-select
-              placeholder="類型"
+              :placeholder="$t('inventory.placeholder.type')"
               v-model="form.inventoryType"
               clearable
               class="w100"
@@ -43,7 +43,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item
-            label="時間"
+            :label="$t('inventory.form.time')"
             :rules='rules'
             prop="datetime"
           >
@@ -51,88 +51,122 @@
               clearable
               v-model="form.datetime"
               type="datetime"
-              placeholder="选择日期时间"
+              :placeholder="$t('inventory.placeholder.selectTime')"
               align="right"
               class="w100"
               value-format="yyyy-MM-dd HH:mm:ss"
-              :picker-options="pickerOptions">
+              :picker-options="pickerOptions"
+            >
             </el-date-picker>
           </el-form-item>
         </el-col>
-         <el-col :span="5" v-if="form.inventoryType == 'SAMPLE_OUT'">
-            <el-form-item
-              label="批量修改發出貨"
+        <el-col
+          :span="5"
+          v-if="form.inventoryType == 'SAMPLE_OUT'"
+        >
+          <el-form-item :label="$t('inventory.form.batchChangeShipments')">
+            <el-select
+              v-model="sampleMoveTo"
+              clearable
+              class="w100"
+              placeholder="請選擇"
             >
-                <el-select v-model="sampleMoveTo" clearable class="w100" placeholder="請選擇">
-                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
-                </el-select>
-            </el-form-item>
+              <el-option
+                v-for="(v,i) in moveOption"
+                :key="i"
+                :value="v.warehouseCode"
+                :label="v.warehouseName"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
-        <el-col :span="5" v-if="form.inventoryType == 'SAMPLE_OUT'">
-            <el-form-item
-              label="批量修改收樣方"
+        <el-col
+          :span="5"
+          v-if="form.inventoryType == 'SAMPLE_OUT'"
+        >
+          <el-form-item :label="$t('inventory.form.batchChangeCollect')">
+            <el-select
+              :placeholder="$t('inventory.placeholder.collect')"
+              v-model="sampleSampleTo"
+              clearable
+              class="w100"
             >
-                  <el-select
-                    placeholder="收樣方"
-                    v-model="sampleSampleTo"
-                    clearable
-                    class="w100"
-                  >
-                    <el-option
-                      v-for="(v,i) in sampleToOption"
-                      :key="'smaple'+i"
-                      :value="v.managerName"
-                      style="width:450px;"
-                    >
-                      <div class="w45 ibbox">
-                        經理名稱:{{v.managerName}}
-                      </div>
-                      <div class="w30 ibbox">
-                        平台:{{ v.platform }}
-                      </div>
-                      <div class="w15 ibbox">
-                        帳號:{{ v.account }}
-                      </div>
-                    </el-option>
-                  </el-select>
-            </el-form-item>
+              <el-option
+                v-for="(v,i) in sampleToOption"
+                :key="'smaple'+i"
+                :value="v.managerName"
+                style="width:450px;"
+              >
+                <div class="w45 ibbox">
+                  {{$t('inventory.form.managerName')}}:{{v.managerName}}
+                </div>
+                <div class="w30 ibbox">
+                  {{$t('inventory.form.account')}}:{{ v.platform }}
+                </div>
+                <div class="w15 ibbox">
+                  {{$t('inventory.form.platform')}}:{{ v.account }}
+                </div>
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
-    <el-col :span="5" v-if="form.inventoryType == 'TRANSFER'">
-            <el-form-item
-              label="批量修改轉入倉庫"
+        <el-col
+          :span="5"
+          v-if="form.inventoryType == 'TRANSFER'"
+        >
+          <el-form-item :label="$t('inventory.form.batchChangeToWarehouse')">
+            <el-select
+              v-model="sampleMoveTo"
+              clearable
+              class="w100"
             >
-                <el-select v-model="sampleMoveTo" clearable class="w100">
-                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
-                </el-select>
-            </el-form-item>
+              <el-option
+                v-for="(v,i) in moveOption"
+                :key="i"
+                :value="v.warehouseCode"
+                :label="v.warehouseName"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
-        <el-col :span="5" v-if="form.inventoryType == 'TRANSFER'">
-            <el-form-item
-              label="批量修改轉出倉庫"
+        <el-col
+          :span="5"
+          v-if="form.inventoryType == 'TRANSFER'"
+        >
+          <el-form-item :label="$t('inventory.form.batchChangeFormWarehouse')">
+            <el-select
+              v-model="sampleMoveFrom"
+              clearable
+              class="w100"
             >
-                <el-select v-model="sampleMoveFrom" clearable class="w100">
-                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
-                </el-select>
-            </el-form-item>
+              <el-option
+                v-for="(v,i) in moveOption"
+                :key="i"
+                :value="v.warehouseCode"
+                :label="v.warehouseName"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
-        <el-col :span="4" v-if="form.inventoryType == 'TRANSFER'">
-            <el-form-item
-              label="批量修改庫存狀態"
+        <el-col
+          :span="4"
+          v-if="form.inventoryType == 'TRANSFER'"
+        >
+          <el-form-item :label="$t('inventory.form.batchChangeWarehouseStatus')">
+            <el-select
+              :placeholder="$t('inventory.form.batchChangeWarehouseStatus')"
+              v-model="trStockCondition"
+              clearable
+              class="w100"
             >
-                <el-select
-                    placeholder="批量修改庫存狀態"
-                    v-model="trStockCondition"
-                    clearable
-                    class="w100"
-                  >
-                    <el-option
-                      v-for="(v,i) in stockCondition"
-                      :key="i"
-                      :label="v.stockCondition"
-                      :value="v.stockConditionCode"
-                    ></el-option>
-                  </el-select>
-            </el-form-item>
+              <el-option
+                v-for="(v,i) in stockCondition"
+                :key="i"
+                :label="v.stockCondition"
+                :value="v.stockConditionCode"
+              ></el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
       </el-row>
       <div id="table">
@@ -194,21 +228,21 @@
           </colgroup>
           <thead>
             <tr>
-              <th>序號</th>
+              <th>{{$t('inventory.form.serialNumber')}}</th>
               <th>SKU </th>
-              <th>數量 </th>
-              <th v-if="showColumnTwo.includes(form.inventoryType)">轉入倉庫</th>
-              <th v-if="showColumnFive.includes(form.inventoryType)">發出倉</th>
-              <th v-if="showColumnTwo.includes(form.inventoryType)">轉出倉庫</th>
-              <th v-if="showColumnFive.includes(form.inventoryType)">物流單號</th>
-              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">平台</th>
-              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">帳號</th>
-              <th v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">收樣方</th>
-              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">倉庫</th>
-              <th v-if="showColumnFour.includes(form.inventoryType)">退貨金額</th>
-              <th v-if="showColumnFour.includes(form.inventoryType)">採購單號</th>
-              <th v-if="showColumnTwo.includes(form.inventoryType)">庫存狀態</th>
-              <th>操作</th>
+              <th>{{$t('inventory.form.quantity')}}</th>
+              <th v-if="showColumnTwo.includes(form.inventoryType)">{{$t('inventory.form.moveToWarehouse')}}</th>
+              <th v-if="showColumnFive.includes(form.inventoryType)">{{$t('inventory.form.emitWarehouse')}}</th>
+              <th v-if="showColumnTwo.includes(form.inventoryType)">{{$t('inventory.form.moveFormWarehouse')}}</th>
+              <th v-if="showColumnFive.includes(form.inventoryType)">{{$t('inventory.form.logisticsOrderNumber')}}</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">{{$t('inventory.form.platform')}}</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">{{$t('inventory.form.account')}}</th>
+              <th v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">{{$t('inventory.form.control')}}</th>
+              <th v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">{{$t('inventory.form.warehouse')}}</th>
+              <th v-if="showColumnFour.includes(form.inventoryType)">{{$t('inventory.form.warehouse')}}</th>
+              <th v-if="showColumnFour.includes(form.inventoryType)">{{$t('inventory.form.purchaseOrderNumber')}}</th>
+              <th v-if="showColumnTwo.includes(form.inventoryType)">{{$t('inventory.form.warehouseStatus')}}</th>
+              <th>{{$t('inventory.form.operate')}}</th>
             </tr>
           </thead>
           <tbody>
@@ -217,7 +251,7 @@
               :key="i"
             >
               <td>
-                  <span>{{i + 1}}</span>
+                <span>{{i + 1}}</span>
               </td>
               <td>
                 <el-form-item
@@ -243,21 +277,36 @@
               <td v-if="showColumnTwo.includes(form.inventoryType)">
                 <el-form-item>
                   <el-select v-model="v.moveTo">
-                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                    <el-option
+                      v-for="(v,i) in moveOption"
+                      :key="i"
+                      :value="v.warehouseCode"
+                      :label="v.warehouseName"
+                    ></el-option>
                   </el-select>
                 </el-form-item>
               </td>
               <td v-if="showColumnFive.includes(form.inventoryType)">
                 <el-form-item>
                   <el-select v-model="v.moveTo">
-                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                    <el-option
+                      v-for="(v,i) in moveOption"
+                      :key="i"
+                      :value="v.warehouseCode"
+                      :label="v.warehouseName"
+                    ></el-option>
                   </el-select>
                 </el-form-item>
               </td>
               <td v-if="showColumnTwo.includes(form.inventoryType)">
                 <el-form-item>
                   <el-select v-model="v.moveFrom">
-                    <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
+                    <el-option
+                      v-for="(v,i) in moveOption"
+                      :key="i"
+                      :value="v.warehouseCode"
+                      :label="v.warehouseName"
+                    ></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -294,7 +343,7 @@
               <td v-if="showColumnThree.includes(form.inventoryType) || showColumnFive.includes(form.inventoryType)">
                 <el-form-item>
                   <el-select
-                    placeholder="收樣方"
+                    :placeholder="$t('inventory.placeholder.collect')"
                     v-model="v.sampleTo"
                     clearable
                     class="w100"
@@ -306,13 +355,13 @@
                       style="width:450px;"
                     >
                       <div class="w45 ibbox">
-                        經理名稱:{{v.managerName}}
+                        {{$t('inventory.form.managerName')}}:{{v.managerName}}
                       </div>
                       <div class="w30 ibbox">
-                        平台:{{ v.platform }}
+                        {{$t('inventory.form.account')}}:{{ v.platform }}
                       </div>
                       <div class="w15 ibbox">
-                        帳號:{{ v.account }}
+                        {{$t('inventory.form.platform')}}:{{ v.account }}
                       </div>
                     </el-option>
                   </el-select>
@@ -321,7 +370,7 @@
               <td v-if="showColumnOne.includes(form.inventoryType) || showColumnThree.includes(form.inventoryType)">
                 <el-form-item>
                   <el-select
-                    placeholder="倉庫"
+                    :placeholder="$t('inventory.form.warehouse')"
                     v-model="v.warehouse"
                     clearable
                     class="w100"
@@ -338,7 +387,7 @@
               <td v-if="showColumnTwo.includes(form.inventoryType)">
                 <el-form-item>
                   <el-select
-                    placeholder="庫存狀態"
+                    :placeholder="$t('inventory.placeholder.warehouseStatus')"
                     v-model="v.stockCondition"
                     clearable
                     class="w100"
@@ -359,13 +408,13 @@
                   style="color:#409EFF"
                   type="text"
                   @click="handleRemove(i)"
-                >删除</el-button>
+                >{{$t('inventory.form.delete')}}</el-button>
                 <el-button
                   class="btnh"
                   style="color:#409EFF"
                   type="text"
                   @click="handleQuerySku(i)"
-                >查詢</el-button>
+                >{{$t('inventory.form.query')}}</el-button>
               </td>
             </tr>
           </tbody>
@@ -379,7 +428,7 @@
           size="small"
           class="f-r"
           type="success"
-        >新增產品</el-button>
+        >{{$t('inventory.form.addProduct')}}</el-button>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -387,7 +436,7 @@
           :loading="submitLoading"
           type="primary"
           size="mediumn"
-        >新增</el-button>
+        >{{$t('inventory.form.add')}}</el-button>
       </el-form-item>
     </el-form>
     <querySku
@@ -650,7 +699,8 @@ export default {
       submitLoading: false
     };
   }
-};</script>
+}
+</script>
 <style scoped lang="scss">
 .heade {
   font-size: 16px;

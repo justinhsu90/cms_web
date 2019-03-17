@@ -4,7 +4,10 @@ export default {
     type: "類型",
     product: "商品",
     startDate: "開始日期",
-    endDate: "結束日期"
+    endDate: "結束日期",
+    selectTime: "選擇時間",
+    collect: "收樣方",
+    warehouseStatus: "庫存狀態"
   },
   newAddTransaction: "新增異動",
   table: {
@@ -22,5 +25,33 @@ export default {
     action: "動作",
     delete: "刪除"
   },
-  form: {}
+  form: {
+    newAddMoveOrder: "新增異動單",
+    inventoryMoveType: "庫存異動類型",
+    time: "時間",
+    batchChangeShipments: "批量修改發貨",
+    batchChangeCollect: "批量修改收樣方",
+    account: "賬號",
+    platform: "平台",
+    managerName: "經理名稱",
+    batchChangeToWarehouse: "批量修改轉入倉庫",
+    batchChangeFormWarehouse: "批量修改转出倉庫",
+    batchChangeWarehouseStatus: "批量修改庫存狀態",
+    serialNumber: "序號",
+    quantity: "数量",
+    moveToWarehouse: "轉入倉庫",
+    moveFormWarehouse: "轉出倉庫",
+    emitWarehouse: "發出倉",
+    logisticsOrderNumber: "物流單號",
+    warehouse: "倉庫",
+    control: "收養方",
+    salesReturnMoney: "退貨金額",
+    warehouseStatus: "庫存狀態",
+    purchaseOrderNumber: "採購單號",
+    operate: "操作",
+    delete: "删除",
+    query: "查詢",
+    addProduct: "新增產品",
+    add: "新增"
+  }
 };
