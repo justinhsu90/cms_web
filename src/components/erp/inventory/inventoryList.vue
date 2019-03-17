@@ -2,37 +2,37 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-input class="ibbox w-max200" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
+                <el-input class="ibbox w-max200" :placeholder="$t('inventory.placeholder.search')" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
                 </el-input>
-                <el-select class="w-max150" placeholder="類型" v-model="inventoryType" @change="handleCondition('type')" clearable>
+                <el-select class="w-max150" :placeholder="$t('inventory.placeholder.type')" v-model="inventoryType" @change="handleCondition('type')" clearable>
                     <el-option v-for="(v,i) in inventoryTypeOption" :key="i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
                 </el-select>
-                <el-select class="w-max150" placeholder="商品" v-model="warehouse" @change="handleCondition('warehouse')" clearable>
+                <el-select class="w-max150" :placeholder="$t('inventory.placeholder.product')" v-model="warehouse" @change="handleCondition('warehouse')" clearable>
                     <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v" :value="v"></el-option>
                 </el-select>
-                <el-date-picker class="w-max180" clearable  @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
+                <el-date-picker class="w-max180" clearable  @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" :start-placeholder="$t('inventory.placeholder.startDate')" :end-placeholder="$t('inventory.placeholder.endDate')" :picker-options="pickerOptions">
                 </el-date-picker>
                 <div @click="handleSearch" class="el-input-group__append search">
                     <i class="el-icon-search"></i>
                 </div>
-                <el-button style="float:right" @click="handleAdd" type="primary">新增異動</el-button>
+                <el-button style="float:right" @click="handleAdd" type="primary">{{$t('inventory.newAddTransaction')}}</el-button>
             </el-col>
             <el-col class="mt5">
                 <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column width="60" label="單號" prop="inventoryChangeId"></el-table-column>
-                    <el-table-column width="90" label="類型" prop="inventoryTypeName"></el-table-column>
-                    <el-table-column min-width="110" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="90" max-width="100" label=" 所屬倉庫" prop="warehouse"></el-table-column>
-                    <el-table-column width="60" label="數量" prop="quantity"></el-table-column>
-                    <el-table-column width="400" label="產品名稱" prop="productName"></el-table-column>
-                    <el-table-column width="80" label="帳號" prop="account"></el-table-column>
-                    <el-table-column width="80" label="平台" prop="platform"></el-table-column>
-                    <el-table-column width="140" label="異動時間" prop="datetime" :formatter="formatToDate"></el-table-column>
-                    <el-table-column width="140" label="轉出倉庫" prop="moveFrom"></el-table-column>
-                    <el-table-column width="140" label="轉入倉庫" prop="moveTo"></el-table-column>
-                    <el-table-column width="80" label="動作" fixed="right">
+                    <el-table-column width="120" :label="$t('inventory.table.orderNumber')" prop="inventoryChangeId"></el-table-column>
+                    <el-table-column width="90" :label="$t('inventory.table.type')" prop="inventoryTypeName"></el-table-column>
+                    <el-table-column min-width="110" :label="$t('inventory.table.sku')" prop="sku"></el-table-column>
+                    <el-table-column min-width="115" max-width="100" :label="$t('inventory.table.warehouse')" prop="warehouse"></el-table-column>
+                    <el-table-column width="110" :label="$t('inventory.table.quantity')" prop="quantity"></el-table-column>
+                    <el-table-column width="400" :label="$t('inventory.table.productName')" prop="productName"></el-table-column>
+                    <el-table-column width="110" :label="$t('inventory.table.account')" prop="account"></el-table-column>
+                    <el-table-column width="110" :label="$t('inventory.table.platform')" prop="platform"></el-table-column>
+                    <el-table-column width="140" :label="$t('inventory.table.moveTime')" prop="datetime" :formatter="formatToDate"></el-table-column>
+                    <el-table-column width="160" :label="$t('inventory.table.moveFormWarehouse')" prop="moveFrom"></el-table-column>
+                    <el-table-column width="160" :label="$t('inventory.table.moveToWarehouse')"  prop="moveTo"></el-table-column>
+                    <el-table-column width="80" :label="$t('inventory.table.action')" fixed="right" align="center">
                         <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="刪除" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
+                            <el-button class="btnh" type="text" :title="$t('inventory.table.delete')" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -211,5 +211,4 @@ export default {
       }).catch(() => {});
     }
   }
-};
-</script>
+};</script>

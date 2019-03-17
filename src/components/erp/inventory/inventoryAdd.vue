@@ -63,7 +63,7 @@
             <el-form-item
               label="批量修改發出貨"
             >
-                <el-select v-model="sampleMoveTo" clearable class="w100">
+                <el-select v-model="sampleMoveTo" clearable class="w100" placeholder="請選擇">
                     <el-option v-for="(v,i) in moveOption" :key="i" :value="v.warehouseCode" :label="v.warehouseName"></el-option>
                 </el-select>
             </el-form-item>
@@ -650,9 +650,7 @@ export default {
       submitLoading: false
     };
   }
-};
-</script>
-
+};</script>
 <style scoped lang="scss">
 .heade {
   font-size: 16px;

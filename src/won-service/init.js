@@ -1,14 +1,19 @@
 import Vue from "vue";
-import ElementUI from "../../static/lib/ele/index";
 import "element-ui/lib/theme-chalk/index.css";
 import "../assets/css/reset.css";
 import "../assets/css/fontStyle.css";
 import "@/assets/scss/common/index.scss";
 import moment from "moment";
 import axios from "@/common/until/Ajax";
+import Element from "../../static/lib/ele";
 import qs from "qs";
+import i18n from "../core/i18n";
 const Bus = new Vue();
-Vue.use(ElementUI);
+Vue.use(Element, {
+  i18n: (key, value) => {
+    return i18n.t(key, value);
+  }
+});
 Vue.config.productionTip = false;
 
 //太坑 因为后边改的

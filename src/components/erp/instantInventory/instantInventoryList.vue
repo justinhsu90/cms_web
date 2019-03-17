@@ -47,6 +47,7 @@ export default {
   warehouse,
   data() {
     return {
+      isTableLoading: false,
       date: [],
       parmas: [],
       fetchCondition: {

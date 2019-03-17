@@ -1,113 +1,124 @@
 <template>
-    <div id="nav">
-        <el-container>
-            <el-header>
-                <h2 class="f-l lh60">
-                    <i class="el-icon-menu va-m"></i>
-                    <span class="fz20 va-m">菲德利內部管理系統</span>
-                    <i class="clearmid"></i>
-                </h2>
-                <h2 class="f-r">
-                    <el-popover
-                        placement="bottom"
-                        width="200"
-                        trigger="click"
-                    >
-                        <div>
-                            <span>帳號資訊：</span>
-                            <span>{{username}}</span>
-                        </div>
-                        <i
-                            type="text"
-                            slot="reference"
-                            class="el-icon-won-50 va-m co-p"
-                        ></i>
-                    </el-popover>
-                    <i
-                        type="text"
-                        class="el-icon-setting va-m co-p"
-                        @click="handleQuit"
-                    ></i>
-                    <i class="clearmid"></i>
-                </h2>
-                <div class="f-r pt10">
-                    <el-autocomplete
-                        ref="input"
-                        size="small"
-                        class="mr15 autocomplete"
-                        v-model="autoAutocomplete"
-                        :fetch-suggestions="querySearch"
-                        placeholder="搜索菜單"
-                        :trigger-on-focus="false"
-                        @select="handleSearch"
-                    >
-                        <i
-                            class="el-icon-won-40"
-                            slot="suffix"
-                        >
-                        </i>
-                    </el-autocomplete>
-                </div>
-            </el-header>
-            <el-container>
-                <div class="aside">
-                    <div class="lh50 t_a-c">
-                        <i
-                            class="el-icon-won-28 co-po fz20 c-white"
-                            @click="handleClick"
-                        ></i>
-                    </div>
-                    <div>
-                        <el-menu
-                            :unique-opened="true"
-                            :collapse="isCollapse"
-                            :default-active="defaultNav"
-                            class="el-menu-vertical-demo"
-                            background-color="rgb(50, 65, 87)"
-                            text-color="white"
-                            active-text-color="#409eff"
-                            @select="handleSelect"
-                        >
-                            <template v-for="(v,i) in nav">
-                                <el-submenu
-                                    v-if="v.isLevel"
-                                    :index="v.index"
-                                    :key="i"
-                                >
-                                    <template slot="title">
-                                        <i class="el-icon-menu"></i>
-                                        <span slot="title">{{v.label}}</span>
-                                    </template>
-                                    <el-menu-item-group>
-                                        <div slot="title"></div>
-                                        <el-menu-item
-                                            v-for="(value,index) in v.child"
-                                            :key="index+'child'"
-                                            :index="value.index"
-                                        >{{value.label}}</el-menu-item>
-                                    </el-menu-item-group>
-                                </el-submenu>
-                                <el-menu-item
-                                    :index="v.index"
-                                    v-else
-                                    :key="i"
-                                >
-                                    <i class="el-icon-menu"></i>
-                                    <span slot="title">{{v.label}}</span>
-                                </el-menu-item>
-                            </template>
-                        </el-menu>
-                    </div>
-                </div>
-                <el-main>
-                    <keep-alive :exclude="$route.meta.exclude">
-                        <router-view v-if="$route.meta.keepAlive"></router-view>
-                    </keep-alive>
-                    <router-view v-if="!$route.meta.keepAlive"></router-view>
-                </el-main>
-            </el-container>
-        </el-container>
-    </div>
+  <div id="nav">
+    <el-container>
+      <el-header>
+        <h2 class="f-l lh60">
+          <i class="el-icon-menu va-m"></i>
+          <span class="fz20 va-m">菲德利內部管理系統</span>
+          <i class="clearmid"></i>
+        </h2>
+        <h2 class="f-r">
+          <el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              {{language}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="zh">中文</el-dropdown-item>
+              <el-dropdown-item command="en">ENGLISH</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </h2>
+        <h2 class="f-r">
+          <el-popover
+            placement="bottom"
+            width="200"
+            trigger="click"
+          >
+            <div>
+              <span>帳號資訊：</span>
+              <span>{{username}}</span>
+            </div>
+            <i
+              type="text"
+              slot="reference"
+              class="el-icon-won-50 va-m co-p"
+            ></i>
+          </el-popover>
+          <i
+            type="text"
+            class="el-icon-setting va-m co-p"
+            @click="handleQuit"
+          ></i>
+          <i class="clearmid"></i>
+        </h2>
+        <div class="f-r pt10">
+          <el-autocomplete
+            ref="input"
+            size="small"
+            class="mr15 autocomplete"
+            v-model="autoAutocomplete"
+            :fetch-suggestions="querySearch"
+            placeholder="搜索菜單"
+            :trigger-on-focus="false"
+            @select="handleSearch"
+          >
+            <i
+              class="el-icon-won-40"
+              slot="suffix"
+            >
+            </i>
+          </el-autocomplete>
+        </div>
+      </el-header>
+      <el-container>
+        <div class="aside">
+          <div class="lh50 t_a-c">
+            <i
+              class="el-icon-won-28 co-po fz20 c-white"
+              @click="handleClick"
+            ></i>
+          </div>
+          <div>
+            <el-menu
+              :unique-opened="true"
+              :collapse="isCollapse"
+              :default-active="defaultNav"
+              class="el-menu-vertical-demo"
+              background-color="rgb(50, 65, 87)"
+              text-color="white"
+              active-text-color="#409eff"
+              @select="handleSelect"
+            >
+              <template v-for="(v,i) in nav">
+                <el-submenu
+                  v-if="v.isLevel"
+                  :index="v.index"
+                  :key="i"
+                >
+                  <template slot="title">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">{{v.label}}</span>
+                  </template>
+                  <el-menu-item-group>
+                    <div slot="title"></div>
+                    <el-menu-item
+                      v-for="(value,index) in v.child"
+                      :key="index+'child'"
+                      :index="value.index"
+                    >{{value.label}}</el-menu-item>
+                  </el-menu-item-group>
+                </el-submenu>
+                <el-menu-item
+                  :index="v.index"
+                  v-else
+                  :key="i"
+                >
+                  <i class="el-icon-menu"></i>
+                  <span slot="title">{{v.label}}</span>
+                </el-menu-item>
+              </template>
+            </el-menu>
+          </div>
+        </div>
+        <el-main>
+          <keep-alive :exclude="$route.meta.exclude">
+            <router-view  v-if="$route.meta.keepAlive"></router-view>
+          </keep-alive>
+          <router-view  v-if="!$route.meta.keepAlive"></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 <script>
 import navData from "./navData";
@@ -140,6 +151,7 @@ export default {
       nav.splice(6, 0, adminErp);
     }
     return {
+      language: "中文",
       defaultNav: "",
       asideShow: true,
       username: C.get("userName"),
@@ -149,6 +161,16 @@ export default {
     };
   },
   methods: {
+    handleCommand(type) {
+      if (type == "en") {
+        this.$i18n.locale = "en";
+        this.language = "ENGLISH";
+      }
+      if (type == "zh") {
+        this.$i18n.locale = "zh";
+        this.language = "中文";
+      }
+    },
     querySearch(queryString, cb) {
       let data = [];
       _.each(this.nav, v => {
@@ -224,10 +246,12 @@ export default {
       immediate: true
     }
   }
-};
-</script>
+}</script>
 <style lang="scss">
 #nav {
+  .el-dropdown-link {
+    color: white !important;
+  }
   width: 100%;
   height: 100%;
   .el-container {
