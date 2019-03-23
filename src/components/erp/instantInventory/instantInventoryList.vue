@@ -9,28 +9,63 @@
           @keyup.enter.native="handleSearch"
         >
         </el-input>
-        <div
+        <el-button
+          icon="el-icon-search"
           @click="handleSearch"
-          class="el-input-group__append search"
-        >
-          <i class="el-icon-search"></i>
-        </div>
+        ></el-button>
         <div class="ibbox">
-          <wonPopoverChooser :chooser="$options.warehouse" @select="handleSelect" :select="select">
-              <el-button name="reference" type="success" size="small">選擇倉庫</el-button>
+          <wonPopoverChooser
+            :chooser="$options.warehouse"
+            @select="handleSelect"
+            :select="select"
+          >
+            <el-button
+              name="reference"
+              type="success"
+              size="small"
+            >選擇倉庫</el-button>
           </wonPopoverChooser>
         </div>
       </el-col>
       <el-col class="mt5">
-            <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                <el-table-column min-width="150" label="SKU" prop="sku" align="center"></el-table-column>
-                <template v-for="(v,i) in parmas">
-                <el-table-column v-if="v.showSellable" :key="i" width="200" :label="v.warehouseName + '(可售)'" prop="GZ_SELLABLE" :formatter="formatEmptyText" align="center" sortable="custom"></el-table-column>
-                </template>
-                <template v-for="(v,i) in parmas">
-                  <el-table-column  v-if="v.showUnsellable" :key="i+'index'" width="200" :label="v.warehouseName + '(不可售)'" prop="GZ_UNSELLABLE" :formatter="formatEmptyText" align="center" sortable="custom"></el-table-column>
-                </template>
-            </el-table>
+        <el-table
+          ref="wonTable"
+          :max-height="maxHeight"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <el-table-column
+            min-width="150"
+            label="SKU"
+            prop="sku"
+            align="center"
+          ></el-table-column>
+          <template v-for="(v,i) in parmas">
+            <el-table-column
+              v-if="v.showSellable"
+              :key="i"
+              width="200"
+              :label="v.warehouseName + '(可售)'"
+              prop="GZ_SELLABLE"
+              :formatter="formatEmptyText"
+              align="center"
+              sortable="custom"
+            ></el-table-column>
+          </template>
+          <template v-for="(v,i) in parmas">
+            <el-table-column
+              v-if="v.showUnsellable"
+              :key="i+'index'"
+              width="200"
+              :label="v.warehouseName + '(不可售)'"
+              prop="GZ_UNSELLABLE"
+              :formatter="formatEmptyText"
+              align="center"
+              sortable="custom"
+            ></el-table-column>
+          </template>
+        </el-table>
       </el-col>
     </el-row>
   </div>
@@ -64,6 +99,10 @@ export default {
       }
     };
   },
+
+  mounted() {
+    this.handleSelect();
+  },
   methods: {
     handleSortChange(row) {
       if (row.order == "ascending") {
@@ -73,7 +112,32 @@ export default {
         this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["desc"]);
       }
     },
-    handleSelect(data) {
+    handleSelect(originData) {
+      let data = _.cloneDeep(originData);
+      if (!this.hasinit) {
+        this.hasinit = true;
+        data = [
+          {
+            warehouseName: "廣州倉",
+            warehouseCode: "GZ",
+            showSellable: true,
+            showUnsellable: true
+          },
+          {
+            warehouseName: "廣州出貨需求",
+            warehouseCode: "GZ-SHIPMENT-NEED",
+            showSellable: true,
+            showUnsellable: true
+          },
+          {
+            warehouseName: "廣州採購在途",
+            warehouseCode: "GZ-TRANSIT",
+            showSellable: true,
+            showUnsellable: true
+          }
+        ];
+      }
+
       this.select = _.cloneDeep(data);
       this.parmas = data.filter(item => {
         return item.showUnsellable || item.showSellable;
@@ -105,10 +169,6 @@ export default {
       this.tableData = data;
     },
     handleSearch: _.debounce(function() {
-      if (!this.init) {
-        this.init = true;
-        return;
-      }
       this.isTableLoading = true;
       let warehouseList;
       if (JSON.stringify(this.selectOption)) {
