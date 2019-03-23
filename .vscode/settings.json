@@ -9,8 +9,7 @@
       "autoFix": true
     }
   ],
-  // "editor.formatOnSave": true,
-  // "prettier.eslintIntegration": true,
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
   "editor.tabSize": 2,
-  "eslint.autoFixOnSave": false
 }

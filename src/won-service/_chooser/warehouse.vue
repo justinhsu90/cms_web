@@ -2,21 +2,12 @@
   <div>
     <el-row>
       <el-col :span="24">
-          <!-- <el-input
-            class="ibbox w-max200"
-            placeholder="搜索"
-            v-model="fetchOption.where"
-            @keyup.enter.native="handleSearch"
-          >
-          </el-input>
-          <div
-            @click="handleSearch"
-            class="el-input-group__append search"
-          >
-            <i class="el-icon-search"></i>
-          </div> -->
         <div class="fr ml10">
-          <el-button @click="$emit('select', tableData)" type="primary" size="small">確認</el-button>
+          <el-button
+            @click="$emit('select', tableData)"
+            type="primary"
+            size="small"
+          >確認</el-button>
         </div>
       </el-col>
       <el-col class="mt5">
@@ -33,16 +24,6 @@
             prop="warehouseName"
             align="center"
           ></el-table-column>
-           <el-table-column
-            width="120"
-            label="不可售"
-            prop="showUnsellable"
-            align="center"
-          >
-            <template slot-scope="{row}">
-                <el-checkbox v-model="row.showUnsellable"></el-checkbox>
-            </template>
-          </el-table-column>
           <el-table-column
             width="120"
             label="可售"
@@ -50,16 +31,27 @@
             align="center"
           >
             <template slot-scope="{row}">
-                <el-checkbox v-model="row.showSellable"></el-checkbox>
+              <el-checkbox
+                :disabled="row.disabled"
+                v-model="row.showSellable"
+              ></el-checkbox>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="120"
+            label="不可售"
+            prop="showUnsellable"
+            align="center"
+          >
+            <template slot-scope="{row}">
+              <el-checkbox
+                :disabled="row.disabled"
+                v-model="row.showUnsellable"
+              ></el-checkbox>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
-      <!-- <won-pagination
-        v-bind="paginationProps"
-        v-on="paginationListeners"
-      >
-      </won-pagination> -->
     </el-row>
   </div>
 </template>
@@ -102,8 +94,17 @@ export default {
     fetchEnd() {
       let data = [];
       _.each(this.originRes, item => {
-        this.$set(item, "showUnsellable", false);
-        this.$set(item, "showSellable", false);
+        let isShowConstraint = ["GZ", "GZ-SHIPMENT-NEED", "GZ-TRANSIT"];
+        if (isShowConstraint.includes(item.warehouseCode)) {
+          this.$set(item, "showUnsellable", true);
+          this.$set(item, "showSellable", true);
+          this.$set(item, "disabled", true);
+        } else {
+          this.$set(item, "showUnsellable", false);
+          this.$set(item, "showSellable", false);
+          this.$set(item, "disabled", false);
+        }
+
         data.push(item);
       });
       this.tableData = _.cloneDeep(data);

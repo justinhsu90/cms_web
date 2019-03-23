@@ -1,46 +1,159 @@
 <template>
-    <div>
-        <el-row>
-            <el-col :span="24">
-                <el-input class="ibbox w-max200" :placeholder="$t('inventory.placeholder.search')" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
-                </el-input>
-                <el-select class="w-max150" :placeholder="$t('inventory.placeholder.type')" v-model="inventoryType" @change="handleCondition('type')" clearable>
-                    <el-option v-for="(v,i) in inventoryTypeOption" :key="i" :label="v.inventoryTypeName" :value="v.inventoryType"></el-option>
-                </el-select>
-                <el-select class="w-max150" :placeholder="$t('inventory.placeholder.product')" v-model="warehouse" @change="handleCondition('warehouse')" clearable>
-                    <el-option v-for="(v,i) in warehouseOption" :key="'merge'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-date-picker class="w-max180" clearable  @change="handleCondition('date')" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" :start-placeholder="$t('inventory.placeholder.startDate')" :end-placeholder="$t('inventory.placeholder.endDate')" :picker-options="pickerOptions">
-                </el-date-picker>
-                <div @click="handleSearch" class="el-input-group__append search">
-                    <i class="el-icon-search"></i>
-                </div>
-                <el-button style="float:right" @click="handleAdd" type="primary">{{$t('inventory.newAddTransaction')}}</el-button>
-            </el-col>
-            <el-col class="mt5">
-                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column width="120" :label="$t('inventory.table.orderNumber')" prop="inventoryChangeId"></el-table-column>
-                    <el-table-column width="90" :label="$t('inventory.table.type')" prop="inventoryTypeName"></el-table-column>
-                    <el-table-column min-width="110" :label="$t('inventory.table.sku')" prop="sku"></el-table-column>
-                    <el-table-column min-width="115" max-width="100" :label="$t('inventory.table.warehouse')" prop="warehouse"></el-table-column>
-                    <el-table-column width="110" :label="$t('inventory.table.quantity')" prop="quantity"></el-table-column>
-                    <el-table-column width="400" :label="$t('inventory.table.productName')" prop="productName"></el-table-column>
-                    <el-table-column width="110" :label="$t('inventory.table.account')" prop="account"></el-table-column>
-                    <el-table-column width="110" :label="$t('inventory.table.platform')" prop="platform"></el-table-column>
-                    <el-table-column width="140" :label="$t('inventory.table.moveTime')" prop="datetime" :formatter="formatToDate"></el-table-column>
-                    <el-table-column width="160" :label="$t('inventory.table.moveFormWarehouse')" prop="moveFrom"></el-table-column>
-                    <el-table-column width="160" :label="$t('inventory.table.moveToWarehouse')"  prop="moveTo"></el-table-column>
-                    <el-table-column width="80" :label="$t('inventory.table.action')" fixed="right" align="center">
-                        <template slot-scope="scope">
-                            <el-button class="btnh" type="text" :title="$t('inventory.table.delete')" icon="el-icon-won-22" @click="handleDelete(scope.row)"></el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-col>
-            <won-pagination v-bind="paginationProps" v-on="paginationListeners">
-            </won-pagination>
-        </el-row>
-    </div>
+  <div>
+    <el-row>
+      <el-col :span="24">
+        <el-input
+          class="ibbox w-max200"
+          :placeholder="$t('inventory.placeholder.search')"
+          v-model="fetchOption.where"
+          @keyup.enter.native="handleSearch"
+        >
+        </el-input>
+        <el-select
+          class="w-max150"
+          :placeholder="$t('inventory.placeholder.type')"
+          v-model="inventoryType"
+          @change="handleCondition('type')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in inventoryTypeOption"
+            :key="i"
+            :label="v.inventoryTypeName"
+            :value="v.inventoryType"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          :placeholder="$t('inventory.placeholder.product')"
+          v-model="warehouse"
+          @change="handleCondition('warehouse')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in warehouseOption"
+            :key="'merge'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-date-picker
+          class="w-max180"
+          clearable
+          @change="handleCondition('date')"
+          value-format="yyyy-MM-dd"
+          v-model="date"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="~"
+          :start-placeholder="$t('inventory.placeholder.startDate')"
+          :end-placeholder="$t('inventory.placeholder.endDate')"
+          :picker-options="pickerOptions"
+        >
+        </el-date-picker>
+        <div
+          @click="handleSearch"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+        <el-button
+          style="float:right"
+          @click="handleAdd"
+          type="primary"
+        >{{$t('inventory.newAddTransaction')}}</el-button>
+      </el-col>
+      <el-col class="mt5">
+        <el-table
+          ref="wonTable"
+          :max-height="maxHeight"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <el-table-column
+            width="120"
+            :label="$t('inventory.table.orderNumber')"
+            prop="inventoryChangeId"
+          ></el-table-column>
+          <el-table-column
+            width="90"
+            :label="$t('inventory.table.type')"
+            prop="inventoryTypeName"
+          ></el-table-column>
+          <el-table-column
+            min-width="110"
+            :label="$t('inventory.table.sku')"
+            prop="sku"
+          ></el-table-column>
+          <el-table-column
+            min-width="115"
+            max-width="100"
+            :label="$t('inventory.table.warehouse')"
+            prop="warehouse"
+          ></el-table-column>
+          <el-table-column
+            width="110"
+            :label="$t('inventory.table.quantity')"
+            prop="quantity"
+          ></el-table-column>
+          <el-table-column
+            width="400"
+            :label="$t('inventory.table.productName')"
+            prop="productName"
+          ></el-table-column>
+          <el-table-column
+            width="110"
+            :label="$t('inventory.table.account')"
+            prop="account"
+          ></el-table-column>
+          <el-table-column
+            width="110"
+            :label="$t('inventory.table.platform')"
+            prop="platform"
+          ></el-table-column>
+          <el-table-column
+            width="140"
+            :label="$t('inventory.table.moveTime')"
+            prop="datetime"
+            :formatter="formatToDate"
+          ></el-table-column>
+          <el-table-column
+            width="160"
+            :label="$t('inventory.table.moveFormWarehouse')"
+            prop="moveFrom"
+          ></el-table-column>
+          <el-table-column
+            width="160"
+            :label="$t('inventory.table.moveToWarehouse')"
+            prop="moveTo"
+          ></el-table-column>
+          <el-table-column
+            width="80"
+            :label="$t('inventory.table.action')"
+            fixed="right"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-button
+                class="btnh"
+                type="text"
+                :title="$t('inventory.table.delete')"
+                icon="el-icon-won-22"
+                @click="handleDelete(scope.row)"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
+      <won-pagination
+        v-bind="paginationProps"
+        v-on="paginationListeners"
+      >
+      </won-pagination>
+    </el-row>
+  </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
@@ -211,4 +324,5 @@ export default {
       }).catch(() => {});
     }
   }
-};</script>
+};
+</script>

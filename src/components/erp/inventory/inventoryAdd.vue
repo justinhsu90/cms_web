@@ -699,7 +699,7 @@ export default {
       submitLoading: false
     };
   }
-}
+};
 </script>
 <style scoped lang="scss">
 .heade {

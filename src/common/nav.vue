@@ -112,9 +112,9 @@
         </div>
         <el-main>
           <keep-alive :exclude="$route.meta.exclude">
-            <router-view  v-if="$route.meta.keepAlive"></router-view>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
           </keep-alive>
-          <router-view  v-if="!$route.meta.keepAlive"></router-view>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -246,7 +246,8 @@ export default {
       immediate: true
     }
   }
-};</script>
+};
+</script>
 <style lang="scss">
 #nav {
   .el-dropdown-link {
