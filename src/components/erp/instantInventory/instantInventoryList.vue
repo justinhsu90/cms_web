@@ -47,7 +47,7 @@
               :key="i"
               width="200"
               :label="v.warehouseName + '(可售)'"
-              prop="GZ_SELLABLE"
+              :prop="v.warehouseCode + '_SELLABLE'"
               :formatter="formatEmptyText"
               align="center"
               sortable="custom"
@@ -59,7 +59,7 @@
               :key="i+'index'"
               width="200"
               :label="v.warehouseName + '(不可售)'"
-              prop="GZ_UNSELLABLE"
+              :prop="v.warehouseCode + '_UNSELLABLE'"
               :formatter="formatEmptyText"
               align="center"
               sortable="custom"
@@ -99,7 +99,6 @@ export default {
       }
     };
   },
-
   mounted() {
     this.handleSelect();
   },
@@ -121,19 +120,19 @@ export default {
             warehouseName: "廣州倉",
             warehouseCode: "GZ",
             showSellable: true,
-            showUnsellable: true
+            showUnsellable: false
           },
           {
             warehouseName: "廣州出貨需求",
             warehouseCode: "GZ-SHIPMENT-NEED",
             showSellable: true,
-            showUnsellable: true
+            showUnsellable: false
           },
           {
             warehouseName: "廣州採購在途",
             warehouseCode: "GZ-TRANSIT",
             showSellable: true,
-            showUnsellable: true
+            showUnsellable: false
           }
         ];
       }
@@ -142,7 +141,6 @@ export default {
       this.parmas = data.filter(item => {
         return item.showUnsellable || item.showSellable;
       });
-
       this.selectOption = data
         .filter(item => {
           return item.showUnsellable || item.showSellable;

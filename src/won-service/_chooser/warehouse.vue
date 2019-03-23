@@ -96,9 +96,9 @@ export default {
       _.each(this.originRes, item => {
         let isShowConstraint = ["GZ", "GZ-SHIPMENT-NEED", "GZ-TRANSIT"];
         if (isShowConstraint.includes(item.warehouseCode)) {
-          this.$set(item, "showUnsellable", true);
+          this.$set(item, "showUnsellable", false);
           this.$set(item, "showSellable", true);
-          this.$set(item, "disabled", true);
+          this.$set(item, "disabled", false);
         } else {
           this.$set(item, "showUnsellable", false);
           this.$set(item, "showSellable", false);
