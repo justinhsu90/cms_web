@@ -2,7 +2,7 @@
   <div>
     <!-- <el-button type="success" size="small">發送</el-button> -->
     <div class="email-receive mt20">
-      <div class="email-receive__name ibbox">
+      <div class="email-receive__name ibbox mt20">
         <span>訂單號：</span>
       </div>
       <!-- <input
@@ -13,7 +13,6 @@
       <el-select
         class="email-receive__text"
         v-model="value9"
-        allow-create
         multiple
         filterable
         remote
@@ -154,7 +153,8 @@ export default {
 <style lang="scss" scoped>
 .email-receive {
   border-bottom: 1px solid #ebeef5;
-  height: 27px;
+  min-height: 35px;
+  padding-bottom: 10px;
 }
 .email-receive__name {
   color: #606266;
@@ -162,16 +162,14 @@ export default {
   width: 60px;
 }
 .email-receive__text {
-  border: none;
-  outline: none;
-  font-size: 14px;
   width: calc(100% - 100px);
   /deep/ input {
     border: none !important;
     outline: none !important;
-    font-size: 14px;
-    height: 20px !important;
   }
+}
+/deep/ .el-select__tags > span {
+  display: contents;
 }
 .email-style {
   border-bottom: 1px solid #ebeef5;
