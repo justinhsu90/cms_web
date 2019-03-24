@@ -57,7 +57,7 @@
             <el-table-column
               v-if="v.showUnsellable"
               :key="i+'index'"
-              width="200"
+              width="300"
               :label="v.warehouseName + '(不可售)'"
               :prop="v.warehouseCode + '_UNSELLABLE'"
               :formatter="formatEmptyText"
