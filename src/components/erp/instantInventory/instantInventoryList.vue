@@ -36,7 +36,7 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            min-width="150"
+            width="150"
             label="SKU"
             prop="sku"
             align="center"
@@ -45,7 +45,7 @@
             <el-table-column
               v-if="v.showSellable"
               :key="i"
-              width="200"
+              min-width="200"
               :label="v.warehouseName + '(可售)'"
               :prop="v.warehouseCode + '_SELLABLE'"
               :formatter="formatEmptyText"

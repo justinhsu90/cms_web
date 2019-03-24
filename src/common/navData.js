@@ -205,16 +205,16 @@ const nav = [
         label: "補發清單"
       }
     ]
-  }
+  },
   // ,
   // {
   // index: "menuorder",
   // label: "菜单排序"
   // }
   // ,
-  // {
-  //   index: "email",
-  //   label: "發送郵件"
-  // }
+  {
+    index: "email",
+    label: "發送郵件"
+  }
 ];
 export default nav;
