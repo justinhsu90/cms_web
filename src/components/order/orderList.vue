@@ -31,7 +31,7 @@
           <el-table-column min-width="60" label="SKU" prop="sku"></el-table-column>
           <el-table-column min-width="70" label="下單時間" prop="redeemedAt" sortable="custom"></el-table-column>
           <el-table-column min-width="50" label="發貨狀態" prop="orderStatus"></el-table-column>
-          <el-table-column min-width="50" label="訂單狀態" prop="orderType"></el-table-column>
+          <el-table-column min-width="50" label="訂單狀態" prop="orderTypeCode"></el-table-column>
           <el-table-column min-width="180" label="產品名稱" prop="productName"></el-table-column>
           <el-table-column min-width="120" label="客戶名稱" prop="customerName"></el-table-column>
           <el-table-column min-width="120" label="客戶email" prop="email"></el-table-column>
