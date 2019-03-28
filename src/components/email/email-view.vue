@@ -5,12 +5,12 @@
       <div class="email-receive__name ibbox mt20">
         <span>訂單號：</span>
       </div>
-      <!-- <input
+      <!-- <el-input
         class="email-receive__text"
-        type="text"
-        placeholder="輸入對方手機號"
-      > -->
-      <el-select
+        type="textarea"
+        placeholder="輸入訂單號"
+      ></el-input> -->
+      <!-- <el-select
         class="email-receive__text"
         v-model="value9"
         multiple
@@ -28,7 +28,7 @@
           :value="item.value"
         >
         </el-option>
-      </el-select>
+      </el-select> -->
     </div>
     <div class="email-style mt20">
       <div class="email-style__name ibbox">
@@ -161,12 +161,20 @@ export default {
   font-size: 15px;
   width: 60px;
 }
+// .email-receive__text {
+//   width: calc(100% - 100px);
+//   /deep/ input {
+//     border: none !important;
+//     outline: none !important;
+//   }
+// }
 .email-receive__text {
   width: calc(100% - 100px);
-  /deep/ input {
-    border: none !important;
-    outline: none !important;
-  }
+  min-height: 30px;
+  border: none !important;
+  outline: none !important;
+  font-size: 14px;
+  resize: none;
 }
 /deep/ .el-select__tags > span {
   display: contents;
@@ -174,6 +182,7 @@ export default {
 .email-style {
   border-bottom: 1px solid #ebeef5;
   height: 27px;
+  padding-bottom: 10px;
 }
 .email-style__name {
   width: 60px;
@@ -185,7 +194,7 @@ export default {
   outline: none;
   font-size: 14px;
   width: calc(100% - 100px);
-  padding-left: 15px;
+  min-height: 30px;
 }
 .email-send {
   height: 27px;

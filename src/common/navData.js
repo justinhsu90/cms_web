@@ -162,6 +162,10 @@ const nav = [
       {
         index: "wowcherSample",
         label: "樣品清單"
+      },
+      {
+        index: "skuSalesRecord",
+        label: "SKU銷售記錄"
       }
     ]
   },
