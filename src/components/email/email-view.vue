@@ -1,34 +1,17 @@
 <template>
   <div>
     <!-- <el-button type="success" size="small">發送</el-button> -->
-    <div class="email-receive mt20">
-      <div class="email-receive__name ibbox mt20">
+    <div class="mt20">
+      <div class="ibbox mt20  mb10">
         <span>訂單號：</span>
       </div>
-      <!-- <el-input
-        class="email-receive__text"
+      <el-input
+        v-model="orderId"
         type="textarea"
-        placeholder="輸入訂單號"
-      ></el-input> -->
-      <!-- <el-select
-        class="email-receive__text"
-        v-model="value9"
-        multiple
-        filterable
-        remote
-        reserve-keyword
-        placeholder="请输入关键词"
-        :remote-method="remoteMethod"
-        :loading="loading"
+        :autosize="{ minRows: 2, maxRows: 6 }"
       >
-        <el-option
-          v-for="item in options4"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select> -->
+
+      </el-input>
     </div>
     <div class="email-style mt20">
       <div class="email-style__name ibbox">
@@ -40,7 +23,6 @@
       >
     </div>
     <div class="mt20">
-      <!-- <tinymce :config='{height:300,theme: "modern"}'></tinymce> -->
       <el-input
         type="textarea"
         :autosize="{ minRows: 10, maxRows: 12}"
@@ -54,6 +36,19 @@
         <span>發件人：</span>
       </div>
     </div>
+    <div class="mt20">
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox :label="1">訂單號</el-checkbox>
+        <el-checkbox :label="2">客戶姓名</el-checkbox>
+        <el-checkbox :label="3">產品名稱</el-checkbox>
+        <el-checkbox :label="4">物流單號</el-checkbox>
+      </el-checkbox-group>
+    </div>
+    <!-- <div class="mt20">
+      <el-select v-model="selectMail">
+        <el-option></el-option>
+      </el-select>
+    </div> -->
     <br>
     <el-button
       type="success"
@@ -63,90 +58,25 @@
 </template>
 
 <script>
-// import tinymce from "@/common/tinymce";
 export default {
-  components: {
-    // tinymce
-  },
-  mounted() {
-    this.list = this.states.map(item => {
-      return { value: item, label: item };
-    });
-  },
-  methods: {
-    remoteMethod(query) {
-      if (query !== "") {
-        this.loading = true;
-        setTimeout(() => {
-          this.loading = false;
-          this.options4 = this.list.filter(item => {
-            return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-          });
-        }, 200);
-      } else {
-        this.options4 = [];
-      }
-    }
-  },
+  methods: {},
   data: () => ({
+    selectMail: "",
+    checkList: [],
     content: "",
-    options4: [],
-    value9: [],
     list: [],
     loading: false,
-    states: [
-      "Alabama",
-      "Alaska",
-      "Arizona",
-      "Arkansas",
-      "California",
-      "Colorado",
-      "Connecticut",
-      "Delaware",
-      "Florida",
-      "Georgia",
-      "Hawaii",
-      "Idaho",
-      "Illinois",
-      "Indiana",
-      "Iowa",
-      "Kansas",
-      "Kentucky",
-      "Louisiana",
-      "Maine",
-      "Maryland",
-      "Massachusetts",
-      "Michigan",
-      "Minnesota",
-      "Mississippi",
-      "Missouri",
-      "Montana",
-      "Nebraska",
-      "Nevada",
-      "New Hampshire",
-      "New Jersey",
-      "New Mexico",
-      "New York",
-      "North Carolina",
-      "North Dakota",
-      "Ohio",
-      "Oklahoma",
-      "Oregon",
-      "Pennsylvania",
-      "Rhode Island",
-      "South Carolina",
-      "South Dakota",
-      "Tennessee",
-      "Texas",
-      "Utah",
-      "Vermont",
-      "Virginia",
-      "Washington",
-      "West Virginia",
-      "Wisconsin",
-      "Wyoming"
-    ]
-  })
+    orderId: ""
+  }),
+  created() {
+    axios({
+      url: "mail/value/account",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+  }
 };
 </script>
 
