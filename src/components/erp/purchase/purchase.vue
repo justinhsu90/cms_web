@@ -1,60 +1,191 @@
 <template>
-    <div>
-        <el-row>
-            <el-col :span="22">
-                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
-                </el-input>
-                <el-select class="w-max150" placeholder="採購類型" v-model="searchType" @change="handleCondition('type')" clearable>
-                    <el-option v-for="(v,i) in searchTypeOption" :key="'type'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="採購平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
-                    <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="採購帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-date-picker class="w-max260" clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
-                </el-date-picker>
-                <div @click="handleSearch" class="el-input-group__append search">
-                    <i class="el-icon-search"></i>
-                </div>
-            </el-col>
-            <el-col :span="2">
-                <el-button style="float:right" @click="handleAdd" type="primary">新增採購</el-button>
-            </el-col>
-            <el-col class="mt5">
-                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="50" label="採購單號" prop="purchaseId" sortable="custom"></el-table-column>
-                    <el-table-column min-width="50" label="採購時間" prop="purchasedTime" sortable="custom"></el-table-column>
-                    <el-table-column min-width="25" label="類型" prop="purchaseType"></el-table-column>
-                    <el-table-column min-width="30" label="數量" prop="purchasedQuantity"></el-table-column>
-                    <el-table-column min-width="50" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="120" label="產品名稱" prop="productName"></el-table-column>
-                    <el-table-column min-width="40" label="採購平台" prop="purchasedPlatform"></el-table-column>
-                    <el-table-column min-width="40" label="單個成本" prop="productCost">
-                        <template slot-scope="scope">
-                            {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.currency}}
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="50" label="總金額" prop="purchasedTotalAmount">
-                        <template slot-scope="scope">
-                            {{scope.row.purchasedTotalAmount | formatToMoney}}&nbsp;{{scope.row.currency}}
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="30" label="採購人" prop="purchasedBy"></el-table-column>
-                    <el-table-column width="50" label="動作" align="center">
-                        <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-col>
-            <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div>
-        </el-row>
-    </div>
+  <div>
+    <el-row>
+      <el-col :span="22">
+        <el-input
+          class="w-max200 ibbox"
+          placeholder="搜索"
+          v-model="fetchOption.where"
+          @keyup.enter.native="handleSearch"
+        >
+        </el-input>
+        <el-select
+          class="w-max150"
+          placeholder="採購類型"
+          v-model="searchType"
+          @change="handleCondition('type')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchTypeOption"
+            :key="'type'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="採購平台"
+          v-model="searchPlatform"
+          @change="handleCondition('plat')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchPlatformOption"
+            :key="'plat'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="採購帳號"
+          v-model="searchAccount"
+          @change="handleCondition('acc')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchAccountOption"
+            :key="'acc'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-date-picker
+          class="w-max260"
+          clearable
+          style="width:100%"
+          @change="handleChange"
+          value-format="yyyy-MM-dd"
+          v-model="date"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+        >
+        </el-date-picker>
+        <div
+          @click="handleSearch"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+      </el-col>
+      <el-col :span="2">
+        <el-button
+          style="float:right"
+          @click="handleAdd"
+          type="primary"
+        >新增採購</el-button>
+      </el-col>
+      <el-col class="mt5">
+        <el-table
+          ref="wonTable"
+          :max-height="maxHeight"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <el-table-column
+            min-width="50"
+            label="採購單號"
+            prop="purchaseId"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="50"
+            label="採購時間"
+            prop="purchasedTime"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="25"
+            label="類型"
+            prop="purchaseType"
+          ></el-table-column>
+          <el-table-column
+            min-width="30"
+            label="數量"
+            prop="purchasedQuantity"
+          ></el-table-column>
+          <el-table-column
+            min-width="50"
+            label="SKU"
+            prop="sku"
+          ></el-table-column>
+          <el-table-column
+            min-width="120"
+            label="產品名稱"
+            prop="productName"
+          ></el-table-column>
+          <el-table-column
+            min-width="40"
+            label="採購平台"
+            prop="purchasedPlatform"
+          ></el-table-column>
+          <el-table-column
+            min-width="40"
+            label="單個成本"
+            prop="productCost"
+          >
+            <template slot-scope="scope">
+              {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.currency}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="50"
+            label="總金額"
+            prop="purchasedTotalAmount"
+          >
+            <template slot-scope="scope">
+              {{scope.row.purchasedTotalAmount | formatToMoney}}&nbsp;{{scope.row.currency}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="30"
+            label="採購人"
+            prop="purchasedBy"
+          ></el-table-column>
+          <el-table-column
+            width="80"
+            label="動作"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-button
+                class="btnh"
+                type="text"
+                title="删除"
+                icon="el-icon-won-22"
+                @click="handleDelete(scope.row)"
+              ></el-button>
+              <el-button
+                class="btnh"
+                type="text"
+                title="編輯"
+                icon="el-icon-won-1"
+                @click="handleEdit(scope.row)"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
+      <div style="float:right;margin-top:5px">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :total='total'
+          :current-page="currentPage"
+          :page-sizes="pageSizes"
+          :layout="layout"
+        >
+        </el-pagination>
+      </div>
+    </el-row>
+  </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
@@ -185,6 +316,27 @@ export default {
         this.total = count;
       });
     }, 2000),
+    handleDelete(val) {
+      this.$confirm("是否删除", "提示", {
+        confirmButtonText: "確定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          axios({
+            url: "erp/purchasequery/delete",
+            method: "post",
+            data: {
+              purchaseId: val.purchaseId,
+              token: this.token
+            }
+          }).then(() => {
+            this.handleSearch();
+            this.$message.success("删除成功");
+          });
+        })
+        .catch(() => {});
+    },
     handleChange() {
       this.handleSearch();
     },
