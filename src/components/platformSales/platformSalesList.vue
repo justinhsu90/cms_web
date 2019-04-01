@@ -1,54 +1,172 @@
 <template>
-    <div>
-        <el-row>
-            <el-col :span="22">
-                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
-                </el-input>
-                <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('type')" clearable>
-                    <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
-                    <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-date-picker class="w-max260" clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
-                </el-date-picker>
-                <div @click="handleSearch" class="el-input-group__append search">
-                    <i class="el-icon-search"></i>
-                </div>
-            </el-col>
-            <el-col :span="2">
-                <el-button type="success" size="medium" @click="showImg = !showImg">{{showImg ? '隱藏':'顯示'}}圖片</el-button>
-            </el-col>
-            <el-col class="mt5">
-                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="50" label="SKU" prop="sku" sortable="custom"></el-table-column>
-                    <el-table-column min-width="120" label="產品名稱" prop="productName" sortable="custom">
-                    </el-table-column>
-                    <el-table-column min-width="30" label="總數" prop="total" sortable="custom">
-                    </el-table-column>
-                    <el-table-column min-width="40" label="Wowcher" prop="wowcher" sortable="custom">
-                    </el-table-column>
-                    <el-table-column min-width="40" label="Amazon" prop="amazon" sortable="custom">                             
-                    </el-table-column>
-                    <el-table-column min-width="40" label="Cdiscount" prop="cdiscount" sortable="custom">
-                    </el-table-column>
-                    <el-table-column min-width="30" label="其他" prop="other" sortable="custom"> 
-                    </el-table-column>
-                    <el-table-column width="80" label="圖片" v-if="showImg">
-                        <template slot-scope="{row}">
-                             <img width="50" height="50" style="cursor:pointer" :src="row.imageUrl" @click="handleShowDialog(row.imageUrl)">
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-col>
-        </el-row>
-        <el-dialog title="圖片" :modal="false" :visible.sync="dialogVisible" width="30%">
-                <img width="100%" :src="imageURL">
-        </el-dialog>
-    </div>
+  <div>
+    <el-row>
+      <el-col :span="22">
+        <el-input
+          class="w-max200 ibbox"
+          placeholder="搜索"
+          v-model="fetchOption.where"
+          @keyup.enter.native="handleSearch"
+        >
+        </el-input>
+        <el-select
+          class="w-max150"
+          placeholder="國家"
+          v-model="searchCountry"
+          @change="handleCondition('type')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchCountryOption"
+            :key="'type'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="平台"
+          v-model="searchPlatform"
+          @change="handleCondition('plat')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchPlatformOption"
+            :key="'plat'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="帳號"
+          v-model="searchAccount"
+          @change="handleCondition('acc')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchAccountOption"
+            :key="'acc'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-date-picker
+          class="w-max260"
+          clearable
+          style="width:100%"
+          @change="handleChange"
+          value-format="yyyy-MM-dd"
+          v-model="date"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="~"
+          start-placeholder="開始日期"
+          end-placeholder="結束日期"
+          :picker-options="pickerOptions"
+        >
+        </el-date-picker>
+        <div
+          @click="handleSearch"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+      </el-col>
+      <el-col :span="2">
+        <el-button
+          type="success"
+          size="medium"
+          @click="showImg = !showImg"
+        >{{showImg ? '隱藏':'顯示'}}圖片</el-button>
+      </el-col>
+      <el-col class="mt5">
+        <el-table
+          ref="wonTable"
+          :max-height="maxHeight"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <el-table-column
+            min-width="50"
+            label="SKU"
+            prop="sku"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="120"
+            label="產品名稱"
+            prop="productName"
+            sortable="custom"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="30"
+            label="總數"
+            prop="total"
+            sortable="custom"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="40"
+            label="Wowcher"
+            prop="wowcher"
+            sortable="custom"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="40"
+            label="Amazon"
+            prop="amazon"
+            sortable="custom"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="40"
+            label="Cdiscount"
+            prop="cdiscount"
+            sortable="custom"
+          >
+          </el-table-column>
+          <el-table-column
+            min-width="30"
+            label="其他"
+            prop="other"
+            sortable="custom"
+          >
+          </el-table-column>
+          <el-table-column
+            width="80"
+            label="圖片"
+            v-if="showImg"
+          >
+            <template slot-scope="{row}">
+              <img
+                width="50"
+                height="50"
+                style="cursor:pointer"
+                :src="row.imageUrl"
+                @click="handleShowDialog(row.imageUrl)"
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
+    <el-dialog
+      title="圖片"
+      :modal="false"
+      :visible.sync="dialogVisible"
+      width="30%"
+    >
+      <img
+        width="100%"
+        :src="imageURL"
+      >
+    </el-dialog>
+  </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
@@ -58,7 +176,7 @@ export default {
   extends: wonTableContainer,
   data() {
     let end = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
-    let start = moment(Date.now() - 7 * 24 * 60 * 60 * 1000).format(
+    let start = moment(Date.now() - 6 * 24 * 60 * 60 * 1000).format(
       "YYYY-MM-DD HH:mm:ss"
     );
     return {
@@ -73,7 +191,7 @@ export default {
             onClick(picker) {
               const end = new Date();
               const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
               picker.$emit("pick", [start, end]);
             }
           },
