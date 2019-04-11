@@ -1,56 +1,165 @@
 <template>
-    <div>
-        <el-row>
-            <el-col :span="22">
-                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
-                </el-input>
-                <el-select class="w-max150" placeholder="銷貨國家" v-model="searchCountry" @change="handleCondition('country')" clearable>
-                    <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="銷貨平台" v-model="searchPlatform" @change="handleCondition('plat')" clearable>
-                    <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="銷貨帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-date-picker class="w-max260" clearable style="width:100%" @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
-                </el-date-picker>
-                <div @click="handleSearch" class="el-input-group__append search">
-                    <i class="el-icon-search"></i>
-                </div>
-            </el-col>
-            <el-col :span="2">
-                <el-button style="float:right" @click="handleAdd" type="primary">新增銷貨</el-button>
-            </el-col>
-            <el-col class="mt5">
-                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="65" label="銷貨單號" prop="saleId" sortable="custom"></el-table-column>
-                    <el-table-column min-width="55" label="銷貨時間" prop="saleTime" sortable="custom"></el-table-column>
-                    <!-- <el-table-column min-width="50" label="銷貨類型" prop="saleType"></el-table-column> -->
-                    <el-table-column min-width="35" label="數量" prop="saleQuantity"></el-table-column>
-                    <el-table-column min-width="80" label="SKU" prop="sku"></el-table-column>
-                    <el-table-column min-width="220" label="產品名稱" prop="productName"></el-table-column>
-                    <el-table-column min-width="65" label="銷貨平台" prop="salePlatform"></el-table-column>
-                    <!-- <el-table-column min-width="70" label="銷貨帳號" prop="saleAccount"></el-table-column> -->
-                    <!-- <el-table-column min-width="55" label="出貨倉庫" prop="saleWarehouse"></el-table-column> -->
-                    <el-table-column min-width="60" label="總金額" prop="saleTotalAmount">
-                        <template slot-scope="scope">
-                            {{scope.row.saleTotalAmount | formatToMoney}}&nbsp;{{scope.row.currency.toUpperCase()}}
-                        </template>
-                    </el-table-column>
-                    <el-table-column width="50" label="動作" align="center">
-                        <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-col>
-            <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div>
-        </el-row>
-    </div>
+  <div>
+    <el-row>
+      <el-col :span="22">
+        <el-input
+          class="w-max200 ibbox"
+          placeholder="搜索"
+          v-model="fetchOption.where"
+          @keyup.enter.native="handleSearch"
+        >
+        </el-input>
+        <el-select
+          class="w-max150"
+          placeholder="銷貨國家"
+          v-model="searchCountry"
+          @change="handleCondition('country')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchCountryOption"
+            :key="'type'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="銷貨平台"
+          v-model="searchPlatform"
+          @change="handleCondition('plat')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchPlatformOption"
+            :key="'plat'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="銷貨帳號"
+          v-model="searchAccount"
+          @change="handleCondition('acc')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchAccountOption"
+            :key="'acc'+i"
+            :label="v"
+            :value="v"
+          ></el-option>
+        </el-select>
+        <el-date-picker
+          class="w-max260"
+          clearable
+          style="width:100%"
+          @change="handleChange"
+          value-format="yyyy-MM-dd"
+          v-model="date"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+        >
+        </el-date-picker>
+        <div
+          @click="handleSearch"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+      </el-col>
+      <el-col :span="2">
+        <el-button
+          style="float:right"
+          @click="handleAdd"
+          type="primary"
+        >新增銷貨</el-button>
+      </el-col>
+      <el-col class="mt5">
+        <el-table
+          ref="wonTable"
+          :max-height="maxHeight"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <el-table-column
+            min-width="65"
+            label="銷貨單號"
+            prop="saleId"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="55"
+            label="銷貨時間"
+            prop="saleTime"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="35"
+            label="數量"
+            prop="saleQuantity"
+          ></el-table-column>
+          <el-table-column
+            min-width="80"
+            label="SKU"
+            prop="sku"
+          ></el-table-column>
+          <el-table-column
+            min-width="220"
+            label="產品名稱"
+            prop="productName"
+          ></el-table-column>
+          <el-table-column
+            min-width="65"
+            label="銷貨平台"
+            prop="salePlatform"
+          ></el-table-column>
+          <el-table-column
+            min-width="60"
+            label="總金額"
+            prop="saleTotalAmount"
+          >
+            <template slot-scope="scope">
+              {{scope.row.saleTotalAmount | formatToMoney}}&nbsp;{{scope.row.currency.toUpperCase()}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="50"
+            label="動作"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-button
+                class="btnh"
+                type="text"
+                title="編輯"
+                icon="el-icon-won-1"
+                @click="handleEdit(scope.row)"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
+      <div style="float:right;margin-top:5px">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :total='total'
+          :current-page="currentPage"
+          :page-sizes="pageSizes"
+          :layout="layout"
+        >
+        </el-pagination>
+      </div>
+    </el-row>
+  </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
