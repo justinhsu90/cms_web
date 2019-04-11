@@ -324,7 +324,7 @@ export default {
       })
         .then(() => {
           axios({
-            url: "erp/purchasequery/delete",
+            url: "erp/purchase/delete",
             method: "post",
             data: {
               purchaseId: val.purchaseId,
