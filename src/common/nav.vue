@@ -60,7 +60,7 @@
           </el-autocomplete>
         </div>
       </el-header>
-      <el-container>
+      <el-container style="height: calc(100% - 50px)">
         <div class="aside">
           <div class="lh50 t_a-c">
             <i
