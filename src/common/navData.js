@@ -62,6 +62,10 @@ const nav = [
       {
         index: "package-search",
         label: "包裹查詢"
+      },
+      {
+        index: "shipmentpacking",
+        label: "FBA & FBC 發貨"
       }
     ]
   },
@@ -183,10 +187,6 @@ const nav = [
   {
     index: "scriptExecutionList",
     label: "執行"
-  },
-  {
-    index: "shipmentpacking",
-    label: "shipmentpacking"
   },
   {
     index: "guangzhouWarehouse",

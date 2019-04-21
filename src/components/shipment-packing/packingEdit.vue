@@ -241,7 +241,7 @@
               :loading="submitLoading"
               type="primary"
               size="large"
-            >編輯</el-button>
+            >保存</el-button>
           </el-popover>
         </el-form-item>
       </el-form>

@@ -93,21 +93,21 @@
           <el-table-column
             label="賬戶"
             prop="account"
-            width="100"
+            min-width="100"
           >
 
           </el-table-column>
           <el-table-column
             label="國家"
             prop="country"
-            width="100"
+            min-width="100"
           >
 
           </el-table-column>
           <el-table-column
             label="平台"
             prop="platform"
-            width="100"
+            min-width="100"
           >
 
           </el-table-column>
@@ -115,7 +115,7 @@
             label="完成裝貨時間"
             prop="packingDoneDateTime"
             :formatter="formatToTime"
-            width="140"
+            min-width="140"
           >
 
           </el-table-column>
@@ -123,7 +123,7 @@
             label="已發貨時間"
             prop="shipoutFromWarehouseDateTime"
             :formatter="formatToTime"
-            width="140"
+            min-width="140"
           >
 
           </el-table-column>
@@ -131,14 +131,14 @@
             label="採購尚未到時間"
             prop="waitForStockDateTime"
             :formatter="formatToTime"
-            width="140"
+            min-width="140"
           >
 
           </el-table-column>
           <el-table-column
             label="運送方式"
             prop="shippingMethod"
-            width="140"
+            min-width="140"
           >
 
           </el-table-column>
@@ -151,16 +151,16 @@
               <el-button
                 class="btnh"
                 type="text"
-                title="删除"
-                icon="el-icon-won-22"
-                @click="handleDelete(scope.row)"
+                title="編輯"
+                icon="el-icon-won-1"
+                @click="handleEdit(scope.row.shipmentId)"
               ></el-button>
               <el-button
                 class="btnh"
                 type="text"
-                title="編輯"
-                icon="el-icon-won-1"
-                @click="handleEdit(scope.row.shipmentId)"
+                title="删除"
+                icon="el-icon-won-22"
+                @click="handleDelete(scope.row)"
               ></el-button>
             </template>
           </el-table-column>
