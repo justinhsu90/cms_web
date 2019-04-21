@@ -11,6 +11,9 @@ axios.interceptors.request.use(request => {
   if (request.isFormData) {
     return request;
   }
+  if (!request.data.hasOwnProperty("token") && C.get("token")) {
+    request.data.token = C.get("token");
+  }
   request.data = qs.stringify(request.data);
   return request;
 });
@@ -31,6 +34,7 @@ axios.interceptors.response.use(
     }
   }
 );
+
 function Ajax(config = {}) {
   if (_.isEmpty(config)) {
     Promise.reject("請輸入ajax配置");

@@ -185,6 +185,10 @@ const nav = [
     label: "執行"
   },
   {
+    index: "shipmentpacking",
+    label: "shipmentpacking"
+  },
+  {
     index: "guangzhouWarehouse",
     label: "廣州相關",
     isLevel: true,
