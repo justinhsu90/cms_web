@@ -151,13 +151,13 @@
             </colgroup>
             <thead>
               <tr>
-                <th>FNSKU, EAN</th>
-                <th>Sku</th>
+                <th>產品標籤(FNSKU,EAN)</th>
+                <th>SKU</th>
                 <th>平台上SKU</th>
-                <th>Shipment ID</th>
+                <th>所屬Shipment ID</th>
                 <th>數量</th>
-                <th>asin</th>
                 <th>ASIN</th>
+                <th>刪除</th>
               </tr>
             </thead>
             <tbody>
