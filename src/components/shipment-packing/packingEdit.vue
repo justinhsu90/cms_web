@@ -25,33 +25,40 @@
             :data="binningFormData"
           ></binning>
         </el-tab-pane>
+        <el-tab-pane disabled>
+          <div
+            slot="label"
+            class="mt20"
+          >
+            <el-popover
+              placement="top"
+              width="160"
+              v-model="popoverVisible"
+            >
+              <p>是否要提交？</p>
+              <div style="text-align: right; margin: 0">
+                <el-button
+                  size="mini"
+                  type="text"
+                  @click="popoverVisible = false"
+                >取消</el-button>
+                <el-button
+                  type="primary"
+                  size="mini"
+                  @click="submit"
+                >確定</el-button>
+              </div>
+              <el-button
+                slot="reference"
+                @click.stop="popoverVisible = true"
+                :loading="submitLoading"
+                type="primary"
+                size="large"
+              >保存</el-button>
+            </el-popover>
+          </div>
+        </el-tab-pane>
       </el-tabs>
-      <el-popover
-        placement="top"
-        width="160"
-        v-model="popoverVisible"
-      >
-        <p>是否要提交？</p>
-        <div style="text-align: right; margin: 0">
-          <el-button
-            size="mini"
-            type="text"
-            @click="popoverVisible = false"
-          >取消</el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            @click="submit"
-          >確定</el-button>
-        </div>
-        <el-button
-          slot="reference"
-          @click="popoverVisible = true"
-          :loading="submitLoading"
-          type="primary"
-          size="large"
-        >保存</el-button>
-      </el-popover>
     </div>
   </div>
 </template>
