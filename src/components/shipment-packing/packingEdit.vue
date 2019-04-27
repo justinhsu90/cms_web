@@ -25,7 +25,10 @@
             :data="binningFormData"
           ></binning>
         </el-tab-pane>
-        <el-tab-pane disabled>
+        <el-tab-pane
+          lazy
+          disabled
+        >
           <div
             slot="label"
             class="mt20"
