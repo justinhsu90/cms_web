@@ -1,127 +1,226 @@
 <template>
-    <div id="shipment">
-        <el-row>
-            <el-col :span="24">
-                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
-                </el-input>
-                <el-select class="w-max150" placeholder="顯示類型" v-model="searchAccount" @change="handleCondition('display')" clearable>
-                    <el-option v-for="(v,i) in searchAccountOption" :key="'display'+i" :label="v.account" :value="v.account"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="合併做單" v-model="searchMerge" @change="handleCondition('merge')" clearable>
-                    <el-option v-for="(v,i) in searchMergeOption" :key="'merge'+i" :label="v.label" :value="v.value"></el-option>
-                </el-select>
-                <el-select class="w-max150" placeholder="帳號" v-model="searchAccount" @change="handleCondition('acc')" clearable>
-                    <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v.account" :value="v.account"></el-option>
-                </el-select>
+  <div id="shipment">
+    <el-row>
+      <el-col :span="24">
+        <el-input
+          class="w-max200 ibbox"
+          placeholder="搜索"
+          v-model="fetchOption.where"
+          @keyup.enter.native="handleSearch"
+        >
+        </el-input>
+        <el-select
+          class="w-max150"
+          placeholder="顯示類型"
+          v-model="searchAccount"
+          @change="handleCondition('display')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchAccountOption"
+            :key="'display'+i"
+            :label="v.account"
+            :value="v.account"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="合併做單"
+          v-model="searchMerge"
+          @change="handleCondition('merge')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchMergeOption"
+            :key="'merge'+i"
+            :label="v.label"
+            :value="v.value"
+          ></el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="帳號"
+          v-model="searchAccount"
+          @change="handleCondition('acc')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchAccountOption"
+            :key="'acc'+i"
+            :label="v.account"
+            :value="v.account"
+          ></el-option>
+        </el-select>
 
-                <el-select class="w-max150" placeholder="國家" v-model="searchCountry" @change="handleCondition('cou')" clearable>
-                    <el-option v-for="(v,i) in searchCountryOption" :key="'country'+i" :label="v.countryCode" :value="v.countryNameChinese">
-                        <span style="float: left">{{ v.countryCode }}</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                    </el-option>
-                </el-select>
-                <div @click="handleSearch" class="el-input-group__append search">
-                    <i class="el-icon-search"></i>
-                </div>
-                <el-button style="float:right" @click="handleAdd" type="primary">shipment</el-button>
-            </el-col>
-            <el-col class="mt5">
-                <el-table ref="wonTable" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column type="expand">
-                        <template slot-scope="scope">
-                            <!-- <h5 style="margin-bottom:3px;margin-top:3px;">訂單</h5> -->
-                            <el-row type="flex" justify="space-around" style="padding:5px;margin-left:50px">
-                                <el-col :span="6">
-                                    <div>
-                                        <span class="infol">收件人:</span>
-                                        <span class="infoR"> {{scope.row.customerName}}</span>
-                                    </div>
-                                    <div>
-                                        <span class="infol">電話:</span>
-                                        <span class="infoR"> {{scope.row.phone}}</span>
-                                    </div>
-                                </el-col>
-                                <el-col :span="6">
-                                    <div style="margin-bottom:4px">
-                                        <span class="infol">地址1:</span>
-                                        <span class="infoR"> {{scope.row.address1}}</span>
-                                    </div>
-                                    <div style="margin-bottom:4px">
-                                        <span class="infol">省/州:</span>
-                                        <span class="infoR"> {{scope.row.county}}</span>
-                                    </div>
-                                </el-col>
-                                <el-col :span="6">
-                                    <div>
-                                        <span class="infol">地址2:</span>
-                                        <span class="infoR"> {{scope.row.address2}}</span>
-                                    </div>
-                                    <div style="margin-bottom:4px">
-                                        <span class="infol">郵編:</span>
-                                        <span class="infoR"> {{scope.row.postcode}}</span>
-                                    </div>
-                                </el-col>
-                                <el-col :span="6">
-                                    <div>
-                                        <span class="infol">城市:</span>
-                                        <span class="infoR"> {{scope.row.city}}</span>
-                                    </div>
-                                    <div style="margin-bottom:4px">
-                                        <span class="infol">國家:</span>
-                                        <span class="infoR"> {{scope.row.country}}</span>
-                                    </div>
-                                </el-col>
-                            </el-row>
-                            <table class="wonTable" cellspacing="0" cellpadding="0" border="0">
-                                <thead>
-                                    <th>平台訂單號</th>
-                                    <th>數量</th>
-                                    <th>顏色</th>
-                                    <th class="w30">產品名稱</th>
-                                    <th>申報中文名稱</th>
-                                    <th>申報英文名稱</th>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(v,i) in scope.row.list" :key="i">
-                                        <td>{{v.orderId}}</td>
-                                        <td>{{v.quantity}}</td>
-                                        <td>{{v.colour}}</td>
-                                        <td>{{v.productName}}</td>
-                                        <td>{{v.declareNameChinese}}</td>
-                                        <td>{{v.declareNameEnglish}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="100" label="Platform Order ID" prop="platformOrderId" align="left">
-                        <template slot-scope="scope">
-                            <span @click="handleToggle(scope.row)" style="color:#45a2ff;cursor:pointer">{{scope.row.platformOrderId}}</span>
-                        </template>
-                    </el-table-column>
+        <el-select
+          class="w-max150"
+          placeholder="國家"
+          v-model="searchCountry"
+          @change="handleCondition('cou')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in searchCountryOption"
+            :key="'country'+i"
+            :label="v.countryCode"
+            :value="v.countryNameChinese"
+          >
+            <span style="float: left">{{ v.countryCode }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+          </el-option>
+        </el-select>
+        <div
+          @click="handleSearch"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+        <el-button
+          style="float:right"
+          @click="handleAdd"
+          type="primary"
+        >shipment</el-button>
+      </el-col>
+      <el-col class="mt5">
+        <el-table
+          ref="wonTable"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <el-table-column type="expand">
+            <template slot-scope="scope">
+              <el-row
+                type="flex"
+                justify="space-around"
+                style="padding:5px;margin-left:50px"
+              >
+                <el-col :span="6">
+                  <div>
+                    <span class="infol">收件人:</span>
+                    <span class="infoR"> {{scope.row.customerName}}</span>
+                  </div>
+                  <div>
+                    <span class="infol">電話:</span>
+                    <span class="infoR"> {{scope.row.phone}}</span>
+                  </div>
+                </el-col>
+                <el-col :span="6">
+                  <div style="margin-bottom:4px">
+                    <span class="infol">地址1:</span>
+                    <span class="infoR"> {{scope.row.address1}}</span>
+                  </div>
+                  <div style="margin-bottom:4px">
+                    <span class="infol">省/州:</span>
+                    <span class="infoR"> {{scope.row.county}}</span>
+                  </div>
+                </el-col>
+                <el-col :span="6">
+                  <div>
+                    <span class="infol">地址2:</span>
+                    <span class="infoR"> {{scope.row.address2}}</span>
+                  </div>
+                  <div style="margin-bottom:4px">
+                    <span class="infol">郵編:</span>
+                    <span class="infoR"> {{scope.row.postcode}}</span>
+                  </div>
+                </el-col>
+                <el-col :span="6">
+                  <div>
+                    <span class="infol">城市:</span>
+                    <span class="infoR"> {{scope.row.city}}</span>
+                  </div>
+                  <div style="margin-bottom:4px">
+                    <span class="infol">國家:</span>
+                    <span class="infoR"> {{scope.row.country}}</span>
+                  </div>
+                </el-col>
+              </el-row>
+              <table
+                class="wonTable"
+                cellspacing="0"
+                cellpadding="0"
+                border="0"
+              >
+                <thead>
+                  <th>平台訂單號</th>
+                  <th>數量</th>
+                  <th>顏色</th>
+                  <th class="w30">產品名稱</th>
+                  <th>申報中文名稱</th>
+                  <th>申報英文名稱</th>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(v,i) in scope.row.list"
+                    :key="i"
+                  >
+                    <td>{{v.orderId}}</td>
+                    <td>{{v.quantity}}</td>
+                    <td>{{v.colour}}</td>
+                    <td>{{v.productName}}</td>
+                    <td>{{v.declareNameChinese}}</td>
+                    <td>{{v.declareNameEnglish}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="100"
+            label="Platform Order ID"
+            prop="platformOrderId"
+            align="left"
+          >
+            <template slot-scope="scope">
+              <span
+                @click="handleToggle(scope.row)"
+                style="color:#45a2ff;cursor:pointer"
+              >{{scope.row.platformOrderId}}</span>
+            </template>
+          </el-table-column>
 
-                    <el-table-column min-width="60" label="狀態" prop="status">
-                        <template slot-scope="scope">
-                            <span class="line2">{{scope.row.title}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="100" label="物流單號" prop="trackingNumber" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="發貨方式" prop="shippingMethod" sortable="custom"></el-table-column>
-                    <el-table-column min-width="100" label="貨代" prop="hippingAgent" sortable="hippingAgent"></el-table-column>
+          <el-table-column
+            min-width="60"
+            label="狀態"
+            prop="status"
+          >
+            <template slot-scope="scope">
+              <span class="line2">{{scope.row.title}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="100"
+            label="物流單號"
+            prop="trackingNumber"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="100"
+            label="發貨方式"
+            prop="shippingMethod"
+            sortable="custom"
+          ></el-table-column>
+          <el-table-column
+            min-width="100"
+            label="貨代"
+            prop="hippingAgent"
+            sortable="hippingAgent"
+          ></el-table-column>
 
-                    <!-- <el-table-column width="60" label="動作" align="center">
+          <!-- <el-table-column width="60" label="動作" align="center">
                         <template slot-scope="scope">
                             <el-button class="btnh" type="text" title="編輯" icon="el-icon-won-1" @click="handleEdit(scope.row)"></el-button>
                         </template>
                     </el-table-column> -->
-                </el-table>
-            </el-col>
-            <!-- <div style="float:right;margin-top:5px">
+        </el-table>
+      </el-col>
+      <!-- <div style="float:right;margin-top:5px">
                 <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
                 </el-pagination>
             </div> -->
-        </el-row>
-    </div>
+    </el-row>
+  </div>
 </template>
 <script>
 import wonTableContainer from "../../common/wonTableContainer";

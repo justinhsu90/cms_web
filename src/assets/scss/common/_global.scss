@@ -6,7 +6,7 @@ body,
 html {
   height: 100%;
   color: $fontColor1;
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 
 #app {
@@ -19,7 +19,7 @@ html {
   width: 100%;
 }
 
-.won-popover-page{
+.won-popover-page {
   padding: 5px;
 }
 
@@ -33,20 +33,23 @@ html {
 //   position: absolute;
 // }
 
-a{
+a {
   text-decoration: none;
   cursor: pointer;
   color: $blue;
   transition: 0.2s;
+
   &:hover,
   &:focus {
     color: mix($white, $blue, 20%);
   }
+
   &:active {
     color: mix(#000, $blue, 10%);
   }
 
-  &.fake{
+  &.fake {
+
     &,
     &:hover,
     &:active,
@@ -60,13 +63,16 @@ a{
 }
 
 // 表格部分
-.word-inline > .cell {
+.word-inline>.cell {
   word-break: normal;
 }
-.text-inline > .cell {
+
+.text-inline>.cell {
   white-space: nowrap;
 }
-.vertical-tag { // 竖着的 el-tag
+
+.vertical-tag {
+  // 竖着的 el-tag
   display: inline-block;
   width: 1em;
   line-height: 1.2em;
@@ -75,7 +81,8 @@ a{
   height: auto;
   vertical-align: middle;
   padding: 5px;
-  & + * {
+
+  &+* {
     display: inline-block;
     vertical-align: middle;
   }
@@ -84,9 +91,10 @@ a{
 .need-rebuild-tip {
   margin-left: 20px;
   color: $fontColor3;
+
   &:after {
-      content: "重新生成应用生效";
-      margin-left: 5px;
+    content: "重新生成应用生效";
+    margin-left: 5px;
   }
 }
 
@@ -96,36 +104,38 @@ a{
   color: $fontColor3;
 }
 
-.blue-dot{
+.blue-dot {
   position: relative;
   display: inline-block;
-  &:before{
-      content: "●";
-      color: #45A2FF;
-      position: absolute;
-      right: -15px;
+
+  &:before {
+    content: "●";
+    color: #45A2FF;
+    position: absolute;
+    right: -15px;
   }
 }
 
-hr{
-    box-sizing: content-box;
-    height: 1px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border: 0;
-    background: #eee;
-    background-clip: content-box;
+hr {
+  box-sizing: content-box;
+  height: 1px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border: 0;
+  background: #eee;
+  background-clip: content-box;
 }
 
 //Tinymce 提示
-[aria-label='Insert/edit media']{
-  >div{
-      >.mce-container-body:after{
-          content: '视频支持mp4/webm,音频支持mp3/wav,不超过500MB';
-          position: absolute;
-          bottom: 15px;
-          left: 20px;
-          color: #aaa;
-      }
+[aria-label='Insert/edit media'] {
+  >div {
+    >.mce-container-body:after {
+      content: '视频支持mp4/webm,音频支持mp3/wav,不超过500MB';
+      position: absolute;
+      bottom: 15px;
+      left: 20px;
+      color: #aaa;
+    }
   }
 }
+

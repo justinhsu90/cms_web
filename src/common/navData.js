@@ -1,5 +1,4 @@
-const nav = [
-  {
+const nav = [{
     index: "dataAnalysis",
     label: "儀表板"
   },
@@ -11,8 +10,7 @@ const nav = [
     index: "sku",
     label: "產品相關",
     isLevel: true,
-    child: [
-      {
+    child: [{
         index: "sku",
         label: "SKU管理"
       },
@@ -66,6 +64,10 @@ const nav = [
       {
         index: "shipmentpacking",
         label: "FBA & FBC 發貨"
+      },
+      {
+        index: "shipmentbinning",
+        label: "FBA & FBC 装箱"
       }
     ]
   },
@@ -73,8 +75,7 @@ const nav = [
     index: "salesAndOrder",
     label: "訂單&銷售",
     isLevel: true,
-    child: [
-      {
+    child: [{
         index: "orderList",
         label: "訂單查詢"
       },
@@ -92,8 +93,7 @@ const nav = [
     index: "erp",
     label: "ERP",
     isLevel: true,
-    child: [
-      {
+    child: [{
         index: "inventoryList",
         label: "(0) 庫存異動單"
       },
@@ -135,31 +135,26 @@ const nav = [
     index: "Amazon",
     label: "Amazon",
     isLevel: true,
-    child: [
-      {
-        index: "restockCount",
-        label: "補貨計算"
-      }
-    ]
+    child: [{
+      index: "restockCount",
+      label: "補貨計算"
+    }]
   },
   {
     index: "cdiscountParent",
     label: "Cdiscount",
     isLevel: true,
-    child: [
-      {
-        index: "Cdiscount",
-        label: "訂單清單"
-      }
-    ]
+    child: [{
+      index: "Cdiscount",
+      label: "訂單清單"
+    }]
   },
 
   {
     index: "wowcher",
     label: "Wowcher",
     isLevel: true,
-    child: [
-      {
+    child: [{
         index: "wowcherDealList",
         label: "上架清單"
       },
@@ -177,12 +172,10 @@ const nav = [
     index: "gogroopie",
     label: "Gogroopie",
     isLevel: true,
-    child: [
-      {
-        index: "gogroopieDealList",
-        label: "上架清單"
-      }
-    ]
+    child: [{
+      index: "gogroopieDealList",
+      label: "上架清單"
+    }]
   },
   {
     index: "scriptExecutionList",
@@ -192,19 +185,16 @@ const nav = [
     index: "guangzhouWarehouse",
     label: "廣州相關",
     isLevel: true,
-    child: [
-      {
-        index: "gzwarehouseList",
-        label: "快遞簽收訊息"
-      }
-    ]
+    child: [{
+      index: "gzwarehouseList",
+      label: "快遞簽收訊息"
+    }]
   },
   {
     index: "customerService",
     label: "客服&信件",
     isLevel: true,
-    child: [
-      {
+    child: [{
         index: "wowcherInformCustomerParcelArrival",
         label: "補發信單"
       },
