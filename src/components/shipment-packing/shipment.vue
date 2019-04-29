@@ -324,6 +324,13 @@ export default {
     getValue() {
       let data = _.cloneDeep(this.formData);
       return JSON.stringify(data);
+    },
+    isValid() {
+      let isValid = false;
+      this.$refs["form"].validate(action => {
+        isValid = action;
+      });
+      return isValid;
     }
   }
 };

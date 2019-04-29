@@ -168,24 +168,12 @@ export default {
       let data = _.cloneDeep(this.formData);
       return JSON.stringify(data);
     },
-    submit() {
+    isValid() {
+      let isValid = false;
       this.$refs["form"].validate(action => {
-        if (action) {
-          this.popoverVisible = false;
-          this.submitLoading = true;
-          axios({
-            url: "/shipmentPacking/update",
-            method: "post",
-            data: {
-              data: this.getValue()
-            }
-          }).then(() => {
-            this.submitLoading = true;
-            this.Bus.$emit("refresh");
-            this.goBack();
-          });
-        }
+        isValid = action;
       });
+      return isValid;
     }
   }
 };

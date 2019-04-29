@@ -8,22 +8,34 @@
       </h2>
       <br>
       <el-tabs
+        :before-leave="checkValid"
         ref="tabs"
         tab-position="left"
         type="border-card"
         :style="{ height: maxHeight}"
+        v-model="name"
       >
-        <el-tab-pane label="發貨">
+        <el-tab-pane
+          label="發貨"
+          name="formShipMent"
+        >
           <shipment
+            ref="formShipMent"
             v-if="!loading"
             :data="shipmentFormData"
           ></shipment>
         </el-tab-pane>
-        <el-tab-pane label="裝箱">
+        <el-tab-pane
+          label="裝箱"
+          name="formBinning"
+        >
           <binning
-            v-if="!loading"
+            ref="formBinning"
+            v-if="
+          !loading"
             :data="binningFormData"
-          ></binning>
+          >
+          </binning>
         </el-tab-pane>
         <el-tab-pane
           lazy
@@ -77,6 +89,7 @@ export default {
   },
   data() {
     return {
+      name: "formShipMent",
       pickerOptions: {
         shortcuts: [
           {
@@ -177,24 +190,40 @@ export default {
       let data = _.cloneDeep(this.shipmentFormData);
       return JSON.stringify(data);
     },
+    checkValid(activeName, oldActiveName) {
+      if (!oldActiveName) return true;
+      if (!this.$refs[oldActiveName].isValid()) {
+        this.$message.warning("当前页面部分信息未填写或填写错误，请检查");
+        return false;
+      }
+      return true;
+    },
     submit() {
-      this.$refs["form"].validate(action => {
-        if (action) {
-          this.popoverVisible = false;
-          this.submitLoading = true;
-          axios({
-            url: "/shipmentPacking/update",
-            method: "post",
-            data: {
-              data: this.getValue()
-            }
-          }).then(() => {
-            this.submitLoading = true;
-            this.Bus.$emit("refresh");
-            this.goBack();
-          });
+      let pass = true;
+      _.each(["formShipMent", "formBinning"], form => {
+        if (this.$refs[form]) {
+          pass = this.$refs[form].isValid();
+          return pass; // 如果是 false 停止 each 循环
         }
       });
+      return pass;
+      // this.$refs["form"].validate(action => {
+      //   if (action) {
+      //     this.popoverVisible = false;
+      //     this.submitLoading = true;
+      //     axios({
+      //       url: "/shipmentPacking/update",
+      //       method: "post",
+      //       data: {
+      //         data: this.getValue()
+      //       }
+      //     }).then(() => {
+      //       this.submitLoading = true;
+      //       this.Bus.$emit("refresh");
+      //       this.goBack();
+      //     });
+      //   }
+      // });
     }
   }
 };
