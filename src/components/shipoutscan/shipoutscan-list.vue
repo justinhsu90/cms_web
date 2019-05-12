@@ -40,30 +40,30 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            min-width="150"
-            label="订单ID"
+            min-width="200"
+            label="貨代Order ID"
             prop="orderId"
             sortable="custom"
           ></el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             min-width="100"
-            label="scanStatus"
+            label="掃描狀態"
             prop="scanStatus"
-          ></el-table-column>
+          ></el-table-column> -->
           <el-table-column
-            min-width="60"
-            label="scannedDate"
-            prop="scannedDate"
-            sortable="custom"
-          ></el-table-column>
-          <el-table-column
-            min-width="80"
-            label="trackingNumber"
+            min-width="200"
+            label="物流單號"
             prop="trackingNumber"
             align="center"
             sortable="custom"
           >
           </el-table-column>
+          <el-table-column
+            min-width="200"
+            label="掃描日期"
+            prop="scannedDate"
+          ></el-table-column>
+
         </el-table>
       </el-col>
     </el-row>
