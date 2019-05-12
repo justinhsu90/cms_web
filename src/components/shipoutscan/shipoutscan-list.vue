@@ -40,7 +40,7 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            min-width="200"
+            width="200"
             label="貨代Order ID"
             prop="orderId"
             sortable="custom"
@@ -51,10 +51,9 @@
             prop="scanStatus"
           ></el-table-column> -->
           <el-table-column
-            min-width="200"
+            width="200"
             label="物流單號"
             prop="trackingNumber"
-            align="center"
             sortable="custom"
           >
           </el-table-column>
@@ -62,6 +61,7 @@
             min-width="200"
             label="掃描日期"
             prop="scannedDate"
+            sortable="custom"
           ></el-table-column>
 
         </el-table>
@@ -123,3 +123,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+// /deep/ .el-table {
+//   width: 600px !important;
+// }
+</style>
