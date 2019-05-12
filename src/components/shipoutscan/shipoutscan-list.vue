@@ -43,6 +43,7 @@
             min-width="150"
             label="订单ID"
             prop="orderId"
+            sortable="custom"
           ></el-table-column>
           <el-table-column
             min-width="100"
@@ -53,12 +54,14 @@
             min-width="60"
             label="scannedDate"
             prop="scannedDate"
+            sortable="custom"
           ></el-table-column>
           <el-table-column
             min-width="80"
             label="trackingNumber"
             prop="trackingNumber"
             align="center"
+            sortable="custom"
           >
           </el-table-column>
         </el-table>
@@ -77,7 +80,7 @@ export default {
       condition: [],
       isTableLoading: false,
       fetchCondition: {
-        // order: "-lastUpdatedTime"
+        order: ""
       },
       fetchOption: {
         url: "/erp/shipoutscan/search",
@@ -91,6 +94,14 @@ export default {
     this.Bus.$on("refresh", this.handleSearch);
   },
   methods: {
+    handleSortChange(row) {
+      if (row.order == "ascending") {
+        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["asc"]);
+      }
+      if (row.order == "descending") {
+        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["desc"]);
+      }
+    },
     handleChange() {
       this.handleSearch();
     },
@@ -100,8 +111,8 @@ export default {
         where: this.fetchOption.where,
         token: this.token,
         skip: this.fetchCondition.skip,
-        limit: this.fetchCondition.limit,
-        order: this.fetchCondition.order
+        limit: this.fetchCondition.limit
+        // order: this.fetchCondition.order
       };
       if (!_.isEmpty(this.date)) {
         data.startDate = this.date[0];
