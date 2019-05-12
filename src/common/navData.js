@@ -64,6 +64,10 @@ const nav = [
         label: "包裹查詢"
       },
       {
+        index: "shipoutscan",
+        label: "shipoutscan"
+      },
+      {
         index: "shipmentpacking",
         label: "FBA & FBC 發貨"
       }
