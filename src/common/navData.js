@@ -65,7 +65,7 @@ const nav = [
       },
       {
         index: "shipoutscan",
-        label: "shipoutscan"
+        label: "出貨掃描"
       },
       {
         index: "shipmentpacking",
