@@ -11,7 +11,11 @@ axios.interceptors.request.use(request => {
   if (request.isFormData) {
     return request;
   }
-  if (!request.data.hasOwnProperty("token") && C.get("token")) {
+  if (
+    !request.data.hasOwnProperty("token") &&
+    C.get("token") &&
+    !request.noToken
+  ) {
     request.data.token = C.get("token");
   }
   request.data = qs.stringify(request.data);
