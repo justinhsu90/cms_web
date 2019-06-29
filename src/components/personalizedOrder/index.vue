@@ -76,9 +76,9 @@ export default {
       };
     },
     submit() {
-      this.btnLoading = true;
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.btnLoading = true;
           axios({
             url: "/order/customized/gogroopie/edit",
             method: "post",
