@@ -227,10 +227,10 @@ const nav = [
   {
     index: "email",
     label: "發送郵件"
-  },
-  {
-    index: "personalizedOrder",
-    label: "Personalized Order"
   }
+  // {
+  //   index: "personalizedOrder",
+  //   label: "Personalized Order"
+  // }
 ];
 export default nav;
