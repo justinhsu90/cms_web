@@ -2,7 +2,8 @@
   <div v-loading="loading">
     <el-row
       :gutter="10"
-      style="padding:0px">
+      style="padding:0px"
+    >
       <el-col :span="12">
         <el-card style="height:115px">
           <h5>出貨狀況 (訂單數)</h5>
@@ -129,7 +130,7 @@
               </div>
               <div class="mt10 tc">
                 <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
-                                <span class="f13 label-tips">銷售額(GBP)</span>
+                <span class="f13 label-tips">銷售額(GBP)</span>
 
               </div>
             </div>
@@ -178,7 +179,7 @@
               </div>
               <div class="mt10 tc">
                 <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
-                                <span class="f13 label-tips">銷售額(GBP)</span>
+                <span class="f13 label-tips">銷售額(GBP)</span>
 
               </div>
             </div>
@@ -289,11 +290,18 @@
             ></el-table-column>
             <!-- <el-table-column  min-width="60" label="Sku" prop="sku"></el-table-column> -->
             <!-- <el-table-column  min-width="60" label="等級" prop="ranking"></el-table-column> -->
+
+            <el-table-column
+              min-width="30"
+              label="數量"
+              prop="quantity"
+            ></el-table-column>
             <el-table-column
               min-width="60"
               label="銷售額"
               prop="revenue"
             >
+
               <template slot-scope="scope">
                 {{scope.row.revenue | formatToMoney}}&nbsp;GBP
               </template>
@@ -308,7 +316,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              min-width="50"
+              min-width="40"
               label="毛利%"
               prop="percentageOfMargin"
               :formatter="formatToPercent"
@@ -320,20 +328,20 @@
                         </template>
                     </el-table-column> -->
             <el-table-column
-              min-width="50"
+              min-width="40"
               label="成本%"
               prop="productCostPercent"
               :formatter="formatToPercent"
             ></el-table-column>
             <!-- <el-table-column  min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
             <el-table-column
-              min-width="50"
+              min-width="40"
               label="運費%"
               prop="shippingCostPercent"
               :formatter="formatToPercent"
             ></el-table-column>
             <el-table-column
-              min-width="50"
+              min-width="40"
               label="營業額%"
               prop="percentageOfTotalRevenue"
               :formatter="formatToPercent"

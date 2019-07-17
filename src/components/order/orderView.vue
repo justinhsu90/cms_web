@@ -3,13 +3,21 @@
     <div style="padding:20px">
       <div class="heade">
         <i class="el-icon-arrow-left"></i>
-        <a href="javascript:void(0)" @click="goBack">返回</a>
+        <a
+          href="javascript:void(0)"
+          @click="goBack"
+        >返回</a>
       </div>
       <br>
       <h2><span>訂單內容</span>
       </h2>
       <br>
-      <el-form ref="form" :model="data" v-loading="loading" label-position="top">
+      <el-form
+        ref="form"
+        :model="data"
+        v-loading="loading"
+        label-position="top"
+      >
         <h3>基本資料</h3>
         <el-row :gutter="24">
           <el-col :span="5">
@@ -47,18 +55,52 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="訂單處理方式">
-              <el-select  :value="data.orderTypeCode" @input="handleChange" clearable>
-                <el-option v-for="(v,i) in searchStatusOption" :label="v.orderType" :value="v.orderTypeCode" :key="i"></el-option>
+              <el-select
+                :value="data.orderTypeCode"
+                @input="handleChange"
+                clearable
+              >
+                <el-option
+                  v-for="(v,i) in searchStatusOption"
+                  :label="v.orderType"
+                  :value="v.orderTypeCode"
+                  :key="i"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="取消原因">
-              <el-select  clearable :value="data.orderCancelledReasonNameCode"  @input="handleChangeOrder">
-                <el-option v-for="(v,i) in searchOrderCancell" :label="v.orderCancelledReasonName" :value="v.orderCancelledReasonNameCode" :key="i"></el-option>
+              <el-select
+                clearable
+                :value="data.orderCancelledReasonNameCode"
+                @input="handleChangeOrder"
+              >
+                <el-option
+                  v-for="(v,i) in searchOrderCancell"
+                  :label="v.orderCancelledReasonName"
+                  :value="v.orderCancelledReasonNameCode"
+                  :key="i"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="9">
+            <el-form-item label="備註">
+              <el-input
+                type="textarea"
+                :rows="4"
+                v-model="data.note"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-button
+            :span="2"
+            :loading="loading"
+            type="primary"
+            @click="submitForm"
+          >更新</el-button>
+
         </el-row>
         <h3>出貨狀態</h3>
         <el-row :gutter="24">
@@ -72,14 +114,19 @@
               <el-input v-model="data.shipoutTime"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="44">
             <el-form-item label="物流單號">
               <el-input v-model="data.trackingNo"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
+            <el-form-item label="出貨配對號碼">
+              <el-input v-model="data.mappingId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
             <el-form-item label="貨代平台單號">
-              <el-input v-model="data.platformOrderId"></el-input>
+              <el-input v-model="data.orderId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -93,12 +140,12 @@
             </el-form-item>
           </el-col>
 
-           <el-col :span="5">
+          <el-col :span="5">
             <el-form-item label="出貨重量">
               <el-input v-model="data.parcelWeight"></el-input>
             </el-form-item>
           </el-col>
-           <el-col :span="5">
+          <el-col :span="5">
             <el-form-item label="運費 (RMB)">
               <el-input v-model="data.shippingCost"></el-input>
             </el-form-item>
@@ -107,36 +154,50 @@
         <el-row :gutter="24">
           <h3>
             <span>產品內容</span>
-            <img class="title-img" :src="data.snapShotUrl" alt="">
+            <img
+              class="title-img"
+              :src="data.snapShotUrl"
+              alt=""
+            >
+            <img
+              class="title-img"
+              :src="data.personalizedProductImageUrl"
+              alt=""
+            >
           </h3>
 
-           <el-col :span="13">
+          <el-col :span="12">
             <el-form-item label="產品名稱">
               <el-input v-model="data.productName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-          <el-row :gutter="24">
-           <el-col :span="5">
+        <el-row :gutter="24">
+          <el-col :span="5">
             <el-form-item label="SKU">
               <el-input v-model="data.sku"></el-input>
             </el-form-item>
-            </el-col>
-            <el-col :span="4">
+          </el-col>
+          <el-col :span="3">
             <el-form-item label="顏色">
               <el-input v-model="data.colour"></el-input>
             </el-form-item>
-            </el-col>
-            <el-col :span="4">
+          </el-col>
+          <el-col :span="4">
             <el-form-item label="尺寸">
               <el-input v-model="data.size"></el-input>
             </el-form-item>
           </el-col>
-          </el-row>
-          <el-row :gutter="24">
-          <el-col :span="13">
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="6">
             <el-form-item label="Product Options">
               <el-input v-model="data.productOptions"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="客製化內容">
+              <el-input v-model="data.personalizedProductContent"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -213,6 +274,9 @@ export default {
       searchOrderCancell: [],
       data: {
         orderCancelledReasonNameCode: "",
+        personalizedProductContent: "",
+        personalizedProductImageUrl: "",
+        orderId: "",
         wowcherCode: "",
         redeemedAt: "",
         orderStatus: "",
@@ -236,6 +300,7 @@ export default {
         logistic: "",
         phone: "",
         platformOrderId: "",
+        mappingId: "",
         postcode: "",
         price: "",
         productOptoins: "",

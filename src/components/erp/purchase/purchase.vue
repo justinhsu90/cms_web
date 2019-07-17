@@ -239,7 +239,7 @@ export default {
       fetchCondition: {
         skip: 0,
         limit: 20,
-        order: "-lastUpdatedTime"
+        order: "-purchasedTime"
       },
       fetchOption: {
         url: "/erp/purchase/search",
