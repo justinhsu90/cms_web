@@ -175,7 +175,7 @@
               <img
                 @click="handleImgClick(data.personalizedProductImageUrl)"
                 class="img"
-                :src="data.snapShotUrl"
+                :src="data.personalizedProductImageUrl"
                 alt=""
               >
             </div>
