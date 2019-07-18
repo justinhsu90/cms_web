@@ -190,6 +190,7 @@ export default {
           }
         },
         {
+          hideConfirm: true,
           title: "圖片"
         }
       );

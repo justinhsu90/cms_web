@@ -1,5 +1,5 @@
 <template>
-  <div id="edit">
+  <div>
     <div style="padding:20px">
       <div class="heade">
         <i class="el-icon-arrow-left"></i>
@@ -92,15 +92,16 @@
                 :rows="4"
                 v-model="data.note"
               ></el-input>
+              <el-button
+                :span="2"
+                class="f-r mt5"
+                size="small"
+                :loading="noteLoading"
+                type="primary"
+                @click="submitNote"
+              >更新</el-button>
             </el-form-item>
           </el-col>
-          <el-button
-            :span="2"
-            :loading="loading"
-            type="primary"
-            @click="submitForm"
-          >更新</el-button>
-
         </el-row>
         <h3>出貨狀態</h3>
         <el-row :gutter="24">
@@ -154,16 +155,30 @@
         <el-row :gutter="24">
           <h3>
             <span>產品內容</span>
-            <img
-              class="title-img"
-              :src="data.snapShotUrl"
-              alt=""
+            <div
+              class="img-info-left"
+              v-if="data.snapShotUrl"
             >
-            <img
-              class="title-img"
-              :src="data.personalizedProductImageUrl"
-              alt=""
+              <span>產品圖片</span>
+              <img
+                @click="handleImgClick(data.snapShotUrl)"
+                class="img"
+                :src="data.snapShotUrl"
+                alt=""
+              >
+            </div>
+            <div
+              class="img-info-right"
+              v-if="data.personalizedProductImageUrl"
             >
+              <span>客製樣式</span>
+              <img
+                @click="handleImgClick(data.personalizedProductImageUrl)"
+                class="img"
+                :src="data.snapShotUrl"
+                alt=""
+              >
+            </div>
           </h3>
 
           <el-col :span="12">
@@ -250,28 +265,20 @@
               <el-input v-model="data.email"></el-input>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="8">
-          <el-form-item label="productOptoins:">
-                <el-input disabled v-model="data.productOptoins"></el-input>
-          </el-form-item>
-          </el-col> -->
-          <!-- <el-col :span="8">
-          <el-form-item label="spec:">
-                <el-input disabled v-model="data.spec"></el-input>
-          </el-form-item>
-          </el-col>   -->
         </el-row>
       </el-form>
     </div>
   </div>
 </template>
 <script>
+import showDialog from "won-service/component/won-dialog/dialog";
 export default {
   data() {
     return {
       loading: false,
       searchStatusOption: [],
       searchOrderCancell: [],
+      noteLoading: false,
       data: {
         orderCancelledReasonNameCode: "",
         personalizedProductContent: "",
@@ -307,7 +314,8 @@ export default {
         quantity: "",
         shippingMethod: "",
         sku: "",
-        spec: ""
+        spec: "",
+        note: ""
       }
     };
   },
@@ -331,7 +339,7 @@ export default {
         token: this.token
       }
     }).then(res => {
-      if (!res.data) {
+      if (res && !res.data) {
         return;
       }
       this.searchOrderCancell = _.cloneDeep(res.data);
@@ -341,6 +349,24 @@ export default {
     goBack() {
       this.$router.push("/orderList");
       this.Bus.$emit("refresh");
+    },
+    handleImgClick(url) {
+      showDialog(
+        {
+          render(h) {
+            return h("img", {
+              attrs: {
+                src: url,
+                width: "100%"
+              }
+            });
+          }
+        },
+        {
+          hideConfirm: true,
+          title: "圖片"
+        }
+      );
     },
     handleChangeOrder(v) {
       let that = this;
@@ -408,6 +434,28 @@ export default {
           }
         }
       ).catch();
+    },
+    submitNote() {
+      this.noteLoading = true;
+      axios({
+        url: "wowcher/order/note",
+        method: "post",
+        data: {
+          note: this.data.note,
+          platformOrderId: this.data.wowcherCode
+        }
+      })
+        .then(res => {
+          if (res) {
+            this.$message.success("更新成功");
+          } else {
+            this.$message.error("更新失敗");
+          }
+          this.noteLoading = false;
+        })
+        .catch(() => {
+          this.noteLoading = false;
+        });
     },
     handleChange(v) {
       let that = this;
@@ -482,74 +530,84 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#edit .heade {
+<style lang="scss" scoped>
+.heade {
   font-size: 16px;
   color: #45a2ff;
 }
-#edit .heade a {
+.heade a {
   color: #45a2ff;
 }
-#edit {
-  h3 {
-    position: relative;
+h3 {
+  position: relative;
+}
+.img-info-left {
+  position: absolute;
+  right: 31%;
+  top: 10%;
+  z-index: 999;
+  display: flex;
+  border: 1px dashed #dcdfe6;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+  padding: 5px 2px;
+  cursor: pointer;
+  span {
+    font-size: 15px;
   }
-  .title-img {
-    position: absolute;
-    right: 15%;
-    top: 10%;
-    z-index: 999;
-    width: 250px;
+  .img {
+    width: 100%;
   }
-  .w50 {
-    width: 50%;
+}
+.img-info-right {
+  position: absolute;
+  right: 15%;
+  top: 10%;
+  z-index: 999;
+  display: flex;
+  width: 15%;
+  border: 1px dashed #dcdfe6;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 2px;
+  cursor: pointer;
+  span {
+    font-size: 15px;
   }
-  .w20 {
-    width: 20%;
+  .img {
+    width: 100%;
   }
-  .p10 {
-    padding: 10px !important;
+}
+
+.imgcontainer {
+  padding: 5px 5px 5px 5px;
+  border: 1px dashed #dfe4ec;
+  position: relative;
+  text-align: center;
+  height: 240px;
+  & div {
+    margin-top: 15px;
   }
-  hr {
-    border: none;
-    border-top: 1px solid #dfe4ec;
+  & div:after {
+    content: "";
+    display: block;
+    clear: both;
   }
-  .imgcontainer {
-    padding: 5px 5px 5px 5px;
-    border: 1px dashed #dfe4ec;
-    position: relative;
-    text-align: center;
-    height: 240px;
-    & div {
-      margin-top: 15px;
-    }
-    & div:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
+}
+
+/deep/ .label {
+  .el-form-item__label {
+    width: 100%;
   }
-  .icon {
-    float: right;
-    cursor: pointer;
-  }
-  .name {
+}
+/deep/ .el-form-left {
+  & div:nth-child(1) {
     float: left;
-    font-size: 14px;
+    margin-right: 10px;
   }
-  .label {
-    .el-form-item__label {
-      width: 100%;
-    }
-  }
-  .el-form-left {
-    & div:nth-child(1) {
-      float: left;
-      margin-right: 10px;
-    }
-    .el-form-item__content {
-      overflow: hidden;
-    }
+  .el-form-item__content {
+    overflow: hidden;
   }
 }
 </style>
