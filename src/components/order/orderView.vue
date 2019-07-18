@@ -551,7 +551,7 @@ h3 {
   flex-direction: column;
   align-items: center;
   width: 15%;
-  padding: 5px 2px;
+  padding: 5px 2px 2px 2px;
   cursor: pointer;
   span {
     font-size: 15px;
@@ -570,7 +570,7 @@ h3 {
   border: 1px dashed #dcdfe6;
   flex-direction: column;
   align-items: center;
-  padding: 5px 2px;
+  padding: 5px 2px 2px 2px;
   cursor: pointer;
   span {
     font-size: 15px;
