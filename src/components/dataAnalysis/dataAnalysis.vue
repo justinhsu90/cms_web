@@ -58,7 +58,7 @@
       :gutter="5"
       style="padding:0px"
     >
-      <el-card style="height:160px;background-color:#fdfdfd;">
+      <el-card style="background-color:#fdfdfd;">
         <h4>各平台本日銷售表現</h4>
         <el-col
           class="mt10"
@@ -104,7 +104,7 @@
       :gutter="5"
       style="padding:0px"
     >
-      <el-card style="height:160px;background-color:#fdfdfd;">
+      <el-card style="background-color:#fdfdfd;">
         <h4>各平台前日銷售表現</h4>
         <!-- <br> -->
         <el-col
