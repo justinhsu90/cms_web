@@ -134,7 +134,10 @@ export default {
     return {
       accountHide: [
         "CKE_OVERSEA_WAREHOUSE_CREATE_ORDER",
-        "CKE_CHINA_DIRECT_CREATE_ORDER"
+        "WINIT_OVERSEA_WAREHOUSE_CREATE_ORDER",
+        "CKE_CHINA_DIRECT_CREATE_ORDER",
+        "CUSTOMIZED_MOONLAMP_DOC_TO_FACTORY",
+        "YUN_CREATE_ORDER"
       ],
       pickerOptions: {
         shortcuts: [
@@ -258,7 +261,6 @@ export default {
           startDate: ""
         };
       }
-      console.log(_form);
       return {
         token: this.token,
         ..._form
