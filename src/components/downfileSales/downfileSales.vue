@@ -28,7 +28,7 @@
         <el-row :span="20">
           <el-col
             :span="4"
-            v-if="!accountHide.includes(form.fileType)"
+            v-if="accountShow.includes(form.fileType)"
           >
             <el-form-item
               label="帳號："
@@ -49,7 +49,7 @@
           </el-col>
           <el-col
             :span="4"
-            v-if="!accountHide.includes(form.fileType)"
+            v-if="accountShow.includes(form.fileType)"
           >
             <el-form-item
               label="國家："
@@ -70,7 +70,7 @@
           </el-col>
           <el-col
             :span="6"
-            v-if="!accountHide.includes(form.fileType)"
+            v-if="accountShow.includes(form.fileType)"
           >
             <el-form-item
               label="日期："
@@ -94,7 +94,7 @@
         <el-row :gutter="20">
           <el-col
             :span="20"
-            v-if="!accountHide.includes(form.fileType)"
+            v-if="accountShow.includes(form.fileType)"
           >
             <el-form-item label="是否包括：">
               <el-switch v-model="form.fullDoc"></el-switch>
@@ -132,12 +132,13 @@ import moment from "moment";
 export default {
   data() {
     return {
-      accountHide: [
-        "CKE_OVERSEA_WAREHOUSE_CREATE_ORDER",
-        "WINIT_OVERSEA_WAREHOUSE_CREATE_ORDER",
-        "CKE_CHINA_DIRECT_CREATE_ORDER",
-        "CUSTOMIZED_MOONLAMP_DOC_TO_FACTORY",
-        "YUN_CREATE_ORDER"
+      accountShow: [
+        // "CKE_OVERSEA_WAREHOUSE_CREATE_ORDER",
+        // "WINIT_OVERSEA_WAREHOUSE_CREATE_ORDER",
+        // "CKE_CHINA_DIRECT_CREATE_ORDER",
+        // "CUSTOMIZED_MOONLAMP_DOC_TO_FACTORY",
+        // "YUN_CREATE_ORDER"
+        "WOWCHER_SALES_REPORT"
       ],
       pickerOptions: {
         shortcuts: [
@@ -251,7 +252,7 @@ export default {
 
       delete _form.date;
 
-      if (this.accountHide.includes(_form.fileType)) {
+      if (!this.accountShow.includes(_form.fileType)) {
         _form = {
           fileType: _form.fileType,
           account: "",
