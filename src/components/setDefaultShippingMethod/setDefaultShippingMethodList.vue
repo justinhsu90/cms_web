@@ -1,80 +1,213 @@
 <template>
-    <div>
-        <el-row class="mb5">
-            <h3>
-                <div class="ibbox">
-                    <span>設定出貨方式</span>
-                    <span class="label-tips fz14">
-                    請先選擇貨代,在選擇運輸方式
-                    </span>
-                </div>
-                <div class="ibbox">
-                    <el-button size="small" type="primary" :loading="pullLoading" @click="handleClick">抓取小包清單</el-button>
-                    <el-button size="small" type="primary" :loading="fileLoading" @click="submit">保存設定</el-button>
-                </div>
-            </h3>
-        </el-row>
-        <el-row class="mb5" :gutter="10">
-                <el-select class="w10" placeholder="多個愛爾蘭貨代" v-model="imoresearchAgent">
-                    <el-option v-for="(v,i) in imoreagent" :key="i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select  class="w10" placeholder="多個愛爾蘭發貨渠道" v-model="imoresearchShippingMethod">
-                    <el-option v-for="(v,i) in imoreSerachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
-                    </el-option>
-                </el-select>
-                <el-select class="w10" placeholder="愛爾蘭貨代" v-model="isearchAgent" @change="handleAgentChange('iagent')">
-                    <el-option v-for="(v,i) in iagent" :key="i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select  class="w10" placeholder="愛爾蘭發貨渠道" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
-                    <el-option v-for="(v,i) in iserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
-                    </el-option>
-                </el-select>
-                <el-select class="w10" placeholder="多個英國貨代" v-model="ymoresearchAgent">
-                    <el-option v-for="(v,i) in ymoreagent" :key="i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w10" placeholder="多個英國發貨渠道" v-model="ymoresearchShippingMethod">
-                    <el-option v-for="(v,i) in ymoreserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
-                    </el-option>
-                </el-select>
-                <el-select class="w10" placeholder="英國貨代" v-model="ysearchAgent" @change="handleAgentChange('yagent')">
-                    <el-option v-for="(v,i) in yagent" :key="i" :label="v" :value="v"></el-option>
-                </el-select>
-                <el-select class="w10" placeholder="英國發貨渠道" v-model="ysearchShippingMethod" @change="handleChangeShippingMethod('yagent')">
-                    <el-option v-for="(v,i) in yserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
-                    </el-option>
-                </el-select>
-        </el-row>
-        <el-row>
-            <el-col class="mt5">
-                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <!-- <el-table-column type="selection" width="55"> </el-table-column> -->
-                    <el-table-column width="50" label="國家" prop="country"></el-table-column>
-                    <el-table-column width="70" label="重量" prop="parcelWeight">
-                           <template slot-scope="scope">
-                           {{scope.row.parcelWeight}}kg
-                          </template>
+  <div>
+    <el-row class="mb5">
+      <h3>
+        <div class="ibbox">
+          <span>設定出貨方式</span>
+          <span class="label-tips fz14">
+            請先選擇貨代,在選擇運輸方式
+          </span>
+        </div>
+        <div class="ibbox">
+          <el-button
+            size="small"
+            type="primary"
+            :loading="pullLoading"
+            @click="handleClick"
+          >抓取小包清單</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            :loading="fileLoading"
+            @click="submit"
+          >保存設定</el-button>
+        </div>
+      </h3>
+    </el-row>
+    <el-row
+      class="mb5"
+      :gutter="10"
+    >
+      <el-select
+        class="w10"
+        placeholder="多個愛爾蘭貨代"
+        v-model="imoresearchAgent"
+      >
+        <el-option
+          v-for="(v,i) in imoreagent"
+          :key="i"
+          :label="v"
+          :value="v"
+        ></el-option>
+      </el-select>
+      <el-select
+        class="w10"
+        placeholder="多個愛爾蘭發貨渠道"
+        v-model="imoresearchShippingMethod"
+      >
+        <el-option
+          v-for="(v,i) in imoreSerachShippingMethodData"
+          :key="i"
+          :label="v.shippingMethodName"
+          :value="v.shippingMethodCode"
+        >
+        </el-option>
+      </el-select>
+      <el-select
+        class="w10"
+        placeholder="愛爾蘭貨代"
+        v-model="isearchAgent"
+        @change="handleAgentChange('iagent')"
+      >
+        <el-option
+          v-for="(v,i) in iagent"
+          :key="i"
+          :label="v"
+          :value="v"
+        ></el-option>
+      </el-select>
+      <el-select
+        class="w10"
+        placeholder="愛爾蘭發貨渠道"
+        v-model="isearchShippingMethod"
+        @change="handleChangeShippingMethod('iagent')"
+      >
+        <el-option
+          v-for="(v,i) in iserachShippingMethodData"
+          :key="i"
+          :label="v.shippingMethodName"
+          :value="v.shippingMethodCode"
+        >
+        </el-option>
+      </el-select>
+      <el-select
+        class="w10"
+        placeholder="多個英國貨代"
+        v-model="ymoresearchAgent"
+      >
+        <el-option
+          v-for="(v,i) in ymoreagent"
+          :key="i"
+          :label="v"
+          :value="v"
+        ></el-option>
+      </el-select>
+      <el-select
+        class="w10"
+        placeholder="多個英國發貨渠道"
+        v-model="ymoresearchShippingMethod"
+      >
+        <el-option
+          v-for="(v,i) in ymoreserachShippingMethodData"
+          :key="i"
+          :label="v.shippingMethodName"
+          :value="v.shippingMethodCode"
+        >
+        </el-option>
+      </el-select>
+      <el-select
+        class="w10"
+        placeholder="英國貨代"
+        v-model="ysearchAgent"
+        @change="handleAgentChange('yagent')"
+      >
+        <el-option
+          v-for="(v,i) in yagent"
+          :key="i"
+          :label="v"
+          :value="v"
+        ></el-option>
+      </el-select>
+      <el-select
+        class="w10"
+        placeholder="英國發貨渠道"
+        v-model="ysearchShippingMethod"
+        @change="handleChangeShippingMethod('yagent')"
+      >
+        <el-option
+          v-for="(v,i) in yserachShippingMethodData"
+          :key="i"
+          :label="v.shippingMethodName"
+          :value="v.shippingMethodCode"
+        >
+        </el-option>
+      </el-select>
+    </el-row>
+    <el-row>
+      <el-col class="mt5">
+        <el-table
+          ref="wonTable"
+          :max-height="maxHeight"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <!-- <el-table-column type="selection" width="55"> </el-table-column> -->
+          <el-table-column
+            width="200"
+            label="SKU"
+            prop="sku"
+          ></el-table-column>
+          <el-table-column
+            width="50"
+            label="國家"
+            prop="country"
+          ></el-table-column>
+          <el-table-column
+            width="70"
+            label="重量"
+            prop="parcelWeight"
+          >
+            <template slot-scope="scope">
+              {{scope.row.parcelWeight}}kg
+            </template>
 
-                    </el-table-column>
-                    <el-table-column min-width="30" label="貨代" prop="agent">
-                        <template slot-scope="{row}">
-                            <el-select v-model="row.agent" @change="handleChange(row)">
-                                <el-option v-for="(v,i) in methodAgent(row)" :key="i" :label="v" :value="v"></el-option>
-                            </el-select>
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="70" label="發貨渠道" prop="shippingMethod">
-                        <template slot-scope="{row}">
-                            <el-select v-model="row.shippingMethod">
-                                <el-option v-for="(v,i) in row.shippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode"></el-option>
-                            </el-select>
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="220" label="商品名稱" prop="productName"></el-table-column>
-                </el-table>
-            </el-col>
-        </el-row>
+          </el-table-column>
+          <el-table-column
+            min-width="60"
+            label="貨代"
+            prop="agent"
+          >
+            <template slot-scope="{row}">
+              <el-select
+                v-model="row.agent"
+                @change="handleChange(row)"
+              >
+                <el-option
+                  v-for="(v,i) in methodAgent(row)"
+                  :key="i"
+                  :label="v"
+                  :value="v"
+                ></el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="90"
+            label="發貨渠道"
+            prop="shippingMethod"
+          >
+            <template slot-scope="{row}">
+              <el-select v-model="row.shippingMethod">
+                <el-option
+                  v-for="(v,i) in row.shippingMethodData"
+                  :key="i"
+                  :label="v.shippingMethodName"
+                  :value="v.shippingMethodCode"
+                ></el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="220"
+            label="商品名稱"
+            prop="productName"
+          ></el-table-column>
+        </el-table>
+      </el-col>
+    </el-row>
 
-    </div>
+  </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
