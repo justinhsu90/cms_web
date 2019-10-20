@@ -30,7 +30,7 @@
     >
       <el-select
         class="w10"
-        placeholder="多個愛爾蘭貨代"
+        placeholder="愛爾蘭多個裝貨代"
         v-model="imoresearchAgent"
       >
         <el-option
@@ -41,8 +41,8 @@
         ></el-option>
       </el-select>
       <el-select
-        class="w10"
-        placeholder="多個愛爾蘭發貨渠道"
+        class="w12"
+        placeholder="愛爾蘭多個裝渠道"
         v-model="imoresearchShippingMethod"
       >
         <el-option
@@ -55,7 +55,7 @@
       </el-select>
       <el-select
         class="w10"
-        placeholder="愛爾蘭貨代"
+        placeholder="愛爾蘭單個裝貨代"
         v-model="isearchAgent"
         @change="handleAgentChange('iagent')"
       >
@@ -67,8 +67,8 @@
         ></el-option>
       </el-select>
       <el-select
-        class="w10"
-        placeholder="愛爾蘭發貨渠道"
+        class="w12"
+        placeholder="愛爾蘭單個裝"
         v-model="isearchShippingMethod"
         @change="handleChangeShippingMethod('iagent')"
       >
@@ -82,7 +82,7 @@
       </el-select>
       <el-select
         class="w10"
-        placeholder="多個英國貨代"
+        placeholder="英國多個裝貨代"
         v-model="ymoresearchAgent"
       >
         <el-option
@@ -93,8 +93,8 @@
         ></el-option>
       </el-select>
       <el-select
-        class="w10"
-        placeholder="多個英國發貨渠道"
+        class="w12"
+        placeholder="英國多個裝渠道"
         v-model="ymoresearchShippingMethod"
       >
         <el-option
@@ -107,7 +107,7 @@
       </el-select>
       <el-select
         class="w10"
-        placeholder="英國貨代"
+        placeholder="英國單個裝貨代"
         v-model="ysearchAgent"
         @change="handleAgentChange('yagent')"
       >
@@ -119,8 +119,8 @@
         ></el-option>
       </el-select>
       <el-select
-        class="w10"
-        placeholder="英國發貨渠道"
+        class="w12"
+        placeholder="英國單個裝渠道"
         v-model="ysearchShippingMethod"
         @change="handleChangeShippingMethod('yagent')"
       >
@@ -147,6 +147,11 @@
             width="200"
             label="SKU"
             prop="sku"
+          ></el-table-column>
+          <el-table-column
+            width="70"
+            label="電池貨"
+            prop="battery"
           ></el-table-column>
           <el-table-column
             width="50"
