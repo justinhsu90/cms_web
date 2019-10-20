@@ -16,6 +16,7 @@
           <el-select
             v-model="form.fileType"
             placeholder="文件類型"
+            @change="handleSelect"
           >
             <el-option
               v-for="(value,item) in fileTypeOption"
@@ -245,6 +246,16 @@ export default {
     });
   },
   methods: {
+    handleSelect(val){
+      if(val == "WOWCHER_SALES_REPORT"){
+        this.form.account = "MagicTrend";
+        this.form.country = "GB";
+        const end = new Date();
+        const start = new Date();
+        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+        this.form.date = [start, end];
+      }
+    },
     getValue() {
       let _form = _.cloneDeep(this.form);
       _form.startDate = moment(_form.date[0]).format("YYYY-MM-DD");

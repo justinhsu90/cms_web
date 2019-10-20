@@ -51,15 +51,15 @@ export default {
     return {
       btnLoading: false,
       form: {
-        trackingNumberList: ''
-      },
+        trackingNumberList: ""
+      }
     }
   },
   created(){
     this.rules = {
       trackingNumberList: {
         required: true,
-        message: '此項必填'
+        message: "此項必填"
       }
     }
   },
@@ -78,7 +78,7 @@ export default {
             method: "post",
             data: this.getValue()
           }).then(
-            res => {
+            () => {
               this.$message.success("提交成功");
             },
             () => {
