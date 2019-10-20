@@ -91,13 +91,6 @@ export default {
   font-size: 15px;
   width: 60px;
 }
-// .email-receive__text {
-//   width: calc(100% - 100px);
-//   /deep/ input {
-//     border: none !important;
-//     outline: none !important;
-//   }
-// }
 .email-receive__text {
   width: calc(100% - 100px);
   min-height: 30px;

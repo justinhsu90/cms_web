@@ -215,6 +215,10 @@ const nav = [
       {
         index: "replacement",
         label: "補發清單"
+      },
+      {
+        index: "adviceDelivery",
+        label: "到貨通知"
       }
     ]
   },
