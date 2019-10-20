@@ -1,16 +1,28 @@
 <template>
   <div>
+    <h2>
+      到貨通知單號
+    </h2>
     <el-form
       :model="form"
       ref="form"
       :rules="rules"
+      class="pl15 pt15"
     >
       <el-row>
-        <el-col :span="12">
+        <el-col :span="14">
           <el-form-item
-            label="信息："
+            label="單號："
             prop="trackingNumberList"
           >
+            <template slot="label">
+              <span>
+                單號：
+              </span>
+              <span class="label-tips">
+                每個單號需用(空白, 換行, 逗號) 其中一個分開
+              </span>
+            </template>
             <el-input
               rows="6"
               type="textarea"
