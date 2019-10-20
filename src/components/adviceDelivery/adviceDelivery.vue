@@ -20,7 +20,7 @@
                 單號：
               </span>
               <span class="label-tips">
-                每個單號需用(空白, 換行, 逗號) 其中一個分開
+                每個單號需用(換行, 逗號) 其中一個分開
               </span>
             </template>
             <el-input
