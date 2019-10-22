@@ -32,6 +32,14 @@
               <span class=" f13 label-tips">標記出貨(GZ)</span>
             </div>
           </div>
+          <!-- <div class="w10 fn">
+            <div class="font tc">
+              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未出貨(GZ)</span>
+            </div>
+          </div> -->
           <div class="w10 fn">
             <div class="font tc">
               <span>{{shipmentCreatedUnshipOrderCount}}</span>
@@ -42,26 +50,18 @@
           </div>
           <div class="w10 fn">
             <div class="font tc">
-              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+              <span>{{moonlampUnship}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">未出貨(GZ)</span>
+              <span class=" f13 label-tips">月球燈未出貨</span>
             </div>
           </div>
           <div class="w10 fn">
             <div class="font tc">
-              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+              <span>{{moonlampNotCreated}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">未出貨(GZ)</span>
-            </div>
-          </div>
-          <div class="w10 fn">
-            <div class="font tc">
-              <span>{{shipmentUncreatedOrderCount}}</span>
-            </div>
-            <div class="mt10 tc">
-              <span class=" f13 label-tips">未做單</span>
+              <span class=" f13 label-tips">月球燈未做單</span>
             </div>
           </div>
           <!-- <div class="w10 fn">
