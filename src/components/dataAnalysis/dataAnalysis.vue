@@ -4,7 +4,7 @@
       :gutter="10"
       style="padding:0px"
     >
-      <el-col :span="12">
+      <el-col :span="20">
         <el-card style="height:115px">
           <h5>出貨狀況 (訂單數)</h5>
           <br>
@@ -16,7 +16,7 @@
               <span class=" f13 label-tips">今日做單(海外倉)</span>
             </div>
           </div>
-          <div class="w19 fl">
+          <div class="w19 fn">
             <div class="font tc">
               <span>{{shipmentCreatedParcelCountToday}}</span>
             </div>
@@ -40,12 +40,28 @@
               <span class=" f13 label-tips">未出貨(GZ)</span>
             </div>
           </div>
-          <div class="w19 fr">
+          <div class="w19 fn">
             <div class="font tc">
               <span>{{shipmentUncreatedOrderCount}}</span>
             </div>
             <div class="mt10 tc">
               <span class=" f13 label-tips">未做單</span>
+            </div>
+          </div>
+          <div class="w19 fn">
+            <div class="font tc">
+              <span>{{moonlampUnship}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">月球燈未發貨</span>
+            </div>
+          </div>
+          <div class="w19 fr">
+            <div class="font tc">
+              <span>{{moonlampNotCreated}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">月球燈做單</span>
             </div>
           </div>
         </el-card>
@@ -492,6 +508,8 @@ export default {
     shipmentCreatedParcelCountToday: 0,
     shipmentUncreatedOrderCount: 0,
     shipmentCreatedUnshipOrderCount: 0,
+    moonlampNotCreated: 0,
+    moonlampUnship: 0,
     shipmentCreatedOverseaWarehouseCountToday: 0,
     account: "",
     month: "",
@@ -588,6 +606,8 @@ export default {
         this.shipmentUncreatedOrderCount = res.shipmentUncreatedOrderCount;
         this.shipmentCreatedUnshipOrderCount =
           res.shipmentCreatedUnshipOrderCount;
+        this.moonlampUnship = res.moonlampUnship;
+        this.moonlampNotCreated = res.moonlampNotCreated;
         this.shipmentCreatedOverseaWarehouseCountToday =
           res.shipmentCreatedOverseaWarehouseCountToday;
         this.loading = false;
