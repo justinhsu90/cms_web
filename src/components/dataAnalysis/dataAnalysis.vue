@@ -4,11 +4,11 @@
       :gutter="10"
       style="padding:0px"
     >
-      <el-col :span="20">
+      <el-col :span="24">
         <el-card style="height:115px">
           <h5>出貨狀況 (訂單數)</h5>
           <br>
-          <div class="w19 fl">
+          <div class="w10 fl">
             <div class="font tc">
               <span>{{shipmentCreatedOverseaWarehouseCountToday}}</span>
             </div>
@@ -16,7 +16,7 @@
               <span class=" f13 label-tips">今日做單(海外倉)</span>
             </div>
           </div>
-          <div class="w19 fn">
+          <div class="w10 fn">
             <div class="font tc">
               <span>{{shipmentCreatedParcelCountToday}}</span>
             </div>
@@ -24,7 +24,7 @@
               <span class=" f13 label-tips">今日做單(GZ)</span>
             </div>
           </div>
-          <div class="w19 fn">
+          <div class="w10 fn">
             <div class="font tc">
               <span>{{shipoutScanParcelCountToday}}</span>
             </div>
@@ -32,7 +32,7 @@
               <span class=" f13 label-tips">標記出貨(GZ)</span>
             </div>
           </div>
-          <div class="w19 fn">
+          <div class="w10 fn">
             <div class="font tc">
               <span>{{shipmentCreatedUnshipOrderCount}}</span>
             </div>
@@ -40,7 +40,23 @@
               <span class=" f13 label-tips">未出貨(GZ)</span>
             </div>
           </div>
-          <div class="w19 fn">
+          <div class="w10 fn">
+            <div class="font tc">
+              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未出貨(GZ)</span>
+            </div>
+          </div>
+          <div class="w10 fn">
+            <div class="font tc">
+              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未出貨(GZ)</span>
+            </div>
+          </div>
+          <div class="w10 fn">
             <div class="font tc">
               <span>{{shipmentUncreatedOrderCount}}</span>
             </div>
@@ -48,7 +64,7 @@
               <span class=" f13 label-tips">未做單</span>
             </div>
           </div>
-          <div class="w19 fn">
+          <!-- <div class="w10 fn">
             <div class="font tc">
               <span>{{moonlampUnship}}</span>
             </div>
@@ -56,14 +72,14 @@
               <span class=" f13 label-tips">月球燈未發貨</span>
             </div>
           </div>
-          <div class="w19 fr">
+          <div class="w10 fr">
             <div class="font tc">
               <span>{{moonlampNotCreated}}</span>
             </div>
             <div class="mt10 tc">
               <span class=" f13 label-tips">月球燈做單</span>
             </div>
-          </div>
+          </div> -->
         </el-card>
       </el-col>
     </el-row>
