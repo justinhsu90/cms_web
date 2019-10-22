@@ -58,6 +58,22 @@
           </div>
           <div class="w10 fn">
             <div class="font tc">
+              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未出貨(GZ)</span>
+            </div>
+          </div>
+          <div class="w10 fn">
+            <div class="font tc">
+              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+            </div>
+            <div class="mt10 tc">
+              <span class=" f13 label-tips">未出貨(GZ)</span>
+            </div>
+          </div>
+          <div class="w10 fn">
+            <div class="font tc">
               <span>{{shipmentUncreatedOrderCount}}</span>
             </div>
             <div class="mt10 tc">
