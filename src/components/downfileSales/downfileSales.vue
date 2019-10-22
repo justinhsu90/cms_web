@@ -252,7 +252,11 @@ export default {
         this.form.country = "GB";
         const end = new Date();
         const start = new Date();
-        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+        start.setDate(1);
+        start.setHours(0);
+        start.setSeconds(0);
+        start.setMinutes(0);
+        start.setMilliseconds(0)
         this.form.date = [start, end];
       }
     },
