@@ -188,31 +188,50 @@
           </el-col>
         </el-row>
         <el-row :gutter="24">
-          <el-col :span="5">
+          <el-col :span="4">
             <el-form-item label="SKU">
               <el-input v-model="data.sku"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="2">
             <el-form-item label="顏色">
               <el-input v-model="data.colour"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="2">
             <el-form-item label="尺寸">
               <el-input v-model="data.size"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row :gutter="24">
-          <el-col :span="6">
+          <el-col :span="4">
             <el-form-item label="Product Options">
               <el-input v-model="data.productOptions"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="24">
+
+        </el-row>
+        <el-row :gutter="24">
+          <!-- <h3>非Wowcher兌換客制內容</h3> -->
           <el-col :span="6">
-            <el-form-item label="客製化內容">
+            <el-form-item label="Wowcher兌換客製化內容">
               <el-input v-model="data.personalizedProductContent"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="自行兌換內部Id">
+              <el-input v-model="data.redeemId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="自行兌換客製文字1">
+              <el-input v-model="data.personalizedWord1"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="自行兌換客製文字2">
+              <el-input v-model="data.personalizedWord2"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -266,6 +285,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+
       </el-form>
     </div>
   </div>
@@ -283,6 +303,9 @@ export default {
         orderCancelledReasonNameCode: "",
         personalizedProductContent: "",
         personalizedProductImageUrl: "",
+        redeemId: "",
+        personalizedWord1: "",
+        personalizedWord2: "",
         orderId: "",
         wowcherCode: "",
         redeemedAt: "",

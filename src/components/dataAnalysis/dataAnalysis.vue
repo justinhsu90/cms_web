@@ -21,7 +21,7 @@
               <span>{{shipmentCreatedParcelCountToday}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">今日做單(GZ)</span>
+              <span class=" f13 label-tips">今日做單(廣州倉)</span>
             </div>
           </div>
           <div class="w10 fn">
@@ -29,23 +29,23 @@
               <span>{{shipoutScanParcelCountToday}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">標記出貨(GZ)</span>
+              <span class=" f13 label-tips">標記出貨</span>
             </div>
           </div>
-          <!-- <div class="w10 fn">
+          <div class="w10 fn">
             <div class="font tc">
-              <span>{{shipmentCreatedUnshipOrderCount}}</span>
+              <span>{{shipmentUncreatedOrderCount}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">未出貨(GZ)</span>
+              <span class=" f13 label-tips">未做單</span>
             </div>
-          </div> -->
+          </div>
           <div class="w10 fn">
             <div class="font tc">
               <span>{{shipmentCreatedUnshipOrderCount}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">未出貨(GZ)</span>
+              <span class=" f13 label-tips">未出貨(扣除出貨掃描)</span>
             </div>
           </div>
           <div class="w10 fn">
@@ -53,7 +53,7 @@
               <span>{{moonlampUnship}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">月球燈未出貨</span>
+              <span class=" f13 label-tips">未出貨(月球燈)</span>
             </div>
           </div>
           <div class="w10 fn">
@@ -61,7 +61,7 @@
               <span>{{moonlampNotCreated}}</span>
             </div>
             <div class="mt10 tc">
-              <span class=" f13 label-tips">月球燈未做單</span>
+              <span class=" f13 label-tips">未做單(月球燈)</span>
             </div>
           </div>
           <!-- <div class="w10 fn">
