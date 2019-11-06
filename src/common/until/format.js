@@ -11,9 +11,9 @@ export const format = {
     let data =
       accounting.formatMoney(value, {
         symbol: ""
-      }) || "";
+      }) || "0";
     if (data == "0.00") {
-      return "";
+      return "0";
     }
     return data;
   },

@@ -94,11 +94,11 @@
         <h4>各平台本日銷售表現</h4>
         <el-col
           class="mt10"
-          :span="6"
+          :span="mobile ? 12 : 8"
           v-for="(v,i) in todayPlatformPerformance"
           :key="i"
         >
-          <el-card style="height:115px">
+          <el-card style="height:125px">
             <h5>{{v.title}}</h5>
             <br>
             <div class="w30 fl">
@@ -141,11 +141,11 @@
         <!-- <br> -->
         <el-col
           class="mt10"
-          :span="6"
+          :span="mobile ? 12 : 8"
           v-for="(v,i) in previousDayPlatformPerformance"
           :key="i"
         >
-          <el-card style="height:115px">
+          <el-card style="height:125px">
             <h5>{{v.title}}</h5>
             <br>
             <div class="w30 fl">
@@ -190,11 +190,11 @@
         <!-- <br> -->
         <el-col
           class="mt10"
-          :span="6"
+          :span="mobile ? 12 : 8"
           v-for="(v,i) in platformPerformance"
           :key="i"
         >
-          <el-card style="height:115px">
+          <el-card style="height:125px">
             <h5>{{v.title}}</h5>
             <br>
             <div class="w30 fl">
@@ -505,10 +505,13 @@
 </template>
 <script>
 import { format } from "@/common/until/format";
+import { mobile } from "@/common/until/useragent";
 import calendar from "won-service/component/won-calendar";
 import moment from "moment";
+
 export default {
   data: () => ({
+    mobile,
     calendarLoading: false,
     calendarValue: [],
     parcelCount: {},
