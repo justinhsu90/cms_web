@@ -24,7 +24,7 @@ router.beforeEach((to, form, next) => {
   if (to.meta.name == "login") {
     if (token) {
       Vue.prototype.token = token;
-      next("/sku");
+      next("/empty");
     } else {
       next();
     }
