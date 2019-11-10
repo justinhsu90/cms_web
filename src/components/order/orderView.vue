@@ -210,15 +210,15 @@
           </el-col>
         </el-row>
         <el-row :gutter="24">
-
         </el-row>
         <el-row :gutter="24">
-          <!-- <h3>非Wowcher兌換客制內容</h3> -->
           <el-col :span="6">
             <el-form-item label="Wowcher兌換客製化內容">
               <el-input v-model="data.personalizedProductContent"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row :gutter="24">
           <el-col :span="4">
             <el-form-item label="自行兌換內部Id">
               <el-input v-model="data.redeemId"></el-input>
