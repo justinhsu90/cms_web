@@ -73,7 +73,7 @@
             prop="orderId"
           >
           </el-table-column>
-         
+
           <el-table-column
             min-width="60"
             label="訂單狀態"
@@ -252,7 +252,7 @@ export default {
         data.orderType = this.searchOrderType;
       }
       this.fetchTableData(data);
-    }, 2000)
+    }, 500)
   }
 };
 </script>

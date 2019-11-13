@@ -211,7 +211,7 @@ export default {
       }
 
       this.fetchTableData(data);
-    }, 2000),
+    }, 500),
     handleCheck(val) {
       this.$router.push({
         name: "shippingView",

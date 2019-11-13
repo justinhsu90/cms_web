@@ -188,7 +188,7 @@ export default {
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    }, 2000),
+    }, 500),
     handleDelete(val) {
       this.$confirm("是否删除", "提示", {
         confirmButtonText: "確定",

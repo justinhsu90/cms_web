@@ -73,10 +73,10 @@ export default {
     };
   },
   watch: {
-    "fetchOption.where": {
-      handler: "handleSearch",
-      immediate: true
-    },
+    // "fetchOption.where": {
+    //   handler: "handleSearch",
+    //   immediate: true
+    // },
     total(n) {
       if (_.isEmpty(this.tableData) && n > 0) {
         this.fetchCondition.skip = 0;

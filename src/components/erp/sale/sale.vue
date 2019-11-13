@@ -289,7 +289,7 @@ export default {
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    }, 2000),
+    }, 500),
     handleChange() {
       this.handleSearch();
     },

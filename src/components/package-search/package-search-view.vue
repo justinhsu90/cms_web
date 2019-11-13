@@ -212,7 +212,7 @@ export default {
         order: this.fetchCondition.order
       };
       this.fetchTableData(data);
-    }, 2000)
+    }, 500)
   }
 };
 </script>

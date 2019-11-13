@@ -90,7 +90,7 @@ export default {
         limit: this.fetchCondition.limit
       };
       this.fetchTableData(data);
-    }, 2000),
+    }, 500),
     fetchEnd() {
       let data = [];
       _.each(this.originRes, item => {

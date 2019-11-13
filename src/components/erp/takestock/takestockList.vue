@@ -275,7 +275,7 @@ export default {
         data.takeBy = this.takeBy;
       }
       this.fetchTableData(data);
-    }, 2000),
+    }, 500),
     handleChange(sign) {
       if (sign == "takeBy") {
         if (!this.searchPlatform) {

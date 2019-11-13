@@ -208,7 +208,7 @@ export default {
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
-    }, 2000),
+    }, 500),
     handleCheck(val) {
       this.$router.push({
         name: "orderView",

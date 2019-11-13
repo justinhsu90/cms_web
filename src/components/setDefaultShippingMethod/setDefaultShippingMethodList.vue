@@ -360,7 +360,7 @@ export default {
           }
         });
       });
-    }, 2000),
+    }, 500),
     handleChangeShippingMethod(val) {
       if (val == "iagent") {
         _.each(this.tableData, v => {

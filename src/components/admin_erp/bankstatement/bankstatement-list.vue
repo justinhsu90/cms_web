@@ -196,7 +196,7 @@ export default {
         data.showNonPurposeOnly = true;
       }
       this.fetchTableData(data);
-    }, 2000)
+    }, 500)
   }
 };
 </script>

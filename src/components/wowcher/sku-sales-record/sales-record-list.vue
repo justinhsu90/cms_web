@@ -96,7 +96,7 @@ export default {
         data.endDate = this.date[1];
       }
       this.fetchTableData(data);
-    }, 2000)
+    }, 500)
   }
 };
 </script>

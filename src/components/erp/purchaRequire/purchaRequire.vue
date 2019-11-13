@@ -226,7 +226,7 @@ export default {
         }
       }
       this.fetchTableData(data);
-    }, 2000),
+    }, 500),
     handleEdit(val) {
       this.$router.push({
         name: "purchaEdit",

@@ -74,7 +74,7 @@ export default {
         limit: this.fetchCondition.limit
       };
       this.fetchTableData(data);
-    }, 2000),
+    }, 500),
     handleLook() {
       this.$router.push("/gzwarehouseAdd");
     }

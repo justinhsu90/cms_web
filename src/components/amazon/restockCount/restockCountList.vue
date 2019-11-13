@@ -281,7 +281,7 @@ export default {
         data.restock = true;
       }
       this.fetchTableData(data);
-    }, 2000),
+    }, 500),
     handleEdit(val) {
       this.$router.push({
         name: "wowcherDealEdit",

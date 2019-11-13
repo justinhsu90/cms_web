@@ -28,7 +28,7 @@
                 <el-select  class="w15" placeholder="愛爾蘭發貨渠道" v-model="isearchShippingMethod" @change="handleChangeShippingMethod('iagent')">
                     <el-option v-for="(v,i) in iserachShippingMethodData" :key="i" :label="v.shippingMethodName" :value="v.shippingMethodCode">
                     </el-option>
-                </el-select>   
+                </el-select>
                 <el-select class="w15" placeholder="英國貨代" v-model="ysearchAgent" @change="handleAgentChange('yagent')">
                     <el-option v-for="(v,i) in yagent" :key="i" :label="v" :value="v"></el-option>
                 </el-select>
@@ -212,7 +212,7 @@ export default {
           }
         });
       });
-    }, 2000),
+    }, 500),
     handleChangeShippingMethod(val) {
       if (val == "iagent") {
         _.each(this.tableData, v => {

@@ -180,7 +180,7 @@ export default {
         warehouseList
       };
       this.fetchTableData(data);
-    }, 2000)
+    }, 500)
   }
 };
 </script>
