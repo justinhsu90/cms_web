@@ -91,7 +91,7 @@ export default {
           formData.append("uploadfile", this.form.fileSrc);
           formData.append("token", this.token);
           axios({
-            url: "/wowcher/coustomized/updateImage",
+            url: "/wowcher/customized/updateImage",
             method: "post",
             data: formData,
             headers: {
