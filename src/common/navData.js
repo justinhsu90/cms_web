@@ -89,6 +89,10 @@ const nav = [
       {
         index: "downfileSales",
         label: "文件下載"
+      },
+      {
+        index: "customPhotoUpdate",
+        label: "客製化圖片更新"
       }
     ]
   },
