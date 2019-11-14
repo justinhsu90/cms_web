@@ -87,7 +87,7 @@ export default {
         if (action) {
           this.submitLoading = true;
           let formData = new FormData();
-          formData.append("wowcherCode", this.form.wowcherCode);
+          formData.append("orderId", this.form.wowcherCode);
           formData.append("uploadfile", this.form.fileSrc);
           formData.append("token", this.token);
           axios({
