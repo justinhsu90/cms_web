@@ -5,4 +5,4 @@ export default [
     path: "/adviceDelivery",
     component: asyncComponent("adviceDelivery/adviceDelivery"),
   }
-];
+]; 

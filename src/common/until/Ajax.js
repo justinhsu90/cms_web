@@ -36,6 +36,7 @@ axios.interceptors.response.use(
     if (error.message.search("timeout") != -1) {
       Vue.prototype.$message.error("請求連線超時,請重新進行操作");
     }
+    throw new Error();
   }
 );
 
@@ -43,27 +44,21 @@ function Ajax(config = {}) {
   if (_.isEmpty(config)) {
     Promise.reject("請輸入ajax配置");
   }
-  let promise = new Promise(response => {
+  let promise = new Promise((response, reject) => {
     axios(config)
       .then(res => {
         response(res);
       })
       .catch(() => {
         axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
-        // axios.defaults.baseURL = 'http://localhost:8080/data-server/';
-
         axios(config)
           .then(res => {
             axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
-            // axios.defaults.baseURL = 'http://localhost:8080/data-server/';
-
             response(res);
           })
           .catch(() => {
             axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
-            // axios.defaults.baseURL = 'http://localhost:8080/data-server/';
-
-            Promise.reject("服務器錯誤");
+            reject("服務器錯誤");
           });
       });
   });

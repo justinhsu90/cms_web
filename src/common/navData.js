@@ -223,6 +223,10 @@ const nav = [
       {
         index: "adviceDelivery",
         label: "到貨通知"
+      },
+      {
+        index: "logisticstrackingnumber",
+        label: "匯入物流單號"
       }
     ]
   },
