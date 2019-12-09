@@ -109,7 +109,7 @@
         >
           <el-col :span="20">
             <el-form-item label="下載全文件：">
-              <el-switch v-model="form.fullDoc"></el-switch>
+              <el-switch v-model="form.fullDocTwo"></el-switch>
             </el-form-item>
           </el-col>
         </el-row>
@@ -207,7 +207,8 @@ export default {
         account: "",
         country: "",
         date: "",
-        fullDoc: false
+        fullDoc: false,
+        fullDocTwo: false
       }
     };
   },
@@ -289,7 +290,7 @@ export default {
       }
 
       if(this.selectfileTypeName.includes('做單')){
-        _form.fullDoc = this.form.fullDoc
+        _form.fullDoc = this.form.fullDocTwo
       }
 
       return {
