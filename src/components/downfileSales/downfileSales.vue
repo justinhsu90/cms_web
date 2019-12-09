@@ -103,6 +103,16 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row
+          :gutter="20"
+          v-if="(!accountShow.includes(form.fileType) && form.fileType) || selectfileTypeName.includes('做單')"
+        >
+          <el-col :span="20">
+            <el-form-item label="下載全文件：">
+              <el-switch v-model="form.fullDoc"></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="4">
             <el-form-item label="生成文件：">
@@ -134,11 +144,6 @@ export default {
   data() {
     return {
       accountShow: [
-        // "CKE_OVERSEA_WAREHOUSE_CREATE_ORDER",
-        // "WINIT_OVERSEA_WAREHOUSE_CREATE_ORDER",
-        // "CKE_CHINA_DIRECT_CREATE_ORDER",
-        // "CUSTOMIZED_MOONLAMP_DOC_TO_FACTORY",
-        // "YUN_CREATE_ORDER"
         "WOWCHER_SALES_REPORT"
       ],
       pickerOptions: {
@@ -196,6 +201,7 @@ export default {
           message: "此項必填"
         }
       },
+      selectfileTypeName: '',
       form: {
         fileType: "",
         account: "",
@@ -259,6 +265,10 @@ export default {
         start.setMilliseconds(0)
         this.form.date = [start, end];
       }
+      let obj = this.fileTypeOption.find((item) => {
+        return item.fileTypeCode == val
+      }) || {}
+      this.selectfileTypeName = obj.fileTypeName;
     },
     getValue() {
       let _form = _.cloneDeep(this.form);
@@ -277,6 +287,11 @@ export default {
           startDate: ""
         };
       }
+
+      if(this.selectfileTypeName.includes('做單')){
+        _form.fullDoc = this.form.fullDoc
+      }
+
       return {
         token: this.token,
         ..._form
