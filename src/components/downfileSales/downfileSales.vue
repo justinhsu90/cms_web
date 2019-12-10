@@ -127,7 +127,7 @@
           <el-col :span="4">
             <el-form-item
               label="下載文件："
-              v-if="url"
+              v-if="url && !loading"
             >
               <a :href="url">點擊下載</a>
             </el-form-item>
@@ -202,6 +202,7 @@ export default {
         }
       },
       selectfileTypeName: '',
+      showDownBtn: true,
       form: {
         fileType: "",
         account: "",
@@ -309,13 +310,14 @@ export default {
           }).then(
             res => {
               this.$message.success("獲取成功");
-              this.loading = false;
               this.url = res;
             },
             () => {
               this.$message.error("獲取失败");
             }
-          );
+          ).finally(()=>{
+              this.loading = false;
+          })
         }
       });
     }
