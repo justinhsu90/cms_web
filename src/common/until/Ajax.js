@@ -4,8 +4,8 @@ import C from "js-cookie";
 import Vue from "vue";
 // axios的配置
 // axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
-axios.defaults.baseURL = "http://api.myfbmanage.com:8001/data-server/";
-// axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
+// axios.defaults.baseURL = "http://api.myfbmanage.com:8001/data-server/";
+axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
 // axios.defaults.baseURL = "http://192.168.2.140:8000/data-server/";
 axios.defaults.timeout = 180000;
 axios.interceptors.request.use(request => {
