@@ -2,11 +2,6 @@ import axios from "axios";
 import qs from "qs";
 import C from "js-cookie";
 import Vue from "vue";
-// axios的配置
-// axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
-// axios.defaults.baseURL = "http://api.myfbmanage.com:8001/data-server/";
-// axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
-// axios.defaults.baseURL = "http://192.168.2.140:8000/data-server/";
 
 let ip = [
   "60.251.57.136",
@@ -66,10 +61,14 @@ function Ajax(config = {}) {
   let random1 = Math.floor(Math.random() * 12);
   let random2 = Math.floor(Math.random() * 3);
 
-  // axios.defaults.baseURL = `http://60.251.57.138:8000/data-server/`;
+  // axios的配置
   axios.defaults.baseURL = `http://${ip[random1]}:${
     port[random2]
-  }/data-server/`;
+    }/data-server/`;
+  // axios.defaults.baseURL = "http://60.251.57.138:8000/data-server/";
+  // axios.defaults.baseURL = "http://api.myfbmanage.com:8001/data-server/";
+  // axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
+  // axios.defaults.baseURL = "http://192.168.2.140:8000/data-server/";
   let promise = new Promise((response, reject) => {
     axios(config)
       .then(res => {
