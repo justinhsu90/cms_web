@@ -55,7 +55,7 @@
             align="center"
           ></el-table-column>
           <el-table-column
-            width="75"
+            width="100"
             label="可用庫存"
             prop="availableStock"
             align="center"
@@ -64,6 +64,7 @@
             min-width="75"
             label="今日"
             align="center"
+            label-class-name="table-today"
           >
             <el-table-column
               min-width="75"
@@ -74,15 +75,19 @@
                 min-width="75"
                 label="採購"
                 align="center"
+                sortable="custom"
+                prop='WAREHOUSE_IN'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_IN', false)}}</span>
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="75"
+                min-width="80"
                 label="領料後"
                 align="center"
+                sortable="custom"
+                prop='WAREHOUSE_OUT_IN'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT_IN', false)}}</span>
@@ -98,6 +103,8 @@
                 min-width="75"
                 label="領料"
                 align="center"
+                sortable="custom"
+                prop='WAREHOUSE_OUT'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT', false)}}</span>
@@ -107,6 +114,8 @@
                 min-width="75"
                 label="樣品"
                 align="center"
+                sortable="custom"
+                prop='SAMPLE_OUT'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SAMPLE_OUT', false)}}</span>
@@ -122,15 +131,19 @@
                 min-width="75"
                 label="報廢"
                 align="center"
+                sortable="custom"
+                prop='SCRAP'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SCRAP', false)}}</span>
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="75"
+                min-width="80"
                 label="待處理"
                 align="center"
+                sortable="custom"
+                prop='WAITING_HANDLE'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAITING_HANDLE', false)}}</span>
@@ -143,6 +156,7 @@
             min-width="75"
             label="總數"
             align="center"
+            label-class-name="table-total"
           >
             <el-table-column
               min-width="75"
@@ -153,15 +167,19 @@
                 min-width="75"
                 label="採購"
                 align="center"
+                sortable="custom"
+                prop='WAREHOUSE_IN'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_IN', true)}}</span>
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="75"
+                min-width="80"
                 label="領料後"
                 align="center"
+                sortable="custom"
+                prop='WAREHOUSE_OUT_IN'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT_IN', true)}}</span>
@@ -177,6 +195,8 @@
                 min-width="75"
                 label="領料"
                 align="center"
+                sortable="custom"
+                prop='WAREHOUSE_OUT'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT', true)}}</span>
@@ -186,6 +206,8 @@
                 min-width="75"
                 label="樣品"
                 align="center"
+                sortable="custom"
+                prop='SAMPLE_OUT'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SAMPLE_OUT', true)}}</span>
@@ -201,15 +223,19 @@
                 min-width="75"
                 label="報廢"
                 align="center"
+                sortable="custom"
+                prop='SCRAP'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SCRAP', true)}}</span>
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="75"
+                min-width="80"
                 label="待處理"
                 align="center"
+                sortable="custom"
+                prop='WAITING_HANDLE'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAITING_HANDLE', true)}}</span>
@@ -290,11 +316,12 @@ export default {
   },
   methods: {
     handleSortChange(row) {
+      console.log(row, 22);
       if (row.order == "ascending") {
-        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["asc"]);
+        // this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["asc"]);
       }
       if (row.order == "descending") {
-        this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["desc"]);
+        // this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["desc"]);
       }
     },
     handleSelect(originData) {
@@ -373,5 +400,12 @@ export default {
 <style lang="scss" scoped>
 /deep/ .el-table th {
   background: #f5f7fa !important;
+}
+/deep/ .table-today {
+  background: oldlace;
+}
+
+/deep/ .table-total {
+  background: #f0f9eb;
 }
 </style>
