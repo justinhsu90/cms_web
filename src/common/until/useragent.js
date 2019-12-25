@@ -1,4 +1,3 @@
-
 let isMobile = false;
 //判断用户终端类型
 if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {

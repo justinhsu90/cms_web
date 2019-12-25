@@ -47,51 +47,53 @@
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       btnLoading: false,
       form: {
         trackingNumberList: ""
       }
-    }
+    };
   },
-  created(){
+  created() {
     this.rules = {
       trackingNumberList: {
         required: true,
         message: "此項必填"
       }
-    }
+    };
   },
   methods: {
-    getValue(){
+    getValue() {
       return {
         ...this.form
-      }
+      };
     },
-    submit(){
-       this.$refs["form"].validate(valid => {
+    submit() {
+      this.$refs["form"].validate(valid => {
         if (valid) {
           this.btnLoading = true;
           axios({
             url: "/wowcher/mail/add",
             method: "post",
             data: this.getValue()
-          }).then(
-            () => {
-              this.$message.success("提交成功");
-            },
-            () => {
-              this.$message.error("提交失败");
-            }
-          ).finally(()=>{
-            this.btnLoading = false;
           })
+            .then(
+              () => {
+                this.$message.success("提交成功");
+              },
+              () => {
+                this.$message.error("提交失败");
+              }
+            )
+            .finally(() => {
+              this.btnLoading = false;
+            });
         }
       });
     }
   }
-}
+};
 </script>
 
 <style>

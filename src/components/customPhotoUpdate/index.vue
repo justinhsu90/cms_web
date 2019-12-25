@@ -57,21 +57,21 @@ export default {
       fileSrc: ""
     }
   }),
-  methods:{
+  methods: {
     handleUpload() {
       let input = document.createElement("input");
       input.type = "file";
       input.addEventListener("change", () => {
         this.form.fileSrc = input.files[0];
-        if(this.form.fileSrc){
-            this.$refs['form'].validateField("fileSrc");
-            this.fileName = this.form.fileSrc.name;
+        if (this.form.fileSrc) {
+          this.$refs["form"].validateField("fileSrc");
+          this.fileName = this.form.fileSrc.name;
         }
         input.remove();
       });
       input.click();
     },
-     toBlob: dataurl => {
+    toBlob: dataurl => {
       var arr = dataurl.split(","),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
@@ -95,21 +95,23 @@ export default {
             method: "post",
             data: formData,
             headers: {
-            "Content-type": "multipart/form-data"
+              "Content-type": "multipart/form-data"
             },
             isFormData: true
-          }).then(() => {
-            this.submitLoading = false;
-            this.$message.success("提交成功")
-          }).catch(() => {
+          })
+            .then(() => {
+              this.submitLoading = false;
+              this.$message.success("提交成功");
+            })
+            .catch(() => {
               this.submitLoading = false;
               this.$message.warning("提交失敗");
-          });
+            });
         }
       });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

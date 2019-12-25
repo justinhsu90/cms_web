@@ -14,7 +14,7 @@
 }
 
 .clearfix {
-  &::after{
+  &::after {
     display: block;
     height: 0;
     overflow: hidden;
@@ -23,9 +23,14 @@
   }
 }
 
-.abs-c{
+.abs-c {
   position: absolute !important;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.table-column-img {
+  max-width: 58px;
+  max-height: 58px;
 }

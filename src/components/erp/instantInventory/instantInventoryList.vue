@@ -13,7 +13,7 @@
           icon="el-icon-search"
           @click="handleSearch"
         ></el-button>
-        <div class="ibbox">
+        <!-- <div class="ibbox">
           <wonPopoverChooser
             :chooser="$options.warehouse"
             @select="handleSelect"
@@ -25,7 +25,7 @@
               size="small"
             >選擇倉庫</el-button>
           </wonPopoverChooser>
-        </div>
+        </div> -->
       </el-col>
       <el-col class="mt5">
         <el-table
@@ -36,11 +36,188 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
+            width="80"
+            label="縮圖"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <img
+                class="table-column-img"
+                :src="scope.row.snapshotUrl"
+                alt=""
+              >
+            </template>
+          </el-table-column>
+          <el-table-column
             width="150"
             label="SKU"
             prop="sku"
             align="center"
           ></el-table-column>
+          <el-table-column
+            width="75"
+            label="可用庫存"
+            prop="availableStock"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            min-width="75"
+            label="今日"
+            align="center"
+          >
+            <el-table-column
+              min-width="75"
+              label="入庫"
+              align="center"
+            >
+              <el-table-column
+                min-width="75"
+                label="採購"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAREHOUSE_IN', false)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="75"
+                label="領料後"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT_IN', false)}}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column
+              min-width="75"
+              label="出庫"
+              align="center"
+            >
+              <el-table-column
+                min-width="75"
+                label="領料"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT', false)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="75"
+                label="樣品"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('SAMPLE_OUT', false)}}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column
+              min-width="75"
+              label="其他"
+              align="center"
+            >
+              <el-table-column
+                min-width="75"
+                label="報廢"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('SCRAP', false)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="75"
+                label="待處理"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAITING_HANDLE', false)}}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+          </el-table-column>
+
+          <el-table-column
+            min-width="75"
+            label="總數"
+            align="center"
+          >
+            <el-table-column
+              min-width="75"
+              label="入庫"
+              align="center"
+            >
+              <el-table-column
+                min-width="75"
+                label="採購"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAREHOUSE_IN', true)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="75"
+                label="領料後"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT_IN', true)}}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column
+              min-width="75"
+              label="出庫"
+              align="center"
+            >
+              <el-table-column
+                min-width="75"
+                label="領料"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT', true)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="75"
+                label="樣品"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('SAMPLE_OUT', true)}}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column
+              min-width="75"
+              label="其他"
+              align="center"
+            >
+              <el-table-column
+                min-width="75"
+                label="報廢"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('SCRAP', true)}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="75"
+                label="待處理"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('WAITING_HANDLE', true)}}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+          </el-table-column>
+          <!--
           <template v-for="(v,i) in parmas">
             <el-table-column
               v-if="v.showSellable"
@@ -64,7 +241,7 @@
               align="center"
               sortable="custom"
             ></el-table-column>
-          </template>
+          </template> -->
         </el-table>
       </el-col>
     </el-row>
@@ -73,11 +250,20 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 import warehouse from "won-service/_chooser/warehouse";
-import wonPopoverChooser from "won-service/component/won-popover/won-chooser-popover";
+// import wonPopoverChooser from "won-service/component/won-popover/won-chooser-popover";
 export default {
   extends: wonTableContainer,
-  components: {
-    wonPopoverChooser
+  // components: {
+  //   wonPopoverChooser
+  // },
+  filters: {
+    filterListItem(list, inventoryType, total) {
+      let obj =
+        list.find(item => {
+          return item.inventoryType == inventoryType && item.total == total;
+        }) || {};
+      return obj.quantity || "-";
+    }
   },
   warehouse,
   data() {
@@ -184,3 +370,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+/deep/ .el-table th {
+  background: #f5f7fa !important;
+}
+</style>

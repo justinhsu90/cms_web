@@ -3,6 +3,6 @@ export default [
   {
     name: "logisticstrackingnumber",
     path: "/logisticstrackingnumber",
-    component: asyncComponent("logisticstrackingnumber/logisticstrackingnumber"),
+    component: asyncComponent("logisticstrackingnumber/logisticstrackingnumber")
   }
 ];

@@ -75,6 +75,9 @@ export default {
       }
     };
   },
+  created() {
+    this.handleSearch();
+  },
   mounted() {
     this.$nextTick(() => {
       this.selection = _.cloneDeep(this.select);

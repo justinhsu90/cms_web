@@ -143,9 +143,7 @@ import moment from "moment";
 export default {
   data() {
     return {
-      accountShow: [
-        "WOWCHER_SALES_REPORT"
-      ],
+      accountShow: ["WOWCHER_SALES_REPORT"],
       pickerOptions: {
         shortcuts: [
           {
@@ -201,7 +199,7 @@ export default {
           message: "此項必填"
         }
       },
-      selectfileTypeName: '',
+      selectfileTypeName: "",
       showDownBtn: true,
       form: {
         fileType: "",
@@ -254,8 +252,8 @@ export default {
     });
   },
   methods: {
-    handleSelect(val){
-      if(val == "WOWCHER_SALES_REPORT"){
+    handleSelect(val) {
+      if (val == "WOWCHER_SALES_REPORT") {
         this.form.account = "MagicTrend";
         this.form.country = "GB";
         const end = new Date();
@@ -264,12 +262,13 @@ export default {
         start.setHours(0);
         start.setSeconds(0);
         start.setMinutes(0);
-        start.setMilliseconds(0)
+        start.setMilliseconds(0);
         this.form.date = [start, end];
       }
-      let obj = this.fileTypeOption.find((item) => {
-        return item.fileTypeCode == val
-      }) || {}
+      let obj =
+        this.fileTypeOption.find(item => {
+          return item.fileTypeCode == val;
+        }) || {};
       this.selectfileTypeName = obj.fileTypeName;
     },
     getValue() {
@@ -290,8 +289,8 @@ export default {
         };
       }
 
-      if(this.selectfileTypeName.includes('做單')){
-        _form.fullDoc = this.form.fullDocTwo
+      if (this.selectfileTypeName.includes("做單")) {
+        _form.fullDoc = this.form.fullDocTwo;
       }
 
       return {
@@ -307,17 +306,19 @@ export default {
             url: "excel/download/get",
             method: "post",
             data: this.getValue()
-          }).then(
-            res => {
-              this.$message.success("獲取成功");
-              this.url = res;
-            },
-            () => {
-              this.$message.error("獲取失败");
-            }
-          ).finally(()=>{
-              this.loading = false;
           })
+            .then(
+              res => {
+                this.$message.success("獲取成功");
+                this.url = res;
+              },
+              () => {
+                this.$message.error("獲取失败");
+              }
+            )
+            .finally(() => {
+              this.loading = false;
+            });
         }
       });
     }
