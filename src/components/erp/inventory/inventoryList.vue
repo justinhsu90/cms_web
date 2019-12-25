@@ -103,7 +103,7 @@
             :label="$t('inventory.table.productName')"
             prop="productName"
           ></el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             width="110"
             :label="$t('inventory.table.account')"
             prop="account"
@@ -112,7 +112,7 @@
             width="110"
             :label="$t('inventory.table.platform')"
             prop="platform"
-          ></el-table-column>
+          ></el-table-column> -->
           <el-table-column
             width="140"
             :label="$t('inventory.table.moveTime')"

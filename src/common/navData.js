@@ -19,11 +19,12 @@ const nav = [
       {
         index: "upc",
         label: "UPC管理"
-      },
-      {
-        index: "documentManage",
-        label: "文案管理"
       }
+      // ,
+      // {
+      //   index: "documentManage",
+      //   label: "文案管理"
+      // }
     ]
   },
   {
@@ -67,9 +68,13 @@ const nav = [
         index: "shipoutscan",
         label: "出貨掃描"
       },
+      // {
+      //   index: "shipmentpacking",
+      //   label: "FBA & FBC 發貨"
+      // },
       {
-        index: "shipmentpacking",
-        label: "FBA & FBC 發貨"
+        index: "logisticstrackingnumber",
+        label: "匯入物流單號"
       }
     ]
   },
@@ -117,10 +122,10 @@ const nav = [
       //   index: "payment",
       //   label: "(3-1) 付款單"
       // },
-      {
-        index: "putStorage",
-        label: "(3) 入庫單"
-      },
+      // {
+      //   index: "putStorage",
+      //   label: "(3) 入庫單"
+      // },
       {
         index: "erpSale",
         label: "(4) 銷貨單"
@@ -150,18 +155,17 @@ const nav = [
       }
     ]
   },
-  {
-    index: "cdiscountParent",
-    label: "Cdiscount",
-    isLevel: true,
-    child: [
-      {
-        index: "Cdiscount",
-        label: "訂單清單"
-      }
-    ]
-  },
-
+  // {
+  //   index: "cdiscountParent",
+  //   label: "Cdiscount",
+  //   isLevel: true,
+  //   child: [
+  //     {
+  //       index: "Cdiscount",
+  //       label: "訂單清單"
+  //     }
+  //   ]
+  // },
   {
     index: "wowcher",
     label: "Wowcher",
@@ -181,17 +185,17 @@ const nav = [
       }
     ]
   },
-  {
-    index: "gogroopie",
-    label: "Gogroopie",
-    isLevel: true,
-    child: [
-      {
-        index: "gogroopieDealList",
-        label: "上架清單"
-      }
-    ]
-  },
+  // {
+  //   index: "gogroopie",
+  //   label: "Gogroopie",
+  //   isLevel: true,
+  //   child: [
+  //     {
+  //       index: "gogroopieDealList",
+  //       label: "上架清單"
+  //     }
+  //   ]
+  // },
   {
     index: "scriptExecutionList",
     label: "執行"
@@ -223,10 +227,6 @@ const nav = [
       {
         index: "adviceDelivery",
         label: "到貨通知"
-      },
-      {
-        index: "logisticstrackingnumber",
-        label: "匯入物流單號"
       }
     ]
   },
