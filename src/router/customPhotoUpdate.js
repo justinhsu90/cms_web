@@ -3,6 +3,6 @@ export default [
   {
     name: "customPhotoUpdate",
     path: "/customPhotoUpdate",
-    component: asyncComponent("customPhotoUpdate/index"),
+    component: asyncComponent("customPhotoUpdate/index")
   }
 ];

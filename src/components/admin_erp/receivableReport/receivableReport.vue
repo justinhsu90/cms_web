@@ -1,86 +1,231 @@
 <template>
-    <div>
-        <el-row>
-            <el-col :span="22">
-                <el-input class="w-max200 ibbox" placeholder="搜索" v-model="fetchOption.where" @keyup.enter.native="handleSearch">
-                </el-input>
-                <el-date-picker class="w-max180" clearable v-model="year" type="year" placeholder="選擇年" @change="handleChange" value-format="yyyy">
-                </el-date-picker>
-                <el-date-picker class="w-max180" clearable v-model="month" type="month" placeholder="選擇月" @change="handleChange" value-format="MM">
-                </el-date-picker>
-                <el-date-picker class="w-max200" clearable @change="handleChange" value-format="yyyy-MM-dd" v-model="date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="結束日期" :picker-options="pickerOptions">
-                </el-date-picker>
-                <div @click="handleSearch" class="el-input-group__append search">
-                    <i class="el-icon-search"></i>
-                </div>
-            </el-col>
-            <el-col :span="2">
-                <el-button style="float:right" @click="handleExport" size="small">生成報告</el-button>
-            </el-col>
-            <el-col class="mt5">
-                <el-table ref="wonTable" :max-height="maxHeight" :data="tableData" v-loading="isTableLoading" @sort-change="handleSortChange">
-                    <el-table-column min-width="30" label="報告號" prop="reportId"></el-table-column>
-                    <el-table-column min-width="50" label="年" prop="year"></el-table-column>
-                    <el-table-column min-width="50" label="月" prop="month"></el-table-column>
-                    <el-table-column min-width="50" label="生成時間" prop="generatedTime" :formatter="formatToTime"></el-table-column>
-                    <el-table-column min-width="50" label="生成人" prop="generatedBy"></el-table-column>
-                    <el-table-column width="100" label="動作" align="center">
-                        <template slot-scope="scope">
-                            <el-button class="btnh" type="text" title="查看" icon="el-icon-won-40" @click="handleEdit(scope.row)"></el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </el-col>
-            <div style="float:right;margin-top:5px">
-                <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :total='total' :current-page="currentPage" :page-sizes="pageSizes" :layout="layout">
-                </el-pagination>
-            </div>
+  <div>
+    <el-row>
+      <el-col :span="22">
+        <el-input
+          class="w-max200 ibbox"
+          placeholder="搜索"
+          v-model="fetchOption.where"
+          @keyup.enter.native="handleSearch"
+        >
+        </el-input>
+        <el-date-picker
+          class="w-max180"
+          clearable
+          v-model="year"
+          type="year"
+          placeholder="選擇年"
+          @change="handleChange"
+          value-format="yyyy"
+        >
+        </el-date-picker>
+        <el-date-picker
+          class="w-max180"
+          clearable
+          v-model="month"
+          type="month"
+          placeholder="選擇月"
+          @change="handleChange"
+          value-format="MM"
+        >
+        </el-date-picker>
+        <el-date-picker
+          class="w-max200"
+          clearable
+          @change="handleChange"
+          value-format="yyyy-MM-dd"
+          v-model="date"
+          type="daterange"
+          align="right"
+          unlink-panels
+          range-separator="~"
+          start-placeholder="開始日期"
+          end-placeholder="結束日期"
+          :picker-options="pickerOptions"
+        >
+        </el-date-picker>
+        <div
+          @click="handleSearch"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+      </el-col>
+      <el-col :span="2">
+        <el-button
+          style="float:right"
+          @click="handleExport"
+          size="small"
+        >生成報告</el-button>
+      </el-col>
+      <el-col class="mt5">
+        <el-table
+          ref="wonTable"
+          :max-height="maxHeight"
+          :data="tableData"
+          v-loading="isTableLoading"
+          @sort-change="handleSortChange"
+        >
+          <el-table-column
+            min-width="30"
+            label="報告號"
+            prop="reportId"
+          ></el-table-column>
+          <el-table-column
+            min-width="50"
+            label="年"
+            prop="year"
+          ></el-table-column>
+          <el-table-column
+            min-width="50"
+            label="月"
+            prop="month"
+          ></el-table-column>
+          <el-table-column
+            min-width="50"
+            label="生成時間"
+            prop="generatedTime"
+            :formatter="formatToTime"
+          ></el-table-column>
+          <el-table-column
+            min-width="50"
+            label="生成人"
+            prop="generatedBy"
+          ></el-table-column>
+          <el-table-column
+            width="100"
+            label="動作"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <el-button
+                class="btnh"
+                type="text"
+                title="查看"
+                icon="el-icon-won-40"
+                @click="handleEdit(scope.row)"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-col>
+      <div style="float:right;margin-top:5px">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :total='total'
+          :current-page="currentPage"
+          :page-sizes="pageSizes"
+          :layout="layout"
+        >
+        </el-pagination>
+      </div>
+    </el-row>
+    <wonDialog
+      name="receivableReport"
+      ref="dialog"
+      size="45%"
+      title="生成報告"
+      type="form"
+    >
+      <el-form
+        ref="form"
+        :model="form"
+        slot="content"
+        label-position="top"
+      >
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item
+              label="年"
+              prop="year"
+              :rules="{required:true}"
+            >
+              <el-date-picker
+                clearable
+                style="width:100%;"
+                v-model="form.year"
+                type="year"
+                placeholder="選擇年"
+                value-format="yyyy"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item
+              label="月"
+              prop="month"
+              :rules="{required:true}"
+            >
+              <el-date-picker
+                clearable
+                style="width:100%;"
+                v-model="form.month"
+                type="month"
+                placeholder="選擇月"
+                format="MM"
+                value-format="MM"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
         </el-row>
-        <wonDialog name="receivableReport" ref="dialog" size="45%" title="生成報告" type="form">
-            <el-form ref="form" :model="form" slot="content" label-position="top">
-                <el-row :gutter="20">
-                    <el-col :span="12">
-                        <el-form-item label="年" prop="year" :rules="{required:true}">
-                            <el-date-picker clearable style="width:100%;" v-model="form.year" type="year" placeholder="選擇年" value-format="yyyy">
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="月" prop="month" :rules="{required:true}">
-                            <el-date-picker clearable style="width:100%;" v-model="form.month" type="month" placeholder="選擇月" format="MM" value-format="MM">
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="12">
-                        <el-form-item label="平台">
-                            <el-select style="width:100%" v-model="form.platform" clearable>
-                                <el-option v-for="(v,i) in searchPlatformOption" :label="v" :value="v" :key="i"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="帳號">
-                            <el-select style="width:100%" v-model="form.account" clearable>
-                                <el-option v-for="(v,i) in searchAccountOption" :label="v" :value="v" :key="i"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="國家">
-                            <el-select style="width:100%" v-model="form.country" clearable>
-                                <el-option v-for="(v,i) in searchCountryOption" :value="v.countryNameChinese" :key="i">
-                                    <span style="float: left">{{ v.countryCode }}</span>
-                                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-            </el-form>
-        </wonDialog>
-    </div>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="平台">
+              <el-select
+                style="width:100%"
+                v-model="form.platform"
+                clearable
+              >
+                <el-option
+                  v-for="(v,i) in searchPlatformOption"
+                  :label="v"
+                  :value="v"
+                  :key="i"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="帳號">
+              <el-select
+                style="width:100%"
+                v-model="form.account"
+                clearable
+              >
+                <el-option
+                  v-for="(v,i) in searchAccountOption"
+                  :label="v"
+                  :value="v"
+                  :key="i"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="國家">
+              <el-select
+                style="width:100%"
+                v-model="form.country"
+                clearable
+              >
+                <el-option
+                  v-for="(v,i) in searchCountryOption"
+                  :value="v.countryNameChinese"
+                  :key="i"
+                >
+                  <span style="float: left">{{ v.countryCode }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </wonDialog>
+  </div>
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";

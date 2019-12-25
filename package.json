@@ -8,7 +8,8 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js",
-    "analyz": "NODE_Analyze=true npm run dev"
+    "analyz": "NODE_Analyze=true npm run dev",
+    "fix": "eslint --fix --ext .js --ext .vue src"
   },
   "dependencies": {
     "echarts": "^4.2.0-rc.2",

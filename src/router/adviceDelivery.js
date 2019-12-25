@@ -3,6 +3,6 @@ export default [
   {
     name: "adviceDelivery",
     path: "/adviceDelivery",
-    component: asyncComponent("adviceDelivery/adviceDelivery"),
+    component: asyncComponent("adviceDelivery/adviceDelivery")
   }
-]; 
+];
