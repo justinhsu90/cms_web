@@ -59,6 +59,7 @@
             label="可用庫存"
             prop="availableStock"
             align="center"
+            sortable="custom"
           ></el-table-column>
           <el-table-column
             min-width="75"
@@ -168,7 +169,7 @@
                 label="採購"
                 align="center"
                 sortable="custom"
-                prop='WAREHOUSE_IN'
+                prop='WAREHOUSE_IN-TOTAL'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_IN', true)}}</span>
@@ -179,7 +180,7 @@
                 label="領料後"
                 align="center"
                 sortable="custom"
-                prop='WAREHOUSE_OUT_IN'
+                prop='WAREHOUSE_OUT_IN-TOTAL'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT_IN', true)}}</span>
@@ -196,7 +197,7 @@
                 label="領料"
                 align="center"
                 sortable="custom"
-                prop='WAREHOUSE_OUT'
+                prop='WAREHOUSE_OUT-TOTAL'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAREHOUSE_OUT', true)}}</span>
@@ -207,7 +208,7 @@
                 label="樣品"
                 align="center"
                 sortable="custom"
-                prop='SAMPLE_OUT'
+                prop='SAMPLE_OUT-TOTAL'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SAMPLE_OUT', true)}}</span>
@@ -224,7 +225,7 @@
                 label="報廢"
                 align="center"
                 sortable="custom"
-                prop='SCRAP'
+                prop='SCRAP-TOTAL'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SCRAP', true)}}</span>
@@ -235,7 +236,7 @@
                 label="待處理"
                 align="center"
                 sortable="custom"
-                prop='WAITING_HANDLE'
+                prop='WAITING_HANDLE-TOTAL'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAITING_HANDLE', true)}}</span>
@@ -315,13 +316,66 @@ export default {
     this.handleSelect();
   },
   methods: {
+    sortAvailableStock(type) {
+      this.tableData.sort((a, b) => {
+        let availableStockA = a.availableStock || 0;
+        let availableStockB = b.availableStock || 0;
+        if (type == "asc") {
+          return availableStockA - availableStockB;
+        } else {
+          return availableStockB - availableStockA;
+        }
+      });
+    },
     handleSortChange(row) {
-      console.log(row, 22);
+      if (!row.prop) return;
+      let arr = row.prop.split("-");
+      let key1 = arr[0];
+      let key2 = arr[1];
+      let isTotal = !!key2;
       if (row.order == "ascending") {
-        // this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["asc"]);
+        if (key1 == "availableStock") {
+          this.sortAvailableStock("asc");
+          return;
+        }
+        this.tableData.sort((a, b) => {
+          let objA =
+            _.find(a.list, citem => {
+              return citem.inventoryType == key1 && citem.total == isTotal;
+            }) || {};
+
+          let objB =
+            _.find(b.list, citem => {
+              return citem.inventoryType == key1 && citem.total == isTotal;
+            }) || {};
+
+          let quantityA = objA.quantity || 0;
+          let quantityB = objB.quantity || 0;
+
+          return quantityA - quantityB;
+        });
       }
       if (row.order == "descending") {
-        // this.tableData = _.orderBy(this.tableData, [`${row.prop}`], ["desc"]);
+        if (key1 == "availableStock") {
+          this.sortAvailableStock("des");
+          return;
+        }
+        this.tableData.sort((a, b) => {
+          let objA =
+            _.find(a.list, citem => {
+              return citem.inventoryType == key1 && citem.total == isTotal;
+            }) || {};
+
+          let objB =
+            _.find(b.list, citem => {
+              return citem.inventoryType == key1 && citem.total == isTotal;
+            }) || {};
+
+          let quantityA = objA.quantity || 0;
+          let quantityB = objB.quantity || 0;
+
+          return quantityB - quantityA;
+        });
       }
     },
     handleSelect(originData) {
@@ -378,6 +432,10 @@ export default {
         data.push(obj);
       });
       this.tableData = data;
+      if (!this.hasInit) {
+        this.sortAvailableStock();
+        this.hasInit = true;
+      }
     },
     handleSearch: _.debounce(function() {
       this.isTableLoading = true;

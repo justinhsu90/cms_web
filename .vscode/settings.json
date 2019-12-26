@@ -9,7 +9,6 @@
       "autoFix": true
     }
   ],
-  "eslint.autoFixOnSave": true,
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
