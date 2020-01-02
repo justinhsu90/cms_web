@@ -73,28 +73,27 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            width="120"
+            width="170"
             :label="$t('inventory.table.orderNumber')"
             prop="inventoryChangeId"
           ></el-table-column>
           <el-table-column
-            width="90"
+            width="120"
             :label="$t('inventory.table.type')"
             prop="inventoryTypeName"
           ></el-table-column>
           <el-table-column
-            min-width="110"
+            min-width="120"
             :label="$t('inventory.table.sku')"
             prop="sku"
           ></el-table-column>
           <el-table-column
-            min-width="115"
-            max-width="100"
+            min-width="100"
             :label="$t('inventory.table.warehouse')"
             prop="warehouse"
           ></el-table-column>
           <el-table-column
-            width="110"
+            width="50"
             :label="$t('inventory.table.quantity')"
             prop="quantity"
           ></el-table-column>
@@ -120,12 +119,12 @@
             :formatter="formatToDate"
           ></el-table-column>
           <el-table-column
-            width="160"
+            width="120"
             :label="$t('inventory.table.moveFormWarehouse')"
             prop="moveFrom"
           ></el-table-column>
           <el-table-column
-            width="160"
+            width="120"
             :label="$t('inventory.table.moveToWarehouse')"
             prop="moveTo"
           ></el-table-column>
