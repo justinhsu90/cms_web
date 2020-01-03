@@ -637,9 +637,11 @@ export default {
         required: true,
         message: "此項必填"
       },
-      showColumnOne: ["INVENTORY_SHORTAGE", "INVENTORY_OVERAGE"],
+      // showColumnOne: ["INVENTORY_SHORTAGE", "INVENTORY_OVERAGE"],
+      showColumnOne: [],
       showColumnTwo: ["TRANSFER"],
-      showColumnThree: ["INVENTORY_OVERAGE"],
+      // showColumnThree: ["INVENTORY_OVERAGE"],
+      showColumnThree: [],
       showColumnFour: ["RETURN_REFUND"],
       showColumnFive: ["SAMPLE_OUT"],
       sampleMoveTo: "",
@@ -726,9 +728,6 @@ export default {
   table {
     table-layout: fixed;
     width: 100%;
-    border-top: 1px solid #ebeef5;
-    border-bottom: 1px solid #ebeef5;
-    border-left: 1px solid #ebeef5;
     .btnh {
       padding: 4px 0px;
       color: #62717e;
@@ -749,7 +748,7 @@ export default {
     }
     /deep/ .el-input__inner {
       border: none;
-      height: 35px;
+      height: 30px;
       text-align: center;
       color: #62717e;
       font-size: 14px;
@@ -759,16 +758,19 @@ export default {
       background: #edf1f5;
       text-align: center;
       color: #62717e;
-      // border-right: 1px solid #ebeef5;
     }
     td {
       padding: 0px;
-      border-top: 1px solid #ebeef5;
-      border-right: 1px solid #ebeef5;
+      border: 1px solid #ebeef5;
+      border-top: none;
+      border-left: none;
       text-align: center;
       background: white;
       color: #62717e;
       font-size: 14px;
+      &:first-child {
+        border-left: 1px solid #ebeef5;
+      }
     }
   }
 }
