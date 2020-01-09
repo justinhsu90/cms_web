@@ -54,9 +54,22 @@
             prop="sku"
             align="center"
           ></el-table-column>
+          <!-- label="廣州可售庫存" -->
           <el-table-column
             width="100"
-            label="廣州可售庫存"
+            :render-header="(h) => (h('div', null, [h('div', { style: {
+                  display: 'block',
+                  height: '25px',
+                  lineHeight: '25px'
+                }, }, '廣州'), h('div', {style: {
+                  display: 'block',
+                  height: '25px',
+                  lineHeight: '25px'
+                }}, '可售'), h('div',{ style: {
+                  display: 'block',
+                  height: '25px',
+                  lineHeight: '25px'
+                }}, '庫存')]))"
             prop="availableStock"
             align="center"
             sortable="custom"
