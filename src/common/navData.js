@@ -48,10 +48,10 @@ const nav = [
         index: "shipping",
         label: "貨代出貨清單"
       },
-      {
-        index: "generateFile",
-        label: "生成做單文件"
-      },
+      // {
+      //   index: "generateFile",
+      //   label: "生成做單文件"
+      // },
       {
         index: "setship",
         label: "設定出貨方式"
@@ -108,12 +108,12 @@ const nav = [
     child: [
       {
         index: "inventoryList",
-        label: "(0) 庫存異動單"
+        label: "(1) 庫存異動單"
       },
-      {
-        index: "purchaRequire",
-        label: "(1) 採購需求單"
-      },
+      // {
+      //   index: "purchaRequire",
+      //   label: "(1) 採購需求單"
+      // },
       {
         index: "erpPurchase",
         label: "(2) 採購單"
@@ -128,33 +128,33 @@ const nav = [
       // },
       {
         index: "erpSale",
-        label: "(4) 銷貨單"
+        label: "(3) 銷貨單"
       },
       {
         index: "receivable",
-        label: "(5) 應收帳款單"
+        label: "(4) 應收帳款單"
+      },
+      {
+        index: "erpInstantInventory",
+        label: "(5) 即時庫存頁面"
       },
       {
         index: "erptakestock",
         label: "(6) 盤點紀錄"
-      },
-      {
-        index: "erpInstantInventory",
-        label: "(7) 即時庫存頁面"
       }
     ]
   },
-  {
-    index: "Amazon",
-    label: "Amazon",
-    isLevel: true,
-    child: [
-      {
-        index: "restockCount",
-        label: "補貨計算"
-      }
-    ]
-  },
+  // {
+  //   index: "Amazon",
+  //   label: "Amazon",
+  //   isLevel: true,
+  //   child: [
+  //     {
+  //       index: "restockCount",
+  //       label: "補貨計算"
+  //     }
+  //   ]
+  // },
   // {
   //   index: "cdiscountParent",
   //   label: "Cdiscount",
@@ -216,30 +216,30 @@ const nav = [
     label: "客服&信件",
     isLevel: true,
     child: [
-      {
-        index: "wowcherInformCustomerParcelArrival",
-        label: "補發信單"
-      },
-      {
-        index: "replacement",
-        label: "補發清單"
-      },
+      // {
+      //   index: "wowcherInformCustomerParcelArrival",
+      //   label: "補發信單"
+      // },
+      // {
+      //   index: "replacement",
+      //   label: "補發清單"
+      // },
       {
         index: "adviceDelivery",
         label: "到貨通知"
       }
     ]
-  },
+  }
   // ,
   // {
   // index: "menuorder",
   // label: "菜单排序"
   // }
   // ,
-  {
-    index: "email",
-    label: "發送郵件"
-  }
+  // {
+  //   index: "email",
+  //   label: "發送郵件"
+  // }
   // {
   //   index: "personalizedOrder",
   //   label: "Personalized Order"
