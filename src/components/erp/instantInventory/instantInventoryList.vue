@@ -62,18 +62,18 @@
             sortable="custom"
           ></el-table-column>
           <el-table-column
-            min-width="70"
+            min-width="60"
             label="海外倉"
             align="center"
             label-class-name="table-warehouse"
           >
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="萬邑通"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="可售"
                 align="center"
                 sortable="custom"
@@ -84,7 +84,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="在途"
                 align="center"
                 sortable="custom"
@@ -97,12 +97,12 @@
             </el-table-column>
 
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="谷倉"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="可售"
                 align="center"
                 sortable="custom"
@@ -113,7 +113,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="在途"
                 align="center"
                 sortable="custom"
@@ -125,12 +125,12 @@
               </el-table-column>
             </el-table-column>
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="昂博"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="可售"
                 align="center"
                 sortable="custom"
@@ -141,7 +141,7 @@
                 </template>
               </el-table-column>
               <!-- <el-table-column
-                min-width="70"
+                min-width="60"
                 label="在途"
                 align="center"
                 sortable="custom"
@@ -154,18 +154,18 @@
             </el-table-column>
           </el-table-column>
           <el-table-column
-            min-width="70"
+            min-width="60"
             label="今日"
             align="center"
             label-class-name="table-today"
           >
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="入庫"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="採購"
                 align="center"
                 sortable="custom"
@@ -188,12 +188,12 @@
               </el-table-column>
             </el-table-column>
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="出庫"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="領料"
                 align="center"
                 sortable="custom"
@@ -204,7 +204,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="樣品"
                 align="center"
                 sortable="custom"
@@ -216,12 +216,12 @@
               </el-table-column>
             </el-table-column>
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="其他"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="報廢"
                 align="center"
                 sortable="custom"
@@ -243,7 +243,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="盤盈"
                 align="center"
                 sortable="custom"
@@ -254,7 +254,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="盤虧"
                 align="center"
                 sortable="custom"
@@ -268,18 +268,18 @@
           </el-table-column>
 
           <el-table-column
-            min-width="70"
+            min-width="60"
             label="總數"
             align="center"
             label-class-name="table-total"
           >
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="入庫"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="採購"
                 align="center"
                 sortable="custom"
@@ -302,12 +302,12 @@
               </el-table-column>
             </el-table-column>
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="出庫"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="領料"
                 align="center"
                 sortable="custom"
@@ -318,7 +318,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="樣品"
                 align="center"
                 sortable="custom"
@@ -330,12 +330,12 @@
               </el-table-column>
             </el-table-column>
             <el-table-column
-              min-width="70"
+              min-width="60"
               label="其他"
               align="center"
             >
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="報廢"
                 align="center"
                 sortable="custom"
@@ -357,7 +357,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="盤盈"
                 align="center"
                 sortable="custom"
@@ -368,7 +368,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="70"
+                min-width="60"
                 label="盤虧"
                 align="center"
                 sortable="custom"
