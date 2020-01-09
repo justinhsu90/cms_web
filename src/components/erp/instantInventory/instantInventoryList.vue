@@ -36,7 +36,7 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            width="85"
+            width="70"
             label="縮圖"
             align="center"
           >
@@ -176,7 +176,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="85"
+                min-width="70"
                 label="領料後"
                 align="center"
                 sortable="custom"
@@ -232,7 +232,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="85"
+                min-width="70"
                 label="待處理"
                 align="center"
                 sortable="custom"
@@ -290,7 +290,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="85"
+                min-width="70"
                 label="領料後"
                 align="center"
                 sortable="custom"
@@ -346,7 +346,7 @@
                 </template>
               </el-table-column>
               <el-table-column
-                min-width="85"
+                min-width="70"
                 label="待處理"
                 align="center"
                 sortable="custom"
