@@ -1,66 +1,142 @@
 <template>
-    <div id="excelUpload">
-        <div style="padding:20px">
-            <div class="heade">
-                <i class="el-icon-arrow-left"></i>
-                <a href="javascript:void(0)" @click="goBack">返回</a>
-            </div>
-            <br>
-            <el-row>
-                <el-form ref="form" :model="form" label-position="right">
-                    <el-form-item label="上傳文件">
-                        <template slot="label">
-                            <span>上傳文件</span>
-                            <span class="f-12 label-tips">可以選擇多個文件</span>
-                        </template>
-                        <el-button size="small" type="success" @click="handleUpload">點擊上傳</el-button>
-                    </el-form-item>
-                    <el-form-item label="檔案類型全選">
-                        <el-select placeholder="檔案類型" v-model="typeAll" clearable @change="handleSelectAll">
-                            <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
+  <div id="excelUpload">
+    <div style="padding:20px">
+      <div class="heade">
+        <i class="el-icon-arrow-left"></i>
+        <a
+          href="javascript:void(0)"
+          @click="goBack"
+        >返回</a>
+      </div>
+      <br>
+      <el-row>
+        <el-form
+          ref="form"
+          :model="form"
+          label-position="right"
+        >
+          <el-form-item label="上傳文件">
+            <template slot="label">
+              <span>上傳文件</span>
+              <span class="f-12 label-tips">可以選擇多個文件</span>
+            </template>
+            <el-button
+              size="small"
+              type="success"
+              @click="handleUpload"
+            >點擊上傳</el-button>
+          </el-form-item>
+          <el-form-item label="檔案類型全選">
+            <el-select
+              placeholder="檔案類型"
+              v-model="typeAll"
+              clearable
+              @change="handleSelectAll"
+            >
+              <el-option
+                v-for="(v,i) in searchFiletypeOption"
+                :key="'acc'+i"
+                :label="v"
+                :value="v"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <div style="width:80%;margin-top:10px">
+              <el-table :data="files">
+                <el-table-column
+                  label="文件名"
+                  min-width="100"
+                  prop="name"
+                ></el-table-column>
+                <el-table-column
+                  label="檔案大小"
+                  prop="size"
+                  width="200"
+                >
+                  <template slot-scope="scope">
+                    {{(scope.row.size/1024).toFixed(2)}}&nbsp;KB
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  label="檔案類型"
+                  prop="size"
+                  width="200"
+                >
+                  <template slot-scope="scope">
+                    <el-form
+                      v-for="v in [1]"
+                      ref="formChild"
+                      :model="type"
+                      :key="v"
+                    >
+                      <el-form-item
+                        :prop="scope.$index + ''"
+                        :rules="{required:true,message:'此項必填'}"
+                      >
+                        <el-select
+                          placeholder="檔案類型"
+                          v-model="type[scope.$index]"
+                          clearable
+                        >
+                          <el-option
+                            v-for="(v,i) in searchFiletypeOption"
+                            :key="'acc'+i"
+                            :label="v"
+                            :value="v"
+                          ></el-option>
                         </el-select>
-                    </el-form-item>
-                    <el-form-item>
-                        <div style="width:80%;margin-top:10px">
-                            <el-table :data="files">
-                                <el-table-column label="文件名" min-width="100" prop="name"></el-table-column>
-                                <el-table-column label="檔案大小" prop="size" width="200">
-                                    <template slot-scope="scope">
-                                        {{(scope.row.size/1024).toFixed(2)}}&nbsp;KB
-                                    </template>
-                                </el-table-column>
-                                <el-table-column label="檔案類型" prop="size" width="200">
-                                    <template slot-scope="scope">
-                                        <el-form v-for="v in [1]" ref="formChild" :model="type" :key="v">
-                                            <el-form-item :prop="scope.$index + ''" :rules="{required:true,message:'此項必填'}">
-                                                <el-select placeholder="檔案類型" v-model="type[scope.$index]" clearable>
-                                                    <el-option v-for="(v,i) in searchFiletypeOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                                                </el-select>
-                                            </el-form-item>
-                                        </el-form>
-                                    </template>
-                                </el-table-column>
-                                <el-table-column width="80" label="操作"  align="center">
-                                    <template slot-scope="scope">
-                                        <el-button class="btnh" type="text" title="下載" icon="el-icon-won-22" @click="handleDelete(scope)"></el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </div>
-                    </el-form-item>
-                </el-form>
-                <br>
-                <el-button @click="submit" :loading="isLoading" type="primary" size="large">匯入</el-button>
-            </el-row>
-        </div>
+                      </el-form-item>
+                    </el-form>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  width="80"
+                  label="操作"
+                  align="center"
+                >
+                  <template slot-scope="scope">
+                    <el-button
+                      class="btnh"
+                      type="text"
+                      title="下載"
+                      icon="el-icon-won-22"
+                      @click="handleDelete(scope)"
+                    ></el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-form-item>
+          <el-form-item v-if="!!url && typeAll == 'Wowcher Unpaid物流資料'">
+            <el-button
+              type="primary"
+              size="small"
+              @click="saveFile(url, '文件')"
+            >
+              點擊下載
+            </el-button>
+          </el-form-item>
+        </el-form>
+        <el-button
+          @click="submit"
+          :loading="isLoading"
+          type="primary"
+          size="large"
+        >匯入</el-button>
+      </el-row>
     </div>
+  </div>
 </template>
 
 <script>
 import U from "@/common/until/U";
+import saveFile from "won-service/_mixins/save-file";
 export default {
+  mixins: [saveFile],
   data() {
     return {
+      url: "",
       Div: U.Math.Div,
       Mul: U.Math.Mul,
       form: {},
@@ -90,6 +166,7 @@ export default {
       this.$router.go(-1);
     },
     handleSelectAll(value) {
+      this.url = "";
       _.each(this.type, (v, k) => {
         this.type[k] = value;
       });
@@ -158,8 +235,9 @@ export default {
         return;
       }
       Promise.all(totalAjax)
-        .then(() => {
-          this.$router.push("excelUpload");
+        .then(url => {
+          this.url = url;
+          // this.$router.push("excelUpload");
           this.$message.success("保存成功");
         })
         .catch(() => {
