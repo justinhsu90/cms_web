@@ -19,7 +19,8 @@ let ip = [
   // "60.251.57.234"
 ];
 
-let port = ["8000", "8010", "8020", "8030"];
+// let port = ["8000", "8010", "8020", "8030"];
+let port = ["8443"];
 
 axios.defaults.timeout = 180000;
 axios.interceptors.request.use(request => {
@@ -63,11 +64,13 @@ function Ajax(config = {}) {
   let random2 = Math.floor(Math.random() * 4);
 
   // axios的配置
-  axios.defaults.baseURL = `http://${ip[random1]}:${
+  axios.defaults.baseURL = `https://${ip[random1]}:${
     port[random2]
-  }/data-server/`;
+    }/data-server/`;
 
   // axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
+  // axios.defaults.baseURL = "https://127.0.0.1:8443/data-server/";
+  axios.defaults.baseURL = "https://api.magictrend.co.uk:8443/data-server/";
 
   let promise = new Promise((response, reject) => {
     axios(config)

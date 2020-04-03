@@ -136,11 +136,11 @@ const nav = [
       },
       {
         index: "erpInstantInventory",
-        label: "(5) 即時庫存頁面"
-      },
-      {
-        index: "erptakestock",
-        label: "(6) 盤點紀錄"
+        label: "(5) 即時庫存"
+        // },
+        // {
+        //   index: "erptakestock",
+        //   label: "(6) 盤點紀錄"
       }
     ]
   },
