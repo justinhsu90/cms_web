@@ -268,7 +268,7 @@
                 label="轉料號"
                 align="center"
                 sortable="custom"
-                prop='SKU_CONVERT_FROM '
+                prop='SKU_CONVERT_FROM'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SKU_CONVERT_FROM ', false, 'GZ')}}</span>
@@ -290,7 +290,7 @@
                 label="盤虧"
                 align="center"
                 sortable="custom"
-                prop='INVENTORY_OVERAGE'
+                prop='INVENTORY_SHORTAGE'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('INVENTORY_SHORTAGE', false, 'GZ')}}</span>
@@ -393,7 +393,7 @@
                 label="轉料號"
                 align="center"
                 sortable="custom"
-                prop='SKU_CONVERT_FROM '
+                prop='SKU_CONVERT_FROM-FROM'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SKU_CONVERT_FROM ', true, 'GZ')}}</span>
@@ -404,7 +404,7 @@
                 label="盤盈"
                 align="center"
                 sortable="custom"
-                prop='INVENTORY_OVERAGE'
+                prop='INVENTORY_OVERAGE-OVERAGE'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('INVENTORY_OVERAGE', true, 'GZ')}}</span>
@@ -415,7 +415,7 @@
                 label="盤虧"
                 align="center"
                 sortable="custom"
-                prop='INVENTORY_OVERAGE'
+                prop='INVENTORY_SHORTAGE-SHORTAGE'
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('INVENTORY_SHORTAGE', true, 'GZ')}}</span>
@@ -616,6 +616,7 @@ export default {
         data.push(obj);
       });
       this.tableData = data;
+
       if (!this.hasInit) {
         this.sortAvailableStock();
         this.hasInit = true;
