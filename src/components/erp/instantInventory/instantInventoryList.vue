@@ -13,6 +13,14 @@
           icon="el-icon-search"
           @click="handleSearch"
         ></el-button>
+        <el-date-picker
+          v-model="endDate"
+          type="date"
+          placeholder="选择日期"
+          @change="handleSearch"
+          value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
         <!-- <div class="ibbox">
           <wonPopoverChooser
             :chooser="$options.warehouse"
@@ -449,6 +457,7 @@ export default {
   data() {
     return {
       isTableLoading: false,
+      endDate: "",
       date: [],
       parmas: [],
       fetchCondition: {
@@ -601,7 +610,8 @@ export default {
       let data = {
         where: this.fetchOption.where,
         token: this.token,
-        warehouseList
+        warehouseList,
+        endDate: this.endDate
       };
       this.fetchTableData(data);
     }, 500)
