@@ -18,7 +18,7 @@
           type="date"
           placeholder="选择日期"
           @change="handleSearch"
-          value-format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd HH:mm:ss"
         >
         </el-date-picker>
         <!-- <div class="ibbox">
@@ -265,6 +265,17 @@
               </el-table-column>
               <el-table-column
                 min-width="40"
+                label="轉料號"
+                align="center"
+                sortable="custom"
+                prop='SKU_CONVERT_FROM '
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('SKU_CONVERT_FROM ', false, 'GZ')}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="40"
                 label="盤盈"
                 align="center"
                 sortable="custom"
@@ -375,6 +386,17 @@
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAITING_HANDLE', true, 'GZ')}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="40"
+                label="轉料號"
+                align="center"
+                sortable="custom"
+                prop='SKU_CONVERT_FROM '
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('SKU_CONVERT_FROM ', true, 'GZ')}}</span>
                 </template>
               </el-table-column>
               <el-table-column
