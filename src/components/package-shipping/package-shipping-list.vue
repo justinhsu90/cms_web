@@ -1,5 +1,6 @@
 <template>
   <div>
+    <packageChart />
     <el-row>
       <el-col :span="22">
         <el-input
@@ -146,14 +147,14 @@
   </div>
 </template>
 <script>
-// import packageChart from "./package-chart";
+import packageChart from "./package-chart";
 import wonTableContainer from "@/common/wonTableContainer";
 import showDialog from "won-service/component/won-dialog/dialog";
 export default {
   extends: wonTableContainer,
-  // components: {
-  //   packageChart
-  // },
+  components: {
+    packageChart
+  },
   data() {
     return {
       date: [],
@@ -175,6 +176,13 @@ export default {
   created() {
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
+    // axios({
+    //   url: "/diagram/get",
+    //   method: "get",
+    //   data: {
+    //     token: this.token
+    //   }
+    // });
   },
   methods: {
     handleClick(row) {

@@ -1,7 +1,12 @@
 <template>
-<div style="width:80%">
-  <ve-line :data="chartData" :extend="chartExtend" :settings="chartSettings" width="800px"></ve-line>
-</div>
+  <div style="width:80%">
+    <ve-line
+      :data="chartData"
+      :extend="chartExtend"
+      :settings="chartSettings"
+      width="800px"
+    ></ve-line>
+  </div>
 </template>
 
 <script>
