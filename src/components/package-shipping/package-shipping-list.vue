@@ -1,6 +1,5 @@
 <template>
   <div>
-    <packageChart />
     <el-row>
       <el-col :span="22">
         <el-input
@@ -143,18 +142,14 @@
         </el-table>
       </el-col>
     </el-row>
-    <!-- <packageChart></packageChart> -->
   </div>
 </template>
 <script>
-import packageChart from "./package-chart";
 import wonTableContainer from "@/common/wonTableContainer";
 import showDialog from "won-service/component/won-dialog/dialog";
 export default {
   extends: wonTableContainer,
-  components: {
-    packageChart
-  },
+  components: {},
   data() {
     return {
       date: [],

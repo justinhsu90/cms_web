@@ -229,6 +229,10 @@ const nav = [
         label: "到貨通知"
       }
     ]
+  },
+  {
+    index: "chart",
+    label: "图标"
   }
   // ,
   // {
