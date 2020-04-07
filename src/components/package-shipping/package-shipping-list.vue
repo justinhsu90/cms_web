@@ -176,13 +176,6 @@ export default {
   created() {
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
-    // axios({
-    //   url: "/diagram/get",
-    //   method: "get",
-    //   data: {
-    //     token: this.token
-    //   }
-    // });
   },
   methods: {
     handleClick(row) {
