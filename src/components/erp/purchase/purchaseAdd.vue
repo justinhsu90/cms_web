@@ -461,35 +461,12 @@ export default {
       this.$router.push("/erpPurchase");
     },
     handleSku(val) {
-      if(val[0].discontinued){
-        this.$confirm(`內容是 ${val[0].sku} 已經預計停售, 請斟酌採購`, "提示", {
-          type: "info",
-          beforeClose: (action, instance, done) => {
-            if (action == "confirm") {              
-              _.each(this.formData.data, (v, i) => {
-                  if (i == val[1]) {
-                    v.sku = val[0].sku;
-                    v.productName = val[0].productName;
-                    v.discontinued = val[0].discontinued;
-                  }
-              });
-              done();
-            } else {
-              done();
-            }
-          }
-        }).catch(() => {});
-      }else{
        _.each(this.formData.data, (v, i) => {
         if (i == val[1]) {
           v.sku = val[0].sku;
           v.productName = val[0].productName;
-          v.discontinued = true
         }
       });
-      }
-
-   
     },
     handleQuerySku(index) {
       this.$refs["querySku"].$findChild("wonDialog", "visible", index);
@@ -507,8 +484,24 @@ export default {
         }
       }).then(res => {
         if (!res.message) {
-          this.$message.success("SKU檢查成功");
-          row.productName = res.productName;
+            if(res.discontinued){
+               this.$confirm(`內容是 ${res.sku} 已經預計停售, 請斟酌採購`, "提示", {
+                  type: "info",
+                  beforeClose: (action, instance, done) => {
+                    if (action == "confirm") { 
+                      this.$message.success("SKU檢查成功");             
+                      row.productName = res.productName;
+                      row.discontinued = true
+                      done();
+                    } else {
+                      done();
+                  }
+                }
+              }).catch(() => {});
+            } else{
+              this.$message.success("SKU檢查成功");             
+              row.productName = res.productName;
+            }   
         } else {
           this.$message.error("SKU不存在");
           row.sku = "";
