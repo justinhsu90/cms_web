@@ -1,25 +1,25 @@
 <template>
-    <el-dialog
-        :title="title"
-        :visible.sync="dialogVisible"
-        :width="size"
+  <el-dialog
+    :title="title"
+    :visible.sync="dialogVisible"
+    :width="size"
+  >
+    <slot name="content"></slot>
+    <div
+      slot="footer"
+      class="dialog-footer"
     >
-        <slot name="content"></slot>
-        <div
-            slot="footer"
-            class="dialog-footer"
-        >
-            <el-button
-                v-if="showCancel"
-                @click="dialogVisible = false"
-            >{{cancelButtonText}}</el-button>
-            <el-button
-                v-if="showConfirm"
-                type="primary"
-                @click="confirm"
-            >{{confirmButtonText}}</el-button>
-        </div>
-    </el-dialog>
+      <el-button
+        v-if="showCancel"
+        @click="dialogVisible = false"
+      >{{cancelButtonText}}</el-button>
+      <el-button
+        v-if="showConfirm"
+        type="primary"
+        @click="confirm"
+      >{{confirmButtonText}}</el-button>
+    </div>
+  </el-dialog>
 </template>   
 <script>
 export default {

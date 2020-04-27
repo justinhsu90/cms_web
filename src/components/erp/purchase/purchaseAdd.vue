@@ -1,158 +1,286 @@
 <template>
-    <div>
-        <div style="padding:20px">
-            <div class="heade">
-                <i class="el-icon-arrow-left"></i>
-                <a href="javascript:void(0)" @click="goBack">返回</a>
-            </div>
-            <br>
-            <h2>新增採購單
-            </h2>
-            <br>
-            <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
-                <el-row :gutter="10">
-                    <el-col :span="3">
-                        <el-form-item label="採購類型" prop="purchaseType" :rules="rules">
-                            <el-select v-model="formData.purchaseType">
-                                <el-option v-for="(value,i) in purchaseType" :label="value" :value="value" :key="i"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-form-item label="採購平台" prop="purchasedPlatform" :rules="rules">
-                            <el-select v-model="formData.purchasedPlatform">
-                                <el-option v-for="(value,i) in purchasePlatform" :label="value" :value="value" :key="i"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-form-item label="採購帳號" prop="purchasedAccount" :rules="rules">
-                            <el-select v-model="formData.purchasedAccount">
-                                <el-option v-for="(value,i) in purchaseAccount" :label="value" :value="value" :key="i"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-form-item label="幣別" prop="currency" :rules="rules">
-                            <el-select v-model="formData.currency">
-                                <el-option v-for="(value,i) in currency" :label="value" :value="value" :key="i"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-form-item label="購買人員">
-                            <el-input v-model="formData.purchasedBy"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="5">
-                        <el-form-item label="採購平台單號" prop="purchaseOrderId" :rules="rules">
-                            <el-input v-model="formData.purchaseOrderId"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="採購時間" prop="purchasedTime" :rules="rules">
-                            <el-date-picker style="width:100%" v-model="formData.purchasedTime" type="date" placeholder="選擇日期時間"> </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <br>
-                <div id="table">
-                    <table cellspacing="0" cellpadding="0">
-                        <colgroup>
-                            <col width="40">
-                            <col width="100">
-                            <col width="250">
-                            <col width="80">
-                            <col width="80">
-                            <col width="80">
-                            <col width="150">
-                            <col width="70">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>序號</th>
-                                <th>SKU </th>
-                                <th>產品名稱</th>
-                                <th>單品金額</th>
-                                <th>採購數量</th>
-                                <th>該品總運費</th>
-                                <th>總金額（包含運費）</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(v,i) in formData.data" :key="i">
-                                <td>{{i+1}}</td>
-                                <td>
-                                    <el-form-item label="" :prop="'data.'+i+'.sku'" :rules="requredRule">
-                                        <el-input ref="input" v-model="v.sku" @blur="handleCheckSku(v.sku,v)"></el-input>
-                                    </el-form-item>
-                                </td>
-                                <td>
-                                    <el-form-item label="" :prop="'data.'+i+'.productName'" :rules="requredRule">
-                                        <el-input v-model="v.productName"></el-input>
-                                    </el-form-item>
-                                </td>
-                                <td>
-                                    <el-form-item label="" :prop="'data.'+i+'.purchasedAmount'" :rules="requredRuleFloat">
-                                        <el-input v-model.number="v.purchasedAmount"></el-input>
-                                    </el-form-item>
-                                </td>
-                                <td>
-                                    <el-form-item label="" :prop="'data.'+i+'.purchasedQuantity'" :rules="requredRule">
-                                        <el-input v-model.number="v.purchasedQuantity"></el-input>
-                                    </el-form-item>
-                                </td>
-                                <td>
-                                    <el-form-item label="" :prop="'data.'+i+'.shippingCost'" :rules="requredRule">
-                                        <el-input v-model.number="v.shippingCost"></el-input>
-                                    </el-form-item>
-                                </td>
-                                <td>
-                                    <span>{{ v.purchasedAmount * v.purchasedQuantity | formatToMoney}}</span>
-                                </td>
-                                <td>
-                                    <el-button v-if="i!=0" class="btnh" style="color:#409EFF" type="text" @click="handleDelete(i)">删除</el-button>
-                                    <el-button class="btnh" style="color:#409EFF" type="text" @click="handleQuerySku(i)">查詢</el-button>
-                                </td>
-                            </tr>
-                            <tr class="total">
-                                <td>
-                                    總計
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    {{totalPurchasedAmount | formatToMoney}}
-                                </td>
-                                <td>
-                                    {{totalPurchasedQuantity}}
-                                </td>
-                                <td>
-                                    {{totalShippingCost | formatToMoney}}
-                                </td>
-                                <td>
-                                    {{ totalMoney  | formatToMoney}}
-                                </td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <br>
-                <el-popover placement="top" width="160" v-model="popoverVisible">
-                <p>是否要提交？</p>
-                <div style="text-align: right; margin: 0">
-                    <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
-                    <el-button type="primary" size="mini" @click="submit">確定</el-button>
-                </div>
-                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" size="large">添加</el-button>
-            </el-popover>  
-            <el-button :disabled="disabled" class="fr" type="success" size="small" @click="handleAdd">新增產品</el-button>
-            </el-form>
+  <div>
+    <div style="padding:20px">
+      <div class="heade">
+        <i class="el-icon-arrow-left"></i>
+        <a
+          href="javascript:void(0)"
+          @click="goBack"
+        >返回</a>
+      </div>
+      <br>
+      <h2>新增採購單
+      </h2>
+      <br>
+      <el-form
+        ref="form"
+        :model="formData"
+        v-loading="loading"
+        label-position="top"
+      >
+        <el-row :gutter="10">
+          <el-col :span="3">
+            <el-form-item
+              label="採購類型"
+              prop="purchaseType"
+              :rules="rules"
+            >
+              <el-select v-model="formData.purchaseType">
+                <el-option
+                  v-for="(value,i) in purchaseType"
+                  :label="value"
+                  :value="value"
+                  :key="i"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item
+              label="採購平台"
+              prop="purchasedPlatform"
+              :rules="rules"
+            >
+              <el-select v-model="formData.purchasedPlatform">
+                <el-option
+                  v-for="(value,i) in purchasePlatform"
+                  :label="value"
+                  :value="value"
+                  :key="i"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item
+              label="採購帳號"
+              prop="purchasedAccount"
+              :rules="rules"
+            >
+              <el-select v-model="formData.purchasedAccount">
+                <el-option
+                  v-for="(value,i) in purchaseAccount"
+                  :label="value"
+                  :value="value"
+                  :key="i"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item
+              label="幣別"
+              prop="currency"
+              :rules="rules"
+            >
+              <el-select v-model="formData.currency">
+                <el-option
+                  v-for="(value,i) in currency"
+                  :label="value"
+                  :value="value"
+                  :key="i"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="3">
+            <el-form-item label="購買人員">
+              <el-input v-model="formData.purchasedBy"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item
+              label="採購平台單號"
+              prop="purchaseOrderId"
+              :rules="rules"
+            >
+              <el-input v-model="formData.purchaseOrderId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="採購時間"
+              prop="purchasedTime"
+              :rules="rules"
+            >
+              <el-date-picker
+                style="width:100%"
+                v-model="formData.purchasedTime"
+                type="date"
+                placeholder="選擇日期時間"
+              > </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <br>
+        <div id="table">
+          <table
+            cellspacing="0"
+            cellpadding="0"
+          >
+            <colgroup>
+              <col width="40">
+              <col width="100">
+              <col width="250">
+              <col width="80">
+              <col width="80">
+              <col width="80">
+              <col width="150">
+              <col width="70">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>序號</th>
+                <th>SKU </th>
+                <th>產品名稱</th>
+                <th>單品金額</th>
+                <th>採購數量</th>
+                <th>該品總運費</th>
+                <th>總金額（包含運費）</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(v,i) in formData.data"
+                :key="i"
+              >
+                <td>{{i+1}}</td>
+                <td>
+                  <el-form-item
+                    label=""
+                    :prop="'data.'+i+'.sku'"
+                    :rules="requredRule"
+                  >
+                    <el-input
+                      :class="{
+                        discontinued: v.discontinued
+                      }"
+                      ref="input"
+                      v-model="v.sku"
+                      @blur="handleCheckSku(v.sku,v)"
+                    ></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item
+                    label=""
+                    :prop="'data.'+i+'.productName'"
+                    :rules="requredRule"
+                  >
+                    <el-input v-model="v.productName"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item
+                    label=""
+                    :prop="'data.'+i+'.purchasedAmount'"
+                    :rules="requredRuleFloat"
+                  >
+                    <el-input v-model.number="v.purchasedAmount"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item
+                    label=""
+                    :prop="'data.'+i+'.purchasedQuantity'"
+                    :rules="requredRule"
+                  >
+                    <el-input v-model.number="v.purchasedQuantity"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <el-form-item
+                    label=""
+                    :prop="'data.'+i+'.shippingCost'"
+                    :rules="requredRule"
+                  >
+                    <el-input v-model.number="v.shippingCost"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <span>{{ v.purchasedAmount * v.purchasedQuantity | formatToMoney}}</span>
+                </td>
+                <td>
+                  <el-button
+                    v-if="i!=0"
+                    class="btnh"
+                    style="color:#409EFF"
+                    type="text"
+                    @click="handleDelete(i)"
+                  >删除</el-button>
+                  <el-button
+                    class="btnh"
+                    style="color:#409EFF"
+                    type="text"
+                    @click="handleQuerySku(i)"
+                  >查詢</el-button>
+                </td>
+              </tr>
+              <tr class="total">
+                <td>
+                  總計
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                  {{totalPurchasedAmount | formatToMoney}}
+                </td>
+                <td>
+                  {{totalPurchasedQuantity}}
+                </td>
+                <td>
+                  {{totalShippingCost | formatToMoney}}
+                </td>
+                <td>
+                  {{ totalMoney  | formatToMoney}}
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <querySku name="purchaseAdd" ref="querySku"></querySku>
+        <br>
+        <el-popover
+          placement="top"
+          width="160"
+          v-model="popoverVisible"
+        >
+          <p>是否要提交？</p>
+          <div style="text-align: right; margin: 0">
+            <el-button
+              size="mini"
+              type="text"
+              @click="popoverVisible = false"
+            >取消</el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              @click="submit"
+            >確定</el-button>
+          </div>
+          <el-button
+            slot="reference"
+            @click="popoverVisible = true"
+            :loading="submitLoading"
+            type="primary"
+            size="large"
+          >添加</el-button>
+        </el-popover>
+        <el-button
+          :disabled="disabled"
+          class="fr"
+          type="success"
+          size="small"
+          @click="handleAdd"
+        >新增產品</el-button>
+      </el-form>
     </div>
+    <querySku
+      name="purchaseAdd"
+      ref="querySku"
+    ></querySku>
+  </div>
 </template>
 <script>
 import querySku from "@/common/querySku";
@@ -333,12 +461,35 @@ export default {
       this.$router.push("/erpPurchase");
     },
     handleSku(val) {
-      _.each(this.formData.data, (v, i) => {
+      if(val[0].discontinued){
+        this.$confirm(`內容是 ${val[0].sku} 已經預計停售, 請斟酌採購`, "提示", {
+          type: "info",
+          beforeClose: (action, instance, done) => {
+            if (action == "confirm") {              
+              _.each(this.formData.data, (v, i) => {
+                  if (i == val[1]) {
+                    v.sku = val[0].sku;
+                    v.productName = val[0].productName;
+                    v.discontinued = val[0].discontinued;
+                  }
+              });
+              done();
+            } else {
+              done();
+            }
+          }
+        }).catch(() => {});
+      }else{
+       _.each(this.formData.data, (v, i) => {
         if (i == val[1]) {
           v.sku = val[0].sku;
           v.productName = val[0].productName;
+          v.discontinued = true
         }
       });
+      }
+
+   
     },
     handleQuerySku(index) {
       this.$refs["querySku"].$findChild("wonDialog", "visible", index);
@@ -504,6 +655,12 @@ export default {
       background: white;
       color: #62717e;
       font-size: 14px;
+    }
+
+    /deep/ .discontinued {
+      .el-input__inner {
+        background: yellow;
+      }
     }
   }
 }
