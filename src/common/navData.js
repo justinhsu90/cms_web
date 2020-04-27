@@ -5,7 +5,11 @@ const nav = [
   },
   {
     index: "excelUpload",
-    label: "表格匯入"
+    label: "文件匯入"
+  },
+  {
+    index: "downfileSales",
+    label: "文件下載"
   },
   {
     index: "sku",
@@ -90,10 +94,6 @@ const nav = [
       {
         index: "platformSales",
         label: "各平台銷售表"
-      },
-      {
-        index: "downfileSales",
-        label: "文件下載"
       },
       {
         index: "customPhotoUpdate",
