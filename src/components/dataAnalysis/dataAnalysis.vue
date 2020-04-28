@@ -372,12 +372,12 @@
               prop="shippingCostPercent"
               :formatter="formatToPercent"
             ></el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               min-width="40"
               label="營業額%"
               prop="percentageOfTotalRevenue"
               :formatter="formatToPercent"
-            ></el-table-column>
+            ></el-table-column> -->
 
           </el-table>
         </el-card>
