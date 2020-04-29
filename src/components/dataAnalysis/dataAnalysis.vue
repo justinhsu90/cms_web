@@ -271,7 +271,7 @@
           <div>
             <h4 style="display:inline-block;">Wowcher本月產品銷售排行</h4>
             <div style="display:inline-block;">
-              <el-select
+              <!-- <el-select
                 v-model="account"
                 placeholder="帳號"
                 @change="handleSelect('account')"
@@ -310,19 +310,21 @@
                   :value="v.monthInEng"
                   :key="i"
                 ></el-option>
-              </el-select>
+              </el-select> -->
             </div>
           </div>
           <br>
           <el-table :data="productPerformance">
             <el-table-column
-              min-width="220"
+              min-width="65"
+              label="SKU"
+              prop="sku"
+            ></el-table-column>
+            <el-table-column
+              min-width="160"
               label="產品名稱"
               prop="productName"
             ></el-table-column>
-            <!-- <el-table-column  min-width="60" label="Sku" prop="sku"></el-table-column> -->
-            <!-- <el-table-column  min-width="60" label="等級" prop="ranking"></el-table-column> -->
-
             <el-table-column
               min-width="30"
               label="數量"
@@ -339,7 +341,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              min-width="60"
+              min-width="55"
               label="毛利"
               prop="margin"
             >
@@ -348,7 +350,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              min-width="40"
+              min-width="35"
               label="毛利%"
               prop="percentageOfMargin"
               :formatter="formatToPercent"
@@ -360,18 +362,44 @@
                         </template>
                     </el-table-column> -->
             <el-table-column
-              min-width="40"
+              min-width="35"
               label="成本%"
               prop="productCostPercent"
               :formatter="formatToPercent"
             ></el-table-column>
             <!-- <el-table-column  min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
             <el-table-column
-              min-width="40"
+              min-width="35"
               label="運費%"
               prop="shippingCostPercent"
               :formatter="formatToPercent"
             ></el-table-column>
+            <el-table-column
+              min-width="40"
+              label="平均售價"
+              prop="revenueEach"
+            >
+              <template slot-scope="scope">
+                {{scope.row.revenueEach | formatToMoney}}&nbsp;GBP
+              </template>
+            </el-table-column>
+            <el-table-column
+              min-width="40"
+              label="平均成本"
+              prop="productCostEach"
+            >
+              <template slot-scope="scope">
+                {{scope.row.productCostEach | formatToMoney}}&nbsp;GBP
+              </template>
+            </el-table-column>
+            <el-table-column
+              min-width="40"
+              label="平均成本"
+              prop="shippingCostEach"
+            > <template slot-scope="scope">
+                {{scope.row.shippingCostEach | formatToMoney}}&nbsp;GBP
+              </template>
+            </el-table-column>
             <!-- <el-table-column
               min-width="40"
               label="營業額%"
