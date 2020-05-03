@@ -394,7 +394,7 @@
             </el-table-column>
             <el-table-column
               min-width="40"
-              label="平均成本"
+              label="平均運費"
               prop="shippingCostEach"
             > <template slot-scope="scope">
                 {{scope.row.shippingCostEach | formatToMoney}}&nbsp;GBP

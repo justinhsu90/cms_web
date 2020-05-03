@@ -68,7 +68,6 @@ function Ajax(config = {}) {
     port[random2]
     }/data-server/`;
 
-  // axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
   // axios.defaults.baseURL = "https://127.0.0.1:8443/data-server/";
   axios.defaults.baseURL = "https://api.magictrend.co.uk:8443/data-server/";
 
