@@ -461,7 +461,7 @@ export default {
       this.$router.push("/erpPurchase");
     },
     handleSku(val) {
-       _.each(this.formData.data, (v, i) => {
+      _.each(this.formData.data, (v, i) => {
         if (i == val[1]) {
           v.sku = val[0].sku;
           v.productName = val[0].productName;
@@ -484,24 +484,24 @@ export default {
         }
       }).then(res => {
         if (!res.message) {
-            if(res.discontinued){
-               this.$confirm(`內容是 ${res.sku} 已經預計停售, 請斟酌採購`, "提示", {
-                  type: "info",
-                  beforeClose: (action, instance, done) => {
-                    if (action == "confirm") { 
-                      this.$message.success("SKU檢查成功");             
-                      row.productName = res.productName;
-                      row.discontinued = true
-                      done();
-                    } else {
-                      done();
-                  }
+          if (res.discontinued) {
+            this.$confirm(`${res.sku} 已經預計停售, 請斟酌採購`, "提示", {
+              type: "info",
+              beforeClose: (action, instance, done) => {
+                if (action == "confirm") {
+                  this.$message.success("SKU檢查成功");
+                  row.productName = res.productName;
+                  row.discontinued = true;
+                  done();
+                } else {
+                  done();
                 }
-              }).catch(() => {});
-            } else{
-              this.$message.success("SKU檢查成功");             
-              row.productName = res.productName;
-            }   
+              }
+            }).catch(() => {});
+          } else {
+            this.$message.success("SKU檢查成功");
+            row.productName = res.productName;
+          }
         } else {
           this.$message.error("SKU不存在");
           row.sku = "";
