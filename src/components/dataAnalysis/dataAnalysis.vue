@@ -314,11 +314,15 @@
             </div>
           </div>
           <br>
-          <el-table :data="productPerformance">
+          <el-table
+            :data="productPerformance"
+            @sort-change="handleSortChange"
+          >
             <el-table-column
               min-width="220"
               label="產品名稱"
               prop="productName"
+              sortable="custom"
             ></el-table-column>
             <!-- <el-table-column  min-width="60" label="Sku" prop="sku"></el-table-column> -->
             <!-- <el-table-column  min-width="60" label="等級" prop="ranking"></el-table-column> -->
@@ -327,11 +331,13 @@
               min-width="30"
               label="數量"
               prop="quantity"
+              sortable="custom"
             ></el-table-column>
             <el-table-column
               min-width="60"
               label="銷售額"
               prop="revenue"
+              sortable="custom"
             >
 
               <template slot-scope="scope">
@@ -342,6 +348,7 @@
               min-width="60"
               label="毛利"
               prop="margin"
+              sortable="custom"
             >
               <template slot-scope="scope">
                 {{scope.row.margin | formatToMoney}}&nbsp;GBP
@@ -351,6 +358,7 @@
               min-width="40"
               label="毛利%"
               prop="percentageOfMargin"
+              sortable="custom"
               :formatter="formatToPercent"
             ></el-table-column>
             <!-- <el-table-column min-width="60" label="毛利佔比%" prop="percentageOfMargin" :formatter="formatToPercent"></el-table-column> -->
@@ -364,6 +372,7 @@
               label="成本%"
               prop="productCostPercent"
               :formatter="formatToPercent"
+              sortable="custom"
             ></el-table-column>
             <!-- <el-table-column  min-width="60" label="運費" prop="shippingCost"></el-table-column> -->
             <el-table-column
@@ -371,12 +380,14 @@
               label="運費%"
               prop="shippingCostPercent"
               :formatter="formatToPercent"
+              sortable="custom"
             ></el-table-column>
             <el-table-column
               min-width="40"
               label="營業額%"
               prop="percentageOfTotalRevenue"
               :formatter="formatToPercent"
+              sortable="custom"
             ></el-table-column>
 
           </el-table>
@@ -645,6 +656,14 @@ export default {
         this.condition.productPerformanceMonth = this.month;
       }
       this.fetchTableData();
+    },
+    handleSortChange(row) {
+      if (row.order == "ascending") {
+        this.productPerformance = _.orderBy(this.productPerformance, [`${row.prop}`], ["asc"]);
+      }
+      if (row.order == "descending") {
+        this.productPerformance = _.orderBy(this.productPerformance, [`${row.prop}`], ["desc"]);
+      }
     },
     fetchTableData() {
       if (!this.account && !this.year && !this.month) {
