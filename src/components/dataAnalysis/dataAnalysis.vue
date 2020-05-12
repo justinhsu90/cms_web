@@ -94,7 +94,7 @@
         <h4>各平台本日銷售表現</h4>
         <el-col
           class="mt10"
-          :span="mobile ? 12 : 8"
+          :span="mobile ? 12 : 6"
           v-for="(v,i) in todayPlatformPerformance"
           :key="i"
         >
@@ -141,7 +141,7 @@
         <!-- <br> -->
         <el-col
           class="mt10"
-          :span="mobile ? 12 : 8"
+          :span="mobile ? 12 : 6"
           v-for="(v,i) in previousDayPlatformPerformance"
           :key="i"
         >
@@ -190,7 +190,7 @@
         <!-- <br> -->
         <el-col
           class="mt10"
-          :span="mobile ? 12 : 8"
+          :span="mobile ? 12 : 6"
           v-for="(v,i) in platformPerformance"
           :key="i"
         >
