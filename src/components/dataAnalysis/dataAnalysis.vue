@@ -161,8 +161,8 @@
                 <span>{{v.revenue | formatToMoney}}</span>
               </div>
               <div class="mt10 tc">
-                <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
-                <span class="f13 label-tips">銷售額(GBP)</span>
+                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                <!-- <span class="f13 label-tips">銷售額(GBP)</span> -->
 
               </div>
             </div>
@@ -210,9 +210,8 @@
                 <span>{{v.revenue | formatToMoney}}</span>
               </div>
               <div class="mt10 tc">
-                <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
-                <span class="f13 label-tips">銷售額(GBP)</span>
-
+                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                <!-- <span class="f13 label-tips">銷售額(GBP)</span> -->
               </div>
             </div>
             <div class="w30 fr">
@@ -686,10 +685,18 @@ export default {
     },
     handleSortChange(row) {
       if (row.order == "ascending") {
-        this.productPerformance = _.orderBy(this.productPerformance, [`${row.prop}`], ["asc"]);
+        this.productPerformance = _.orderBy(
+          this.productPerformance,
+          [`${row.prop}`],
+          ["asc"]
+        );
       }
       if (row.order == "descending") {
-        this.productPerformance = _.orderBy(this.productPerformance, [`${row.prop}`], ["desc"]);
+        this.productPerformance = _.orderBy(
+          this.productPerformance,
+          [`${row.prop}`],
+          ["desc"]
+        );
       }
     },
     fetchTableData() {
