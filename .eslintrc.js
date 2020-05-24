@@ -1,26 +1,26 @@
 module.exports = {
-    root: true,
+  root: true,
 
-    env: {
-      node: true
-    },
+  env: {
+    node: true
+  },
 
-    extends: ["plugin:vue/essential", "@vue/prettier"],
+  extends: ["plugin:vue/essential", "@vue/prettier"],
 
-    rules: {
-      "no-console": "off",
-      "no-debugger": "off",
-      "vue/html-indent": "warning"
-    },
+  rules: {
+    "no-console": "off",
+    "no-debugger": "off",
+    "vue/html-indent": "warning"
+  },
 
-    globals: {
-      Vue: true,
-      axios: true,
-      _: true,
-      C:true
-    },
+  globals: {
+    Vue: true,
+    axios: true,
+    _: true,
+    C: true
+  },
 
-    parserOptions: {
-      parser: "babel-eslint"
-    }
-  };
+  parserOptions: {
+    parser: "babel-eslint"
+  }
+};

@@ -9,7 +9,9 @@
         >返回</a>
       </div>
       <br>
-      <h2>編輯銷貨單 <span>&nbsp;&nbsp;訂單ID:&nbsp;{{formData.saleId}}</span>
+      <h2>
+        {{ look ? '查看' : '編輯'}}
+        銷貨單 <span>&nbsp;&nbsp;訂單ID:&nbsp;{{formData.saleId}}</span>
       </h2>
       <br>
       <el-form
@@ -180,6 +182,7 @@
         </div>
         <br>
         <el-popover
+          v-if="!look"
           placement="top"
           width="160"
           v-model="popoverVisible"
@@ -256,6 +259,7 @@ export default {
     };
   },
   created() {
+    this.look = this.$route.query.type == 'look';
     let saleCurrency = axios({
       url: "/erp/value/currency",
       method: "post",

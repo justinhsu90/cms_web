@@ -131,7 +131,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="50"
+            width="80"
             label="動作"
             align="center"
           >
@@ -142,6 +142,13 @@
                 title="編輯"
                 icon="el-icon-won-1"
                 @click="handleEdit(scope.row)"
+              ></el-button>
+              <el-button
+                class="btnh"
+                type="text"
+                title="查看"
+                icon="el-icon-won-40"
+                @click="handleLook(scope.row)"
               ></el-button>
             </template>
           </el-table-column>
@@ -219,7 +226,7 @@ export default {
         url: "/erp/sale/search",
         method: "post",
         where: ""
-      }
+      } 
     };
   },
   filters: {
@@ -297,6 +304,12 @@ export default {
       this.$router.push({
         name: "erpSaleEdit",
         query: { data: JSON.stringify(val) }
+      });
+    },
+    handleLook(val) {
+      this.$router.push({
+        name: "erpSaleEdit",
+        query: { data: JSON.stringify(val), type: 'look' }
       });
     },
     handleAdd() {

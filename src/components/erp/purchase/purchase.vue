@@ -150,7 +150,7 @@
             prop="purchasedBy"
           ></el-table-column>
           <el-table-column
-            width="80"
+            width="100"
             label="動作"
             align="center"
           >
@@ -168,6 +168,13 @@
                 title="編輯"
                 icon="el-icon-won-1"
                 @click="handleEdit(scope.row)"
+              ></el-button>
+              <el-button
+                class="btnh"
+                type="text"
+                title="查看"
+                icon="el-icon-won-40"
+                @click="handleLook(scope.row)"
               ></el-button>
             </template>
           </el-table-column>
@@ -344,6 +351,12 @@ export default {
       this.$router.push({
         name: "erpPurchaseEdit",
         query: { data: JSON.stringify(val) }
+      });
+    },
+    handleLook(val){
+      this.$router.push({
+        name: "erpPurchaseEdit",
+        query: { data: JSON.stringify(val), type: 'look' }
       });
     },
     handleAdd() {
