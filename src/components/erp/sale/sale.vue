@@ -226,7 +226,7 @@ export default {
         url: "/erp/sale/search",
         method: "post",
         where: ""
-      } 
+      }
     };
   },
   filters: {
@@ -309,7 +309,7 @@ export default {
     handleLook(val) {
       this.$router.push({
         name: "erpSaleEdit",
-        query: { data: JSON.stringify(val), type: 'look' }
+        query: { data: JSON.stringify(val), type: "look" }
       });
     },
     handleAdd() {

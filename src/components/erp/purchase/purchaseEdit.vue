@@ -326,7 +326,7 @@ export default {
     };
   },
   created() {
-    this.look = this.$route.query.type == 'look';
+    this.look = this.$route.query.type == "look";
     let purchasePlatform = axios({
       url: "/erp/value/purchasePlatform",
       method: "post",
@@ -506,7 +506,6 @@ export default {
         v.purchaseOrderId = this.formData.purchaseOrderId;
         v.purchasedBy = this.formData.purchasedBy;
         v.currency = this.formData.currency;
-        delete v.purchasedAmount;
       });
       let obj = {
         data

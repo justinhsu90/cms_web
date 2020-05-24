@@ -353,10 +353,10 @@ export default {
         query: { data: JSON.stringify(val) }
       });
     },
-    handleLook(val){
+    handleLook(val) {
       this.$router.push({
         name: "erpPurchaseEdit",
-        query: { data: JSON.stringify(val), type: 'look' }
+        query: { data: JSON.stringify(val), type: "look" }
       });
     },
     handleAdd() {

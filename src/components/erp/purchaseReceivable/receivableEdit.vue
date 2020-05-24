@@ -275,7 +275,7 @@ export default {
     };
   },
   created() {
-    this.look = this.$route.query.type == 'look';
+    this.look = this.$route.query.type == "look";
     let receivablePlatform = axios({
       url: "/erp/accountreceivable/value/platform",
       method: "post",

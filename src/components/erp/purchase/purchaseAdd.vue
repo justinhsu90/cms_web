@@ -546,7 +546,7 @@ export default {
         v.purchaseOrderId = this.formData.purchaseOrderId;
         v.purchasedBy = this.formData.purchasedBy;
         v.currency = this.formData.currency;
-        delete v.purchasedAmount;
+        // delete v.purchasedAmount;
       });
       let obj = {
         data

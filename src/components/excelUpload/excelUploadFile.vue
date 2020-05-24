@@ -242,7 +242,8 @@ export default {
         })
         .catch(() => {
           this.$message.error("保存失敗");
-        }).finally(() => {
+        })
+        .finally(() => {
           this.isLoading = false;
         });
     }
