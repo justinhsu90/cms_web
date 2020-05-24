@@ -125,6 +125,7 @@
               <col width="80">
               <col width="80">
               <col width="80">
+              <col width="80">
               <col width="150">
               <col width="70">
             </colgroup>
@@ -136,6 +137,7 @@
                 <th>單品金額</th>
                 <th>採購數量</th>
                 <th>該品總運費</th>
+                <th>付款比例（%）</th>
                 <th>總金額（包含運費）</th>
                 <th>操作</th>
               </tr>
@@ -199,7 +201,16 @@
                   </el-form-item>
                 </td>
                 <td>
-                  <span>{{ v.purchasedAmount * v.purchasedQuantity | formatToMoney}}</span>
+                  <el-form-item
+                    label=""
+                    :prop="'data.'+i+'.paymentPercentage'"
+                    :rules="requredRule"
+                  >
+                    <el-input v-model.number="v.paymentPercentage"></el-input>
+                  </el-form-item>
+                </td>
+                <td>
+                  <span>{{ (v.purchasedAmount * v.purchasedQuantity * v.paymentPercentage / 100 + v.shippingCost) | formatToMoney}}</span>
                 </td>
                 <td>
                   <el-button
@@ -232,6 +243,7 @@
                 <td>
                   {{totalShippingCost | formatToMoney}}
                 </td>
+                <td></td>
                 <td>
                   {{ totalMoney  | formatToMoney}}
                 </td>
@@ -321,12 +333,12 @@ export default {
       },
       formData: {
         purchasedTime: Date.now(),
-        purchaseType: "",
-        purchasedPlatform: "",
-        purchasedAccount: "",
+        purchaseType: "採購",
+        purchasedPlatform: "1688",
+        purchasedAccount: "flybuddyltd",
         purchaseOrderId: "",
         purchasedBy,
-        currency: "",
+        currency: "RMB",
         data: [
           {
             sku: "",
@@ -335,7 +347,8 @@ export default {
             purchasedQuantity: "",
             purchasedAmount: "",
             note: "",
-            shippingCost: ""
+            shippingCost: 0,
+            paymentPercentage: 100
           }
         ]
       }
@@ -407,7 +420,10 @@ export default {
       let total = 0;
       _.each(this.formData.data, v => {
         total +=
-          Number(v.purchasedAmount) * Number(v.purchasedQuantity) +
+          (Number(v.purchasedAmount) *
+            Number(v.purchasedQuantity) *
+            Number(v.paymentPercentage)) /
+            100 +
           Number(v.shippingCost);
       });
       if (total == 0) {
