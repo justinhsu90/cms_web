@@ -167,6 +167,13 @@
               <el-button
                 class="btnh"
                 type="text"
+                title="查看"
+                icon="el-icon-won-40"
+                @click="handleLook(scope.row)"
+              ></el-button>
+              <el-button
+                class="btnh"
+                type="text"
                 title="編輯"
                 icon="el-icon-won-1"
                 @click="handleEdit(scope.row)"
@@ -333,6 +340,12 @@ export default {
     },
     handleShow() {
       this.showDialog = false;
+    },
+    handleLook(row) {
+      this.$router.push({
+        name: "skuEdit",
+        query: { data: JSON.stringify(row), type: "look" }
+      });
     },
     handleEdit(row) {
       this.$router.push({

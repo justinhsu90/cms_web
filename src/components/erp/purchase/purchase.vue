@@ -158,9 +158,9 @@
               <el-button
                 class="btnh"
                 type="text"
-                title="删除"
-                icon="el-icon-won-22"
-                @click="handleDelete(scope.row)"
+                title="查看"
+                icon="el-icon-won-40"
+                @click="handleLook(scope.row)"
               ></el-button>
               <el-button
                 class="btnh"
@@ -172,9 +172,9 @@
               <el-button
                 class="btnh"
                 type="text"
-                title="查看"
-                icon="el-icon-won-40"
-                @click="handleLook(scope.row)"
+                title="删除"
+                icon="el-icon-won-22"
+                @click="handleDelete(scope.row)"
               ></el-button>
             </template>
           </el-table-column>

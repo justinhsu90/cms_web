@@ -11,7 +11,9 @@
       >返回</a>
     </div>
     <br>
-    <h2>編輯SKU</h2>
+    <h2>{{
+      look ? "查看" : "编辑"
+    }}SKU</h2>
     <br>
     <el-form
       ref="form2"
@@ -132,8 +134,8 @@
         <el-input
           style="width:50%"
           :value="form.imageUrl"
-          @input="form.imageUrl = $event;" 
-          @blur="handleBlur" 
+          @input="form.imageUrl = $event;"
+          @blur="handleBlur"
         >
         </el-input>
       </el-form-item>
@@ -335,6 +337,7 @@
         </el-col>
       </el-row>
       <el-button
+        v-if="!look"
         @click="handleConfirm"
         :loading="submitLoading"
         type="primary"
@@ -443,6 +446,9 @@ export default {
       image: "",
       formModified: false
     };
+  },
+  created() {
+    this.look = this.$route.query.type == "look";
   },
   mounted() {
     axios({
