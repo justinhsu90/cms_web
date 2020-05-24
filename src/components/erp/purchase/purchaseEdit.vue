@@ -390,7 +390,7 @@ export default {
       );
       this.formData.data[0].note = data.note;
       this.formData.data[0].shippingCost = data.shippingCost;
-
+      this.formData.data[0].paymentPercentage = data.paymentPercentage;
       this.formData.purchasedTime = new Date(data.purchasedTime);
       this.formData.purchasedPlatform = data.purchasedPlatform;
       this.formData.purchasedBy = data.purchasedBy;
