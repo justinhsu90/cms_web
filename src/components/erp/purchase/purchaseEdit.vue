@@ -171,10 +171,10 @@
                 <td>
                   <el-form-item
                     label=""
-                    :prop="'data.'+i+'.purchasedAmount'"
+                    :prop="'data.'+i+'.productCost'"
                     :rules="requredRuleFloat"
                   >
-                    <el-input v-model.number="v.purchasedAmount"></el-input>
+                    <el-input v-model.number="v.productCost"></el-input>
                   </el-form-item>
                 </td>
                 <td>
@@ -205,7 +205,7 @@
                   </el-form-item>
                 </td>
                 <td>
-                  <span>{{ (v.purchasedAmount * v.purchasedQuantity * v.paymentPercentage / 100 + v.shippingCost) | formatToMoney}}</span>
+                  <span>{{ (v.productCost * v.purchasedQuantity * v.paymentPercentage / 100 + v.shippingCost) | formatToMoney}}</span>
                 </td>
                 <td>
                   <el-button
@@ -329,7 +329,7 @@ export default {
             productName: "",
             productSpec: "",
             purchasedQuantity: "",
-            purchasedAmount: "",
+            productCost: "",
             note: "",
             shippingCost: 0,
             paymentPercentage: 100
@@ -384,7 +384,7 @@ export default {
       this.formData.data[0].productName = data.productName;
       this.formData.data[0].productSpec = data.productSpec;
       this.formData.data[0].purchasedQuantity = data.purchasedQuantity;
-      this.formData.data[0].purchasedAmount = this.Div(
+      this.formData.data[0].productCost = this.Div(
         data.purchasedTotalAmount,
         data.purchasedQuantity
       );
@@ -407,7 +407,7 @@ export default {
       let total = 0;
       _.each(this.formData.data, v => {
         total +=
-          (Number(v.purchasedAmount) *
+          (Number(v.productCost) *
             Number(v.purchasedQuantity) *
             Number(v.paymentPercentage)) /
             100 +
@@ -442,7 +442,7 @@ export default {
     totalPurchasedAmount() {
       let total = 0;
       _.each(this.formData.data, v => {
-        total += Number(v.purchasedAmount);
+        total += Number(v.productCost);
       });
       if (total == 0) {
         return "";
@@ -516,7 +516,7 @@ export default {
         v.purchasedPlatform = this.formData.purchasedPlatform;
         v.purchasedAccount = this.formData.purchasedAccount;
         v.purchasedTotalAmount = this.Mul(
-          v.purchasedAmount,
+          v.productCost,
           v.purchasedQuantity
         );
         v.purchaseOrderId = this.formData.purchaseOrderId;

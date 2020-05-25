@@ -199,7 +199,7 @@ import wonTableContainer from "@/common/wonTableContainer";
 import { format } from "@/common/until/format";
 export default {
   extends: wonTableContainer,
-  data() {
+  data() { 
     return {
       date: [],
       pickerOptions: {
