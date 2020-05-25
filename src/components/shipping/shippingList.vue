@@ -120,7 +120,14 @@
             prop="orderStatus"
           >
             <template slot-scope="scope">
-              <el-tag type="success">{{scope.row.orderStatus}}</el-tag>
+              <el-tag
+                v-if="scope.row.orderStatus == '已發貨'"
+                type="success"
+              >{{scope.row.orderStatus}}</el-tag>
+              <el-tag
+                v-else
+                type="warning"
+              >{{scope.row.orderStatus}}</el-tag>
             </template>
           </el-table-column>
           <!-- <el-table-column min-width="75" label="平台" prop="platform"></el-table-column> -->
