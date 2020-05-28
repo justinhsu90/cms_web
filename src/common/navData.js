@@ -141,6 +141,10 @@ const nav = [
         // {
         //   index: "erptakestock",
         //   label: "(6) 盤點紀錄"
+      },
+      {
+        index: "chuhuo",
+        label: "(6) 出货单"
       }
     ]
   },
