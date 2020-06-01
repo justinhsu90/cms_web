@@ -20,7 +20,18 @@
               label="貨代："
               prop="agent"
             >
-              <el-input v-model="form.agent"></el-input>
+              <el-select
+                v-model="form.agent"
+                placeholder="貨代"
+                class="w100"
+              >
+                <el-option
+                  v-for="(v,i) in agents"
+                  :label="v"
+                  :value="v"
+                  :key="i"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -92,7 +103,18 @@
               label="幣別："
               prop="type"
             >
-              <el-input v-model="form.type"></el-input>
+              <el-select
+                class="w100"
+                v-model="form.type"
+                placeholder="貨代"
+              >
+                <el-option
+                  v-for="(v,i) in currencys"
+                  :label="v"
+                  :value="v"
+                  :key="i"
+                ></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -112,6 +134,8 @@ export default {
   data() {
     return {
       loading: false,
+      agents: [],
+      currencys: [],
       form: {
         platformorderid: "",
         orderId: "",
@@ -138,6 +162,24 @@ export default {
         }
       }
     };
+  },
+  created(){
+    // /data-server/shipment/value/agent  貨代 下拉清單
+    // /data-server/shipment/value/currency  幣別 下拉清單
+    let agent = axios({
+        url: '/shipment/value/agent',
+        method: 'post',
+        data: {}
+      }).then((res) => {
+        this.agents = res
+      })
+  let currency = axios({
+      url: '/shipment/value/currency',
+      method: 'post',
+      data: {}
+    }).then((res) => {
+      this.currencys = res
+    })  
   },
   methods: {
     handleProductInfo(){
@@ -167,16 +209,17 @@ export default {
         }).then((res) => {
           console.log(res, 22);
           let {
+            platfromOrderId,
+            orderStatus,
+            platformOrderId,
+            orderTime,
+            shipoutTime,
+            trackingNumber,
+            orderId,
             agent,
             currency,
-            orderId,
-            orderStatus,
-            orderTime,
-            platformOrderId,
-            shipoutTime,
             shippingFee,
-            shippingMethod,
-            trackingNumber
+            shippingMethod
           } = res
           this.form.platformorderid = platformOrderId || ''
           this.form.orderId = orderId || ''
@@ -185,16 +228,22 @@ export default {
           this.form.dateTwo = shipoutTime || ''
           this.form.type = currency || ''
           this.form.money = shippingFee  || ''
+          this.form.trackingNumber = trackingNumber || ''
+
+          this.orderStatus = orderStatus
+          this.shippingMethod = shippingMethod
         }).finally(() => {
           this.productLoading = false
         })
     },
     submit() {
+      // UG0450469
+      // Wanyilian
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;
           axios({
-            url: "/shipment/value/orderInfo", 
+            url: "/shipment/addOversea", 
             method: "post",
             data: {
                value: JSON.stringify({
@@ -204,14 +253,19 @@ export default {
                 orderTime: this.form.dateOne,
                 shipoutTime: this.form.dateTwo,
                 currency: this.form.type,
-                shippingFee: this.form.money
+                shippingFee: this.form.money,
+                trackingNumber: this.form.trackingNumber,
+                orderStatus: this.orderStatus,
+                shippingMethod: this.shippingMethod
                })
             }
           })
             .then(res => {
+              this.$message.success('保存成功')
               this.loading = false;
             })
             .catch(() => {
+              this.$message.warning('保存失败')
               this.loading = false;
             });
         }
