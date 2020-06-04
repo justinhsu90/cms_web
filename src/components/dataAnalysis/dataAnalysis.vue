@@ -651,6 +651,17 @@ export default {
         this.platformPerformance = _.cloneDeep(res.platformPerformance) || [];
         this.previousDayPlatformPerformance =
           _.cloneDeep(res.previousDayPlatformPerformance) || [];
+        this.previousDayPlatformPerformance = this.previousDayPlatformPerformance.map(
+          item => {
+            if (item.platform == "Gogroopie") {
+              return Object.assign({}, item, {
+                currency: "RMB"
+              });
+            }
+            return item;
+          }
+        );
+
         this.todayPlatformPerformance =
           _.cloneDeep(res.todayPlatformPerformance) || [];
         this.dateRangeSoldPerformance =

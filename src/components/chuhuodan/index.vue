@@ -128,8 +128,7 @@
     </el-col>
   </el-row>
 </template>
-<script> 
-
+<script>
 export default {
   data() {
     return {
@@ -144,72 +143,67 @@ export default {
         dateOne: "",
         dateTwo: "",
         money: "",
-        type: "", 
+        type: ""
       },
       productLoading: false,
       formRules: {
         platformorderid: {
           required: true,
-          message: '此項必填' 
+          message: "此項必填"
         },
-        agent: { 
+        agent: {
           required: true,
-          message: '此項必填' 
+          message: "此項必填"
         },
-        dateOne: { 
+        dateOne: {
           required: true,
-          message: '此項必填' 
+          message: "此項必填"
         }
       }
     };
   },
-  created(){
+  created() {
     // /data-server/shipment/value/agent  貨代 下拉清單
     // /data-server/shipment/value/currency  幣別 下拉清單
-    let agent = axios({
-        url: '/shipment/value/agent',
-        method: 'post',
-        data: {}
-      }).then((res) => {
-        this.agents = res
-      })
-  let currency = axios({
-      url: '/shipment/value/currency',
-      method: 'post',
+    axios({
+      url: "/shipment/value/agent",
+      method: "post",
       data: {}
-    }).then((res) => {
-      this.currencys = res
-    })  
+    }).then(res => {
+      this.agents = res;
+    });
+    axios({
+      url: "/shipment/value/currency",
+      method: "post",
+      data: {}
+    }).then(res => {
+      this.currencys = res;
+    });
   },
   methods: {
-    handleProductInfo(){
-      let {
-        trackingNumber,
-        orderId,
-        agent
-      } = this.form
-      if(!agent){
-        this.$message.warning('请填写貨代')
-        return
+    handleProductInfo() {
+      let { trackingNumber, orderId, agent } = this.form;
+      if (!agent) {
+        this.$message.warning("请填写貨代");
+        return;
       }
 
-      if(!orderId && !trackingNumber){
-        this.$message.warning('请填写订单ID,或者物流单号')
-        return
+      if (!orderId && !trackingNumber) {
+        this.$message.warning("请填写订单ID,或者物流单号");
+        return;
       }
-      this.productLoading = true
-        axios({
-        url: '/shipment/value/orderInfo',
-        method: 'post',
+      this.productLoading = true;
+      axios({
+        url: "/shipment/value/orderInfo",
+        method: "post",
         data: {
           agent: this.form.agent,
           trackingNumber: this.form.trackingNumber,
           orderId: this.form.orderId
         }
-        }).then((res) => {
-          console.log(res, 22);
+      })
+        .then(res => {
           let {
-            platfromOrderId,
             orderStatus,
             platformOrderId,
             orderTime,
@@ -220,21 +214,22 @@ export default {
             currency,
             shippingFee,
             shippingMethod
-          } = res
-          this.form.platformorderid = platformOrderId || ''
-          this.form.orderId = orderId || ''
-          this.form.agent = agent || ''
-          this.form.dateOne = orderTime || ''
-          this.form.dateTwo = shipoutTime || ''
-          this.form.type = currency || ''
-          this.form.money = shippingFee  || ''
-          this.form.trackingNumber = trackingNumber || ''
+          } = res;
+          this.form.platformorderid = platformOrderId || "";
+          this.form.orderId = orderId || "";
+          this.form.agent = agent || "";
+          this.form.dateOne = orderTime || "";
+          this.form.dateTwo = shipoutTime || "";
+          this.form.type = currency || "";
+          this.form.money = shippingFee || "";
+          this.form.trackingNumber = trackingNumber || "";
 
-          this.orderStatus = orderStatus
-          this.shippingMethod = shippingMethod
-        }).finally(() => {
-          this.productLoading = false
+          this.orderStatus = orderStatus;
+          this.shippingMethod = shippingMethod;
         })
+        .finally(() => {
+          this.productLoading = false;
+        });
     },
     submit() {
       // UG0450469
@@ -243,10 +238,10 @@ export default {
         if (valid) {
           this.loading = true;
           axios({
-            url: "/shipment/addOversea", 
+            url: "/shipment/addOversea",
             method: "post",
             data: {
-               value: JSON.stringify({
+              value: JSON.stringify({
                 platformOrderId: this.form.platformorderid,
                 orderId: this.form.orderId,
                 agent: this.form.agent,
@@ -257,15 +252,15 @@ export default {
                 trackingNumber: this.form.trackingNumber,
                 orderStatus: this.orderStatus,
                 shippingMethod: this.shippingMethod
-               })
+              })
             }
           })
-            .then(res => {
-              this.$message.success('保存成功')
+            .then(() => {
+              this.$message.success("保存成功");
               this.loading = false;
             })
             .catch(() => {
-              this.$message.warning('保存失败')
+              this.$message.warning("保存失败");
               this.loading = false;
             });
         }
