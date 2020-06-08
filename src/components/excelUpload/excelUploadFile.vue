@@ -82,8 +82,8 @@
                           <el-option
                             v-for="(v,i) in searchFiletypeOption"
                             :key="'acc'+i"
-                            :label="v"
-                            :value="v"
+                            :label="v.name"
+                            :value="v.code"
                           ></el-option>
                         </el-select>
                       </el-form-item>
