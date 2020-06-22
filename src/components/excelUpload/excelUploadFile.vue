@@ -108,9 +108,9 @@
               </el-table>
             </div>
           </el-form-item>
-          <el-form-item v-if="!!url && typeAll == 'Wowcher Unpaid物流資料'">
+          <el-form-item v-if="!!url && typeAll == 'WOWCHER_ORDER_UNPAID_LIST'">
             <el-button
-              type="primary"
+              type="success"
               size="small"
               @click="saveFile(url, '文件')"
             >
