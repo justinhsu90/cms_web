@@ -121,8 +121,8 @@
                 <span>{{v.revenue | formatToMoney}}</span>
               </div>
               <div class="mt10 tc">
-                <!-- <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span> -->
-                <span class="f13 label-tips">銷售額(GBP)</span>
+                <span class="f13 label-tips">銷售額{{`(${v.currency})`}}</span>
+                <!-- <span class="f13 label-tips">銷售額(GBP)</span> -->
               </div>
             </div>
             <div class="w30 fr">
