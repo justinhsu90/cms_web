@@ -1,70 +1,86 @@
 <template>
-    <div id="receivableEdit">
-        <div style="padding:20px">
-            <div class="heade">
-                <i class="el-icon-arrow-left"></i>
-                <a href="javascript:void(0)" @click="goBack">返回</a>
-            </div>
-            <br>
-            <h2>查看費用帳款
-            </h2>
-            <br>
-            <table cellspacing="0" cellpadding="0" v-loading="loading">
-                <caption>
-                    <h3 class="mt">
-                        {{year}}年{{month}}月費用應收帳款表
-                    </h3>
-                    <h5 class="tr">
-                        生成時就 {{generatedTime | formatToTime}}
-                    </h5>
-                </caption>
-                <thead>
-                    <tr>
-                        <th colspan="5">客戶資料</th>
-                        <th colspan="3">收入</th>
-                        <th colspan="4">變動成本</th>
-                        <th colspan="3">固定成本</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>客工商</td>
-                        <td>平台</td>
-                        <td>帳號</td>
-                        <td>國家</td>
-                        <td>幣別</td>
-                        <td>銷售額</td>
-                        <td>退貨退款</td>
-                        <td>應收</td>
-                        <td>成交費</td>
-                        <td>運費</td>
-                        <td>倉儲費</td>
-                        <td>總金額</td>
-                        <td>規費</td>
-                        <td>廣告費</td>
-                        <td>總金額</td>
-                    </tr>
-                    <tr v-for="(v,i) in data" :key="i">
-                        <td>{{v.erpAccountName}}</td>
-                        <td>{{v.platform | formToEmpty}}</td>
-                        <td>{{v.account | formToEmpty}}</td>
-                        <td>{{v.country | formToEmpty}}</td>
-                        <td>{{v.currency | formToEmpty}}</td>
-                        <td>{{v.incomeSale | formToEmpty}}</td>
-                        <td>{{v.incomeRefund | formToEmpty}}</td>
-                        <td>{{v.incomeReceivable | formToEmpty}}</td>
-                        <td>{{v.successFee | formToEmpty}}</td>
-                        <td>{{v.freight | formToEmpty}}</td>
-                        <td>{{v.storageCharge | formToEmpty}}</td>
-                        <td>{{ add(add(v.successFee,v.freight),v.storageCharge) | formToEmpty}}</td>
-                        <td>{{v.fees | formToEmpty}}</td>
-                        <td>{{v.advertising | formToEmpty}}</td>
-                        <td>{{add(v.fees,v.advertising).toFixed(2) | formToEmpty}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div id="receivableEdit">
+    <div style="padding:20px">
+      <div class="heade">
+        <i class="el-icon-arrow-left"></i>
+        <a
+          href="javascript:void(0)"
+          @click="goBack"
+        >返回</a>
+      </div>
+      <br>
+      <h2>查看費用帳款
+      </h2>
+      <br>
+      <table
+        cellspacing="0"
+        cellpadding="0"
+        v-loading="loading"
+      >
+        <caption>
+          <h3 class="mt">
+            {{year}}年{{month}}月費用應收帳款表
+          </h3>
+          <h5 class="tr">
+            生成時就 {{generatedTime | formatToTime}}
+          </h5>
+        </caption>
+        <thead>
+          <tr>
+            <th colspan="5">客戶資料</th>
+            <th colspan="3">收入</th>
+            <th colspan="4">變動成本</th>
+            <th colspan="6">固定成本</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>客工商</td>
+            <td>平台</td>
+            <td>帳號</td>
+            <td>國家</td>
+            <td>幣別</td>
+            <td>銷售額</td>
+            <td>退貨退款</td>
+            <td>應收</td>
+            <td>成交費</td>
+            <td>運費</td>
+            <td>倉儲費</td>
+            <td>總金額</td>
+            <td>規費</td>
+            <td>廣告費</td>
+            <td>客服費</td>
+            <td>其他交易費用</td>
+            <td>罰款</td>
+            <td>總金額</td>
+          </tr>
+          <tr
+            v-for="(v,i) in data"
+            :key="i"
+          >
+            <td>{{v.erpAccountName}}</td>
+            <td>{{v.platform | formToEmpty}}</td>
+            <td>{{v.account | formToEmpty}}</td>
+            <td>{{v.country | formToEmpty}}</td>
+            <td>{{v.currency | formToEmpty}}</td>
+            <td>{{v.incomeSale | formToEmpty}}</td>
+            <td>{{v.incomeRefund | formToEmpty}}</td>
+            <td>{{v.incomeReceivable | formToEmpty}}</td>
+            <td>{{v.successFee | formToEmpty}}</td>
+            <td>{{v.freight | formToEmpty}}</td>
+            <td>{{v.storageCharge | formToEmpty}}</td>
+            <td>{{ add(add(v.successFee,v.freight),v.storageCharge) | formToEmpty}}</td>
+            <td>{{v.fees | formToEmpty}}</td>
+            <td>{{v.advertising | formToEmpty}}</td>
+            <td>{{v.customerServiceFee | formToEmpty}}</td>
+            <td>{{v.otherFee | formToEmpty}}</td>
+            <td>{{v.fineFee | formToEmpty}}</td>
+            <td>{{add(v.fineFee, add(v.otherFee, add(v.customerServiceFee, add(v.fees,v.advertising)))).toFixed(2) | formToEmpty}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </template>
 <script>
 import moment from "moment";
@@ -122,6 +138,7 @@ export default {
           data[str] = [v];
         }
       });
+
       _.each(data, (v, key) => {
         let arr = key.split("-");
         let obj = {
@@ -137,6 +154,9 @@ export default {
           storageCharge: 0,
           fees: 0,
           advertising: 0,
+          customerServiceFee: 0,
+          otherFee: 0,
+          fineFee: 0,
           erpAccountName: v[0].erpAccountName
         };
         let dataObj = v.reduce((accumulator, currentValue) => {
@@ -158,21 +178,48 @@ export default {
               currentValue.amount
             );
           }
+
           if (currentValue.financialType == "訂單成交費") {
             accumulator.successFee = this.add(
               accumulator.successFee,
               currentValue.amount
             );
           }
+
           if (currentValue.financialType == "帳號使用規費") {
             accumulator.fees = this.add(accumulator.fees, currentValue.amount);
           }
+
           if (currentValue.financialType == "廣告費") {
             accumulator.advertising = this.add(
               accumulator.advertising,
               currentValue.amount
             );
           }
+
+          if (currentValue.financialType == "客服費") {
+            accumulator.customerServiceFee = this.add(
+              accumulator.customerServiceFee,
+              currentValue.amount
+            );
+          }
+
+          // otherFee
+          if (currentValue.financialType == "其他交易費用") {
+            accumulator.otherFee = this.add(
+              accumulator.otherFee,
+              currentValue.amount
+            );
+          }
+          // 罚款
+          if (currentValue.financialType == "罰款") {
+            accumulator.fineFee = this.add(
+              accumulator.fineFee,
+              currentValue.amount
+            );
+          }
+          // fineFee
+
           if (currentValue.financialType == "銷售額") {
             accumulator.incomeSale = this.add(
               accumulator.incomeSale,
