@@ -215,7 +215,7 @@
             class-name="margin-column"
           >
             <template slot-scope='scope'>
-              {{ scope.row.shippingFee.margin + "%" }}
+              {{ scope.row.shippingFee.margin}}
             </template>
           </el-table-column>
           <el-table-column
@@ -225,7 +225,7 @@
             class-name="margin-percentage"
           >
             <template slot-scope='scope'>
-              {{ scope.row.shippingFee.marginPercentage }}
+              {{ scope.row.shippingFee.marginPercentage * 100 + "%"  }}
             </template>
           </el-table-column>
           <el-table-column
