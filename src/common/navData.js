@@ -23,6 +23,10 @@ const nav = [
       {
         index: "upc",
         label: "UPC管理"
+      },
+      {
+        index: "candidate",
+        label: "候選產品"
       }
       // ,
       // {
