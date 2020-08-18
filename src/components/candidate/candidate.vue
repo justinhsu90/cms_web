@@ -94,29 +94,24 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            min-width="35"
-            label="Id"
+            min-width="30"
+            label="ID"
             prop="id"
             sortable="custom"
           ></el-table-column>
           <el-table-column
             min-width="50"
-            label="Sku"
+            label="SKU"
             prop="sku"
             sortable="custom"
             :formatter="formatEmptyText"
           ></el-table-column>
           <el-table-column
-            min-width="60"
-            label="報價狀態"
+            min-width="50"
+            label="狀態"
             prop="listingStatus"
           >
           </el-table-column>
-          <!-- <el-table-column
-            min-width="25"
-            label="圖片"
-            prop="picurl"
-          ></el-table-column> -->
           <el-table-column
             class-name="tableColumn"
             label="圖片"
@@ -125,11 +120,11 @@
           >
             <template slot-scope="scope">
               <img
-                v-if="scope.row.picurl"
+                v-if="scope.row.imageUrl"
                 width="50"
                 height="50"
                 style="cursor:pointer"
-                :src="scope.row.picurl"
+                :src="scope.row.imageUrl"
                 @click="scope.row.dialogTableVisible = true"
               >
               <span v-else>—</span>
@@ -141,7 +136,7 @@
               >
                 <img
                   width="100%"
-                  :src="scope.row.picurl"
+                  :src="scope.row.imageUrl"
                 >
               </el-dialog>
             </template>
@@ -153,83 +148,105 @@
           ></el-table-column>
           <el-table-column
             min-width="50"
-            label="賬號"
+            label="帳號"
             prop="account"
             align="center"
             :formatter="formatEmptyText"
           ></el-table-column>
           <el-table-column
-            min-width="50"
-            label="平台"
-            prop="platform"
-            align="center"
-            :formatter="formatEmptyText"
-          ></el-table-column>
-          <el-table-column
-            min-width="50"
-            label="國家"
-            align="center"
-            prop="country"
-            :formatter="formatEmptyText"
-          ></el-table-column>
-          <el-table-column
-            min-width="50"
-            label="擁有者"
-            prop="currentOwner"
-          >
-          </el-table-column>
-          <el-table-column
-            min-width="50"
+            min-width="40"
             label="貨代"
             prop="shippingAgent"
-            class-name="shipping-agent"
+            class-name="shipping-agent-info"
           >
             <template slot-scope='scope'>
               {{ scope.row.shippingFee.shippingAgent }}
             </template>
           </el-table-column>
           <el-table-column
-            min-width="50"
+            min-width="40"
             label="發貨方式"
             prop="shippingMethod"
-            class-name="shipping-method"
+            class-name="shipping-agent-info"
           >
             <template slot-scope='scope'>
               {{ scope.row.shippingFee.shippingMethod }}
             </template>
           </el-table-column>
           <el-table-column
-            min-width="50"
-            label="finalprice"
+            min-width="40"
+            label="報價(FP)"
             prop="finalPrice"
-            class-name="final-price"
+            class-name="shipping-fee-info"
           >
-            <template slot-scope='scope'>
-              {{ scope.row.shippingFee.finalPrice }}
+            <template slot-scope="scope">
+              {{scope.row.shippingFee.finalPrice | formatToMoney}}&nbsp;{{scope.row.shippingFee.finalPriceCurrency}}
             </template>
           </el-table-column>
           <el-table-column
-            min-width="50"
+            min-width="40"
+            label="銷貨成本"
+            prop="productCost"
+            class-name="shipping-fee-info"
+          >
+            <template slot-scope="scope">
+              {{scope.row.shippingFee.productCost | formatToMoney}}&nbsp;{{scope.row.shippingFee.productCostCurrency}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="40"
+            label="運費"
+            prop="shippingFee"
+            class-name="shipping-fee-info"
+          >
+            <template slot-scope="scope">
+              {{scope.row.shippingFee.shippingFee | formatToMoney}}&nbsp;{{scope.row.shippingFee.shippingFeeCurrency}}
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            min-width="40"
             label="毛利"
             prop="margin"
-            class-name="margin-column"
+            class-name="shipping-fee-info"
           >
-            <template slot-scope='scope'>
-              {{ scope.row.shippingFee.margin}}
+            <template slot-scope="scope">
+              {{scope.row.shippingFee.margin | formatToMoney}}&nbsp;{{scope.row.shippingFee.finalPriceCurrency}}
             </template>
           </el-table-column>
           <el-table-column
-            min-width="50"
+            min-width="40"
             label="毛利率"
             prop="marginPercentage"
-            class-name="margin-percentage"
+            class-name="shipping-fee-info"
           >
             <template slot-scope='scope'>
               {{ scope.row.shippingFee.marginPercentage * 100 + "%"  }}
             </template>
           </el-table-column>
           <el-table-column
-            width="130"
+            min-width="40"
+            label="平台"
+            prop="platform"
+            align="center"
+            :formatter="formatEmptyText"
+          ></el-table-column>
+          <el-table-column
+            min-width="40"
+            label="國家"
+            align="center"
+            prop="country"
+            :formatter="formatEmptyText"
+          ></el-table-column>
+          <el-table-column
+            min-width="40"
+            label="擁有者"
+            prop="currentOwner"
+          >
+          </el-table-column>
+
+          <el-table-column
+            width="80"
             label="動作"
             align="center"
           >
@@ -485,23 +502,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/deep/ .shipping-agent {
+/deep/ .shipping-agent-info {
+  background: #f5e294;
+}
+// /deep/ .final-price {
+//   background: #409eff;
+// }
+
+// /deep/ .margin-column {
+//   background: #f5e294;
+// }
+
+// /deep/ .margin-percentage {
+//   background: #f56c6c;
+// }
+
+/deep/ .shipping-fee-info {
   background: #67c23a;
-}
-
-/deep/ .shipping-method {
-  background: #909399;
-}
-
-/deep/ .final-price {
-  background: #409eff;
-}
-
-/deep/ .margin-column {
-  background: #e6a23c;
-}
-
-/deep/ .margin-percentage {
-  background: #f56c6c;
 }
 </style>
