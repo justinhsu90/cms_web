@@ -41,7 +41,7 @@
           class="w-max150"
           placeholder="國家"
           v-model="country"
-          @change="handleCondition('type')"
+          @change="handleCondition('country')"
           clearable
         >
           <el-option
@@ -50,26 +50,47 @@
             :label="v.countryNameChinese"
             :value="v.countryCode"
           >
-            <span style="float: left">{{ v.countryNameChinese }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameEnglish }}</span>
           </el-option>
         </el-select>
-        <!-- <el-date-picker
-          class="w-max260"
+        <el-select
+          class="w-max150"
+          placeholder="經理"
+          v-model="manager"
+          @change="handleCondition('manager')"
           clearable
-          style="width:100%"
-          @change="handleChange"
-          value-format="yyyy-MM-dd"
-          v-model="date"
-          type="daterange"
-          align="right"
-          unlink-panels
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :picker-options="pickerOptions"
         >
-        </el-date-picker> -->
+          <el-option
+            v-for="(v,i) in managerOption"
+            :key="'manager'+i"
+            :label="v.countryNameChinese"
+            :value="v.countryCode"
+          >
+          </el-option>
+        </el-select>
+        <el-select
+          class="w-max150"
+          placeholder="擁有者"
+          v-model="currentOwner"
+          @change="handleCondition('currentOwner')"
+          clearable
+        >
+          <el-option
+            v-for="(v,i) in currentOwnerOption"
+            :key="'currentOwner'+i"
+            :label="v.countryNameChinese"
+            :value="v.countryCode"
+          >
+          </el-option>
+        </el-select>
+        <el-checkbox
+          v-model="showPermanentClose"
+          @change="handleCondition"
+        >showPermanentClose</el-checkbox>
+        <el-checkbox
+          class="showNoRrpLink"
+          v-model="showNoRrpLink"
+          @change="handleCondition"
+        >showNoRrpLink</el-checkbox>
         <div
           @click="handleSearch"
           class="el-input-group__append search"
@@ -78,11 +99,11 @@
         </div>
       </el-col>
       <el-col :span="2">
-        <!-- <el-button
+        <el-button
           style="float:right"
           @click="handleAdd"
           type="primary"
-        >新增採購</el-button> -->
+        >新增</el-button>
       </el-col>
       <el-col class="mt5">
 
@@ -123,7 +144,7 @@
                 v-if="scope.row.imageUrl"
                 width="50"
                 height="50"
-                style="cursor:pointer"
+                style="cursor:pointer; display: block"
                 :src="scope.row.imageUrl"
                 @click="scope.row.dialogTableVisible = true"
               >
@@ -180,7 +201,7 @@
             class-name="shipping-fee-info"
           >
             <template slot-scope="scope">
-              {{scope.row.shippingFee.finalPrice | formatToMoney}}&nbsp;{{scope.row.shippingFee.finalPriceCurrency}}
+              {{scope.row.shippingFee.marginCurrency | formatToUnit }} {{scope.row.shippingFee.finalPrice | formatToMoney}}
             </template>
           </el-table-column>
           <el-table-column
@@ -190,7 +211,7 @@
             class-name="shipping-fee-info"
           >
             <template slot-scope="scope">
-              {{scope.row.shippingFee.productCost | formatToMoney}}&nbsp;{{scope.row.shippingFee.productCostCurrency}}
+              {{scope.row.shippingFee.productCostCurrency | formatToUnit }} {{scope.row.shippingFee.productCost | formatToMoney}}
             </template>
           </el-table-column>
           <el-table-column
@@ -200,7 +221,7 @@
             class-name="shipping-fee-info"
           >
             <template slot-scope="scope">
-              {{scope.row.shippingFee.shippingFee | formatToMoney}}&nbsp;{{scope.row.shippingFee.shippingFeeCurrency}}
+              {{scope.row.shippingFee.shippingFeeCurrency | formatToUnit}} {{scope.row.shippingFee.shippingFee | formatToMoney}}
             </template>
           </el-table-column>
 
@@ -211,7 +232,7 @@
             class-name="shipping-fee-info"
           >
             <template slot-scope="scope">
-              {{scope.row.shippingFee.margin | formatToMoney}}&nbsp;{{scope.row.shippingFee.finalPriceCurrency}}
+              {{scope.row.shippingFee.marginCurrency | formatToUnit}} {{scope.row.shippingFee.margin | formatToMoney}}
             </template>
           </el-table-column>
           <el-table-column
@@ -266,7 +287,7 @@
                 @click="handleEdit(scope.row)"
               ></el-button>
               <el-button
-                class="btnh"
+                class="btnh-three"
                 type="text"
                 title="複製"
                 icon="el-icon-won-124"
@@ -304,38 +325,8 @@ export default {
   extends: wonTableContainer,
   data() {
     return {
-      date: [],
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      },
+      showPermanentClose: false,
+      showNoRrpLink: false,
       tableData: [],
       maxHeight: 450,
       condition: [],
@@ -343,9 +334,13 @@ export default {
       searchAccount: "",
       searchPlatform: "",
       country: "",
+      manager: "",
+      currentOwner: "",
       searchAccountOption: [],
       searchPlatformOption: [],
       searchCountryOption: [],
+      managerOption: [],
+      currentOwnerOption: [],
       fetchCondition: {
         skip: 0,
         limit: 20,
@@ -385,6 +380,9 @@ export default {
         this.searchAccountOption = _.cloneDeep(account);
         this.searchPlatformOption = _.cloneDeep(platform);
         this.searchCountryOption = _.cloneDeep(country.data);
+
+        this.managerOption = _.cloneDeep(country.data);
+        this.currentOwnerOption = _.cloneDeep(country.data);
       }
     );
     this.handleSearch();
@@ -404,16 +402,51 @@ export default {
         limit: this.fetchCondition.limit,
         order: this.fetchCondition.order
       };
+      let searchCriteria = [];
       if (this.condition.includes("1")) {
-        data.platform = this.searchPlatform;
+        searchCriteria.push({
+          key: "platform",
+          value: this.searchPlatform
+        });
       }
       if (this.condition.includes("2")) {
-        data.country = this.country;
+        searchCriteria.push({
+          key: "country",
+          value: this.country
+        });
       }
       if (this.condition.includes("3")) {
-        data.account = this.searchAccount;
+        searchCriteria.push({
+          key: "account",
+          value: this.searchAccount
+        });
       }
-      data.searchCriteria = '{["key":"productName", "value":"test"]}';
+      if (this.condition.includes("4")) {
+        searchCriteria.push({
+          key: "manager",
+          value: this.manager
+        });
+      }
+      if (this.condition.includes("5")) {
+        searchCriteria.push({
+          key: "currentOwner",
+          value: this.currentOwner
+        });
+      }
+
+      if (this.showPermanentClose) {
+        searchCriteria.push({
+          key: "showPermanentClose",
+          value: true
+        });
+      }
+      if (this.showNoRrpLink) {
+        searchCriteria.push({
+          key: "showNoRrpLink",
+          value: true
+        });
+      }
+      data.searchCriteria = JSON.stringify(searchCriteria);
       axios({
         url: this.fetchOption.url,
         method: this.fetchOption.method,
@@ -423,7 +456,6 @@ export default {
         _.each(data, v => {
           v.dialogTableVisible = false;
         });
-        this.tableData = _.cloneDeep(data);
         this.tableData = _.cloneDeep(data);
         this.total = count;
       });
@@ -465,7 +497,7 @@ export default {
       });
     },
     handleAdd() {
-      this.$router.push("/erpPurchaseAdd");
+      this.$router.push("/candidateAdd");
     },
     handleCondition(sign) {
       if (sign == "plat") {
@@ -477,7 +509,7 @@ export default {
           }
         }
       }
-      if (sign == "type") {
+      if (sign == "country") {
         if (!this.country) {
           _.pull(this.condition, "2");
         } else {
@@ -492,6 +524,24 @@ export default {
         } else {
           if (!this.condition.includes("3")) {
             this.condition.push("3");
+          }
+        }
+      }
+      if (sign == "manager") {
+        if (!this.manager) {
+          _.pull(this.condition, "4");
+        } else {
+          if (!this.condition.includes("4")) {
+            this.condition.push("4");
+          }
+        }
+      }
+      if (sign == "currentOwner") {
+        if (!this.currentOwner) {
+          _.pull(this.condition, "5");
+        } else {
+          if (!this.condition.includes("5")) {
+            this.condition.push("5");
           }
         }
       }
@@ -519,5 +569,12 @@ export default {
 
 /deep/ .shipping-fee-info {
   background: #67c23a;
+}
+
+.btnh-three {
+  margin-left: 0px;
+}
+.showNoRrpLink {
+  margin-left: 10px;
 }
 </style>
