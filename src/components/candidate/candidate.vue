@@ -85,12 +85,12 @@
         <el-checkbox
           v-model="showPermanentClose"
           @change="handleCondition"
-        >showPermanentClose</el-checkbox>
+        >顯示永久關閉</el-checkbox>
         <el-checkbox
           class="showNoRrpLink"
           v-model="showNoRrpLink"
           @change="handleCondition"
-        >showNoRrpLink</el-checkbox>
+        >顯示無RRP連結</el-checkbox>
         <div
           @click="handleSearch"
           class="el-input-group__append search"
@@ -130,6 +130,13 @@
           <el-table-column
             min-width="50"
             label="狀態"
+            prop="listingStatus"
+          >
+          </el-table-column>
+
+          <el-table-column
+            min-width="100"
+            label="最新留言"
             prop="listingStatus"
           >
           </el-table-column>
@@ -201,7 +208,7 @@
             class-name="shipping-fee-info"
           >
             <template slot-scope="scope">
-              {{scope.row.shippingFee.marginCurrency | formatToUnit }} {{scope.row.shippingFee.finalPrice | formatToMoney}}
+              {{scope.row.shippingFee.finalPriceCurrency | formatToUnit }} {{scope.row.shippingFee.finalPrice | formatToMoney}}
             </template>
           </el-table-column>
           <el-table-column
@@ -232,7 +239,7 @@
             class-name="shipping-fee-info"
           >
             <template slot-scope="scope">
-              {{scope.row.shippingFee.marginCurrency | formatToUnit}} {{scope.row.shippingFee.margin | formatToMoney}}
+              {{scope.row.shippingFee.finalPriceCurrency | formatToUnit}} {{scope.row.shippingFee.margin | formatToMoney}}
             </template>
           </el-table-column>
           <el-table-column
@@ -553,7 +560,7 @@ export default {
 
 <style scoped lang="scss">
 /deep/ .shipping-agent-info {
-  background: #f5e294;
+  background: #f4eed8;
 }
 // /deep/ .final-price {
 //   background: #409eff;
@@ -568,7 +575,7 @@ export default {
 // }
 
 /deep/ .shipping-fee-info {
-  background: #67c23a;
+  background: #d8ebcf;
 }
 
 .btnh-three {
