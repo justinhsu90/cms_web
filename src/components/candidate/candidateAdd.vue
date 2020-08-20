@@ -10,81 +10,9 @@
     <br>
     <h2>添加產品</h2>
     <br>
-    <!-- <el-form
-      ref="form1"
-      label-position="top"
-      :model="form"
-    >
-      <el-row :gutter="20">
-        <el-col class="w-max200">
-          <el-form-item prop="searchValue">
-            <el-select
-              v-model.trim="form.searchValue"
-              placeholder="請選擇"
-              @change="handleAddSku"
-            >
-              <el-option
-                v-for="item in searchOptions"
-                :key="item.header"
-                :label="item.header"
-                :value="item.header"
-              >
-                <span style="float: left">{{ item.header }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col style="max-width:130px">
-          <el-button
-            @click="handleAuto"
-            type="primary"
-          >生成流水號</el-button>
-        </el-col>
-        <el-col class="w-max200">
-          <el-form-item prop="colorValue">
-            <el-select
-              v-model="form.colorValue"
-              placeholder="請選擇"
-              @change="handleAddSku"
-            >
-              <el-option
-                v-for="(item,i) in searchColor"
-                :key="i"
-                :label="item.colourNameChinese"
-                :value="item.colourNameEnglish"
-              >
-                <span style="float: left">{{ item.colourNameChinese }}({{ item.colourNameEnglish }})</span>
-                <span :style="{'float':'right','background':`#${item.colourCode}`,width:'20px',height:'20px','marginTop':'5px'}">
-                </span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col class="w-max200">
-          <el-form-item prop="quantityValue">
-            <el-select
-              v-model="form.quantityValue"
-              placeholder="請選擇"
-              @change="handleAddSku"
-            >
-              <el-option
-                v-for="(item,i) in searchQuantity"
-                :key="i"
-                :label="item.quantityNameChinese"
-                :value="item.quantity"
-              >
-                <span style="float: left">{{ item.quantityNameChinese }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.quantityNameEnglish }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form> -->
     <el-form
-      ref="form2"
-      :model="form"
+      ref="form"
+      :model="newForm"
       label-position="left"
       label-width="150px"
     >
@@ -108,9 +36,9 @@
             <span>SKU</span>
           </template>
           <el-input
-            :value="form.sku"
-            @input="form.sku = $event"
-            @blur="form.sku = form.sku.toUpperCase()"
+            :value="newForm.sku"
+            @input="newForm.sku = $event"
+            @blur="newForm.sku = newForm.sku.toUpperCase()"
             class="w50"
           ></el-input>
         </el-form-item>
@@ -127,22 +55,13 @@
           >
         </div>
       </div>
-      <!-- <el-form-item
-        label="New SKU"
-        prop="newSku"
-      >
-        <el-input
-          v-model="form.newSku"
-          class="w50"
-        ></el-input>
-      </el-form-item> -->
       <el-form-item
         label="英文名稱"
         prop="productName"
         :rules="{required:true,message:'此項必填'}"
       >
         <el-input
-          v-model="form.productName"
+          v-model="newForm.productName"
           class="w50"
         ></el-input>
       </el-form-item>
@@ -152,28 +71,10 @@
         :rules="{required:true,message:'此項必填'}"
       >
         <el-input
-          v-model="form.productNameChinese"
+          v-model="newForm.productNameChinese"
           class="w50"
         ></el-input>
       </el-form-item>
-      <!-- <el-form-item
-        label="中文申報名"
-        prop="declareNameChinese"
-      >
-        <el-input
-          v-model="form.declareNameChinese"
-          class="w50"
-        ></el-input>
-      </el-form-item>
-      <el-form-item
-        label="英文申報名"
-        prop="declareNameEnglish"
-      >
-        <el-input
-          v-model="form.declareNameEnglish"
-          class="w50"
-        ></el-input>
-      </el-form-item> -->
       <el-form-item
         label="圖片"
         prop="image"
@@ -229,7 +130,7 @@
               clearable
               style="width:100%"
               value-format="yyyy-MM-dd HH:mm:ss"
-              v-model="lastUpdatedTime"
+              v-model="newForm.lastUpdatedTime"
               type="datetime"
             >
             </el-date-picker>
@@ -244,7 +145,7 @@
               clearable
               style="width:100%"
               value-format="yyyy-MM-dd HH:mm:ss"
-              v-model="addedTime"
+              v-model="newForm.addedTime"
               type="datetime"
             >
             </el-date-picker>
@@ -255,14 +156,7 @@
             label="規格："
             prop="details"
           >
-            <el-date-picker
-              clearable
-              style="width:100%"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              v-model="details"
-              type="datetime"
-            >
-            </el-date-picker>
+            <el-input v-model="newForm.details"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -270,7 +164,7 @@
             label="加入人："
             prop="addedBy"
           >
-            <el-input v-model="addedBy"></el-input>
+            <el-input v-model="newForm.addedBy"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -279,165 +173,339 @@
             label="參考連結："
             prop="referralUrl"
           >
-            <el-input v-model="referralUrl"></el-input>
+            <el-input v-model="newForm.referralUrl"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <!-- account: "MagicTrend",
+        country: "GB", -->
+          <el-form-item
+            label="平台："
+            prop="platform"
+          >
+            <el-input v-model="newForm.platform"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="貨代："
-            prop="shippingAgent"
+            label="用戶："
+            prop="account"
           >
-            <el-input v-model="shippingAgent"></el-input>
+            <el-input v-model="newForm.account"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="發貨方式："
-            prop="shippingMethod"
+            label="國家："
+            prop="country"
           >
-            <el-input v-model="shippingMethod"></el-input>
+            <el-input v-model="newForm.country"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="採購成本："
-            prop="productCost"
+            label="belongToManager："
+            prop="belongToManager"
           >
-            <el-input v-model="form.productCost"></el-input>
+            <el-input v-model="newForm.belongToManager"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="採購成本："
-            prop="productCost"
+            label="currentOwner："
+            prop="currentOwner"
           >
-            <el-input v-model="form.productCost"></el-input>
+            <el-input v-model="newForm.currentOwner"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="listingStatus："
+            prop="listingStatus"
+          >
+            <el-input v-model="newForm.listingStatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="permanentClose："
+            prop="permanentClose"
+          >
+            <el-input v-model="newForm.permanentClose"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="battery："
+            prop="battery"
+          >
+            <el-input v-model="newForm.battery"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="sample.trackingNumber："
+            prop="sample.trackingNumber"
+          >
+            <el-input v-model="newForm.sample.trackingNumber"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="sample.sampleStatus："
+            prop="sample.sampleStatus"
+          >
+            <el-input v-model="newForm.sample.sampleStatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="sample.trackingNumberAgent："
+            prop="sample.trackingNumberAgent"
+          >
+            <el-input v-model="newForm.sample.trackingNumberAgent"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="sample.shipoutTime："
+            prop="sample.shipoutTime"
+          >
+            <el-input v-model="newForm.sample.shipoutTime"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="productDimension.height："
+            prop="productDimension.height"
+          >
+            <el-input v-model="newForm.productDimension.height"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="productDimension.width："
+            prop="productDimension.width"
+          >
+            <el-input v-model="newForm.productDimension.width"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="productDimension.length："
+            prop="productDimension.length"
+          >
+            <el-input v-model="newForm.productDimension.length"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="productDimension.weight："
+            prop="productDimension.weight"
+          >
+            <el-input v-model="newForm.productDimension.weight"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="productDimension.weightUnit："
+            prop="productDimension.weightUnit"
+          >
+            <el-input v-model="newForm.productDimension.weightUnit"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="productDimension.dimensionUnit："
+            prop="productDimension.dimensionUnit"
+          >
+            <el-input v-model="newForm.productDimension.dimensionUnit"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingDimension.height："
+            prop="shippingDimension.height"
+          >
+            <el-input v-model="newForm.shippingDimension.height"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingDimension.width："
+            prop="shippingDimension.width"
+          >
+            <el-input v-model="newForm.shippingDimension.width"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingDimension.length："
+            prop="shippingDimension.length"
+          >
+            <el-input v-model="newForm.shippingDimension.length"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingDimension.weight："
+            prop="shippingDimension.weight"
+          >
+            <el-input v-model="newForm.shippingDimension.weight"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingDimension.weightUnit："
+            prop="shippingDimension.weightUnit"
+          >
+            <el-input v-model="newForm.shippingDimension.weightUnit"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingDimension.dimensionUnit："
+            prop="shippingDimension.dimensionUnit"
+          >
+            <el-input v-model="newForm.shippingDimension.dimensionUnit"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.finalPrice："
+            prop="shippingFee.finalPrice"
+          >
+            <el-input v-model="newForm.shippingFee.finalPrice"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.marginPercentage："
+            prop="shippingFee.marginPercentage"
+          >
+            <el-input v-model="newForm.shippingFee.marginPercentage"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.margin："
+            prop="shippingFee.margin"
+          >
+            <el-input v-model="newForm.shippingFee.margin"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.shippingMethod："
+            prop="shippingFee.shippingMethod"
+          >
+            <el-input v-model="newForm.shippingFee.shippingMethod"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.shippingAgent："
+            prop="shippingFee.shippingAgent"
+          >
+            <el-input v-model="newForm.shippingFee.shippingAgent"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.shippingFee："
+            prop="shippingFee.shippingFee"
+          >
+            <el-input v-model="newForm.shippingFee.shippingFee"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.shippingFeeCurrency："
+            prop="shippingFee.shippingFeeCurrency"
+          >
+            <el-input v-model="newForm.shippingFee.shippingFeeCurrency"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.productCost："
+            prop="shippingFee.productCost"
+          >
+            <el-input v-model="newForm.shippingFee.productCost"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.productCostCurrency："
+            prop="shippingFee.productCostCurrency"
+          >
+            <el-input v-model="newForm.shippingFee.productCostCurrency"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.packageMaterialFee："
+            prop="shippingFee.packageMaterialFee"
+          >
+            <el-input v-model="newForm.shippingFee.packageMaterialFee"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.finalPriceCurrency："
+            prop="shippingFee.finalPriceCurrency"
+          >
+            <el-input v-model="newForm.shippingFee.finalPriceCurrency"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.productDimensionPrefix："
+            prop="shippingFee.productDimensionPrefix"
+          >
+            <el-input v-model="newForm.shippingFee.productDimensionPrefix"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.productWeightPrefix："
+            prop="shippingFee.productWeightPrefix"
+          >
+            <el-input v-model="newForm.shippingFee.productWeightPrefix"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.air："
+            prop="shippingFee.air"
+          >
+            <el-input v-model="newForm.shippingFee.air"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.calculatedByProductDimension："
+            prop="shippingFee.calculatedByProductDimension"
+          >
+            <el-input v-model="newForm.shippingFee.calculatedByProductDimension"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-    </el-form>
-    <el-form
-      ref="form3"
-      :model="form"
-      label-position="left"
-      label-width="150px"
-    >
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-form-item
-            label="Amazon 長(CM)"
-            prop="amazonLengthCM"
-          >
-            <el-input v-model="form.amazonLengthCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="Amazon 寬(CM)"
-            prop="amazonWidthCM"
-          >
-            <el-input v-model="form.amazonWidthCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="Amazon 高(CM))"
-            prop="amazonHeightCM"
-          >
-            <el-input v-model="form.amazonHeightCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="Amazon 重(kg)"
-            prop="amazonWeightKG"
-          >
-            <el-input v-model="form.amazonWeightKG"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-form-item
-            label="小包 長(CM)"
-            prop="parcelLengthCM"
-          >
-            <el-input v-model="form.parcelLengthCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="小包 寬(CM)"
-            prop="parcelWidthCM"
-          >
-            <el-input v-model="form.parcelWidthCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="小包 高(CM)"
-            prop="parcelHeightCM"
-          >
-            <el-input v-model="form.parcelHeightCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="小包 重(kg)"
-            prop="parcelWeightKG"
-          >
-            <el-input v-model="form.parcelWeightKG"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-form-item
-            label="商品 長(CM)"
-            prop="productLengthCM"
-          >
-            <el-input v-model="form.productLengthCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="商品 寬(CM)"
-            prop="productWidthCM"
-          >
-            <el-input v-model="form.productWidthCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="商品 高(CM)"
-            prop="productHeightCM"
-          >
-            <el-input v-model="form.productHeightCM"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="商品 重(kg)"
-            prop="productWeightKG"
-          >
-            <el-input v-model="form.productWeightKG"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <!-- <el-form-item
-        label="已停用 SKU："
-        prop="deprecatedSKU"
-      >
-        <template slot="label">
-          <span>已停用 SKU：</span>
-        </template>
-        <el-input
-          type="textarea"
-          rows='4'
-          v-model="form.deprecatedSKU"
-          style="width:70%"
-        ></el-input>
-      </el-form-item> -->
       <el-button
         @click="handleConfirm"
         :loading="submitLoading"
@@ -453,39 +521,7 @@
 export default {
   data() {
     var that = this;
-    // lastUpdatedTime 最後更新時間
-    // details 規格
-    // referralUrl 參考連結
-    // addedTime 加入時間
-    // addedBy 加入人
-    // shippingAgent 貨代
-    // shippingMethod 發貨方式
     return {
-      lastUpdatedTime: "",
-      addedTime: "",
-      addedBy: "",
-      shippingAgent: "",
-      shippingMethod: "",
-      details: "",
-      referralUrl: "",
-      productDimension: {
-        id: 0,
-        height: 1.0,
-        width: 3.0,
-        length: 2.0,
-        weight: 0.4,
-        weightUnit: "kg",
-        dimensionUnit: "cm"
-      },
-      shippingDimension: {
-        id: 0,
-        height: 2.2,
-        width: 3.3,
-        length: 1.1,
-        weight: 0.6,
-        weightUnit: "kg",
-        dimensionUnit: "cm"
-      },
       imageUrlLoad: false,
       imgLoad: false,
       centerDialogVisible: true,
@@ -503,6 +539,77 @@ export default {
       submitLoading: false,
       isCopy: false,
       captureSku: "",
+      newForm: {
+        sku: "1",
+        productName: "test product name test product name",
+        productNameChinese: "2",
+        imageUrl:
+          "https://ejwnrpeak4skp96pz4kb.blob.core.windows.net/hh0259tre01/HH0259TRE01-snapshot.png",
+        lastUpdatedTime: "2020-08-18 12:00:53.0",
+        addedTime: "2020-08-13 11:22:33.0",
+        details: "test details\n",
+        addedBy: "test addedby",
+        referralUrl: "https://www.hoijo2342352",
+        platform: "Wowcher",
+        account: "MagicTrend",
+        country: "GB",
+        currentOwner: "Justin",
+        listingStatus: "PROCESSING",
+        permanentClose: false,
+        battery: true,
+        belongToManager: "",
+        messages: [
+          {
+            productId: 1,
+            messageIndex: 0,
+            messageTime: "2020-08-21 11:22:33.0",
+            messageType: "na",
+            message: "haha\n",
+            addedBy: "Justin"
+          }
+        ],
+        sample: {
+          trackingNumber: "",
+          sampleStatus: null,
+          trackingNumberAgent: "",
+          shipoutTime: ""
+        },
+        productDimension: {
+          id: 0,
+          height: 1.0,
+          width: 3.0,
+          length: 2.0,
+          weight: 0.4,
+          weightUnit: "kg",
+          dimensionUnit: "cm"
+        },
+        shippingDimension: {
+          id: 0,
+          height: 2.2,
+          width: 3.3,
+          length: 1.1,
+          weight: 0.6,
+          weightUnit: "kg",
+          dimensionUnit: "cm"
+        },
+        shippingFee: {
+          finalPrice: 23.45,
+          marginPercentage: 0.3456,
+          margin: 12.0,
+          shippingMethod: "RM1R",
+          shippingAgent: "SFC",
+          shippingFee: 56.7,
+          shippingFeeCurrency: "RMB",
+          productCost: 11.0,
+          productCostCurrency: "RMB",
+          packageMaterialFee: 1.0,
+          finalPriceCurrency: "GBP",
+          productDimensionPrefix: 2.0,
+          productWeightPrefix: 0.2,
+          air: true,
+          calculatedByProductDimension: true
+        }
+      },
       form: {
         searchValue: "IT",
         colorValue: "",

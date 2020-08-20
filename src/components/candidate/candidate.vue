@@ -62,8 +62,8 @@
           <el-option
             v-for="(v,i) in managerOption"
             :key="'manager'+i"
-            :label="v.countryNameChinese"
-            :value="v.countryCode"
+            :label="v"
+            :value="v"
           >
           </el-option>
         </el-select>
@@ -77,20 +77,11 @@
           <el-option
             v-for="(v,i) in currentOwnerOption"
             :key="'currentOwner'+i"
-            :label="v.countryNameChinese"
-            :value="v.countryCode"
+            :label="v"
+            :value="v"
           >
           </el-option>
         </el-select>
-        <el-checkbox
-          v-model="showPermanentClose"
-          @change="handleCondition"
-        >顯示永久關閉</el-checkbox>
-        <el-checkbox
-          class="showNoRrpLink"
-          v-model="showNoRrpLink"
-          @change="handleCondition"
-        >顯示無RRP連結</el-checkbox>
         <div
           @click="handleSearch"
           class="el-input-group__append search"
@@ -104,6 +95,17 @@
           @click="handleAdd"
           type="primary"
         >新增</el-button>
+      </el-col>
+      <el-col>
+        <el-checkbox
+          v-model="showPermanentClose"
+          @change="handleCondition"
+        >顯示永久關閉</el-checkbox>
+        <el-checkbox
+          class="showNoRrpLink"
+          v-model="showNoRrpLink"
+          @change="handleCondition"
+        >顯示無RRP連結</el-checkbox>
       </el-col>
       <el-col class="mt5">
 
@@ -137,8 +139,12 @@
           <el-table-column
             min-width="100"
             label="最新留言"
-            prop="listingStatus"
+            prop="message"
           >
+            <template slot-scope="scope">
+              <span class="message-color">[{{ scope.row.messages &&  scope.row.messages[0] && scope.row.messages[0].messageType }}]</span>
+              <span v-html="scope.row.messages &&  scope.row.messages[0] ? scope.row.messages[0].message : ''"></span>
+            </template>
           </el-table-column>
           <el-table-column
             class-name="tableColumn"
@@ -382,16 +388,36 @@ export default {
         token: this.token
       }
     });
-    Promise.all([purchasePlatform, purchaseType, purchaseAccount]).then(
-      ([platform, country, account]) => {
-        this.searchAccountOption = _.cloneDeep(account);
-        this.searchPlatformOption = _.cloneDeep(platform);
-        this.searchCountryOption = _.cloneDeep(country.data);
 
-        this.managerOption = _.cloneDeep(country.data);
-        this.currentOwnerOption = _.cloneDeep(country.data);
+    let manager = axios({
+      url: "/candidateproduct/value/manager",
+      method: "post",
+      data: {
+        token: this.token
       }
-    );
+    });
+
+    let currentOwner = axios({
+      url: "/candidateproduct/value/owner",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+
+    Promise.all([
+      purchasePlatform,
+      purchaseType,
+      purchaseAccount,
+      manager,
+      currentOwner
+    ]).then(([platform, country, account, manager, currentOwner]) => {
+      this.searchAccountOption = _.cloneDeep(account);
+      this.searchPlatformOption = _.cloneDeep(platform);
+      this.searchCountryOption = _.cloneDeep(country.data);
+      this.managerOption = _.cloneDeep(manager);
+      this.currentOwnerOption = _.cloneDeep(currentOwner);
+    });
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
   },
@@ -436,7 +462,7 @@ export default {
       }
       if (this.condition.includes("5")) {
         searchCriteria.push({
-          key: "currentOwner",
+          key: "owner",
           value: this.currentOwner
         });
       }
@@ -583,5 +609,9 @@ export default {
 }
 .showNoRrpLink {
   margin-left: 10px;
+}
+
+.message-color {
+  color: rgb(103, 194, 58);
 }
 </style>
