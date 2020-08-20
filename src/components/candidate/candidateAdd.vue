@@ -56,22 +56,12 @@
         </div>
       </div>
       <el-form-item
-        label="英文名稱"
+        label="產品名稱"
         prop="productName"
         :rules="{required:true,message:'此項必填'}"
       >
         <el-input
           v-model="newForm.productName"
-          class="w50"
-        ></el-input>
-      </el-form-item>
-      <el-form-item
-        label="中文名稱"
-        prop="productNameChinese"
-        :rules="{required:true,message:'此項必填'}"
-      >
-        <el-input
-          v-model="newForm.productNameChinese"
           class="w50"
         ></el-input>
       </el-form-item>
@@ -204,7 +194,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="belongToManager："
+            label="平台經理："
             prop="belongToManager"
           >
             <el-input v-model="newForm.belongToManager"></el-input>
@@ -212,7 +202,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="currentOwner："
+            label="目前擁有者"
             prop="currentOwner"
           >
             <el-input v-model="newForm.currentOwner"></el-input>
@@ -220,7 +210,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="listingStatus："
+            label="狀態："
             prop="listingStatus"
           >
             <el-input v-model="newForm.listingStatus"></el-input>
@@ -228,7 +218,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="permanentClose："
+            label="永久關閉："
             prop="permanentClose"
           >
             <el-input v-model="newForm.permanentClose"></el-input>
@@ -236,7 +226,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="battery："
+            label="電池貨："
             prop="battery"
           >
             <el-input v-model="newForm.battery"></el-input>
@@ -244,7 +234,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="sample.trackingNumber："
+            label="樣品發貨單號："
             prop="sample.trackingNumber"
           >
             <el-input v-model="newForm.sample.trackingNumber"></el-input>
@@ -252,7 +242,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="sample.sampleStatus："
+            label="樣品狀態："
             prop="sample.sampleStatus"
           >
             <el-input v-model="newForm.sample.sampleStatus"></el-input>
@@ -260,7 +250,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="sample.trackingNumberAgent："
+            label="樣品發貨貨代："
             prop="sample.trackingNumberAgent"
           >
             <el-input v-model="newForm.sample.trackingNumberAgent"></el-input>
@@ -268,7 +258,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="sample.shipoutTime："
+            label="樣品發貨時間："
             prop="sample.shipoutTime"
           >
             <el-input v-model="newForm.sample.shipoutTime"></el-input>
@@ -276,7 +266,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="productDimension.height："
+            label="產品包裝高度："
             prop="productDimension.height"
           >
             <el-input v-model="newForm.productDimension.height"></el-input>
@@ -284,7 +274,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="productDimension.width："
+            label="產品包裝寬度："
             prop="productDimension.width"
           >
             <el-input v-model="newForm.productDimension.width"></el-input>
@@ -292,7 +282,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="productDimension.length："
+            label="產品包裝長度："
             prop="productDimension.length"
           >
             <el-input v-model="newForm.productDimension.length"></el-input>
@@ -300,7 +290,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="productDimension.weight："
+            label="產品包裝重量："
             prop="productDimension.weight"
           >
             <el-input v-model="newForm.productDimension.weight"></el-input>
@@ -308,7 +298,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="productDimension.weightUnit："
+            label="產品包裝重量單位："
             prop="productDimension.weightUnit"
           >
             <el-input v-model="newForm.productDimension.weightUnit"></el-input>
@@ -316,7 +306,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="productDimension.dimensionUnit："
+            label="產品包裝長度單位："
             prop="productDimension.dimensionUnit"
           >
             <el-input v-model="newForm.productDimension.dimensionUnit"></el-input>
@@ -325,7 +315,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingDimension.height："
+            label="出貨包裝高度："
             prop="shippingDimension.height"
           >
             <el-input v-model="newForm.shippingDimension.height"></el-input>
@@ -333,7 +323,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="shippingDimension.width："
+            label="出貨包裝寬度："
             prop="shippingDimension.width"
           >
             <el-input v-model="newForm.shippingDimension.width"></el-input>
@@ -341,7 +331,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="shippingDimension.length："
+            label="出貨包裝長度："
             prop="shippingDimension.length"
           >
             <el-input v-model="newForm.shippingDimension.length"></el-input>
@@ -349,7 +339,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="shippingDimension.weight："
+            label="出貨包裝重量："
             prop="shippingDimension.weight"
           >
             <el-input v-model="newForm.shippingDimension.weight"></el-input>
@@ -357,7 +347,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="shippingDimension.weightUnit："
+            label="出貨包裝重量單位："
             prop="shippingDimension.weightUnit"
           >
             <el-input v-model="newForm.shippingDimension.weightUnit"></el-input>
@@ -365,7 +355,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="shippingDimension.dimensionUnit："
+            label="出貨包裝長度單位："
             prop="shippingDimension.dimensionUnit"
           >
             <el-input v-model="newForm.shippingDimension.dimensionUnit"></el-input>
@@ -374,7 +364,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.finalPrice："
+            label="預估報價(FP)："
             prop="shippingFee.finalPrice"
           >
             <el-input v-model="newForm.shippingFee.finalPrice"></el-input>
@@ -383,7 +373,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.marginPercentage："
+            label="預估毛利率："
             prop="shippingFee.marginPercentage"
           >
             <el-input v-model="newForm.shippingFee.marginPercentage"></el-input>
@@ -392,7 +382,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.margin："
+            label="預估毛利："
             prop="shippingFee.margin"
           >
             <el-input v-model="newForm.shippingFee.margin"></el-input>
@@ -401,7 +391,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.shippingMethod："
+            label="預估發貨方式："
             prop="shippingFee.shippingMethod"
           >
             <el-input v-model="newForm.shippingFee.shippingMethod"></el-input>
@@ -410,7 +400,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.shippingAgent："
+            label="預估貨代："
             prop="shippingFee.shippingAgent"
           >
             <el-input v-model="newForm.shippingFee.shippingAgent"></el-input>
@@ -419,7 +409,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.shippingFee："
+            label="預估運費："
             prop="shippingFee.shippingFee"
           >
             <el-input v-model="newForm.shippingFee.shippingFee"></el-input>
@@ -428,7 +418,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.shippingFeeCurrency："
+            label="預估運費幣別："
             prop="shippingFee.shippingFeeCurrency"
           >
             <el-input v-model="newForm.shippingFee.shippingFeeCurrency"></el-input>
@@ -436,7 +426,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.productCost："
+            label="銷貨成本："
             prop="shippingFee.productCost"
           >
             <el-input v-model="newForm.shippingFee.productCost"></el-input>
@@ -445,7 +435,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.productCostCurrency："
+            label="銷貨成本幣別："
             prop="shippingFee.productCostCurrency"
           >
             <el-input v-model="newForm.shippingFee.productCostCurrency"></el-input>
@@ -454,7 +444,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.packageMaterialFee："
+            label="出貨包材成本："
             prop="shippingFee.packageMaterialFee"
           >
             <el-input v-model="newForm.shippingFee.packageMaterialFee"></el-input>
@@ -463,7 +453,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.finalPriceCurrency："
+            label="預估報價幣別："
             prop="shippingFee.finalPriceCurrency"
           >
             <el-input v-model="newForm.shippingFee.finalPriceCurrency"></el-input>
@@ -490,7 +480,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.air："
+            label="預估報價空/海運："
             prop="shippingFee.air"
           >
             <el-input v-model="newForm.shippingFee.air"></el-input>
@@ -499,7 +489,7 @@
 
         <el-col :span="6">
           <el-form-item
-            label="shippingFee.calculatedByProductDimension："
+            label="是否用產品包裝尺寸計算運費："
             prop="shippingFee.calculatedByProductDimension"
           >
             <el-input v-model="newForm.shippingFee.calculatedByProductDimension"></el-input>
