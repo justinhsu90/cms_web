@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { Dialog, Button } from "element-ui";
-export default (dialogContent, prop) => {
+export default (dialogContent, prop, options) => {
   let ele = document.createElement("div");
   document.body.appendChild(ele);
   const extend = Vue.extend({
@@ -17,7 +17,8 @@ export default (dialogContent, prop) => {
       },
       dialogSure() {
         if (!this.$refs["dialog-content"].validate()) return;
-        this.$refs["dialog-content"].submit().then(() => {
+        this.$refs["dialog-content"].submit().then(res => {
+          options.submit && options.submit(res);
           this.visible = false;
         });
       },

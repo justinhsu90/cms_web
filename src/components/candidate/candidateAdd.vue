@@ -232,6 +232,9 @@
             <el-input v-model="newForm.battery"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">樣品</h3>
         <el-col :span="6">
           <el-form-item
             label="樣品發貨單號："
@@ -264,6 +267,9 @@
             <el-input v-model="newForm.sample.shipoutTime"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">產品</h3>
         <el-col :span="6">
           <el-form-item
             label="產品包裝高度："
@@ -312,7 +318,9 @@
             <el-input v-model="newForm.productDimension.dimensionUnit"></el-input>
           </el-form-item>
         </el-col>
-
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">出貨</h3>
         <el-col :span="6">
           <el-form-item
             label="出貨包裝高度："
@@ -361,10 +369,12 @@
             <el-input v-model="newForm.shippingDimension.dimensionUnit"></el-input>
           </el-form-item>
         </el-col>
-
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">預估</h3>
         <el-col :span="6">
           <el-form-item
-            label="預估報價(FP)："
+            label="預估報1價(FP)："
             prop="shippingFee.finalPrice"
           >
             <el-input v-model="newForm.shippingFee.finalPrice"></el-input>
@@ -496,18 +506,51 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-button
-        @click="handleConfirm"
-        :loading="submitLoading"
-        type="primary"
-        size="large"
-        :disabled="formModified || imgLoad"
-      >新增</el-button>
     </el-form>
 
+    <div class="form-two__add">
+      <el-button
+        type="success"
+        @click="this.handleAddSearch"
+      >新增查询</el-button>
+    </div>
+    <el-card>
+      <el-table :data="tableData">
+        <el-table-column
+          min-width="30"
+          label="廠牌"
+          prop="tel"
+        ></el-table-column>
+        <el-table-column
+          min-width="30"
+          label="上市日期"
+          prop="tel"
+        ></el-table-column>
+        <el-table-column
+          min-width="30"
+          label="目前售價"
+          prop="tel"
+        ></el-table-column>
+        <el-table-column
+          min-width="30"
+          label="型号"
+          prop="tel"
+        ></el-table-column>
+      </el-table>
+    </el-card>
+    <br>
+    <el-button
+      @click="handleConfirm"
+      :loading="submitLoading"
+      type="primary"
+      size="large"
+      :disabled="formModified || imgLoad"
+    >新增</el-button>
   </div>
 </template>
 <script>
+import showDialog from "@/won-service/component/won-dialog/dialog";
+import CandidateSearch from "./candidate-search";
 export default {
   data() {
     var that = this;
@@ -529,6 +572,14 @@ export default {
       submitLoading: false,
       isCopy: false,
       captureSku: "",
+      tableData: [
+        {
+          tel: "iphone"
+        },
+        {
+          tel: "and"
+        }
+      ],
       newForm: {
         sku: "1",
         productName: "test product name test product name",
@@ -545,8 +596,8 @@ export default {
         country: "GB",
         currentOwner: "Justin",
         listingStatus: "PROCESSING",
-        permanentClose: false,
-        battery: true,
+        permanentClose: "false",
+        battery: "true",
         belongToManager: "",
         messages: [
           {
@@ -596,8 +647,8 @@ export default {
           finalPriceCurrency: "GBP",
           productDimensionPrefix: 2.0,
           productWeightPrefix: 0.2,
-          air: true,
-          calculatedByProductDimension: true
+          air: "true",
+          calculatedByProductDimension: "true"
         }
       },
       form: {
@@ -771,6 +822,20 @@ export default {
     });
   },
   methods: {
+    handleAddSearch() {
+      showDialog(
+        CandidateSearch,
+        {
+          width: "45%",
+          title: "查询"
+        },
+        {
+          submit: res => {
+            this.tableData.push(res);
+          }
+        }
+      );
+    },
     handleAddSku() {
       // if (this.form.captureSku) {
       //   this.form.sku =
@@ -974,6 +1039,26 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.form-two__add {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+}
+
+.second-title {
+  // position: relative;
+  padding-bottom: 20px;
+  // padding-top: 10px;
+  // &:after {
+  //   width: 100%;
+  //   position: absolute;
+  //   border-bottom: 1px solid #eee;
+  //   content: "";
+  //   bottom: 15px;
+  //   left: 0px;
+  // }
+}
+
 .imageUrl {
   width: 150px;
   position: absolute;
@@ -1013,9 +1098,6 @@ export default {
 }
 /deep/ .el-switch__input:focus ~ .el-switch__core {
   outline: none !important;
-}
-h3 {
-  text-align: left;
 }
 .tip {
   margin-left: 5px;

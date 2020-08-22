@@ -1,627 +1,1040 @@
 <template>
-  <div id="purchaseAdd">
-    <div style="padding:20px">
-      <div class="heade">
-        <i class="el-icon-arrow-left"></i>
-        <a
-          href="javascript:void(0)"
-          @click="goBack"
-        >返回</a>
-      </div>
-      <br>
-      <h2>{{
-        this.look ? '查看' : '編輯'
-      }}採購單 <span>&nbsp;&nbsp;採購單號:&nbsp;{{formData.purchaseId}}</span>
-      </h2>
-      <br>
-      <el-form
-        ref="form"
-        :model="formData"
-        v-loading="loading"
-        label-position="top"
-      >
-        <el-row :gutter="10">
-          <el-col :span="2">
-            <el-form-item
-              label="採購類型"
-              prop="purchaseType"
-              :rules="rules"
-            >
-              <el-select v-model="formData.purchaseType">
-                <el-option
-                  v-for="(value,i) in purchaseType"
-                  :label="value"
-                  :value="value"
-                  :key="i"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item
-              label="採購平台"
-              prop="purchasedPlatform"
-              :rules="rules"
-            >
-              <el-select v-model="formData.purchasedPlatform">
-                <el-option
-                  v-for="(value,i) in purchasePlatform"
-                  :label="value"
-                  :value="value"
-                  :key="i"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item
-              label="採購帳號"
-              prop="purchasedAccount"
-              :rules="rules"
-            >
-              <el-select v-model="formData.purchasedAccount">
-                <el-option
-                  v-for="(value,i) in purchaseAccount"
-                  :label="value"
-                  :value="value"
-                  :key="i"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item
-              label="幣別"
-              prop="currency"
-              :rules="rules"
-            >
-              <el-select v-model="formData.currency">
-                <el-option
-                  v-for="(value,i) in currency"
-                  :label="value"
-                  :value="value"
-                  :key="i"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="3">
-            <el-form-item label="購買人員">
-              <el-input v-model="formData.purchasedBy"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item
-              label="採購平台單號"
-              prop="purchaseOrderId"
-              :rules="rules"
-            >
-              <el-input v-model="formData.purchaseOrderId"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-form-item
-              label="採購時間"
-              prop="purchasedTime"
-              :rules="rules"
-            >
-              <el-date-picker
-                style="width:100%"
-                v-model="formData.purchasedTime"
-                type="date"
-                placeholder="選擇日期時間"
-              > </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <br>
-        <div id="table">
-          <table
-            cellspacing="0"
-            cellpadding="0"
-          >
-            <colgroup>
-              <col width="100">
-              <col width="250">
-              <col width="80">
-              <col width="80">
-              <col width="80">
-              <col width="80">
-              <col width="150">
-              <col width="70">
-            </colgroup>
-            <thead>
-              <tr>
-                <th>SKU </th>
-                <th>產品名稱</th>
-                <th>單品金額</th>
-                <th>採購數量</th>
-                <th>該品總運費</th>
-                <th>付款比例（%）</th>
-                <th>總金額（包含運費）</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(v,i) in formData.data"
-                :key="i"
-              >
-                <td>
-                  <el-form-item
-                    label=""
-                    :prop="'data.'+i+'.sku'"
-                    :rules="requredRule"
-                  >
-                    <el-input
-                      v-model="v.sku"
-                      @blur="handleCheckSku(v.sku,v)"
-                    ></el-input>
-                  </el-form-item>
-                </td>
-                <td>
-                  <el-form-item
-                    label=""
-                    :prop="'data.'+i+'.productName'"
-                    :rules="requredRule"
-                  >
-                    <el-input v-model="v.productName"></el-input>
-                  </el-form-item>
-                </td>
-                <td>
-                  <el-form-item
-                    label=""
-                    :prop="'data.'+i+'.productCost'"
-                    :rules="requredRuleFloat"
-                  >
-                    <el-input v-model.number="v.productCost"></el-input>
-                  </el-form-item>
-                </td>
-                <td>
-                  <el-form-item
-                    label=""
-                    :prop="'data.'+i+'.purchasedQuantity'"
-                    :rules="requredRule"
-                  >
-                    <el-input v-model.number="v.purchasedQuantity"></el-input>
-                  </el-form-item>
-                </td>
-                <td>
-                  <el-form-item
-                    label=""
-                    :prop="'data.'+i+'.shippingCost'"
-                    :rules="requredRule"
-                  >
-                    <el-input v-model.number="v.shippingCost"></el-input>
-                  </el-form-item>
-                </td>
-                <td>
-                  <el-form-item
-                    label=""
-                    :prop="'data.'+i+'.paymentPercentage'"
-                    :rules="requredRule"
-                  >
-                    <el-input v-model.number="v.paymentPercentage"></el-input>
-                  </el-form-item>
-                </td>
-                <td>
-                  <span>{{ (v.productCost * v.purchasedQuantity * v.paymentPercentage / 100 + v.shippingCost) | formatToMoney}}</span>
-                </td>
-                <td>
-                  <el-button
-                    class="btnh"
-                    style="color:#409EFF"
-                    type="text"
-                    @click="handleQuerySku(i)"
-                  >查詢</el-button>
-                </td>
-              </tr>
-              <tr class="total">
-                <td>
-                  總計
-                </td>
-                <td></td>
-                <td>
-                  {{totalPurchasedAmount | formatToMoney}}
-                </td>
-                <td>
-                  {{totalPurchasedQuantity}}
-                </td>
-                <td>
-                  {{totalShippingCost | formatToMoney}}
-                </td>
-                <td></td>
-                <td>
-                  {{ totalMoney | formatToMoney}}
-                </td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <br>
-        <el-popover
-          v-if="!look"
-          placement="top"
-          width="160"
-          v-model="popoverVisible"
-        >
-          <p>是否要提交？</p>
-          <div style="text-align: right; margin: 0">
-            <el-button
-              size="mini"
-              type="text"
-              @click="popoverVisible = false"
-            >取消</el-button>
-            <el-button
-              type="primary"
-              size="mini"
-              @click="submit"
-            >確定</el-button>
-          </div>
-
-          <el-button
-            slot="reference"
-            @click="popoverVisible = true"
-            :loading="submitLoading"
-            type="primary"
-            size="large"
-          >編輯</el-button>
-        </el-popover>
-      </el-form>
+  <div style="padding:20px">
+    <div class="heade">
+      <i class="el-icon-arrow-left"></i>
+      <a
+        href="javascript:void(0)"
+        @click="goBack"
+      >返回</a>
     </div>
-    <querySku
-      name="purchaseAdd"
-      ref="querySku"
-    ></querySku>
+    <br>
+    <h2>編輯產品</h2>
+    <br>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="120px"
+    >
+      <el-form-item label="id">
+        <el-input
+          disabled
+          class="w50"
+        ></el-input>
+      </el-form-item>
+      <el-alert
+        type="warning"
+        show-icon
+        title=""
+        class="mb10 w50"
+        v-if="isCopy"
+      >
+        <small>修改sku，才能保存。</small>
+      </el-alert>
+      <div style="position:relative">
+        <el-form-item
+          ref="formItemTwo"
+          label="SKU"
+          prop="sku"
+          :rules="skuValidate"
+        >
+          <template slot='label'>
+            <span>SKU</span>
+          </template>
+          <el-input
+            :value="newForm.sku"
+            @input="newForm.sku = $event"
+            @blur="newForm.sku = newForm.sku.toUpperCase()"
+            class="w50"
+          ></el-input>
+        </el-form-item>
+        <div
+          class="reference"
+          v-if="showDetector"
+        >
+          <p>同SKU产品参考图</p>
+          <img
+            height="100%"
+            width="100%"
+            :src="detectorURL"
+            alt=""
+          >
+        </div>
+      </div>
+      <el-form-item
+        label="產品名稱"
+        prop="productName"
+        :rules="{required:true,message:'此項必填'}"
+      >
+        <el-input
+          v-model="newForm.productName"
+          class="w50"
+        ></el-input>
+      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item
+            label="圖片"
+            prop="image"
+            :show-message="showMessage"
+          >
+            <el-upload
+              class="avatar-uploader"
+              :auto-upload="false"
+              action=''
+              :before-upload="beforeAvatarUpload"
+              :on-change="handleAvatarSuccess"
+              :show-file-list="false"
+            >
+              <div
+                v-if="form.base64 || imageUrlLoad"
+                class="avatar"
+              >
+                <img
+                  ref="img"
+                  :src="form.base64"
+                  crossOrigin="anonymous"
+                >
+                <div class="delete">
+                  <i @click.stop="handleImageDelete"> 删除</i>
+                </div>
+              </div>
+              <i
+                v-else
+                class="el-icon-plus avatar-uploader-icon"
+              ></i>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item
+            label="圖片url"
+            prop="imageUrl"
+            :rules="imageUrlValidate"
+          >
+            <el-input
+              class="w50"
+              :value="form.imageUrl"
+              @input="form.imageUrl = $event;"
+              @blur="handleBlur"
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item
+            label="最後更新時間："
+            prop="lastUpdatedTime"
+          >
+            <el-date-picker
+              clearable
+              style="width:100%"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              v-model="newForm.lastUpdatedTime"
+              type="datetime"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="加入時間："
+            prop="addedTime"
+          >
+            <el-date-picker
+              clearable
+              style="width:100%"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              v-model="newForm.addedTime"
+              type="datetime"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <el-form-item
+            label="規格："
+            prop="details"
+          >
+            <el-input v-model="newForm.details"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="加入人："
+            prop="addedBy"
+          >
+            <el-input v-model="newForm.addedBy"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="參考連結："
+            prop="referralUrl"
+          >
+            <el-input v-model="newForm.referralUrl"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="平台："
+            prop="platform"
+          >
+            <el-input v-model="newForm.platform"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="用戶："
+            prop="account"
+          >
+            <el-input v-model="newForm.account"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="國家："
+            prop="country"
+          >
+            <el-input v-model="newForm.country"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="平台經理："
+            prop="belongToManager"
+          >
+            <el-input v-model="newForm.belongToManager"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="目前擁有者"
+            prop="currentOwner"
+          >
+            <el-input v-model="newForm.currentOwner"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="狀態："
+            prop="listingStatus"
+          >
+            <el-input v-model="newForm.listingStatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="永久關閉："
+            prop="permanentClose"
+          >
+            <el-input v-model="newForm.permanentClose"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="電池貨："
+            prop="battery"
+          >
+            <el-input v-model="newForm.battery"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">樣品</h3>
+        <el-col :span="6">
+          <el-form-item
+            label="樣品發貨單號："
+            prop="sample.trackingNumber"
+          >
+            <el-input v-model="newForm.sample.trackingNumber"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="樣品狀態："
+            prop="sample.sampleStatus"
+          >
+            <el-input v-model="newForm.sample.sampleStatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="樣品發貨貨代："
+            prop="sample.trackingNumberAgent"
+          >
+            <el-input v-model="newForm.sample.trackingNumberAgent"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="樣品發貨時間："
+            prop="sample.shipoutTime"
+          >
+            <el-input v-model="newForm.sample.shipoutTime"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">產品</h3>
+        <el-col :span="6">
+          <el-form-item
+            label="產品包裝高度："
+            prop="productDimension.height"
+          >
+            <el-input v-model="newForm.productDimension.height"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="產品包裝寬度："
+            prop="productDimension.width"
+          >
+            <el-input v-model="newForm.productDimension.width"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="產品包裝長度："
+            prop="productDimension.length"
+          >
+            <el-input v-model="newForm.productDimension.length"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="產品包裝重量："
+            prop="productDimension.weight"
+          >
+            <el-input v-model="newForm.productDimension.weight"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="產品包裝重量單位："
+            prop="productDimension.weightUnit"
+          >
+            <el-input v-model="newForm.productDimension.weightUnit"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="產品包裝長度單位："
+            prop="productDimension.dimensionUnit"
+          >
+            <el-input v-model="newForm.productDimension.dimensionUnit"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">出貨</h3>
+        <el-col :span="6">
+          <el-form-item
+            label="出貨包裝高度："
+            prop="shippingDimension.height"
+          >
+            <el-input v-model="newForm.shippingDimension.height"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="出貨包裝寬度："
+            prop="shippingDimension.width"
+          >
+            <el-input v-model="newForm.shippingDimension.width"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="出貨包裝長度："
+            prop="shippingDimension.length"
+          >
+            <el-input v-model="newForm.shippingDimension.length"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="出貨包裝重量："
+            prop="shippingDimension.weight"
+          >
+            <el-input v-model="newForm.shippingDimension.weight"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="出貨包裝重量單位："
+            prop="shippingDimension.weightUnit"
+          >
+            <el-input v-model="newForm.shippingDimension.weightUnit"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="出貨包裝長度單位："
+            prop="shippingDimension.dimensionUnit"
+          >
+            <el-input v-model="newForm.shippingDimension.dimensionUnit"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <h3 class="second-title">預估</h3>
+        <el-col :span="6">
+          <el-form-item
+            label="預估報價(FP)："
+            prop="shippingFee.finalPrice"
+          >
+            <el-input v-model="newForm.shippingFee.finalPrice"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="預估毛利率："
+            prop="shippingFee.marginPercentage"
+          >
+            <el-input v-model="newForm.shippingFee.marginPercentage"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="預估毛利："
+            prop="shippingFee.margin"
+          >
+            <el-input v-model="newForm.shippingFee.margin"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="預估發貨方式："
+            prop="shippingFee.shippingMethod"
+          >
+            <el-input v-model="newForm.shippingFee.shippingMethod"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="預估貨代："
+            prop="shippingFee.shippingAgent"
+          >
+            <el-input v-model="newForm.shippingFee.shippingAgent"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="預估運費："
+            prop="shippingFee.shippingFee"
+          >
+            <el-input v-model="newForm.shippingFee.shippingFee"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="預估運費幣別："
+            prop="shippingFee.shippingFeeCurrency"
+          >
+            <el-input v-model="newForm.shippingFee.shippingFeeCurrency"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="銷貨成本："
+            prop="shippingFee.productCost"
+          >
+            <el-input v-model="newForm.shippingFee.productCost"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="銷貨成本幣別："
+            prop="shippingFee.productCostCurrency"
+          >
+            <el-input v-model="newForm.shippingFee.productCostCurrency"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="出貨包材成本："
+            prop="shippingFee.packageMaterialFee"
+          >
+            <el-input v-model="newForm.shippingFee.packageMaterialFee"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="預估報價幣別："
+            prop="shippingFee.finalPriceCurrency"
+          >
+            <el-input v-model="newForm.shippingFee.finalPriceCurrency"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.productDimensionPrefix："
+            prop="shippingFee.productDimensionPrefix"
+          >
+            <el-input v-model="newForm.shippingFee.productDimensionPrefix"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="shippingFee.productWeightPrefix："
+            prop="shippingFee.productWeightPrefix"
+          >
+            <el-input v-model="newForm.shippingFee.productWeightPrefix"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="6">
+          <el-form-item
+            label="預估報價空/海運："
+            prop="shippingFee.air"
+          >
+            <el-input v-model="newForm.shippingFee.air"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24"></el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="是否用產品包裝尺寸計算運費："
+            prop="shippingFee.calculatedByProductDimension"
+          >
+            <el-input v-model="newForm.shippingFee.calculatedByProductDimension"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-button
+        @click="handleConfirm"
+        :loading="submitLoading"
+        type="primary"
+        size="large"
+        :disabled="formModified || imgLoad"
+      >新增</el-button>
+    </el-form>
+
   </div>
 </template>
 <script>
-import querySku from "@/common/querySku";
-import { format } from "@/common/until/format";
-import U from "@/common/until/U";
-import { float } from "@/common/validate";
 export default {
-  name: "purchaseAdd",
-  components: {
-    querySku
-  },
   data() {
-    let purchasedBy;
-    document.cookie.split(";").forEach(v => {
-      let str = v.split("=")[0].trim();
-      if (str == "name") {
-        purchasedBy = v.split("=")[1];
-      }
-    });
-
+    var that = this;
     return {
-      Div: U.Math.Div,
-      Mul: U.Math.Mul,
-      purchaseOrderId: "",
-      submitLoading: false,
+      imageUrlLoad: false,
+      imgLoad: false,
+      centerDialogVisible: true,
       popoverVisible: false,
-      loading: false,
-      purchasePlatform: [],
-      purchaseType: [],
-      purchaseAccount: [],
-      currency: [],
-      purchasedBy,
-      requredRuleFloat: _.extend({}, float),
-      requredRule: {
-        required: true
+      showDetector: false,
+      trueStatus: false,
+      trueProductName: false,
+      imageStatus: false,
+      detectorURL: "../../static/img/1.png",
+      trueNewSku: false,
+      searchOptions: [],
+      searchColor: [],
+      searchQuantity: [],
+      costCurrency: [],
+      submitLoading: false,
+      isCopy: false,
+      captureSku: "",
+      newForm: {
+        sku: "1",
+        productName: "test product name test product name",
+        productNameChinese: "2",
+        imageUrl:
+          "https://ejwnrpeak4skp96pz4kb.blob.core.windows.net/hh0259tre01/HH0259TRE01-snapshot.png",
+        lastUpdatedTime: "2020-08-18 12:00:53.0",
+        addedTime: "2020-08-13 11:22:33.0",
+        details: "test details\n",
+        addedBy: "test addedby",
+        referralUrl: "https://www.hoijo2342352",
+        platform: "Wowcher",
+        account: "MagicTrend",
+        country: "GB",
+        currentOwner: "Justin",
+        listingStatus: "PROCESSING",
+        permanentClose: "false",
+        battery: "true",
+        belongToManager: "",
+        messages: [
+          {
+            productId: 1,
+            messageIndex: 0,
+            messageTime: "2020-08-21 11:22:33.0",
+            messageType: "na",
+            message: "haha\n",
+            addedBy: "Justin"
+          }
+        ],
+        sample: {
+          trackingNumber: "",
+          sampleStatus: null,
+          trackingNumberAgent: "",
+          shipoutTime: ""
+        },
+        productDimension: {
+          id: 0,
+          height: 1.0,
+          width: 3.0,
+          length: 2.0,
+          weight: 0.4,
+          weightUnit: "kg",
+          dimensionUnit: "cm"
+        },
+        shippingDimension: {
+          id: 0,
+          height: 2.2,
+          width: 3.3,
+          length: 1.1,
+          weight: 0.6,
+          weightUnit: "kg",
+          dimensionUnit: "cm"
+        },
+        shippingFee: {
+          finalPrice: 23.45,
+          marginPercentage: 0.3456,
+          margin: 12.0,
+          shippingMethod: "RM1R",
+          shippingAgent: "SFC",
+          shippingFee: 56.7,
+          shippingFeeCurrency: "RMB",
+          productCost: 11.0,
+          productCostCurrency: "RMB",
+          packageMaterialFee: 1.0,
+          finalPriceCurrency: "GBP",
+          productDimensionPrefix: 2.0,
+          productWeightPrefix: 0.2,
+          air: "true",
+          calculatedByProductDimension: "true"
+        }
+      },
+      form: {
+        searchValue: "IT",
+        colorValue: "",
+        quantityValue: "",
+        base64: "",
+        imageUrl: "",
+        sku: "",
+        newSku: "",
+        productName: "",
+        status: "",
+        image: "",
+        amazonWidthCM: "",
+        amazonHeightCM: "",
+        amazonWeightKG: "",
+        amazonLengthCM: "",
+        parcelWidthCM: "",
+        parcelHeightCM: "",
+        parcelWeightKG: "",
+        parcelLengthCM: "",
+        productWidthCM: "",
+        productHeightCM: "",
+        productWeightKG: "",
+        productLengthCM: "",
+        productNameChinese: "",
+        declareNameChinese: "",
+        declareNameEnglish: "",
+        deprecatedSKU: "",
+        productCost: "",
+        productCostCurrency: "RMB"
+      },
+      skuValidate: {
+        required: true,
+        token: this.token,
+        validator(rule, value, callback) {
+          // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
+          let rules = /^[A-Za-z]{2}[0-9]{4}/;
+          if (!rule.required) {
+            callback();
+          }
+          if (!rules.test(value)) {
+            callback(new Error("SKU結構有誤"));
+          } else {
+            axios({
+              url: "sku/similarimg",
+              method: "post",
+              data: {
+                sku: value,
+                token: rule.token
+              }
+            }).then(res => {
+              that.showDetector = true;
+              if (!_.isEmpty(res)) {
+                that.detectorURL = res[0];
+              }
+              callback();
+            });
+          }
+        }
+      },
+      imageUrlValidate: {
+        validator(rule, value, callback) {
+          let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/;
+          if (value) {
+            if (rules.test(value)) {
+              callback();
+            } else {
+              callback(new Error("輸入網址不合法"));
+            }
+          } else {
+            callback();
+          }
+        }
       },
       rules: {
         required: true,
-        message: "此項目必填"
+        message: "此項必填"
       },
-      formData: {
-        purchasedTime: "",
-        purchaseType: "",
-        purchasedPlatform: "",
-        purchasedAccount: "",
-        purchaseOrderId: "",
-        purchasedBy,
-        currency: "",
-        data: [
-          {
-            sku: "",
-            productName: "",
-            productSpec: "",
-            purchasedQuantity: "",
-            productCost: "",
-            note: "",
-            shippingCost: 0,
-            paymentPercentage: 100
-          }
-        ]
-      }
+      showMessage: true,
+      autoShowMessage: true,
+      skuShowMessage: true,
+      amaShow: false,
+      pricalShow: false,
+      deprecatedSkuShow: false,
+      priceShow: false,
+      trueSku: true,
+      image: "",
+      formModified: false
     };
   },
   created() {
-    this.look = this.$route.query.type == "look";
-    let purchasePlatform = axios({
-      url: "/erp/value/purchasePlatform",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-    let purchaseType = axios({
-      url: "/erp/value/purchaseType",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-    let purchaseAccount = axios({
-      url: "/erp/value/purchaseAccount",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-    let currency = axios({
-      url: "/erp/value/currency",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    });
-    Promise.all([
-      purchasePlatform,
-      purchaseType,
-      purchaseAccount,
-      currency
-    ]).then(([resOne, resTwo, resThree, resFour]) => {
-      this.purchaseType = _.cloneDeep(resTwo);
-      this.purchaseAccount = _.cloneDeep(resThree);
-      this.currency = _.cloneDeep(resFour);
-      this.purchasePlatform = _.cloneDeep(resOne);
-      let data = JSON.parse(this.$route.query.data);
-      this.purchaseOrderId = data.purchaseOrderId;
-      this.formData.data[0].sku = data.sku;
-      this.formData.data[0].productName = data.productName;
-      this.formData.data[0].productSpec = data.productSpec;
-      this.formData.data[0].purchasedQuantity = data.purchasedQuantity;
-      this.formData.data[0].productCost = this.Div(
-        data.purchasedTotalAmount,
-        data.purchasedQuantity
-      );
-      this.formData.data[0].note = data.note;
-      this.formData.data[0].shippingCost = data.shippingCost;
-      this.formData.data[0].paymentPercentage = data.paymentPercentage;
-      this.formData.purchasedTime = new Date(data.purchasedTime);
-      this.formData.purchasedPlatform = data.purchasedPlatform;
-      this.formData.purchasedBy = data.purchasedBy;
-      this.formData.purchasedAccount = data.purchasedAccount;
-      this.formData.purchaseType = data.purchaseType;
-      this.formData.purchaseOrderId = data.purchaseOrderId;
-      this.formData.purchaseId = data.purchaseId;
-      this.formData.lastModifiedBy = data.lastModifiedBy;
-      this.formData.currency = data.currency;
-    });
-  },
-  computed: {
-    totalMoney() {
-      let total = 0;
-      _.each(this.formData.data, v => {
-        total +=
-          (Number(v.productCost) *
-            Number(v.purchasedQuantity) *
-            Number(v.paymentPercentage)) /
-            100 +
-          Number(v.shippingCost);
-      });
-      if (total == 0) {
-        return "";
-      } else {
-        return total;
-      }
-    },
-    disabled() {
-      let disabled = false;
-      _.each(this.formData.data, v => {
-        if (!v.sku) {
-          disabled = true;
-        }
-      });
-      return disabled;
-    },
-    totalShippingCost() {
-      let total = 0;
-      _.each(this.formData.data, v => {
-        total += Number(v.shippingCost);
-      });
-      if (total == 0) {
-        return "";
-      } else {
-        return total;
-      }
-    },
-    totalPurchasedAmount() {
-      let total = 0;
-      _.each(this.formData.data, v => {
-        total += Number(v.productCost);
-      });
-      if (total == 0) {
-        return "";
-      } else {
-        return total;
-      }
-    },
-    totalPurchasedQuantity() {
-      let total = 0;
-      _.each(this.formData.data, v => {
-        total += Number(v.purchasedQuantity);
-      });
-      if (total == 0) {
-        return "";
-      } else {
-        return total;
-      }
-    }
-  },
-  mounted() {
-    this.$on("selectSku", this.handleSku);
-  },
-  filters: {
-    ...format
+    let data = JSON.parse(this.$route.query.data);
+    this.newForm = Object.assign({}, this.newForm, data);
   },
   methods: {
-    goBack() {
-      this.$router.push("/erpPurchase");
+    handleAddSku() {
+      // if (this.form.captureSku) {
+      //   this.form.sku =
+      //     this.form.searchValue +
+      //     this.form.captureSku +
+      //     this.form.colorValue +
+      //     this.form.quantityValue;
+      // }
     },
-    handleSku(val) {
-      _.each(this.formData.data, (v, i) => {
-        if (i == val[1]) {
-          v.sku = val[0].sku;
-          v.productName = val[0].productName;
-        }
+    handleBlur() {
+      this.imageUrlLoad = true;
+      this.$nextTick(() => {
+        this.$refs["img"].src = this.form.imageUrl;
+        this.$refs["img"].onload = () => {
+          this.blob = "";
+          this.form.base64 = "";
+        };
+        this.$refs["img"].onerror = () => {
+          this.imageUrlLoad = false;
+          this.$message.error("url地址獲取不到圖片");
+        };
       });
     },
-    handleQuerySku(index) {
-      this.$refs["querySku"].$findChild("wonDialog", "visible", index);
+    disposeCopy() {
+      let _that = this;
+      let canvas = document.createElement("canvas");
+      let ctx = canvas.getContext("2d");
+      var img = new Image();
+      img.src = this.form.base64;
+      img.setAttribute("crossOrigin", "Anonymous");
+      img.addEventListener("load", function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(this, 0, 0);
+        document.body.appendChild(canvas);
+        let base64 = canvas.toDataURL("image/png");
+        _that.dataURLtoBlob(base64);
+      });
+      img.addEventListener("error", function() {
+        this.imgLoad = false;
+      });
     },
-    handleCheckSku(value, row) {
-      if (!value) {
-        return;
+    dataURLtoBlob(dataurl) {
+      var arr = dataurl.split(","),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
       }
+      let blob = new Blob([u8arr], { type: mime });
+      this.blobToFile(blob, "圖片");
+    },
+    blobToFile(theBlob, fileName) {
+      theBlob.lastModifiedDate = new Date();
+      theBlob.name = fileName;
+      this.blob = theBlob;
+      this.imgLoad = false;
+    },
+    handleImageDelete() {
+      this.form.base64 = "";
+      this.form.imageUrl = "";
+      this.blob = "";
+    },
+    goBack() {
+      this.$router.back();
+    },
+    beforeAvatarUpload(file) {
+      let isJPG = file.type === "image/jpeg";
+      let isPNG = file.type === "image/png";
+      if (!isJPG && !isPNG) {
+        this.$message.error("上傳頭像圖片只能是 JPG PNG 格式!");
+      } else {
+        return isJPG;
+      }
+    },
+    handleAvatarSuccess(file) {
+      let url = URL || Window.webkitURL;
+      let blob = url.createObjectURL(file.raw);
+      let canvas = document.createElement("canvas");
+      let image = document.createElement("img");
+      image.src = blob;
+      this.image = file.raw;
+      this.imgLoad = false;
+      image.addEventListener("load", () => {
+        canvas.width = image.width;
+        canvas.height = image.height;
+        let cas = canvas.getContext("2d");
+        cas.drawImage(image, 0, 0);
+        let base64 = canvas.toDataURL(file.raw.type);
+        this.form.base64 = base64;
+        this.form.imageUrl = "";
+        this.blob = "";
+      });
+    },
+    handleAuto() {
       axios({
-        url: "/erp/check/sku",
+        url: "sku/newindex",
         method: "post",
         data: {
-          token: this.token,
-          sku: value
+          category: this.form.searchValue,
+          token: this.token
         }
       }).then(res => {
-        if (!res.message) {
-          this.$message.success("SKU檢查成功");
-          row.productName = res.productName;
-        } else {
-          this.$message.error("SKU不存在");
-          row.sku = "";
-          row.productName = "";
-        }
+        this.form.captureSku = res.index;
+        this.form.sku =
+          this.form.searchValue +
+          this.form.captureSku +
+          this.form.colorValue +
+          this.form.quantityValue;
       });
     },
-    getValue() {
-      let data = _.cloneDeep(this.formData.data);
-      _.each(data, v => {
-        v.purchasedTime = this.moment(this.formData.purchasedTime).format(
-          "YYYY-MM-DD"
-        );
-        v.purchaseId = this.formData.purchaseId;
-        v.purchaseType = this.formData.purchaseType;
-        v.purchasedPlatform = this.formData.purchasedPlatform;
-        v.purchasedAccount = this.formData.purchasedAccount;
-        v.purchasedTotalAmount = this.Mul(
-          v.productCost,
-          v.purchasedQuantity
-        );
-        v.purchaseOrderId = this.formData.purchaseOrderId;
-        v.purchasedBy = this.formData.purchasedBy;
-        v.currency = this.formData.currency;
+    handleUpload() {
+      this.input = document.createElement("input");
+      this.input.type = "file";
+      this.input.addEventListener("change", () => {
+        this.form.photoTotal = this.input.files.length;
+        this.showMessage = false;
       });
-      let obj = {
-        data
-      };
-      return JSON.stringify(obj);
+      this.input.click();
     },
-    submit() {
-      this.$refs["form"].validate(action => {
-        if (action) {
-          this.popoverVisible = false;
-          this.getValue();
-          this.submitLoading = true;
-          axios({
-            url: "/erp/purchase/update",
+    handleConfirm() {
+      this.$refs["form1"].validate(action => {
+        if (!action) return;
+        this.$refs["form2"].validate(action => {
+          if (!action) return;
+          this.$refs["form3"].validate(() => {
+            var formData = new FormData();
+            let obj = {};
+            let value = {
+              data: []
+            };
 
-            method: "post",
-            data: {
-              value: this.getValue(),
-              token: this.token
+            obj.sku = this.form.sku;
+            obj.productName = this.form.productName;
+            obj.status = this.form.status;
+            obj.newSku = this.form.newSku;
+            obj.amazonWidthCM = this.form.amazonWidthCM;
+            obj.amazonHeightCM = this.form.amazonHeightCM;
+            obj.amazonWeightKG = this.form.amazonWeightKG;
+            obj.amazonLengthCM = this.form.amazonLengthCM;
+
+            obj.parcelWidthCM = this.form.parcelWidthCM;
+            obj.parcelHeightCM = this.form.parcelHeightCM;
+            obj.parcelWeightKG = this.form.parcelWeightKG;
+            obj.parcelLengthCM = this.form.parcelLengthCM;
+
+            obj.productWidthCM = this.form.productWidthCM;
+            obj.productHeightCM = this.form.productHeightCM;
+            obj.productWeightKG = this.form.productWeightKG;
+            obj.productLengthCM = this.form.productLengthCM;
+            obj.productCost = this.form.productCost;
+            obj.productCostCurrency = this.form.productCostCurrency;
+            obj.productNameChinese = this.form.productNameChinese;
+            obj.declareNameChinese = this.form.declareNameChinese;
+            obj.declareNameEnglish = this.form.declareNameEnglish;
+            obj.deprecatedSKU = this.form.deprecatedSKU;
+            if (this.form.imageUrl) {
+              obj.imageUrl = this.form.imageUrl;
+            } else {
+              if (this.blob) {
+                formData.append("uploadfile", this.blob);
+              } else {
+                if (this.form.base64) {
+                  formData.append("uploadfile", this.image);
+                }
+              }
             }
-          }).then(() => {
+            value.data.push(obj);
+            value = JSON.stringify(value);
             this.submitLoading = true;
-            this.Bus.$emit("refresh");
-            this.$router.push("/erpPurchase");
+            formData.append("value", value);
+            formData.append("token", this.token);
+            this.isLoading = true;
+            let url = "/sku/add";
+            axios({
+              url,
+              method: "post",
+              data: formData,
+              headers: {
+                "Content-type": "multipart/form-data"
+              },
+              isFormData: true
+            })
+              .then(() => {
+                this.submitLoading = false;
+                this.$message.success("新增成功");
+                this.Bus.$emit("refresh");
+                this.goBack();
+              })
+              .catch(() => {
+                this.submitLoading = false;
+                this.$message.warning("新增失敗");
+              });
           });
-        }
+        });
       });
     }
   }
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
+.second-title {
+  // position: relative;
+  padding-bottom: 20px;
+  // padding-top: 10px;
+  // &:after {
+  //   width: 100%;
+  //   position: absolute;
+  //   border-bottom: 1px solid #eee;
+  //   content: "";
+  //   bottom: 15px;
+  //   left: 0px;
+  // }
+}
+
+.imageUrl {
+  width: 150px;
+  position: absolute;
+  top: -40px;
+  right: 27%;
+  border: 1px dashed #d9d9d9;
+  box-sizing: border-box;
+  p {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+}
+.reference {
+  width: 150px;
+  position: absolute;
+  top: 0px;
+  right: 25%;
+  border: 1px dashed #d9d9d9;
+  padding: 5px;
+  box-sizing: border-box;
+  p {
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+}
+/deep/ .el-form-item {
+  margin-bottom: 18px;
+}
 .heade {
   font-size: 16px;
   color: #45a2ff;
 }
-/deep/ .el-form-item {
-  margin-bottom: 6px;
-}
-/deep/ .el-form-item__label {
-  padding: 0px !important;
-}
 .heade a {
   color: #45a2ff;
 }
-.total {
-  height: 35px;
-  background: #f0f9eb;
-  td {
-    background: transparent !important;
+/deep/ .el-switch__input:focus ~ .el-switch__core {
+  outline: none !important;
+}
+.tip {
+  margin-left: 5px;
+  line-height: 1.2;
+  color: #bbbbbb;
+  font-size: 12px;
+}
+/deep/ .avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+/deep/ .avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+/deep/ .avatar {
+  width: 178px;
+  height: 178px;
+  position: relative;
+  &:hover .delete {
+    display: block;
+  }
+  .delete {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    top: 0px;
+    display: none;
+  }
+  .delete i {
+    position: absolute;
+    top: 50% !important;
+    left: 50%;
+    color: #62717e;
+    transform: translate(-50%, -50%);
+    font-style: normal;
+  }
+  .delete i:hover {
+    background-color: #45a2ff;
+    color: #fff !important;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
   }
 }
-#table {
-  table {
-    table-layout: fixed;
-    width: 100%;
-    border-top: 1px solid #ebeef5;
-    border-bottom: 1px solid #ebeef5;
-    border-left: 1px solid #ebeef5;
-    .btnh {
-      padding: 4px 0px;
-      color: #62717e;
-    }
-    .cell {
-      padding: 0px;
-    }
-    /deep/ .el-form-item {
-      overflow: hidden;
-      margin: 0px;
-    }
-    /deep/ .el-form-item__content {
-      line-height: 0px;
-    }
-    /deep/ .is-error input {
-      background: #f56c6c;
-      border-radius: 0%;
-    }
-    /deep/ .el-input__inner {
-      border: none;
-      height: 35px;
-      text-align: center;
-      color: #62717e;
-      font-size: 14px;
-    }
-    th {
-      padding: 4px;
-      background: #edf1f5;
-      text-align: center;
-      color: #62717e;
-      // border-right: 1px solid #ebeef5;
-    }
-    td {
-      padding: 0px;
-      border-top: 1px solid #ebeef5;
-      border-right: 1px solid #ebeef5;
-      text-align: center;
-      background: white;
-      color: #62717e;
-      font-size: 14px;
-    }
-  }
+
+img {
+  width: 100%;
+  height: 100%;
 }
 </style>

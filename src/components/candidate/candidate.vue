@@ -518,8 +518,9 @@ export default {
       this.handleSearch();
     },
     handleEdit(val) {
+      debugger;
       this.$router.push({
-        name: "erpPurchaseEdit",
+        path: "/candidateEdit",
         query: { data: JSON.stringify(val) }
       });
     },
