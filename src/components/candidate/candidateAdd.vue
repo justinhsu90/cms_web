@@ -145,7 +145,21 @@
             label="國家："
             prop="country"
           >
-            <el-input v-model="newForm.country"></el-input>
+            <!-- <el-input v-model="newForm.country"></el-input> -->
+            <el-select
+              class="w-max150"
+              placeholder="國家"
+              v-model="newForm.country"
+              clearable
+            >
+              <el-option
+                v-for="(v,i) in countrys"
+                :key="'country'+i"
+                :label="v.countryNameChinese"
+                :value="v.countryCode"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -482,10 +496,12 @@
           <div class="sl-item">毛利</div>
           <div class="sl-item">Final Price</div>
           <div class="sl-item">總成本</div>
+          <div class="sl-item"></div>
         </div>
         <div class="candidate-search__right">
           <table class="search__right-table">
             <colgroup>
+              <col width="180">
               <col width="180">
               <col width="180">
               <col width="180">
@@ -528,36 +544,73 @@
                   ></el-input>
                 </td>
               </tr>
+              <tr>
+                <td v-if="showTableCount >= 1">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 2">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 3">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 4">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 5">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
     </el-card>
-
-    <!-- <el-card>
-      <el-table :data="tableData">
-        <el-table-column
-          min-width="30"
-          label="廠牌"
-          prop="tel"
-        ></el-table-column>
-        <el-table-column
-          min-width="30"
-          label="上市日期"
-          prop="tel"
-        ></el-table-column>
-        <el-table-column
-          min-width="30"
-          label="目前售價"
-          prop="tel"
-        ></el-table-column>
-        <el-table-column
-          min-width="30"
-          label="型号"
-          prop="tel"
-        ></el-table-column>
-      </el-table>
-    </el-card> -->
     <br>
     <div>
       <el-button
@@ -570,11 +623,12 @@
   </div>
 </template>
 <script>
-import showDialog from "@/won-service/component/won-dialog/dialog";
-import CandidateSearch from "./candidate-search";
+// import showDialog from "@/won-service/component/won-dialog/dialog";
+// import CandidateSearch from "./candidate-search";
 export default {
   data() {
     return {
+      countrys: [],
       submitLoading: false,
       tableData: [
         {
@@ -650,157 +704,91 @@ export default {
       ],
       showTableCount: 0,
       newForm: {
-        sku: "1",
-        productName: "test product name test product name",
-        productNameChinese: "2",
-        imageUrl:
-          "https://ejwnrpeak4skp96pz4kb.blob.core.windows.net/hh0259tre01/HH0259TRE01-snapshot.png",
-        lastUpdatedTime: "2020-08-18 12:00:53.0",
-        addedTime: "2020-08-13 11:22:33.0",
-        details: "test details\n",
-        addedBy: "test addedby",
-        referralUrl: "https://www.hoijo2342352",
-        platform: "Wowcher",
-        account: "MagicTrend",
-        country: "GB",
-        currentOwner: "Justin",
-        listingStatus: "PROCESSING",
-        permanentClose: "false",
-        battery: "true",
+        sku: "",
+        productName: "",
+        productNameChinese: "",
+        imageUrl: "",
+        lastUpdatedTime: "",
+        addedTime: "",
+        details: "",
+        addedBy: "",
+        referralUrl: "",
+        platform: "",
+        account: "",
+        country: "",
+        currentOwner: "",
+        listingStatus: "",
+        permanentClose: "",
+        battery: "",
         belongToManager: "",
         messages: [
           {
-            productId: 1,
-            messageIndex: 0,
-            messageTime: "2020-08-21 11:22:33.0",
-            messageType: "na",
-            message: "haha\n",
-            addedBy: "Justin"
+            productId: "",
+            messageIndex: "",
+            messageTime: "",
+            messageType: "",
+            message: "",
+            addedBy: ""
           }
         ],
         sample: {
           trackingNumber: "",
-          sampleStatus: null,
+          sampleStatus: "",
           trackingNumberAgent: "",
           shipoutTime: ""
         },
         productDimension: {
-          id: 0,
-          height: 1.0,
-          width: 3.0,
-          length: 2.0,
-          weight: 0.4,
-          weightUnit: "kg",
-          dimensionUnit: "cm"
+          id: "",
+          height: "",
+          width: "",
+          length: "",
+          weight: "'",
+          weightUnit: "",
+          dimensionUnit: ""
         },
         shippingDimension: {
-          id: 0,
-          height: 2.2,
-          width: 3.3,
-          length: 1.1,
-          weight: 0.6,
-          weightUnit: "kg",
-          dimensionUnit: "cm"
+          id: "",
+          height: "",
+          width: "",
+          length: "",
+          weight: "",
+          weightUnit: "",
+          dimensionUnit: ""
         },
         shippingFee: {
-          finalPrice: 23.45,
-          marginPercentage: 0.3456,
-          margin: 12.0,
-          shippingMethod: "RM1R",
-          shippingAgent: "SFC",
-          shippingFee: 56.7,
-          shippingFeeCurrency: "RMB",
-          productCost: 11.0,
-          productCostCurrency: "RMB",
-          packageMaterialFee: 1.0,
-          finalPriceCurrency: "GBP",
-          productDimensionPrefix: 2.0,
-          productWeightPrefix: 0.2,
-          air: "true",
-          calculatedByProductDimension: "true"
+          finalPrice: "",
+          marginPercentage: "",
+          margin: "",
+          shippingMethod: "",
+          shippingAgent: "",
+          shippingFee: "",
+          shippingFeeCurrency: "",
+          productCost: "",
+          productCostCurrency: "",
+          packageMaterialFee: "",
+          finalPriceCurrency: "",
+          productDimensionPrefix: "",
+          productWeightPrefix: "",
+          air: "",
+          calculatedByProductDimension: ""
         }
       }
     };
   },
-  mounted() {
-    axios({
-      url: "sku/value/colour",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    }).then(({ data }) => {
-      this.searchColor = _.cloneDeep(data);
-    });
-    axios({
-      url: "sku/value/quantity",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    }).then(({ data }) => {
-      this.searchQuantity = _.cloneDeep(data);
-    });
-
-    axios({
-      url: "sku/cat",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    }).then(res => {
-      this.searchOptions = _.cloneDeep(res);
-    });
-
-    axios({
-      url: "sku/value/currency",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    }).then(res => {
-      this.costCurrency = _.cloneDeep(res.data);
-    });
-
-    this.isCopy = this.$route.query.copy;
-    if (!this.isCopy) return;
-    this.imgLoad = true;
+  created() {
     let data = JSON.parse(this.$route.query.data);
-    this.form.base64 = data.imageURL;
-    this.$nextTick(() => {
-      this.disposeCopy();
+    this.newForm = Object.assign({}, this.newForm, data);
+  },
+  mounted() {
+    let countrys = axios({
+      url: "/candidateproduct/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
     });
-
-    this.form.productName = data.productName;
-    this.form.newSku = data.newSku;
-    this.form.sku = data.sku;
-
-    this.form.amazonWidthCM = data.amazonWidthCM;
-    this.form.amazonHeightCM = data.amazonHeightCM;
-    this.form.amazonWeightKG = data.amazonWeightKG;
-    this.form.amazonLengthCM = data.amazonLengthCM;
-
-    this.form.parcelWidthCM = data.parcelWidthCM;
-    this.form.parcelHeightCM = data.parcelHeightCM;
-    this.form.parcelWeightKG = data.parcelWeightKG;
-    this.form.parcelLengthCM = data.parcelLengthCM;
-    this.form.productWidthCM = data.productWidthCM;
-    this.form.productHeightCM = data.productHeightCM;
-    this.form.productWeightKG = data.productWeightKG;
-    this.form.productLengthCM = data.productLengthCM;
-    this.form.lastUpdatedTime = data.lastUpdatedTime;
-    this.form.lastModifiedBy = data.lastModifiedBy;
-    this.form.addedTime = data.addedTime;
-    this.form.addedBy = data.addedBy;
-    this.form.productCostCurrency = data.productCostCurrency;
-    this.form.productNameChinese = data.productNameChinese;
-    this.form.declareNameChinese = data.declareNameChinese;
-    this.form.declareNameEnglish = data.declareNameEnglish;
-    this.form.deprecatedSKU = data.deprecatedSKU;
-    this.form.productCost = data.productCost;
-    this.formModified = true;
-    this.$watch("form.sku", () => {
-      this.formModified = false;
+    Promise.all([countrys]).then(([countrys]) => {
+      this.countrys = countrys.data;
     });
   },
   methods: {
@@ -1033,6 +1021,8 @@ export default {
   .sl-item {
     padding: 10px 0px;
     text-align: center;
+    height: 42px;
+    box-sizing: border-box;
   }
 }
 .candidate-search__right {
@@ -1079,6 +1069,13 @@ export default {
           background: gold;
         }
       }
+    }
+    .btn-container {
+      display: flex;
+      height: 40px;
+      padding: 5px 0px;
+      justify-content: center;
+      box-sizing: border-box;
     }
   }
 }

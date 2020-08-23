@@ -8,59 +8,38 @@
       >返回</a>
     </div>
     <br>
-    <h2>編輯產品</h2>
+    <h2>{{type == 'look' ? '查看' :  '编辑'}}產品</h2>
     <br>
     <el-form
       ref="form"
       :model="newForm"
       label-position="left"
-      label-width="120px"
+      label-width="150px"
     >
-      <el-form-item label="id">
+      <el-form-item
+        label="ID"
+        prop="sku"
+      >
         <el-input
+          class="w50"
+          v-model="newForm.id"
           disabled
+        ></el-input>
+      </el-form-item>
+      <el-form-item
+        label="SKU"
+        prop="sku"
+      >
+        <template slot='label'>
+          <span>SKU</span>
+        </template>
+        <el-input
+          :value="newForm.sku"
+          @input="newForm.sku = $event"
+          @blur="newForm.sku = newForm.sku.toUpperCase()"
           class="w50"
         ></el-input>
       </el-form-item>
-      <el-alert
-        type="warning"
-        show-icon
-        title=""
-        class="mb10 w50"
-        v-if="isCopy"
-      >
-        <small>修改sku，才能保存。</small>
-      </el-alert>
-      <div style="position:relative">
-        <el-form-item
-          ref="formItemTwo"
-          label="SKU"
-          prop="sku"
-          :rules="skuValidate"
-        >
-          <template slot='label'>
-            <span>SKU</span>
-          </template>
-          <el-input
-            :value="newForm.sku"
-            @input="newForm.sku = $event"
-            @blur="newForm.sku = newForm.sku.toUpperCase()"
-            class="w50"
-          ></el-input>
-        </el-form-item>
-        <div
-          class="reference"
-          v-if="showDetector"
-        >
-          <p>同SKU产品参考图</p>
-          <img
-            height="100%"
-            width="100%"
-            :src="detectorURL"
-            alt=""
-          >
-        </div>
-      </div>
       <el-form-item
         label="產品名稱"
         prop="productName"
@@ -71,57 +50,31 @@
           class="w50"
         ></el-input>
       </el-form-item>
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <el-form-item
-            label="圖片"
-            prop="image"
-            :show-message="showMessage"
-          >
-            <el-upload
-              class="avatar-uploader"
-              :auto-upload="false"
-              action=''
-              :before-upload="beforeAvatarUpload"
-              :on-change="handleAvatarSuccess"
-              :show-file-list="false"
-            >
-              <div
-                v-if="form.base64 || imageUrlLoad"
-                class="avatar"
-              >
-                <img
-                  ref="img"
-                  :src="form.base64"
-                  crossOrigin="anonymous"
-                >
-                <div class="delete">
-                  <i @click.stop="handleImageDelete"> 删除</i>
-                </div>
-              </div>
-              <i
-                v-else
-                class="el-icon-plus avatar-uploader-icon"
-              ></i>
-            </el-upload>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item
-            label="圖片url"
-            prop="imageUrl"
-            :rules="imageUrlValidate"
-          >
-            <el-input
-              class="w50"
-              :value="form.imageUrl"
-              @input="form.imageUrl = $event;"
-              @blur="handleBlur"
-            >
-            </el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item
+        label="圖片"
+        prop="image"
+      >
+        <el-upload
+          class="avatar-uploader"
+          :auto-upload="false"
+          action=''
+          :before-upload="beforeAvatarUpload"
+          :on-change="handleAvatarSuccess"
+          :show-file-list="false"
+        >
+
+        </el-upload>
+      </el-form-item>
+      <el-form-item
+        label="圖片url"
+        prop="imageUrl"
+      >
+        <el-input
+          class="w50"
+          :value="newForm.imageUrl"
+        >
+        </el-input>
+      </el-form-item>
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item
@@ -153,8 +106,6 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item
             label="規格："
@@ -171,8 +122,8 @@
             <el-input v-model="newForm.addedBy"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
+
           <el-form-item
             label="參考連結："
             prop="referralUrl"
@@ -181,6 +132,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
+          <!-- account: "MagicTrend",
+        country: "GB", -->
           <el-form-item
             label="平台："
             prop="platform"
@@ -188,7 +141,6 @@
             <el-input v-model="newForm.platform"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="用戶："
@@ -202,10 +154,23 @@
             label="國家："
             prop="country"
           >
-            <el-input v-model="newForm.country"></el-input>
+            <!-- <el-input v-model="newForm.country"></el-input> -->
+            <el-select
+              class="w-max150"
+              placeholder="國家"
+              v-model="newForm.country"
+              clearable
+            >
+              <el-option
+                v-for="(v,i) in countrys"
+                :key="'country'+i"
+                :label="v.countryNameChinese"
+                :value="v.countryCode"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="平台經理："
@@ -222,7 +187,6 @@
             <el-input v-model="newForm.currentOwner"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="狀態："
@@ -239,7 +203,6 @@
             <el-input v-model="newForm.permanentClose"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="電池貨："
@@ -267,7 +230,6 @@
             <el-input v-model="newForm.sample.sampleStatus"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="樣品發貨貨代："
@@ -303,7 +265,6 @@
             <el-input v-model="newForm.productDimension.width"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="產品包裝長度："
@@ -320,7 +281,6 @@
             <el-input v-model="newForm.productDimension.weight"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="產品包裝重量單位："
@@ -356,7 +316,6 @@
             <el-input v-model="newForm.shippingDimension.width"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="出貨包裝長度："
@@ -373,7 +332,6 @@
             <el-input v-model="newForm.shippingDimension.weight"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
         <el-col :span="6">
           <el-form-item
             label="出貨包裝重量單位："
@@ -395,7 +353,7 @@
         <h3 class="second-title">預估</h3>
         <el-col :span="6">
           <el-form-item
-            label="預估報價(FP)："
+            label="預估報1價(FP)："
             prop="shippingFee.finalPrice"
           >
             <el-input v-model="newForm.shippingFee.finalPrice"></el-input>
@@ -410,7 +368,7 @@
             <el-input v-model="newForm.shippingFee.marginPercentage"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
+
         <el-col :span="6">
           <el-form-item
             label="預估毛利："
@@ -419,6 +377,7 @@
             <el-input v-model="newForm.shippingFee.margin"></el-input>
           </el-form-item>
         </el-col>
+
         <el-col :span="6">
           <el-form-item
             label="預估發貨方式："
@@ -427,7 +386,7 @@
             <el-input v-model="newForm.shippingFee.shippingMethod"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
+
         <el-col :span="6">
           <el-form-item
             label="預估貨代："
@@ -445,7 +404,7 @@
             <el-input v-model="newForm.shippingFee.shippingFee"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
+
         <el-col :span="6">
           <el-form-item
             label="預估運費幣別："
@@ -462,7 +421,7 @@
             <el-input v-model="newForm.shippingFee.productCost"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
+
         <el-col :span="6">
           <el-form-item
             label="銷貨成本幣別："
@@ -471,6 +430,7 @@
             <el-input v-model="newForm.shippingFee.productCostCurrency"></el-input>
           </el-form-item>
         </el-col>
+
         <el-col :span="6">
           <el-form-item
             label="出貨包材成本："
@@ -479,7 +439,7 @@
             <el-input v-model="newForm.shippingFee.packageMaterialFee"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
+
         <el-col :span="6">
           <el-form-item
             label="預估報價幣別："
@@ -488,6 +448,7 @@
             <el-input v-model="newForm.shippingFee.finalPriceCurrency"></el-input>
           </el-form-item>
         </el-col>
+
         <el-col :span="6">
           <el-form-item
             label="shippingFee.productDimensionPrefix："
@@ -496,7 +457,7 @@
             <el-input v-model="newForm.shippingFee.productDimensionPrefix"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
+
         <el-col :span="6">
           <el-form-item
             label="shippingFee.productWeightPrefix："
@@ -514,7 +475,7 @@
             <el-input v-model="newForm.shippingFee.air"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="24"></el-col>
+
         <el-col :span="6">
           <el-form-item
             label="是否用產品包裝尺寸計算運費："
@@ -524,213 +485,263 @@
           </el-form-item>
         </el-col>
       </el-row>
+    </el-form>
+    <div class="form-two__add">
+      <el-button
+        type="success"
+        @click="this.handleAddSearch"
+      >新增查询</el-button>
+    </div>
+    <el-card>
+      <div class="candidate-search">
+        <div class="candidate-search__left">
+          <div class="sl-item">國家</div>
+          <div class="sl-item">出貨方式</div>
+          <div class="sl-item">發貨方式</div>
+          <div class="sl-item">貨代</div>
+          <div class="sl-item">尾程派送方式</div>
+          <div class="sl-item">計算方式</div>
+          <div class="sl-item">毛利率</div>
+          <div class="sl-item">毛利</div>
+          <div class="sl-item">Final Price</div>
+          <div class="sl-item">總成本</div>
+        </div>
+        <div class="candidate-search__right">
+          <table class="search__right-table">
+            <colgroup>
+              <col width="180">
+              <col width="180">
+              <col width="180">
+              <col width="180">
+              <col width="180">
+            </colgroup>
+            <tbody>
+              <tr
+                v-for="(v, i) in tableData"
+                :key="i"
+              >
+                <td v-if="showTableCount >= 1">
+                  <el-input
+                    class="td__input-one"
+                    v-model="v.countryOne"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 2">
+                  <el-input
+                    class="td__input-two"
+                    v-model="v.countryTwo"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 3">
+                  <el-input
+                    class="td__input-three"
+                    v-model="v.countryThree"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 4">
+                  <el-input
+                    class="td__input-four"
+                    v-model="v.countryFour"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 5">
+                  <el-input
+                    class="td__input-five"
+                    v-model="v.countryFive"
+                  ></el-input>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </el-card>
+    <br>
+    <div>
       <el-button
         @click="handleConfirm"
         :loading="submitLoading"
         type="primary"
         size="large"
-        :disabled="formModified || imgLoad"
-      >新增</el-button>
-    </el-form>
-
+      >修改</el-button>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
-    var that = this;
     return {
-      imageUrlLoad: false,
-      imgLoad: false,
-      centerDialogVisible: true,
-      popoverVisible: false,
-      showDetector: false,
-      trueStatus: false,
-      trueProductName: false,
-      imageStatus: false,
-      detectorURL: "../../static/img/1.png",
-      trueNewSku: false,
-      searchOptions: [],
-      searchColor: [],
-      searchQuantity: [],
-      costCurrency: [],
+      countrys: [],
       submitLoading: false,
-      isCopy: false,
-      captureSku: "",
+      tableData: [
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        }
+      ],
+      showTableCount: 0,
       newForm: {
-        sku: "1",
-        productName: "test product name test product name",
-        productNameChinese: "2",
-        imageUrl:
-          "https://ejwnrpeak4skp96pz4kb.blob.core.windows.net/hh0259tre01/HH0259TRE01-snapshot.png",
-        lastUpdatedTime: "2020-08-18 12:00:53.0",
-        addedTime: "2020-08-13 11:22:33.0",
-        details: "test details\n",
-        addedBy: "test addedby",
-        referralUrl: "https://www.hoijo2342352",
-        platform: "Wowcher",
-        account: "MagicTrend",
-        country: "GB",
-        currentOwner: "Justin",
-        listingStatus: "PROCESSING",
-        permanentClose: "false",
-        battery: "true",
+        sku: "",
+        productName: "",
+        productNameChinese: "",
+        imageUrl: "",
+        lastUpdatedTime: "",
+        addedTime: "",
+        details: "",
+        addedBy: "",
+        referralUrl: "",
+        platform: "",
+        account: "",
+        country: "",
+        currentOwner: "",
+        listingStatus: "",
+        permanentClose: "",
+        battery: "",
         belongToManager: "",
         messages: [
           {
-            productId: 1,
-            messageIndex: 0,
-            messageTime: "2020-08-21 11:22:33.0",
-            messageType: "na",
-            message: "haha\n",
-            addedBy: "Justin"
+            productId: "",
+            messageIndex: "",
+            messageTime: "",
+            messageType: "",
+            message: "",
+            addedBy: ""
           }
         ],
         sample: {
           trackingNumber: "",
-          sampleStatus: null,
+          sampleStatus: "",
           trackingNumberAgent: "",
           shipoutTime: ""
         },
         productDimension: {
-          id: 0,
-          height: 1.0,
-          width: 3.0,
-          length: 2.0,
-          weight: 0.4,
-          weightUnit: "kg",
-          dimensionUnit: "cm"
+          id: "",
+          height: "",
+          width: "",
+          length: "",
+          weight: "'",
+          weightUnit: "",
+          dimensionUnit: ""
         },
         shippingDimension: {
-          id: 0,
-          height: 2.2,
-          width: 3.3,
-          length: 1.1,
-          weight: 0.6,
-          weightUnit: "kg",
-          dimensionUnit: "cm"
+          id: "",
+          height: "",
+          width: "",
+          length: "",
+          weight: "",
+          weightUnit: "",
+          dimensionUnit: ""
         },
         shippingFee: {
-          finalPrice: 23.45,
-          marginPercentage: 0.3456,
-          margin: 12.0,
-          shippingMethod: "RM1R",
-          shippingAgent: "SFC",
-          shippingFee: 56.7,
-          shippingFeeCurrency: "RMB",
-          productCost: 11.0,
-          productCostCurrency: "RMB",
-          packageMaterialFee: 1.0,
-          finalPriceCurrency: "GBP",
-          productDimensionPrefix: 2.0,
-          productWeightPrefix: 0.2,
-          air: "true",
-          calculatedByProductDimension: "true"
+          finalPrice: "",
+          marginPercentage: "",
+          margin: "",
+          shippingMethod: "",
+          shippingAgent: "",
+          shippingFee: "",
+          shippingFeeCurrency: "",
+          productCost: "",
+          productCostCurrency: "",
+          packageMaterialFee: "",
+          finalPriceCurrency: "",
+          productDimensionPrefix: "",
+          productWeightPrefix: "",
+          air: "",
+          calculatedByProductDimension: ""
         }
-      },
-      form: {
-        searchValue: "IT",
-        colorValue: "",
-        quantityValue: "",
-        base64: "",
-        imageUrl: "",
-        sku: "",
-        newSku: "",
-        productName: "",
-        status: "",
-        image: "",
-        amazonWidthCM: "",
-        amazonHeightCM: "",
-        amazonWeightKG: "",
-        amazonLengthCM: "",
-        parcelWidthCM: "",
-        parcelHeightCM: "",
-        parcelWeightKG: "",
-        parcelLengthCM: "",
-        productWidthCM: "",
-        productHeightCM: "",
-        productWeightKG: "",
-        productLengthCM: "",
-        productNameChinese: "",
-        declareNameChinese: "",
-        declareNameEnglish: "",
-        deprecatedSKU: "",
-        productCost: "",
-        productCostCurrency: "RMB"
-      },
-      skuValidate: {
-        required: true,
-        token: this.token,
-        validator(rule, value, callback) {
-          // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
-          let rules = /^[A-Za-z]{2}[0-9]{4}/;
-          if (!rule.required) {
-            callback();
-          }
-          if (!rules.test(value)) {
-            callback(new Error("SKU結構有誤"));
-          } else {
-            axios({
-              url: "sku/similarimg",
-              method: "post",
-              data: {
-                sku: value,
-                token: rule.token
-              }
-            }).then(res => {
-              that.showDetector = true;
-              if (!_.isEmpty(res)) {
-                that.detectorURL = res[0];
-              }
-              callback();
-            });
-          }
-        }
-      },
-      imageUrlValidate: {
-        validator(rule, value, callback) {
-          let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/;
-          if (value) {
-            if (rules.test(value)) {
-              callback();
-            } else {
-              callback(new Error("輸入網址不合法"));
-            }
-          } else {
-            callback();
-          }
-        }
-      },
-      rules: {
-        required: true,
-        message: "此項必填"
-      },
-      showMessage: true,
-      autoShowMessage: true,
-      skuShowMessage: true,
-      amaShow: false,
-      pricalShow: false,
-      deprecatedSkuShow: false,
-      priceShow: false,
-      trueSku: true,
-      image: "",
-      formModified: false
+      }
     };
+  },
+  beforeCreate() {
+    this.type = this.$route.query.type;
   },
   created() {
     let data = JSON.parse(this.$route.query.data);
     this.newForm = Object.assign({}, this.newForm, data);
   },
+  mounted() {
+    let countrys = axios({
+      url: "/candidateproduct/value/country",
+      method: "post",
+      data: {
+        token: this.token
+      }
+    });
+    Promise.all([countrys]).then(([countrys]) => {
+      this.countrys = countrys.data;
+    });
+  },
   methods: {
-    handleAddSku() {
-      // if (this.form.captureSku) {
-      //   this.form.sku =
-      //     this.form.searchValue +
-      //     this.form.captureSku +
-      //     this.form.colorValue +
-      //     this.form.quantityValue;
-      // }
+    handleAddSearch() {
+      this.showTableCount = this.showTableCount + 1;
     },
+    handleAddSku() {},
     handleBlur() {
       this.imageUrlLoad = true;
       this.$nextTick(() => {
@@ -925,6 +936,73 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.candidate-search {
+  overflow: hidden;
+}
+.candidate-search__left {
+  width: 100px;
+  background: #f5f7fa;
+  float: left;
+  color: #606266;
+  .sl-item {
+    padding: 10px 0px;
+    text-align: center;
+  }
+}
+.candidate-search__right {
+  overflow: hidden;
+  .search__right-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    td {
+      box-sizing: border-box;
+      border: 1px solid #ebeef5;
+      /deep/ .el-input__inner {
+        border: none;
+      }
+      /deep/ .el-input {
+        height: 41px;
+      }
+      /deep/ .el-input__inner {
+        height: 41px;
+        border-radius: 0px;
+      }
+      .td__input-one {
+        /deep/ .el-input__inner {
+          background: #67c23a;
+        }
+      }
+      .td__input-two {
+        /deep/ .el-input__inner {
+          background: gray;
+        }
+      }
+      .td__input-three {
+        /deep/ .el-input__inner {
+          background: blue;
+        }
+      }
+      .td__input-four {
+        /deep/ .el-input__inner {
+          background: green;
+        }
+      }
+      .td__input-five {
+        /deep/ .el-input__inner {
+          background: gold;
+        }
+      }
+    }
+  }
+}
+
+.form-two__add {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+}
+
 .second-title {
   // position: relative;
   padding-bottom: 20px;
