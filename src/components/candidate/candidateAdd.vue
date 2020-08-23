@@ -16,45 +16,21 @@
       label-position="left"
       label-width="150px"
     >
-      <el-alert
-        type="warning"
-        show-icon
-        title=""
-        class="mb10 w50"
-        v-if="isCopy"
+      <el-form-item
+        ref="formItemTwo"
+        label="SKU"
+        prop="sku"
       >
-        <small>修改sku，才能保存。</small>
-      </el-alert>
-      <div style="position:relative">
-        <el-form-item
-          ref="formItemTwo"
-          label="SKU"
-          prop="sku"
-          :rules="skuValidate"
-        >
-          <template slot='label'>
-            <span>SKU</span>
-          </template>
-          <el-input
-            :value="newForm.sku"
-            @input="newForm.sku = $event"
-            @blur="newForm.sku = newForm.sku.toUpperCase()"
-            class="w50"
-          ></el-input>
-        </el-form-item>
-        <div
-          class="reference"
-          v-if="showDetector"
-        >
-          <p>同SKU产品参考图</p>
-          <img
-            height="100%"
-            width="100%"
-            :src="detectorURL"
-            alt=""
-          >
-        </div>
-      </div>
+        <template slot='label'>
+          <span>SKU</span>
+        </template>
+        <el-input
+          :value="newForm.sku"
+          @input="newForm.sku = $event"
+          @blur="newForm.sku = newForm.sku.toUpperCase()"
+          class="w50"
+        ></el-input>
+      </el-form-item>
       <el-form-item
         label="產品名稱"
         prop="productName"
@@ -68,7 +44,6 @@
       <el-form-item
         label="圖片"
         prop="image"
-        :show-message="showMessage"
       >
         <el-upload
           class="avatar-uploader"
@@ -78,35 +53,16 @@
           :on-change="handleAvatarSuccess"
           :show-file-list="false"
         >
-          <div
-            v-if="form.base64 || imageUrlLoad"
-            class="avatar"
-          >
-            <img
-              ref="img"
-              :src="form.base64"
-              crossOrigin="anonymous"
-            >
-            <div class="delete">
-              <i @click.stop="handleImageDelete"> 删除</i>
-            </div>
-          </div>
-          <i
-            v-else
-            class="el-icon-plus avatar-uploader-icon"
-          ></i>
+
         </el-upload>
       </el-form-item>
       <el-form-item
         label="圖片url"
         prop="imageUrl"
-        :rules="imageUrlValidate"
       >
         <el-input
           class="w50"
-          :value="form.imageUrl"
-          @input="form.imageUrl = $event;"
-          @blur="handleBlur"
+          :value="newForm.imageUrl"
         >
         </el-input>
       </el-form-item>
@@ -507,7 +463,6 @@
         </el-col>
       </el-row>
     </el-form>
-
     <div class="form-two__add">
       <el-button
         type="success"
@@ -515,6 +470,71 @@
       >新增查询</el-button>
     </div>
     <el-card>
+      <div class="candidate-search">
+        <div class="candidate-search__left">
+          <div class="sl-item">國家</div>
+          <div class="sl-item">出貨方式</div>
+          <div class="sl-item">發貨方式</div>
+          <div class="sl-item">貨代</div>
+          <div class="sl-item">尾程派送方式</div>
+          <div class="sl-item">計算方式</div>
+          <div class="sl-item">毛利率</div>
+          <div class="sl-item">毛利</div>
+          <div class="sl-item">Final Price</div>
+          <div class="sl-item">總成本</div>
+        </div>
+        <div class="candidate-search__right">
+          <table class="search__right-table">
+            <colgroup>
+              <col width="180">
+              <col width="180">
+              <col width="180">
+              <col width="180">
+              <col width="180">
+            </colgroup>
+            <tbody>
+              <tr
+                v-for="(v, i) in tableData"
+                :key="i"
+              >
+                <td v-if="showTableCount >= 1">
+                  <el-input
+                    class="td__input-one"
+                    v-model="v.countryOne"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 2">
+                  <el-input
+                    class="td__input-two"
+                    v-model="v.countryTwo"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 3">
+                  <el-input
+                    class="td__input-three"
+                    v-model="v.countryThree"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 4">
+                  <el-input
+                    class="td__input-four"
+                    v-model="v.countryFour"
+                  ></el-input>
+                </td>
+                <td v-if="showTableCount >= 5">
+                  <el-input
+                    class="td__input-five"
+                    v-model="v.countryFive"
+                  ></el-input>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </el-card>
+
+    <!-- <el-card>
       <el-table :data="tableData">
         <el-table-column
           min-width="30"
@@ -537,15 +557,16 @@
           prop="tel"
         ></el-table-column>
       </el-table>
-    </el-card>
+    </el-card> -->
     <br>
-    <el-button
-      @click="handleConfirm"
-      :loading="submitLoading"
-      type="primary"
-      size="large"
-      :disabled="formModified || imgLoad"
-    >新增</el-button>
+    <div>
+      <el-button
+        @click="handleConfirm"
+        :loading="submitLoading"
+        type="primary"
+        size="large"
+      >新增</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -553,33 +574,81 @@ import showDialog from "@/won-service/component/won-dialog/dialog";
 import CandidateSearch from "./candidate-search";
 export default {
   data() {
-    var that = this;
     return {
-      imageUrlLoad: false,
-      imgLoad: false,
-      centerDialogVisible: true,
-      popoverVisible: false,
-      showDetector: false,
-      trueStatus: false,
-      trueProductName: false,
-      imageStatus: false,
-      detectorURL: "../../static/img/1.png",
-      trueNewSku: false,
-      searchOptions: [],
-      searchColor: [],
-      searchQuantity: [],
-      costCurrency: [],
       submitLoading: false,
-      isCopy: false,
-      captureSku: "",
       tableData: [
         {
-          tel: "iphone"
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
         },
         {
-          tel: "and"
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
+        },
+        {
+          countryOne: "",
+          countryTwo: "",
+          countryThree: "",
+          countryFour: "",
+          countryFive: ""
         }
       ],
+      showTableCount: 0,
       newForm: {
         sku: "1",
         productName: "test product name test product name",
@@ -650,94 +719,7 @@ export default {
           air: "true",
           calculatedByProductDimension: "true"
         }
-      },
-      form: {
-        searchValue: "IT",
-        colorValue: "",
-        quantityValue: "",
-        base64: "",
-        imageUrl: "",
-        sku: "",
-        newSku: "",
-        productName: "",
-        status: "",
-        image: "",
-        amazonWidthCM: "",
-        amazonHeightCM: "",
-        amazonWeightKG: "",
-        amazonLengthCM: "",
-        parcelWidthCM: "",
-        parcelHeightCM: "",
-        parcelWeightKG: "",
-        parcelLengthCM: "",
-        productWidthCM: "",
-        productHeightCM: "",
-        productWeightKG: "",
-        productLengthCM: "",
-        productNameChinese: "",
-        declareNameChinese: "",
-        declareNameEnglish: "",
-        deprecatedSKU: "",
-        productCost: "",
-        productCostCurrency: "RMB"
-      },
-      skuValidate: {
-        required: true,
-        token: this.token,
-        validator(rule, value, callback) {
-          // let rules = /[A-Za-z]{2}[0-9]{4}[a-zA-Z]{3}/;
-          let rules = /^[A-Za-z]{2}[0-9]{4}/;
-          if (!rule.required) {
-            callback();
-          }
-          if (!rules.test(value)) {
-            callback(new Error("SKU結構有誤"));
-          } else {
-            axios({
-              url: "sku/similarimg",
-              method: "post",
-              data: {
-                sku: value,
-                token: rule.token
-              }
-            }).then(res => {
-              that.showDetector = true;
-              if (!_.isEmpty(res)) {
-                that.detectorURL = res[0];
-              }
-              callback();
-            });
-          }
-        }
-      },
-      imageUrlValidate: {
-        validator(rule, value, callback) {
-          let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/;
-          if (value) {
-            if (rules.test(value)) {
-              callback();
-            } else {
-              callback(new Error("輸入網址不合法"));
-            }
-          } else {
-            callback();
-          }
-        }
-      },
-      rules: {
-        required: true,
-        message: "此項必填"
-      },
-      showMessage: true,
-      autoShowMessage: true,
-      skuShowMessage: true,
-      amaShow: false,
-      pricalShow: false,
-      deprecatedSkuShow: false,
-      priceShow: false,
-      trueSku: true,
-      image: "",
-      formModified: false
+      }
     };
   },
   mounted() {
@@ -823,18 +805,19 @@ export default {
   },
   methods: {
     handleAddSearch() {
-      showDialog(
-        CandidateSearch,
-        {
-          width: "45%",
-          title: "查询"
-        },
-        {
-          submit: res => {
-            this.tableData.push(res);
-          }
-        }
-      );
+      this.showTableCount = this.showTableCount + 1;
+      // showDialog(
+      //   CandidateSearch,
+      //   {
+      //     width: "45%",
+      //     title: "查询"
+      //   },
+      //   {
+      //     submit: res => {
+      //       this.tableData.push(res);
+      //     }
+      //   }
+      // );
     },
     handleAddSku() {
       // if (this.form.captureSku) {
@@ -1039,6 +1022,67 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.candidate-search {
+  overflow: hidden;
+}
+.candidate-search__left {
+  width: 100px;
+  background: #f5f7fa;
+  float: left;
+  color: #606266;
+  .sl-item {
+    padding: 10px 0px;
+    text-align: center;
+  }
+}
+.candidate-search__right {
+  overflow: hidden;
+  .search__right-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    td {
+      box-sizing: border-box;
+      border: 1px solid #ebeef5;
+      /deep/ .el-input__inner {
+        border: none;
+      }
+      /deep/ .el-input {
+        height: 41px;
+      }
+      /deep/ .el-input__inner {
+        height: 41px;
+        border-radius: 0px;
+      }
+      .td__input-one {
+        /deep/ .el-input__inner {
+          background: #67c23a;
+        }
+      }
+      .td__input-two {
+        /deep/ .el-input__inner {
+          background: gray;
+        }
+      }
+      .td__input-three {
+        /deep/ .el-input__inner {
+          background: blue;
+        }
+      }
+      .td__input-four {
+        /deep/ .el-input__inner {
+          background: green;
+        }
+      }
+      .td__input-five {
+        /deep/ .el-input__inner {
+          background: gold;
+        }
+      }
+    }
+  }
+}
+
 .form-two__add {
   display: flex;
   justify-content: flex-end;
