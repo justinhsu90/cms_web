@@ -505,6 +505,7 @@
           <div class="sl-item">毛利</div>
           <div class="sl-item">Final Price</div>
           <div class="sl-item">總成本</div>
+          <div class="sl-item"></div>
         </div>
         <div class="candidate-search__right">
           <table class="search__right-table">
@@ -549,6 +550,68 @@
                     class="td__input-five"
                     v-model="v.countryFive"
                   ></el-input>
+                </td>
+              </tr>
+              <tr>
+                <td v-if="showTableCount >= 1">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 2">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 3">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 4">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
+                </td>
+                <td v-if="showTableCount >= 5">
+                  <div class="btn-container">
+                    <el-button
+                      size="small"
+                      type="primary"
+                    >計算</el-button>
+                    <el-button
+                      size="small"
+                      type="success"
+                    >使用</el-button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -947,6 +1010,8 @@ export default {
   .sl-item {
     padding: 10px 0px;
     text-align: center;
+    height: 42px;
+    box-sizing: border-box;
   }
 }
 .candidate-search__right {
@@ -993,6 +1058,13 @@ export default {
           background: gold;
         }
       }
+    }
+    .btn-container {
+      display: flex;
+      height: 40px;
+      padding: 5px 0px;
+      justify-content: center;
+      box-sizing: border-box;
     }
   }
 }
