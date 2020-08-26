@@ -44,6 +44,7 @@
       <el-form-item
         label="圖片"
         prop="image"
+        :show-message="showMessage"
       >
         <el-upload
           class="avatar-uploader"
@@ -53,16 +54,35 @@
           :on-change="handleAvatarSuccess"
           :show-file-list="false"
         >
-
+          <div
+            v-if="newForm.imgBase64 || imageUrlLoad"
+            class="avatar"
+          >
+            <img
+              ref="img"
+              :src="newForm.imgBase64"
+              crossOrigin="anonymous"
+            >
+            <div class="delete">
+              <i @click.stop="handleImageDelete"> 删除</i>
+            </div>
+          </div>
+          <i
+            v-else
+            class="el-icon-plus avatar-uploader-icon"
+          ></i>
         </el-upload>
       </el-form-item>
       <el-form-item
         label="圖片url"
         prop="imageUrl"
+        :rules="imageUrlValidate"
       >
         <el-input
           class="w50"
           :value="newForm.imageUrl"
+          @input="newForm.imageUrl = $event;"
+          @blur="handleBlur"
         >
         </el-input>
       </el-form-item>
@@ -73,6 +93,7 @@
             prop="lastUpdatedTime"
           >
             <el-date-picker
+              disabled
               clearable
               style="width:100%"
               value-format="yyyy-MM-dd HH:mm:ss"
@@ -88,6 +109,7 @@
             prop="addedTime"
           >
             <el-date-picker
+              disabled
               clearable
               style="width:100%"
               value-format="yyyy-MM-dd HH:mm:ss"
@@ -95,14 +117,6 @@
               type="datetime"
             >
             </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="規格："
-            prop="details"
-          >
-            <el-input v-model="newForm.details"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -123,13 +137,23 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <!-- account: "MagicTrend",
-        country: "GB", -->
           <el-form-item
             label="平台："
             prop="platform"
           >
-            <el-input v-model="newForm.platform"></el-input>
+            <el-select
+              placeholder="請選擇"
+              v-model="newForm.platform"
+              clearable
+            >
+              <el-option
+                v-for="(v,i) in platformOptions"
+                :key="'platform'+i"
+                :label="v"
+                :value="v"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -137,7 +161,19 @@
             label="用戶："
             prop="account"
           >
-            <el-input v-model="newForm.account"></el-input>
+            <el-select
+              placeholder="請選擇"
+              v-model="newForm.account"
+              clearable
+            >
+              <el-option
+                v-for="(v,i) in accountOptions"
+                :key="'acc'+i"
+                :label="v"
+                :value="v"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -145,12 +181,12 @@
             label="國家："
             prop="country"
           >
-            <!-- <el-input v-model="newForm.country"></el-input> -->
             <el-select
               class="w-max150"
               placeholder="國家"
               v-model="newForm.country"
               clearable
+              @change="this.handleCountryChange"
             >
               <el-option
                 v-for="(v,i) in countrys"
@@ -167,7 +203,14 @@
             label="平台經理："
             prop="belongToManager"
           >
-            <el-input v-model="newForm.belongToManager"></el-input>
+            <el-select v-model="newForm.belongToManager">
+              <el-option
+                v-for="(v,i) in belongToManagerOptions"
+                :key="'belong'+i"
+                :label="v"
+                :value="v"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -175,7 +218,14 @@
             label="目前擁有者"
             prop="currentOwner"
           >
-            <el-input v-model="newForm.currentOwner"></el-input>
+            <el-select v-model="newForm.currentOwner">
+              <el-option
+                v-for="(v,i) in currentOwnerOptions"
+                :key="'current'+i"
+                :label="v"
+                :value="v"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -191,7 +241,7 @@
             label="永久關閉："
             prop="permanentClose"
           >
-            <el-input v-model="newForm.permanentClose"></el-input>
+            <el-switch v-model="newForm.permanentClose"></el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -199,7 +249,19 @@
             label="電池貨："
             prop="battery"
           >
-            <el-input v-model="newForm.battery"></el-input>
+            <el-switch v-model="newForm.battery"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item
+            label="規格："
+            prop="details"
+          >
+            <el-input
+              :rows="6"
+              type="textarea"
+              v-model="newForm.details"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -492,6 +554,7 @@
           <div class="sl-item">貨代</div>
           <div class="sl-item">尾程派送方式</div>
           <div class="sl-item">計算方式</div>
+          <div class="sl-item">幣別</div>
           <div class="sl-item">毛利率</div>
           <div class="sl-item">毛利</div>
           <div class="sl-item">Final Price</div>
@@ -515,33 +578,108 @@
               >
                 <td v-if="showTableCount >= 1">
                   <el-input
+                    v-if="i != 0"
                     class="td__input-one"
-                    v-model="v.countryOne"
+                    v-model="v.tdOne"
                   ></el-input>
+                  <el-select
+                    v-else
+                    class="td__input-select td__input-one"
+                    v-model="v.tdOne"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(v,i) in countrys"
+                      :key="'country'+i"
+                      :label="v.countryNameChinese"
+                      :value="v.countryCode"
+                    >
+                    </el-option>
+                  </el-select>
                 </td>
                 <td v-if="showTableCount >= 2">
                   <el-input
-                    class="td__input-two"
-                    v-model="v.countryTwo"
+                    v-if="i != 0"
+                    class="td__input-one"
+                    v-model="v.tdTwo"
                   ></el-input>
+                  <el-select
+                    v-else
+                    class="td__input-select td__input-one"
+                    v-model="v.tdTwo"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(v,i) in countrys"
+                      :key="'country'+i"
+                      :label="v.countryNameChinese"
+                      :value="v.countryCode"
+                    >
+                    </el-option>
+                  </el-select>
                 </td>
                 <td v-if="showTableCount >= 3">
                   <el-input
-                    class="td__input-three"
-                    v-model="v.countryThree"
+                    v-if="i != 0"
+                    class="td__input-one"
+                    v-model="v.tdThree"
                   ></el-input>
+                  <el-select
+                    v-else
+                    class="td__input-select td__input-one"
+                    v-model="v.tdThree"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(v,i) in countrys"
+                      :key="'country'+i"
+                      :label="v.countryNameChinese"
+                      :value="v.countryCode"
+                    >
+                    </el-option>
+                  </el-select>
                 </td>
                 <td v-if="showTableCount >= 4">
                   <el-input
-                    class="td__input-four"
-                    v-model="v.countryFour"
+                    v-if="i != 0"
+                    class="td__input-one"
+                    v-model="v.tdFour"
                   ></el-input>
+                  <el-select
+                    v-else
+                    class="td__input-select td__input-one"
+                    v-model="v.tdFour"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(v,i) in countrys"
+                      :key="'country'+i"
+                      :label="v.countryNameChinese"
+                      :value="v.countryCode"
+                    >
+                    </el-option>
+                  </el-select>
                 </td>
                 <td v-if="showTableCount >= 5">
                   <el-input
-                    class="td__input-five"
-                    v-model="v.countryFive"
+                    v-if="i != 0"
+                    class="td__input-one"
+                    v-model="v.tdFive"
                   ></el-input>
+                  <el-select
+                    v-else
+                    class="td__input-select td__input-one"
+                    v-model="v.tdFive"
+                    clearable
+                  >
+                    <el-option
+                      v-for="(v,i) in countrys"
+                      :key="'country'+i"
+                      :label="v.countryNameChinese"
+                      :value="v.countryCode"
+                    >
+                    </el-option>
+                  </el-select>
                 </td>
               </tr>
               <tr>
@@ -625,85 +763,50 @@
 <script>
 // import showDialog from "@/won-service/component/won-dialog/dialog";
 // import CandidateSearch from "./candidate-search";
+import C from "js-cookie";
 export default {
   data() {
+    let tableData = Array.from(
+      {
+        length: 11
+      },
+      () => {
+        return {
+          tdOne: "",
+          tdTwo: "",
+          tdThree: "",
+          tdFour: "",
+          tdFive: ""
+        };
+      }
+    );
     return {
+      showMessage: true,
+      imageUrlLoad: false,
+      belongToManagerOptions: [],
+      currentOwnerOptions: [],
+      platformOptions: [],
+      accountOptions: [],
       countrys: [],
       submitLoading: false,
-      tableData: [
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        },
-        {
-          countryOne: "",
-          countryTwo: "",
-          countryThree: "",
-          countryFour: "",
-          countryFive: ""
-        }
-      ],
+      tableData,
       showTableCount: 0,
+      imageUrlValidate: {
+        validator(rule, value, callback) {
+          let rules = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/;
+          if (value) {
+            if (rules.test(value)) {
+              callback();
+            } else {
+              callback(new Error("輸入網址不合法"));
+            }
+          } else {
+            callback();
+          }
+        }
+      },
       newForm: {
+        imgBase64: "",
         sku: "",
         productName: "",
         productNameChinese: "",
@@ -711,15 +814,15 @@ export default {
         lastUpdatedTime: "",
         addedTime: "",
         details: "",
-        addedBy: "",
+        addedBy: C.get("userName"),
         referralUrl: "",
         platform: "",
         account: "",
         country: "",
         currentOwner: "",
         listingStatus: "",
-        permanentClose: "",
-        battery: "",
+        permanentClose: false,
+        battery: false,
         belongToManager: "",
         messages: [
           {
@@ -776,8 +879,36 @@ export default {
     };
   },
   created() {
-    let data = JSON.parse(this.$route.query.data);
-    this.newForm = Object.assign({}, this.newForm, data);
+    // belongToManagerOptions
+    axios({
+      url: "/candidateproduct/value/owner",
+      method: "post",
+      data: {}
+    }).then(res => {
+      this.currentOwnerOptions = res;
+    });
+    axios({
+      url: "/candidateproduct/value/manager",
+      method: "post",
+      data: {}
+    }).then(res => {
+      this.belongToManagerOptions = res;
+    });
+    axios({
+      url: "/candidateproduct/value/platform",
+      method: "post",
+      data: {}
+    }).then(res => {
+      this.platformOptions = res;
+    });
+
+    axios({
+      url: "/candidateproduct/value/account",
+      method: "post",
+      data: {}
+    }).then(res => {
+      this.accountOptions = res;
+    });
   },
   mounted() {
     let countrys = axios({
@@ -792,6 +923,20 @@ export default {
     });
   },
   methods: {
+    handleCountryChange(val) {
+      // this.tableData[0].forEach(item => {
+      //   if (!item.tdOne) {
+      //     item.tdOne = val;
+      //   }
+      // });
+      let obj = this.tableData[0];
+      Object.keys(obj).forEach(key => {
+        if (!obj[key]) {
+          obj[key] = val;
+        }
+      });
+    },
+
     handleAddSearch() {
       this.showTableCount = this.showTableCount + 1;
       // showDialog(
@@ -819,10 +964,10 @@ export default {
     handleBlur() {
       this.imageUrlLoad = true;
       this.$nextTick(() => {
-        this.$refs["img"].src = this.form.imageUrl;
+        this.$refs["img"].src = this.newForm.imageUrl;
         this.$refs["img"].onload = () => {
           this.blob = "";
-          this.form.base64 = "";
+          this.newForm.imgBase64 = "";
         };
         this.$refs["img"].onerror = () => {
           this.imageUrlLoad = false;
@@ -835,7 +980,7 @@ export default {
       let canvas = document.createElement("canvas");
       let ctx = canvas.getContext("2d");
       var img = new Image();
-      img.src = this.form.base64;
+      img.src = this.newForm.imgBase64;
       img.setAttribute("crossOrigin", "Anonymous");
       img.addEventListener("load", function() {
         canvas.width = img.width;
@@ -868,9 +1013,10 @@ export default {
       this.imgLoad = false;
     },
     handleImageDelete() {
-      this.form.base64 = "";
-      this.form.imageUrl = "";
+      this.newForm.imgBase64 = "";
+      this.newForm.imageUrl = "";
       this.blob = "";
+      this.imageUrlLoad = false;
     },
     goBack() {
       this.$router.back();
@@ -898,8 +1044,8 @@ export default {
         let cas = canvas.getContext("2d");
         cas.drawImage(image, 0, 0);
         let base64 = canvas.toDataURL(file.raw.type);
-        this.form.base64 = base64;
-        this.form.imageUrl = "";
+        this.newForm.imgBase64 = base64;
+        this.newForm.imageUrl = "";
         this.blob = "";
       });
     },
@@ -971,7 +1117,7 @@ export default {
               if (this.blob) {
                 formData.append("uploadfile", this.blob);
               } else {
-                if (this.form.base64) {
+                if (this.newForm.imgBase64) {
                   formData.append("uploadfile", this.image);
                 }
               }
@@ -1043,6 +1189,9 @@ export default {
       /deep/ .el-input__inner {
         height: 41px;
         border-radius: 0px;
+      }
+      .td__input-select {
+        width: 100%;
       }
       .td__input-one {
         /deep/ .el-input__inner {
