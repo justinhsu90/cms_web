@@ -158,7 +158,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="用戶："
+            label="賬號："
             prop="account"
           >
             <el-select
@@ -814,7 +814,7 @@ export default {
         lastUpdatedTime: "",
         addedTime: "",
         details: "",
-        addedBy: C.get("userName"),
+        addedBy: C.get("name"),
         referralUrl: "",
         platform: "",
         account: "",
@@ -846,8 +846,8 @@ export default {
           width: "",
           length: "",
           weight: "'",
-          weightUnit: "",
-          dimensionUnit: ""
+          weightUnit: "KG",
+          dimensionUnit: "CM"
         },
         shippingDimension: {
           id: "",
@@ -855,8 +855,8 @@ export default {
           width: "",
           length: "",
           weight: "",
-          weightUnit: "",
-          dimensionUnit: ""
+          weightUnit: "KG",
+          dimensionUnit: "CM"
         },
         shippingFee: {
           finalPrice: "",
@@ -909,17 +909,14 @@ export default {
     }).then(res => {
       this.accountOptions = res;
     });
-  },
-  mounted() {
-    let countrys = axios({
+    axios({
       url: "/candidateproduct/value/country",
       method: "post",
       data: {
         token: this.token
       }
-    });
-    Promise.all([countrys]).then(([countrys]) => {
-      this.countrys = countrys.data;
+    }).then(res => {
+      this.countrys = res.data;
     });
   },
   methods: {
