@@ -7,9 +7,12 @@
         :rules="formRules"
       >
         <el-row :gutter="20">
+          <h4>手動將訂單資料配對同時加入到OverseaWarehouse 及 OrderList</h4>
+        </el-row>
+        <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item
-              label="平台订单ID："
+              label="銷售平台訂單號："
               prop="platformorderid"
             >
               <el-input v-model="form.platformorderid"></el-input>
@@ -36,7 +39,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item
-              label="訂單ID："
+              label="貨代訂單號 (orderId)："
               prop="orderId"
             >
               <el-input v-model="form.orderId"></el-input>
@@ -47,7 +50,7 @@
             style="position:relative"
           >
             <el-form-item
-              label="物流單號："
+              label="物流單號 (tracking number)："
               prop="trackingNumber"
             >
               <el-input v-model="form.trackingNumber"></el-input>
@@ -58,7 +61,7 @@
               @click="this.handleProductInfo"
               :loading="productLoading"
               style="position:absolute;right:-100px;top:40px"
-            >抓取产品</el-button>
+            >抓取產品</el-button>
           </el-col>
           <el-col :span="12">
             <el-form-item
@@ -106,7 +109,7 @@
               <el-select
                 class="w100"
                 v-model="form.type"
-                placeholder="貨代"
+                placeholder="幣別"
               >
                 <el-option
                   v-for="(v,i) in currencys"
@@ -154,11 +157,12 @@ export default {
         agent: {
           required: true,
           message: "此項必填"
-        },
-        dateOne: {
-          required: true,
-          message: "此項必填"
         }
+        // ,
+        // dateOne: {
+        // required: true,
+        // message: "此項必填"
+        // }
       }
     };
   },
