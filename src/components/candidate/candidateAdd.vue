@@ -14,7 +14,7 @@
       ref="form"
       :model="newForm"
       label-position="left"
-      label-width="70px"
+      label-width="80px"
     >
       <el-row :gutter="20">
         <el-col :span="5">
@@ -100,7 +100,7 @@
       ref="form"
       :model="newForm"
       label-position="left"
-      label-width="70px"
+      label-width="100px"
     >
       <el-row :gutter="20">
         <el-col :span="5">
@@ -142,6 +142,8 @@
             <el-switch v-model="newForm.permanentClose"></el-switch>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="3">
           <el-form-item
             label="電池貨"
@@ -150,28 +152,7 @@
             <el-switch v-model="newForm.battery"></el-switch>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
-          <el-form-item
-            label="規格："
-            prop="details"
-          >
-            <el-input
-              :rows="6"
-              type="textarea"
-              v-model="newForm.details"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-row :gutter="20">
-      <el-form
-        ref="form"
-        :model="newForm"
-        label-position="left"
-        label-width="60px"
-      >
-        <el-col :span="10">
+        <el-col :span="5">
           <el-form-item
             ref="formItemTwo"
             label="SKU"
@@ -184,42 +165,43 @@
               :value="newForm.sku"
               @input="newForm.sku = $event"
               @blur="newForm.sku = newForm.sku.toUpperCase()"
-              class="w50"
             ></el-input>
           </el-form-item>
         </el-col>
-      </el-form>
-
-      <el-form
-        ref="form"
-        :model="newForm"
-        label-position="left"
-        label-width="100px"
-      >
-        <el-col :span="10">
-
+        <el-col :span="5">
           <el-form-item
             label="產品名稱"
             prop="productName"
             :rules="{required:true,message:'此項必填'}"
           >
-            <el-input
-              v-model="newForm.productName"
-              class="w50"
-            ></el-input>
+            <el-input v-model="newForm.productName"></el-input>
           </el-form-item>
         </el-col>
-      </el-form>
-    </el-row>
-
-    <el-form
-      ref="form"
-      :model="newForm"
-      label-position="left"
-      label-width="100px"
-    >
-      <el-row :gutter="20">
-        <el-col :span="7">
+        <el-col :span="12"></el-col>
+        <el-col :span="8">
+          <el-form-item
+            label="圖片連結"
+            prop="imageUrl"
+            :rules="imageUrlValidate"
+          >
+            <el-input
+              :value="newForm.imageUrl"
+              @input="newForm.imageUrl = $event;"
+              @blur="handleBlur"
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item
+            label="產品參考連結"
+            prop="referralUrl"
+          >
+            <el-input v-model="newForm.referralUrl"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12"></el-col>
+        <el-col :span="6">
           <el-form-item
             label="圖片"
             prop="image"
@@ -253,29 +235,28 @@
             </el-upload>
           </el-form-item>
         </el-col>
-        <el-col :span="15">
+        <el-col :span="12">
           <el-form-item
-            label="圖片連結"
-            prop="imageUrl"
-            :rules="imageUrlValidate"
+            label="規格："
+            prop="details"
           >
             <el-input
-              class="w50"
-              :value="newForm.imageUrl"
-              @input="newForm.imageUrl = $event;"
-              @blur="handleBlur"
-            >
-            </el-input>
+              :rows="6"
+              type="textarea"
+              v-model="newForm.details"
+            ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="15">
-          <el-form-item
-            label="產品參考連結"
-            prop="referralUrl"
-          >
-            <el-input v-model="newForm.referralUrl"></el-input>
-          </el-form-item>
-        </el-col>
+      </el-row>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="100px"
+    >
+      <el-row :gutter="20">
+
       </el-row>
     </el-form>
     <el-form
@@ -330,7 +311,7 @@
       <el-row :gutter="20">
         <el-col :span="3">
           <h3 class="
-        second-title">產品包裝尺寸</h3>
+        title__product">產品包裝尺寸</h3>
         </el-col>
         <el-col :span="3">
           <el-form-item
@@ -390,7 +371,7 @@
       <el-row :gutter="20">
         <el-col :span="3">
           <h3 class="
-        second-title">出貨包裝尺寸</h3>
+        title__huo">出貨包裝尺寸</h3>
         </el-col>
         <el-col :span="3">
           <el-form-item
@@ -456,7 +437,7 @@
     >
       <el-row :gutter="20">
         <el-col :span="2">
-          <h3 class="second-title">樣品</h3>
+          <h3 class="title__yangpin">樣品</h3>
         </el-col>
         <el-col :span="4">
           <el-form-item
@@ -503,7 +484,7 @@
     >
       <el-row :gutter="30">
         <el-col :span="2">
-          <h3 class="second-title">預估</h3>
+          <h3 class="title__yugu">預估</h3>
         </el-col>
         <!-- <el-col :span="6">
           <el-form-item
@@ -680,173 +661,81 @@
                 v-for="(v, i) in tableData"
                 :key="i"
               >
-                <td v-if="showTableCount >= 1">
-                  <el-input
-                    v-if="i != 0"
-                    class="td__input-one"
-                    v-model="v.tdOne"
-                  ></el-input>
-                  <el-select
-                    v-else
-                    class="td__input-select td__input-one"
-                    v-model="v.tdOne"
-                    clearable
+                <template v-for="(value, index) in 5">
+                  <td
+                    v-if="showTableCount >= value"
+                    :key="index"
                   >
-                    <el-option
-                      v-for="(v,i) in countrys"
-                      :key="'country'+i"
-                      :label="v.countryNameChinese"
-                      :value="v.countryCode"
+                    <el-select
+                      v-if="i == 0"
+                      class="td__input-select td__input-one"
+                      v-model="v[keys[value]]"
+                      clearable
                     >
-                    </el-option>
-                  </el-select>
-                </td>
-                <td v-if="showTableCount >= 2">
-                  <el-input
-                    v-if="i != 0"
-                    class="td__input-one"
-                    v-model="v.tdTwo"
-                  ></el-input>
-                  <el-select
-                    v-else
-                    class="td__input-select td__input-one"
-                    v-model="v.tdTwo"
-                    clearable
-                  >
-                    <el-option
-                      v-for="(v,i) in countrys"
-                      :key="'country'+i"
-                      :label="v.countryNameChinese"
-                      :value="v.countryCode"
+                      <el-option
+                        v-for="(v,i) in countrys"
+                        :key="'country'+i"
+                        :label="v.countryNameChinese"
+                        :value="v.countryCode"
+                      >
+                      </el-option>
+                    </el-select>
+                    <el-select
+                      v-else-if="i == 2"
+                      class="td__input-select td__input-one"
+                      v-model="v[keys[value]]"
+                      clearable
                     >
-                    </el-option>
-                  </el-select>
-                </td>
-                <td v-if="showTableCount >= 3">
-                  <el-input
-                    v-if="i != 0"
-                    class="td__input-one"
-                    v-model="v.tdThree"
-                  ></el-input>
-                  <el-select
-                    v-else
-                    class="td__input-select td__input-one"
-                    v-model="v.tdThree"
-                    clearable
-                  >
-                    <el-option
-                      v-for="(v,i) in countrys"
-                      :key="'country'+i"
-                      :label="v.countryNameChinese"
-                      :value="v.countryCode"
+                      <el-option
+                        v-for="(v,i) in shippingmethodOptions"
+                        :key="'shipping'+i"
+                        :label="v"
+                        :value="v"
+                      >
+                      </el-option>
+                    </el-select>
+                    <el-select
+                      v-else-if="i == 3"
+                      class="td__input-select td__input-one"
+                      v-model="v[keys[value]]"
+                      clearable
                     >
-                    </el-option>
-                  </el-select>
-                </td>
-                <td v-if="showTableCount >= 4">
-                  <el-input
-                    v-if="i != 0"
-                    class="td__input-one"
-                    v-model="v.tdFour"
-                  ></el-input>
-                  <el-select
-                    v-else
-                    class="td__input-select td__input-one"
-                    v-model="v.tdFour"
-                    clearable
-                  >
-                    <el-option
-                      v-for="(v,i) in countrys"
-                      :key="'country'+i"
-                      :label="v.countryNameChinese"
-                      :value="v.countryCode"
-                    >
-                    </el-option>
-                  </el-select>
-                </td>
-                <td v-if="showTableCount >= 5">
-                  <el-input
-                    v-if="i != 0"
-                    class="td__input-one"
-                    v-model="v.tdFive"
-                  ></el-input>
-                  <el-select
-                    v-else
-                    class="td__input-select td__input-one"
-                    v-model="v.tdFive"
-                    clearable
-                  >
-                    <el-option
-                      v-for="(v,i) in countrys"
-                      :key="'country'+i"
-                      :label="v.countryNameChinese"
-                      :value="v.countryCode"
-                    >
-                    </el-option>
-                  </el-select>
-                </td>
+                      <el-option
+                        v-for="(v,i) in agentOptions"
+                        :key="'agent'+i"
+                        :label="v"
+                        :value="v"
+                      >
+                      </el-option>
+                    </el-select>
+                    <el-input
+                      v-else
+                      class="td__input-one"
+                      v-model="v[keys[value]]"
+                    ></el-input>
+                  </td>
+                </template>
               </tr>
               <tr>
-                <td v-if="showTableCount >= 1">
-                  <div class="btn-container">
-                    <el-button
-                      size="small"
-                      type="primary"
-                    >計算</el-button>
-                    <el-button
-                      size="small"
-                      type="success"
-                    >使用</el-button>
-                  </div>
-                </td>
-                <td v-if="showTableCount >= 2">
-                  <div class="btn-container">
-                    <el-button
-                      size="small"
-                      type="primary"
-                    >計算</el-button>
-                    <el-button
-                      size="small"
-                      type="success"
-                    >使用</el-button>
-                  </div>
-                </td>
-                <td v-if="showTableCount >= 3">
-                  <div class="btn-container">
-                    <el-button
-                      size="small"
-                      type="primary"
-                    >計算</el-button>
-                    <el-button
-                      size="small"
-                      type="success"
-                    >使用</el-button>
-                  </div>
-                </td>
-                <td v-if="showTableCount >= 4">
-                  <div class="btn-container">
-                    <el-button
-                      size="small"
-                      type="primary"
-                    >計算</el-button>
-                    <el-button
-                      size="small"
-                      type="success"
-                    >使用</el-button>
-                  </div>
-                </td>
-                <td v-if="showTableCount >= 5">
-                  <div class="btn-container">
-                    <el-button
-                      size="small"
-                      type="primary"
-                    >計算</el-button>
-                    <el-button
-                      size="small"
-                      type="success"
-                    >使用</el-button>
-                  </div>
-                </td>
+                <template v-for="(value, index) in 5">
+                  <td
+                    v-if="showTableCount >= value"
+                    :key="index"
+                  >
+                    <div class="btn-container">
+                      <el-button
+                        size="small"
+                        type="primary"
+                        @click="handleClickComputed(value)"
+                      >計算</el-button>
+                      <el-button
+                        size="small"
+                        type="success"
+                        @click="handleClickUse(value)"
+                      >使用</el-button>
+                    </div>
+                  </td>
+                </template>
               </tr>
             </tbody>
           </table>
@@ -909,6 +798,8 @@ export default {
           }
         }
       },
+      shippingmethodOptions: [],
+      agentOptions: [],
       newForm: {
         imgBase64: "",
         sku: "",
@@ -920,13 +811,13 @@ export default {
         details: "",
         addedBy: C.get("name"),
         referralUrl: "",
-        platform: "",
+        platform: "Wowcher",
         account: "",
-        country: "",
-        currentOwner: "",
+        country: "英國",
+        currentOwner: C.get("name"),
         listingStatus: "",
         permanentClose: false,
-        battery: false,
+        battery: true,
         belongToManager: "",
         messages: [
           {
@@ -983,7 +874,13 @@ export default {
     };
   },
   created() {
-    // belongToManagerOptions
+    this.keys = {
+      "1": "tdOne",
+      "2": "tdTwo",
+      "3": "tdThree",
+      "4": "tdFour",
+      "5": "tdFive"
+    };
     axios({
       url: "/candidateproduct/value/owner",
       method: "post",
@@ -1016,20 +913,41 @@ export default {
     axios({
       url: "/candidateproduct/value/country",
       method: "post",
-      data: {
-        token: this.token
-      }
+      data: {}
     }).then(res => {
       this.countrys = res.data;
     });
+
+    axios({
+      url: "/candidateproduct/value/shippingmethod",
+      method: "post",
+      data: {}
+    }).then(res => {
+      this.shippingmethodOptions = res;
+    });
+
+    axios({
+      url: "/candidateproduct/value/agent",
+      method: "post",
+      data: {}
+    }).then(res => {
+      this.agentOptions = res;
+    });
   },
   methods: {
+    handleClickUse(value) {
+      let obj = {};
+      this.tableData.forEach((item, index) => {
+        obj[index] = item[this.keys[value]];
+      });
+    },
+    handleClickComputed() {
+      let obj = {};
+      this.tableData.forEach((item, index) => {
+        obj[index] = item[this.keys[value]];
+      });
+    },
     handleCountryChange(val) {
-      // this.tableData[0].forEach(item => {
-      //   if (!item.tdOne) {
-      //     item.tdOne = val;
-      //   }
-      // });
       let obj = this.tableData[0];
       Object.keys(obj).forEach(key => {
         if (!obj[key]) {
@@ -1336,18 +1254,20 @@ export default {
   padding-bottom: 20px;
 }
 
-.second-title {
-  // position: relative;
-  padding-bottom: 20px;
-  // padding-top: 10px;
-  // &:after {
-  //   width: 100%;
-  //   position: absolute;
-  //   border-bottom: 1px solid #eee;
-  //   content: "";
-  //   bottom: 15px;
-  //   left: 0px;
-  // }
+.title__product {
+  line-height: 38px;
+}
+
+.title__huo {
+  line-height: 38px;
+}
+
+.title__yangpin {
+  line-height: 38px;
+}
+
+.title__yugu {
+  line-height: 38px;
 }
 
 .imageUrl {
