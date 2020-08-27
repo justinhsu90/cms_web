@@ -10,86 +10,131 @@
     <br>
     <h2>添加產品</h2>
     <br>
+
+    <el-row :gutter="20">
+      <el-form
+        ref="form"
+        :model="newForm"
+        label-position="left"
+        label-width="60px"
+      >
+        <el-col :span="10">
+          <el-form-item
+            ref="formItemTwo"
+            label="SKU"
+            prop="sku"
+          >
+            <template slot='label'>
+              <span>SKU</span>
+            </template>
+            <el-input
+              :value="newForm.sku"
+              @input="newForm.sku = $event"
+              @blur="newForm.sku = newForm.sku.toUpperCase()"
+              class="w50"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-form>
+
+      <el-form
+        ref="form"
+        :model="newForm"
+        label-position="left"
+        label-width="100px"
+      >
+        <el-col :span="10">
+
+          <el-form-item
+            label="產品名稱"
+            prop="productName"
+            :rules="{required:true,message:'此項必填'}"
+          >
+            <el-input
+              v-model="newForm.productName"
+              class="w50"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-form>
+    </el-row>
+
     <el-form
       ref="form"
       :model="newForm"
       label-position="left"
-      label-width="150px"
+      label-width="100px"
     >
-      <el-form-item
-        ref="formItemTwo"
-        label="SKU"
-        prop="sku"
-      >
-        <template slot='label'>
-          <span>SKU</span>
-        </template>
-        <el-input
-          :value="newForm.sku"
-          @input="newForm.sku = $event"
-          @blur="newForm.sku = newForm.sku.toUpperCase()"
-          class="w50"
-        ></el-input>
-      </el-form-item>
-      <el-form-item
-        label="產品名稱"
-        prop="productName"
-        :rules="{required:true,message:'此項必填'}"
-      >
-        <el-input
-          v-model="newForm.productName"
-          class="w50"
-        ></el-input>
-      </el-form-item>
-      <el-form-item
-        label="圖片"
-        prop="image"
-        :show-message="showMessage"
-      >
-        <el-upload
-          class="avatar-uploader"
-          :auto-upload="false"
-          action=''
-          :before-upload="beforeAvatarUpload"
-          :on-change="handleAvatarSuccess"
-          :show-file-list="false"
-        >
-          <div
-            v-if="newForm.imgBase64 || imageUrlLoad"
-            class="avatar"
-          >
-            <img
-              ref="img"
-              :src="newForm.imgBase64"
-              crossOrigin="anonymous"
-            >
-            <div class="delete">
-              <i @click.stop="handleImageDelete"> 删除</i>
-            </div>
-          </div>
-          <i
-            v-else
-            class="el-icon-plus avatar-uploader-icon"
-          ></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item
-        label="圖片url"
-        prop="imageUrl"
-        :rules="imageUrlValidate"
-      >
-        <el-input
-          class="w50"
-          :value="newForm.imageUrl"
-          @input="newForm.imageUrl = $event;"
-          @blur="handleBlur"
-        >
-        </el-input>
-      </el-form-item>
       <el-row :gutter="20">
-        <el-col :span="6">
+        <el-col :span="7">
           <el-form-item
-            label="最後更新時間："
+            label="圖片"
+            prop="image"
+            :show-message="showMessage"
+          >
+            <el-upload
+              class="avatar-uploader"
+              :auto-upload="false"
+              action=''
+              :before-upload="beforeAvatarUpload"
+              :on-change="handleAvatarSuccess"
+              :show-file-list="false"
+            >
+              <div
+                v-if="newForm.imgBase64 || imageUrlLoad"
+                class="avatar"
+              >
+                <img
+                  ref="img"
+                  :src="newForm.imgBase64"
+                  crossOrigin="anonymous"
+                >
+                <div class="delete">
+                  <i @click.stop="handleImageDelete"> 删除</i>
+                </div>
+              </div>
+              <i
+                v-else
+                class="el-icon-plus avatar-uploader-icon"
+              ></i>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+        <el-col :span="15">
+          <el-form-item
+            label="圖片連結"
+            prop="imageUrl"
+            :rules="imageUrlValidate"
+          >
+            <el-input
+              class="w50"
+              :value="newForm.imageUrl"
+              @input="newForm.imageUrl = $event;"
+              @blur="handleBlur"
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="15">
+          <el-form-item
+            label="產品參考連結"
+            prop="referralUrl"
+          >
+            <el-input v-model="newForm.referralUrl"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="100px"
+    >
+      <el-row :gutter="20">
+        <!-- <el-col :span="6">
+          <el-form-item
+            label="最後更新時間"
             prop="lastUpdatedTime"
           >
             <el-date-picker
@@ -105,7 +150,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="加入時間："
+            label="加入時間"
             prop="addedTime"
           >
             <el-date-picker
@@ -118,27 +163,20 @@
             >
             </el-date-picker>
           </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="加入人："
-            prop="addedBy"
-          >
-            <el-input v-model="newForm.addedBy"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
+        </el-col> -->
 
+      </el-row>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="70px"
+    >
+      <el-row :gutter="20">
+        <el-col :span="5">
           <el-form-item
-            label="參考連結："
-            prop="referralUrl"
-          >
-            <el-input v-model="newForm.referralUrl"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="平台："
+            label="平台"
             prop="platform"
           >
             <el-select
@@ -156,9 +194,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
-            label="賬號："
+            label="帳號"
             prop="account"
           >
             <el-select
@@ -176,9 +214,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
-            label="國家："
+            label="國家"
             prop="country"
           >
             <el-select
@@ -200,7 +238,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="平台經理："
+            label="平台經理"
             prop="belongToManager"
           >
             <el-select v-model="newForm.belongToManager">
@@ -213,9 +251,26 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+      </el-row>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="70px"
+    >
+      <el-row :gutter="20">
+        <el-col :span="5">
           <el-form-item
-            label="目前擁有者"
+            label="加入人"
+            prop="addedBy"
+          >
+            <el-input v-model="newForm.addedBy"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="擁有者"
             prop="currentOwner"
           >
             <el-select v-model="newForm.currentOwner">
@@ -228,25 +283,25 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
-            label="狀態："
+            label="狀態"
             prop="listingStatus"
           >
             <el-input v-model="newForm.listingStatus"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="永久關閉："
+            label="永久關閉"
             prop="permanentClose"
           >
             <el-switch v-model="newForm.permanentClose"></el-switch>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="電池貨："
+            label="電池貨"
             prop="battery"
           >
             <el-switch v-model="newForm.battery"></el-switch>
@@ -265,19 +320,20 @@
           </el-form-item>
         </el-col>
       </el-row>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="70px"
+    >
       <el-row :gutter="20">
-        <h3 class="second-title">樣品</h3>
-        <el-col :span="6">
-          <el-form-item
-            label="樣品發貨單號："
-            prop="sample.trackingNumber"
-          >
-            <el-input v-model="newForm.sample.trackingNumber"></el-input>
-          </el-form-item>
+        <el-col :span="2">
+          <h3 class="second-title">樣品</h3>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="4">
           <el-form-item
-            label="樣品狀態："
+            label="樣品狀態"
             prop="sample.sampleStatus"
           >
             <el-input v-model="newForm.sample.sampleStatus"></el-input>
@@ -285,126 +341,172 @@
         </el-col>
         <el-col :span="6">
           <el-form-item
-            label="樣品發貨貨代："
+            label="發貨單號"
+            prop="sample.trackingNumber"
+          >
+            <el-input v-model="newForm.sample.trackingNumber"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="發貨貨代"
             prop="sample.trackingNumberAgent"
           >
             <el-input v-model="newForm.sample.trackingNumberAgent"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
-            label="樣品發貨時間："
+            label="發貨時間"
             prop="sample.shipoutTime"
           >
-            <el-input v-model="newForm.sample.shipoutTime"></el-input>
+            <el-input
+              v-model="newForm.sample.shipoutTime"
+              disabled="disabled"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
+    </el-form>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="56px"
+    >
       <el-row :gutter="20">
-        <h3 class="second-title">產品</h3>
-        <el-col :span="6">
-          <el-form-item
-            label="產品包裝高度："
-            prop="productDimension.height"
-          >
-            <el-input v-model="newForm.productDimension.height"></el-input>
-          </el-form-item>
+        <el-col :span="3">
+          <h3 class="
+        second-title">產品包裝尺寸</h3>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="產品包裝寬度："
-            prop="productDimension.width"
-          >
-            <el-input v-model="newForm.productDimension.width"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="產品包裝長度："
+            label="長度"
             prop="productDimension.length"
           >
             <el-input v-model="newForm.productDimension.length"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="產品包裝重量："
+            label="寬度"
+            prop="productDimension.width"
+          >
+            <el-input v-model="newForm.productDimension.width"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item
+            label="高度"
+            prop="productDimension.height"
+          >
+            <el-input v-model="newForm.productDimension.height"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item
+            label="重量"
             prop="productDimension.weight"
           >
             <el-input v-model="newForm.productDimension.weight"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="產品包裝重量單位："
+            label="重單位"
             prop="productDimension.weightUnit"
           >
-            <el-input v-model="newForm.productDimension.weightUnit"></el-input>
+            <el-input
+              v-model="newForm.productDimension.weightUnit"
+              disabled="disabled"
+            ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="產品包裝長度單位："
+            label="長單位"
             prop="productDimension.dimensionUnit"
           >
-            <el-input v-model="newForm.productDimension.dimensionUnit"></el-input>
+            <el-input
+              v-model="newForm.productDimension.dimensionUnit"
+              disabled="disabled"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <h3 class="second-title">出貨</h3>
-        <el-col :span="6">
-          <el-form-item
-            label="出貨包裝高度："
-            prop="shippingDimension.height"
-          >
-            <el-input v-model="newForm.shippingDimension.height"></el-input>
-          </el-form-item>
+        <el-col :span="3">
+          <h3 class="
+        second-title">出貨包裝尺寸</h3>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="出貨包裝寬度："
-            prop="shippingDimension.width"
-          >
-            <el-input v-model="newForm.shippingDimension.width"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="出貨包裝長度："
+            label="長度"
             prop="shippingDimension.length"
           >
             <el-input v-model="newForm.shippingDimension.length"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="出貨包裝重量："
+            label="寬度"
+            prop="shippingDimension.width"
+          >
+            <el-input v-model="newForm.shippingDimension.width"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item
+            label="高度"
+            prop="shippingDimension.height"
+          >
+            <el-input v-model="newForm.shippingDimension.height"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item
+            label="重量"
             prop="shippingDimension.weight"
           >
             <el-input v-model="newForm.shippingDimension.weight"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="出貨包裝重量單位："
+            label="重單位"
             prop="shippingDimension.weightUnit"
           >
-            <el-input v-model="newForm.shippingDimension.weightUnit"></el-input>
+            <el-input
+              v-model="newForm.shippingDimension.weightUnit"
+              disabled="disabled"
+            ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-form-item
-            label="出貨包裝長度單位："
-            prop="shippingDimension.dimensionUnit"
+            label="長單位"
+            prop="shippingDimension.dimensionUnit "
           >
-            <el-input v-model="newForm.shippingDimension.dimensionUnit"></el-input>
+            <el-input
+              v-model="newForm.shippingDimension.dimensionUnit"
+              disabled="disabled"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <h3 class="second-title">預估</h3>
-        <el-col :span="6">
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="110px"
+    >
+      <el-row :gutter="30">
+        <el-col :span="2">
+          <h3 class="second-title">預估</h3>
+        </el-col>
+        <!-- <el-col :span="6">
           <el-form-item
             label="預估報1價(FP)："
             prop="shippingFee.finalPrice"
@@ -482,69 +584,72 @@
           >
             <el-input v-model="newForm.shippingFee.productCostCurrency"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
 
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
-            label="出貨包材成本："
+            label="包材成本(RMB)"
             prop="shippingFee.packageMaterialFee"
           >
             <el-input v-model="newForm.shippingFee.packageMaterialFee"></el-input>
           </el-form-item>
         </el-col>
 
-        <el-col :span="6">
+        <!-- <el-col :span="6">
           <el-form-item
             label="預估報價幣別："
             prop="shippingFee.finalPriceCurrency"
           >
             <el-input v-model="newForm.shippingFee.finalPriceCurrency"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
 
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
-            label="shippingFee.productDimensionPrefix："
+            label="尺寸預加(cm)"
             prop="shippingFee.productDimensionPrefix"
           >
             <el-input v-model="newForm.shippingFee.productDimensionPrefix"></el-input>
           </el-form-item>
         </el-col>
 
-        <el-col :span="6">
+        <el-col :span="5">
           <el-form-item
-            label="shippingFee.productWeightPrefix："
+            label="重量預加(gram)"
             prop="shippingFee.productWeightPrefix"
           >
             <el-input v-model="newForm.shippingFee.productWeightPrefix"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="5">
 
-        <el-col :span="6">
+          <!-- <div class="form-two__add"> -->
+          <el-button
+            type="success"
+            @click="this.handleAddSearch"
+          >新增試算</el-button>
+          <!-- </div> -->
+        </el-col>
+        <!-- <el-col :span="6">
           <el-form-item
             label="預估報價空/海運："
             prop="shippingFee.air"
           >
             <el-input v-model="newForm.shippingFee.air"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
 
-        <el-col :span="6">
+        <!-- <el-col :span="4">
           <el-form-item
             label="是否用產品包裝尺寸計算運費："
             prop="shippingFee.calculatedByProductDimension"
           >
             <el-input v-model="newForm.shippingFee.calculatedByProductDimension"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
     </el-form>
-    <div class="form-two__add">
-      <el-button
-        type="success"
-        @click="this.handleAddSearch"
-      >新增查询</el-button>
-    </div>
+
     <el-card>
       <div class="candidate-search">
         <div class="candidate-search__left">
