@@ -10,7 +10,160 @@
     <br>
     <h2>添加產品</h2>
     <br>
-
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="70px"
+    >
+      <el-row :gutter="20">
+        <el-col :span="5">
+          <el-form-item
+            label="平台"
+            prop="platform"
+          >
+            <el-select
+              placeholder="請選擇"
+              v-model="newForm.platform"
+              clearable
+            >
+              <el-option
+                v-for="(v,i) in platformOptions"
+                :key="'platform'+i"
+                :label="v"
+                :value="v"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="帳號"
+            prop="account"
+          >
+            <el-select
+              placeholder="請選擇"
+              v-model="newForm.account"
+              clearable
+            >
+              <el-option
+                v-for="(v,i) in accountOptions"
+                :key="'acc'+i"
+                :label="v"
+                :value="v"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="國家"
+            prop="country"
+          >
+            <el-select
+              class="w-max150"
+              placeholder="國家"
+              v-model="newForm.country"
+              clearable
+              @change="this.handleCountryChange"
+            >
+              <el-option
+                v-for="(v,i) in countrys"
+                :key="'country'+i"
+                :label="v.countryNameChinese"
+                :value="v.countryCode"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="平台經理"
+            prop="belongToManager"
+          >
+            <el-select v-model="newForm.belongToManager">
+              <el-option
+                v-for="(v,i) in belongToManagerOptions"
+                :key="'belong'+i"
+                :label="v"
+                :value="v"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="70px"
+    >
+      <el-row :gutter="20">
+        <el-col :span="5">
+          <el-form-item
+            label="加入人"
+            prop="addedBy"
+          >
+            <el-input v-model="newForm.addedBy"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="擁有者"
+            prop="currentOwner"
+          >
+            <el-select v-model="newForm.currentOwner">
+              <el-option
+                v-for="(v,i) in currentOwnerOptions"
+                :key="'current'+i"
+                :label="v"
+                :value="v"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="狀態"
+            prop="listingStatus"
+          >
+            <el-input v-model="newForm.listingStatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item
+            label="永久關閉"
+            prop="permanentClose"
+          >
+            <el-switch v-model="newForm.permanentClose"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="3">
+          <el-form-item
+            label="電池貨"
+            prop="battery"
+          >
+            <el-switch v-model="newForm.battery"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item
+            label="規格："
+            prop="details"
+          >
+            <el-input
+              :rows="6"
+              type="textarea"
+              v-model="newForm.details"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
     <el-row :gutter="20">
       <el-form
         ref="form"
@@ -167,208 +320,7 @@
 
       </el-row>
     </el-form>
-    <el-form
-      ref="form"
-      :model="newForm"
-      label-position="left"
-      label-width="70px"
-    >
-      <el-row :gutter="20">
-        <el-col :span="5">
-          <el-form-item
-            label="平台"
-            prop="platform"
-          >
-            <el-select
-              placeholder="請選擇"
-              v-model="newForm.platform"
-              clearable
-            >
-              <el-option
-                v-for="(v,i) in platformOptions"
-                :key="'platform'+i"
-                :label="v"
-                :value="v"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            label="帳號"
-            prop="account"
-          >
-            <el-select
-              placeholder="請選擇"
-              v-model="newForm.account"
-              clearable
-            >
-              <el-option
-                v-for="(v,i) in accountOptions"
-                :key="'acc'+i"
-                :label="v"
-                :value="v"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            label="國家"
-            prop="country"
-          >
-            <el-select
-              class="w-max150"
-              placeholder="國家"
-              v-model="newForm.country"
-              clearable
-              @change="this.handleCountryChange"
-            >
-              <el-option
-                v-for="(v,i) in countrys"
-                :key="'country'+i"
-                :label="v.countryNameChinese"
-                :value="v.countryCode"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="平台經理"
-            prop="belongToManager"
-          >
-            <el-select v-model="newForm.belongToManager">
-              <el-option
-                v-for="(v,i) in belongToManagerOptions"
-                :key="'belong'+i"
-                :label="v"
-                :value="v"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-form
-      ref="form"
-      :model="newForm"
-      label-position="left"
-      label-width="70px"
-    >
-      <el-row :gutter="20">
-        <el-col :span="5">
-          <el-form-item
-            label="加入人"
-            prop="addedBy"
-          >
-            <el-input v-model="newForm.addedBy"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            label="擁有者"
-            prop="currentOwner"
-          >
-            <el-select v-model="newForm.currentOwner">
-              <el-option
-                v-for="(v,i) in currentOwnerOptions"
-                :key="'current'+i"
-                :label="v"
-                :value="v"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            label="狀態"
-            prop="listingStatus"
-          >
-            <el-input v-model="newForm.listingStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <el-form-item
-            label="永久關閉"
-            prop="permanentClose"
-          >
-            <el-switch v-model="newForm.permanentClose"></el-switch>
-          </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <el-form-item
-            label="電池貨"
-            prop="battery"
-          >
-            <el-switch v-model="newForm.battery"></el-switch>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item
-            label="規格："
-            prop="details"
-          >
-            <el-input
-              :rows="6"
-              type="textarea"
-              v-model="newForm.details"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-form
-      ref="form"
-      :model="newForm"
-      label-position="left"
-      label-width="70px"
-    >
-      <el-row :gutter="20">
-        <el-col :span="2">
-          <h3 class="second-title">樣品</h3>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item
-            label="樣品狀態"
-            prop="sample.sampleStatus"
-          >
-            <el-input v-model="newForm.sample.sampleStatus"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item
-            label="發貨單號"
-            prop="sample.trackingNumber"
-          >
-            <el-input v-model="newForm.sample.trackingNumber"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            label="發貨貨代"
-            prop="sample.trackingNumberAgent"
-          >
-            <el-input v-model="newForm.sample.trackingNumberAgent"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item
-            label="發貨時間"
-            prop="sample.shipoutTime"
-          >
-            <el-input
-              v-model="newForm.sample.shipoutTime"
-              disabled="disabled"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    </el-form>
+
     <el-form
       ref="form"
       :model="newForm"
@@ -490,6 +442,53 @@
           >
             <el-input
               v-model="newForm.shippingDimension.dimensionUnit"
+              disabled="disabled"
+            ></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <el-form
+      ref="form"
+      :model="newForm"
+      label-position="left"
+      label-width="70px"
+    >
+      <el-row :gutter="20">
+        <el-col :span="2">
+          <h3 class="second-title">樣品</h3>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item
+            label="樣品狀態"
+            prop="sample.sampleStatus"
+          >
+            <el-input v-model="newForm.sample.sampleStatus"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item
+            label="發貨單號"
+            prop="sample.trackingNumber"
+          >
+            <el-input v-model="newForm.sample.trackingNumber"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="發貨貨代"
+            prop="sample.trackingNumberAgent"
+          >
+            <el-input v-model="newForm.sample.trackingNumberAgent"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item
+            label="發貨時間"
+            prop="sample.shipoutTime"
+          >
+            <el-input
+              v-model="newForm.sample.shipoutTime"
               disabled="disabled"
             ></el-input>
           </el-form-item>
