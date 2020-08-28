@@ -100,7 +100,7 @@
       ref="form"
       :model="newForm"
       label-position="left"
-      label-width="100px"
+      label-width="80px"
     >
       <el-row :gutter="20">
         <el-col :span="5">
@@ -1214,27 +1214,27 @@ export default {
       }
       .td__input-one {
         /deep/ .el-input__inner {
-          background: #67c23a;
+          background: rgb(255, 249, 215);
         }
       }
       .td__input-two {
         /deep/ .el-input__inner {
-          background: gray;
+          background: rgb(255, 249, 215);
         }
       }
       .td__input-three {
         /deep/ .el-input__inner {
-          background: blue;
+          background: rgb(255, 249, 215);
         }
       }
       .td__input-four {
         /deep/ .el-input__inner {
-          background: green;
+          background: rgb(255, 249, 215);
         }
       }
       .td__input-five {
         /deep/ .el-input__inner {
-          background: gold;
+          background: rgb(255, 249, 215);
         }
       }
     }
