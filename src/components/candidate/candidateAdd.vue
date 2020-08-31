@@ -840,7 +840,7 @@ export default {
           height: "",
           width: "",
           length: "",
-          weight: "'",
+          weight: "",
           weightUnit: "KG",
           dimensionUnit: "CM"
         },
