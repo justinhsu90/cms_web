@@ -941,7 +941,7 @@ export default {
         obj[index] = item[this.keys[value]];
       });
     },
-    handleClickComputed() {
+    handleClickComputed(value) {
       let obj = {};
       this.tableData.forEach((item, index) => {
         obj[index] = item[this.keys[value]];
