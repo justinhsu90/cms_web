@@ -68,8 +68,7 @@ function Ajax(config = {}) {
   }/data-server/`;
 
     // axios.defaults.baseURL = "https://127.0.0.1:8443/data-server/";
-    axios.defaults.baseURL = "https://api.magictrend.co.uk:8444/data-server/";
-    // axios.defaults.baseURL = "https://api.magictrend.co.uk:8443/data-server/";
+    axios.defaults.baseURL = "https://api.myfbmanage.com:8443/data-server/";
 
     let promise = new Promise((response, reject) => {
         axios(config)

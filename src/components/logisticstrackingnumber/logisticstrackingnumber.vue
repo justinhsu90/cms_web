@@ -65,7 +65,7 @@ export default {
   data() {
     return {
       btnLoading: false,
-      searchAccountOption: ["SFC", "Yun Express", "Winit"],
+      searchAccountOption: ["4PX", "Yun Express", "HuaHan", "Winit", "SFC"],
       form: {
         agent: "",
         trackingNumberList: ""
