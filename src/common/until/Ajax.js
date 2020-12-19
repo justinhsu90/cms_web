@@ -27,7 +27,11 @@ axios.interceptors.request.use(request => {
     if (request.isFormData) {
         return request;
     }
-    if (!request.data.hasOwnProperty("token") &&
+    if (request.method == "get") {
+        return request;
+    }
+    if (
+        !request.data.hasOwnProperty("token") &&
         C.get("token") &&
         !request.noToken
     ) {
@@ -63,13 +67,13 @@ function Ajax(config = {}) {
     let random2 = Math.floor(Math.random() * 4);
 
     // axios的配置
-    axios.defaults.baseURL = `https://${ip[random1]}:${
-    port[random2]
-  }/data-server/`;
+    axios.defaults.baseURL = `https://${ip[random1]}:${port[random2]
+        }/data-server/`;
 
     // axios.defaults.baseURL = "https://127.0.0.1:8443/data-server/";
-    axios.defaults.baseURL = "https://api.magictrend.co.uk:8444/data-server/";
+    // axios.defaults.baseURL = "https://api.magictrend.co.uk:8444/data-server/";
     // axios.defaults.baseURL = "https://api.magictrend.co.uk:8443/data-server/";
+    axios.defaults.baseURL = "https://api.myfbmanage.com:8443/data-server/";
 
     let promise = new Promise((response, reject) => {
         axios(config)

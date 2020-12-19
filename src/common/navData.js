@@ -1,4 +1,5 @@
-const nav = [{
+const nav = [
+    {
         index: "dataAnalysis",
         label: "儀表板"
     },
@@ -14,7 +15,8 @@ const nav = [{
         index: "sku",
         label: "產品相關",
         isLevel: true,
-        child: [{
+        child: [
+            {
                 index: "sku",
                 label: "SKU管理"
             },
@@ -81,6 +83,10 @@ const nav = [{
             {
                 index: "logisticstrackingnumber",
                 label: "匯入物流單號"
+            },
+            {
+                index: "voucherCodeMappingId",
+                label: "配發MappingId"
             }
         ]
     },
@@ -88,7 +94,8 @@ const nav = [{
         index: "salesAndOrder",
         label: "訂單&銷售",
         isLevel: true,
-        child: [{
+        child: [
+            {
                 index: "orderList",
                 label: "訂單查詢"
             },
@@ -106,7 +113,8 @@ const nav = [{
         index: "erp",
         label: "ERP",
         isLevel: true,
-        child: [{
+        child: [
+            {
                 index: "inventoryList",
                 label: "(1) 庫存異動單"
             },
@@ -137,10 +145,10 @@ const nav = [{
             {
                 index: "erpInstantInventory",
                 label: "(5) 即時庫存"
-                    // },
-                    // {
-                    //   index: "erptakestock",
-                    //   label: "(6) 盤點紀錄"
+                // },
+                // {
+                //   index: "erptakestock",
+                //   label: "(6) 盤點紀錄"
             },
             {
                 index: "chuhuo",
@@ -174,7 +182,8 @@ const nav = [{
         index: "wowcher",
         label: "Wowcher",
         isLevel: true,
-        child: [{
+        child: [
+            {
                 index: "wowcherDealList",
                 label: "上架清單"
             },
@@ -207,10 +216,12 @@ const nav = [{
         index: "guangzhouWarehouse",
         label: "廣州相關",
         isLevel: true,
-        child: [{
-            index: "gzwarehouseList",
-            label: "快遞簽收訊息"
-        }]
+        child: [
+            {
+                index: "gzwarehouseList",
+                label: "快遞簽收訊息"
+            }
+        ]
     },
     {
         index: "customerService",

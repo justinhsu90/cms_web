@@ -217,6 +217,11 @@
               <el-input v-model="data.personalizedProductContent"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="6">
+            <el-form-item label="發貨要求">
+              <el-input v-model="data.despatchMethod"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="24">
           <el-col :span="4">
@@ -300,6 +305,7 @@ export default {
       searchOrderCancell: [],
       noteLoading: false,
       data: {
+        despatchMethod: "",
         orderCancelledReasonNameCode: "",
         personalizedProductContent: "",
         personalizedProductImageUrl: "",
