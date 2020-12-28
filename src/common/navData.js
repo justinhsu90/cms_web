@@ -87,6 +87,10 @@ const nav = [
             {
                 index: "voucherCodeMappingId",
                 label: "配發MappingId"
+            },
+            {
+                index: "updateShipmentInfo",
+                label: "更新出貨資料"
             }
         ]
     },
