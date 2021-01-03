@@ -12,20 +12,27 @@
       <el-row :gutter="20">
         <el-col
           :span="12"
-          v-for="(item, index) in jsonform"
-          :key="index"
+          v-for="item in jsonform"
+          :key="item.columnName"
         >
           <el-form-item
+            class="json-form-item"
             :label="item.columnName"
             :prop="`${item.columnCode}-${item.format}`"
           >
             <el-date-picker
               v-model="form[`${item.columnCode}-${item.format}`]"
+              type="datetime"
+              v-if="item.format == 'datetime'"
+              placeholder="選擇日期时间"
+            >
+            </el-date-picker>
+            <el-date-picker
+              v-model="form[`${item.columnCode}-${item.format}`]"
               align="right"
               type="date"
               placeholder="選擇日期"
-              v-if="item.format == 'datetime'"
-              :picker-options="singlepickerOptions"
+              v-if="item.format == 'date'"
             >
             </el-date-picker>
             <el-date-picker
@@ -51,6 +58,8 @@
               ></el-option>
             </el-select>
             <el-switch
+              active-value="true"
+              inactive-value="false"
               v-if="item.format == 'switch'"
               v-model="form[`${item.columnCode}-${item.format}`]"
             ></el-switch>
@@ -208,5 +217,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.json-form-item {
+  height: 40px;
+}
 </style>

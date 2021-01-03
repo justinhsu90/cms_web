@@ -296,9 +296,10 @@ export default {
       };
       Object.entries(data).map(([key, value]) => {
         let keys = key.split("-");
-        if (keys[1] == "datetimes") {
-          _form.startDate = moment(value[0]).format("YYYY-MM-DD");
-          _form.endDate = moment(value[1]).format("YYYY-MM-DD");
+        if (keys[1] == "date") {
+          _form[keys[0]] = moment(value[0]).format("YYYY-MM-DD");
+        } else if (keys[1] == "datetime") {
+          _form[keys[0]] = moment(value).format("YYYY-MM-DD hh:mm:ss");
         } else {
           _form[keys[0]] = value;
         }
