@@ -14,6 +14,7 @@
           prop="fileType"
         >
           <el-select
+            class="w30"
             v-model="form.fileType"
             placeholder="文件類型"
             @change="handleSelect"
@@ -26,7 +27,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-row :span="20">
+        <!-- <el-row :span="20">
           <el-col
             :span="4"
             v-if="accountShow.includes(form.fileType)"
@@ -112,7 +113,67 @@
               <el-switch v-model="form.fullDocTwo"></el-switch>
             </el-form-item>
           </el-col>
+        </el-row> -->
+        <!-- <el-row :gutter="20">
+          <el-col :span="4">
+            <el-form-item label="生成文件：">
+              <el-button
+                type="success"
+                :loading="loading"
+                size="small"
+                @click="submit"
+              >點擊生成文件</el-button>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="下載文件："
+              v-if="url && !loading"
+            >
+              <a :href="url">點擊下載</a>
+            </el-form-item>
+          </el-col>
+        </el-row> -->
+      </el-form>
+      <Jsonform
+        v-if="formInit"
+        ref="cform"
+        :jsonform="jsonForm"
+      >
+      </Jsonform>
+      <el-form
+        :model="form"
+        label-width="100px"
+        label-position="right"
+      >
+        <el-row :gutter="20">
+          <el-col :span="4">
+            <el-form-item label="生成文件：">
+              <el-button
+                type="success"
+                :loading="loading"
+                size="small"
+                @click="submit"
+              >點擊生成文件</el-button>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="下載文件："
+              v-if="url && !loading"
+            >
+              <a
+                class="link"
+                :href="url"
+              >點擊下載</a>
+            </el-form-item>
+          </el-col>
         </el-row>
+      </el-form>
+      <!-- <Jsonform
+        ref="cform"
+        :jsonform="formData"
+      >
         <el-row :gutter="20">
           <el-col :span="4">
             <el-form-item label="生成文件：">
@@ -133,17 +194,21 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-form>
+      </Jsonform> -->
     </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import Jsonform from "./jsonform";
+import lget from "lodash/get";
 export default {
+  components: {
+    Jsonform
+  },
   data() {
     return {
-      accountShow: ["WOWCHER_SALES_REPORT"],
       pickerOptions: {
         shortcuts: [
           {
@@ -176,38 +241,20 @@ export default {
         ]
       },
       fileTypeOption: [],
-      accountOption: [],
-      countryOption: [],
-      loading: false,
       pageLoadng: true,
+      loading: false,
       url: "",
       rules: {
         fileType: {
           required: true,
           message: "此項必填"
-        },
-        account: {
-          required: true,
-          message: "此項必填"
-        },
-        country: {
-          required: true,
-          message: "此項必填"
-        },
-        date: {
-          required: true,
-          message: "此項必填"
         }
       },
-      selectfileTypeName: "",
       showDownBtn: true,
+      formInit: false,
+      jsonForm: [],
       form: {
-        fileType: "",
-        account: "",
-        country: "",
-        date: "",
-        fullDoc: false,
-        fullDocTwo: false
+        fileType: ""
       }
     };
   },
@@ -220,92 +267,61 @@ export default {
     }
   },
   created() {
-    let filetype = axios({
+    axios({
       url: "excel/download/value/filetype",
       method: "post",
-      data: {
-        token: this.token
-      }
+      data: {}
     }).then(res => {
       this.fileTypeOption = _.cloneDeep(res);
-    });
-    let account = axios({
-      url: "wowcher/value/account",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    }).then(res => {
-      this.accountOption = _.cloneDeep(res.data);
-    });
-    let country = axios({
-      url: "wowcher/value/country",
-      method: "post",
-      data: {
-        token: this.token
-      }
-    }).then(res => {
-      this.countryOption = _.cloneDeep(res.data);
-    });
-    Promise.all([filetype, account, country]).then(() => {
       this.pageLoadng = false;
     });
   },
   methods: {
     handleSelect(val) {
-      if (val == "WOWCHER_SALES_REPORT") {
-        this.form.account = "MagicTrend";
-        this.form.country = "GB";
-        const end = new Date();
-        const start = new Date();
-        start.setDate(1);
-        start.setHours(0);
-        start.setSeconds(0);
-        start.setMinutes(0);
-        start.setMilliseconds(0);
-        this.form.date = [start, end];
-      }
       let obj =
         this.fileTypeOption.find(item => {
           return item.fileTypeCode == val;
         }) || {};
-      this.selectfileTypeName = obj.fileTypeName;
+      this.formInit = false;
+      this.jsonForm = lget(obj, "columns", []);
+      Promise.resolve().then(() => {
+        if (!_.isEmpty(this.jsonForm)) {
+          this.formInit = true;
+        }
+      });
     },
-    getValue() {
-      let _form = _.cloneDeep(this.form);
-      _form.startDate = moment(_form.date[0]).format("YYYY-MM-DD");
-      _form.endDate = moment(_form.date[1]).format("YYYY-MM-DD");
-
-      delete _form.date;
-
-      if (!this.accountShow.includes(_form.fileType)) {
-        _form = {
-          fileType: _form.fileType,
-          account: "",
-          country: "",
-          endDate: "",
-          fullDoc: false,
-          startDate: ""
-        };
-      }
-
-      if (this.selectfileTypeName.includes("做單")) {
-        _form.fullDoc = this.form.fullDocTwo;
-      }
-
-      return {
-        token: this.token,
-        ..._form
+    getValue(data) {
+      let _form = {
+        fileType: this.form.fileType
       };
+      Object.entries(data).map(([key, value]) => {
+        let keys = key.split("-");
+        if (keys[1] == "datetimes") {
+          _form.startDate = moment(value[0]).format("YYYY-MM-DD");
+          _form.endDate = moment(value[1]).format("YYYY-MM-DD");
+        } else {
+          _form[keys[0]] = value;
+        }
+      });
+      return _form;
     },
     submit() {
+      let data = {};
+      if (this.$refs["cform"]) {
+        data = this.$refs["cform"].submit();
+        if (_.isEmpty(data)) {
+          return;
+        }
+      }
+      data = this.getValue(data);
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;
+          this.pageLoadng = true;
           axios({
             url: "excel/download/get",
             method: "post",
-            data: this.getValue()
+            data
           })
             .then(
               res => {
@@ -318,6 +334,7 @@ export default {
             )
             .finally(() => {
               this.loading = false;
+              this.pageLoadng = false;
             });
         }
       });
@@ -327,7 +344,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-a {
+.link {
   color: #45a2ff;
 }
 </style>
