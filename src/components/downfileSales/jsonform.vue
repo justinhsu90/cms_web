@@ -58,8 +58,6 @@
               ></el-option>
             </el-select>
             <el-switch
-              active-value="true"
-              inactive-value="false"
               v-if="item.format == 'switch'"
               v-model="form[`${item.columnCode}-${item.format}`]"
             ></el-switch>

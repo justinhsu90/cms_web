@@ -297,7 +297,7 @@ export default {
       Object.entries(data).map(([key, value]) => {
         let keys = key.split("-");
         if (keys[1] == "date") {
-          _form[keys[0]] = moment(value[0]).format("YYYY-MM-DD");
+          _form[keys[0]] = moment(value).format("YYYY-MM-DD");
         } else if (keys[1] == "datetime") {
           _form[keys[0]] = moment(value).format("YYYY-MM-DD hh:mm:ss");
         } else {
@@ -315,6 +315,7 @@ export default {
         }
       }
       data = this.getValue(data);
+      debugger;
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;
