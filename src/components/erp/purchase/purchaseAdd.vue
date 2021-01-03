@@ -347,7 +347,7 @@ export default {
             purchasedQuantity: "",
             productCost: "",
             note: "",
-            shippingCost: 0, 
+            shippingCost: 0,
             paymentPercentage: 100
           }
         ]
@@ -555,10 +555,7 @@ export default {
         v.purchaseType = this.formData.purchaseType;
         v.purchasedPlatform = this.formData.purchasedPlatform;
         v.purchasedAccount = this.formData.purchasedAccount;
-        v.purchasedTotalAmount = this.Mul(
-          v.productCost,
-          v.purchasedQuantity
-        );
+        v.purchasedTotalAmount = this.Mul(v.productCost, v.purchasedQuantity);
         v.purchaseOrderId = this.formData.purchaseOrderId;
         v.purchasedBy = this.formData.purchasedBy;
         v.currency = this.formData.currency;

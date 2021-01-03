@@ -259,7 +259,7 @@ export default {
     };
   },
   created() {
-    this.look = this.$route.query.type == 'look';
+    this.look = this.$route.query.type == "look";
     let saleCurrency = axios({
       url: "/erp/value/currency",
       method: "post",

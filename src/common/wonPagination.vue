@@ -13,7 +13,8 @@
 </template>
 
 <script>
-export default {};</script>
+export default {};
+</script>
 
 <style>
 </style>

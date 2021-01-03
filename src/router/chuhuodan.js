@@ -5,4 +5,4 @@ export default [
     path: "/chuhuo",
     component: asyncComponent("chuhuodan")
   }
-]; 
+];
