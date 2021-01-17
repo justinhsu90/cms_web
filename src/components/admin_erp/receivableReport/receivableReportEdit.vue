@@ -118,16 +118,6 @@ export default {
         reportid: id
       }
     }).then(res => {
-      //   let obj = {
-      //     incomeSale: "",
-      //     incomeRefund: "",
-      //     incomeReceivable: "",
-      //     successFee: "",
-      //     freight: "",
-      //     storageCharge: "",
-      //     fees: "",
-      //     advertising: ""
-      //   };
       let data = {};
       _.each(res, v => {
         let str =
