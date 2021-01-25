@@ -108,6 +108,23 @@
               </el-table>
             </div>
           </el-form-item>
+          <el-form-item>
+            <div
+              class="progress-container mb40"
+              v-if="!!progressFiles.length"
+            >
+              <span class="progress-title">文件上傳進度</span>
+              <template v-for="(v, i) in progressFiles">
+                <div
+                  class="progress-item"
+                  :key="v.name + i"
+                >
+                  <span class="progress-item__text">{{ i + 1 }}. {{ v.name }}</span>
+                  <el-progress :percentage="v.percentage"></el-progress>
+                </div>
+              </template>
+            </div>
+          </el-form-item>
           <el-form-item v-if="!!url && typeAll == 'WOWCHER_ORDER_UNPAID_LIST'">
             <el-button
               type="success"
@@ -142,6 +159,7 @@ export default {
       form: {},
       formChild: {},
       files: [],
+      progressFiles: [],
       isLoading: false,
       isEmpty: _.isEmpty,
       searchFiletypeOption: [],
@@ -180,6 +198,12 @@ export default {
         _.each(input.files, v => {
           this.files.push(v);
         });
+        this.progressFiles = this.files.map(item => {
+          return {
+            name: item.name,
+            percentage: 0
+          };
+        });
         _.each(this.files, (value, index) => {
           if (!this.type[index]) {
             this.$set(this.type, index, "");
@@ -189,7 +213,7 @@ export default {
     },
     handleDelete(scope) {
       this.files.splice(scope.$index, 1);
-
+      this.progressFiles.splice(scope.$index, 1);
       delete this.type[scope.$index];
       let index = 0;
       let obj = {};
@@ -225,7 +249,20 @@ export default {
           headers: {
             "Content-type": "multipart/form-data"
           },
-          isFormData: true
+          isFormData: true,
+          onUploadProgress: progressEvent => {
+            var complete =
+              ((progressEvent.loaded / progressEvent.total) * 100) | 0;
+            this.progressFiles = this.progressFiles.map((item, index) => {
+              if (i == index) {
+                return {
+                  ...item,
+                  percentage: complete
+                };
+              }
+              return item;
+            });
+          }
         });
         totalAjax.push(ajax);
       });
@@ -262,6 +299,19 @@ export default {
 #excelUpload {
   .el-button--text {
     color: #606266;
+  }
+}
+.progress-container {
+  width: 500px;
+  .progress-title {
+    color: #606266;
+    font-size: 13px;
+  }
+  .progress-item {
+    .progress-item__text {
+      color: #606266;
+      font-size: 13px;
+    }
   }
 }
 .f-12 {

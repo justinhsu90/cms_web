@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 import C from "js-cookie";
 import Vue from "vue";
-
+import { isEnv } from "../const";
 axios.defaults.timeout = 180000;
 axios.interceptors.request.use(request => {
   if (request.isFormData) {
@@ -46,7 +46,9 @@ function Ajax(config = {}) {
   }
   // axios的配置
   axios.defaults.baseURL = "https://api.myfbmanage.com:8443/data-server/";
-
+  if (isEnv) {
+    axios.defaults.baseURL = "https://testapi.myfbmanage.com:8443/data-server/";
+  }
   let promise = new Promise((response, reject) => {
     axios(config)
       .then(res => {
