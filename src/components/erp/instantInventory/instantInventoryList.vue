@@ -13,14 +13,14 @@
           icon="el-icon-search"
           @click="handleSearch"
         ></el-button>
-        <el-date-picker
+        <!-- <el-date-picker
           v-model="endDate"
           type="date"
           placeholder="选择日期"
           @change="handleSearch"
           value-format="yyyy-MM-dd HH:mm:ss"
         >
-        </el-date-picker>
+        </el-date-picker> -->
         <!-- <div class="ibbox">
           <wonPopoverChooser
             :chooser="$options.warehouse"
