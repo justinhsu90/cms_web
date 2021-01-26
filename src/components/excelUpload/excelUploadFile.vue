@@ -289,6 +289,7 @@ export default {
         })
           .then(
             res => {
+              console.log(res, 22);
               setTimeout(() => {
                 this.showProgress = false;
                 setTimeout(() => {
@@ -312,7 +313,7 @@ export default {
                             style: "color: #45a2ff; cursor: pointer;",
                             on: {
                               click: () => {
-                                saveFile(res, "文件");
+                                _that.saveFile(res, "文件");
                               }
                             }
                           },
