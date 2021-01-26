@@ -1,6 +1,6 @@
 export default {
   Math: {
-    Mul: function (arg1, arg2) {
+    Mul: function(arg1, arg2) {
       var m = 0,
         s1 = arg1.toString(),
         s2 = arg2.toString();
@@ -19,7 +19,7 @@ export default {
         Math.pow(10, m)
       );
     },
-    Div: function (arg1, arg2) {
+    Div: function(arg1, arg2) {
       var t1 = 0,
         t2 = 0,
         r1,
@@ -50,7 +50,7 @@ export default {
       var d = arguments[2]; // 第三个参数用户可以自行决定是否要传递 用来定义要保留的小数长度
       return typeof d === "number" ? Number(result.toFixed(d)) : result;
     },
-    sub: function (a, b) {
+    sub: function(a, b) {
       var c, d, e;
       try {
         c = a.toString().split(".")[1].length;

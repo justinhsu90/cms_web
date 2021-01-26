@@ -289,7 +289,6 @@ export default {
         })
           .then(
             res => {
-              console.log(res, 22);
               setTimeout(() => {
                 this.showProgress = false;
                 setTimeout(() => {
