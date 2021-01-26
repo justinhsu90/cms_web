@@ -294,7 +294,12 @@ export default {
                 setTimeout(() => {
                   this.showMask = false;
                   this.showProgress = false;
-                  this.$confirm("", "提示", {
+                  if (!res) {
+                    _that.$router.push("excelUpload");
+                    _that.Bus.$emit("refresh");
+                    return;
+                  }
+                  this.$confirm("", "", {
                     message: h(
                       "div",
                       {
@@ -307,7 +312,7 @@ export default {
                             style: "color: #45a2ff; cursor: pointer;",
                             on: {
                               click: () => {
-                                saveFile(res.url, "文件");
+                                saveFile(res, "文件");
                               }
                             }
                           },
@@ -315,8 +320,8 @@ export default {
                         )
                       ]
                     ),
-                    cancelButtonText: "取消",
-                    confirmButtonText: "保存",
+                    confirmButtonText: "確定",
+                    showCancelButton: false,
                     beforeClose(action, instance, done) {
                       if (action == "confirm") {
                         _that.$router.push("excelUpload");
