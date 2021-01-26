@@ -18,11 +18,12 @@
           <el-form-item label="上傳文件">
             <template slot="label">
               <span>上傳文件</span>
-              <span class="f-12 label-tips">可以選擇多個文件</span>
+              <!-- <span class="f-12 label-tips">可以選擇多個文件</span> -->
             </template>
             <el-button
               size="small"
               type="success"
+              :disabled="!!files.length"
               @click="handleUpload"
             >點擊上傳</el-button>
           </el-form-item>
@@ -108,7 +109,7 @@
               </el-table>
             </div>
           </el-form-item>
-          <el-form-item>
+          <!-- <el-form-item>
             <div
               class="progress-container mb40"
               v-if="!!progressFiles.length"
@@ -124,7 +125,7 @@
                 </div>
               </template>
             </div>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item v-if="!!url && typeAll == 'WOWCHER_ORDER_UNPAID_LIST'">
             <el-button
               type="success"
@@ -135,6 +136,24 @@
             </el-button>
           </el-form-item>
         </el-form>
+        <div
+          class="custom-mask"
+          v-if="showMask"
+        >
+          <template v-if="showProgress">
+            <el-progress
+              v-for="(v,i) in progressFiles"
+              :key="i"
+              type="circle"
+              :percentage="v.percentage"
+              :width="250"
+            ></el-progress>
+          </template>
+          <span
+            v-else
+            class="custom-label-tips"
+          >匯入中, 請稍候...</span>
+        </div>
         <el-button
           @click="submit"
           :loading="isLoading"
@@ -164,7 +183,9 @@ export default {
       isEmpty: _.isEmpty,
       searchFiletypeOption: [],
       type: {},
-      typeAll: ""
+      typeAll: "",
+      showMask: false,
+      showProgress: false
     };
   },
   created() {
@@ -224,6 +245,8 @@ export default {
       this.type = obj;
     },
     submit() {
+      let h = this.$createElement;
+      let _that = this;
       let validate = true;
       _.each(this.$refs["formChild"], v => {
         if (!validate) return;
@@ -234,15 +257,16 @@ export default {
         });
       });
 
-      if (!validate) return;
-
-      let totalAjax = [];
+      if (!validate && !!this.files.length) return;
+      this.progressFiles = [];
       _.each(this.files, (v, i) => {
         let formData = new FormData();
         formData.append("token", this.token);
         formData.append("uploadfile", v);
         formData.append("filetype", this.type[i]);
-        let ajax = axios({
+        this.showMask = true;
+        this.showProgress = true;
+        axios({
           url: "/excel/upload/add",
           method: "post",
           data: formData,
@@ -263,26 +287,56 @@ export default {
               return item;
             });
           }
-        });
-        totalAjax.push(ajax);
+        })
+          .then(
+            res => {
+              setTimeout(() => {
+                this.showProgress = false;
+                setTimeout(() => {
+                  this.showMask = false;
+                  this.showProgress = false;
+                  this.$confirm("", "提示", {
+                    message: h(
+                      "div",
+                      {
+                        style: "text-align: center;"
+                      },
+                      [
+                        h(
+                          "a",
+                          {
+                            style: "color: #45a2ff; cursor: pointer;",
+                            on: {
+                              click: () => {
+                                saveFile(res.url, "文件");
+                              }
+                            }
+                          },
+                          "点击下载"
+                        )
+                      ]
+                    ),
+                    cancelButtonText: "取消",
+                    confirmButtonText: "保存",
+                    beforeClose(action, instance, done) {
+                      if (action == "confirm") {
+                        _that.$router.push("excelUpload");
+                        _that.Bus.$emit("refresh");
+                        done();
+                      } else {
+                        done();
+                      }
+                    }
+                  }).catch(() => {});
+                }, 1000);
+              }, 1000);
+            },
+            () => {
+              this.$message.error("上传失敗");
+            }
+          )
+          .finally(() => {});
       });
-      this.isLoading = true;
-      if (_.isEmpty(totalAjax)) {
-        this.goBack();
-        return;
-      }
-      Promise.all(totalAjax)
-        .then(url => {
-          this.url = url;
-          // this.$router.push("excelUpload");
-          this.$message.success("保存成功");
-        })
-        .catch(() => {
-          this.$message.error("保存失敗");
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
     }
   }
 };
@@ -320,5 +374,23 @@ export default {
 /deep/ .el-form-item .el-form-item {
   margin-bottom: 18px;
   margin-top: 16px;
+}
+
+.custom-mask {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: #000;
+  opacity: 0.5;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-label-tips {
+  color: white;
 }
 </style>

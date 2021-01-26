@@ -106,6 +106,13 @@
                 icon="el-icon-won-102"
                 @click="handleDown(scope.row)"
               ></el-button>
+              <el-button
+                class="btnh"
+                type="text"
+                title="刪除"
+                icon="el-icon-won-22"
+                @click="handleDelete(scope.row)"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -159,8 +166,48 @@ export default {
       this.searchFiletypeOption = _.cloneDeep(filetype);
     });
     this.handleSearch();
+    this.Bus.$on("refresh", this.handleSearch);
   },
   methods: {
+    handleDelete(row) {
+      let _this = this;
+      this.$confirm(
+        `<div>確定要刪除<div> <div>File ID:${row.fileId}</div> <div>文件名稱:${
+          row.fileName
+        }</div>`,
+        "提示",
+        {
+          dangerouslyUseHTMLString: true,
+          type: "warning",
+          beforeClose(action, instance, done) {
+            if (action == "confirm") {
+              axios({
+                url: "/excel/upload/delete",
+                method: "post",
+                data: {
+                  fileId: row.fileId
+                }
+              })
+                .then(res => {
+                  if (res) {
+                    _this.$message.success("刪除成功");
+                  } else {
+                    _this.$message.error("刪除失敗");
+                  }
+                  _this.handleSearch();
+                  done();
+                })
+                .catch(() => {
+                  _this.$message.success("刪除失敗");
+                  done();
+                });
+            } else {
+              done();
+            }
+          }
+        }
+      ).catch(() => {});
+    },
     handleCondition(sign) {
       if (sign == "file") {
         if (!this.searchFileType) {
