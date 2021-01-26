@@ -258,7 +258,6 @@ export default {
       });
 
       if (!validate && !!this.files.length) return;
-      this.progressFiles = [];
       _.each(this.files, (v, i) => {
         let formData = new FormData();
         formData.append("token", this.token);
