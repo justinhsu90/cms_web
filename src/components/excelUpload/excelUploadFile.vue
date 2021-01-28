@@ -27,7 +27,7 @@
               @click="handleUpload"
             >點擊上傳</el-button>
           </el-form-item>
-          <el-form-item label="檔案類型全選">
+          <!-- <el-form-item label="檔案類型全選">
             <el-select
               placeholder="檔案類型"
               v-model="typeAll"
@@ -41,7 +41,7 @@
                 :value="v.code"
               ></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item>
             <div style="width:80%;margin-top:10px">
               <el-table :data="files">
@@ -168,8 +168,10 @@
 <script>
 import U from "@/common/until/U";
 import saveFile from "won-service/_mixins/save-file";
+import copy from "won-service/_mixins/copy";
+
 export default {
-  mixins: [saveFile],
+  mixins: [saveFile, copy],
   data() {
     return {
       url: "",
@@ -248,6 +250,10 @@ export default {
       let h = this.$createElement;
       let _that = this;
       let validate = true;
+      if (!this.$refs["formChild"]) {
+        this.$message.warning("請上傳文件");
+        return;
+      }
       _.each(this.$refs["formChild"], v => {
         if (!validate) return;
         v.validate(valid => {
@@ -257,7 +263,9 @@ export default {
         });
       });
 
-      if (!validate && !!this.files.length) return;
+      if (!validate && !!this.files.length) {
+        return;
+      }
       _.each(this.files, (v, i) => {
         let formData = new FormData();
         formData.append("token", this.token);
@@ -307,16 +315,16 @@ export default {
                       },
                       [
                         h(
-                          "a",
+                          "div",
                           {
                             style: "color: #45a2ff; cursor: pointer;",
                             on: {
-                              click: () => {
-                                _that.saveFile(res, "文件");
+                              click: e => {
+                                _that.copy(_that, res, e);
                               }
                             }
                           },
-                          "点击下载"
+                          "點擊複製連結"
                         )
                       ]
                     ),
