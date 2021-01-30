@@ -28,7 +28,7 @@
         <el-col :span="14">
           <el-form-item
             label="單號："
-            prop="trackingNumberList"
+            prop="orderIdList"
           >
             <template slot="label">
               <span>
@@ -41,7 +41,7 @@
             <el-input
               rows="6"
               type="textarea"
-              v-model="form.trackingNumberList"
+              v-model="form.orderIdList"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -68,13 +68,13 @@ export default {
       searchAccountOption: ["4PX", "Yun Express", "HuaHan", "Winit", "SFC"],
       form: {
         agent: "",
-        trackingNumberList: ""
+        orderIdList: ""
       }
     };
   },
   created() {
     this.rules = {
-      trackingNumberList: {
+      orderIdList: {
         required: true,
         message: "此項必填"
       },
