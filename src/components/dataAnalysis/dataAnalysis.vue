@@ -275,7 +275,7 @@
       <el-col :span="24">
         <el-card>
           <div>
-            <h4 style="display:inline-block;">Wowcher本月產品銷售排行</h4>
+            <h4 style="display:inline-block;">Wowcher本月產品銷售排行(前20)</h4>
             <div style="display:inline-block;">
               <!-- <el-select
                 v-model="account"
