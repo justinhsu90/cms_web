@@ -1,132 +1,350 @@
 <template>
-    <div id="receivableAdd">
-        <div style="padding:20px">
-            <div class="heade">
-                <i class="el-icon-arrow-left"></i>
-                <a href="javascript:void(0)" @click="goBack">返回</a>
+  <div id="receivableAdd">
+    <div style="padding:20px">
+      <div class="heade">
+        <i class="el-icon-arrow-left"></i>
+        <a
+          href="javascript:void(0)"
+          @click="goBack"
+        >返回</a>
+      </div>
+      <br>
+      <h2>新增應收帳款
+      </h2>
+      <br>
+      <el-form
+        ref="form"
+        :model="formData"
+        v-loading="loading"
+        label-position="top"
+      >
+        <el-row :gutter="10">
+          <el-col :span="4">
+            <el-form-item
+              label="平台"
+              prop="platform"
+              :rules="rules"
+            >
+              <el-select
+                placeholder="請選擇"
+                v-model="formData.platform"
+                clearable
+                @change="handleSelect"
+              >
+                <el-option
+                  v-for="(v,i) in searchPlatformOption"
+                  :key="'plat'+i"
+                  :label="v"
+                  :value="v"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="帳號"
+              prop="account"
+              :rules="rules"
+            >
+              <el-select
+                placeholder="請選擇"
+                v-model="formData.account"
+                clearable
+              >
+                <el-option
+                  v-for="(v,i) in searchAccountOption"
+                  :key="'acc'+i"
+                  :label="v"
+                  :value="v"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="幣別"
+              prop="currency"
+              :rules="rules"
+            >
+              <el-select
+                placeholder="請選擇"
+                v-model="formData.currency"
+                @change="handleCurrencySelect"
+              >
+                <el-option
+                  v-for="(value,i) in searchCurrencyOption"
+                  :label="value.currency"
+                  :value="value.currency"
+                  :key="i"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item
+              label="國家"
+              prop="country"
+              :rules="rules"
+            >
+              <el-select
+                placeholder="請選擇"
+                v-model="formData.country"
+                clearable
+              >
+                <el-option
+                  v-for="(v,i) in searchCountryOption"
+                  :key="'type'+i"
+                  :value="v.countryNameChinese"
+                >
+                  <span style="float: left">{{ v.countryCode }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item
+              label="時間"
+              prop="date"
+              :rules="rules"
+            >
+              <el-date-picker
+                clearable
+                style="width:100%"
+                value-format="yyyy-MM-dd"
+                v-model="formData.date"
+                type="daterange"
+                align="right"
+                unlink-panels
+                range-separator="~"
+                start-placeholder="開始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions"
+              >
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <br>
+        <el-card class="box-card">
+          <div>
+            <div style="width:49%;float:left;">
+              <h3 style="float:left">收入(含退貨)</h3>
+              <el-button
+                style="float:right"
+                type="success"
+                size="small"
+                @click="handleAdd('income')"
+                :disabled="incomeAdd"
+              >新增</el-button>
             </div>
-            <br>
-            <h2>新增應收帳款
-            </h2>
-            <br>
-            <el-form ref="form" :model="formData" v-loading="loading" label-position="top">
-                <el-row :gutter="10">
-                    <el-col :span="4">
-                        <el-form-item label="平台" prop="platform" :rules="rules">
-                            <el-select placeholder="請選擇" v-model="formData.platform" clearable @change="handleSelect">
-                                <el-option v-for="(v,i) in searchPlatformOption" :key="'plat'+i" :label="v" :value="v"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="帳號" prop="account" :rules="rules">
-                            <el-select placeholder="請選擇" v-model="formData.account" clearable>
-                                <el-option v-for="(v,i) in searchAccountOption" :key="'acc'+i" :label="v" :value="v"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="幣別" prop="currency" :rules="rules">
-                            <el-select placeholder="請選擇" v-model="formData.currency">
-                                <el-option v-for="(value,i) in searchCurrencyOption" :label="value.currency" :value="value.currency" :key="i"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-form-item label="國家" prop="country" :rules="rules">
-                            <el-select placeholder="請選擇" v-model="formData.country" clearable>
-                                <el-option v-for="(v,i) in searchCountryOption" :key="'type'+i" :value="v.countryNameChinese">
-                                    <span style="float: left">{{ v.countryCode }}</span>
-                                    <span style="float: right; color: #8492a6; font-size: 13px">{{ v.countryNameChinese }}</span>
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="時間" prop="date" :rules="rules">
-                            <el-date-picker clearable style="width:100%" value-format="yyyy-MM-dd" v-model="formData.date" type="daterange" align="right" unlink-panels range-separator="~" start-placeholder="開始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <br>
-                <el-card class="box-card">
-                    <div>
-                        <div style="width:49%;float:left;">
-                            <h3 style="float:left">收入(含退貨)</h3>
-                            <el-button style="float:right" type="success" size="small" @click="handleAdd('income')" :disabled="incomeAdd">新增</el-button>
-                        </div>
-                        <div style="width:49%;float:right;">
-                            <h3 style="float:left">支出</h3>
-                            <el-button style="float:right" type="success" size="small" @click="handleAdd()" :disabled="add">新增</el-button>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <div style="margin-bottom:10px;width:49%;float:left">
-                        <el-card class="box-card mb10" v-for="(v,i) in formData.dataIncome" :key="i">
-                            <el-row :gutter="10">
-                                <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i,'income')"></el-button>
-                                <el-col :span="12">
-                                    <el-form-item class="el-form-item_label" label="費用：" :prop="'dataIncome.'+ i +'.financialSpendType'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
-                                        <template slot="label">
-                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">費用：</span>
-                                        </template>
-                                        <el-select style="width:65%" placeholder="請選擇" v-model="v.financialSpendType" clearable>
-                                            <el-option v-for="(v,index) in searchTypeOption" :key="'type'+index" :label="v.financialSpendType" :value="v.financialSpendType" :disabled="!!incomedisabled[index]"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-
-                                    <el-form-item class="el-form-item_label" label="金額：" :prop="'dataIncome.'+ i +'.amount'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
-                                        <template slot="label">
-                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">金額：</span>
-                                        </template>
-                                        <el-input style="width:65%" v-model="v.amount"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                            </el-row>
-                        </el-card>
-                    </div>
-                    <div style="margin-bottom:10px;width:49%;float:right">
-                        <el-card class="box-card mb10" v-for="(v,i) in formData.data" :key="i + 'income'">
-                            <el-row :gutter="10">
-                                <el-button :disabled="disabled" style="float: right; padding: 3px 0" type="text" icon="el-icon-close" @click="handleDelete(i)"></el-button>
-                                <el-col :span="12">
-                                    <el-form-item class="el-form-item_label" :prop="'data.'+ i +'.financialSpendType'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
-                                        <template slot="label">
-                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">費用：</span>
-                                        </template>
-                                        <el-select style="width:65%" placeholder="請選擇" v-model="v.financialSpendType" clearable>
-                                            <el-option v-for="(v,index) in searchIncomeTypeOption" :key="'type'+index" :label="v.financialSpendType" :value="v.financialSpendType" :disabled="!!sppendDisabled[index]"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                </el-col>
-                                <el-col :span="10">
-                                    <el-form-item class="el-form-item_label" label="金額：" :prop="'data.'+ i +'.amount'" :rules="{required: v.required ? true : false,message: '此項目必填'}">
-                                        <template slot="label">
-                                            <span :style="{paddingLeft: v.required ? '' : '10px'}">金額：</span>
-                                        </template>
-                                        <el-input style="width:65%" v-model="v.amount"></el-input>
-                                    </el-form-item>
-                                </el-col>
-                            </el-row>
-                        </el-card>
-                    </div>
-                </el-card>
-            </el-form>
-            <br>
-            <el-popover placement="top" width="160" v-model="popoverVisible">
-                <p>是否要提交？</p>
-                <div style="text-align: right; margin: 0">
-                    <el-button size="mini" type="text" @click="popoverVisible = false">取消</el-button>
-                    <el-button type="primary" size="mini" @click="submit">確定</el-button>
-                </div>
-                <el-button slot="reference" @click="popoverVisible = true" :loading="submitLoading" type="primary" size="large">新增</el-button>
-            </el-popover>
+            <div style="width:49%;float:right;">
+              <h3 style="float:left">支出</h3>
+              <el-button
+                style="float:right"
+                type="success"
+                size="small"
+                @click="handleAdd()"
+                :disabled="add"
+              >新增</el-button>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div style="margin-bottom:10px;width:49%;float:left">
+            <el-card
+              class="box-card mb10"
+              v-for="(v,i) in formData.dataIncome"
+              :key="i"
+            >
+              <el-row :gutter="10">
+                <el-button
+                  :disabled="disabled"
+                  style="float: right; padding: 3px 0"
+                  type="text"
+                  icon="el-icon-close"
+                  @click="handleDelete(i,'income')"
+                ></el-button>
+                <el-col :span="7">
+                  <el-form-item
+                    class="el-form-item_label"
+                    label="費用："
+                    :prop="'dataIncome.'+ i +'.financialSpendType'"
+                    :rules="{required: v.required ? true : false,message: '此項目必填'}"
+                  >
+                    <template slot="label">
+                      <span :style="{paddingLeft: v.required ? '' : '10px'}">費用：</span>
+                    </template>
+                    <el-select
+                      style="width:65%"
+                      placeholder="請選擇"
+                      v-model="v.financialSpendType"
+                      clearable
+                    >
+                      <el-option
+                        v-for="(v,index) in searchTypeOption"
+                        :key="'type'+index"
+                        :label="v.financialSpendType"
+                        :value="v.financialSpendType"
+                        :disabled="!!incomedisabled[index]"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item
+                    class="el-form-item_label"
+                    :prop="'dataIncome.'+ i +'.currency'"
+                    :rules="{required: v.required ? true : false,message: '此項目必填'}"
+                  >
+                    <template slot="label">
+                      <span :style="{paddingLeft: v.required ? '' : '10px'}">幣別：</span>
+                    </template>
+                    <el-select
+                      style="width:65%"
+                      placeholder="請選擇"
+                      v-model="v.currency"
+                    >
+                      <el-option
+                        v-for="(value,i) in searchCurrencyOption"
+                        :label="value.currency"
+                        :value="value.currency"
+                        :key="i"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item
+                    class="el-form-item_label"
+                    label="金額："
+                    :prop="'dataIncome.'+ i +'.amount'"
+                    :rules="{required: v.required ? true : false,message: '此項目必填'}"
+                  >
+                    <template slot="label">
+                      <span :style="{paddingLeft: v.required ? '' : '10px'}">金額：</span>
+                    </template>
+                    <el-input
+                      style="width:65%"
+                      v-model="v.amount"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+          </div>
+          <div style="margin-bottom:10px;width:49%;float:right">
+            <el-card
+              class="box-card mb10"
+              v-for="(v,i) in formData.data"
+              :key="i + 'income'"
+            >
+              <el-row :gutter="10">
+                <el-button
+                  :disabled="disabled"
+                  style="float: right; padding: 3px 0"
+                  type="text"
+                  icon="el-icon-close"
+                  @click="handleDelete(i)"
+                ></el-button>
+                <el-col :span="7">
+                  <el-form-item
+                    class="el-form-item_label"
+                    :prop="'data.'+ i +'.financialSpendType'"
+                    :rules="{required: v.required ? true : false,message: '此項目必填'}"
+                  >
+                    <template slot="label">
+                      <span :style="{paddingLeft: v.required ? '' : '10px'}">費用：</span>
+                    </template>
+                    <el-select
+                      style="width:65%"
+                      placeholder="請選擇"
+                      v-model="v.financialSpendType"
+                      clearable
+                    >
+                      <el-option
+                        v-for="(v,index) in searchIncomeTypeOption"
+                        :key="'type'+index"
+                        :label="v.financialSpendType"
+                        :value="v.financialSpendType"
+                        :disabled="!!sppendDisabled[index]"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item
+                    class="el-form-item_label"
+                    :prop="'data.'+ i +'.currency'"
+                    :rules="{required: v.required ? true : false,message: '此項目必填'}"
+                  >
+                    <template slot="label">
+                      <span :style="{paddingLeft: v.required ? '' : '10px'}">幣別：</span>
+                    </template>
+                    <el-select
+                      style="width:65%"
+                      placeholder="請選擇"
+                      v-model="v.currency"
+                    >
+                      <el-option
+                        v-for="(value,i) in searchCurrencyOption"
+                        :label="value.currency"
+                        :value="value.currency"
+                        :key="i"
+                      ></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item
+                    class="el-form-item_label"
+                    label="金額："
+                    :prop="'data.'+ i +'.amount'"
+                    :rules="{required: v.required ? true : false,message: '此項目必填'}"
+                  >
+                    <template slot="label">
+                      <span :style="{paddingLeft: v.required ? '' : '10px'}">金額：</span>
+                    </template>
+                    <el-input
+                      style="width:65%"
+                      v-model="v.amount"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-card>
+          </div>
+        </el-card>
+      </el-form>
+      <br>
+      <el-popover
+        placement="top"
+        width="160"
+        v-model="popoverVisible"
+      >
+        <p>是否要提交？</p>
+        <div style="text-align: right; margin: 0">
+          <el-button
+            size="mini"
+            type="text"
+            @click="popoverVisible = false"
+          >取消</el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            @click="submit"
+          >確定</el-button>
         </div>
+        <el-button
+          slot="reference"
+          @click="popoverVisible = true"
+          :loading="submitLoading"
+          type="primary"
+          size="large"
+        >新增</el-button>
+      </el-popover>
     </div>
+  </div>
 </template>
 <script>
 import { format } from "@/common/until/format";
@@ -207,6 +425,7 @@ export default {
           {
             incomeorspend: "income",
             financialSpendType: "",
+            currency: "",
             amount: ""
           }
         ],
@@ -214,7 +433,8 @@ export default {
           {
             incomeorspend: "spend",
             financialSpendType: "",
-            amount: ""
+            amount: "",
+            currency: ""
           }
         ]
       }
@@ -329,13 +549,26 @@ export default {
     }
   },
   methods: {
+    handleCurrencySelect(val) {
+      this.formData.data = this.formData.data.map(item => {
+        return {
+          ...item,
+          currency: val
+        };
+      });
+      this.formData.dataIncome = this.formData.dataIncome.map(item => {
+        return {
+          ...item,
+          currency: val
+        };
+      });
+    },
     handleSelect(val) {
       axios({
         url: "/erp/accountreceivable/value/platorm/requiredFinancialType",
         method: "post",
         data: {
-          platform: val,
-          token: this.token
+          platform: val
         }
       }).then(res => {
         _.each(res, v => {
@@ -420,7 +653,6 @@ export default {
         v.country = this.formData.country;
         v.account = this.formData.account;
         v.platform = this.formData.platform;
-        v.currency = this.formData.currency;
         v.periodStartDate = this.moment(this.formData.date[0]).format(
           "YYYY-MM-DD"
         );

@@ -11,7 +11,8 @@ axios.interceptors.request.use(request => {
     if (request.method == "get") {
         return request;
     }
-    if (!request.data.hasOwnProperty("token") &&
+    if (
+        !request.data.hasOwnProperty("token") &&
         C.get("token") &&
         !request.noToken
     ) {
@@ -44,10 +45,10 @@ function Ajax(config = {}) {
         Promise.reject("請輸入ajax配置");
     }
     // axios的配置
-    // axios.defaults.baseURL = "https://api.myfbmanage.com:8443/data-server/";
+    axios.defaults.baseURL = "https://api.myfbmanage.com:8443/data-server/";
     if (isEnv) {
         // axios.defaults.baseURL = "https://testapi.myfbmanage.com:8443/data-server/";
-        axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
+        // axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";
     }
     let promise = new Promise((response, reject) => {
         axios(config)
