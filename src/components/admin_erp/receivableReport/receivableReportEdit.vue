@@ -40,7 +40,7 @@
             <td>帳號</td>
             <td>國家</td>
             <td>幣別</td>
-            <td>銷售額</td>
+            <td>銷售額(不含VAT)</td>
             <td>退貨退款</td>
             <td>應收</td>
             <td>成交費</td>
@@ -210,7 +210,7 @@ export default {
           }
           // fineFee
 
-          if (currentValue.financialType == "銷售額") {
+          if (currentValue.financialType == "銷售額(不含VAT)") {
             accumulator.incomeSale = this.add(
               accumulator.incomeSale,
               currentValue.amount
