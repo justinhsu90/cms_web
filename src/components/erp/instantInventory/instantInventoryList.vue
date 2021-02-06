@@ -13,6 +13,13 @@
           icon="el-icon-search"
           @click="handleSearch"
         ></el-button>
+        <el-button
+          style="float:right"
+          @click="handleShowImg"
+          type="primary"
+          size="small"
+          :loading="btnLoading"
+        >{{ showImg ? '關閉' : '顯示'}}縮略圖</el-button>
         <!-- <el-date-picker
           v-model="endDate"
           type="date"
@@ -44,6 +51,7 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
+            v-if="showImg"
             width="80"
             label="縮圖"
             align="center"
@@ -486,6 +494,8 @@ export default {
         skip: 0,
         limit: 20
       },
+      showImg: false,
+      btnLoading: false,
       showNonEmpty: false,
       showWarehouse: "",
       select: [],
@@ -500,6 +510,13 @@ export default {
     this.handleSelect();
   },
   methods: {
+    handleShowImg() {
+      this.btnLoading = true;
+      setTimeout(() => {
+        this.showImg = !this.showImg;
+        this.btnLoading = false;
+      }, 500);
+    },
     sortAvailableStock(type) {
       this.tableData.sort((a, b) => {
         let availableStockA = a.availableStock || 0;
