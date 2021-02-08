@@ -292,7 +292,7 @@
                 sortable="custom"
                 prop='SCRAP'
               >
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SCRAP', false, 'GZ')}}</span>
                 </template>
               </el-table-column>
@@ -302,8 +302,8 @@
                 align="center"
                 sortable="custom"
                 prop='WAITING_HANDLE'
-              >
-                <template slot-scope="scope">
+              > -->
+                <!-- <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAITING_HANDLE', false, 'GZ')}}</span>
                 </template>
               </el-table-column>
@@ -313,8 +313,8 @@
                 align="center"
                 sortable="custom"
                 prop='SKU_CONVERT_FROM'
-              >
-                <template slot-scope="scope">
+              > -->
+                <!-- <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SKU_CONVERT_FROM ', false, 'GZ')}}</span>
                 </template>
               </el-table-column>
@@ -335,7 +335,7 @@
                 align="center"
                 sortable="custom"
                 prop='INVENTORY_SHORTAGE'
-              >
+              > -->
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('INVENTORY_SHORTAGE', false, 'GZ')}}</span>
                 </template>
@@ -417,7 +417,7 @@
                 sortable="custom"
                 prop='SCRAP-TOTAL'
               >
-                <template slot-scope="scope">
+                <!-- <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('SCRAP', true, 'GZ')}}</span>
                 </template>
               </el-table-column>
@@ -427,8 +427,8 @@
                 align="center"
                 sortable="custom"
                 prop='WAITING_HANDLE-TOTAL'
-              >
-                <template slot-scope="scope">
+              > -->
+                <!-- <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('WAITING_HANDLE', true, 'GZ')}}</span>
                 </template>
               </el-table-column>
@@ -460,7 +460,7 @@
                 align="center"
                 sortable="custom"
                 prop='INVENTORY_SHORTAGE-SHORTAGE'
-              >
+              > -->
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('INVENTORY_SHORTAGE', true, 'GZ')}}</span>
                 </template>
