@@ -19,7 +19,7 @@
           type="primary"
           size="small"
           :loading="btnLoading"
-        >{{ showImg ? '關閉' : '顯示'}}縮略圖</el-button>
+        >{{ showTotalImg ? '關閉' : '顯示'}}縮略圖</el-button>
         <!-- <el-date-picker
           v-model="endDate"
           type="date"
@@ -51,17 +51,25 @@
           @sort-change="handleSortChange"
         >
           <el-table-column
-            v-if="showImg"
-            width="80"
+            width="100"
             label="縮圖"
             align="center"
           >
             <template slot-scope="scope">
-              <img
-                class="table-column-img"
-                :src="scope.row.snapshotUrl"
-                alt=""
-              >
+              <div>
+                <img
+                  v-if="scope.row.showImg"
+                  class="table-column-img mt5"
+                  :src="scope.row.snapshotUrl"
+                  alt=""
+                >
+                <el-button
+                  class="mt5 mb5"
+                  type="primary"
+                  @click="handleShowScopeImg(scope.row)"
+                  size="small"
+                >{{ scope.row.showImg ? '關閉' : '顯示'}}</el-button>
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -150,6 +158,34 @@
               >
                 <template slot-scope="scope">
                   <span>{{scope.row.list | filterListItem('OnWay', false, 'GoodCang')}}</span>
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column
+              min-width="40"
+              label="4PX"
+              align="center"
+            >
+              <el-table-column
+                min-width="40"
+                label="可售"
+                align="center"
+                sortable="custom"
+                prop='Available'
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('Available', false, '4PX')}}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                min-width="40"
+                label="在途"
+                align="center"
+                sortable="custom"
+                prop='OnWay'
+              >
+                <template slot-scope="scope">
+                  <span>{{scope.row.list | filterListItem('OnWay', false, '4PX')}}</span>
                 </template>
               </el-table-column>
             </el-table-column>
@@ -466,211 +502,230 @@ import wonTableContainer from "@/common/wonTableContainer";
 import warehouse from "won-service/_chooser/warehouse";
 // import wonPopoverChooser from "won-service/component/won-popover/won-chooser-popover";
 export default {
-  extends: wonTableContainer,
-  // components: {
-  //   wonPopoverChooser
-  // },
-  filters: {
-    filterListItem(list, inventoryType, total, warehouse) {
-      let obj =
-        list.find(item => {
-          return (
-            item.inventoryType == inventoryType &&
-            item.total == total &&
-            item.warehouse == warehouse
-          );
-        }) || {};
-      return obj.quantity || "-";
+    extends: wonTableContainer,
+    // components: {
+    //   wonPopoverChooser
+    // },
+    filters: {
+        filterListItem(list, inventoryType, total, warehouse) {
+            let obj =
+                list.find(item => {
+                    return (
+                        item.inventoryType == inventoryType &&
+                        item.total == total &&
+                        item.warehouse == warehouse
+                    );
+                }) || {};
+            return obj.quantity || "-";
+        }
+    },
+    warehouse,
+    data() {
+        return {
+            isTableLoading: false,
+            endDate: "",
+            date: [],
+            parmas: [],
+            fetchCondition: {
+                skip: 0,
+                limit: 20
+            },
+            showTotalImg: false,
+            btnLoading: false,
+            showNonEmpty: false,
+            showWarehouse: "",
+            select: [],
+            fetchOption: {
+                url: "erp/instantInventory/search",
+                method: "post",
+                where: ""
+            }
+        };
+    },
+    mounted() {
+        this.handleSelect();
+    },
+    methods: {
+        handleShowScopeImg(row) {
+            row.showImg = !row.showImg;
+        },
+        handleShowImg() {
+            this.btnLoading = true;
+            setTimeout(() => {
+                this.showTotalImg = !this.showTotalImg;
+                this.tableData.forEach(item => {
+                    item.showImg = this.showTotalImg;
+                });
+                this.btnLoading = false;
+            }, 500);
+        },
+        sortAvailableStock(type) {
+            this.tableData.sort((a, b) => {
+                let availableStockA = a.availableStock || 0;
+                let availableStockB = b.availableStock || 0;
+                if (type == "asc") {
+                    return availableStockA - availableStockB;
+                } else {
+                    return availableStockB - availableStockA;
+                }
+            });
+        },
+        handleSortChange(row) {
+            if (!row.prop) return;
+            let arr = row.prop.split("-");
+            let key1 = arr[0];
+            let key2 = arr[1];
+            let isTotal = !!key2;
+            if (row.order == "ascending") {
+                if (key1 == "availableStock") {
+                    this.sortAvailableStock("asc");
+                    return;
+                }
+                this.tableData.sort((a, b) => {
+                    let objA =
+                        _.find(a.list, citem => {
+                            return (
+                                citem.inventoryType == key1 &&
+                                citem.total == isTotal
+                            );
+                        }) || {};
+
+                    let objB =
+                        _.find(b.list, citem => {
+                            return (
+                                citem.inventoryType == key1 &&
+                                citem.total == isTotal
+                            );
+                        }) || {};
+
+                    let quantityA = objA.quantity || 0;
+                    let quantityB = objB.quantity || 0;
+
+                    return quantityA - quantityB;
+                });
+            }
+            if (row.order == "descending") {
+                if (key1 == "availableStock") {
+                    this.sortAvailableStock("des");
+                    return;
+                }
+                this.tableData.sort((a, b) => {
+                    let objA =
+                        _.find(a.list, citem => {
+                            return (
+                                citem.inventoryType == key1 &&
+                                citem.total == isTotal
+                            );
+                        }) || {};
+
+                    let objB =
+                        _.find(b.list, citem => {
+                            return (
+                                citem.inventoryType == key1 &&
+                                citem.total == isTotal
+                            );
+                        }) || {};
+
+                    let quantityA = objA.quantity || 0;
+                    let quantityB = objB.quantity || 0;
+
+                    return quantityB - quantityA;
+                });
+            }
+        },
+        handleSelect(originData) {
+            let data = _.cloneDeep(originData);
+            if (!this.hasinit) {
+                this.hasinit = true;
+                data = [
+                    {
+                        warehouseName: "廣州倉",
+                        warehouseCode: "GZ",
+                        showSellable: true,
+                        showUnsellable: false
+                    },
+                    {
+                        warehouseName: "廣州出貨需求",
+                        warehouseCode: "GZ-SHIPMENT-NEED",
+                        showSellable: true,
+                        showUnsellable: false
+                    },
+                    {
+                        warehouseName: "廣州採購在途",
+                        warehouseCode: "GZ-TRANSIT",
+                        showSellable: true,
+                        showUnsellable: false
+                    }
+                ];
+            }
+
+            this.select = _.cloneDeep(data);
+            this.parmas = data.filter(item => {
+                return item.showUnsellable || item.showSellable;
+            });
+            this.selectOption = data
+                .filter(item => {
+                    return item.showUnsellable || item.showSellable;
+                })
+                .map(v => {
+                    return {
+                        warehouseCode: v.warehouseCode,
+                        showUnsellable: v.showUnsellable,
+                        showSellable: v.showSellable
+                    };
+                });
+            this.handleSearch();
+        },
+        fetchEnd() {
+            let data = [];
+            _.each(this.originRes, (value, key) => {
+                let obj = {};
+                obj.sku = key;
+                obj.showImg = false;
+                _.each(value, (vc, vk) => {
+                    obj[vk] = vc;
+                });
+                data.push(obj);
+            });
+            this.tableData = data;
+
+            if (!this.hasInit) {
+                this.sortAvailableStock();
+                this.hasInit = true;
+            }
+        },
+        handleSearch: _.debounce(function() {
+            this.isTableLoading = true;
+            let warehouseList;
+            if (JSON.stringify(this.selectOption)) {
+                warehouseList = JSON.stringify(this.selectOption);
+            } else {
+                warehouseList = "[]";
+            }
+            let data = {
+                where: this.fetchOption.where,
+                token: this.token,
+                warehouseList,
+                endDate: this.endDate
+            };
+            this.fetchTableData(data);
+        }, 500)
     }
-  },
-  warehouse,
-  data() {
-    return {
-      isTableLoading: false,
-      endDate: "",
-      date: [],
-      parmas: [],
-      fetchCondition: {
-        skip: 0,
-        limit: 20
-      },
-      showImg: false,
-      btnLoading: false,
-      showNonEmpty: false,
-      showWarehouse: "",
-      select: [],
-      fetchOption: {
-        url: "erp/instantInventory/search",
-        method: "post",
-        where: ""
-      }
-    };
-  },
-  mounted() {
-    this.handleSelect();
-  },
-  methods: {
-    handleShowImg() {
-      this.btnLoading = true;
-      setTimeout(() => {
-        this.showImg = !this.showImg;
-        this.btnLoading = false;
-      }, 500);
-    },
-    sortAvailableStock(type) {
-      this.tableData.sort((a, b) => {
-        let availableStockA = a.availableStock || 0;
-        let availableStockB = b.availableStock || 0;
-        if (type == "asc") {
-          return availableStockA - availableStockB;
-        } else {
-          return availableStockB - availableStockA;
-        }
-      });
-    },
-    handleSortChange(row) {
-      if (!row.prop) return;
-      let arr = row.prop.split("-");
-      let key1 = arr[0];
-      let key2 = arr[1];
-      let isTotal = !!key2;
-      if (row.order == "ascending") {
-        if (key1 == "availableStock") {
-          this.sortAvailableStock("asc");
-          return;
-        }
-        this.tableData.sort((a, b) => {
-          let objA =
-            _.find(a.list, citem => {
-              return citem.inventoryType == key1 && citem.total == isTotal;
-            }) || {};
-
-          let objB =
-            _.find(b.list, citem => {
-              return citem.inventoryType == key1 && citem.total == isTotal;
-            }) || {};
-
-          let quantityA = objA.quantity || 0;
-          let quantityB = objB.quantity || 0;
-
-          return quantityA - quantityB;
-        });
-      }
-      if (row.order == "descending") {
-        if (key1 == "availableStock") {
-          this.sortAvailableStock("des");
-          return;
-        }
-        this.tableData.sort((a, b) => {
-          let objA =
-            _.find(a.list, citem => {
-              return citem.inventoryType == key1 && citem.total == isTotal;
-            }) || {};
-
-          let objB =
-            _.find(b.list, citem => {
-              return citem.inventoryType == key1 && citem.total == isTotal;
-            }) || {};
-
-          let quantityA = objA.quantity || 0;
-          let quantityB = objB.quantity || 0;
-
-          return quantityB - quantityA;
-        });
-      }
-    },
-    handleSelect(originData) {
-      let data = _.cloneDeep(originData);
-      if (!this.hasinit) {
-        this.hasinit = true;
-        data = [
-          {
-            warehouseName: "廣州倉",
-            warehouseCode: "GZ",
-            showSellable: true,
-            showUnsellable: false
-          },
-          {
-            warehouseName: "廣州出貨需求",
-            warehouseCode: "GZ-SHIPMENT-NEED",
-            showSellable: true,
-            showUnsellable: false
-          },
-          {
-            warehouseName: "廣州採購在途",
-            warehouseCode: "GZ-TRANSIT",
-            showSellable: true,
-            showUnsellable: false
-          }
-        ];
-      }
-
-      this.select = _.cloneDeep(data);
-      this.parmas = data.filter(item => {
-        return item.showUnsellable || item.showSellable;
-      });
-      this.selectOption = data
-        .filter(item => {
-          return item.showUnsellable || item.showSellable;
-        })
-        .map(v => {
-          return {
-            warehouseCode: v.warehouseCode,
-            showUnsellable: v.showUnsellable,
-            showSellable: v.showSellable
-          };
-        });
-      this.handleSearch();
-    },
-    fetchEnd() {
-      let data = [];
-      _.each(this.originRes, (value, key) => {
-        let obj = {};
-        obj.sku = key;
-        _.each(value, (vc, vk) => {
-          obj[vk] = vc;
-        });
-        data.push(obj);
-      });
-      this.tableData = data;
-
-      if (!this.hasInit) {
-        this.sortAvailableStock();
-        this.hasInit = true;
-      }
-    },
-    handleSearch: _.debounce(function() {
-      this.isTableLoading = true;
-      let warehouseList;
-      if (JSON.stringify(this.selectOption)) {
-        warehouseList = JSON.stringify(this.selectOption);
-      } else {
-        warehouseList = "[]";
-      }
-      let data = {
-        where: this.fetchOption.where,
-        token: this.token,
-        warehouseList,
-        endDate: this.endDate
-      };
-      this.fetchTableData(data);
-    }, 500)
-  }
 };
 </script>
 <style lang="scss" scoped>
 /deep/ .el-table th {
-  background: #f5f7fa !important;
+    background: #f5f7fa !important;
 }
 /deep/ .table-today {
-  background: oldlace;
+    background: oldlace;
 }
 
 /deep/ .table-warehouse {
-  background: #e6f3f7;
+    background: #e6f3f7;
 }
 
 /deep/ .table-total {
-  background: #f0f9eb;
+    background: #f0f9eb;
 }
 </style>
