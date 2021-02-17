@@ -16,11 +16,18 @@ export default (dialogContent, prop, options) => {
         this.visible = false;
       },
       dialogSure() {
-        if (!this.$refs["dialog-content"].validate()) return;
-        this.$refs["dialog-content"].submit().then(res => {
-          options.submit && options.submit(res);
+        if (this.$refs["dialog-content"].validate) {
+          if (!this.$refs["dialog-content"].validate()) return;
+        }
+        if (this.$refs["dialog-content"].submit) {
+          this.$refs["dialog-content"].submit().then(res => {
+            options.submit && options.submit(res);
+            this.visible = false;
+          });
+        } else {
+          options.submit && options.submit();
           this.visible = false;
-        });
+        }
       },
       update(e) {
         this.visible = e;

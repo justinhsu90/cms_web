@@ -75,11 +75,7 @@ export default {
                     width: "400px",
                     title: ""
                   },
-                  {
-                    submit: res => {
-                      this.tableData.push(res);
-                    }
-                  }
+                  {}
                 );
               },
               () => {
