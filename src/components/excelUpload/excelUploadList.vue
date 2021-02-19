@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="22">
+      <el-col :span="12">
         <el-input
           class="w-max200 ibbox"
           placeholder="搜索"
@@ -30,13 +30,20 @@
           <i class="el-icon-search"></i>
         </div>
       </el-col>
-      <el-col :span="2">
+      <el-col :span="12">
         <el-button
           style="float:right"
           type="primary"
           @click="handleUpload"
           size="small"
         >上傳文件</el-button>
+        <el-button
+          style="float:right"
+          type="primary"
+          @click="handleDownLoadAll"
+          size="small"
+          class="mr5"
+        >模板下載</el-button>
       </el-col>
       <el-col class="mt5">
         <el-table
@@ -133,6 +140,8 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
+import showDialog from "won-service/component/won-dialog/dialog";
+import ExcelDownAll from "./excelDownAll";
 export default {
   extends: wonTableContainer,
   data() {
@@ -248,6 +257,12 @@ export default {
     },
     handleDown(row) {
       this.saveFile(row.fileUrl, row.fileName);
+    },
+    handleDownLoadAll() {
+      showDialog(ExcelDownAll, {
+        title: "模板下載",
+        width: "40%"
+      });
     }
   }
 };

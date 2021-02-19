@@ -268,11 +268,14 @@ export default {
       }
       _.each(this.files, (v, i) => {
         let formData = new FormData();
+        let filetype = this.type[i];
         formData.append("token", this.token);
         formData.append("uploadfile", v);
-        formData.append("filetype", this.type[i]);
-        this.showMask = true;
-        this.showProgress = true;
+        formData.append("filetype", filetype);
+        if (filetype == "CUSTOMIZED_IMAGE_FILES") {
+          this.showMask = true;
+          this.showProgress = true;
+        }
         axios({
           url: "/excel/upload/add",
           method: "post",
@@ -297,6 +300,10 @@ export default {
         })
           .then(
             res => {
+              if (filetype != "CUSTOMIZED_IMAGE_FILES") {
+                this.$message.success("上传成功");
+                return;
+              }
               setTimeout(() => {
                 this.showProgress = false;
                 setTimeout(() => {

@@ -8,7 +8,7 @@
           <i class="clearmid"></i>
         </h2>
         <h2 class="f-r">
-          <el-dropdown @command="handleCommand">
+          <!-- <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
               {{language}}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
@@ -16,7 +16,7 @@
               <el-dropdown-item command="zh">中文</el-dropdown-item>
               <el-dropdown-item command="en">ENGLISH</el-dropdown-item>
             </el-dropdown-menu>
-          </el-dropdown>
+          </el-dropdown> -->
         </h2>
         <h2 class="f-r">
           <el-popover
