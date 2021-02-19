@@ -11,6 +11,7 @@
         <a
           class="link"
           :href="v.url"
+          target="_blank"
         >點擊下載</a>
       </li>
     </ul>
