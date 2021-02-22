@@ -46,6 +46,7 @@ function Ajax(config = {}) {
     }
     // axios的配置
     axios.defaults.baseURL = "https://api.myfbmanage.com:8443/data-server/";
+    // axios.defaults.baseURL = "http://api.myfbmanage.com:8080/data-server/";
     if (isEnv) {
         // axios.defaults.baseURL = "https://testapi.myfbmanage.com:8443/data-server/";
         // axios.defaults.baseURL = "http://127.0.0.1:8080/data-server/";

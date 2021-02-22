@@ -88,6 +88,11 @@
         >
           <i class="el-icon-search"></i>
         </div>
+        <el-button
+          class="fr"
+          @click="handleDeleteOrder"
+          type="primary"
+        >刪除訂單</el-button>
       </el-col>
       <el-col class="mt5">
         <el-table
@@ -118,10 +123,12 @@
             min-width="70"
             label="訂單狀態"
             prop="orderStatus"
+            align="center"
           >
             <template slot-scope="scope">
+              <div v-if="!scope.row.orderStatus">--</div>
               <el-tag
-                v-if="scope.row.orderStatus == '已發貨'"
+                v-else-if="scope.row.orderStatus == '已發貨'"
                 type="success"
               >{{scope.row.orderStatus}}</el-tag>
               <el-tag
@@ -197,6 +204,8 @@
 </template>
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
+import showDialog from "@/won-service/component/won-dialog/dialog";
+import OrderDeleteList from "./shippingOrderList";
 export default {
   extends: wonTableContainer,
   data() {
@@ -288,6 +297,18 @@ export default {
     this.handleSearch();
   },
   methods: {
+    handleDeleteOrder() {
+      showDialog(
+        OrderDeleteList,
+        {
+          width: "800px",
+          title: "刪除訂單"
+        },
+        {
+          submit: () => {}
+        }
+      );
+    },
     handleCondition(sign) {
       if (sign == "agent") {
         if (!this.searchAgent) {
