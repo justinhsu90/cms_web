@@ -39,7 +39,7 @@
                 :key="'acc'+i"
                 :label="v.name"
                 :value="v.code"
-              ></el-option>
+              ></el-option> 
             </el-select>
           </el-form-item> -->
           <el-form-item>
@@ -272,7 +272,10 @@ export default {
         formData.append("token", this.token);
         formData.append("uploadfile", v);
         formData.append("filetype", filetype);
-        if (filetype == "CUSTOMIZED_IMAGE_FILES") {
+        if (
+          filetype == "CUSTOMIZED_IMAGE_FILES" ||
+          filetype == "WOWCHER_ORDER_UNPAID_LIST"
+        ) {
           this.showMask = true;
           this.showProgress = true;
         }
@@ -300,7 +303,10 @@ export default {
         })
           .then(
             res => {
-              if (filetype != "CUSTOMIZED_IMAGE_FILES") {
+              if (
+                filetype != "CUSTOMIZED_IMAGE_FILES" &&
+                filetype != "WOWCHER_ORDER_UNPAID_LIST"
+              ) {
                 this.$message.success("上传成功");
                 return;
               }
