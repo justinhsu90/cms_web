@@ -315,7 +315,6 @@ export default {
         }
       }
       data = this.getValue(data);
-      debugger;
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.loading = true;
