@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>
-      匯入物流單號
+      Gogroopie標記付款
     </h2>
     <el-form
       :model="form"
@@ -10,25 +10,26 @@
       class="pl15 pt15"
     >
       <el-row>
-        <el-col>
+        <el-col :span="4">
           <el-form-item
             label="物流："
-            prop="agent"
+            prop="date"
           >
-            <el-select v-model="form.agent">
-              <el-option
-                v-for="(item,value) in searchAccountOption"
-                :key="value"
-                :label="item"
-                :value="item"
-              ></el-option>
-            </el-select>
+            <el-date-picker
+              style="width:100%"
+              v-model="form.date"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="選擇日期時間"
+            > </el-date-picker>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="14">
           <el-form-item
             label="單號："
-            prop="orderIdList"
+            prop="voucherCodeList"
           >
             <template slot="label">
               <span>
@@ -41,7 +42,7 @@
             <el-input
               rows="6"
               type="textarea"
-              v-model="form.orderIdList"
+              v-model="form.voucherCodeList"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -65,20 +66,19 @@ export default {
   data() {
     return {
       btnLoading: false,
-      searchAccountOption: ["4PX", "Yun Express", "HuaHan", "Winit", "SFC"],
       form: {
-        agent: "",
-        orderIdList: ""
+        date: "",
+        voucherCodeList: ""
       }
     };
   },
   created() {
     this.rules = {
-      orderIdList: {
+      voucherCodeList: {
         required: true,
         message: "此項必填"
       },
-      agent: {
+      date: {
         required: true,
         message: "此項必填"
       }
@@ -95,7 +95,7 @@ export default {
         if (valid) {
           this.btnLoading = true;
           axios({
-            url: "/shipment/add",
+            url: "/gogroopie/markpaid",
             method: "post",
             data: this.getValue()
           })

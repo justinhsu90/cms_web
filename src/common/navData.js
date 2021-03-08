@@ -110,6 +110,10 @@ const nav = [
             {
                 index: "customPhotoUpdate",
                 label: "客製化圖片更新"
+            },
+            {
+                index: "gogroopiePay",
+                label: "Gogroopie標記付款"
             }
         ]
     },
