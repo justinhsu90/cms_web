@@ -241,7 +241,7 @@ export default {
 <style lang="scss">
 #nav {
   .el-dropdown-link {
-    color: white !important;
+    // color: white !important;
   }
   width: 100%;
   height: 100%;

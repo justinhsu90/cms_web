@@ -1,5 +1,5 @@
 <template>
-  <div id="sku">
+  <div>
     <el-row>
       <el-col :span="10">
         <el-input
@@ -35,6 +35,11 @@
           type="primary"
         >新增SKU</el-button>
         <el-button
+          class="fr mr10 mt5"
+          @click="handleStyleChange"
+          size="small"
+        >樣式切換</el-button>
+        <el-button
           v-if="privilege"
           :loading="exportLoading"
           class="fr mr10 mt5"
@@ -62,133 +67,173 @@
           >成本</el-checkbox-button>
         </el-checkbox-group>
       </el-col>
-      <el-col class="mt5">
-        <el-table
-          ref="wonTable"
-          :max-height="maxHeight"
-          :data="tableData"
-          v-loading="isTableLoading"
-          @sort-change="handleSortChange"
-          :row-key="rowKey"
+    </el-row>
+    <el-row
+      :gutter="20"
+      v-loading="isTableLoading"
+      v-if="model == 'img'"
+    >
+      <el-col
+        :span="6"
+        v-for="(v, i) in tableData"
+        :key="i"
+      >
+        <el-card
+          :body-style="{ padding: '0px' }"
+          class="content-card"
         >
-          <el-table-column
-            v-if="privilege"
-            type="selection"
-            width="55"
-            reserve-selection
+          <img
+            :src="v.snapshotURL"
+            class="info__image"
           >
-          </el-table-column>
-          <el-table-column
-            sortable="custom"
-            label="產品名稱"
-            prop="productName"
-            min-width="180"
-          ></el-table-column>
-          <el-table-column
-            sortable="custom"
-            min-width="80"
-            label="SKU"
-            prop="sku"
-          ></el-table-column>
+          <div class="info__footer">
+            <span class="info__title">{{ v.productName }}</span>
+            <div class="info__bottom info__clearfix">
+              <span class="info__sku">{{ v.sku }}</span>
+              <el-dropdown
+                class="info__button"
+                @command="handleDropDownCommand($event, v)"
+              >
+                <span class="el-dropdown-link">
+                  操作<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="look">查看</el-dropdown-item>
+                  <el-dropdown-item command="edit">編輯</el-dropdown-item>
+                  <el-dropdown-item command="copy">複製</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row v-if="model == 'table'">
+      <el-table
+        ref="wonTable"
+        :max-height="maxHeight"
+        :data="tableData"
+        v-loading="isTableLoading"
+        @sort-change="handleSortChange"
+        :row-key="rowKey"
+      >
+        <el-table-column
+          v-if="privilege"
+          type="selection"
+          width="55"
+          reserve-selection
+        >
+        </el-table-column>
+        <el-table-column
+          sortable="custom"
+          label="產品名稱"
+          prop="productName"
+          min-width="180"
+        ></el-table-column>
+        <el-table-column
+          sortable="custom"
+          min-width="80"
+          label="SKU"
+          prop="sku"
+        ></el-table-column>
+        <el-table-column
+          min-width="100"
+          key="4"
+          label="Amazon(長x寬x高/重)"
+          prop="Amazon"
+        >
+          <template slot-scope="scope">
+            <span>{{scope.row.amazonLengthCM}}</span>x<span>{{scope.row.amazonWidthCM}}</span>x<span>{{scope.row.amazonHeightCM}}cm</span>/<span>{{scope.row.amazonWeightKG}}kg</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="80"
+          key="7"
+          label="小包(長x寬x高/重)"
+          prop="parcel"
+        >
+          <template slot-scope="scope">
+            <span>{{scope.row.parcelLengthCM}}</span>x<span>{{scope.row.parcelWidthCM}}</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
+          </template>
+        </el-table-column>
+        <template v-if="deprecatedSkuShow">
           <el-table-column
             min-width="100"
-            key="4"
-            label="Amazon(長x寬x高/重)"
-            prop="Amazon"
-          >
-            <template slot-scope="scope">
-              <span>{{scope.row.amazonLengthCM}}</span>x<span>{{scope.row.amazonWidthCM}}</span>x<span>{{scope.row.amazonHeightCM}}cm</span>/<span>{{scope.row.amazonWeightKG}}kg</span>
-            </template>
-          </el-table-column>
+            label="已停用 SKU"
+            prop="deprecatedSKU"
+            algin="center"
+            key="11"
+          > </el-table-column>
+        </template>
+        <template v-if="priceShow">
           <el-table-column
-            min-width="80"
-            key="7"
-            label="小包(長x寬x高/重)"
-            prop="parcel"
+            min-width="70"
+            label="成本"
+            prop="productCost"
+            key="10"
           >
             <template slot-scope="scope">
-              <span>{{scope.row.parcelLengthCM}}</span>x<span>{{scope.row.parcelWidthCM}}</span>x<span>{{scope.row.parcelHeightCM}}cm</span>/<span>{{scope.row.parcelWeightKG}}kg</span>
+              {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.productCostCurrency}}
             </template>
           </el-table-column>
-          <template v-if="deprecatedSkuShow">
-            <el-table-column
-              min-width="100"
-              label="已停用 SKU"
-              prop="deprecatedSKU"
-              algin="center"
-              key="11"
-            > </el-table-column>
-          </template>
-          <template v-if="priceShow">
-            <el-table-column
-              min-width="70"
-              label="成本"
-              prop="productCost"
-              key="10"
+        </template>
+        <el-table-column
+          class-name="tableColumn"
+          label="圖片"
+          width="70"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <img
+              width="50"
+              height="50"
+              style="cursor:pointer"
+              :src="scope.row.snapshotURL"
+              @click="scope.row.dialogTableVisible = true"
             >
-              <template slot-scope="scope">
-                {{scope.row.productCost | formatToMoney}}&nbsp;{{scope.row.productCostCurrency}}
-              </template>
-            </el-table-column>
-          </template>
-          <el-table-column
-            class-name="tableColumn"
-            label="圖片"
-            width="70"
-            align="center"
-          >
-            <template slot-scope="scope">
+            <el-dialog
+              title="圖片"
+              :modal="false"
+              :visible.sync="scope.row.dialogTableVisible"
+              width="30%"
+            >
               <img
-                width="50"
-                height="50"
-                style="cursor:pointer"
-                :src="scope.row.snapshotURL"
-                @click="scope.row.dialogTableVisible = true"
+                width="100%"
+                :src="scope.row.imageURL"
               >
-              <el-dialog
-                title="圖片"
-                :modal="false"
-                :visible.sync="scope.row.dialogTableVisible"
-                width="30%"
-              >
-                <img
-                  width="100%"
-                  :src="scope.row.imageURL"
-                >
-              </el-dialog>
-            </template>
-          </el-table-column>
-          <el-table-column
-            min-width="50"
-            label="動作"
-            fixed="right"
-          >
-            <template slot-scope="scope">
-              <el-button
-                class="btnh"
-                type="text"
-                title="查看"
-                icon="el-icon-won-40"
-                @click="handleLook(scope.row)"
-              ></el-button>
-              <el-button
-                class="btnh"
-                type="text"
-                title="編輯"
-                icon="el-icon-won-1"
-                @click="handleEdit(scope.row)"
-              ></el-button>
-              <el-button
-                class="btnh"
-                type="text"
-                title="複製"
-                icon="el-icon-won-124"
-                @click="handleCopy(scope.row)"
-              ></el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
+            </el-dialog>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="50"
+          label="動作"
+          fixed="right"
+        >
+          <template slot-scope="scope">
+            <el-button
+              class="btnh"
+              type="text"
+              title="查看"
+              icon="el-icon-won-40"
+              @click="handleLook(scope.row)"
+            ></el-button>
+            <el-button
+              class="btnh"
+              type="text"
+              title="編輯"
+              icon="el-icon-won-1"
+              @click="handleEdit(scope.row)"
+            ></el-button>
+            <el-button
+              class="btnh"
+              type="text"
+              title="複製"
+              icon="el-icon-won-124"
+              @click="handleCopy(scope.row)"
+            ></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <won-pagination
         v-bind="paginationProps"
         v-on="paginationListeners"
@@ -237,6 +282,7 @@ export default {
   data() {
     let privilege = C.get("privilege") == "admin";
     return {
+      model: "table",
       privilege,
       url: "javascript:void(0)",
       exportLoading: false,
@@ -270,11 +316,28 @@ export default {
     this.Bus.$on("refresh", this.handleSearch);
   },
   mounted() {
-    this.$refs["wonTable"].$watch("store.states.selection", v => {
-      this.selection = v;
-    });
+    this.$refs["wonTable"] &&
+      this.$refs["wonTable"].$watch("store.states.selection", v => {
+        this.selection = v;
+      });
   },
   methods: {
+    handleStyleChange() {
+      this.model = this.model == "img" ? "table" : "img";
+    },
+    handleDropDownCommand(command, v) {
+      switch (command) {
+        case "copy":
+          this.handleCopy(v);
+          break;
+        case "look":
+          this.handleLook(v);
+          break;
+        case "edit":
+          this.handleEdit(v);
+          break;
+      }
+    },
     clearSelect() {
       this.$refs["wonTable"].clearSelection();
     },
@@ -388,10 +451,53 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#sku {
-  img {
+<style lang="scss" scoped>
+@import "src/assets/scss/common/index.scss";
+.content-card {
+  margin-top: 10px;
+  .info__title {
+    font-size: 18px;
+    height: 52px;
+    @include multi-ellipsis(2);
+  }
+  .info__footer {
+    padding: 14px;
+    height: 100px;
+  }
+  .info__img {
     display: block;
+  }
+  .info__sku {
+    font-size: 13px;
+    color: #999;
+  }
+
+  .info__bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+
+  .info__button {
+    padding: 0;
+    float: right;
+    color: #409eff;
+    cursor: pointer;
+  }
+
+  .info__image {
+    width: 100%;
+    display: block;
+    height: 200px;
+  }
+
+  .info__clearfix:before,
+  .info__clearfix:after {
+    display: table;
+    content: "";
+  }
+
+  .info__clearfix:after {
+    clear: both;
   }
 }
 </style>
