@@ -108,7 +108,10 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row v-if="model == 'table'">
+    <el-row
+      v-if="model == 'table'"
+      class="mt5"
+    >
       <el-table
         ref="wonTable"
         :max-height="maxHeight"
