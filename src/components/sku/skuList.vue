@@ -2,18 +2,34 @@
   <div>
     <el-row>
       <el-col :span="10">
-        <el-input
-          class="w-max200 fl"
-          v-model="fetchOption.where"
-          @keyup.enter.native="handleSearch"
-        >
-        </el-input>
-        <div
-          @click="handleSearch"
-          class="el-input-group__append search"
-        >
-          <i class="el-icon-search"></i>
-        </div>
+        <template v-if="model == 'table'">
+          <el-input
+            class="w-max200 fl"
+            v-model="fetchOption.where"
+            @keyup.enter.native="handleSearch"
+          >
+          </el-input>
+          <div
+            @click="handleSearch"
+            class="el-input-group__append search"
+          >
+            <i class="el-icon-search"></i>
+          </div>
+        </template>
+        <template v-else>
+          <el-input
+            class="w-max200 fl"
+            v-model="imgWhere.where"
+            @keyup.enter.native="handleSearchScroll"
+          >
+          </el-input>
+          <div
+            @click="handleSearchScroll"
+            class="el-input-group__append search"
+          >
+            <i class="el-icon-search"></i>
+          </div>
+        </template>
         <el-popover
           ref="popover"
           placement="top-start"
@@ -38,7 +54,17 @@
           class="fr mr10 mt5"
           @click="handleStyleChange"
           size="small"
-        >樣式切換</el-button>
+        >
+          <span>樣式切換</span>
+          <i
+            v-if="model == 'table'"
+            class="el-icon-picture"
+          ></i>
+          <i
+            v-else
+            class="el-icon-tickets"
+          ></i>
+        </el-button>
         <el-button
           v-if="privilege"
           :loading="exportLoading"
@@ -46,11 +72,11 @@
           @click="handleExport"
           size="small"
         >导出SKU</el-button>
-        <el-button
+        <!-- <el-button
           class="fr mr5 mt5"
           @click="handleReassemble"
           size="small"
-        >SKU編碼重編</el-button>
+        >SKU編碼重編</el-button> -->
         <!-- <el-checkbox-group
           v-model="record"
           @change="handleSize"
@@ -70,29 +96,40 @@
     </el-row>
     <el-row
       :gutter="20"
-      v-loading="isTableLoading"
       v-if="model == 'img'"
+      style="width: 1200px; margin: 0 auto;"
     >
-      <el-col
-        style="width: 20%"
-        v-for="v in tableData"
-        :key="v.sku"
+      <wonScrollPagination
+        target=".el-main"
+        :fetchData="handleScroll"
+        ref="wonScrollPagination"
       >
-        <el-card
-          :body-style="{ padding: '0px' }"
-          class="content-card"
-        >
-          <img
-            :src="require('@/assets/img/img-error.png')"
-            class="info__image"
-            loading="lazy"
-            v-errorImg="v.snapshotURL"
+        <template slot="data">
+          <el-col
+            style="width: 20%"
+            v-for="(v, index) in imgsData"
+            :key="v.sku + index"
           >
-          <div class="info__footer">
-            <span class="info__title">{{ v.productName }}</span>
-            <div class="info__bottom info__clearfix">
-              <span class="info__sku">{{ v.sku }}</span>
-              <!-- <el-dropdown
+            <el-card
+              :body-style="{ padding: '0px' }"
+              @click.native="handleEdit(v)"
+              :class="{
+           'content-card__select': selectionMethod(v, selection),
+           'content-card': true
+          }"
+            >
+              <img
+                :src="
+          require('@/assets/img/img-error.png')"
+                class="info__image"
+                loading="lazy"
+                v-errorImg="v.snapshotURL"
+              >
+              <div class="info__footer">
+                <span class="info__title">{{ v.productName }}</span>
+                <div class="info__bottom info__clearfix">
+                  <span class="info__sku">{{ v.sku }}</span>
+                  <!-- <el-dropdown
                 class="info__button"
                 @command="handleDropDownCommand($event, v)"
               >
@@ -105,17 +142,19 @@
                   <el-dropdown-item command="copy">複製</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown> -->
-            </div>
-            <div>
-              <el-checkbox
-                class="info__button"
-                :value=" v | selectionfilter(selection)"
-                @input="handleCheck($event, v)"
-              ></el-checkbox>
-            </div>
-          </div>
-        </el-card>
-      </el-col>
+                </div>
+                <div>
+                  <el-checkbox
+                    class="info__button"
+                    :value=" v | selectionfilter(selection)"
+                    @input="handleCheck($event, v)"
+                  ></el-checkbox>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </template>
+      </wonScrollPagination>
     </el-row>
     <el-row
       v-if="model == 'table'"
@@ -246,20 +285,20 @@
           </template>
         </el-table-column>
       </el-table>
+      <won-pagination
+        v-bind="paginationProps"
+        v-on="paginationListeners"
+      >
+        <div class="ibbox">
+          <span class="fz13 c-gray5">共選擇 {{selection.length}} 條 </span>
+          <el-button
+            type="text"
+            class="pt9"
+            @click="clearSelect"
+          >取消選擇</el-button>
+        </div>
+      </won-pagination>
     </el-row>
-    <won-pagination
-      v-bind="paginationProps"
-      v-on="paginationListeners"
-    >
-      <div class="ibbox">
-        <span class="fz13 c-gray5">共選擇 {{selection.length}} 條 </span>
-        <el-button
-          type="text"
-          class="pt9"
-          @click="clearSelect"
-        >取消選擇</el-button>
-      </div>
-    </won-pagination>
     <wonDialog
       name="sku"
       ref="dialog"
@@ -286,17 +325,19 @@ import C from "js-cookie";
 import showDialog from "won-service/component/won-dialog/dialog";
 import reassemble from "./skuReassemble";
 import imgError from "won-service/_directive/error-img";
+import wonScrollPagination from "@/common/wonScrollPagination";
 export default {
   extends: wonTableContainer,
   mixins: [imgError],
   name: "sku",
   components: {
-    wonDialog
+    wonDialog,
+    wonScrollPagination
   },
   data() {
     let privilege = C.get("privilege") == "admin";
     return {
-      model: "table",
+      model: "img",
       privilege,
       url: "javascript:void(0)",
       exportLoading: false,
@@ -309,7 +350,9 @@ export default {
       selection: [],
       value: "",
       tableData: [],
+      imgsData: [],
       isTableLoading: false,
+      isImgLoading: false,
       showDialog: false,
       row: [],
       dialogTableVisible: false,
@@ -319,6 +362,11 @@ export default {
         order: "-AddedTime"
       },
       fetchOption: {
+        url: "sku/search",
+        where: "",
+        method: "post"
+      },
+      imgWhere: {
         url: "sku/search",
         where: "",
         method: "post"
@@ -344,6 +392,12 @@ export default {
     }
   },
   methods: {
+    selectionMethod(value, selection) {
+      let obj = selection.find(item => {
+        return value.sku == item.sku;
+      });
+      return !!obj;
+    },
     handleCheck(event, value) {
       if (event) {
         this.selection.push(value);
@@ -404,6 +458,29 @@ export default {
         title: "SKU重編",
         hideConfirm: true
       });
+    },
+    handleSearchScroll: _.debounce(function() {
+      this.$refs["wonScrollPagination"] &&
+        this.$refs["wonScrollPagination"].refresh();
+      this.imgsData = [];
+    }),
+    async handleScroll(option) {
+      this.isImgLoading = true;
+      let { data } = await axios({
+        url: this.imgWhere.url,
+        method: this.imgWhere.method,
+        data: {
+          where: this.imgWhere.where,
+          skip: option.skip,
+          limit: option.limit
+        }
+      });
+      this.isImgLoading = false;
+      _.each(data, v => {
+        v.dialogTableVisible = false;
+      });
+      this.imgsData = this.imgsData.concat(data);
+      return data;
     },
     handleSearch: _.debounce(function() {
       this.isTableLoading = true;
@@ -492,6 +569,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/assets/scss/common/index.scss";
+.content-card__select {
+  box-shadow: 0px 0px 8px #409eff;
+  transition: all 0.4s;
+}
 .content-card {
   margin-top: 10px;
   .info__title {
