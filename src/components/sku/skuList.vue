@@ -147,6 +147,7 @@
                   <el-checkbox
                     class="info__button"
                     :value=" v | selectionfilter(selection)"
+                    @click.native.stop
                     @input="handleCheck($event, v)"
                   ></el-checkbox>
                 </div>
