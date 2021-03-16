@@ -29,11 +29,11 @@
         </el-popover>
       </el-col>
       <el-col :span="14">
-        <el-button
+        <!-- <el-button
           class="fr"
           @click="handleAdd"
           type="primary"
-        >新增SKU</el-button>
+        >新增SKU</el-button> -->
         <el-button
           class="fr mr10 mt5"
           @click="handleStyleChange"
@@ -51,7 +51,7 @@
           @click="handleReassemble"
           size="small"
         >SKU編碼重編</el-button>
-        <el-checkbox-group
+        <!-- <el-checkbox-group
           v-model="record"
           @change="handleSize"
           size="small"
@@ -65,7 +65,7 @@
             label="price"
             :key="5"
           >成本</el-checkbox-button>
-        </el-checkbox-group>
+        </el-checkbox-group> -->
       </el-col>
     </el-row>
     <el-row
@@ -74,23 +74,25 @@
       v-if="model == 'img'"
     >
       <el-col
-        :span="6"
-        v-for="(v, i) in tableData"
-        :key="i"
+        style="width: 20%"
+        v-for="v in tableData"
+        :key="v.sku"
       >
         <el-card
           :body-style="{ padding: '0px' }"
           class="content-card"
         >
           <img
-            :src="v.snapshotURL"
+            :src="require('@/assets/img/img-error.png')"
             class="info__image"
+            loading="lazy"
+            v-errorImg="v.snapshotURL"
           >
           <div class="info__footer">
             <span class="info__title">{{ v.productName }}</span>
             <div class="info__bottom info__clearfix">
               <span class="info__sku">{{ v.sku }}</span>
-              <el-dropdown
+              <!-- <el-dropdown
                 class="info__button"
                 @command="handleDropDownCommand($event, v)"
               >
@@ -102,7 +104,14 @@
                   <el-dropdown-item command="edit">編輯</el-dropdown-item>
                   <el-dropdown-item command="copy">複製</el-dropdown-item>
                 </el-dropdown-menu>
-              </el-dropdown>
+              </el-dropdown> -->
+            </div>
+            <div>
+              <el-checkbox
+                class="info__button"
+                :value=" v | selectionfilter(selection)"
+                @input="handleCheck($event, v)"
+              ></el-checkbox>
             </div>
           </div>
         </el-card>
@@ -237,20 +246,20 @@
           </template>
         </el-table-column>
       </el-table>
-      <won-pagination
-        v-bind="paginationProps"
-        v-on="paginationListeners"
-      >
-        <div class="ibbox">
-          <span class="fz13 c-gray5">共選擇 {{selection.length}} 條 </span>
-          <el-button
-            type="text"
-            class="pt9"
-            @click="clearSelect"
-          >取消選擇</el-button>
-        </div>
-      </won-pagination>
     </el-row>
+    <won-pagination
+      v-bind="paginationProps"
+      v-on="paginationListeners"
+    >
+      <div class="ibbox">
+        <span class="fz13 c-gray5">共選擇 {{selection.length}} 條 </span>
+        <el-button
+          type="text"
+          class="pt9"
+          @click="clearSelect"
+        >取消選擇</el-button>
+      </div>
+    </won-pagination>
     <wonDialog
       name="sku"
       ref="dialog"
@@ -276,8 +285,10 @@ import wonDialog from "@/common/wonDialog";
 import C from "js-cookie";
 import showDialog from "won-service/component/won-dialog/dialog";
 import reassemble from "./skuReassemble";
+import imgError from "won-service/_directive/error-img";
 export default {
   extends: wonTableContainer,
+  mixins: [imgError],
   name: "sku",
   components: {
     wonDialog
@@ -324,9 +335,34 @@ export default {
         this.selection = v;
       });
   },
+  filters: {
+    selectionfilter(value, selection) {
+      let obj = selection.find(item => {
+        return value.sku == item.sku;
+      });
+      return !!obj;
+    }
+  },
   methods: {
+    handleCheck(event, value) {
+      if (event) {
+        this.selection.push(value);
+      } else {
+        this.selection = this.selection.filter(item => {
+          return item.sku != value.sku;
+        });
+      }
+    },
     handleStyleChange() {
       this.model = this.model == "img" ? "table" : "img";
+      this.$nextTick(() => {
+        if (this.model == "table") {
+          this.selection.forEach(row => {
+            this.$refs["wonTable"] &&
+              this.$refs["wonTable"].toggleRowSelection(row);
+          });
+        }
+      });
     },
     handleDropDownCommand(command, v) {
       switch (command) {
@@ -491,6 +527,8 @@ export default {
     width: 100%;
     display: block;
     height: 200px;
+    // background-size: cover;
+    object-fit: cover;
   }
 
   .info__clearfix:before,
