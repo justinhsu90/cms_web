@@ -5,9 +5,11 @@
       <div class="clearfix"></div>
     </div>
     <div
-      v-if="showLoading"
       class="loading"
-    >loading...</div>
+      v-if="showLoading"
+    >
+      <div class="el-icon-loading"></div>
+    </div>
     <div
       v-if="showEnd"
       class="end"
@@ -75,9 +77,13 @@ export default {
 
 <style lang="scss" scoped>
 .loading {
-  text-align: center;
   color: #999;
   padding: 20px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  flex-direction: column;
 }
 .end {
   text-align: center;

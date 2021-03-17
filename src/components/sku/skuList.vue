@@ -110,11 +110,16 @@
             v-for="(v, index) in imgsData"
             :key="v.sku + index"
           >
+            <div
+              class="content-card__number"
+              v-if="index % 10 == 0"
+            >{{ index + 1}}.</div>
             <el-card
               :body-style="{ padding: '0px' }"
               @click.native="handleEdit(v)"
               :class="{
            'content-card__select': selectionMethod(v, selection),
+           'content-card__hover': true,
            'content-card': true
           }"
             >
@@ -377,6 +382,7 @@ export default {
   created() {
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
+    this.Bus.$on("scrollRefresh", this.handleScrollRefresh);
   },
   mounted() {
     this.$refs["wonTable"] &&
@@ -393,6 +399,11 @@ export default {
     }
   },
   methods: {
+    handleScrollRefresh() {
+      this.$refs["wonScrollPagination"] &&
+        this.$refs["wonScrollPagination"].refresh();
+      this.imgsData = [];
+    },
     selectionMethod(value, selection) {
       let obj = selection.find(item => {
         return value.sku == item.sku;
@@ -574,6 +585,17 @@ export default {
   box-shadow: 0px 0px 8px #409eff;
   transition: all 0.4s;
 }
+.content-card__hover:hover {
+  box-shadow: 0px 0px 8px #409eff;
+  transition: all 0.4s;
+}
+
+.content-card__number {
+  position: absolute;
+  left: -20px;
+  color: #999;
+}
+
 .content-card {
   margin-top: 10px;
   .info__title {

@@ -621,6 +621,7 @@ export default {
               this.submitLoading = false;
               this.$message.success("編輯成功");
               this.Bus.$emit("refresh");
+              this.Bus.$emit("scrollRefresh");
               this.goBack();
             })
             .catch(() => {
