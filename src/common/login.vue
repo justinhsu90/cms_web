@@ -8,14 +8,17 @@
         :rules="rules"
         ref="ruleForm"
         label-width="0px"
-        class="demo-ruleForm"
       >
-        <el-form-item prop="username">
+        <el-form-item
+          class="custom-form-item"
+          prop="username"
+        >
           <el-input
             v-model="ruleForm.username"
             placeholder="username"
           ></el-input>
         </el-form-item>
+        <div class="custom-form-item login-tips">xxxxxx</div>
         <el-form-item prop="password">
           <el-input
             type="password"
@@ -89,7 +92,16 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+/deep/ .custom-form-item {
+  margin-bottom: 10px;
+}
+
+.login-tips {
+  color: #666;
+  text-align: center;
+}
+
 .login-wrap {
   position: relative;
   width: 100%;

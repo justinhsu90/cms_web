@@ -27,21 +27,21 @@
             <div>
               <span>帳號資訊：</span>
               <span>{{username}}</span>
+              <i
+                type="text"
+                class="el-icon-setting va-m co-p"
+                @click="handleQuit"
+              ></i>
             </div>
             <i
               type="text"
               slot="reference"
               class="el-icon-won-50 va-m co-p"
             ></i>
+            <i class="clearmid"></i>
           </el-popover>
-          <i
-            type="text"
-            class="el-icon-setting va-m co-p"
-            @click="handleQuit"
-          ></i>
-          <i class="clearmid"></i>
         </h2>
-        <div class="f-r pt10">
+        <!-- <div class="f-r pt10">
           <el-autocomplete
             ref="input"
             size="small"
@@ -58,7 +58,7 @@
             >
             </i>
           </el-autocomplete>
-        </div>
+        </div> -->
       </el-header>
       <el-container style="height: calc(100% - 50px)">
         <!-- <div class="aside">

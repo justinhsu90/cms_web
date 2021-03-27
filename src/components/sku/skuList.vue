@@ -65,13 +65,13 @@
             class="el-icon-tickets"
           ></i>
         </el-button>
-        <el-button
+        <!-- <el-button
           v-if="privilege"
           :loading="exportLoading"
           class="fr mr10 mt5"
           @click="handleExport"
           size="small"
-        >导出SKU</el-button>
+        >导出SKU</el-button> -->
         <el-button
           class="fr mr10 mt5"
           @click="handleSelectSend"
@@ -102,7 +102,7 @@
     <el-row
       :gutter="20"
       v-if="model == 'img'"
-      style="width: 1200px; margin: 0 auto;"
+      style="width: 1300px; margin: 0 auto;"
     >
       <wonScrollPagination
         target=".el-main"
@@ -300,14 +300,6 @@
         v-bind="paginationProps"
         v-on="paginationListeners"
       >
-        <div class="ibbox">
-          <span class="fz13 c-gray5">共選擇 {{selection.length}} 條 </span>
-          <el-button
-            type="text"
-            class="pt9"
-            @click="clearSelect"
-          >取消選擇</el-button>
-        </div>
       </won-pagination>
     </el-row>
     <wonDialog
@@ -418,7 +410,7 @@ export default {
         ShowSend,
         {
           width: "800px",
-          title: "SKU",
+          title: "Chosen Candidates",
           hideConfirm: true
         },
         {}
@@ -635,7 +627,7 @@ export default {
 .content-card {
   margin-top: 10px;
   .info__title {
-    font-size: 18px;
+    font-size: 14px;
     height: 52px;
     @include multi-ellipsis(2);
   }
