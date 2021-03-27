@@ -24,7 +24,7 @@ router.beforeEach((to, form, next) => {
   if (to.meta.name == "login") {
     if (token) {
       Vue.prototype.token = token;
-      next("/empty");
+      next("/sku");
     } else {
       next();
     }
@@ -35,7 +35,11 @@ router.beforeEach((to, form, next) => {
         next("/404");
         return;
       }
-      next();
+      if (to.path == "/sku") {
+        next();
+      } else {
+        next("/sku");
+      }
     } else {
       next("/");
     }

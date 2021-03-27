@@ -72,6 +72,11 @@
           @click="handleExport"
           size="small"
         >导出SKU</el-button>
+        <el-button
+          class="fr mr10 mt5"
+          @click="handleSelectSend"
+          size="small"
+        >發送SKU</el-button>
         <!-- <el-button
           class="fr mr5 mt5"
           @click="handleReassemble"
@@ -115,8 +120,8 @@
               v-if="index % 10 == 0"
             >{{ index + 1}}.</div>
             <el-card
+              @click.native="handleCheck(!selectionfilter(v, selection), v)"
               :body-style="{ padding: '0px' }"
-              @click.native="handleEdit(v)"
               :class="{
            'content-card__select': selectionMethod(v, selection),
            'content-card__hover': true,
@@ -332,6 +337,8 @@ import showDialog from "won-service/component/won-dialog/dialog";
 import reassemble from "./skuReassemble";
 import imgError from "won-service/_directive/error-img";
 import wonScrollPagination from "@/common/wonScrollPagination";
+import ShowInfo from "./showInfo";
+import ShowSend from "./showSend";
 export default {
   extends: wonTableContainer,
   mixins: [imgError],
@@ -380,6 +387,7 @@ export default {
     };
   },
   created() {
+    this.handleShowInfo();
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
     this.Bus.$on("scrollRefresh", this.handleScrollRefresh);
@@ -399,6 +407,34 @@ export default {
     }
   },
   methods: {
+    selectionfilter(value, selection) {
+      let obj = selection.find(item => {
+        return value.sku == item.sku;
+      });
+      return !!obj;
+    },
+    handleSelectSend() {
+      showDialog(
+        ShowSend,
+        {
+          width: "800px",
+          title: "SKU",
+          hideConfirm: true
+        },
+        {}
+      );
+    },
+    handleShowInfo() {
+      showDialog(
+        ShowInfo,
+        {
+          width: "400px",
+          title: "用戶信息",
+          hideConfirm: true
+        },
+        {}
+      );
+    },
     handleScrollRefresh() {
       this.$refs["wonScrollPagination"] &&
         this.$refs["wonScrollPagination"].refresh();

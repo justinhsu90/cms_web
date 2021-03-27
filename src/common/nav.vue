@@ -61,7 +61,7 @@
         </div>
       </el-header>
       <el-container style="height: calc(100% - 50px)">
-        <div class="aside">
+        <!-- <div class="aside">
           <div class="lh50 t_a-c">
             <i
               class="el-icon-won-28 co-po fz20 c-white"
@@ -109,7 +109,7 @@
               </template>
             </el-menu>
           </div>
-        </div>
+        </div> -->
         <el-main>
           <keep-alive :exclude="$route.meta.exclude">
             <router-view v-if="$route.meta.keepAlive"></router-view>

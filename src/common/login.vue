@@ -75,7 +75,7 @@ export default {
                 C.set("userName", res.userName, { expires: 7, path: "/" });
                 C.set("privilege", res.privilege, { expires: 7, path: "/" });
                 C.set("token", res.token, { expires: 7, path: "/" });
-                this.$router.push("/empty");
+                this.$router.push("/sku");
               }
             })
             .catch(() => {
