@@ -1,6 +1,6 @@
 <template>
   <div class="login-wrap">
-    <div class="ms-title">後台管理系统</div>
+    <div class="ms-title">Flybuddy Product Selection System</div>
     <div class="ms-login">
       <el-form
         @keyup.native.13="handleClick"
@@ -32,7 +32,7 @@
             :loading="loading"
             type="primary"
             @click="submitForm"
-          >登陸</el-button>
+          >Login</el-button>
         </div>
       </el-form>
     </div>
@@ -50,8 +50,20 @@ export default {
       },
       loading: false,
       rules: {
-        username: [{ required: true, message: "請輸入帳號", trigger: "blur" }],
-        password: [{ required: true, message: "請輸入密碼", trigger: "blur" }]
+        username: [
+          {
+            required: true,
+            message: "Please enter your username (your email address)",
+            trigger: "blur"
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: "Please enter your password",
+            trigger: "blur"
+          }
+        ]
       }
     };
   },

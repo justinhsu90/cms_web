@@ -4,7 +4,7 @@
       <el-header>
         <h2 class="f-l lh60">
           <i class="el-icon-menu va-m"></i>
-          <span class="fz20 va-m">菲德利內部管理系統</span>
+          <span class="fz20 va-m">Flybuddy Product Selection System</span>
           <i class="clearmid"></i>
         </h2>
         <h2 class="f-r">
