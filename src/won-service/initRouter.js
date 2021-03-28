@@ -2,14 +2,11 @@ import router from "@/router";
 import C from "js-cookie";
 import Vue from "vue";
 import nav from "@/common/nav";
-// import dataAnalysiz from "../router/dataAnalysis";
-import bankstatement from "../router/bankstatement";
 const routerManage = [
   {
     path: "/nav",
     component: nav,
-    redirect: "/sku",
-    children: [...bankstatement]
+    redirect: "/sku"
   }
 ];
 router.beforeEach((to, form, next) => {

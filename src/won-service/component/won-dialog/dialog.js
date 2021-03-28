@@ -48,7 +48,7 @@ export default (dialogContent, prop, options) => {
         footer.push(
           h("elButton", {
             domProps: {
-              innerText: "確定"
+              innerText: "Confirm"
             },
             props: {
               type: "primary"
@@ -63,7 +63,7 @@ export default (dialogContent, prop, options) => {
         footer.push(
           h("elButton", {
             domProps: {
-              innerText: "取消"
+              innerText: "Cancel"
             },
             on: {
               click: this.dialogHide
@@ -82,6 +82,7 @@ export default (dialogContent, prop, options) => {
         },
         [
           h(dialogContent, {
+            props,
             ref: "dialog-content"
           }),
           h(

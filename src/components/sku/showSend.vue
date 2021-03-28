@@ -10,15 +10,31 @@
     </div>
     <el-table
       ref="wonTable"
-      :max-height="maxHeight"
       :data="tableData"
     >
       <el-table-column
-        sortable="custom"
+        label="Index"
+        prop="Index"
+        width="80"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.$index + 1 }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="Picture"
         prop="picture"
-        min-width="180"
-      ></el-table-column>
+        width="80"
+      >
+        <template slot-scope="{ row }">
+          <img
+            width="50"
+            height="50"
+            :src="row.snapshotURL"
+          >
+        </template>
+      </el-table-column>
       <el-table-column
         min-width="80"
         label="ProductName"
@@ -44,37 +60,22 @@
         </template>
       </el-table-column>
     </el-table>
-    <won-pagination
-      v-bind="paginationProps"
-      v-on="paginationListeners"
-    >
-    </won-pagination>
   </div>
 </template>
 
 <script>
-import wonTableContainer from "@/common/wonTableContainer";
-// v-loading="isTableLoading"
 export default {
-  extends: wonTableContainer,
+  props: ["data"],
   data() {
+    let tableData = this.data ? this.data : [];
+    console.log(tableData, 22);
     return {
-      d: "xx",
-      tableData: [
-        {
-          picture: "xxx",
-          productName: "xxx",
-          quantity: "x",
-          requirements: "x"
-        }
-      ]
+      tableData,
+      btnLoaidng: false
     };
   }
 };
 </script>
 
 <style lang="scss" scoped>
-/deep/.el-dialog__body {
-  padding-top: 10px;
-}
 </style>

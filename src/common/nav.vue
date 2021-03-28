@@ -27,12 +27,13 @@
             <div>
               <span>帳號資訊：</span>
               <span>{{username}}</span>
-              <i
-                type="text"
-                class="el-icon-setting va-m co-p"
-                @click="handleQuit"
-              ></i>
             </div>
+            <el-button
+              class="mt5"
+              type="primary"
+              size="small"
+              @click="handleQuit"
+            >Logout</el-button>
             <i
               type="text"
               slot="reference"

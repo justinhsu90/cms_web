@@ -1,55 +1,57 @@
 <template>
   <div>
-    <el-row>
-      <el-col :span="10">
-        <template v-if="model == 'table'">
-          <el-input
-            class="w-max200 fl"
-            v-model="fetchOption.where"
-            @keyup.enter.native="handleSearch"
-          >
-          </el-input>
-          <div
-            @click="handleSearch"
-            class="el-input-group__append search"
-          >
-            <i class="el-icon-search"></i>
-          </div>
-        </template>
-        <template v-else>
-          <el-input
-            class="w-max200 fl"
-            v-model="imgWhere.where"
-            @keyup.enter.native="handleSearchScroll"
-          >
-          </el-input>
-          <div
-            @click="handleSearchScroll"
-            class="el-input-group__append search"
-          >
-            <i class="el-icon-search"></i>
-          </div>
-        </template>
-        <el-popover
-          ref="popover"
-          placement="top-start"
-          title="搜索"
-          width="200"
-          trigger="hover"
-          content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段"
+    <div class="sku-list__input">
+      <template v-if="model == 'table'">
+        <el-input
+          class="w-max200 fl"
+          v-model="fetchOption.where"
+          @keyup.enter.native="handleSearch"
         >
-          <el-button
-            slot="reference"
-            class="radius"
-          >?</el-button>
-        </el-popover>
-      </el-col>
-      <el-col :span="14">
-        <!-- <el-button
-          class="fr"
-          @click="handleAdd"
-          type="primary"
-        >新增SKU</el-button> -->
+        </el-input>
+        <div
+          @click="handleSearch"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+      </template>
+      <template v-else>
+        <el-input
+          class="w-max200 fl"
+          v-model="imgWhere.where"
+          @keyup.enter.native="handleSearchScroll"
+        >
+        </el-input>
+        <div
+          @click="handleSearchScroll"
+          class="el-input-group__append search"
+        >
+          <i class="el-icon-search"></i>
+        </div>
+      </template>
+      <el-popover
+        ref="popover"
+        placement="top-start"
+        title="搜索"
+        width="200"
+        trigger="hover"
+        content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段"
+      >
+        <el-button
+          slot="reference"
+          class="radius"
+        >?</el-button>
+      </el-popover>
+    </div>
+    <div class="sku-list_btn">
+      <el-button
+        class="fr mr10 mt5"
+        @click="handleSelectSend"
+        size="small"
+      >發送SKU</el-button>
+    </div>
+    <el-row>
+      <el-col :span="24">
         <el-button
           class="fr mr10 mt5"
           @click="handleStyleChange"
@@ -65,38 +67,6 @@
             class="el-icon-tickets"
           ></i>
         </el-button>
-        <!-- <el-button
-          v-if="privilege"
-          :loading="exportLoading"
-          class="fr mr10 mt5"
-          @click="handleExport"
-          size="small"
-        >导出SKU</el-button> -->
-        <el-button
-          class="fr mr10 mt5"
-          @click="handleSelectSend"
-          size="small"
-        >發送SKU</el-button>
-        <!-- <el-button
-          class="fr mr5 mt5"
-          @click="handleReassemble"
-          size="small"
-        >SKU編碼重編</el-button> -->
-        <!-- <el-checkbox-group
-          v-model="record"
-          @change="handleSize"
-          size="small"
-          style="display:inline-block;padding:5px;float:right"
-        >
-          <el-checkbox-button
-            label="deprecatedSku"
-            :key="4"
-          >已停用SKU</el-checkbox-button>
-          <el-checkbox-button
-            label="price"
-            :key="5"
-          >成本</el-checkbox-button>
-        </el-checkbox-group> -->
       </el-col>
     </el-row>
     <el-row
@@ -118,6 +88,9 @@
             <div
               class="content-card__number"
               v-if="index % 10 == 0"
+              :style="{
+                color: `rgb(${Math.floor(Math.random() * 255) + 1}, ${Math.floor(Math.random() * 255) + 1}, ${Math.floor(Math.random() * 255) + 1})`
+              }"
             >{{ index + 1}}.</div>
             <el-card
               @click.native="handleCheck(!selectionfilter(v, selection), v)"
@@ -139,19 +112,6 @@
                 <span class="info__title">{{ v.productName }}</span>
                 <div class="info__bottom info__clearfix">
                   <span class="info__sku">{{ v.sku }}</span>
-                  <!-- <el-dropdown
-                class="info__button"
-                @command="handleDropDownCommand($event, v)"
-              >
-                <span class="el-dropdown-link">
-                  操作<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="look">查看</el-dropdown-item>
-                  <el-dropdown-item command="edit">編輯</el-dropdown-item>
-                  <el-dropdown-item command="copy">複製</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown> -->
                 </div>
                 <div>
                   <el-checkbox
@@ -331,6 +291,7 @@ import imgError from "won-service/_directive/error-img";
 import wonScrollPagination from "@/common/wonScrollPagination";
 import ShowInfo from "./showInfo";
 import ShowSend from "./showSend";
+import ShowQuestion from "./showQuestion";
 export default {
   extends: wonTableContainer,
   mixins: [imgError],
@@ -379,7 +340,9 @@ export default {
     };
   },
   created() {
-    this.handleShowInfo();
+    // this.handleShowInfo();
+    // this.handleSelectSend();
+    this.handleShowQuestion();
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
     this.Bus.$on("scrollRefresh", this.handleScrollRefresh);
@@ -399,6 +362,16 @@ export default {
     }
   },
   methods: {
+    handleShowQuestion() {
+      showDialog(
+        ShowQuestion,
+        {
+          width: "800px",
+          title: "Question"
+        },
+        {}
+      );
+    },
     selectionfilter(value, selection) {
       let obj = selection.find(item => {
         return value.sku == item.sku;
@@ -411,7 +384,8 @@ export default {
         {
           width: "800px",
           title: "Chosen Candidates",
-          hideConfirm: true
+          hideConfirm: true,
+          data: this.selection
         },
         {}
       );
@@ -609,12 +583,26 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/assets/scss/common/index.scss";
+.sku-list__input {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-40%);
+  width: 450px;
+}
+
+.sku-list_btn {
+  position: absolute;
+  right: 60px;
+  top: 5px;
+}
+
 .content-card__select {
-  box-shadow: 0px 0px 8px #409eff;
+  box-shadow: 0px 0px 20px #409eff;
   transition: all 0.4s;
 }
 .content-card__hover:hover {
-  box-shadow: 0px 0px 8px #409eff;
+  box-shadow: 0px 0px 20px #409eff;
   transition: all 0.4s;
 }
 
@@ -633,7 +621,7 @@ export default {
   }
   .info__footer {
     padding: 14px;
-    height: 100px;
+    height: 80px;
   }
   .info__img {
     display: block;
@@ -644,7 +632,7 @@ export default {
   }
 
   .info__bottom {
-    margin-top: 13px;
+    margin-top: 2px;
     line-height: 12px;
   }
 

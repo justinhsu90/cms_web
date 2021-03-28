@@ -1,10 +1,7 @@
 import VueRouter from "vue-router";
 import Vue from "vue";
 import nav from "@/common/nav";
-import C from "js-cookie";
-import dataAnalysiz from "../router/dataAnalysis";
 let configRouters = [];
-// "./dataAnalysis.js"
 const excludeRouters = ["./index.js"];
 const routers = require.context("./", true, /\.js$/);
 routers.keys().forEach(key => {
@@ -24,9 +21,7 @@ export const routerManage = [
     redirect: "/404"
   }
 ];
-if (C.get("privilege") == "admin" && C.get("token")) {
-  routerManage[0].children.push(...dataAnalysiz);
-}
+
 let router = new VueRouter({
   routes: [
     {
