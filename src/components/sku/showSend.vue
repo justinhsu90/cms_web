@@ -5,7 +5,7 @@
         size="small"
         type="primary"
       >
-        send inquery
+        Send Inquery
       </el-button>
     </div>
     <el-table

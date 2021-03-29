@@ -48,7 +48,7 @@
         class="fr mr10 mt5"
         @click="handleSelectSend"
         size="small"
-      >Send Inquery</el-button>
+      >Show All Selected Products</el-button>
     </div>
     <el-row>
       <el-col :span="24">
