@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="title">xxxxxx</div>
     <el-form
       :model="form"
       label-suffix="："
@@ -8,7 +9,7 @@
       :rules="formRules"
     >
       <el-form-item
-        label="是否有 CN TW HK 國際採購經驗"
+        label="Do you ever purchase with manufacturers/traders from China, Hong Kong or Taiwan?"
         prop="numberOne"
       >
         <el-radio
@@ -22,7 +23,7 @@
       </el-form-item>
       <el-form-item
         v-if="form.numberOne == 1"
-        label="您是否親自與該去玉的工廠/製造商聯繫"
+        label="Do you contact manufacturers/traders by yourself?"
         prop="numberTwo"
       >
         <el-radio
@@ -35,7 +36,7 @@
         >NO</el-radio>
       </el-form-item>
       <el-form-item
-        label="預計每次採購金額(USD)"
+        label="Estimated purchasing amount for each pruchasing (USD)"
         prop="numberThree"
       >
         <el-input
@@ -44,10 +45,13 @@
         ></el-input>
       </el-form-item>
       <el-form-item
-        label="預計每年採購次數"
+        label="How many times would you purchase in one year?"
         prop="numberFour"
       >
-        <el-select v-model="form.numberFour">
+        <el-select
+          v-model="form.numberFour"
+          placeholder="times"
+        >
           <el-option
             v-for="(item, index) in 101"
             :key="index"
@@ -94,5 +98,10 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.title {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
 </style>

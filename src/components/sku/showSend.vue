@@ -5,7 +5,7 @@
         size="small"
         type="primary"
       >
-        send inquery
+        Send Inquery
       </el-button>
     </div>
     <el-table
@@ -31,8 +31,21 @@
           <img
             width="50"
             height="50"
+            style="cursor:pointer"
             :src="row.snapshotURL"
+            @click="row.dialogTableVisible = true"
           >
+          <el-dialog
+            title="Preview"
+            :modal="false"
+            :visible.sync="row.dialogTableVisible"
+            width="30%"
+          >
+            <img
+              width="100%"
+              :src="row.imageURL"
+            >
+          </el-dialog>
         </template>
       </el-table-column>
       <el-table-column
@@ -41,7 +54,7 @@
         prop="productName"
       ></el-table-column>
       <el-table-column
-        min-width="80"
+        width="120"
         label="Quantity"
         prop="quantity"
       >
@@ -56,7 +69,11 @@
         prop="requirements"
       >
         <template slot-scope="scope">
-          <el-input v-model="scope.row.requirements"></el-input>
+          <el-input
+            type="textarea"
+            :rows="2"
+            v-model="scope.row.requirements"
+          ></el-input>
         </template>
       </el-table-column>
     </el-table>
@@ -68,7 +85,6 @@ export default {
   props: ["data"],
   data() {
     let tableData = this.data ? this.data : [];
-    console.log(tableData, 22);
     return {
       tableData,
       btnLoaidng: false

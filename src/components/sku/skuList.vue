@@ -32,10 +32,10 @@
       <el-popover
         ref="popover"
         placement="top-start"
-        title="搜索"
+        title="Search"
         width="200"
         trigger="hover"
-        content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段"
+        content="Search Product in English or Spainish"
       >
         <el-button
           slot="reference"
@@ -49,7 +49,7 @@
         @click="handleSelectSend"
         size="small"
         type="primary"
-      >發送SKU</el-button>
+      >Show All Selected Products</el-button>
     </div>
     <el-row>
       <el-col :span="24">
@@ -58,7 +58,7 @@
           @click="handleStyleChange"
           size="small"
         >
-          <span>樣式切換</span>
+          <span>Display Mode</span>
           <i
             v-if="model == 'table'"
             class="el-icon-picture"
@@ -384,7 +384,7 @@ export default {
       showDialog(
         ShowSend,
         {
-          width: "800px",
+          width: "900px",
           title: "Chosen Candidates",
           hideConfirm: true,
           data: this.selection
