@@ -3,7 +3,7 @@
     <div class="sku-list__input">
       <template v-if="model == 'table'">
         <el-input
-          class="w-max200 fl"
+          class="w-max300 fl"
           v-model="fetchOption.where"
           @keyup.enter.native="handleSearch"
         >
@@ -17,7 +17,7 @@
       </template>
       <template v-else>
         <el-input
-          class="w-max200 fl"
+          class="w-max300 fl"
           v-model="imgWhere.where"
           @keyup.enter.native="handleSearchScroll"
         >
@@ -48,6 +48,7 @@
         class="fr mr10 mt5"
         @click="handleSelectSend"
         size="small"
+        type="primary"
       >發送SKU</el-button>
     </div>
     <el-row>
@@ -89,7 +90,8 @@
               class="content-card__number"
               v-if="index % 10 == 0"
               :style="{
-                color: `rgb(${Math.floor(Math.random() * 255) + 1}, ${Math.floor(Math.random() * 255) + 1}, ${Math.floor(Math.random() * 255) + 1})`
+                color: `rgb(${Math.floor(Math.random() * 255) + 1}, ${Math.floor(Math.random() * 255) + 1}, ${Math.floor(Math.random() * 255) + 1})`,
+                fontSize: '25px'
               }"
             >{{ index + 1}}.</div>
             <el-card
