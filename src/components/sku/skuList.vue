@@ -32,10 +32,10 @@
       <el-popover
         ref="popover"
         placement="top-start"
-        title="搜索"
+        title="Search"
         width="200"
         trigger="hover"
-        content="Search SKU, NEW SKU, Product Name, Deprecated SKU 字段"
+        content="Search Product in English or Spainish"
       >
         <el-button
           slot="reference"
@@ -48,7 +48,7 @@
         class="fr mr10 mt5"
         @click="handleSelectSend"
         size="small"
-      >發送SKU</el-button>
+      >Send Inquery</el-button>
     </div>
     <el-row>
       <el-col :span="24">
@@ -57,7 +57,7 @@
           @click="handleStyleChange"
           size="small"
         >
-          <span>樣式切換</span>
+          <span>Display Mode</span>
           <i
             v-if="model == 'table'"
             class="el-icon-picture"

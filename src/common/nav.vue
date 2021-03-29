@@ -25,7 +25,7 @@
             trigger="click"
           >
             <div>
-              <span>帳號資訊：</span>
+              <span>Account：</span>
               <span>{{username}}</span>
             </div>
             <el-button
