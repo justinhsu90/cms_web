@@ -4,6 +4,8 @@
       <el-button
         size="small"
         type="primary"
+        :loading="btnLoaidng"
+        @click="handleShowQuestion"
       >
         Send Inquery
       </el-button>
@@ -81,6 +83,8 @@
 </template>
 
 <script>
+import showDialog from "won-service/component/won-dialog/dialog";
+import ShowQuestion from "./showQuestion";
 export default {
   props: ["data"],
   data() {
@@ -89,6 +93,55 @@ export default {
       tableData,
       btnLoaidng: false
     };
+  },
+  methods: {
+    handleShowQuestion() {
+      showDialog(
+        ShowQuestion,
+        {
+          width: "800px",
+          title: "Question"
+        },
+        {
+          submit(res) {
+            if (res) {
+              this.handleSendInquery();
+            }
+          }
+        }
+      );
+    },
+    handleSendInquery() {
+      let error = false;
+      let data = this.tableData.map(item => {
+        if (error) {
+          return;
+        }
+        if (!item.quantity || !item.requirements) {
+          error = true;
+        }
+        return {
+          sku: item.sku,
+          quantity: item.quantity,
+          requirements: item.requirements
+        };
+      });
+      if (!this.tableData.length) {
+        this.$message.error("請選擇商品");
+        return;
+      }
+      if (error) {
+        this.$message.error("請填寫");
+        return;
+      }
+      axios({
+        url: "/productselection/submit",
+        method: "post",
+        data: {
+          productList: JSON.stringify(data)
+        }
+      }).then(() => {});
+    }
   }
 };
 </script>

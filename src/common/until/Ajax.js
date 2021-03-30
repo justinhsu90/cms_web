@@ -16,7 +16,9 @@ axios.interceptors.request.use(request => {
         C.get("token") &&
         !request.noToken
     ) {
-        request.data.token = C.get("token");
+        if (C.get("token") != "custom") {
+            request.data.token = C.get("token");
+        }
     }
     request.data = qs.stringify(request.data);
     return request;

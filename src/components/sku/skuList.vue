@@ -293,7 +293,6 @@ import imgError from "won-service/_directive/error-img";
 import wonScrollPagination from "@/common/wonScrollPagination";
 import ShowInfo from "./showInfo";
 import ShowSend from "./showSend";
-import ShowQuestion from "./showQuestion";
 export default {
   extends: wonTableContainer,
   mixins: [imgError],
@@ -344,16 +343,9 @@ export default {
   created() {
     // this.handleShowInfo();
     // this.handleSelectSend();
-    this.handleShowQuestion();
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
     this.Bus.$on("scrollRefresh", this.handleScrollRefresh);
-  },
-  mounted() {
-    this.$refs["wonTable"] &&
-      this.$refs["wonTable"].$watch("store.states.selection", v => {
-        this.selection = v;
-      });
   },
   filters: {
     selectionfilter(value, selection) {
@@ -364,15 +356,13 @@ export default {
     }
   },
   methods: {
-    handleShowQuestion() {
-      showDialog(
-        ShowQuestion,
-        {
-          width: "800px",
-          title: "Question"
-        },
-        {}
-      );
+    initTableSelection() {
+      if (this.init) return;
+      this.init = true;
+      this.$refs["wonTable"] &&
+        this.$refs["wonTable"].$watch("store.states.selection", v => {
+          this.selection = v;
+        });
     },
     selectionfilter(value, selection) {
       let obj = selection.find(item => {
@@ -396,9 +386,11 @@ export default {
       showDialog(
         ShowInfo,
         {
-          width: "400px",
+          width: "600px",
           title: "用戶信息",
-          hideConfirm: true
+          hideCancel: true,
+          showClose: false,
+          "close-on-click-modal": false
         },
         {}
       );
@@ -427,6 +419,7 @@ export default {
       this.model = this.model == "img" ? "table" : "img";
       this.$nextTick(() => {
         if (this.model == "table") {
+          this.initTableSelection();
           this.selection.forEach(row => {
             this.$refs["wonTable"] &&
               this.$refs["wonTable"].toggleRowSelection(row);
@@ -460,7 +453,6 @@ export default {
         url: "sku/generate/excel",
         method: "post",
         data: {
-          token: this.token,
           value: JSON.stringify(data)
         }
       }).then(res => {
@@ -618,7 +610,6 @@ export default {
   margin-top: 10px;
   .info__title {
     font-size: 14px;
-    height: 52px;
     @include multi-ellipsis(2);
   }
   .info__footer {

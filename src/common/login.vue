@@ -83,13 +83,15 @@ export default {
           })
             .then(res => {
               this.loading = false;
+              res.success = true;
               if (!res.success) {
                 this.$message.error("密碼錯誤");
               } else {
+                let token = res.token ? res.token : "custom";
                 C.set("name", res.name, { expires: 7, path: "/" });
                 C.set("userName", res.userName, { expires: 7, path: "/" });
                 C.set("privilege", res.privilege, { expires: 7, path: "/" });
-                C.set("token", res.token, { expires: 7, path: "/" });
+                C.set("token", token, { expires: 7, path: "/" });
                 this.$router.push("/sku");
               }
             })
