@@ -15,11 +15,11 @@
       >
         <el-radio
           v-model="form.answer1"
-          label="1"
+          :label="true"
         >YES</el-radio>
         <el-radio
           v-model="form.answer1"
-          label="2"
+          :label="false"
         >NO</el-radio>
       </el-form-item>
       <el-form-item
@@ -29,11 +29,11 @@
       >
         <el-radio
           v-model="form.answer2"
-          label="1"
+          :label="true"
         >YES</el-radio>
         <el-radio
           v-model="form.answer2"
-          label="2"
+          :label="false"
         >NO</el-radio>
       </el-form-item>
       <el-form-item
@@ -89,8 +89,8 @@ export default {
         }
       },
       form: {
-        answer1: "1",
-        answer2: "1",
+        answer1: true,
+        answer2: true,
         answer3: "",
         answer4: ""
       }
@@ -113,7 +113,7 @@ export default {
             }).then(
               data => {
                 if (data) {
-                  res();
+                  res(data);
                 } else {
                   rej();
                 }

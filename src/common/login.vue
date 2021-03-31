@@ -40,7 +40,6 @@
 </template>
 <script>
 import C from "js-cookie";
-
 export default {
   data: function() {
     return {
@@ -83,7 +82,6 @@ export default {
           })
             .then(res => {
               this.loading = false;
-              res.success = true;
               if (!res.success) {
                 this.$message.error("密碼錯誤");
               } else {
@@ -92,6 +90,9 @@ export default {
                 C.set("userName", res.userName, { expires: 7, path: "/" });
                 C.set("privilege", res.privilege, { expires: 7, path: "/" });
                 C.set("token", token, { expires: 7, path: "/" });
+                if (res.public) {
+                  localStorage.setItem("public", true);
+                }
                 this.$router.push("/sku");
               }
             })

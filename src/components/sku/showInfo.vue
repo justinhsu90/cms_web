@@ -63,7 +63,8 @@ export default {
       },
       email: {
         required: true,
-        message: "required"
+        message: "email required",
+        type: "email"
       },
       password: {
         required: true,
@@ -92,7 +93,7 @@ export default {
             }).then(
               data => {
                 if (data) {
-                  res();
+                  res(data);
                 } else {
                   rej();
                 }

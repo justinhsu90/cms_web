@@ -111,7 +111,7 @@
                 v-errorImg="v.snapshotURL"
               >
               <div class="info__footer">
-                <span class="info__title">{{ v.productName }}</span>
+                <div class="info__title">{{ v.productName }}</div>
                 <div class="info__bottom info__clearfix">
                   <span class="info__sku">{{ v.sku }}</span>
                 </div>
@@ -286,13 +286,13 @@
 <script>
 import wonTableContainer from "@/common/wonTableContainer";
 import wonDialog from "@/common/wonDialog";
-import C from "js-cookie";
 import showDialog from "won-service/component/won-dialog/dialog";
 import reassemble from "./skuReassemble";
 import imgError from "won-service/_directive/error-img";
 import wonScrollPagination from "@/common/wonScrollPagination";
 import ShowInfo from "./showInfo";
 import ShowSend from "./showSend";
+import C from "js-cookie";
 export default {
   extends: wonTableContainer,
   mixins: [imgError],
@@ -329,12 +329,12 @@ export default {
         order: "-AddedTime"
       },
       fetchOption: {
-        url: "sku/search",
+        url: "productselection/search",
         where: "",
         method: "post"
       },
       imgWhere: {
-        url: "sku/search",
+        url: "productselection/search",
         where: "",
         method: "post"
       }
@@ -343,6 +343,9 @@ export default {
   created() {
     // this.handleShowInfo();
     // this.handleSelectSend();
+    if (localStorage.getItem("public")) {
+      this.handleShowInfo();
+    }
     this.handleSearch();
     this.Bus.$on("refresh", this.handleSearch);
     this.Bus.$on("scrollRefresh", this.handleScrollRefresh);
@@ -392,7 +395,12 @@ export default {
           showClose: false,
           "close-on-click-modal": false
         },
-        {}
+        {
+          submit(token) {
+            C.set("token", token, { expires: 7, path: "/" });
+            localStorage.removeItem("public");
+          }
+        }
       );
     },
     handleScrollRefresh() {
@@ -609,6 +617,7 @@ export default {
 .content-card {
   margin-top: 10px;
   .info__title {
+    height: 40px;
     font-size: 14px;
     @include multi-ellipsis(2);
   }

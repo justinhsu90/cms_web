@@ -96,20 +96,31 @@ export default {
   },
   methods: {
     handleShowQuestion() {
-      showDialog(
-        ShowQuestion,
-        {
-          width: "800px",
-          title: "Question"
-        },
-        {
-          submit(res) {
-            if (res) {
-              this.handleSendInquery();
+      let that = this;
+      axios({
+        url: "/productselection/hasquestionnaire",
+        method: "POST",
+        data: {}
+      }).then(res => {
+        if (!res) {
+          showDialog(
+            ShowQuestion,
+            {
+              width: "800px",
+              title: "Question"
+            },
+            {
+              submit(res) {
+                if (res) {
+                  that.handleSendInquery();
+                }
+              }
             }
-          }
+          );
+        } else {
+          this.handleSendInquery();
         }
-      );
+      });
     },
     handleSendInquery() {
       let error = false;
