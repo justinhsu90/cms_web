@@ -76,7 +76,7 @@ export default {
         if (valid) {
           this.loading = true;
           axios({
-            url: "auth/login",
+            url: "productselection//login",
             method: "post",
             data: _.cloneDeep(this.ruleForm)
           })
