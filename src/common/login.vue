@@ -82,7 +82,6 @@ export default {
           })
             .then(res => {
               this.loading = false;
-              res.token = "7a1b460f9464405ca440aee3c69ffbd9";
               if (!res.success) {
                 this.$message.error("密碼錯誤");
               } else {
