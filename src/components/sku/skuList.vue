@@ -393,7 +393,8 @@ export default {
           title: "用戶信息",
           hideCancel: true,
           showClose: false,
-          "close-on-click-modal": false
+          "close-on-click-modal": false,
+          "close-on-press-escape": false
         },
         {
           submit(token) {
