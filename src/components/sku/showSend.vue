@@ -97,30 +97,35 @@ export default {
   methods: {
     handleShowQuestion() {
       let that = this;
+      this.btnLoaidng = true;
       axios({
         url: "/productselection/hasquestionnaire",
         method: "POST",
         data: {}
-      }).then(res => {
-        if (!res) {
-          showDialog(
-            ShowQuestion,
-            {
-              width: "800px",
-              title: "Question"
-            },
-            {
-              submit(res) {
-                if (res) {
-                  that.handleSendInquery();
+      })
+        .then(res => {
+          if (!res) {
+            showDialog(
+              ShowQuestion,
+              {
+                width: "800px",
+                title: "Question"
+              },
+              {
+                submit(res) {
+                  if (res) {
+                    that.handleSendInquery();
+                  }
                 }
               }
-            }
-          );
-        } else {
-          this.handleSendInquery();
-        }
-      });
+            );
+          } else {
+            this.handleSendInquery();
+          }
+        })
+        .finally(() => {
+          this.btnLoaidng = false;
+        });
     },
     handleSendInquery() {
       let error = false;

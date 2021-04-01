@@ -95,6 +95,7 @@ export default {
                 if (data) {
                   res(data);
                 } else {
+                  this.$message.error("暫無token");
                   rej();
                 }
               },
