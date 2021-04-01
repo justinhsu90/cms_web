@@ -128,7 +128,7 @@ export default {
         if (error) {
           return;
         }
-        if (!item.quantity || !item.requirements) {
+        if (!item.quantity) {
           error = true;
         }
         return {
