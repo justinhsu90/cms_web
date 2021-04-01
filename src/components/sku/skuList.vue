@@ -379,7 +379,7 @@ export default {
         {
           width: "900px",
           title: "Chosen Candidates",
-          hideConfirm: true,
+          hideCancel: true,
           data: this.selection
         },
         {}

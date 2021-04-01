@@ -2,7 +2,7 @@ import Vue from "vue";
 import { Dialog, Button } from "element-ui";
 export default (dialogContent, prop, options) => {
   let ele = document.createElement("div");
-  document.body.appendChild(ele);
+  document.body.insertAdjacentElement("beforeEnd", ele);
   const extend = Vue.extend({
     components: {
       [Dialog.name]: Dialog,
