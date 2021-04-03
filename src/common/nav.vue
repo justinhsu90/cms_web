@@ -208,7 +208,7 @@ export default {
     },
     handleQuit() {
       let that = this;
-      this.$confirm("是否要退出", "提示", {
+      this.$confirm("You are logging out!", "Logout", {
         type: "info",
         beforeClose(action, instance, done) {
           if (action == "confirm") {
