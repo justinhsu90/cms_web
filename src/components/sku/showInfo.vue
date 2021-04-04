@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="info">
+    <div class="info__tips">xxxxxx</div>
     <el-form
       ref="form"
       :model="form"
@@ -114,5 +115,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.info__tips {
+  text-align: center;
+  color: #666;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.info {
+  margin-top: -30px;
+}
 </style>

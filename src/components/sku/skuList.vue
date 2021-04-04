@@ -380,6 +380,8 @@ export default {
           width: "900px",
           title: "Chosen Candidates",
           hideCancel: true,
+          cancelButtonText: "",
+          confirmButtonText: "Send Inquery",
           data: this.selection
         },
         {}
@@ -390,7 +392,7 @@ export default {
         ShowInfo,
         {
           width: "600px",
-          title: "用戶信息",
+          title: "Basic Info",
           hideCancel: true,
           showClose: false,
           "close-on-click-modal": false,

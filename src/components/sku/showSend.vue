@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="fr">
+    <!-- <div class="fr">
       <el-button
         size="small"
         type="primary"
@@ -9,10 +9,11 @@
       >
         Send Inquery
       </el-button>
-    </div>
+    </div> -->
     <el-table
       ref="wonTable"
       :data="tableData"
+      v-loading="loading"
     >
       <el-table-column
         label="Index"
@@ -91,13 +92,12 @@ export default {
     let tableData = this.data ? this.data : [];
     return {
       tableData,
-      btnLoaidng: false
+      loading: false
     };
   },
   methods: {
-    handleShowQuestion() {
+    handleShowQuestion(resolve, reject) {
       let that = this;
-      this.btnLoaidng = true;
       axios({
         url: "/productselection/hasquestionnaire",
         method: "POST",
@@ -114,20 +114,18 @@ export default {
               {
                 submit(res) {
                   if (res) {
-                    that.handleSendInquery();
+                    that.handleSendInquery(resolve, reject);
                   }
                 }
               }
             );
           } else {
-            this.handleSendInquery();
+            this.handleSendInquery(resolve, reject);
           }
         })
-        .finally(() => {
-          this.btnLoaidng = false;
-        });
+        .finally(() => {});
     },
-    handleSendInquery() {
+    handleSendInquery(resolve, reject) {
       let error = false;
       let data = this.tableData.map(item => {
         if (error) {
@@ -143,11 +141,11 @@ export default {
         };
       });
       if (!this.tableData.length) {
-        this.$message.error("請選擇商品");
+        this.$message.error("Please select goods");
         return;
       }
       if (error) {
-        this.$message.error("請填寫");
+        this.$message.error("Please fill out the");
         return;
       }
       axios({
@@ -156,7 +154,13 @@ export default {
         data: {
           productList: JSON.stringify(data)
         }
-      }).then(() => {});
+      }).then(resolve, reject);
+    },
+    async submit() {
+      let p = new Promise((res, rej) => {
+        this.handleShowQuestion(res, rej);
+      }).finally(() => {});
+      return p;
     }
   }
 };

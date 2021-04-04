@@ -209,6 +209,8 @@ export default {
     handleQuit() {
       let that = this;
       this.$confirm("You are logging out!", "Logout", {
+        cancelButtonText: "Cancel",
+        confirmButtonText: "YES",
         type: "info",
         beforeClose(action, instance, done) {
           if (action == "confirm") {

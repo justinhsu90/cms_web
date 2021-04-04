@@ -18,8 +18,10 @@
             placeholder="username"
           ></el-input>
         </el-form-item>
-        <div class="custom-form-item login-tips">xxxxxx</div>
-        <el-form-item prop="password">
+        <el-form-item
+          prop="password"
+          class="custom-form-item"
+        >
           <el-input
             type="password"
             placeholder="password"
@@ -27,6 +29,7 @@
             @keyup.enter.native="submitForm"
           ></el-input>
         </el-form-item>
+        <div class="custom-form-item login-tips">xxxxxx</div>
         <div class="login-btn">
           <el-button
             :loading="loading"
@@ -83,7 +86,7 @@ export default {
             .then(res => {
               this.loading = false;
               if (!res.success) {
-                this.$message.error("密碼錯誤");
+                this.$message.error("Password mistake");
               } else {
                 let token = res.token ? res.token : "custom";
                 C.set("name", res.name, { expires: 7, path: "/" });

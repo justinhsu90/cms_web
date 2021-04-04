@@ -11,7 +11,7 @@
     >
       <el-form-item
         label="Do you ever purchase with manufacturers/traders from China, Hong Kong or Taiwan?"
-        prop="answerOne"
+        prop="answer1"
       >
         <el-radio
           v-model="form.answer1"
@@ -25,7 +25,7 @@
       <el-form-item
         v-if="form.answer1 == 1"
         label="Do you contact manufacturers/traders by yourself?"
-        prop="answerTwo"
+        prop="answer2"
       >
         <el-radio
           v-model="form.answer2"
@@ -38,7 +38,7 @@
       </el-form-item>
       <el-form-item
         label="Estimated purchasing amount for each pruchasing (USD)"
-        prop="answerThree"
+        prop="answer3"
       >
         <el-input
           class="w50"
@@ -89,8 +89,8 @@ export default {
         }
       },
       form: {
-        answer1: true,
-        answer2: true,
+        answer1: "",
+        answer2: "",
         answer3: "",
         answer4: ""
       }
