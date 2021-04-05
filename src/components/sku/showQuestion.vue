@@ -6,7 +6,7 @@
       :model="form"
       label-suffix="："
       label-position="left"
-      label-width="300px"
+      label-width="450px"
       :rules="formRules"
     >
       <el-form-item

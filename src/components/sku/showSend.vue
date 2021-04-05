@@ -98,6 +98,28 @@ export default {
   methods: {
     handleShowQuestion(resolve, reject) {
       let that = this;
+      let error = false;
+      this.tableData.map(item => {
+        if (error) {
+          return;
+        }
+        if (!item.quantity) {
+          error = true;
+        }
+        return {
+          sku: item.sku,
+          quantity: item.quantity,
+          requirements: item.requirements
+        };
+      });
+      if (!this.tableData.length) {
+        this.$message.error("Please select goods");
+        return;
+      }
+      if (error) {
+        this.$message.error("Please fill out the");
+        return;
+      }
       axios({
         url: "/productselection/hasquestionnaire",
         method: "POST",
