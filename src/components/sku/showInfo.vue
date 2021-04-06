@@ -64,8 +64,7 @@ export default {
       },
       email: {
         required: true,
-        message: "email required",
-        type: "email"
+        message: "email required"
       },
       password: {
         required: true,

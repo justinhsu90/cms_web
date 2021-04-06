@@ -62,7 +62,27 @@
         prop="quantity"
       >
         <template slot-scope="scope">
-          <el-input v-model="scope.row.quantity"></el-input>
+          <el-form
+            v-for="(v, i) in 1"
+            :key="i"
+            ref="form"
+            :model="{
+            quantity: scope.row.quantity
+          }"
+            :rules="{
+            quantity: {
+              required: true,
+              message: 'required'
+            }
+          }"
+          >
+            <el-form-item
+              class="el-form-item"
+              prop="quantity"
+            >
+              <el-input v-model="scope.row.quantity"></el-input>
+            </el-form-item>
+          </el-form>
         </template>
 
       </el-table-column>
@@ -179,6 +199,18 @@ export default {
       }).then(resolve, reject);
     },
     async submit() {
+      let isValid = true;
+      this.$refs["form"] &&
+        this.$refs["form"].forEach(form => {
+          form.validate(vaild => {
+            if (!vaild) {
+              isValid = false;
+            }
+          });
+        });
+      if (!isValid) {
+        return Promise.reject();
+      }
       let p = new Promise((res, rej) => {
         this.handleShowQuestion(res, rej);
       }).finally(() => {});
@@ -189,4 +221,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-form-item {
+  margin-bottom: 0px !important;
+}
 </style>
