@@ -570,49 +570,49 @@ export default {
         data: {
           platform: val
         }
-      }).then(res => {
-        _.each(res, v => {
-          let obj = {
-            financialSpendType: "",
-            currency: "",
-            amount: "",
-            required: true
-          };
-          if (this.Income.includes(v)) {
-            obj.incomeorspend = "income";
-            obj.financialSpendType = v;
-            let oba = _.find(this.formData.dataIncome, [
-              "financialSpendType",
-              v
-            ]);
-            _.each(this.formData.dataIncome, value => {
-              if (res.includes(value.financialSpendType)) {
-                value.required = true;
-              } else {
-                value.required = false;
-              }
-            });
-            if (oba) {
-              return;
-            }
-            this.formData.dataIncome.push(obj);
-          } else {
-            obj.incomeorspend = "speed";
-            obj.financialSpendType = v;
-            let oba = _.find(this.formData.data, ["financialSpendType", v]);
-            _.each(this.formData.data, value => {
-              if (res.includes(value.financialSpendType)) {
-                value.required = true;
-              } else {
-                value.required = false;
-              }
-            });
-            if (oba) {
-              return;
-            }
-            this.formData.data.push(obj);
-          }
-        });
+      }).then(() => {
+        // _.each(res, v => {
+        //   let obj = {
+        //     financialSpendType: "",
+        //     currency: "",
+        //     amount: "",
+        //     required: true
+        //   };
+        //   if (this.Income.includes(v)) {
+        //     obj.incomeorspend = "income";
+        //     obj.financialSpendType = v;
+        //     let oba = _.find(this.formData.dataIncome, [
+        //       "financialSpendType",
+        //       v
+        //     ]);
+        //     _.each(this.formData.dataIncome, value => {
+        //       if (res.includes(value.financialSpendType)) {
+        //         value.required = true;
+        //       } else {
+        //         value.required = false;
+        //       }
+        //     });
+        //     if (oba) {
+        //       return;
+        //     }
+        //     this.formData.dataIncome.push(obj);
+        //   } else {
+        //     obj.incomeorspend = "speed";
+        //     obj.financialSpendType = v;
+        //     let oba = _.find(this.formData.data, ["financialSpendType", v]);
+        //     _.each(this.formData.data, value => {
+        //       if (res.includes(value.financialSpendType)) {
+        //         value.required = true;
+        //       } else {
+        //         value.required = false;
+        //       }
+        //     });
+        //     if (oba) {
+        //       return;
+        //     }
+        //     this.formData.data.push(obj);
+        //   }
+        // });
       });
     },
     goBack() {
