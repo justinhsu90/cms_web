@@ -292,6 +292,7 @@ import imgError from "won-service/_directive/error-img";
 import wonScrollPagination from "@/common/wonScrollPagination";
 import ShowInfo from "./showInfo";
 import ShowSend from "./showSend";
+import ShowSuccess from "./showSuccess";
 import C from "js-cookie";
 export default {
   extends: wonTableContainer,
@@ -384,7 +385,19 @@ export default {
           confirmButtonText: "Send Inquery",
           data: this.selection
         },
-        {}
+        {
+          submit(data) {
+            if (data) {
+              showDialog(ShowSuccess, {
+                title: "We received your inquery",
+                width: "400px",
+                hideCancel: true,
+                hideConfirm: true,
+                "custom-class": "success-dialog"
+              });
+            }
+          }
+        }
       );
     },
     handleShowInfo() {
