@@ -65,7 +65,14 @@ export default {
   data() {
     return {
       btnLoading: false,
-      searchAccountOption: ["4PX", "Yun Express", "HuaHan", "Winit", "SFC"],
+      searchAccountOption: [
+        "4PX",
+        "Yun Express",
+        "GoodCang",
+        "HuaHan",
+        "Winit",
+        "SFC"
+      ],
       form: {
         agent: "",
         orderIdList: ""
