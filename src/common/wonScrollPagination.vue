@@ -29,7 +29,7 @@ export default {
   },
   created() {
     this.skip = 0;
-    this.limit = 20;
+    this.limit = 100;
     this.scroll();
   },
   mounted() {
@@ -51,7 +51,7 @@ export default {
   methods: {
     refresh() {
       this.skip = 0;
-      this.limit = 20;
+      this.limit = 100;
       this.showLoading = false;
       this.showEnd = false;
       this.scroll();
@@ -64,11 +64,10 @@ export default {
         limit: this.limit
       });
       this.showLoading = false;
-      if (data.length < 20) {
+      if (data.length < 100) {
         this.showEnd = true;
       } else {
-        this.skip += 20;
-        this.limit += 20;
+        this.skip += 1;
       }
     }
   }

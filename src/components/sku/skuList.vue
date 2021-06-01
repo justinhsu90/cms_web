@@ -528,7 +528,7 @@ export default {
           where: this.fetchOption.where,
           token: this.token,
           skip: this.fetchCondition.skip,
-          limit: this.fetchCondition.limit,
+          limit: 100,
           order: this.fetchCondition.order
         }
       }).then(({ data, count }) => {
