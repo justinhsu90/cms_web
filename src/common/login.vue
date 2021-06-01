@@ -29,7 +29,7 @@
             @keyup.enter.native="submitForm"
           ></el-input>
         </el-form-item>
-        <div class="custom-form-item login-tips">xxxxxx</div>
+        <div class="custom-form-item login-tips">Please enter your email address as username and password if you have login before. </div>
         <div class="login-btn">
           <el-button
             :loading="loading"

@@ -7,7 +7,7 @@
         alt=""
       >
     </div>
-    <div class="info-tips">xxxxxx</div>
+    <div class="info-tips">Our manager would contact you shortly.</div>
   </div>
 </template>
 

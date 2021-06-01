@@ -1,6 +1,6 @@
 <template>
   <div class="info">
-    <div class="info__tips">xxxxxx</div>
+    <div class="info__tips">Please enter following required information.</div>
     <el-form
       ref="form"
       :model="form"
