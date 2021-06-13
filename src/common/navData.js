@@ -104,6 +104,10 @@ const nav = [
                 label: "訂單查詢"
             },
             {
+                index: "batchJob",
+                label: "批量作業"
+            },
+            {
                 index: "platformSales",
                 label: "各平台銷售表"
             },
