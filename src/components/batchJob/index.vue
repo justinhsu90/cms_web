@@ -98,7 +98,7 @@
             align="center"
           ></el-table-column>
           <el-table-column
-            width="230"
+            width="260"
             label="Cancel Reason"
             prop="cancelReason"
             align="center"
@@ -178,7 +178,8 @@ export default {
             data: this.getValue()
           })
             .then(
-              () => {
+              res => {
+                this.tableData = res;
                 this.$message.success("提交成功");
               },
               () => {
