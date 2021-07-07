@@ -11,8 +11,7 @@ axios.interceptors.request.use(request => {
     if (request.method == "get") {
         return request;
     }
-    if (
-        !request.data.hasOwnProperty("token") &&
+    if (!request.data.hasOwnProperty("token") &&
         C.get("token") &&
         !request.noToken
     ) {

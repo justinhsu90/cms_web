@@ -9,18 +9,30 @@
       <el-row>
         <el-col :span="6">
           <el-form-item
-            label="Voucher Code："
+            label="Voucher Code / Wowcher Code："
             prop="voucherCode"
           >
             <el-input v-model="form.voucherCode"></el-input>
           </el-form-item>
           <el-form-item
-            label="Account："
+            label="Account：(optional) 當該Voucher Code / Wowcher Code 不存在於系統中時才需要選取"
             prop="account"
           >
             <el-select v-model="form.account">
               <el-option
                 v-for="(v) in accounts"
+                :key="v"
+                :value="v"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="Platform :(optional) 當該Voucher Code / Wowcher Code 不存在於系統中時才需要選取"
+            prop="platform"
+          >
+            <el-select v-model="form.platform">
+              <el-option
+                v-for="(v) in platforms"
                 :key="v"
                 :value="v"
               ></el-option>
@@ -49,9 +61,11 @@ export default {
     return {
       btnLoading: false,
       accounts: ["MagicTrend", "BuySomething", "VendinPlus"],
+      platforms: ["Wowcher", "GoGroopie", "OnBuy"],
       form: {
         voucherCode: "",
-        account: ""
+        account: "",
+        platform: ""
       }
     };
   },
