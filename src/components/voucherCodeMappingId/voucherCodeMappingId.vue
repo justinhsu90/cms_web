@@ -4,6 +4,7 @@
       :model="form"
       ref="form"
       :rules="rules"
+      label-position="top"
     >
       <el-row>
         <el-col :span="6">
@@ -12,6 +13,18 @@
             prop="voucherCode"
           >
             <el-input v-model="form.voucherCode"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="Account："
+            prop="account"
+          >
+            <el-select v-model="form.account">
+              <el-option
+                v-for="(v) in accounts"
+                :key="v"
+                :value="v"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -35,8 +48,10 @@ export default {
   data() {
     return {
       btnLoading: false,
+      accounts: ["MagicTrend", "BuySomething", "VendinPlus"],
       form: {
-        voucherCode: ""
+        voucherCode: "",
+        account: ""
       }
     };
   },
